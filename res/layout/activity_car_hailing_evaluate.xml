@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/car_hailing_detail_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/photo_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x15"
+            android:background="@drawable/icon_back_black" />
+
+        <TextView
+            android:id="@+id/photo_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:text="评价"
+            android:textColor="@color/color_3"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/car_hailing_detail_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingRight="@dimen/x15"
+            android:text="更多"
+            android:textColor="@color/green_job"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/car_hailing_detail_bar"
+        android:background="@color/color_3" />
+
+    <TextView
+        android:id="@+id/confirm_submit_evaluate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/x10"
+        android:background="@drawable/shap_corner_green_bg"
+        android:gravity="center"
+        android:text="发表评价"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:visibility="visible" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/confirm_submit_evaluate"
+        android:layout_below="@id/car_hailing_detail_bar"
+        android:layout_marginTop="1px">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/car_hailing_evaluate_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@drawable/shap_car_hailing_white_bg"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/x12"
+                    android:layout_marginLeft="@dimen/x11"
+                    android:layout_marginRight="@dimen/x15"
+                    android:layout_marginTop="@dimen/x22">
+
+                    <com.project.mgjandroid.ui.view.RoundImageView
+                        android:id="@+id/car_hailing_evaluate_driver_header"
+                        android:layout_width="@dimen/x55"
+                        android:layout_height="@dimen/x55"
+                        android:layout_marginRight="@dimen/x20"
+                        android:src="@drawable/user_avatar"
+                        app:border_outside_color="#88ffffff"
+                        app:border_thickness="@dimen/x5" />
+
+                    <ImageView
+                        android:id="@+id/car_hailing_evaluate_call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/icon_car_hailing_order_phone" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_detail_order_driver_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/car_hailing_evaluate_driver_header"
+                        android:maxWidth="@dimen/x150"
+                        android:singleLine="true"
+                        android:text="司机姓名"
+                        android:textColor="@color/color_3"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_detail_order_driver_car_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/car_hailing_detail_order_driver_name"
+                        android:layout_marginLeft="@dimen/x2"
+                        android:layout_toRightOf="@id/car_hailing_detail_order_driver_name"
+                        android:text="车牌号"
+                        android:textColor="@color/color_6"
+                        android:textSize="12sp" />
+
+                    <RatingBar
+                        android:id="@+id/car_hailing_detail_order_driver_score"
+                        style="@style/RatingBar.ShopGoods"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/car_hailing_detail_order_driver_name"
+                        android:layout_marginTop="@dimen/x6"
+                        android:layout_toRightOf="@id/car_hailing_evaluate_driver_header"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:stepSize="0.1" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_detail_order_driver_tv_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/car_hailing_detail_order_driver_score"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x2"
+                        android:layout_toRightOf="@id/car_hailing_detail_order_driver_score"
+                        android:includeFontPadding="false"
+                        android:text=""
+                        android:textColor="@color/orange_text"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_detail_order_driver_car_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/car_hailing_detail_order_driver_score"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/x6"
+                        android:layout_toRightOf="@id/car_hailing_evaluate_driver_header"
+                        android:includeFontPadding="false"
+                        android:text="车型"
+                        android:textColor="@color/color_6"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/evaluate_redbag_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/evaluate_redbag_notice"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/x11"
+                    android:layout_marginLeft="@dimen/x11"
+                    android:layout_marginRight="@dimen/x11"
+                    android:layout_marginTop="@dimen/x4"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="总体评分："
+                        android:textColor="@color/color_3"
+                        android:textSize="15sp" />
+
+                    <RatingBar
+                        android:id="@+id/car_hailing_total_evaluate"
+                        style="@style/RatingBar.GroupEvaluate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:stepSize="1" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x110"
+                    android:layout_marginLeft="@dimen/x11"
+                    android:layout_marginRight="@dimen/x11">
+
+                    <EditText
+                        android:id="@+id/car_hailing_evaluate_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shap_gray_bg_edit_text"
+                        android:gravity="left|top"
+                        android:hint="为了更好的服务顾客,请说说本次行程的感受"
+                        android:maxLength="150"
+                        android:padding="@dimen/x11"
+                        android:textColor="@color/color_3"
+                        android:textColorHint="@color/color_c"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x16"
+                    android:layout_marginRight="@dimen/x16"
+                    android:layout_marginTop="@dimen/x16"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务评分："
+                        android:textColor="@color/color_3"
+                        android:textSize="13sp" />
+
+                    <RatingBar
+                        android:id="@+id/car_hailing_service_evaluate"
+                        style="@style/RatingBar.GroupEvaluate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:rating="5"
+                        android:stepSize="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x16"
+                    android:layout_marginRight="@dimen/x16"
+                    android:layout_marginTop="@dimen/x14"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车饰车况："
+                        android:textColor="@color/color_3"
+                        android:textSize="13sp" />
+
+                    <RatingBar
+                        android:id="@+id/car_hailing_car_evaluate"
+                        style="@style/RatingBar.GroupEvaluate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:rating="5"
+                        android:stepSize="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/x25"
+                    android:layout_marginLeft="@dimen/x16"
+                    android:layout_marginRight="@dimen/x16"
+                    android:layout_marginTop="@dimen/x14"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="平准驾驶："
+                        android:textColor="@color/color_3"
+                        android:textSize="13sp" />
+
+                    <RatingBar
+                        android:id="@+id/car_hailing_drive_evaluate"
+                        style="@style/RatingBar.GroupEvaluate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:rating="5"
+                        android:stepSize="1" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/anonymous_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/car_hailing_evaluate_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/x17"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/car_hailing_evaluate_anonymous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_evaluate_anonymous_checked" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x5"
+                    android:text="匿名评价"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

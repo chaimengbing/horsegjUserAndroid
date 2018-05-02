@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginTop="@dimen/x10"
+    android:padding="@dimen/x15">
+
+    <TextView
+        android:id="@+id/order_detail_tv_shipping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delivery_msg"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/order_detail_shipping_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/order_detail_tv_shipping"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@color/gray_bg" />
+
+    <TextView
+        android:id="@+id/order_detail_tv_shipping_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/order_detail_shipping_line"
+        android:layout_marginTop="@dimen/x10"
+        android:text="配送方式: 由商家配送"
+        android:textColor="@color/color_6"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/order_detail_shipping_driver_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/order_detail_tv_shipping_style"
+        android:layout_marginTop="@dimen/x10"
+        android:visibility="gone"
+        android:background="@color/gray_bg" />
+
+    <LinearLayout
+        android:id="@+id/order_detail_tv_shipping_driver_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:layout_below="@id/order_detail_shipping_driver_line"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="骑\u3000\u3000手: "
+            android:textColor="@color/gray_txt"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/order_detail_tv_shipping_driver_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="张三"
+            android:textColor="@color/gray_txt"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/order_detail_tv_shipping_driver_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:text="18888888888"
+            android:textColor="@color/title_bar_bg"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/order_detail_tv_shipping_driver_layout">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/driver_map"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x200"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/x10"
+            android:alwaysDrawnWithCache="false"
+            android:animationCache="false">
+
+        </com.baidu.mapapi.map.MapView>
+
+        <ImageView
+            android:id="@+id/map_cache"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x200"
+            android:visibility="gone" />
+    </RelativeLayout>
+</RelativeLayout>

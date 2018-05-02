@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x25"
+        android:background="#fceec7"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/x15"
+        android:text="物品重量不超过10kg"
+        android:textColor="@color/color_6"
+        android:textSize="11sp" />
+
+    <ScrollView
+        android:id="@+id/sv_legwork_deliver"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_select_take"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/x15"
+                android:paddingTop="@dimen/x15">
+
+
+                <ImageView
+                    android:id="@+id/iv_take"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:src="@drawable/icon_take" />
+
+                <ImageView
+                    android:id="@+id/iv_take_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/x15"
+                    android:src="@drawable/right_arrow_gray" />
+
+                <LinearLayout
+                    android:id="@+id/ll_take"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginRight="@dimen/x25"
+                    android:layout_toLeftOf="@+id/iv_take_arrow"
+                    android:layout_toRightOf="@+id/iv_take"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_take_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/x10"
+                        android:textColor="@color/color_3"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_take_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="物品从哪里发出"
+                        android:textColor="@color/color_9"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignLeft="@+id/ll_take"
+                    android:layout_below="@+id/ll_take"
+                    android:layout_marginTop="@dimen/x15"
+                    android:background="@color/gray_bg" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_select_deliver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/x15">
+
+
+                <ImageView
+                    android:id="@+id/iv_deliver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:src="@drawable/icon_deliver" />
+
+
+                <ImageView
+                    android:id="@+id/iv_deliver_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow_gray" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginRight="@dimen/x25"
+                    android:layout_toLeftOf="@+id/iv_deliver_arrow"
+                    android:layout_toRightOf="@+id/iv_deliver"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_deliver_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/x10"
+                        android:textColor="@color/color_3"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_deliver_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="物品送到哪里去"
+                        android:textColor="@color/color_9"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x45"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:text="送达时间"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <RadioGroup
+                    android:id="@+id/rg_legwork_service_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x25"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_legwork_immediately"
+                        android:layout_width="@dimen/x66"
+                        android:layout_height="@dimen/x25"
+                        android:background="@drawable/selector_legwork_bg"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="立即取送"
+                        android:textColor="@color/tv_legwork_selector"
+                        android:textSize="12sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_legwork_time"
+                        android:layout_width="@dimen/x66"
+                        android:layout_height="@dimen/x25"
+                        android:layout_marginLeft="@dimen/x25"
+                        android:background="@drawable/selector_legwork_bg"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="指定时间"
+                        android:textColor="@color/tv_legwork_selector"
+                        android:textSize="12sp" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_legwork_select_time"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x45"
+                android:layout_marginTop="1px"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:text="送达时间"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/tv_select_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x25"
+                    android:background="@color/white"
+                    android:textColor="@color/color_3"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_legwork_desc"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x45"
+                android:layout_marginTop="1px"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:gravity="center_vertical"
+                    android:text="备注留言"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/et_legwork_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:hint="请填写备注留言"
+                        android:maxLength="255"
+                        android:minWidth="@dimen/x80"
+                        android:paddingLeft="@dimen/x15"
+                        android:paddingRight="@dimen/x15"
+                        android:textColor="@color/color_9"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x12"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginTop="@dimen/x12"
+                android:text="费用(请认真核对费用明细)"
+                android:textColor="@color/color_9"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x45"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_service_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:drawablePadding="@dimen/x5"
+                    android:drawableRight="@drawable/ic_legwork_service_charge"
+                    android:text="服务费"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_service_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/x15"
+                    android:text="¥0"
+                    android:textColor="@color/color_3"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x15"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_legwork_protocol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/selector_proyocol"
+                    android:checked="true"
+                    android:paddingLeft="@dimen/x5"
+                    android:text="同意并接受"
+                    android:textColor="#ccc"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_legwork_protocol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="《跑腿代购协议》"
+                    android:textColor="@color/color_9"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x49"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_legwork_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="#5a5a5a"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/x15"
+            android:text="费用：¥0"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_legwork_go_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#f7d473"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="去支付"
+            android:textColor="@color/color_3"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

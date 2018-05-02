@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/x10"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_white_shape"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x36"
+                    android:gravity="center"
+                    android:text="请选择文件来源"
+                    android:textColor="@color/color_9"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/common_gray_line" />
+
+                <TextView
+                    android:id="@+id/take_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x48"
+                    android:text="照相机"
+                    android:textColor="#0066FF"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/common_gray_line" />
+
+                <TextView
+                    android:id="@+id/select_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x48"
+                    android:text="本地相簿"
+                    android:textColor="#0066FF"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/feed_back_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x48"
+                android:text="取消"
+                android:textColor="#0066FF"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@drawable/bg_white_shape" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_bg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="实付"
+        android:textColor="@color/orange_text"
+        android:textSize="15sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x25" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x50"
+        android:layout_gravity="center_horizontal"
+        android:gravity="bottom">
+
+        <TextView
+            android:id="@+id/tv_amt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="28.50"
+            android:textColor="@color/orange_text"
+            android:textSize="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yuan"
+            android:textColor="@color/orange_text"
+            android:textSize="16sp"
+            android:layout_marginBottom="@dimen/x2"
+            android:paddingLeft="@dimen/x2" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/x40">
+
+        <TextView
+            android:id="@+id/tv_user_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textColor="@color/color_3" />
+
+        <TextView
+            android:id="@+id/tv_agent_receive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textColor="@color/color_3"
+            android:layout_marginTop="@dimen/x6" />
+
+    </LinearLayout>
+
+</FrameLayout>

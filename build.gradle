@@ -1,0 +1,225 @@
+apply plugin: 'com.android.application'
+//解决 Error:android-apt plugin is incompatible with the Android Gradle plugin.  Please use 'annotationProcessor' configuration instead.
+//apply plugin: 'android-apt'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext.appVersionCode = 47
+ext.appVersionName = "3.1.7"
+
+dependencies {
+    compile fileTree(include: '*.jar', dir: 'libs')
+    compile 'com.github.mzule.activityrouter:compiler:1.1.5'
+    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.5'
+
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.github.mzule.activityrouter:activityrouter:1.1.7'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:support-fragment:25.0.0'
+    compile 'com.github.chrisbanes:PhotoView:1.3.1'
+
+    compile 'cn.jiguang.sdk:jpush:3.0.9'  // 此处以JPush 3.0.9 版本为例。
+    compile 'cn.jiguang.sdk:jcore:1.1.7'  // 此处以JCore 1.1.7 版本为例。
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.10'//加载gif图
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        applicationId = "com.horsegj.company"
+
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "988bf1bf07dabb8e29e1e28e", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
+    }
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode appVersionCode
+        versionName appVersionName
+        multiDexEnabled true
+        //解决Error:All flavors must now belong to a named flavor dimension. Learn more at https://d.android.com
+        flavorDimensions "1.0.0"
+    }
+
+
+    signingConfigs {
+        release {
+            storeFile file("maguanjia.jks")
+            storePassword 'maguanjia'
+            keyAlias 'maguanjia'
+
+            keyPassword 'maguanjia'
+        }
+    }
+
+    buildTypes {
+        debug {
+            // 不开启混淆
+            minifyEnabled false
+            // 不开启ZipAlign优化
+            zipAlignEnabled true
+            // 不移除无用的resource文件
+            shrinkResources false
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "IS_DEBUG", "true"
+        }
+        release {
+            // 不开启混淆
+            minifyEnabled false
+            // 不开启ZipAlign优化
+            zipAlignEnabled true
+            // 不移除无用的resource文件
+            // shrinkResources true
+            proguardFile 'proguard-project.txt'
+            signingConfig signingConfigs.release
+            buildConfigField "boolean", "IS_DEBUG", "false"
+        }
+
+        //解决Gradle插件 升级3.0.1后无法打包的问题
+        android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                def fileName
+                if (isInJenkins()) {
+                    fileName = "mgjclient-${variant.buildType.name}-${variant.versionName}-" + getJenkinsBuildCode() + ".apk"
+                } else {
+                    fileName = "mgjclient-${variant.buildType.name}-${variant.versionName}-" + buildTime() + ".apk"
+                }
+                outputFileName = fileName
+            }
+        }
+    }
+
+    // 禁止Lint出错导致打包异常终止
+    lintOptions {
+        disable 'MissingTranslation', 'ExtraTranslation', "ResourceType"
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+
+        horsegj {
+            res.srcDirs = ['source/horsegj/res']
+            java.srcDirs = ['source/horsegj/src']
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+    productFlavors {
+//        qyue {
+//            applicationId "com.project.mgjandroid"
+//            manifestPlaceholders = [APP_ID: "com.project.mgjandroid"]
+//        }
+
+        horsegj {
+            applicationId "com.horsegj.company"
+            manifestPlaceholders = [APP_ID: "com.horsegj.company"]
+        }
+    }
+
+//    dexOptions {
+//        incremental true
+//        javaMaxHeapSize "4g"
+//    }
+}
+
+def buildTime() {
+    return new Date().format("MM-dd_HH-mm")
+}
+
+/**
+ * 判断是否有jenkins
+ * @return
+ */
+boolean isInJenkins() {
+    Map<String, String> map = System.getenv()
+    if (map == null) {
+        return false
+    }
+    String str = map.get("Path")
+    if (str != null) {
+        return false
+    } else {
+        str = ""
+        Iterator it = map.iterator()
+        while (it.hasNext()) {
+            str += it.next()
+        }
+        return str.contains("jenkins")
+    }
+}
+
+/**
+ * 获取Jenkins Build 号
+ * @return
+ */
+def getJenkinsBuildCode() {
+    boolean flag = isInJenkins()
+    if (flag) {
+        ext.env = System.getenv()
+        ext.buildNumber = env.BUILD_NUMBER?.toInteger()
+        return "$buildNumber"
+    } else {
+        return 0
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        google()
+    }
+}

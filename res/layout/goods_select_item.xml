@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <View
+        android:layout_width="@dimen/x3"
+        android:layout_height="match_parent"
+        android:background="@color/color_e5" />
+
+    <TextView
+        android:id="@+id/goods_select_item_tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/x7"
+        android:paddingTop="@dimen/x8"
+        android:paddingBottom="@dimen/x8"
+        android:paddingRight="@dimen/x10"
+        android:textColor="@color/color_6"
+        android:gravity="bottom"
+        android:textSize="15sp"
+        android:background="@color/color_f7" />
+
+</LinearLayout>

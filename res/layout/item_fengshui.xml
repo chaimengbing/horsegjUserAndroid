@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/new_recruit_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dedede" />
+
+    <com.project.mgjandroid.ui.view.CornerImageView
+        android:layout_marginLeft="@dimen/x10"
+        android:id="@+id/fengshui_user_avatar"
+        android:layout_width="@dimen/x86"
+        android:layout_height="@dimen/x66"
+        app:type="round"
+        app:borderRadius="@dimen/x4"
+        app:borderThickness="1px"
+        app:borderColor="#e5e5e5"
+        android:src="@drawable/user_avatar"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:id="@+id/fengshui_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_recruit_top_line"
+        android:layout_toRightOf="@id/fengshui_user_avatar"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/x15">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@id/name_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fengshui_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="安鹏"
+                    android:maxEms="4"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/fengshui_time"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginRight="@dimen/x5"
+                    android:textColor="@color/org_yellow"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:text="年"
+                    android:background="@drawable/bg_yellow_circular_circle" />
+
+                <TextView
+                    android:id="@+id/fengshui_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="70岁"
+                    android:textColor="@color/org_yellow"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/new_recruit_position_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/x4"
+                    android:src="@drawable/icon_recruit_job" />
+
+                <TextView
+                    android:id="@+id/fengshui_position_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="八字算命"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/province_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/name_layout"
+                android:layout_below="@+id/name_layout"
+                android:layout_marginTop="@dimen/x7"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fengshui_province"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="四川省"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/fengshui_is_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="已置顶"
+                    android:textColor="@color/green"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fengshui_be_good_at_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/province_layout"
+                android:layout_below="@+id/province_layout"
+                android:layout_marginTop="@dimen/x6"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/fengshui_be_good_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="擅长：八字算命  五行改运  抽签占卜  男女婚配  民俗测算"
+                    android:textColor="@color/color_9"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/fengshui_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/fengshui_content_layout"
+        android:background="#dedede" />
+
+</RelativeLayout>

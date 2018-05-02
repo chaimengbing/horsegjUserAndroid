@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical"
+    tools:context="com.project.mgjandroid.ui.activity.MoreSettingActivity">
+
+    <RelativeLayout
+        android:id="@+id/confirm_order_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x10">
+
+        <ImageView
+            android:id="@+id/more_setting_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/confirm_order_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:singleLine="true"
+            android:text="@string/set"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="@dimen/title_bar_text_size" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x15"
+        android:background="#ededeb" />
+
+    <RelativeLayout
+        android:id="@+id/setting_clear_cache"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x20"
+            android:text="@string/clear_img_cache"
+            android:textColor="@color/common_black_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/setting_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:text="@string/img_cache_size"
+            android:textColor="@color/common_gray_text" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/common_gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/setting_non_wifi"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:background="@color/white"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x20"
+            android:text="@string/non_wifi"
+            android:textColor="@color/common_black_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/setting_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:text="@string/wifi_state"
+            android:textColor="@color/common_gray_text" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/common_gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/setting_auto_update"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x20"
+            android:text="@string/auto_update"
+            android:textColor="@color/common_black_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/setting_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:text="@string/auto_update_text"
+            android:textColor="@color/common_gray_text" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/common_gray_line"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/setting_push_notice"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@color/white"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x20"
+            android:text="推送"
+            android:textColor="@color/common_black_text"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:src="@drawable/right_arrow_gray" />
+
+        <TextView
+            android:id="@+id/setting_push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:text="@string/img_cache_size"
+            android:textColor="@color/common_gray_text"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/setting_about"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@color/white"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x20"
+            android:text="@string/about_mgj"
+            android:textColor="@color/common_black_text"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:src="@drawable/right_arrow_gray" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/more_setting_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingBottom="@dimen/x12"
+        android:paddingTop="@dimen/x12"
+        android:text="@string/sign_out"
+        android:textColor="@color/orange_text"
+        android:textSize="16sp"
+        android:visibility="gone" />
+</LinearLayout>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarThumbVertical="@drawable/xg_scrollbar"
+        android:visibility="invisible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.project.mgjandroid.ui.view.CornerImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="@dimen/x35"
+                android:layout_height="@dimen/x35"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginTop="@dimen/x10"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user_avatar"
+                app:type="circle" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x14"
+                android:layout_toRightOf="@+id/user_avatar"
+                android:textColor="@color/color_3"
+                android:textSize="15sp"
+                tools:text="阿亮" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x15"
+                android:layout_marginTop="@dimen/x15"
+                android:textColor="@color/color_9"
+                android:textSize="12sp"
+                tools:text="2017-03-06" />
+
+            <LinearLayout
+                android:id="@+id/layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/user_name"
+                android:layout_below="@+id/user_name"
+                android:layout_marginTop="@dimen/x4">
+
+
+                <RatingBar
+                    android:id="@+id/rb_score"
+                    style="@style/RatingBar.ShopGoods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.1" />
+
+                <TextView
+                    android:id="@+id/average_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/color_6"
+                    android:textSize="11sp"
+                    tools:text="￥36/人" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/evaluation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/layout"
+                android:layout_below="@+id/layout"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginRight="@dimen/x15"
+                android:layout_marginTop="@dimen/x6"
+                android:ellipsize="end"
+                android:textColor="@color/color_6"
+                android:textSize="13sp"
+                tools:text="好几发回复哈会更好去个偶偶IT去韩国哈看好了客户关怀合法一互粉啦好看发货快  和覅记录卡加减法哈哈空间很快就会kj" />
+
+            <TextView
+                android:id="@+id/evaluate_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/evaluation"
+                android:layout_below="@+id/evaluation"
+                android:layout_marginBottom="@dimen/x8"
+                android:textColor="@color/color_9"
+                android:textSize="12sp"
+                tools:text="口味：尚可 环境：挺好 服务：极好" />
+
+            <com.project.mgjandroid.ui.view.NoScrollGridView
+                android:id="@+id/grid_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/evaluate_score"
+                android:layout_marginBottom="@dimen/x8"
+                android:layout_marginLeft="@dimen/x60"
+                android:layout_marginRight="@dimen/x30"
+                android:horizontalSpacing="@dimen/x16"
+                android:listSelector="@null"
+                android:numColumns="3"
+                android:verticalSpacing="@dimen/x16" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>

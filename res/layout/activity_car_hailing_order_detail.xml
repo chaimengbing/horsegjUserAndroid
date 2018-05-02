@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/car_hailing_detail_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/photo_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x15"
+            android:background="@drawable/icon_back_black" />
+
+        <TextView
+            android:id="@+id/photo_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:text="行程详情"
+            android:textColor="@color/color_3"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/car_hailing_detail_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingRight="@dimen/x15"
+            android:text="更多"
+            android:textColor="@color/green_job"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/car_hailing_detail_bar"
+        android:background="@color/color_3" />
+
+    <TextView
+        android:id="@+id/confirm_join_car_hailing"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/x10"
+        android:background="@drawable/shap_corner_green_bg"
+        android:gravity="center"
+        android:text="确认送达"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/confirm_join_car_hailing"
+        android:layout_below="@id/car_hailing_detail_bar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/car_hailing_detail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@drawable/shap_car_hailing_white_bg"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x11"
+                    android:layout_marginRight="@dimen/x15"
+                    android:layout_marginTop="@dimen/x22">
+
+                    <com.project.mgjandroid.ui.view.RoundImageView
+                        android:id="@+id/car_hailing_detail_order_driver_header"
+                        android:layout_width="@dimen/x55"
+                        android:layout_height="@dimen/x55"
+                        android:layout_marginRight="@dimen/x20"
+                        android:src="@drawable/user_avatar"
+                        app:border_outside_color="#88ffffff"
+                        app:border_thickness="@dimen/x5" />
+
+                    <ImageView
+                        android:id="@+id/car_hailing_order_call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/icon_car_hailing_order_phone" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_detail_order_driver_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/car_hailing_detail_order_driver_header"
+                        android:maxWidth="@dimen/x150"
+                        android:singleLine="true"
+                        android:text="司机姓名"
+                        android:textColor="@color/color_3"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_detail_order_driver_car_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/car_hailing_detail_order_driver_name"
+                        android:layout_marginLeft="@dimen/x2"
+                        android:layout_toRightOf="@id/car_hailing_detail_order_driver_name"
+                        android:text="车牌号"
+                        android:textColor="@color/color_6"
+                        android:textSize="12sp" />
+
+                    <RatingBar
+                        android:id="@+id/car_hailing_detail_order_driver_score"
+                        style="@style/RatingBar.ShopGoods"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/car_hailing_detail_order_driver_name"
+                        android:layout_marginTop="@dimen/x6"
+                        android:layout_toRightOf="@id/car_hailing_detail_order_driver_header"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:stepSize="0.1" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_detail_order_driver_tv_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/car_hailing_detail_order_driver_score"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x2"
+                        android:layout_toRightOf="@id/car_hailing_detail_order_driver_score"
+                        android:includeFontPadding="false"
+                        android:text=""
+                        android:textColor="@color/orange_text"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_detail_order_driver_car_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/car_hailing_detail_order_driver_score"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/x6"
+                        android:layout_toRightOf="@id/car_hailing_detail_order_driver_header"
+                        android:includeFontPadding="false"
+                        android:text="车型"
+                        android:textColor="@color/color_6"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/car_hailing_order_status_indicator_layout"
+                    android:layout_width="@dimen/x250"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/x27"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1px"
+                        android:layout_weight="1"
+                        android:background="@color/color_e5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x15"
+                        android:layout_marginRight="@dimen/x15"
+                        android:text="状态"
+                        android:textColor="@color/color_9"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1px"
+                        android:layout_weight="1"
+                        android:background="@color/color_e5" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/car_hailing_order_status_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x11"
+                    android:layout_marginRight="@dimen/x11"
+                    android:layout_marginTop="@dimen/x11"
+                    android:background="#f4f4f4"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/x10"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/car_hailing_detail_order_wait_start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="等待发车"
+                            android:textColor="@color/color_3"
+                            android:textSize="11sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/car_hailing_detail_order_wait_start"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/x10">
+
+                            <ImageView
+                                android:id="@+id/car_hailing_detail_order_wait_start_img"
+                                android:layout_width="@dimen/x10"
+                                android:layout_height="@dimen/x10"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/icon_point_gray"
+                                android:scaleType="centerCrop" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/x2"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x4"
+                                android:layout_toRightOf="@id/car_hailing_detail_order_wait_start_img"
+                                android:background="@drawable/dash_line"
+                                android:layerType="software" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/order_detail_order_state_layout_mid_l"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/car_hailing_detail_order_wait_get_on"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="等待乘客上车"
+                            android:textColor="@color/color_3"
+                            android:textSize="11sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/car_hailing_detail_order_wait_get_on"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/x10">
+
+                            <ImageView
+                                android:id="@+id/car_hailing_detail_order_wait_get_on_img"
+                                android:layout_width="@dimen/x10"
+                                android:layout_height="@dimen/x10"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/icon_point_gray"
+                                android:scaleType="centerCrop" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/x2"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/x4"
+                                android:layout_toLeftOf="@id/car_hailing_detail_order_wait_get_on_img"
+                                android:background="@drawable/dash_line"
+                                android:layerType="software" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/x2"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x4"
+                                android:layout_toRightOf="@id/car_hailing_detail_order_wait_get_on_img"
+                                android:background="@drawable/dash_line"
+                                android:layerType="software" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/order_detail_order_state_layout_mid_r"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/car_hailing_detail_order_has_get_on"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="乘客已上车"
+                            android:textColor="@color/color_3"
+                            android:textSize="11sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/car_hailing_detail_order_has_get_on"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/x10">
+
+                            <ImageView
+                                android:id="@+id/car_hailing_detail_order_has_get_on_img"
+                                android:layout_width="@dimen/x10"
+                                android:layout_height="@dimen/x10"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/icon_point_gray"
+                                android:scaleType="centerCrop" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/x2"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/x4"
+                                android:layout_toLeftOf="@id/car_hailing_detail_order_has_get_on_img"
+                                android:background="@drawable/dash_line"
+                                android:layerType="software" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/x2"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x4"
+                                android:layout_toRightOf="@id/car_hailing_detail_order_has_get_on_img"
+                                android:background="@drawable/dash_line"
+                                android:layerType="software" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/car_hailing_detail_order_arrive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="到达目的地"
+                            android:textColor="@color/color_3"
+                            android:textSize="11sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/car_hailing_detail_order_arrive"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/x10">
+
+                            <ImageView
+                                android:id="@+id/car_hailing_detail_order_arrive_img"
+                                android:layout_width="@dimen/x10"
+                                android:layout_height="@dimen/x10"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/icon_point_gray"
+                                android:scaleType="centerCrop" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/x2"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/x4"
+                                android:layout_toLeftOf="@id/car_hailing_detail_order_arrive_img"
+                                android:background="@drawable/dash_line"
+                                android:layerType="software" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/x250"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/x18"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1px"
+                        android:layout_weight="1"
+                        android:background="@color/color_e5" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x15"
+                        android:layout_marginRight="@dimen/x15"
+                        android:text="行程"
+                        android:textColor="@color/color_9"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1px"
+                        android:layout_weight="1"
+                        android:background="@color/color_e5" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/car_hailing_order_evaluate_over_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x24"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/car_hailing_order_start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="起点"
+                            android:textColor="@color/color_3"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="@dimen/x42"
+                            android:layout_height="@dimen/x2"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:layout_marginRight="@dimen/x10"
+                            android:background="@color/green_job" />
+
+                        <TextView
+                            android:id="@+id/car_hailing_order_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="终点"
+                            android:textColor="@color/color_3"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x20"
+                        android:gravity="center|bottom"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/car_hailing_order_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20"
+                            android:textColor="@color/color_3"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yuan"
+                            android:textColor="@color/color_3"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/car_hailing_order_price_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/x8"
+                        android:text="查看详情"
+                        android:textColor="@color/color_6"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/evaluate_indicator_layout"
+                        android:layout_width="@dimen/x250"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/x16"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1px"
+                            android:layout_weight="1"
+                            android:background="@color/color_e5" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x15"
+                            android:layout_marginRight="@dimen/x15"
+                            android:text="评价"
+                            android:textColor="@color/color_9"
+                            android:textSize="13sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1px"
+                            android:layout_weight="1"
+                            android:background="@color/color_e5" />
+
+                    </LinearLayout>
+
+                    <RatingBar
+                        android:id="@+id/car_hailing_detail_order_score"
+                        style="@style/RatingBar.GroupEvaluate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/car_hailing_detail_order_driver_name"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/x14"
+                        android:layout_toRightOf="@id/car_hailing_detail_order_driver_header"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:stepSize="0.1" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_order_evaluate_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/x30"
+                        android:gravity="center"
+                        android:padding="@dimen/x15"
+                        android:text="评价内容"
+                        android:textColor="@color/color_9"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/car_hailing_order_detail_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/car_hailing_order_amt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x26"
+                        android:layout_marginTop="@dimen/x26"
+                        android:text="约车价格"
+                        android:textColor="@color/color_3"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_order_leave_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x26"
+                        android:layout_marginTop="@dimen/x15"
+                        android:text="发车时间"
+                        android:textColor="@color/color_3"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/car_hailing_order_get_on_district"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x26"
+                            android:layout_marginTop="@dimen/x15"
+                            android:layout_weight="1"
+                            android:text="候车点（）"
+                            android:textColor="@color/color_3"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/car_hailing_order_more_get_on_place"
+                            android:layout_width="@dimen/x60"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x15"
+                            android:gravity="center"
+                            android:text="更多"
+                            android:textColor="@color/color_6"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/car_hailing_order_get_on_place"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x40"
+                        android:layout_marginTop="@dimen/x8"
+                        android:drawableLeft="@drawable/icon_get_on"
+                        android:drawablePadding="@dimen/x7"
+                        android:text="上车地点"
+                        android:textColor="#0099ff"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:id="@+id/car_hailing_order_get_on_place_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/car_hailing_order_get_off_district"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x26"
+                            android:layout_marginTop="@dimen/x15"
+                            android:layout_weight="1"
+                            android:text="下车点（）"
+                            android:textColor="@color/color_3"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/car_hailing_order_more_get_off_place"
+                            android:layout_width="@dimen/x60"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x15"
+                            android:gravity="center"
+                            android:text="更多"
+                            android:textColor="@color/color_6"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/car_hailing_order_get_off_place"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x40"
+                        android:layout_marginTop="@dimen/x8"
+                        android:drawableLeft="@drawable/icon_get_off"
+                        android:drawablePadding="@dimen/x7"
+                        android:text="下车地点"
+                        android:textColor="#ff9900"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:id="@+id/car_hailing_order_get_off_place_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="@dimen/x25"
+                        android:background="@color/color_e5" />
+
+                    <TextView
+                        android:id="@+id/car_hailing_order_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x32"
+                        android:layout_marginBottom="@dimen/x1"
+                        android:layout_marginLeft="@dimen/x1"
+                        android:layout_marginRight="@dimen/x1"
+                        android:background="@drawable/shap_bottom_conner_gray_bg"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/x10"
+                        android:paddingRight="@dimen/x10"
+                        android:singleLine="true"
+                        android:text="车主服务："
+                        android:textColor="@color/color_6"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <com.project.mgjandroid.ui.view.TimeTextView
+        android:id="@+id/car_hailing_order_detail_to_pay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/x10"
+        android:background="@drawable/shap_corner_green_bg"
+        android:gravity="center"
+        android:text="去支付"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_share_redbag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/x140"
+        android:drawablePadding="@dimen/x4"
+        android:drawableTop="@drawable/share_redbag"
+        android:gravity="center"
+        android:text="发红包"
+        android:textColor="@color/red_3"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

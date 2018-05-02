@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/market_cart_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dedede" />
+
+    <ImageView
+        android:id="@+id/market_cart_edit_status"
+        android:layout_width="@dimen/x20"
+        android:layout_height="@dimen/x20"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/x15"
+        android:src="@drawable/market_cart_unselect" />
+
+    <RelativeLayout
+        android:id="@+id/market_cart_goods_layout"
+        android:layout_toRightOf="@id/market_cart_edit_status"
+        android:layout_below="@id/market_cart_top_line"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/x15"
+        android:background="@drawable/shap_gray_bg_without_stroke"
+        android:paddingRight="@dimen/x5"
+        android:paddingBottom="@dimen/x5"
+        android:layout_height="wrap_content">
+
+        <com.project.mgjandroid.ui.view.CornerImageView
+            android:id="@+id/market_cart_goods_image"
+            android:layout_width="@dimen/x94"
+            android:layout_height="@dimen/x94"
+            android:layout_marginLeft="@dimen/x5"
+            android:layout_marginTop="@dimen/x5"
+            android:layout_marginRight="@dimen/x5"
+            android:scaleType="centerCrop"
+            android:src="@drawable/horsegj_default"
+            app:borderRadius="@dimen/x4"
+            app:borderThickness="1px"
+            app:borderColor="#e5e5e5"
+            app:type="round" />
+
+        <TextView
+            android:id="@+id/market_cart_exception_status"
+            android:layout_width="@dimen/x94"
+            android:layout_height="@dimen/x94"
+            android:layout_margin="@dimen/x5"
+            android:text="已下架"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:visibility="gone"
+            android:background="@drawable/shap_cart_shadow_range" />
+
+        <TextView
+            android:id="@+id/market_cart_goods_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/market_cart_goods_image"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_toRightOf="@id/market_cart_goods_image"
+            android:maxLines="2"
+            android:text="标题"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/market_cart_goods_spec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/market_cart_goods_name"
+            android:layout_below="@id/market_cart_goods_name"
+            android:layout_marginTop="@dimen/x5"
+            android:text="规格"
+            android:textColor="@color/color_6"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/market_cart_goods_count_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x5"
+            android:layout_alignBottom="@id/market_cart_goods_image"
+            android:layout_alignParentRight="true"
+            android:singleLine="true"
+            android:gravity="bottom"
+            android:layout_marginBottom="@dimen/x3"
+            android:text="×1"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/market_cart_goods_edit_count_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            android:layout_marginRight="@dimen/x5"
+            android:layout_alignBottom="@id/market_cart_goods_image"
+            android:layout_alignParentRight="true">
+
+            <ImageView
+                android:id="@+id/market_cart_goods_minus"
+                android:layout_width="@dimen/x25"
+                android:layout_height="@dimen/x25"
+                android:background="@drawable/shap_gray_bg_e8"
+                android:src="@drawable/min_group_goods_gray"
+                android:scaleType="centerInside" />
+
+            <TextView
+                android:id="@+id/market_cart_goods_count"
+                android:layout_width="@dimen/x50"
+                android:layout_height="@dimen/x25"
+                android:background="@drawable/shap_gray_bg_e8"
+                android:text="1"
+                android:layout_marginLeft="@dimen/x2"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/market_cart_goods_add"
+                android:layout_width="@dimen/x25"
+                android:layout_height="@dimen/x25"
+                android:background="@drawable/shap_gray_bg_e8"
+                android:src="@drawable/add_group_goods"
+                android:scaleType="centerInside"
+                android:layout_marginLeft="@dimen/x2" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/market_cart_goods_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/market_cart_goods_image"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginBottom="@dimen/x3"
+            android:layout_toRightOf="@id/market_cart_goods_image"
+            android:singleLine="true"
+            android:text="¥30.6"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/market_cart_goods_layout"
+        android:background="#dedede" />
+</RelativeLayout>

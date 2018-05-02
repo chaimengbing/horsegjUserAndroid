@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/x40"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="@dimen/x10"
+        android:textSize="12sp"
+        android:textColor="@color/color_9"
+        android:gravity="center" />
+
+    <View
+        android:id="@+id/bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@drawable/child_item_dash_line"
+        android:layerType="software"
+        android:layout_gravity="bottom" />
+
+    <View
+        android:id="@+id/bottom_line_2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d6d6d6"
+        android:layout_gravity="bottom"
+        android:visibility="invisible" />
+
+    <View
+        android:id="@+id/left_line"
+        android:layout_width="@dimen/x3"
+        android:layout_height="match_parent"
+        android:background="@color/title_bar_bg"
+        android:layout_gravity="left"
+        android:visibility="invisible" />
+
+    <View
+        android:id="@+id/right_line"
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="#d6d6d6"
+        android:layout_gravity="right" />
+
+</FrameLayout>

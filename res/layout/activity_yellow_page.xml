@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/photo_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height">
+
+        <ImageView
+            android:id="@+id/common_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x15"
+            android:background="@drawable/icon_back_black" />
+
+        <TextView
+            android:id="@+id/common_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:text="商家黄页"
+            android:textColor="@color/color_3"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_e" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/yellow_page_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:layout_below="@id/photo_tool_bar"
+        android:background="@color/gray_white"
+        android:paddingLeft="@dimen/x5"
+        android:paddingRight="@dimen/x5"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/x10"
+            android:background="@drawable/shap_car_hailing_white_bg"
+            android:gravity="center"
+            android:text="搜索商家、电话、地址"
+            android:textColor="@color/color_c"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x70"
+            android:src="@drawable/search_gray" />
+
+    </RelativeLayout>
+
+    <com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/yellow_page_search_bar"
+        android:background="@color/gray_bg"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/color_e5"
+        android:dividerHeight="1px"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@android:color/transparent"
+        android:scrollbarThumbVertical="@drawable/xg_scrollbar" />
+
+    <TextView
+        android:id="@+id/yellow_page_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/yellow_page_search_bar"
+        android:background="@color/gray_bg"
+        android:gravity="center"
+        android:text="暂无信息~"
+        android:textSize="17sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/x5"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x25">
+
+            <TextView
+                android:id="@+id/new_home_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/new_home_page"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/x5" />
+
+            <TextView
+                android:id="@+id/tv_More"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/x15"
+                android:drawablePadding="@dimen/x5"
+                android:drawableRight="@drawable/new_ic_more"
+                android:gravity="center_vertical"
+                android:text="查看更多"
+                android:textColor="#ff9900"
+                android:textSize="11dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_lease"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x1"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="@dimen/x15">
+
+            <com.project.mgjandroid.ui.view.CornerImageView
+                android:id="@+id/second_market_image_view"
+                android:layout_width="@dimen/x86"
+                android:layout_height="@dimen/x66"
+                android:layout_marginRight="@dimen/x14"
+                android:src="@drawable/user_avatar"
+                android:visibility="visible"
+                app:borderColor="#e5e5e5"
+                app:borderRadius="@dimen/x4"
+                app:borderThickness="1px"
+                app:type="round" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x66"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/label_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/second_market_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="--"
+                        android:textColor="@color/color_3"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/second_market_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/shap_org_range_bg"
+                        android:text="--"
+                        android:textColor="#ff9900"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/label_middle"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rent_house_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="--"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/sp12" />
+
+                    <TextView
+                        android:id="@+id/second_hand_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="已置顶"
+                        android:textColor="@color/green_job"
+                        android:visibility="gone"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/label_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/second_hand_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="--"
+                        android:textColor="#fb4b18"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/second_hand_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/sp12"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="查看详情"
+                        android:textColor="@color/color_9"
+                        android:textSize="@dimen/sp12" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

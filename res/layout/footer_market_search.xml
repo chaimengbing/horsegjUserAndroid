@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/clear_market_history"
+        android:layout_width="@dimen/x290"
+        android:layout_height="@dimen/x42"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/x25"
+        android:layout_marginTop="@dimen/x25"
+        android:background="@drawable/shap_gray_white_bg"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/order_list_delet"
+            android:gravity="center"
+            android:text="清空历史搜索"
+            android:textColor="@color/color_6"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

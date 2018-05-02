@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar" />
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x100"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/x15"
+        android:paddingRight="@dimen/x15">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x15"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/color_3"
+                android:textSize="18sp"
+                tools:text="吉野家（大钟寺分店）" />
+
+            <TextView
+                android:id="@+id/loc_map"
+                android:layout_width="@dimen/x75"
+                android:layout_height="@dimen/x35"
+                android:layout_marginLeft="@dimen/x15"
+                android:background="@drawable/bg_login_orange_button"
+                android:gravity="center"
+                android:text="本机地图"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x8"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/color_6"
+            android:textSize="15sp"
+            tools:text="大钟寺中坤广场盈都大厦C座一楼肯德基隔壁" />
+
+    </LinearLayout>
+
+</LinearLayout>

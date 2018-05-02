@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/new_recruit_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dedede" />
+
+    <com.project.mgjandroid.ui.view.RoundImageView
+        android:id="@+id/health_user_avatar"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/x80"
+        android:layout_marginLeft="@dimen/x15"
+        android:scaleType="centerCrop"
+        android:visibility="visible"
+        android:src="@drawable/sir_default_icon"
+        android:layout_centerVertical="true" />
+
+    <LinearLayout
+        android:id="@+id/health_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_recruit_top_line"
+        android:layout_toRightOf="@id/health_user_avatar"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/x15">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@id/name_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/health_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="夏经群"
+                    android:maxEms="4"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/health_Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="主任医师"
+                    android:layout_marginLeft="@dimen/x12"
+                    android:maxEms="4"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/org_yellow"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/new_recruit_position_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/x4"
+                    android:src="@drawable/icon_recruit_job" />
+
+                <TextView
+                    android:id="@+id/health_position_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="外科"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hospital_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/name_layout"
+                android:layout_below="@+id/name_layout"
+                android:layout_marginTop="@dimen/x12"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/health_hospital"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="北京第一大学医院"
+                    android:maxEms="8"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/health_is_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="已置顶"
+                    android:textColor="@color/green"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/health_be_good_at_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/hospital_layout"
+                android:layout_below="@+id/hospital_layout"
+                android:layout_marginTop="@dimen/x12"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/health_be_good_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="擅长：老年男性前列腺增生  尿动力学  尿道感染  膀胱炎"
+                    android:textColor="@color/color_9"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/health_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/fengshui_content_layout"
+        android:background="#dedede" />
+
+</RelativeLayout>

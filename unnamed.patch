@@ -1,0 +1,86 @@
+Index: src/com/project/mgjandroid/ui/activity/invitingfriends/InvitingModeFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/com/project/mgjandroid/ui/activity/invitingfriends/InvitingModeFragment.java	(revision 3fbfb22739c678662566db49990fac465a2faa11)
++++ src/com/project/mgjandroid/ui/activity/invitingfriends/InvitingModeFragment.java	(revision )
+@@ -1,6 +1,9 @@
+ package com.project.mgjandroid.ui.activity.invitingfriends;
+ 
+ import android.graphics.Bitmap;
++import android.graphics.BitmapFactory;
++import android.graphics.Canvas;
++import android.media.ThumbnailUtils;
+ import android.os.Bundle;
+ import android.support.annotation.Nullable;
+ import android.text.method.ScrollingMovementMethod;
+@@ -19,6 +22,7 @@
+ import com.project.mgjandroid.net.VolleyOperater;
+ import com.project.mgjandroid.ui.fragment.BaseFragment;
+ import com.project.mgjandroid.ui.view.CornerImageView;
++import com.project.mgjandroid.ui.view.MLoadingDialog;
+ import com.project.mgjandroid.utils.EncodingUtils;
+ import com.project.mgjandroid.utils.MLog;
+ import com.project.mgjandroid.utils.ShareUtil;
+@@ -50,6 +54,7 @@
+     private ShareUtil.BaseUiListener uiListener;
+     private SparseArray<byte[]> byteArray = new SparseArray<>();
+     private int imgWidth;
++    private MLoadingDialog loadingDialog;
+ 
+     @Nullable
+     @Override
+@@ -67,11 +72,13 @@
+         ivQQ.setOnClickListener(this);
+         ivWeiXin.setOnClickListener(this);
+         tv3.setMovementMethod(ScrollingMovementMethod.getInstance());
++        loadingDialog = new MLoadingDialog();
+         imgWidth = mActivity.getResources().getDimensionPixelOffset(R.dimen.x80);
+     }
+ 
+ 
+     private void getData(){
++        loadingDialog.show(mActivity.getFragmentManager(),"");
+         VolleyOperater<InvitingModeModel> operater = new VolleyOperater<>(mActivity);
+         operater.doRequest(Constants.URL_FIND_INVITER_CODE_URL,null,new VolleyOperater.ResponseListener(){
+             @Override
+@@ -85,7 +92,8 @@
+                     url = model.getValue();
+                     if (byteArray.get(model.getCode()) == null) {
+                         MLog.e("---------->EncodingUtils.createQRCode");
+-                        Bitmap bitmap = EncodingUtils.createQRCode(url, imgWidth, imgWidth, null);
++                        Bitmap decodeResource = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher);
++                        Bitmap bitmap = EncodingUtils.createQRCode(url, imgWidth, imgWidth, decodeResource);
+                         if (bitmap != null) {
+                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                             try {
+@@ -105,10 +113,12 @@
+                     } else {
+                         Glide.with(mActivity).load(byteArray.get(model.getCode())).into(picCode);
+                     }
++                    loadingDialog.dismiss();
+                 }
+             }
+         },InvitingModeModel.class);
+     }
++
+ 
+     @Override
+     public void onClick(View view) {
+Index: res/layout/fragment_inviting_results.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- res/layout/fragment_inviting_results.xml	(revision 3fbfb22739c678662566db49990fac465a2faa11)
++++ res/layout/fragment_inviting_results.xml	(revision )
+@@ -39,7 +39,6 @@
+         android:layout_height="wrap_content"
+         android:textColor="#e73a24"
+         android:textSize="36sp"
+-        android:text="¥27.25"
+         android:layout_above="@+id/tv_query_result"
+         android:layout_centerHorizontal="true" />
+ 
+\ No newline at end of file

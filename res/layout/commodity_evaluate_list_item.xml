@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/x15"
+    android:paddingRight="@dimen/x15"
+    android:paddingTop="@dimen/x10">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.project.mgjandroid.ui.view.RoundImageView
+            android:id="@+id/commodity_item_evaluate_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/comment_defaut_head" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/commodity_item_evaluate_avatar"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="夏经群"
+                android:textColor="#333333"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content">
+
+                <RatingBar
+                    android:id="@+id/commodity_detail_rat_score"
+                    style="@style/RatingBar.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="4"
+                    android:layout_marginTop="@dimen/x10" />
+
+                <TextView
+                    android:id="@+id/evaluate_num"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="@dimen/x9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF6833"
+                    android:textSize="13sp"
+                    android:text="4.0分" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_evaluate_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="2016-8-2"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:paddingLeft="16dp"
+        android:id="@+id/tv_evaluate_content"
+        android:layout_marginLeft="@dimen/x35"
+        android:text="品质量俱佳,强烈推荐"
+        android:textSize="13sp"
+        android:layout_marginTop="@dimen/x10"
+        android:textColor="#666666"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_marginTop="@dimen/x10"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EAEAEA" />
+</LinearLayout>

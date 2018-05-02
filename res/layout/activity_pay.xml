@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical"
+    tools:context="com.project.mgjandroid.ui.activity.information.PayActivity">
+
+    <RelativeLayout
+        android:id="@+id/login_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg"
+        android:paddingLeft="@dimen/x12"
+        android:paddingRight="@dimen/x10">
+
+        <ImageView
+            android:id="@+id/online_pay_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/login_register"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/register"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/online_pay"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="@dimen/title_bar_text_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/x20"
+        android:paddingTop="@dimen/x20">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x15"
+            android:text="@string/online_pay_order_total_price"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/pay_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x15"
+            android:textColor="@color/orange_text"
+            android:textSize="15sp"
+            tools:text="@string/online_pay_price_standard" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pay_extra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x10"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x15"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginTop="@dimen/x15"
+                android:text="@string/online_pay_by_balance"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/account_extra_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x2"
+                android:textColor="@color/color_9"
+                android:textSize="10sp"
+                tools:text="@string/online_pay_balance_msg" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/pay_extra_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x15"
+            android:background="@drawable/bg_check_or_uncheck" />
+
+        <TextView
+            android:id="@+id/balance_pay_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_toLeftOf="@+id/pay_extra_check"
+            android:textColor="@color/color_3"
+            android:textSize="13sp"
+            tools:text="¥0" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/third_pay_pannel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="@dimen/x15"
+            android:paddingTop="@dimen/x15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x15"
+                android:text="@string/online_pay_by_third_platform"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/third_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x15"
+                android:textColor="@color/color_3"
+                android:textSize="13sp"
+                tools:text="@string/online_pay_price_standard" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/pay_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x10"
+            android:layout_marginTop="1px"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="@dimen/x10"
+            android:text="@string/await_more_pay_method"
+            android:textColor="@color/color_c"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/online_pay_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x45"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:layout_marginTop="@dimen/x15"
+        android:background="@drawable/bg_login_orange_button"
+        android:gravity="center"
+        android:text="@string/online_pay_confirm"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/constomer_nbr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:gravity="center"
+        android:textColor="@color/common_gray_text"
+        android:textSize="12sp" />
+</LinearLayout>

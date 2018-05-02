@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/image_car_hailing_empty"
+        android:layout_gravity="center"
+        android:text="没有找到可预约车辆哦！"
+        android:textColor="@color/color_9"
+        android:textSize="14sp"
+        android:drawablePadding="@dimen/x15" />
+
+</FrameLayout>

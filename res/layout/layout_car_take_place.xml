@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shap_car_hailing_more_place"
+        android:layout_margin="@dimen/x20">
+
+        <TextView
+            android:id="@+id/take_car_on_or_off"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x60"
+            android:text="全部上车地点"
+            android:gravity="center"
+            android:textColor="@color/green_job"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/take_place_close"
+            android:layout_width="@dimen/x25"
+            android:layout_height="@dimen/x25"
+            android:background="@drawable/icon_take_place_close"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/x17"
+            android:layout_marginRight="@dimen/x20" />
+
+        <View
+            android:id="@+id/take_car_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/take_car_on_or_off"
+            android:background="@color/color_e5" />
+
+        <LinearLayout
+            android:id="@+id/take_car_place_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/x50"
+            android:paddingBottom="@dimen/x20"
+            android:paddingTop="@dimen/x3"
+            android:layout_below="@id/take_car_divider"
+            android:orientation="vertical"></LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

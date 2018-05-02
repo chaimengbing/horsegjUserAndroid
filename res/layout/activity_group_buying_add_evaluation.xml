@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bao="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg_2"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x53"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/x15">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总体"
+                    android:textColor="@color/color_3"
+                    android:textSize="17sp" />
+
+                <com.project.mgjandroid.ui.view.RatingBarView
+                    android:id="@+id/rbv_overall_evaluation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x26"
+                    bao:starCount="5"
+                    bao:starEmpty="@drawable/group_total_little_star_gray"
+                    bao:starFill="@drawable/group_total_little_star"
+                    bao:starImageSize="24dp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_e5" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@color/color_e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x140"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/x15">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="产品"
+                        android:textColor="@color/color_6"
+                        android:textSize="17sp" />
+
+                    <com.project.mgjandroid.ui.view.RatingBarView
+                        android:id="@+id/rbv_flavor_evaluation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x26"
+                        bao:starCount="5"
+                        bao:starEmpty="@drawable/group_total_little_star_gray"
+                        bao:starFill="@drawable/group_total_little_star"
+                        bao:starImageSize="24dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x24"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务"
+                        android:textColor="@color/color_6"
+                        android:textSize="17sp" />
+
+                    <com.project.mgjandroid.ui.view.RatingBarView
+                        android:id="@+id/rbv_service_evaluation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x26"
+                        bao:starCount="5"
+                        bao:starEmpty="@drawable/group_total_little_star_gray"
+                        bao:starFill="@drawable/group_total_little_star"
+                        bao:starImageSize="24dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x24"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="环境"
+                        android:textColor="@color/color_6"
+                        android:textSize="17sp" />
+
+                    <com.project.mgjandroid.ui.view.RatingBarView
+                        android:id="@+id/rbv_environment_evaluation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x26"
+                        bao:starCount="5"
+                        bao:starEmpty="@drawable/group_total_little_star_gray"
+                        bao:starFill="@drawable/group_total_little_star"
+                        bao:starImageSize="24dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/x15"
+                android:paddingRight="@dimen/x15">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x150"
+                    android:layout_marginTop="@dimen/x21"
+                    android:background="@drawable/et_bg_publish_info">
+
+                    <EditText
+                        android:id="@+id/et_evaluation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:hint="亲,产品如何,环境怎么样，服务满意吗？"
+                        android:maxLength="300"
+                        android:paddingBottom="@dimen/x24"
+                        android:paddingLeft="@dimen/x11"
+                        android:paddingRight="@dimen/x11"
+                        android:paddingTop="@dimen/x14"
+                        android:textColor="@color/color_3"
+                        android:textColorHint="@color/color_9"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/tv_evaluate_length"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="@dimen/x10"
+                        android:layout_marginRight="@dimen/x11"
+                        android:text="0/300"
+                        android:textColor="@color/grey_white_pressed"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_picture_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x15"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/x20"
+                    android:text="（上传图片最多9张）"
+                    android:textColor="@color/color_6"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_e5" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@color/color_e5" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/x15">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x17"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人均消费"
+                        android:textColor="@color/color_3"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x7"
+                        android:text="¥"
+                        android:textColor="@color/color_6"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/et_money"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x40"
+                        android:layout_marginBottom="@dimen/x49"
+                        android:layout_marginLeft="@dimen/x10"
+                        android:layout_marginRight="@dimen/x30"
+                        android:background="@drawable/et_bg_publish_info"
+                        android:hint="请输入金额"
+                        android:maxLength="4"
+                        android:paddingLeft="@dimen/x15"
+                        android:paddingRight="@dimen/x15"
+                        android:singleLine="true"
+                        android:textColor="@color/color_9"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/tv_add_evaluation_publish"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x42"
+                android:background="#ff9900"
+                android:gravity="center"
+                android:text="发表"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

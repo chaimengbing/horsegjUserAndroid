@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shap_car_hailing_white_bg"
+        android:layout_margin="@dimen/x10"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x45"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_3"
+                    android:text="今天" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:src="@drawable/super_market_arrow" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_3"
+                    android:text="全部类型" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:src="@drawable/super_market_arrow" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_3"
+                    android:text="车辆查询" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:src="@drawable/super_market_arrow" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:visibility="gone"
+            android:background="@color/color_e5" />
+
+        <LinearLayout
+            android:id="@+id/detail_filter_layout"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:layout_marginLeft="@dimen/x15"
+                android:drawablePadding="@dimen/x8"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textColor="@color/color_3"
+                android:drawableLeft="@drawable/icon_car_filter_end"
+                android:text="上车地点" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_e5"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:layout_marginLeft="@dimen/x15"
+                android:drawablePadding="@dimen/x8"
+                android:hint="到哪儿去？"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_3"
+                android:drawableLeft="@drawable/icon_car_filter_start"
+                android:text="" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_3"
+                    android:text="重置" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_e5" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_3"
+                    android:text="查询" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/type_filter_layout"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="全部类型" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_white"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="拼车" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_white"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="包车" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/date_filter_layout"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="第一" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_white"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="二" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_white"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="三" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_white"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="四" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_white"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="五" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_white"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="六" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_white"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x40"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:text="七" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

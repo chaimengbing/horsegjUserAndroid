@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/photo_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height">
+
+        <ImageView
+            android:id="@+id/common_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x15"
+            android:background="@drawable/icon_back_black" />
+
+        <TextView
+            android:id="@+id/common_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:text="详情"
+            android:textColor="@color/color_3"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_e" />
+
+    </RelativeLayout>
+
+    <com.project.mgjandroid.ui.view.CornerImageView
+        android:id="@+id/yellow_page_detail_logo"
+        android:layout_width="@dimen/x55"
+        android:layout_height="@dimen/x55"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x22"
+        android:background="@drawable/horsegj_default"
+        app:borderRadius="@dimen/x4"
+        app:type="round" />
+
+    <TextView
+        android:id="@+id/yellow_page_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/x22"
+        android:layout_marginTop="@dimen/x12"
+        android:text="标题"
+        android:textColor="@color/color_3"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_e" />
+
+    <LinearLayout
+        android:id="@+id/yellow_page_detail_phone_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_e" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/x15">
+
+        <ImageView
+            android:id="@+id/yellow_page_detail_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_yellow_page_location" />
+
+        <TextView
+            android:id="@+id/yellow_page_detail_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_toLeftOf="@id/yellow_page_detail_location"
+            android:text="地址"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

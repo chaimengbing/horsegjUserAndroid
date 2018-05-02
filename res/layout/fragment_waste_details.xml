@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner
+            android:id="@+id/my_banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x215"
+            android:background="@color/white"
+            android:padding="@dimen/x15">
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.AutoScrollViewPager
+                android:id="@+id/picslooper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.CircleIndicator
+                android:id="@+id/pageIndexor"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_alignParentBottom="true" />
+
+            <TextView
+                android:id="@+id/tv_photo_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginRight="@dimen/x10"
+                android:background="@drawable/bg_img_count"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:text="1/9" />
+        </com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="@dimen/x15"
+            android:paddingRight="@dimen/x15"
+            android:paddingTop="@dimen/x15">
+
+            <LinearLayout
+                android:id="@+id/waste_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp"
+                    tools:text="高价回收报纸、库存书、彩页、铜版纸" />
+
+                <TextView
+                    android:id="@+id/waste_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="电器回收"
+                    android:background="@drawable/shap_org_range_bg"
+                    android:textColor="@color/title_bar_bg"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/score_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/waste_layout"
+                android:layout_below="@+id/waste_layout"
+                android:layout_marginTop="@dimen/x7"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RatingBar
+                    android:id="@+id/group_detail_admin_score"
+                    style="@style/RatingBar.ShopGoods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.1" />
+
+                <TextView
+                    android:id="@+id/group_detail_admin_score_show"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x2"
+                    android:layout_weight="1"
+                    android:includeFontPadding="false"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:text="--" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/waste_layout"
+                android:layout_below="@+id/score_layout"
+                android:layout_marginTop="@dimen/x6"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_assess"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="该评分来自行业综合评估"
+                    android:textColor="@color/color_9"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_merchant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商家"
+                    android:textColor="@color/color_9"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x10" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15">
+
+            <TextView
+                android:id="@+id/service_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="服务类别"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/service_type"
+                android:text="废纸回收"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15">
+
+            <TextView
+                android:id="@+id/service_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="服务区域"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/service_area"
+                android:text="北京市区五环内"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/x15"
+                android:text="详细信息"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/x15"
+                android:text="举报"
+                android:textColor="@color/color_9"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/common_gray_line" />
+
+        <TextView
+            android:id="@+id/tv_detailed_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:lineSpacingMultiplier="1.5"
+            android:padding="@dimen/x15"
+            android:textColor="@color/color_6"
+            android:textSize="13sp"
+            tools:text="\t\t是复工报告会就覅哦啊叫欧尼就死哦发你家个哦啊囧妃奇偶\n还得发hi爱好和覅坏话就放好后\n拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解" />
+
+        <TextView
+            android:id="@+id/tv_contact"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginBottom="@dimen/x25"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_marginTop="@dimen/x25"
+            android:background="@drawable/bg_login_orange_button"
+            android:gravity="center"
+            android:text="联系方式"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</ScrollView>

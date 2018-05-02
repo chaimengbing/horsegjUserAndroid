@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/common_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x15">
+
+        <ImageView
+            android:id="@+id/common_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/back"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/common_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLength="13"
+            android:singleLine="true"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="@dimen/title_bar_text_size" />
+
+        <ImageView
+            android:id="@+id/com_share"
+            android:layout_width="@dimen/x24"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_title_phone"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/pay_cancel_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_white"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/x10"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/cancel_order"
+            android:layout_width="@dimen/x70"
+            android:layout_height="@dimen/x25"
+            android:layout_marginRight="@dimen/x10"
+            android:background="@drawable/shap_gray_range_bg"
+            android:gravity="center"
+            android:text="取消订单"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/to_pay_order"
+            android:layout_width="@dimen/x70"
+            android:layout_height="@dimen/x25"
+            android:layout_marginRight="@dimen/x5"
+            android:background="@drawable/shape_corner_pintuan"
+            android:gravity="center"
+            android:text="去支付"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/my_group_detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/pay_cancel_layout"
+        android:layout_below="@id/common_top_bar"
+        android:scrollbars="none"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/group_no_change_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x10"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/x15"
+                android:paddingRight="@dimen/x15"
+                android:visibility="gone">
+
+                <com.project.mgjandroid.ui.view.CornerImageView
+                    android:id="@+id/my_pintuan_image_1"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/x75"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_marginRight="@dimen/x15"
+                    android:layout_marginTop="@dimen/x15"
+                    android:background="@color/white"
+                    app:borderRadius="@dimen/x4"
+                    app:type="round" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_goods_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/x11"
+                    android:text="30.6"
+                    android:textColor="@color/color_3"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_price_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/my_pintuan_goods_price"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_toLeftOf="@id/my_pintuan_goods_price"
+                    android:paddingBottom="@dimen/x2"
+                    android:text="¥"
+                    android:textColor="@color/color_3"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_goods_title_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/my_pintuan_image_1"
+                    android:layout_toLeftOf="@id/my_pintuan_price_sign"
+                    android:layout_toRightOf="@id/my_pintuan_image_1"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="标题"
+                    android:textColor="@color/color_3"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_total_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/my_pintuan_image_1"
+                    android:layout_toRightOf="@id/my_pintuan_image_1"
+                    android:paddingBottom="@dimen/x2"
+                    android:text="共0件商品  合计:"
+                    android:textColor="@color/color_6"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_total_price_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/my_pintuan_total_num"
+                    android:layout_toRightOf="@id/my_pintuan_total_num"
+                    android:paddingBottom="@dimen/x2"
+                    android:text="¥"
+                    android:textColor="#fa4c3e"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/my_pintuan_total_num"
+                    android:layout_toRightOf="@id/my_pintuan_total_price_sign"
+                    android:text="24"
+                    android:textColor="#fa4c3e"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/my_group_status"
+                    android:layout_width="@dimen/x82"
+                    android:layout_height="@dimen/x82"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/x12"
+                    android:layout_marginTop="@dimen/x12" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/group_is_waiting_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_3"
+                android:padding="@dimen/x15"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/group_is_not_success"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="组团还未成功"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/group_is_not_success"
+                    android:layout_marginTop="@dimen/x8"
+                    android:text="让小伙伴们都来组团吧！"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/my_group_invite_friend"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/x25"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/shape_corner_pintuan"
+                    android:gravity="center"
+                    android:text="邀请好友"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/group_order_status_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/order_status_nopay"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/top_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/confirm_order_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/x20"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_marginTop="@dimen/x20"
+                    android:background="@drawable/group_address_icon" />
+
+
+                <RelativeLayout
+                    android:id="@+id/top_address_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_toLeftOf="@id/address_right_arrow"
+                    android:layout_toRightOf="@id/confirm_order_position"
+                    android:paddingBottom="@dimen/x15"
+                    android:paddingTop="@dimen/x15"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/address_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="陈"
+                        android:textColor="@color/color_3"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/address_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/address_name"
+                        android:text="先生"
+                        android:textColor="@color/color_3"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/address_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x10"
+                        android:layout_toRightOf="@id/address_sex"
+                        android:text="18888888888"
+                        android:textColor="@color/color_3"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/address_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/address_name"
+                        android:layout_below="@id/address_name"
+                        android:layout_marginTop="@dimen/x6"
+                        android:text="华杰大厦大钟寺13号四道口路"
+                        android:textColor="@color/color_3"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/address_icon_edit"
+                        android:padding="@dimen/x10"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.project.mgjandroid.ui.view.RoundImageView
+                    android:id="@+id/my_pintuan_user_header_img"
+                    android:layout_width="@dimen/x42"
+                    android:layout_height="@dimen/x42"
+                    android:layout_marginBottom="@dimen/x5"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_marginTop="@dimen/x5"
+                    android:src="@drawable/default_group_user_avatar" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_user_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x8"
+                    android:layout_weight="1"
+                    android:text="姓名"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_group_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/x15"
+                    android:text="已支付，未成团"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x1"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/x15"
+                android:paddingRight="@dimen/x15">
+
+                <com.project.mgjandroid.ui.view.CornerImageView
+                    android:id="@+id/my_pintuan_image_2"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="@dimen/x75"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_marginRight="@dimen/x15"
+                    android:layout_marginTop="@dimen/x15"
+                    android:background="@color/white"
+                    app:borderRadius="@dimen/x4"
+                    app:type="round" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_goods_price_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/x11"
+                    android:text="30.6"
+                    android:textColor="@color/color_3"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_price_sign_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/my_pintuan_goods_price_2"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_toLeftOf="@id/my_pintuan_goods_price_2"
+                    android:paddingBottom="@dimen/x2"
+                    android:text="¥"
+                    android:textColor="@color/color_3"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_goods_title_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/my_pintuan_image_2"
+                    android:layout_toLeftOf="@id/my_pintuan_price_sign_2"
+                    android:layout_toRightOf="@id/my_pintuan_image_2"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="标题"
+                    android:textColor="@color/color_3"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_total_price_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/my_pintuan_image_2"
+                    android:layout_alignParentRight="true"
+                    android:text="24"
+                    android:textColor="#fa4c3e"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_total_price_sign_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/my_pintuan_total_price_2"
+                    android:layout_toLeftOf="@id/my_pintuan_total_price_2"
+                    android:paddingBottom="@dimen/x2"
+                    android:text="¥"
+                    android:textColor="#fa4c3e"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_total_num_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/my_pintuan_image_2"
+                    android:layout_toLeftOf="@id/my_pintuan_total_price_sign_2"
+                    android:paddingBottom="@dimen/x2"
+                    android:text="共0件商品  合计："
+                    android:textColor="@color/color_6"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/group_order_to_group_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x1"
+                android:background="@color/white"
+                android:gravity="right|center">
+
+                <TextView
+                    android:id="@+id/group_order_to_group_detail"
+                    android:layout_width="@dimen/x80"
+                    android:layout_height="@dimen/x25"
+                    android:layout_marginBottom="@dimen/x10"
+                    android:layout_marginRight="@dimen/x15"
+                    android:layout_marginTop="@dimen/x10"
+                    android:background="@drawable/shap_pintuan_red_range_bg"
+                    android:gravity="center"
+                    android:text="查看团详情"
+                    android:textColor="@color/pintuan_red"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x1"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/x15">
+
+                <TextView
+                    android:id="@+id/my_pintuan_order_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="订单编号:"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_order_create_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/x13"
+                    android:text="下单时间:"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_group_create_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/x13"
+                    android:text="成团时间:"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/my_pintuan_order_pay_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/x13"
+                    android:text="成交时间:"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/my_pintuan_maybe_favor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@color/white"
+                android:padding="@dimen/x15"
+                android:text="你可能喜欢"
+                android:textColor="@color/color_3"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/pintuan_favor_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x1"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <include
+                    layout="@layout/item_pintuan_list_favor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    layout="@layout/item_pintuan_list_favor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

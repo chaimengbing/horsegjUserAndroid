@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/home_list_header_flipperParent_center"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x115">
+
+        <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner
+            android:id="@+id/slideshowView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:indicatorType="1">
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.AutoScrollViewPager
+                android:id="@+id/picslooper"
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.CircleIndicator
+                android:id="@+id/pageIndexor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" />
+
+        </com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/home_list_header_navigator_flipperParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:descendantFocusability="blocksDescendants">
+
+        <com.project.mgjandroid.ui.view.autoscrollviewpager.AutoScrollViewPager
+            android:id="@+id/home_list_header_navigator_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.project.mgjandroid.ui.view.autoscrollviewpager.indicator.CirclePageIndicator
+            android:id="@+id/home_list_header_navigator_indicator"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_alignBottom="@id/home_list_header_navigator_view_pager"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="@dimen/x11" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/three_pics_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/x5"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x10"
+        android:visibility="gone">
+
+        <com.project.mgjandroid.ui.view.CornerImageView
+            android:id="@+id/publicity_img_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x144"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/horsegj_default"
+            app:borderRadius="@dimen/x2"
+            app:borderThickness="1px"
+            app:borderColor="#e5e5e5"
+            app:type="round" />
+
+        <com.project.mgjandroid.ui.view.CornerImageView
+            android:id="@+id/publicity_img_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x144"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/horsegj_default"
+            android:layout_marginLeft="@dimen/x5"
+            app:borderRadius="@dimen/x2"
+            app:borderThickness="1px"
+            app:borderColor="#e5e5e5"
+            app:type="round" />
+
+        <com.project.mgjandroid.ui.view.CornerImageView
+            android:id="@+id/publicity_img_3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x144"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/horsegj_default"
+            android:layout_marginLeft="@dimen/x5"
+            app:borderRadius="@dimen/x2"
+            app:borderThickness="1px"
+            app:borderColor="#e5e5e5"
+            app:type="round" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/publicity_img_4"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x90"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="@dimen/x5"
+        android:src="@drawable/horsegj_default"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginRight="@dimen/x10"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/merchant_divider_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="center">
+
+            <View
+                android:layout_width="@dimen/x55"
+                android:layout_height="@dimen/x1"
+                android:background="@color/orange_text" />
+
+            <ImageView
+                android:layout_width="@dimen/x20"
+                android:layout_height="@dimen/x20"
+                android:src="@drawable/tuan_gou"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="@dimen/x5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/color_3"
+                android:paddingLeft="@dimen/x7"
+                android:paddingRight="@dimen/x7"
+                android:paddingBottom="@dimen/x2"
+                android:text="团购" />
+
+            <View
+                android:layout_width="@dimen/x55"
+                android:layout_height="@dimen/x1"
+                android:background="@color/orange_text" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_e" />
+
+    </FrameLayout>
+
+</LinearLayout>

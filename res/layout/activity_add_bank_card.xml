@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical"
+    tools:context="com.project.mgjandroid.ui.activity.AddBankCardActivity">
+
+    <include layout="@layout/actionbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x55"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:text="姓名："
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/card_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x6"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="持卡人姓名"
+            android:maxLength="8"
+            android:singleLine="true"
+            android:textColor="@color/color_3"
+            android:textColorHint="@color/color_9"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/card_name_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x15"
+            android:src="@drawable/ic_delete"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/x15"
+        android:background="#e5e3e3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x55"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:text="卡号："
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/card_number"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x6"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入您的银行卡号"
+            android:inputType="number"
+            android:maxLength="23"
+            android:singleLine="true"
+            android:textColor="@color/color_3"
+            android:textColorHint="@color/color_9"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/card_number_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x15"
+            android:src="@drawable/ic_delete"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/add_card_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_marginTop="@dimen/x30"
+        android:background="@drawable/shap_corner_red_bg"
+        android:enabled="false"
+        android:gravity="center"
+        android:paddingBottom="@dimen/x13"
+        android:paddingTop="@dimen/x13"
+        android:text="完成"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

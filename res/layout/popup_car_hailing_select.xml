@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/popup_car_hailing_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:text="取消"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:textColor="@color/color_3"
+        android:padding="@dimen/x15" />
+
+    <View
+        android:id="@+id/popup_pay_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_white"
+        android:layout_above="@id/popup_car_hailing_cancel" />
+
+    <ListView
+        android:id="@+id/popup_car_hailing_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/gray_white"
+        android:layout_above="@id/popup_pay_bottom_line"
+        android:scrollbars="none"
+        android:dividerHeight="1px"></ListView>
+
+</RelativeLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/refund_outside"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/listView"
+        android:background="#48000000" />
+
+    <LinearLayout
+        android:id="@+id/layout_refund"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_refund_amount"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:layout_above="@+id/tv_refresh"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="退款金额：¥0"
+            android:textColor="@color/color_6"
+            android:textSize="@dimen/x17" />
+
+        <TextView
+            android:id="@+id/tv_refund"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:background="#ff9900"
+            android:gravity="center"
+            android:text="退款"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x17" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_refund"
+        android:background="@color/white"
+        android:divider="#00000000"
+        android:dividerHeight="0dip"></ListView>
+
+
+</RelativeLayout>

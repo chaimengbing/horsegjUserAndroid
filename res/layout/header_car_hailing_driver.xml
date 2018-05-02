@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/car_hailing_evaluate_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x9"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_marginTop="@dimen/x19">
+
+            <com.project.mgjandroid.ui.view.RoundImageView
+                android:id="@+id/car_hailing_detail_order_driver_header"
+                android:layout_width="@dimen/x55"
+                android:layout_height="@dimen/x55"
+                android:layout_marginRight="@dimen/x20"
+                android:src="@drawable/user_avatar"
+                app:border_outside_color="#88ffffff"
+                app:border_thickness="@dimen/x5" />
+
+            <TextView
+                android:id="@+id/car_hailing_detail_order_driver_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="@dimen/x200"
+                android:layout_marginTop="@dimen/x8"
+                android:layout_toRightOf="@id/car_hailing_detail_order_driver_header"
+                android:text="司机姓名"
+                android:textColor="@color/color_3"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/car_hailing_detail_order_driver_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/car_hailing_detail_order_driver_name"
+                android:layout_marginLeft="@dimen/x5"
+                android:layout_toRightOf="@id/car_hailing_detail_order_driver_name"
+                android:src="@drawable/icon_driver_male" />
+
+            <RatingBar
+                android:id="@+id/car_hailing_detail_order_driver_score"
+                style="@style/RatingBar.ShopGoods"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/car_hailing_detail_order_driver_name"
+                android:layout_marginTop="@dimen/x6"
+                android:layout_toRightOf="@id/car_hailing_detail_order_driver_header"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.1" />
+
+            <TextView
+                android:id="@+id/car_hailing_detail_order_driver_tv_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/car_hailing_detail_order_driver_score"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x2"
+                android:layout_toRightOf="@id/car_hailing_detail_order_driver_score"
+                android:includeFontPadding="false"
+                android:text=""
+                android:textColor="@color/orange_text"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:background="@color/color_e5" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginTop="@dimen/x16"
+            android:text="车辆"
+            android:textColor="@color/color_3"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x16"
+            android:layout_marginLeft="@dimen/x33"
+            android:layout_marginTop="@dimen/x8"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/car_hailing_driver_car_logo"
+                android:layout_width="@dimen/x15"
+                android:layout_height="@dimen/x15"
+                android:layout_marginRight="@dimen/x9" />
+
+            <TextView
+                android:id="@+id/car_hailing_driver_car_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="车型"
+                android:textColor="@color/color_6"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_e5" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x5"
+            android:background="@color/gray_white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_e5" />
+
+        <LinearLayout
+            android:id="@+id/driver_confirm_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/x15">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x45"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/x20"
+                android:text="认证"
+                android:textColor="@color/color_3"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_e5" />
+
+            <RelativeLayout
+                android:id="@+id/driver_car_master_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/x20">
+
+                <ImageView
+                    android:id="@+id/icon_car_master_confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/x11"
+                    android:layout_marginTop="@dimen/x10"
+                    android:src="@drawable/image_car_master_confirm" />
+
+                <TextView
+                    android:id="@+id/title_car_master_confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x12"
+                    android:layout_toRightOf="@id/icon_car_master_confirm"
+                    android:text="车主认证"
+                    android:textColor="@color/color_3"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="@dimen/x43"
+                    android:layout_height="@dimen/x15"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:layout_marginTop="@dimen/x12"
+                    android:layout_toRightOf="@id/title_car_master_confirm"
+                    android:background="@drawable/shap_authentication_bg"
+                    android:gravity="center"
+                    android:text="已通过"
+                    android:textColor="#33cc66"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title_car_master_confirm"
+                    android:layout_marginTop="@dimen/x6"
+                    android:layout_toRightOf="@id/icon_car_master_confirm"
+                    android:text="驾驶证  行驶证严格审核认证"
+                    android:textColor="@color/color_3"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/driver_true_name_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/x20"
+                android:paddingTop="@dimen/x10">
+
+                <ImageView
+                    android:id="@+id/icon_true_name_confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/x11"
+                    android:src="@drawable/image_true_name_confirm" />
+
+                <TextView
+                    android:id="@+id/title_true_name_confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x2"
+                    android:layout_toRightOf="@id/icon_true_name_confirm"
+                    android:text="实名认证"
+                    android:textColor="@color/color_3"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="@dimen/x43"
+                    android:layout_height="@dimen/x15"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:layout_marginTop="@dimen/x2"
+                    android:layout_toRightOf="@id/title_true_name_confirm"
+                    android:background="@drawable/shap_authentication_bg"
+                    android:gravity="center"
+                    android:text="已通过"
+                    android:textColor="#33cc66"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title_true_name_confirm"
+                    android:layout_marginTop="@dimen/x6"
+                    android:layout_toRightOf="@id/icon_true_name_confirm"
+                    android:text="身份信息已备案"
+                    android:textColor="@color/color_3"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_e5" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x5"
+            android:background="@color/gray_white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_e5" />
+
+        <TextView
+            android:id="@+id/driver_travel_count"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x45"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/x20"
+            android:text="出行()"
+            android:textColor="@color/color_3"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_e5" />
+
+    </LinearLayout>
+</LinearLayout>

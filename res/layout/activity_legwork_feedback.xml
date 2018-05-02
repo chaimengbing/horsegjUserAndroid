@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_legwork_headlayout" />
+
+    <View
+        style="@style/horizontal_divider_line"
+        android:layout_marginTop="@dimen/x10" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x122"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/x12"
+        android:paddingLeft="@dimen/x15"
+        android:paddingRight="@dimen/x15"
+        android:paddingTop="@dimen/x15">
+
+        <EditText
+            android:id="@+id/et_company_profiles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="请留下您的宝贵意见，我们将努力改进"
+            android:maxLength="500"
+            android:minLines="7"
+            android:textColor="@color/color_3"
+            android:textColorHint="@color/grey_white_pressed"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_profiles_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="不少于5个字"
+            android:textColor="@color/grey_white_pressed"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+    <View style="@style/horizontal_divider_line" />
+
+    <View
+        style="@style/horizontal_divider_line"
+        android:layout_marginTop="@dimen/x10" />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:hint="请留下您的手机号码"
+        android:inputType="number"
+        android:maxLength="11"
+        android:paddingLeft="@dimen/x15"
+        android:paddingRight="@dimen/x15"
+        android:textColorHint="@color/grey_white_pressed"
+        android:textSize="13sp" />
+
+    <View style="@style/horizontal_divider_line" />
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x42"
+        android:layout_marginBottom="@dimen/x10"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:layout_marginTop="@dimen/x30"
+        android:background="@drawable/bg_legwork_payment"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/color_3"
+        android:textSize="17sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="客服热线："
+            android:textColor="@color/color_9"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_feed_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xxx-xxxxxxxx"
+            android:textColor="@color/color_9"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

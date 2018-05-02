@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/yellow_page_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:background="@color/gray_white"
+        android:paddingLeft="@dimen/x5"
+        android:visibility="gone"
+        android:paddingRight="@dimen/x5">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/x10"
+            android:background="@drawable/shap_car_hailing_white_bg"
+            android:gravity="center"
+            android:textColor="@color/color_c"
+            android:textSize="15sp"
+            android:text="搜索商家、电话、地址" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/search_gray"
+            android:layout_marginLeft="@dimen/x70" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/home_list_header_flipperParent_center"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x115">
+
+        <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner
+            android:id="@+id/slideshowView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:indicatorType="0">
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.AutoScrollViewPager
+                android:id="@+id/picslooper"
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.CircleIndicator
+                android:id="@+id/pageIndexor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" />
+
+        </com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="热门号码"
+        android:textSize="13sp"
+        android:textColor="@color/color_3"
+        android:layout_margin="@dimen/x15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_e" />
+
+    <RelativeLayout
+        android:id="@+id/home_list_header_navigator_flipperParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:descendantFocusability="blocksDescendants">
+
+        <com.project.mgjandroid.ui.view.autoscrollviewpager.AutoScrollViewPager
+            android:id="@+id/home_list_header_navigator_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.project.mgjandroid.ui.view.autoscrollviewpager.indicator.CirclePageIndicator
+            android:id="@+id/home_list_header_navigator_indicator"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_alignBottom="@id/home_list_header_navigator_view_pager"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="@dimen/x11" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="附近生活"
+        android:textSize="13sp"
+        android:textColor="@color/color_3"
+        android:layout_margin="@dimen/x15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_e" />
+
+</LinearLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/super_market_no_goods"
+        android:layout_gravity="center"
+        android:text="这里还没有商品"
+        android:textColor="@color/color_9"
+        android:textSize="14sp"
+        android:drawablePadding="@dimen/x20" />
+
+</FrameLayout>

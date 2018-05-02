@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_goods_sauce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_6"
+        android:textSize="13sp"
+        android:paddingRight="@dimen/x10"
+        android:paddingTop="@dimen/x5" />
+
+    <com.project.mgjandroid.ui.view.FlowLayout
+        android:id="@+id/goods_sauce_flow_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x5"
+        android:orientation="horizontal" />
+</LinearLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/x26"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/item_layout"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="@dimen/x41"
+        android:layout_marginTop="@dimen/x4"
+        android:layout_marginBottom="@dimen/x4"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_6" />
+
+        <LinearLayout
+            android:id="@+id/layout_cash_coupon_refund"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/group_buying_refund"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_voucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x10"
+                android:gravity="center"
+                android:textColor="@color/color_6"
+                android:textSize="@dimen/x14" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="@dimen/x25"
+                android:background="@color/color_e5" />
+
+            <TextView
+                android:id="@+id/tv_coupon_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center"
+                android:textColor="@color/color_6"
+                android:textSize="@dimen/x14"
+
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_6" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/img_refund"
+        android:layout_width="@dimen/x20"
+        android:layout_height="@dimen/x20"
+        android:layout_marginLeft="@dimen/x20"
+        android:layout_marginRight="@dimen/x26"
+        android:background="@drawable/group_buying_circle_gray"
+        android:button="@null"
+        android:checked="false" />
+</LinearLayout>

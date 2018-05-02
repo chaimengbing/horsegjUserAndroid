@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/x5"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x25">
+
+            <TextView
+                android:id="@+id/new_home_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/new_home_page"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:textSize="12dp"
+                android:paddingLeft="@dimen/x5" />
+
+            <TextView
+                android:id="@+id/tv_More"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/x15"
+                android:drawablePadding="@dimen/x5"
+                android:drawableRight="@drawable/new_ic_more"
+                android:gravity="center_vertical"
+                android:text="查看更多"
+                android:textColor="#ff9900"
+                android:textSize="11dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_relative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.project.mgjandroid.ui.view.RoundImageView
+                android:id="@+id/new_recruit_user_avatar"
+                android:layout_width="@dimen/x80"
+                android:layout_height="@dimen/x80"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x15"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sir_default_icon"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/new_recruit_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/new_recruit_top_line"
+                android:layout_toRightOf="@id/new_recruit_user_avatar"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/x15">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/new_recruit_position_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/x4"
+                            android:src="@drawable/icon_recruit_job" />
+
+                        <TextView
+                            android:id="@+id/new_recruit_position_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="厨师"
+                            android:textColor="@color/color_6"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/new_recruit_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/new_recruit_position_layout"
+                        android:text="川菜厨师"
+                        android:textColor="@color/color_3"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x12"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/new_recruit_salary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3000-5000元/月"
+                        android:textColor="@color/pintuan_red"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/new_recruit_user_introduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="性别/年龄/学历/经验"
+                        android:textColor="@color/color_6"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/new_recruit_is_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="已置顶"
+                        android:textColor="@color/green"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/new_recruit_company_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="right"
+                        android:text="2016.10.11"
+                        android:textColor="@color/color_9"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x12"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/new_recruit_update_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更新时间:2016-02-02"
+                        android:textColor="@color/color_9"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/new_recruit_welfare_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/x2"
+                            android:background="@drawable/shap_org_range_bg_recruit_mark"
+                            android:text="五险一金"
+                            android:textColor="@color/title_bar_bg"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/x2"
+                            android:background="@drawable/shap_org_range_bg_recruit_mark"
+                            android:text="餐补"
+                            android:textColor="@color/title_bar_bg"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/x2"
+                            android:background="@drawable/shap_org_range_bg_recruit_mark"
+                            android:text="交通补助"
+                            android:textColor="@color/title_bar_bg"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/x2"
+                            android:background="@drawable/shap_org_range_bg_recruit_mark"
+                            android:text="车补"
+                            android:textColor="@color/title_bar_bg"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="…"
+                            android:textColor="@color/title_bar_bg" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="查看详情"
+                            android:textColor="@color/color_9"
+                            android:textSize="13sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x2"
+                            android:src="@drawable/right_arrow_gray" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/new_recruit_company_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginTop="@dimen/x10"
+                    android:background="@drawable/shape_dashed"
+                    android:layerType="software"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/new_recruit_company_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x12"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/new_recruit_company_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="江西赛宝"
+                        android:textColor="@color/color_9"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/new_recruit_company_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="私企"
+                        android:textColor="@color/color_9"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/recruit_bottom_line"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@id/new_recruit_content_layout"
+                android:background="#dedede" />
+
+            <View
+                android:id="@+id/recruit_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x10"
+                android:layout_below="@+id/recruit_bottom_line"
+                android:background="@color/gray_white"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

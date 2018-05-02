@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/x12"
+    android:paddingRight="@dimen/x12"
+    android:paddingTop="@dimen/x10">
+
+    <LinearLayout
+        android:id="@+id/item_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/normal_redbag_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical">
+
+            <com.project.mgjandroid.ui.view.CornerImageView
+                android:id="@+id/merchant_icon"
+                android:layout_width="@dimen/x55"
+                android:layout_height="@dimen/x55"
+                android:layout_marginLeft="@dimen/x19"
+                android:layout_marginTop="@dimen/x19"
+                android:scaleType="centerCrop"
+                app:borderRadius="@dimen/x4"
+                app:type="round"
+                app:borderThickness="1px"
+                app:borderColor="#e5e5e5"
+                android:src="@drawable/horsegj_default" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x21"
+                android:layout_toRightOf="@id/merchant_icon"
+                android:layout_toLeftOf="@+id/layout_amt"
+                android:layout_marginLeft="@dimen/x10"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/merchant_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/color_3"
+                    android:textSize="19sp"
+                    tools:text="麻辣女巫" />
+
+                <TextView
+                    android:id="@+id/tv_red_bag_restrict"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textColor="@color/color_9"
+                    android:layout_marginTop="@dimen/x14"
+                    android:textSize="14sp"
+                    tools:text="满48元可用" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/layout_amt"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x77"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x40">
+
+                <TextView
+                    android:id="@+id/discount_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:layout_marginLeft="@dimen/x2"
+                    android:textColor="@color/color_c"
+                    android:textSize="35sp"
+                    tools:text="18"
+                    android:layout_gravity="center" />
+
+                <ImageView
+                    android:id="@+id/iv_redbag"
+                    android:layout_width="@dimen/x77"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/redbag_invalid"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x27">
+
+            <TextView
+                android:id="@+id/effect_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_3"
+                android:textSize="10sp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x20"
+                tools:text="有效期至 2016.05.27" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_3"
+                android:textSize="12sp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x15"
+                android:layout_alignParentRight="true"
+                tools:text="外卖" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

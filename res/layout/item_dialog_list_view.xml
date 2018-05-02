@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/bank_label"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x55"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/x20"
+        android:paddingRight="@dimen/x20">
+
+        <ImageView
+            android:id="@+id/bank_logo"
+            android:layout_width="@dimen/x20"
+            android:layout_height="@dimen/x20" />
+
+        <TextView
+            android:id="@+id/bank_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_weight="1"
+            android:textColor="@color/color_3"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:src="@drawable/bg_blue_check_or_uncheck" />
+    </LinearLayout>
+
+</LinearLayout>

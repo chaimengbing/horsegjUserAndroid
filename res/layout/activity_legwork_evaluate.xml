@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bao="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_legwork_headlayout" />
+
+    <View style="@style/horizontal_divider_line" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x51"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingLeft="@dimen/x15"
+        android:paddingRight="@dimen/x15">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务评分"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+        <com.project.mgjandroid.ui.view.RatingBarView
+            android:id="@+id/rbv_overall_evaluation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            bao:starCount="5"
+            bao:starEmpty="@drawable/ic_legwork_unchecked_start"
+            bao:starFill="@drawable/ic_legwork_selected_start"
+            bao:starImageSize="24dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/x12"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginTop="@dimen/x12"
+        android:text="详细评价"
+        android:textColor="@color/color_9"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/x12"
+        android:paddingLeft="@dimen/x15"
+        android:paddingRight="@dimen/x15"
+        android:paddingTop="@dimen/x13">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_legwork_content"
+            android:padding="@dimen/x5">
+
+            <EditText
+                android:id="@+id/et_company_profiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="欢迎您对我们做出评价，以便我们能更好的改进服务"
+                android:maxLength="300"
+                android:minLines="7"
+                android:paddingLeft="@dimen/x5"
+                android:paddingRight="@dimen/x5"
+                android:textColor="@color/color_3"
+                android:textColorHint="@color/grey_white_pressed"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_profiles_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/et_company_profiles"
+                android:layout_below="@+id/et_company_profiles"
+                android:layout_margin="@dimen/x5"
+                android:text="0/300字"
+                android:textColor="@color/grey_white_pressed"
+                android:textSize="10sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_to_evaluation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:layout_alignParentBottom="true"
+            android:background="#f7d473"
+            android:gravity="center"
+            android:text="发表评价"
+            android:textColor="@color/color_3"
+            android:textSize="17sp" />
+    </RelativeLayout>
+</LinearLayout>

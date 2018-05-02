@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical"
+    tools:context="com.project.mgjandroid.ui.activity.JobMessageActivity">
+
+    <include layout="@layout/actionbar" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@drawable/et_bg_publish_info"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/x10"
+                android:paddingRight="@dimen/x10">
+
+                <LinearLayout
+                    android:id="@+id/name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/x16"
+                    android:paddingTop="@dimen/x16">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="职位名称"
+                        android:textColor="@color/color_6"
+                        android:textSize="@dimen/publish_text_size" />
+
+                    <View style="@style/publish_vertical_divider_line" />
+
+                    <EditText
+                        android:id="@+id/job_name"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请填写"
+                        android:maxLength="12"
+                        android:singleLine="true"
+                        android:textColor="@color/color_3"
+                        android:textColorHint="@color/grey_white_pressed"
+                        android:textSize="@dimen/publish_text_size" />
+
+                </LinearLayout>
+
+                <View style="@style/horizontal_divider_line" />
+
+                <LinearLayout
+                    android:id="@+id/nature_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/x16"
+                    android:paddingTop="@dimen/x16">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="职位类别"
+                        android:textColor="@color/color_6"
+                        android:textSize="@dimen/publish_text_size" />
+
+                    <View style="@style/publish_vertical_divider_line" />
+
+                    <TextView
+                        android:id="@+id/job_type"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/x10"
+                        android:drawableRight="@drawable/right_arrow_gray"
+                        android:gravity="center_vertical"
+                        android:hint="请选择"
+                        android:singleLine="true"
+                        android:textColor="@color/color_3"
+                        android:textColorHint="@color/grey_white_pressed"
+                        android:textSize="@dimen/publish_text_size" />
+
+                </LinearLayout>
+
+                <View style="@style/horizontal_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/x16"
+                    android:paddingTop="@dimen/x16">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="选择地区"
+                        android:textColor="@color/color_6"
+                        android:textSize="@dimen/publish_text_size" />
+
+                    <View style="@style/publish_vertical_divider_line" />
+
+                    <TextView
+                        android:id="@+id/job_area"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/x10"
+                        android:drawableRight="@drawable/right_arrow_gray"
+                        android:gravity="center_vertical"
+                        android:hint="请选择信息发布的区域"
+                        android:singleLine="true"
+                        android:textColor="@color/color_3"
+                        android:textColorHint="@color/grey_white_pressed"
+                        android:textSize="@dimen/publish_text_size" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x190"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15"
+                android:layout_marginTop="@dimen/x5">
+
+                <EditText
+                    android:id="@+id/job_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/et_bg_publish_info"
+                    android:gravity="top"
+                    android:hint="请填写职位描述(不少于20字)"
+                    android:lines="8"
+                    android:maxLength="500"
+                    android:padding="@dimen/x10"
+                    android:textColor="@color/color_3"
+                    android:textColorHint="@color/color_9"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_content_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/x10"
+                    android:layout_marginRight="@dimen/x10"
+                    android:text="0/500字"
+                    android:textColor="@color/color_9"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15"
+                android:layout_marginTop="@dimen/x5"
+                android:background="@drawable/et_bg_publish_info"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x48"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x10"
+                        android:layout_weight="1"
+                        android:text="联系电话"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/publish_text_size" />
+
+                    <EditText
+                        android:id="@+id/job_phone"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.6"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请填写"
+                        android:inputType="phone"
+                        android:maxLength="11"
+                        android:singleLine="true"
+                        android:textColor="@color/color_3"
+                        android:textColorHint="@color/color_9"
+                        android:textSize="14sp" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.4"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/job_get_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x10"
+                            android:background="@drawable/bg_job_get_code_shape"
+                            android:gravity="center"
+                            android:padding="@dimen/x7"
+                            android:text="获取验证码"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/job_change"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/x10"
+                            android:background="@drawable/bg_red_shape"
+                            android:paddingBottom="@dimen/x7"
+                            android:paddingLeft="@dimen/x13"
+                            android:paddingRight="@dimen/x13"
+                            android:paddingTop="@dimen/x7"
+                            android:text="更改"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/job_get_code_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/common_gray_line"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/job_code_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x48"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x10"
+                        android:layout_weight="1"
+                        android:text="验证码"
+                        android:textColor="@color/color_3"
+                        android:textSize="@dimen/publish_text_size" />
+
+                    <EditText
+                        android:id="@+id/job_code"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="请填写"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textColor="@color/color_3"
+                        android:textColorHint="@color/color_9"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/job_publish"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x43"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_marginTop="@dimen/x25"
+                android:background="@drawable/bg_login_orange_button"
+                android:gravity="center"
+                android:text="发布"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

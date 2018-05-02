@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>SDK测试</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <script src="js/zepto_1.1.3.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+<button class="btn center-block btn-primary buttonSize pay">pay</button>
+<div class="payResult">
+    pay:
+</div>
+<button class="btn center-block btn-primary buttonSize login">login</button>
+<div class="loginResult">
+    login:
+</div>
+<button class="btn center-block btn-primary buttonSize toast">toast</button>
+<div class="toastResult">
+    toast:
+</div>
+<button class="btn center-block btn-primary buttonSize callTel">callTel</button>
+<div class="callTelResult">
+    callTel:
+</div>
+<button class="btn center-block btn-primary buttonSize getToken">getToken</button>
+<div class="tokenResult">
+    getToken:
+</div>
+<button class="btn center-block btn-primary buttonSize share">share</button>
+<div class="shareResult">
+    share:
+</div>
+<button class="btn center-block btn-primary buttonSize backUrl">backUrl</button>
+<div class="backUrlResult">
+    backUrl:
+</div>
+<button class="btn center-block btn-primary buttonSize confirm">confirm</button>
+<div class="confirmResult">
+    confirm:
+</div>
+<button class="btn center-block btn-primary buttonSize alert">alert</button>
+<div class="alertResult">
+    alert:
+</div>
+<button class="btn center-block btn-primary buttonSize showRightItem">showRightItem</button>
+<div class="showRightItemResult">
+    showRightItem:
+</div>
+<button class="btn center-block btn-primary buttonSize finish">exitApp</button>
+<div class="nativedata">
+    nativeData:
+</div>
+<button class="btn center-block btn-primary buttonSize selectAddress">selectAddress</button>
+<div class="selectAddressResult">
+    selectAddress:
+</div>
+<button class="btn center-block btn-primary buttonSize getCurrentLocation">getCurrentLocation
+</button>
+<div class="getCurrentLocationResult">
+    getCurrentLocation:
+</div>
+<button class="btn center-block btn-primary buttonSize getSelectLocation">getSelectLocation
+</button>
+<div class="getSelectLocationResult">
+    getSelectLocation:
+</div>
+<button class="btn center-block btn-primary buttonSize categoryAction">categoryAction</button>
+<div class="categoryActionResult">
+    categoryAction:
+</div>
+<button class="btn center-block btn-primary buttonSize scanCode">scanCode</button>
+<div class="scanCodeResult">
+    scanCode:
+</div>
+<a href="a.html">This is a link</a>
+</body>
+<script type="text/javascript">
+		$(".pay").click(function() {
+			ready(function() {
+				YLJsBridge.call(
+					'pay',
+					{
+						orderId: '1802100000160629'
+					},
+					function(result) {
+						$(".payResult").html("payResult:" + JSON.stringify(result));
+					}
+				);
+			})
+		})
+		$(".login").click(function() {
+			ready(function() {
+				YLJsBridge.call(
+					'login',
+					{
+						phoneNo: '1881071',
+						username: 'ylsdk'
+					},
+					function(result) {
+						$(".loginResult").html("loginResult:" + JSON.stringify(result));
+					}
+				);
+			})
+		})
+		$(".toast").click(function() {
+			YLJsBridge.call(
+                'toast',
+                {
+                	msg: '操作成功',
+                	type: 1,
+                },
+                function(result) {
+                    $(".toastResult").html("toastResult:" + result.toast);
+				}
+            );
+		})
+		$(".callTel").click(function() {
+			ready(function() {
+				YLJsBridge.call('callTel', {
+				  phoneNum: '10086'
+				}, function(result){
+					if(result.ok) {
+						$(".callTelResult").html("callTelResult:" + JSON.stringify(result));
+					} else {
+						$(".callTelResult").html("callTelResult:" + '用户取消了');
+					}
+				});
+			})
+		})
+		$(".getToken").click(function() {
+			ready(function() {
+				YLJsBridge.call('getToken', {}, function(result){
+					$(".tokenResult").html("tokenResult:" + JSON.stringify(result));
+				});
+			})
+		})
+		$(".share").click(function() {
+			ready(function() {
+				YLJsBridge.call('share', {
+					title: '十一月七日',
+				  	des: '无',
+				  	img: '',
+				  	sharedUrl: 'http://120.24.16.64/maguanjia/merchantShare.html?merchantId=375'
+				}, function(result){
+					$(".shareResult").html("shareResult:" + JSON.stringify(result));
+				});
+			})
+		})
+		$(".backUrl").click(function() {
+			ready(function() {
+				YLJsBridge.call('backUrl', {
+					url:'返回地址url'
+				}, function(result){
+					$(".backUrlResult").html("backUrlResult:" + JSON.stringify(result));
+				});
+			})
+		})
+		$(".confirm").click(function() {
+			ready(function() {
+				YLJsBridge.call('confirm', {
+				  title: '亲',
+				  message: '确定要退出吗？',
+				  okButton: '是',
+				  cancelButton: '否'
+				}, function(result){
+					if(result.ok) {
+						$(".confirmResult").html("confirmResult:" + JSON.stringify(result));
+					} else {
+						$(".confirmResult").html("confirmResult:" + '用户取消了');
+					}
+				});
+			})
+		})
+
+		$(".alert").click(function() {
+			ready(function() {
+				YLJsBridge.call('alert', {
+				  title: '亲',
+				  message: '我帅吧',
+				  button: '是',
+				}, function(result){
+					$(".alertResult").html("alertResult: 用户点击了确定");
+				});
+			})
+		})
+
+		$(".showRightItem").click(function() {
+			ready(function() {
+				YLJsBridge.call('showRightItem', {
+				  isShow: true,
+				  message: '点击',
+				}, function(result){
+					$(".showRightItemResult").html("showRightItemResult:" + JSON.stringify(result));
+				});
+			})
+		})
+
+		$(".finish").click(function() {
+			YLJsBridge.call(
+                'exitApp'
+            );
+		})
+
+		$(".selectAddress").click(function() {
+			ready(function() {
+				YLJsBridge.call('selectAddress', {
+				  isShow: true,
+				  message: '点击',
+				}, function(result){
+					$(".selectAddressResult").html("selectAddressResult:" + JSON.stringify(result));
+				});
+			})
+		})
+
+		$(".getCurrentLocation").click(function() {
+			ready(function() {
+				YLJsBridge.call('getCurrentLocation', {}, function(result){
+					$(".getCurrentLocationResult").html("getCurrentLocationResult:" + JSON.stringify(result));
+				});
+			})
+		})
+
+		$(".getSelectLocation").click(function() {
+			ready(function() {
+				YLJsBridge.call('getSelectLocation', {}, function(result){
+					$(".getSelectLocationResult").html("getSelectLocationResult:" + JSON.stringify(result));
+				});
+			})
+		})
+
+		$(".categoryAction").click(function() {
+			ready(function() {
+				YLJsBridge.call('categoryAction', {
+					gotoType: 4,
+				  	categoryName: '休闲旅游',
+				  	groupPurchaseCategoryId: -1,
+				  	childGroupPurchaseCategoryId: -2
+				}, function(result){
+					$(".categoryActionResult").html("categoryAction:" + JSON.stringify(result));
+				});
+			})
+		})
+
+		$(".scanCode").click(function() {
+			ready(function() {
+				YLJsBridge.call('scanCode', {
+
+				}, function(result){
+					$(".scanCodeResult").html("scanCode:" + JSON.stringify(result));
+				});
+			})
+		})
+
+		function ready(callback) {
+            if (window.YLJsBridge) {
+                callback && callback();
+            } else {
+                document.addEventListener(
+                    'YLJsBridgeReady',
+                    callback,
+                    false
+                );
+            }
+        }
+
+		ready(function() {
+            YLJsBridge.call(
+                'toast',
+                {
+                	msg: '检测到JsBridge',
+                	type: 1,
+                	duration: 2000
+                }
+            );
+		})
+
+		ready(function() {
+            YLJsBridge.init(function(message, callback) {
+                console.log('JS got a message', message);
+                var data = {
+                    respond: 'ok'
+                };
+                console.log('JS responding with', data);
+                callback(data);
+            });
+
+            YLJsBridge.registerHandler("putData", function(data, callback) {
+                $(".nativedata").html("nativeData:" + data.msg);
+                var result = {
+                    respond: 'ok'
+                };
+                callback(result);
+            });
+        })
+
+		javascript:YLJsBridge._sendEventFromNative('pause');
+        document.addEventListener('pause', function (e) {
+		  alert('paused');
+		}, false);
+
+		document.addEventListener('resume', function (e) {
+		  alert('resumed');
+		}, false);
+
+		function rightItemClick(){
+		    alert('rightItemClick');
+		}
+
+
+
+
+
+
+</script>
+
+</html>

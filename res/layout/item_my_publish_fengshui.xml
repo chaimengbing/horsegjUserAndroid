@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@drawable/bg_white_shape_stroke">
+
+            <RelativeLayout
+                android:id="@+id/new_fengshui_content_layout_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.project.mgjandroid.ui.view.CornerImageView
+                    android:layout_marginLeft="@dimen/x10"
+                    android:id="@+id/new_fengshui_user_avatar"
+                    android:layout_width="@dimen/x86"
+                    android:layout_height="@dimen/x66"
+                    app:type="round"
+                    app:borderRadius="@dimen/x4"
+                    app:borderThickness="1px"
+                    app:borderColor="#e5e5e5"
+                    android:src="@drawable/user_avatar"
+                    android:visibility="visible"
+                    android:layout_centerVertical="true" />
+
+                <LinearLayout
+                    android:id="@+id/new_fengshui_content_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/new_fengshui_user_avatar"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/x15"
+                    android:paddingRight="@dimen/x15"
+                    android:paddingTop="@dimen/x15">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@id/name_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/fengshui_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxEms="4"
+                                android:singleLine="true"
+                                android:text="尚明"
+                                android:textColor="@color/color_3"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/fengshui_time"
+                                android:layout_width="13dp"
+                                android:layout_height="13dp"
+                                android:layout_marginLeft="@dimen/x10"
+                                android:layout_marginRight="@dimen/x5"
+                                android:textColor="@color/org_yellow"
+                                android:gravity="center"
+                                android:textSize="10sp"
+                                android:text="年"
+                                android:background="@drawable/bg_yellow_circular_circle" />
+
+                            <TextView
+                                android:id="@+id/fengshui_practiceTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5年"
+                                android:textColor="@color/org_yellow"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/province_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/name_layout"
+                        android:layout_below="@+id/name_layout"
+                        android:layout_marginTop="@dimen/x7"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_fengshui_province"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="四川省"
+                            android:textColor="@color/color_6"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/fengshui_is_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="已置顶"
+                            android:textColor="@color/green"
+                            android:textSize="13sp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/x15"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/law_be_good_at_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/province_layout"
+                            android:layout_below="@+id/province_layout"
+                            android:layout_marginTop="@dimen/x6"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/fengshui_be_good_at"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="擅长：八字算命  五行改运  抽签占卜  男女婚配  民俗测算"
+                                android:textColor="@color/color_9"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/my_publish_bottom_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_below="@id/new_fengshui_content_layout_new"
+                android:background="@drawable/shape_dashed"
+                android:layerType="software"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/my_publish_bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_publish_bottom_line"
+                android:layout_marginBottom="@dimen/x8"
+                android:layout_marginTop="@dimen/x8"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/x15"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/my_publish_republic"
+                    android:layout_width="@dimen/x70"
+                    android:layout_height="@dimen/x25"
+                    android:background="@drawable/shap_gray_range_bg"
+                    android:gravity="center"
+                    android:text="重新发布"
+                    android:textColor="@color/color_9"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/my_publish_pay_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@drawable/shape_dashed"
+                android:layerType="software"
+                android:layout_below="@id/new_fengshui_content_layout_new"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/my_publish_pay_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x8"
+                android:layout_below="@id/new_fengshui_content_layout_new"
+                android:layout_marginBottom="@dimen/x8"
+                android:paddingRight="@dimen/x15"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/my_publish_toPay"
+                    android:layout_width="@dimen/x70"
+                    android:layout_height="@dimen/x25"
+                    android:text="去支付"
+                    android:gravity="center"
+                    android:background="@drawable/shap_red_range_bg"
+                    android:textColor="@color/red"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_more_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="@dimen/x25"
+            android:layout_marginTop="@dimen/x15"
+            android:padding="@dimen/x8"
+            android:scaleType="centerCrop"
+            android:src="@drawable/my_publish_delete"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/my_publish_fengshui_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/x65"
+            android:layout_marginTop="@dimen/x35"
+            android:src="@drawable/info_checking"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/setting_layout"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/x65"
+            android:layout_marginTop="@dimen/x20"
+            android:layout_toLeftOf="@id/iv_more_setting"
+            android:background="#A9000000"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_refresh"
+                android:drawablePadding="@dimen/x8"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x18"
+                android:paddingRight="@dimen/x18"
+                android:text="刷新"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_sticky"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_sticky"
+                android:drawablePadding="@dimen/x12"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x18"
+                android:paddingRight="@dimen/x18"
+                android:text="置顶"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_del"
+                android:drawablePadding="@dimen/x7"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x18"
+                android:paddingRight="@dimen/x18"
+                android:text="删除"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/item_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@drawable/bg_gray_shape"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/item_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bg_white_corner_stroke"
+                android:padding="@dimen/x8"
+                android:text="提交审核中"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_state_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x15"
+                android:background="@drawable/bg_white_corner_stroke"
+                android:padding="@dimen/x8"
+                android:text="删除"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </FrameLayout>
+</RelativeLayout>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ededed"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/login_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bar_height"
+            android:background="@drawable/title_bar_bg"
+            android:paddingLeft="@dimen/x10"
+            android:paddingRight="@dimen/x10">
+
+            <ImageView
+                android:id="@+id/login_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_back" />
+
+            <TextView
+                android:id="@+id/login_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:text="@string/register"
+                android:textColor="@color/title_tv_festival"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/login_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginRight="@dimen/x10"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:singleLine="true"
+                android:text="@string/login_by_sms"
+                android:textColor="@color/title_tv_festival"
+                android:textSize="@dimen/title_bar_text_size" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/sms_login_mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="@string/login_by_sms_phone_number"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:padding="@dimen/x15"
+                        android:singleLine="true"
+                        android:textColorHint="@color/color_b"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_phone_del"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_marginRight="@dimen/x5"
+                        android:src="@drawable/ic_delete"
+                        android:visibility="gone" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/sms_login_get_code"
+                    android:layout_width="@dimen/x100"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/x5"
+                    android:background="@drawable/bg_login_orange_button"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/x10"
+                    android:paddingRight="@dimen/x10"
+                    android:text="获取验证码"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#ededed" />
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/sms_login_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/login_by_sms_code"
+                    android:inputType="number"
+                    android:padding="@dimen/x15"
+                    android:singleLine="true"
+                    android:textColorHint="@color/color_b"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_code_del"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/x10"
+                    android:src="@drawable/ic_delete"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/x15"
+            android:text="@string/login_by_sms_notice"
+            android:textColor="@color/color_9"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/sms_login_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x15"
+            android:background="@drawable/bg_login_orange_button"
+            android:padding="@dimen/x10"
+            android:text="@string/login_by_sms_start"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/login_by_third_party"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/login_by_weichat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/x12">
+
+            <ImageView
+                android:layout_width="@dimen/x40"
+                android:layout_height="@dimen/x40"
+                android:scaleType="centerCrop"
+                android:src="@drawable/second_share_wechat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x6"
+                android:text="@string/wechat"
+                android:textColor="@color/gray_3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/login_by_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x10"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/x20">
+
+            <ImageView
+                android:layout_width="@dimen/x40"
+                android:layout_height="@dimen/x40"
+                android:scaleType="centerCrop"
+                android:src="@drawable/second_share_qq" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x6"
+                android:text="@string/user_info_acount_bind_qq"
+                android:textColor="@color/gray_3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/login_by_weibo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x12"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/x40"
+                android:layout_height="@dimen/x40"
+                android:scaleType="centerCrop"
+                android:src="@drawable/accounts_icon_weibo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x6"
+                android:text="@string/weibo"
+                android:textColor="@color/gray_3" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@id/login_by_third_party"
+        android:layout_marginBottom="@dimen/x10"
+        android:background="@color/color_d2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/login_by_third_party"
+        android:layout_centerHorizontal="true"
+        android:background="#ededed"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x10"
+        android:paddingTop="@dimen/x10"
+        android:text="@string/login_by_third"
+        android:textColor="@color/gray_3" />
+</RelativeLayout>

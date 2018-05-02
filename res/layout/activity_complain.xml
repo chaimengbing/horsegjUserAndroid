@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/add_address_act_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg">
+
+        <ImageView
+            android:id="@+id/complain_act_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/icon_back"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/complain_act_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:singleLine="true"
+            android:text="@string/complain"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="@dimen/title_bar_text_size" />
+
+        <ImageView
+            android:id="@+id/complain_act_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/address_icon_delete"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/x10"
+            android:text="这是预留空位" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/complain_act_feedback_msg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x71"
+            android:layout_marginBottom="@dimen/x4"
+            android:layout_marginLeft="@dimen/x12"
+            android:layout_marginRight="@dimen/x12"
+            android:layout_marginTop="@dimen/x4"
+            android:background="@drawable/shap_gray_strole_white_bg"
+            android:gravity="left"
+            android:hint="@string/complain_input_your_feedback"
+            android:textColor="#585654"
+            android:textColorHint="#dddddd"
+            android:textSize="11sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x9"
+            android:layout_marginLeft="@dimen/x12"
+            android:layout_marginRight="@dimen/x12">
+
+            <ImageView
+                android:id="@+id/complain_photo"
+                android:layout_width="@dimen/x77"
+                android:layout_height="@dimen/x78"
+                android:background="@drawable/shap_gray_range_bg"
+                android:scaleType="center"
+                android:src="@drawable/complain_take_photo" />
+
+            <ImageView
+                android:id="@+id/complain_add_img"
+                android:layout_width="@dimen/x77"
+                android:layout_height="@dimen/x78"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shap_gray_range_bg"
+                android:scaleType="center"
+                android:src="@drawable/complain_add_image" />
+
+            <ImageView
+                android:id="@+id/complain_add_img1"
+                android:layout_width="@dimen/x77"
+                android:layout_height="@dimen/x78"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shap_gray_range_bg"
+                android:scaleType="center"
+                android:src="@drawable/complain_add_image" />
+        </RelativeLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x9"
+            android:layout_marginLeft="@dimen/x12"
+            android:layout_marginRight="@dimen/x12"
+            android:background="@drawable/shap_gray_strole_white_bg"
+            android:hint="@string/complain_input_your_phone_num"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="#585654"
+            android:textColorHint="#dddddd"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/complain_act_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x12"
+        android:layout_marginRight="@dimen/x12"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@drawable/shap_corner_red_bg"
+        android:gravity="center"
+        android:padding="@dimen/x13"
+        android:text="@string/complain_commit"
+        android:textColor="@color/white" />
+</LinearLayout>

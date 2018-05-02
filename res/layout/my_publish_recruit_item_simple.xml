@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:background="@drawable/bg_white_shape_stroke"
+            android:layout_marginTop="@dimen/x10">
+
+            <RelativeLayout
+                android:id="@+id/new_recruit_content_layout_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/x14">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:includeFontPadding="false"
+                            android:paddingBottom="@dimen/x6"
+                            android:paddingTop="@dimen/x6"
+                            android:textColor="@color/color_3"
+                            android:textSize="14sp"
+                            android:maxEms="6"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            tools:text="司机" />
+
+                        <LinearLayout
+                            android:id="@+id/new_recruit_position_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/x8"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/x4"
+                                android:src="@drawable/icon_recruit_job" />
+
+                            <TextView
+                                android:id="@+id/new_recruit_position_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="厨师"
+                                android:textColor="@color/color_6"
+                                android:textSize="13sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x10"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_publish_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:textColor="@color/color_6"
+                            android:textSize="12sp"
+                            tools:text="发布时间：2016-06-20 18:00" />
+
+                        <TextView
+                            android:id="@+id/new_recruit_is_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="已置顶"
+                            android:textColor="@color/green"
+                            android:textSize="13sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_job_duties"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:paddingBottom="@dimen/x10"
+                        android:paddingTop="@dimen/x10"
+                        android:text="岗位职责："
+                        android:textColor="@color/color_3"
+                        android:textSize="13sp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_job_description"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:includeFontPadding="false"
+                            android:lineSpacingMultiplier="1.2"
+                            android:maxLines="2"
+                            android:textColor="@color/color_6"
+                            android:textSize="12sp"
+                            tools:text="数据来源于发布者发布信息时填写的职位描述，内容展示为两行，点击职位描述如图的蓝框区域，进入招聘信息详情页。" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/my_publish_bottom_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_below="@id/new_recruit_content_layout_new"
+                android:background="@drawable/shape_dashed"
+                android:layerType="software"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/my_publish_bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_publish_bottom_line"
+                android:layout_marginBottom="@dimen/x8"
+                android:layout_marginTop="@dimen/x8"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/x15"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/my_publish_republic"
+                    android:layout_width="@dimen/x70"
+                    android:layout_height="@dimen/x25"
+                    android:background="@drawable/shap_gray_range_bg"
+                    android:gravity="center"
+                    android:text="重新发布"
+                    android:textColor="@color/color_9"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/my_publish_pay_line"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_below="@id/new_recruit_content_layout_new"
+                android:background="@drawable/shape_dashed"
+                android:layerType="software"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/my_publish_pay_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_publish_bottom_line"
+                android:layout_marginBottom="@dimen/x8"
+                android:layout_marginTop="@dimen/x8"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/x15"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/my_publish_toPay"
+                    android:layout_width="@dimen/x70"
+                    android:layout_height="@dimen/x25"
+                    android:background="@drawable/shap_red_range_bg"
+                    android:gravity="center"
+                    android:text="去支付"
+                    android:textColor="@color/red"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_more_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/x8"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="@dimen/x15"
+            android:layout_marginRight="@dimen/x25"
+            android:visibility="visible"
+            android:src="@drawable/my_publish_delete"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/my_publish_recruit_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/x65"
+            android:layout_marginTop="@dimen/x25"
+            android:src="@drawable/info_checking"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/setting_layout"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/x50"
+            android:layout_toLeftOf="@id/iv_more_setting"
+            android:background="#A9000000"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_refresh"
+                android:drawablePadding="@dimen/x8"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x18"
+                android:paddingRight="@dimen/x18"
+                android:text="刷新"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_sticky"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_sticky"
+                android:drawablePadding="@dimen/x12"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x18"
+                android:paddingRight="@dimen/x18"
+                android:text="置顶"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_del"
+                android:drawablePadding="@dimen/x7"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x18"
+                android:paddingRight="@dimen/x18"
+                android:text="删除"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</RelativeLayout>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/merchant_collection_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg">
+
+        <ImageView
+            android:id="@+id/merchant_collection_act_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x8"
+            android:background="@drawable/icon_back"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/merchant_collection_act_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我的收藏"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/merchant_collection_act_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/x10"
+            android:paddingRight="@dimen/x15"
+            android:text="编辑"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/gray_bg">
+
+        <com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView
+            android:id="@+id/merchant_collection_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="#19000000"
+            android:dividerHeight="0dp"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:listSelector="@android:color/transparent"
+            android:scrollbarThumbVertical="@drawable/xg_scrollbar" />
+
+
+        <LinearLayout
+            android:id="@+id/layout_no_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/x30"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/no_favorites" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x28"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.5"
+                android:text="@string/no_favorites"
+                android:textColor="#ada9a6"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/merchant_collection_act_layout_del"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x48"
+        android:background="#bb3d3d3d"
+        android:paddingLeft="@dimen/x15"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/merchant_collection_act_all_pick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:button="@drawable/gender_edit_selector"
+            android:paddingLeft="@dimen/x6"
+            android:text="全选"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/merchant_collection_act_delete"
+            android:layout_width="@dimen/x100"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/pintuan_red"
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

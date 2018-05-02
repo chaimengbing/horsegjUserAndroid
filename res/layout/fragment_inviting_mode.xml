@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_inviting_mode"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/x16"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_circle_of_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_inviting_circle_of_friends" />
+
+        <ImageView
+            android:id="@+id/iv_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_inviting_qq" />
+
+        <ImageView
+            android:id="@+id/iv_weixin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x44"
+            android:layout_weight="1"
+            android:src="@drawable/ic_inviting_weixin" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_bottom"
+        android:layout_marginBottom="@dimen/x38"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x12"
+            android:layout_weight="5"
+            android:orientation="vertical">
+
+            <com.project.mgjandroid.ui.view.CornerImageView
+                android:id="@+id/pic_code"
+                android:layout_width="@dimen/x105"
+                android:layout_height="@dimen/x105"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitXY"
+                app:borderColor="#e1e1e1"
+                app:borderRadius="@dimen/x2"
+                app:borderThickness="1px"
+                app:type="round" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/pic_code"
+                android:layout_below="@+id/pic_code"
+                android:layout_marginTop="@dimen/x10"
+                android:gravity="center"
+                android:text="快去让好友扫描二维码赢取现金奖励吧"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x5"
+            android:layout_marginRight="@dimen/x22"
+            android:layout_weight="7"
+            android:background="@drawable/ic_activity_rules"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/x15"
+            android:paddingRight="@dimen/x15"
+            android:text="当您邀请的好友在马管家平台注册并消费时，您可以获得返现。返现金额为返现比例乘以您好友的消费金额，不同时段返现比例可能不同，返现规则最终解释权归马管家所有。"
+            android:textColor="@color/color_6"
+            android:textSize="@dimen/x10" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_bottom"
+        android:layout_marginBottom="@dimen/x77"
+        android:layout_marginLeft="@dimen/x6"
+        android:src="@drawable/ic_inviting_boy" />
+
+
+</RelativeLayout>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/common_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/x10">
+
+        <ImageView
+            android:id="@+id/common_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/back"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back_black" />
+
+        <TextView
+            android:id="@+id/common_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLength="13"
+            android:singleLine="true"
+            android:text="购物车"
+            android:textColor="@color/color_3"
+            android:textSize="@dimen/title_bar_text_size" />
+
+        <TextView
+            android:id="@+id/market_cart_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="@dimen/x10"
+            android:paddingRight="@dimen/x15"
+            android:text="编辑"
+            android:textColor="@color/color_6"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/market_cart_divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/common_top_bar"
+        android:background="#dedede" />
+
+    <LinearLayout
+        android:id="@+id/market_cart_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:layout_alignParentBottom="true"
+        android:background="#bb3d3d3d"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/x15">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="11"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/x20">
+
+            <ImageView
+                android:id="@+id/market_cart_select_all_image"
+                android:layout_width="@dimen/x20"
+                android:layout_height="@dimen/x20"
+                android:scaleType="fitXY"
+                android:src="@drawable/market_cart_unselect" />
+
+            <TextView
+                android:id="@+id/market_cart_select_all_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x3"
+                android:text="全选"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/market_cart_total_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="总计：¥0"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/market_cart_ship_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/x4"
+                        android:text="(另需配送费¥3)"
+                        android:textColor="#fdffc9"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/market_cart_to_pay"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@color/org_yellow"
+            android:gravity="center"
+            android:text="去结算"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <com.project.mgjandroid.ui.view.swipemenulistview.SwipeMenuListView
+        android:id="@+id/market_cart_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/market_cart_bottom"
+        android:layout_below="@id/market_cart_divider_line"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/gray_white"
+        android:dividerHeight="@dimen/x10"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@android:color/transparent"
+        android:scrollbarThumbVertical="@drawable/xg_scrollbar" />
+
+    <LinearLayout
+        android:id="@+id/market_cart_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/market_cart_bottom"
+        android:layout_below="@id/market_cart_divider_line"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/market_cart_empty" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:gravity="center"
+            android:text="您的购物车空空如也！" />
+
+    </LinearLayout>
+
+</RelativeLayout>

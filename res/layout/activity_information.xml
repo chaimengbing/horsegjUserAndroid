@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar" />
+
+    <LinearLayout
+        android:id="@+id/recruit_position_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x45"
+        android:background="@drawable/bg_mine_stroke_grey"
+        android:orientation="horizontal"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/list_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_to_publish"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x48"
+        android:background="@drawable/bg_button_publish"
+        android:gravity="center"
+        android:text="发布信息"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

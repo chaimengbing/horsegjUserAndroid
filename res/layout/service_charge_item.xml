@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/view_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x50"
+            android:layout_marginRight="@dimen/x50"
+            android:background="@drawable/bg_service_charge"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/x33">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x26"
+                android:layout_marginRight="@dimen/x32"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="起始价（0公里）"
+                    android:layout_toLeftOf="@+id/tv_baseCharge"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="@dimen/x5"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_baseCharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="¥0"
+                    android:layout_centerVertical="true"
+                    android:textColor="#ff5856"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x26"
+                android:layout_marginRight="@dimen/x32"
+                android:layout_marginTop="@dimen/x33">
+
+                <TextView
+                    android:id="@+id/tv_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="超出0公里（每公里）加价"
+                    android:layout_toLeftOf="@+id/tv_addCharge"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="@dimen/x5"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_addCharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="¥0"
+                    android:layout_centerVertical="true"
+                    android:textColor="#ff5856"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/bg_service_charge_button"
+                android:layout_marginTop="@dimen/x33">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x44"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="好的"
+                    android:textColor="@color/color_3"
+                    android:textSize="17sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+</FrameLayout>

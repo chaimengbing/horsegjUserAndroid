@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/item_goods_layout"
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/x107">
+
+        <com.project.mgjandroid.ui.view.CornerImageView
+            android:id="@+id/item_goods_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:type="round"
+            app:borderRadius="@dimen/x2"
+            app:borderColor="@color/color_e5"
+            app:borderThickness="1px" />
+
+        <TextView
+            android:id="@+id/item_goods_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x26"
+            android:layout_gravity="bottom"
+            android:background="@drawable/alpha_gray_bg"
+            android:layout_marginLeft="1px"
+            android:layout_marginBottom="1px"
+            android:layout_marginRight="1px"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:maxLines="1"
+            android:text="葱爆海参" />
+
+    </FrameLayout>
+
+</FrameLayout>

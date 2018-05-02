@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/x10"
+    android:paddingLeft="@dimen/x15"
+    android:paddingRight="@dimen/x15"
+    android:paddingTop="@dimen/x16">
+
+    <LinearLayout
+        android:id="@+id/layout_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/color_9"
+            android:text="违章时间" />
+
+        <TextView
+            android:id="@+id/tv_edit_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:textSize="13sp"
+            android:textColor="@color/color_3"
+            android:text="2017年5月8日 12:28:30" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x16"
+        android:layout_below="@+id/layout_time"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/color_9"
+            android:text="违章地点" />
+
+        <TextView
+            android:id="@+id/tv_edit_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:textSize="13sp"
+            android:textColor="@color/color_3"
+            android:text="海淀区知春路甲48号" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x16"
+        android:layout_below="@+id/layout_place"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/color_9"
+            android:text="违章代码" />
+
+        <TextView
+            android:id="@+id/tv_edit_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:textSize="13sp"
+            android:textColor="@color/color_3"
+            android:text="1352" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x16"
+        android:layout_below="@+id/layout_code"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/color_9"
+            android:text="违章原因" />
+
+        <TextView
+            android:id="@+id/tv_edit_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:textSize="13sp"
+            android:textColor="@color/color_3"
+            android:text="一不小心一不小心一不小心一不小心一不小心一不小心一不小心一不小心一不小心一不小心一不小心一不小心一不小心一不小心" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x16"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/layout_reason"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/color_6"
+            android:text="罚款" />
+
+        <TextView
+            android:id="@+id/tv_fine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x7"
+            android:textSize="12sp"
+            android:textColor="#fc6800"
+            android:text="1000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:textSize="12sp"
+            android:textColor="@color/color_6"
+            android:text="扣分" />
+
+        <TextView
+            android:id="@+id/tv_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x7"
+            android:textSize="12sp"
+            android:textColor="@color/color_3"
+            android:text="0" />
+
+    </LinearLayout>
+
+</RelativeLayout>

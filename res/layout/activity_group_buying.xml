@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar" />
+
+    <LinearLayout
+        android:id="@+id/menu_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/menu_layout_1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x38"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menu_tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x38"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/x6"
+                android:drawableRight="@drawable/nabla_black"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/merchants"
+                android:textColor="@color/gray_text_0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="@dimen/x21"
+            android:layout_gravity="center_vertical"
+            android:background="@color/gray_bg" />
+
+        <LinearLayout
+            android:id="@+id/menu_layout_2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x38"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menu_tv_2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x38"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/x6"
+                android:drawableRight="@drawable/nabla_black"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/sequence"
+                android:textColor="@color/gray_text_0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="@dimen/x21"
+            android:layout_gravity="center_vertical"
+            android:background="@color/gray_bg" />
+
+        <LinearLayout
+            android:id="@+id/menu_layout_3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x38"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menu_tv_3"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x38"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/x6"
+                android:drawableRight="@drawable/nabla_black"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/filter"
+                android:textColor="@color/gray_text_0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/primary_category_act_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_e" />
+
+    <com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="#f3f3f3"
+        android:dividerHeight="1px"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@android:color/transparent"
+        android:scrollbarThumbVertical="@drawable/xg_scrollbar" />
+
+</LinearLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/x15">
+
+        <com.project.mgjandroid.ui.view.CornerImageView
+            android:id="@+id/yellow_page_image"
+            android:layout_width="@dimen/x55"
+            android:layout_height="@dimen/x55"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/horsegj_default"
+            app:borderRadius="@dimen/x4"
+            app:type="round" />
+
+        <ImageView
+            android:id="@+id/yellow_page_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/group_buying_call_icon" />
+
+        <TextView
+            android:id="@+id/yellow_page_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/yellow_page_image"
+            android:layout_alignParentRight="true"
+            android:text="距离"
+            android:textColor="@color/color_6"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/yellow_page_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_toLeftOf="@id/yellow_page_phone"
+            android:layout_toRightOf="@id/yellow_page_image"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/yellow_page_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/yellow_page_image"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_toLeftOf="@id/yellow_page_distance"
+            android:layout_toRightOf="@id/yellow_page_image"
+            android:maxLines="1"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</LinearLayout>

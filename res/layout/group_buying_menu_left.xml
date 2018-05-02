@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_e5" />
+
+    <ListView
+        android:id="@+id/group_buying_menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/transparent"
+        android:fadingEdge="none"
+        android:divider="@color/color_e5"
+        android:dividerHeight="1px"
+        android:listSelector="@null"
+        android:scrollbars="none"
+        android:layout_weight="1"
+        android:background="@color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_e5" />
+
+    <View
+        android:id="@+id/group_buying_menu_cover_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="99"
+        android:background="@color/popup_main_background" />
+
+</LinearLayout>

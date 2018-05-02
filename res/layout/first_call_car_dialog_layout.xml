@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="308dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/call_car_first_time_dialog" />
+
+    <TextView
+        android:id="@+id/amt"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="86dp"
+        android:layout_marginLeft="194dp"
+        android:textSize="30dp"
+        android:textColor="#fb4944"
+        android:textStyle="bold"
+        tools:text="20"
+        android:maxLines="2"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/sure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/call_car_first_time_use"
+        android:layout_marginTop="155dp"
+        android:layout_marginLeft="86dp" />
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dialog_redbag_close"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/content"
+        android:layout_marginTop="7dp" />
+
+</RelativeLayout>

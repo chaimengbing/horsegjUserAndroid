@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/x10">
+
+    <ImageView
+        android:id="@+id/location_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/x10"
+        android:paddingTop="@dimen/x3"
+        android:src="@drawable/location_item_search" />
+
+    <TextView
+        android:id="@+id/tv_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/location_icon"
+        android:text="@string/current"
+        android:textColor="@color/blue_light"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_current"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/black_1"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_address"
+        android:layout_marginTop="@dimen/x5"
+        android:layout_toRightOf="@+id/location_icon"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/gray_1"
+        android:textSize="14sp" />
+
+</RelativeLayout>

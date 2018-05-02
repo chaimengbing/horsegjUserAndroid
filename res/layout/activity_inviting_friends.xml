@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x15">
+
+        <ImageView
+            android:id="@+id/common_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/back"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back_black" />
+
+        <TextView
+            android:id="@+id/common_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLength="13"
+            android:singleLine="true"
+            android:text="邀请好友"
+            android:textColor="@color/black"
+            android:textSize="@dimen/title_bar_text_size" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/mine_divide_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x44"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="邀请方式"
+            android:textColor="#f8526b"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_results"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x44"
+            android:layout_weight="1"
+            android:background="@color/color_f5"
+            android:gravity="center"
+            android:text="邀请战果"
+            android:textColor="@color/color_9"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
+
+</LinearLayout>

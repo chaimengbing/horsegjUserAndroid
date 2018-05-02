@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_address_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white">
+
+    <RelativeLayout
+        android:id="@+id/add_address_act_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg">
+
+        <ImageView
+            android:id="@+id/add_address_act_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x8"
+            android:background="@drawable/icon_back"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/add_address_act_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:singleLine="true"
+            android:text="@string/add_address"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="@dimen/title_bar_text_size" />
+
+        <ImageView
+            android:id="@+id/add_address_act_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/x10"
+            android:paddingRight="@dimen/x8"
+            android:src="@drawable/address_icon_delete"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_address_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_address_act_title_bar"
+        android:layout_marginTop="@dimen/x15"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_d2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/x12"
+            android:paddingRight="@dimen/x12">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact"
+                android:textColor="@color/color_6"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/add_address_edt_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x12"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/user_name"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:textColor="@color/color_6"
+                android:textColorHint="@color/color_9"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/add_address_name_iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/address_icon_close"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/x12"
+            android:background="@color/color_d2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/x12"
+            android:paddingRight="@dimen/x12">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact"
+                android:textColor="@color/color_6"
+                android:textSize="16sp"
+                android:visibility="invisible" />
+
+            <CheckBox
+                android:id="@+id/add_address_cb_sir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x12"
+                android:button="@drawable/gender_edit_selector"
+                android:paddingLeft="@dimen/x6"
+                android:text="@string/sir"
+                android:textColor="@color/color_6"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/add_address_cb_miss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x38"
+                android:button="@drawable/gender_edit_selector"
+                android:paddingLeft="@dimen/x6"
+                android:text="@string/miss"
+                android:textColor="@color/color_6"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/x12"
+            android:background="@color/color_d2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/x12"
+            android:paddingRight="@dimen/x12">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_num"
+                android:textColor="@color/color_6"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/add_address_edt_mobile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x12"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/your_mobile"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:textColor="@color/color_6"
+                android:textColorHint="@color/color_9"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/add_address_mobile_iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/address_icon_close"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/add_address_phone_option_iv_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/x15"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_add" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_address_edt_phone_option_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="@dimen/x12"
+                android:background="@color/color_d2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x42"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/x12"
+                android:paddingRight="@dimen/x12">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/phone_num"
+                    android:textColor="@color/color_6"
+                    android:textSize="16sp"
+                    android:visibility="invisible" />
+
+                <EditText
+                    android:id="@+id/add_address_edt_phone_option"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x12"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/your_option_phone"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:textColor="@color/color_6"
+                    android:textColorHint="@color/color_9"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/add_address_phone_option_iv_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/address_icon_close"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/x12"
+            android:background="@color/color_d2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/x12"
+            android:paddingRight="@dimen/x12">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textColor="@color/color_6"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/location_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x12"
+                android:hint="@string/address_poi"
+                android:textColor="@color/color_6"
+                android:textColorHint="@color/color_9"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/x12"
+            android:background="@color/color_d2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/x12"
+            android:paddingRight="@dimen/x12">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:textColor="@color/color_6"
+                android:textSize="16sp"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/add_address_edt_house"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x12"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/houseNumber"
+                android:maxLength="48"
+                android:maxLines="2"
+                android:textColor="@color/color_6"
+                android:textColorHint="@color/color_9"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/add_address_house_iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/address_icon_close"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="@dimen/x12"
+            android:background="@color/color_d2"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/x12"
+            android:paddingRight="@dimen/x12"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label"
+                android:textColor="@color/color_6"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/add_address_mark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x12"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/houseNumber"
+                android:maxLines="2"
+                android:textColor="@color/color_6"
+                android:textColorHint="@color/color_9"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/add_address_mark_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/x10"
+                android:background="@drawable/shap_corner_green_bg"
+                android:text="@string/label_msg"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/add_address_mark_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/add_address_mark_arrow" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_d2" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/add_address_act_tv_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40"
+        android:layout_below="@id/ll_address_info"
+        android:layout_marginLeft="@dimen/x12"
+        android:layout_marginRight="@dimen/x12"
+        android:layout_marginTop="@dimen/x15"
+        android:background="@drawable/bg_login_orange_button"
+        android:gravity="center"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>

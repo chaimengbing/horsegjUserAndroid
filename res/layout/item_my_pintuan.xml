@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/gray_white"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/my_group_to_user"
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <com.project.mgjandroid.ui.view.RoundImageView
+                android:id="@+id/my_group_header"
+                android:layout_width="@dimen/x42"
+                android:layout_height="@dimen/x42"
+                android:layout_marginBottom="@dimen/x5"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginTop="@dimen/x5"
+                android:src="@drawable/default_group_user_avatar" />
+
+            <TextView
+                android:id="@+id/my_group_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x8"
+                android:text="姓名"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/color_3"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/my_group_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_marginRight="@dimen/x15"
+            android:text="已支付，未成团"
+            android:textColor="@color/color_6"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x1"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/x15"
+        android:paddingRight="@dimen/x15">
+
+        <FrameLayout
+            android:id="@+id/my_group_to_group"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_marginTop="@dimen/x15"
+            android:layout_height="wrap_content">
+
+            <com.project.mgjandroid.ui.view.CornerImageView
+                android:id="@+id/my_group_goods_image"
+                android:layout_width="@dimen/x75"
+                android:layout_height="@dimen/x75"
+                android:background="@color/white"
+                app:borderRadius="@dimen/x4"
+                app:type="round" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/my_group_goods_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/x11"
+            android:text="30.6"
+            android:textColor="@color/color_3"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/my_pintuan_price_sign_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/my_group_goods_price"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_toLeftOf="@id/my_group_goods_price"
+            android:text="¥"
+            android:paddingBottom="@dimen/x2"
+            android:textColor="@color/color_3"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/my_group_goods_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/my_group_to_group"
+            android:layout_toLeftOf="@id/my_pintuan_price_sign_2"
+            android:layout_toRightOf="@id/my_group_to_group"
+            android:text="标题"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textColor="@color/color_3"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/my_group_goods_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/my_group_to_group"
+            android:layout_alignParentRight="true"
+            android:text="24"
+            android:textColor="#fa4c3e"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/my_pintuan_total_price_sign_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/my_group_goods_total_price"
+            android:layout_toLeftOf="@id/my_group_goods_total_price"
+            android:text="¥"
+            android:paddingBottom="@dimen/x2"
+            android:textColor="#fa4c3e"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/my_group_goods_total_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/my_group_to_group"
+            android:layout_toLeftOf="@id/my_pintuan_total_price_sign_2"
+            android:text="共0件商品  合计："
+            android:paddingBottom="@dimen/x2"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/x1"
+        android:orientation="horizontal">
+
+        <com.project.mgjandroid.ui.view.TimeTextView
+            android:id="@+id/order_state_go_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/x25"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shap_pintuan_red_range_bg"
+            android:text="@string/to_pay_order"
+            android:textColor="@color/pintuan_red"
+            android:textSize="13sp"
+            android:minWidth="@dimen/x70"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_margin="@dimen/x10" />
+
+        <TextView
+            android:id="@+id/to_invite_friend"
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/x25"
+            android:background="@drawable/shape_corner_pintuan"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:text="邀请好友参团"
+            android:visibility="gone"
+            android:layout_margin="@dimen/x10"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/to_evaluate_group"
+            android:layout_width="@dimen/x75"
+            android:layout_height="@dimen/x25"
+            android:background="@drawable/shap_pintuan_red_range_bg"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:layout_margin="@dimen/x10"
+            android:visibility="gone"
+            android:text="立即评价"
+            android:textColor="@color/pintuan_red" />
+
+    </LinearLayout>
+
+</LinearLayout>

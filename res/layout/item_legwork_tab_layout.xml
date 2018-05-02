@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/tv_tab_item"
+    android:layout_height="@dimen/x40"
+    android:layout_margin="@dimen/x3"
+    android:layout_weight="1"
+    android:background="#fdf2d5"
+    android:gravity="center"
+    android:textColor="#66421b"
+    android:textSize="15sp" />

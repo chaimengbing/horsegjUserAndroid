@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bao="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical"
+    tools:context="com.project.mgjandroid.ui.activity.EvaluateActivity">
+
+    <RelativeLayout
+        android:id="@+id/evaluate_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x10">
+
+        <ImageView
+            android:id="@+id/evaluate_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/evaluate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:singleLine="true"
+            android:text="订单评价"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="@dimen/title_bar_text_size" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/evaluate_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/x15">
+
+                <ImageView
+                    android:id="@+id/evaluate_icon"
+                    android:layout_width="@dimen/x48"
+                    android:layout_height="@dimen/x48"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/horsegj_default" />
+
+                <TextView
+                    android:id="@+id/evaluate_merchant_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_toRightOf="@id/evaluate_icon"
+                    android:text="@string/merchants_name"
+                    android:textColor="@color/common_black_text"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x15"
+                android:background="@color/gray_white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/x15">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x42">
+
+                    <TextView
+                        android:id="@+id/all_evaluate_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/item_evaluate_list_overall_evaluate"
+                        android:textColor="@color/common_black_text" />
+
+                    <TextView
+                        android:id="@+id/all_evaluate_describe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text=""
+                        android:textColor="@color/color_c" />
+
+                    <com.project.mgjandroid.ui.view.RatingBarView
+                        android:id="@+id/all_rat_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x10"
+                        android:layout_toRightOf="@id/all_evaluate_text"
+                        bao:starCount="5"
+                        bao:starEmpty="@drawable/evaluate_default_1"
+                        bao:starFill="@drawable/evaluate_normal_1"
+                        bao:starImageSize="22dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/evaluate_gray" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/all_text_view_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shap_evaluate_without_stroke"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/all_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:hint="@string/item_evaluate_list_overall_evaluate"
+                        android:maxLength="120"
+                        android:paddingBottom="@dimen/x4"
+                        android:paddingLeft="@dimen/x8"
+                        android:paddingRight="@dimen/x8"
+                        android:paddingTop="@dimen/x8"
+                        android:singleLine="true"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/all_evaluate_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingBottom="@dimen/x4"
+                        android:paddingRight="@dimen/x8"
+                        android:text="0/120"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/driver_evaluate_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x42">
+
+                    <TextView
+                        android:id="@+id/driver_evaluate_describe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text=""
+                        android:textColor="@color/color_c" />
+
+                    <TextView
+                        android:id="@+id/driver_evaluate_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/item_evaluate_list_driver_comment"
+                        android:textColor="@color/common_black_text" />
+
+                    <com.project.mgjandroid.ui.view.RatingBarView
+                        android:id="@+id/driver_rat_score"
+                        style="@style/RatingBar.EvaluateDriver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x10"
+                        android:layout_toRightOf="@id/driver_evaluate_text"
+                        bao:starCount="5"
+                        bao:starEmpty="@drawable/evaluate_default_1"
+                        bao:starFill="@drawable/evaluate_normal_1"
+                        bao:starImageSize="22dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/evaluate_gray" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/driver_text_view_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shap_evaluate_without_stroke"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/driver_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shap_evaluate_without_stroke"
+                        android:gravity="top"
+                        android:hint="@string/item_evaluate_list_driver_comment"
+                        android:maxLength="120"
+                        android:paddingBottom="@dimen/x4"
+                        android:paddingLeft="@dimen/x8"
+                        android:paddingRight="@dimen/x8"
+                        android:paddingTop="@dimen/x8"
+                        android:singleLine="true"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/driver_evaluate_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:paddingBottom="@dimen/x4"
+                        android:paddingRight="@dimen/x8"
+                        android:text="0/120"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x42">
+
+                    <TextView
+                        android:id="@+id/time_evaluate_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/confirm_order_arrival_time"
+                        android:textColor="@color/common_black_text" />
+
+                    <TextView
+                        android:id="@+id/time_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x10"
+                        android:layout_toRightOf="@id/time_evaluate_text"
+                        android:text="按时送达"
+                        android:textColor="@color/orange_ff" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/evaluate_gray" />
+                </RelativeLayout>
+
+                <com.project.mgjandroid.ui.view.WheelView
+                    android:id="@+id/wheel_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="beforeDescendants"
+                    android:visibility="gone">
+
+                </com.project.mgjandroid.ui.view.WheelView>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x15"
+                android:background="@color/gray_white" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x42"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/evaluate_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:text="@string/evaluate"
+                    android:textColor="@color/common_black_text" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/evaluate_gray" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/evaluate_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/evaluate_seven_days_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@drawable/icon_evaluate_notice"
+            android:drawablePadding="@dimen/x4"
+            android:gravity="center"
+            android:padding="@dimen/x10"
+            android:text="请在下单后7天内评价" />
+
+        <TextView
+            android:id="@+id/to_evaluate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x42"
+            android:layout_below="@id/evaluate_seven_days_limit"
+            android:background="@color/title_bar_bg"
+            android:gravity="center"
+            android:text="提交评价"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</LinearLayout>

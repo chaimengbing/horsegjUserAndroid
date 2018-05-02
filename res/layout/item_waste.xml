@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/new_recruit_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dedede" />
+
+    <LinearLayout
+        android:id="@+id/waste_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/new_recruit_top_line"
+        android:layout_toRightOf="@+id/waste_user_avatar"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/x15">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@id/waste_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/waste_title"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="废品回收"
+                    android:singleLine="true"
+                    android:maxEms="6"
+                    android:ellipsize="end"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/waste_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="电器回收"
+                    android:singleLine="true"
+                    android:maxEms="6"
+                    android:ellipsize="end"
+                    android:background="@drawable/shap_org_range_bg"
+                    android:textColor="@color/title_bar_bg"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/score_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/waste_layout"
+                android:layout_below="@+id/waste_layout"
+                android:layout_marginTop="@dimen/x7"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/group_detail_admin_score"
+                    style="@style/RatingBar.ShopGoods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.1"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="13sp" />
+
+
+                <TextView
+                    android:id="@+id/waste_is_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="已置顶"
+                    android:textColor="@color/green"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fengshui_be_good_at_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/score_layout"
+                android:layout_below="@+id/score_layout"
+                android:layout_marginTop="@dimen/x6"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tv_business"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商家"
+                    android:textColor="@color/color_9"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="查看详情"
+                        android:textColor="@color/color_9"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x2"
+                        android:src="@drawable/right_arrow_gray" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/waste_bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/waste_content_layout"
+        android:background="#dedede" />
+
+    <com.project.mgjandroid.ui.view.CornerImageView
+        android:layout_marginLeft="@dimen/x10"
+        android:id="@+id/waste_user_avatar"
+        android:layout_width="@dimen/x86"
+        android:layout_height="@dimen/x66"
+        app:type="round"
+        app:borderRadius="@dimen/x4"
+        app:borderThickness="1px"
+        app:borderColor="#e5e5e5"
+        android:src="@drawable/user_avatar"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/gray_white"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/x10"
+        android:background="#e5e5e5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/order_list_item_img_father"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.project.mgjandroid.ui.view.RoundImageView
+                android:id="@+id/order_list_item_img"
+                android:layout_width="@dimen/x42"
+                android:layout_height="@dimen/x42"
+                android:layout_marginBottom="@dimen/x5"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginTop="@dimen/x5"
+                android:src="@drawable/user_avatar" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/order_list_item_tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x8"
+            android:layout_weight="1"
+            android:text="老蔡林"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/order_list_item_tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x15"
+            android:text="@string/order_has_complete"
+            android:textColor="@color/color_6"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x1"
+        android:background="@color/white"
+        android:paddingRight="@dimen/x15"
+        android:paddingBottom="@dimen/x15">
+
+        <LinearLayout
+            android:id="@+id/goods_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x65"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/order_list_item_tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goods_layout"
+            android:layout_marginTop="@dimen/x15"
+            android:layout_alignParentRight="true"
+            android:text="24"
+            android:textColor="@color/color_3"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/my_pintuan_total_price_sign_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/order_list_item_tv_money"
+            android:layout_toLeftOf="@id/order_list_item_tv_money"
+            android:text="¥"
+            android:paddingBottom="@dimen/x1"
+            android:textColor="@color/color_3"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/order_list_item_tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/order_list_item_tv_money"
+            android:layout_toLeftOf="@id/my_pintuan_total_price_sign_2"
+            android:text="共0件商品  合计:"
+            android:paddingBottom="@dimen/x2"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x1"
+        android:gravity="right|center"
+        android:paddingRight="@dimen/x15"
+        android:paddingLeft="@dimen/x15"
+        android:paddingTop="@dimen/x10"
+        android:paddingBottom="@dimen/x10"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/order_list_item_layout_evaluate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/order_state_more_one"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x30"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shap_gray_range_bg"
+                android:text="@string/order_again"
+                android:minWidth="@dimen/x70"
+                android:gravity="center"
+                android:textColor="@color/color_3"
+                android:textSize="14sp"
+                android:layout_marginLeft="@dimen/x10"
+                android:visibility="visible" />
+
+            <com.project.mgjandroid.ui.view.TimeTextView
+                android:id="@+id/order_state_go_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x30"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shap_pintuan_red_range_bg"
+                android:text="@string/to_pay_order"
+                android:textColor="@color/pintuan_red"
+                android:textSize="14sp"
+                android:minWidth="@dimen/x70"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/x10" />
+
+            <TextView
+                android:id="@+id/order_state_take_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x30"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shap_org_range_bg"
+                android:text="@string/user_info_take_photo"
+                android:textColor="@color/org_yellow"
+                android:textSize="14sp"
+                android:minWidth="@dimen/x70"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/x10" />
+
+            <TextView
+                android:id="@+id/order_state_evaluate"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x30"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shap_pintuan_red_range_bg"
+                android:text="@string/evaluate_get_score"
+                android:textColor="@color/pintuan_red"
+                android:textSize="14sp"
+                android:minWidth="@dimen/x70"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/x10" />
+
+            <TextView
+                android:id="@+id/order_state_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x30"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shap_pintuan_red_range_bg"
+                android:text="@string/check_order_detail"
+                android:textColor="@color/pintuan_red"
+                android:textSize="14sp"
+                android:minWidth="@dimen/x70"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/x10" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="@dimen/x1"
+        android:background="#e5e5e5" />
+
+</LinearLayout>

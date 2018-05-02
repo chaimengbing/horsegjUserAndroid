@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/x15"
+    android:paddingRight="@dimen/x15">
+
+    <ImageView
+        android:id="@+id/img_camera"
+        android:layout_width="@dimen/x47"
+        android:layout_height="@dimen/x47"
+        android:src="@drawable/group_buying_camera" />
+
+</FrameLayout>

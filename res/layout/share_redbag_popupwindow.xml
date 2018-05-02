@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/share_redbag_bg">
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/share_redbag_close"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/x50"
+        android:layout_marginTop="@dimen/x25"
+        android:padding="@dimen/x10" />
+
+    <TextView
+        android:id="@+id/tv_share"
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/x50"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/x44" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x32">
+
+        <TextView
+            android:id="@+id/redbag_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red_3"
+            tools:text="10个"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/color_3"
+            android:text="出行红包"
+            android:layout_marginTop="@dimen/x2" />
+
+    </LinearLayout>
+
+</FrameLayout>

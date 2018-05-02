@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner
+            android:id="@+id/my_banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x120"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_banner_default"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:src="@drawable/horsegj_default" />
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.AutoScrollViewPager
+                android:id="@+id/picslooper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true" />
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.CircleIndicator
+                android:id="@+id/pageIndexor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" />
+
+        </com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/x12"
+            android:paddingTop="@dimen/x12">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x15"
+                android:src="@drawable/legwork_billboard" />
+
+            <TextView
+                android:id="@+id/tv_billboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginRight="@dimen/x15"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textColor="@color/color_6"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <LinearLayout
+            android:id="@+id/ll_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/x15"
+            android:paddingRight="@dimen/x15"
+            android:paddingTop="@dimen/x15"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/x2"
+                android:src="@drawable/legwork_edit" />
+
+            <EditText
+                android:id="@+id/et_legwork_wares"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/x6"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="start"
+                android:hint="请输入想要买的商品，如：麦当劳全家桶"
+                android:maxLength="255"
+                android:minHeight="@dimen/x105"
+                android:paddingLeft="@dimen/x4"
+                android:textColor="@color/color_9"
+                android:textColorHint="@color/color_9"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_write_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:background="@drawable/legwork_btn_status"
+                android:button="@null"
+                android:enabled="false"
+                android:paddingRight="@dimen/x10"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_legwork_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x12" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/x10"
+            android:background="#ddd" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingTop="@dimen/x22"
+            android:text="跑腿特色"
+            android:textColor="@color/color_6"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/x19"
+            android:paddingLeft="@dimen/x15"
+            android:paddingRight="@dimen/x15"
+            android:paddingTop="@dimen/x20">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/x10"
+                android:drawableTop="@drawable/city_legwork"
+                android:gravity="center_horizontal"
+                android:text="全程跑腿"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/x10"
+                android:drawableTop="@drawable/help_buy"
+                android:gravity="center_horizontal"
+                android:text="万能帮买"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="@dimen/x10"
+                android:drawableTop="@drawable/fast_service"
+                android:gravity="center_horizontal"
+                android:text="极速取送"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ddd" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/x6"
+            android:paddingTop="@dimen/x3">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1px"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:background="#ddd" />
+
+            <TextView
+                android:id="@+id/tv_legwork_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x20"
+                android:layout_toLeftOf="@+id/view"
+                android:drawableLeft="@drawable/serve_des"
+                android:drawablePadding="@dimen/x4"
+                android:padding="@dimen/x10"
+                android:text="服务介绍"
+                android:textColor="@color/color_9"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_legwork_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_toRightOf="@+id/view"
+                android:drawableLeft="@drawable/feedback"
+                android:drawablePadding="@dimen/x4"
+                android:padding="@dimen/x10"
+                android:text="我要反馈"
+                android:textColor="@color/color_9"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

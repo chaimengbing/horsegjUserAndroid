@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/x20"
+            android:paddingLeft="@dimen/x15"
+            android:paddingRight="@dimen/x15"
+            android:paddingTop="@dimen/x20">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp"
+                    tools:text="诚聘配菜3K到5K包吃住" />
+
+                <TextView
+                    android:id="@+id/tv_page_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x5"
+                    android:textColor="@color/color_9"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="浏览量:0" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_salary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:textColor="@color/salary_or_price"
+                android:textSize="20sp"
+                tools:text="3000元-5000元" />
+
+            <TextView
+                android:id="@+id/tv_publish_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:textColor="@color/color_9"
+                android:textSize="12sp"
+                tools:text="发布时间：2016-11-14" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15">
+
+            <TextView
+                android:id="@+id/position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="职位:"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/position"
+                android:textColor="@color/color_3"
+                android:textSize="13sp"
+                tools:text="配菜/打荷" />
+
+            <TextView
+                android:id="@+id/requirement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/position"
+                android:layout_marginTop="@dimen/x15"
+                android:text="要求:"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_requirement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/requirement"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/position"
+                android:textColor="@color/color_3"
+                android:textSize="13sp"
+                tools:text="招10人/经验不限/学历不限" />
+
+            <TextView
+                android:id="@+id/welfare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/requirement"
+                android:layout_marginTop="@dimen/x13"
+                android:paddingTop="@dimen/x2"
+                android:text="福利"
+                android:textColor="@color/color_6"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <com.project.mgjandroid.ui.view.FlowLayout
+                android:id="@+id/welfare_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/welfare"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/position" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x10" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15"
+            android:text="工作地址"
+            android:textColor="@color/color_3"
+            android:textSize="13sp" />
+
+        <View style="@style/divider_line" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15"
+            android:textColor="@color/color_6"
+            android:textSize="13sp"
+            tools:text="北京市海淀区文慧园路3号" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/x15"
+                android:text="职位描述"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/x15"
+                android:text="举报"
+                android:textColor="@color/color_9"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_line" />
+
+        <TextView
+            android:id="@+id/tv_position_requirement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:lineSpacingMultiplier="1.5"
+            android:padding="@dimen/x15"
+            android:textColor="@color/color_6"
+            android:textSize="13sp"
+            tools:text="是复工报告会就覅哦啊叫欧尼就死哦发你家个哦啊囧妃奇偶\n还得发hi爱好和覅坏话就放好后\n拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解" />
+
+
+        <LinearLayout
+            android:id="@+id/position_expand_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View style="@style/divider_line" />
+
+            <TextView
+                android:id="@+id/tv_position_requirement_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/x5"
+                android:drawableRight="@drawable/expand_select"
+                android:gravity="center"
+                android:padding="@dimen/x15"
+                android:text="展开信息"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x10" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15"
+            android:text="公司信息"
+            android:textColor="@color/color_3"
+            android:textSize="13sp" />
+
+        <View style="@style/divider_line" />
+
+        <TextView
+            android:id="@+id/tv_company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15"
+            android:textColor="@color/color_3"
+            android:textSize="13sp"
+            tools:text="北京缘和飞餐饮管理有限公司" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15">
+
+            <TextView
+                android:id="@+id/numbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="规模:"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_numbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/numbers"
+                android:textColor="@color/color_6"
+                android:textSize="13sp"
+                tools:text="500-999人" />
+
+            <TextView
+                android:id="@+id/nature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/numbers"
+                android:layout_marginTop="@dimen/x15"
+                android:text="性质:"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_nature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/nature"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/numbers"
+                android:textColor="@color/color_6"
+                android:textSize="13sp"
+                tools:text="股份制" />
+
+            <TextView
+                android:id="@+id/industry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nature"
+                android:layout_marginTop="@dimen/x15"
+                android:text="行业:"
+                android:textColor="@color/color_6"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_industry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/industry"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_toRightOf="@+id/numbers"
+                android:textColor="@color/color_6"
+                android:textSize="13sp"
+                tools:text="娱乐休闲/餐饮/服务" />
+
+        </RelativeLayout>
+
+        <View style="@style/divider_line" />
+
+        <TextView
+            android:id="@+id/tv_company_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/x15"
+            android:textColor="@color/color_6"
+            android:textSize="13sp"
+            tools:text="公司地址:\u3000北京市海淀区文慧园路3号" />
+
+        <LinearLayout
+            android:id="@+id/company_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View style="@style/divider_line" />
+
+            <TextView
+                android:id="@+id/tv_company_profiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:lineSpacingMultiplier="1.5"
+                android:padding="@dimen/x15"
+                android:textColor="@color/color_6"
+                android:textSize="13sp"
+                tools:text="是复工报告会就覅哦啊叫欧尼就死哦发你家个哦啊囧妃奇偶\n还得发hi爱好和覅坏话就放好后\n拿回单付还好覅好个呼和覅偶按猴年就公交发票叫个房间爱破解" />
+
+        </LinearLayout>
+
+        <View style="@style/divider_line" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_company_profiles_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/x5"
+                android:drawableRight="@drawable/expand_select"
+                android:gravity="center"
+                android:padding="@dimen/x15"
+                android:text="展开信息"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/pic_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x10" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/x15"
+                android:text="公司图片"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+
+            <View style="@style/divider_line" />
+
+            <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner
+                android:id="@+id/my_banner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x215"
+                android:background="@color/white"
+                android:padding="@dimen/x15">
+
+                <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.AutoScrollViewPager
+                    android:id="@+id/picslooper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.project.mgjandroid.ui.view.scrollloopviewpager.widget.CircleIndicator
+                    android:id="@+id/pageIndexor"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_alignParentBottom="true" />
+
+                <TextView
+                    android:id="@+id/tv_photo_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/x10"
+                    android:layout_marginRight="@dimen/x10"
+                    android:background="@drawable/bg_img_count"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    tools:text="1/9" />
+            </com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_contact"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40"
+            android:layout_marginBottom="@dimen/x25"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_marginTop="@dimen/x25"
+            android:background="@drawable/bg_login_orange_button"
+            android:gravity="center"
+            android:text="联系方式"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</ScrollView>

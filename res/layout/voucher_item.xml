@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/voucher_item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/x36"
+    android:paddingRight="@dimen/x15"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/right_arrow_gray"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#fb4e44"
+        android:layout_marginTop="@dimen/x14"
+        tools:text="￥80" />
+
+    <TextView
+        android:id="@+id/tv_origin_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/color_3"
+        android:layout_marginTop="@dimen/x14"
+        tools:text="代￥100"
+        android:layout_toRightOf="@+id/tv_price"
+        android:layout_marginLeft="@dimen/x15" />
+
+    <TextView
+        android:id="@+id/tv_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/color_9"
+        tools:text="免预约 | 可叠加"
+        android:layout_below="@+id/tv_price"
+        android:layout_marginTop="@dimen/x6"
+        android:paddingBottom="@dimen/x10" />
+
+</RelativeLayout>

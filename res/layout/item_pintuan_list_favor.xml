@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <com.project.mgjandroid.ui.view.CornerImageView
+            android:id="@+id/pintuan_favor_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x150"
+            android:layout_marginTop="@dimen/x14"
+            android:layout_marginLeft="@dimen/x14"
+            android:layout_marginRight="@dimen/x14"
+            android:src="@drawable/group_zhanwei"
+            app:borderRadius="@dimen/x4"
+            app:type="round" />
+
+        <TextView
+            android:id="@+id/pintuan_favor_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_marginTop="@dimen/x10"
+            android:layout_marginBottom="@dimen/x2"
+            android:text="标题"
+            android:textColor="@color/color_3"
+            android:textSize="14sp"
+            android:singleLine="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x5"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:id="@+id/pintuan_favor_progress"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/x4"
+                    android:layout_weight="1"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/progress_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:paddingTop="@dimen/x3"
+                    android:text="¥"
+                    android:textColor="#fc4a3e"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/pintuan_favor_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30.6"
+                    android:textColor="#fc4a3e"
+                    android:textSize="17sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

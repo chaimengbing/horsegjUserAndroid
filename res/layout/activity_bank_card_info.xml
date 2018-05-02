@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.project.mgjandroid.ui.activity.BankCardInfoActivity">
+
+    <include layout="@layout/actionbar" />
+
+    <ListView
+        android:id="@+id/list_dialog_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:scrollbars="none" />
+
+    <TextView
+        android:id="@+id/add_card_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x10"
+        android:background="@drawable/bg_login_orange_button"
+        android:gravity="center"
+        android:paddingBottom="@dimen/x13"
+        android:paddingTop="@dimen/x13"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/x50"-->
+    <!--android:layout_marginTop="@dimen/x10"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="@dimen/x15"-->
+    <!--android:text="姓名:"-->
+    <!--android:textColor="#333333"-->
+    <!--android:textSize="16sp" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/user_name"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginLeft="@dimen/x6"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@null"-->
+    <!--android:hint="持卡人姓名"-->
+    <!--android:singleLine="true" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/choose_bank_card"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/x50"-->
+    <!--android:layout_marginTop="@dimen/x10"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="@dimen/x15"-->
+    <!--android:text="开户行类型:"-->
+    <!--android:textColor="#333333"-->
+    <!--android:textSize="16sp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/bank_name"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginLeft="@dimen/x6"-->
+    <!--android:layout_marginRight="@dimen/x10"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@null"-->
+    <!--android:gravity="right|center_vertical"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/color_3"-->
+    <!--android:visibility="visible" />-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginRight="@dimen/x15"-->
+    <!--android:src="@drawable/arrow_right_gray" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/x50"-->
+    <!--android:layout_marginTop="@dimen/x15"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:visibility="gone">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginLeft="@dimen/x15"-->
+    <!--android:text="开户行名称:"-->
+    <!--android:textColor="#333333"-->
+    <!--android:textSize="16sp" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/ed_bank_name"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginLeft="@dimen/x6"-->
+    <!--android:layout_marginRight="@dimen/x15"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@null"-->
+    <!--android:hint="请输入开户行名称"-->
+    <!--android:inputType="textMultiLine"-->
+    <!--android:lines="2" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="@dimen/x15"-->
+    <!--android:layout_marginTop="@dimen/x10"-->
+    <!--android:orientation="vertical"-->
+    <!--android:visibility="gone">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginRight="@dimen/x15"-->
+    <!--android:drawableLeft="@drawable/balance_explanation"-->
+    <!--android:drawablePadding="@dimen/x2"-->
+    <!--android:text="开户支行为银行客服所提供的支行信息为准，如：南昌县支行。详情可拨打银行客服询问"-->
+    <!--android:textColor="#db550f"-->
+    <!--android:textSize="12sp" />-->
+
+    <!--</LinearLayout>-->
+
+
+</LinearLayout>
