@@ -166,7 +166,7 @@
                 android:drawablePadding="@dimen/x10"
                 android:drawableTop="@drawable/city_legwork"
                 android:gravity="center_horizontal"
-                android:text="全程跑腿"
+                android:text="全城跑腿"
                 android:textColor="@color/color_6"
                 android:textSize="13sp" />
 

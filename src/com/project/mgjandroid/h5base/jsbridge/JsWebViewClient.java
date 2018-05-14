@@ -53,7 +53,6 @@ public class JsWebViewClient extends WebViewClient {
     }
 
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        YLLogUtils.d("h5webview", url);
 
         try {
             url = URLDecoder.decode(url, "UTF-8");
@@ -78,7 +77,8 @@ public class JsWebViewClient extends WebViewClient {
                     var4.printStackTrace();
                 }
             } else {
-                view.loadUrl(url);
+                //view.loadUrl(url);
+                return super.shouldOverrideUrlLoading(view, url);
             }
             return true;
         }

@@ -79,7 +79,6 @@ android {
             storeFile file("maguanjia.jks")
             storePassword 'maguanjia'
             keyAlias 'maguanjia'
-
             keyPassword 'maguanjia'
         }
     }

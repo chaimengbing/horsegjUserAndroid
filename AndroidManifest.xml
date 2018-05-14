@@ -886,6 +886,10 @@
         <activity
             android:name=".zxing.activity.CaptureActivity"
             android:screenOrientation="portrait" />
+        <!--订单退款详情-->
+        <activity
+            android:name=".ui.activity.OrderRefundInfoActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

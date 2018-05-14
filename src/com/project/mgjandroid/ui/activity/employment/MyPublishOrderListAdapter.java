@@ -1,15 +1,17 @@
 package com.project.mgjandroid.ui.activity.employment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.information.InformationOrder;
 import com.project.mgjandroid.bean.information.InformationOrderStatus;
 import com.project.mgjandroid.bean.information.InformationType;
-import com.project.mgjandroid.bean.information.OrderStatus;
 import com.project.mgjandroid.bean.information.OrderType;
+import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
 import com.project.mgjandroid.ui.activity.information.PayActivity;
 import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
@@ -43,12 +45,28 @@ public class MyPublishOrderListAdapter extends BaseListAdapter<InformationOrder>
         holder.setText(R.id.information_order_num, "订单编号：" + bean.getId());
         holder.setText(R.id.information_order_create_time, CommonUtils.formatTime(bean.getCreateTime().getTime(), "下单时间：yyyy-MM-dd HH:mm:ss"));
         final TimeTextView toPay = holder.getView(R.id.order_state_go_pay);
+        TextView tvRefund = holder.getView(R.id.order_state_refund);
         if (bean.getStatus() == InformationOrderStatus.WaitPay.getValue()) {
             toPay.setVisibility(View.VISIBLE);
             toPay.setText("去支付");
         } else {
             toPay.setVisibility(View.GONE);
         }
+        if (bean.getStatus() == InformationOrderStatus.Refund.getValue() && bean.getPaymentState() == 1) {
+            //已支付 取消
+            tvRefund.setVisibility(View.VISIBLE);
+        } else {
+            tvRefund.setVisibility(View.GONE);
+        }
+        tvRefund.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mActivity, OrderRefundInfoActivity.class);
+                intent.putExtra("orderId", bean.getId());
+                mActivity.startActivity(intent);
+            }
+        });
+
         toPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

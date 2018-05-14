@@ -50,10 +50,19 @@ public class ThirdPartyOrderBean extends Entity {
     private String typeStr;
     private String orderFlowStatusStr;
     private int status;
+    private int paymentState;
     private String paymentExpireTime;
     private String url;
     private String type;
     private String serverTime;
+
+    public int getPaymentState() {
+        return paymentState;
+    }
+
+    public void setPaymentState(int paymentState) {
+        this.paymentState = paymentState;
+    }
 
     public String getServerTime() {
         return serverTime;

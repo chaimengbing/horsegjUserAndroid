@@ -201,6 +201,24 @@ public class SubmitOrderModel extends Entity {
         private boolean canReturnOrChange;
         private CarHailingOrder chauffeurOrder;
         private CarRedBagActivity carRedBagActivity;
+        private String prepareOrderReceivingTime;
+        private String orderDoneTime;
+
+        public String getOrderDoneTime() {
+            return orderDoneTime;
+        }
+
+        public void setOrderDoneTime(String orderDoneTime) {
+            this.orderDoneTime = orderDoneTime;
+        }
+
+        public String getPrepareOrderReceivingTime() {
+            return prepareOrderReceivingTime;
+        }
+
+        public void setPrepareOrderReceivingTime(String prepareOrderReceivingTime) {
+            this.prepareOrderReceivingTime = prepareOrderReceivingTime;
+        }
 
         public String getPaymentFinishTime() {
             return paymentFinishTime;
@@ -629,8 +647,35 @@ public class SubmitOrderModel extends Entity {
             private DeliverymanEntity deliveryman;
             private String dispatchTime;
             private String processBy;
+            private String orderConfirmTime;
+            private String acceptTime;
+            private String arrivalMerchantTime;
             private int status;
             private int deliveryDone;
+
+            public String getOrderConfirmTime() {
+                return orderConfirmTime;
+            }
+
+            public void setOrderConfirmTime(String orderConfirmTime) {
+                this.orderConfirmTime = orderConfirmTime;
+            }
+
+            public String getAcceptTime() {
+                return acceptTime;
+            }
+
+            public void setAcceptTime(String acceptTime) {
+                this.acceptTime = acceptTime;
+            }
+
+            public String getArrivalMerchantTime() {
+                return arrivalMerchantTime;
+            }
+
+            public void setArrivalMerchantTime(String arrivalMerchantTime) {
+                this.arrivalMerchantTime = arrivalMerchantTime;
+            }
 
             public int getId() {
                 return id;

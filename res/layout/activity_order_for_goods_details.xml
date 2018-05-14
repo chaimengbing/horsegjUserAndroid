@@ -100,7 +100,6 @@
                         android:id="@+id/tv_food_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="川菜小炒代金券"
                         android:textColor="@color/color_3"
                         android:textSize="15sp" />
 
@@ -109,7 +108,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x8"
-                        android:text="100元代金券1张  可叠加"
                         android:textColor="@color/color_6"
                         android:textSize="12sp" />
 
@@ -118,7 +116,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/x6"
-                        android:text="¥86"
+                        android:text="¥0"
                         android:textColor="#fb4e44"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -258,7 +256,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/x8"
-                            android:text="有效期至:2017.02.26-2017.03.26"
                             android:textColor="@color/color_6"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -347,7 +344,6 @@
                             android:id="@+id/tv_shop_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="王府井全聚德烤鸭"
                             android:textColor="@color/color_3"
                             android:textSize="15sp" />
 
@@ -356,7 +352,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/x10"
-                            android:text="中央大街 王府井大街 全聚德烤鸭 东路100号"
                             android:textColor="@color/color_6"
                             android:textSize="12sp" />
 
@@ -377,10 +372,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/x9"
-                                android:text="110m"
                                 android:textColor="@color/color_6"
                                 android:textSize="12sp" />
                         </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -403,7 +398,9 @@
                             android:scaleType="centerInside"
                             android:src="@drawable/group_buying_call_icon" />
                     </LinearLayout>
+
                 </LinearLayout>
+
             </LinearLayout>
 
             <View
@@ -476,7 +473,7 @@
                     android:layout_marginTop="@dimen/x8"
                     android:gravity="center_vertical"
                     android:lineSpacingExtra="@dimen/x10"
-                    android:text="凉拌土豆丝 凉拌土豆丝 凉拌土豆丝 凉拌土豆丝 凉拌土豆丝 凉拌土豆丝"
+                    android:paddingBottom="@dimen/x10"
                     android:textColor="@color/color_6"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -524,7 +521,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="订单编号:"
+                        android:text="订单编号："
                         android:textColor="@color/color_3"
                         android:textSize="14sp" />
 
@@ -532,7 +529,6 @@
                         android:id="@+id/tv_order_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5642316546454"
                         android:textColor="@color/color_6"
                         android:textSize="14sp"
 
@@ -550,7 +546,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="付款时间:"
+                        android:text="付款时间："
                         android:textColor="@color/color_3"
                         android:textSize="14sp" />
 
@@ -558,11 +554,8 @@
                         android:id="@+id/tv_time_of_payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2016.5.11 11:32"
                         android:textColor="@color/color_6"
-                        android:textSize="14sp"
-
-                        />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -575,7 +568,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="数量:"
+                        android:text="数量："
                         android:textColor="@color/color_3"
                         android:textSize="14sp" />
 
@@ -599,7 +592,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="总价:"
+                        android:text="总价："
                         android:textColor="@color/color_3"
                         android:textSize="14sp" />
 
@@ -607,13 +600,15 @@
                         android:id="@+id/tv_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="¥88"
+                        android:text="¥0"
                         android:textColor="@color/color_6"
-                        android:textSize="14sp"
-
-                        />
+                        android:textSize="14sp" />
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
         android:background="@drawable/title_bar_bg"
-        android:paddingLeft="@dimen/x10"
         android:paddingRight="@dimen/x10">
 
         <ImageView
             android:id="@+id/order_detail_act_iv_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
+            android:paddingLeft="@dimen/x10"
+            android:paddingRight="@dimen/x10"
             android:src="@drawable/icon_back" />
 
         <ImageView

@@ -1105,22 +1105,22 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
     protected void onDestroy() {
 
         //如果要清空webview缓存，需在super.onDestroy()之前调用此方法
-        clearWebCache();
-        h5Container.loadUrl("javascript:clear()");
+//        clearWebCache();
+//        h5Container.loadUrl("javascript:clear()");
         super.onDestroy();
-        CookieSyncManager.createInstance(this);  //Create a singleton CookieSyncManager within a context
-        CookieManager cookieManager = CookieManager.getInstance(); // the singleton CookieManager instance
-        cookieManager.removeAllCookie();// Removes all cookies.
-        cookieManager.setAcceptCookie(true);
-        CookieSyncManager.getInstance().sync(); // forces sync manager to sync now
-
-        h5Container.setWebChromeClient(null);
-        h5Container.setWebViewClient(null);
-        h5Container.getSettings().setJavaScriptEnabled(false);
-        h5Container.clearCache(true);
-//        h5Container.setInitMessages(null);
-        h5Container.destroy();
-        h5Container = null;
+//        CookieSyncManager.createInstance(this);  //Create a singleton CookieSyncManager within a context
+//        CookieManager cookieManager = CookieManager.getInstance(); // the singleton CookieManager instance
+//        cookieManager.removeAllCookie();// Removes all cookies.
+//        cookieManager.setAcceptCookie(true);
+//        CookieSyncManager.getInstance().sync(); // forces sync manager to sync now
+//
+//        h5Container.setWebChromeClient(null);
+//        h5Container.setWebViewClient(null);
+//        h5Container.getSettings().setJavaScriptEnabled(false);
+//        h5Container.clearCache(true);
+////        h5Container.setInitMessages(null);
+//        h5Container.destroy();
+//        h5Container = null;
 
         System.gc();
     }

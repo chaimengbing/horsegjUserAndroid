@@ -35,6 +35,12 @@
         android:text="加载可视农场网址" />
 
     <Button
+        android:id="@+id/btn_expressage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加载快递" />
+
+    <Button
         android:id="@+id/btn_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

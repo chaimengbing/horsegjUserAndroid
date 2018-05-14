@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/gray_white"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -16,18 +16,18 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/x15"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/x15">
 
 
         <TextView
             android:id="@+id/my_publish_order_tv_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/pintuan_red"
             android:background="@drawable/shap_red_range_bg"
-            android:text="招聘信息" />
+            android:text="招聘信息"
+            android:textColor="@color/pintuan_red"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/my_publish_order_tv_name"
@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x8"
             android:layout_weight="1"
-            android:text="老司机"
             android:singleLine="true"
             android:textColor="@color/color_3"
             android:textSize="15sp" />
@@ -44,7 +43,6 @@
             android:id="@+id/my_publish_order_tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="支付成功"
             android:textColor="@color/color_6"
             android:textSize="13sp" />
 
@@ -53,56 +51,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/x15"
-        android:paddingRight="@dimen/x15"
-        android:paddingBottom="@dimen/x15"
         android:layout_marginTop="@dimen/x1"
-        android:orientation="horizontal">
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/x10"
+        android:paddingLeft="@dimen/x15"
+        android:paddingRight="@dimen/x15">
 
         <TextView
             android:id="@+id/order_pay_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/color_6"
-            android:textSize="13sp"
             android:layout_marginTop="@dimen/x15"
+            android:layout_weight="1"
             android:gravity="left"
-            android:text="类型" />
+            android:text="类型"
+            android:textColor="@color/color_6"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/order_still_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x15"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="时间"
             android:textColor="@color/color_6"
-            android:textSize="13sp"
-            android:layout_marginTop="@dimen/x15"
-            android:text="时间" />
+            android:textSize="13sp" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
             android:layout_weight="1"
             android:gravity="right"
-            android:layout_marginTop="@dimen/x10"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="合计:"
                 android:paddingBottom="@dimen/x2"
+                android:text="合计:"
                 android:textColor="@color/color_6"
                 android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¥"
                 android:paddingBottom="@dimen/x1"
+                android:text="¥"
                 android:textColor="@color/color_3"
                 android:textSize="13sp" />
 
@@ -111,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="24"
+                android:text="0"
                 android:textColor="@color/color_3"
                 android:textSize="18sp" />
 
@@ -126,11 +124,11 @@
         android:background="@color/white"
         android:paddingLeft="@dimen/x15"
         android:paddingRight="@dimen/x15"
-        android:paddingTop="@dimen/x15"
-        android:textColor="@color/color_9"
-        android:textSize="13sp"
+        android:paddingTop="@dimen/x10"
         android:singleLine="true"
-        android:text="订单编号：" />
+        android:text="订单编号："
+        android:textColor="@color/color_9"
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/information_order_create_time"
@@ -139,11 +137,11 @@
         android:background="@color/white"
         android:paddingLeft="@dimen/x15"
         android:paddingRight="@dimen/x15"
-        android:paddingTop="@dimen/x15"
-        android:textColor="@color/color_9"
-        android:textSize="13sp"
+        android:paddingTop="@dimen/x10"
         android:singleLine="true"
-        android:text="下单时间：" />
+        android:text="下单时间："
+        android:textColor="@color/color_9"
+        android:textSize="13sp" />
 
     <View
         android:layout_width="match_parent"
@@ -154,10 +152,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x1"
+        android:background="@color/white"
         android:gravity="right|center"
-        android:paddingRight="@dimen/x15"
         android:paddingLeft="@dimen/x15"
-        android:background="@color/white">
+        android:paddingRight="@dimen/x15">
 
         <LinearLayout
             android:id="@+id/order_list_item_layout_evaluate"
@@ -167,19 +165,35 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/order_state_refund"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x30"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginTop="@dimen/x10"
+                android:background="@drawable/shap_gray_range_bg"
+                android:gravity="center"
+                android:minWidth="@dimen/x70"
+                android:text="退款详情"
+                android:textColor="@color/color_3"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/order_state_publish_again"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/x30"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/shap_gray_range_bg"
-                android:text="重新发布"
-                android:minWidth="@dimen/x70"
-                android:gravity="center"
-                android:textColor="@color/color_3"
-                android:textSize="14sp"
+                android:layout_marginBottom="@dimen/x10"
                 android:layout_marginLeft="@dimen/x10"
                 android:layout_marginTop="@dimen/x10"
-                android:layout_marginBottom="@dimen/x10"
+                android:background="@drawable/shap_gray_range_bg"
+                android:gravity="center"
+                android:minWidth="@dimen/x70"
+                android:text="重新发布"
+                android:textColor="@color/color_3"
+                android:textSize="14sp"
                 android:visibility="gone" />
 
             <TextView
@@ -187,15 +201,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/x30"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/shap_gray_range_bg"
-                android:text="重新置顶"
-                android:minWidth="@dimen/x70"
-                android:gravity="center"
-                android:textColor="@color/color_3"
-                android:textSize="14sp"
+                android:layout_marginBottom="@dimen/x10"
                 android:layout_marginLeft="@dimen/x10"
                 android:layout_marginTop="@dimen/x10"
-                android:layout_marginBottom="@dimen/x10"
+                android:background="@drawable/shap_gray_range_bg"
+                android:gravity="center"
+                android:minWidth="@dimen/x70"
+                android:text="重新置顶"
+                android:textColor="@color/color_3"
+                android:textSize="14sp"
                 android:visibility="gone" />
 
             <com.project.mgjandroid.ui.view.TimeTextView
@@ -203,17 +217,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/x30"
                 android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/x10"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_marginTop="@dimen/x10"
                 android:background="@drawable/shap_pintuan_red_range_bg"
+                android:gravity="center"
+                android:minWidth="@dimen/x70"
                 android:text="@string/to_pay_order"
                 android:textColor="@color/pintuan_red"
                 android:textSize="14sp"
-                android:minWidth="@dimen/x70"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginLeft="@dimen/x10"
-                android:layout_marginTop="@dimen/x10"
-                android:layout_marginBottom="@dimen/x10" />
+                android:visibility="gone" />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <View

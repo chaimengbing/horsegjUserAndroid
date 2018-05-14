@@ -23,6 +23,7 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.OrderDetailActivity;
+import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
@@ -105,8 +106,12 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
     private TextView tvFavor;
     @InjectView(R.id.pintuan_favor_layout)
     private LinearLayout llFavor;
-    @InjectView(R.id.group_order_status_image)
-    private ImageView ivStatus;
+    @InjectView(R.id.ll_order_status)
+    private LinearLayout llStatus;
+    @InjectView(R.id.tv_group_state)
+    private TextView tvGroupState;
+    @InjectView(R.id.tv_group_refund)
+    private TextView tvGroupRefund;
     @InjectView(R.id.pay_cancel_layout)
     private LinearLayout llPayCancel;
     @InjectView(R.id.cancel_order)
@@ -140,6 +145,7 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
         ivPhone.setOnClickListener(this);
         tvCancel.setOnClickListener(this);
         tvPay.setOnClickListener(this);
+        llStatus.setOnClickListener(this);
     }
 
     private void initView() {
@@ -225,14 +231,18 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
             switch (groupStatus) {
                 case -1:
                     tvGroupStatus.setText("取消订单");
-//                    groupHolder.tvPay.setVisibility(View.GONE);
-
                     rlNoWaiting.setVisibility(View.GONE);
                     rlIsWaiting.setVisibility(View.GONE);
-                    ivStatus.setVisibility(View.VISIBLE);
+                    llStatus.setVisibility(View.VISIBLE);
+                    if (order.getPaymentState() == 1) {
+                        //已付款
+                        tvGroupRefund.setVisibility(View.VISIBLE);
+                        tvGroupState.setText("等待商家退款");
+                    } else {
+                        tvGroupState.setText("订单已取消");
+                    }
                     llToDetail.setVisibility(View.GONE);
                     llPayCancel.setVisibility(View.GONE);
-                    ivStatus.setImageResource(R.drawable.order_status_invalid);
                     break;
                 case 0:
                     tvGroupStatus.setText("订单创建");
@@ -242,16 +252,15 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                     tvGroupStatus.setText("等待付款");
 //                    groupHolder.tvPay.setVisibility(View.VISIBLE);
 //                    groupHolder.tvPay.setTimes(getTimeBetween1(new Date(), groupBuyOrder.getPaymentExpireTime()));
-                    ivStatus.setVisibility(View.VISIBLE);
+                    llStatus.setVisibility(View.VISIBLE);
+                    tvGroupState.setText("等待买家付款");
                     llToDetail.setVisibility(View.GONE);
                     rlNoWaiting.setVisibility(View.GONE);
                     rlIsWaiting.setVisibility(View.GONE);
-
                     llPayCancel.setVisibility(View.VISIBLE);
-                    ivStatus.setImageResource(R.drawable.order_status_nopay);
                     break;
                 case 2:
-                    tvGroupStatus.setText("已支付,未成团");
+                    tvGroupStatus.setText("已支付，未成团");
 //                    groupHolder.tvPay.setVisibility(View.GONE);
                     break;
                 case 3:
@@ -271,7 +280,7 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                     }
                     break;
                 case 5:
-                    tvGroupStatus.setText("未成团,退款成功");
+                    tvGroupStatus.setText("未成团，退款成功");
 //                    groupHolder.tvPay.setVisibility(View.GONE);
                     break;
             }
@@ -365,6 +374,15 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                 payIntent.putExtra("orderId", orderId);
                 payIntent.putExtra("isGroup", true);
                 startActivityForResult(payIntent, 100);
+                break;
+            case R.id.ll_order_status:
+                if (model != null && model.getValue() != null) {
+                    if (model.getValue().getGroupbuyOrder().getStatus() == -1 && model.getValue().getPaymentState() == 1) {
+                        Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
+                        intent2.putExtra("orderId", orderId);
+                        startActivity(intent2);
+                    }
+                }
                 break;
         }
     }

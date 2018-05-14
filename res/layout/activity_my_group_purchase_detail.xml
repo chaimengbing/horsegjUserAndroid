@@ -183,7 +183,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/my_pintuan_total_num"
                     android:layout_toRightOf="@id/my_pintuan_total_price_sign"
-                    android:text="24"
                     android:textColor="#fa4c3e"
                     android:textSize="18sp" />
 
@@ -200,27 +199,36 @@
             <RelativeLayout
                 android:id="@+id/group_is_waiting_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_3"
-                android:padding="@dimen/x15"
+                android:layout_height="@dimen/x67"
+                android:background="@drawable/bg_zutuan_title"
+                android:paddingLeft="@dimen/x15"
+                android:paddingRight="@dimen/x15"
                 android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/group_is_not_success"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="组团还未成功"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/group_is_not_success"
-                    android:layout_marginTop="@dimen/x8"
-                    android:text="让小伙伴们都来组团吧！"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/group_is_not_success"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="组团还未成功"
+                        android:textColor="#FD483F"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/group_is_not_success"
+                        android:layout_marginTop="@dimen/x8"
+                        android:text="让小伙伴们都来组团吧！"
+                        android:textColor="@color/color_6"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/my_group_invite_friend"
@@ -236,13 +244,39 @@
 
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/group_order_status_image"
+            <LinearLayout
+                android:id="@+id/ll_order_status"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/order_status_nopay"
-                android:visibility="gone" />
+                android:layout_height="@dimen/x67"
+                android:background="@drawable/bg_zutuan_title"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_group_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/group_order_icon"
+                    android:drawablePadding="@dimen/x5"
+                    android:text="等待买家付款"
+                    android:textColor="#FD483F"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_group_refund"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/group_is_not_success"
+                    android:layout_marginTop="@dimen/x5"
+                    android:drawablePadding="@dimen/x5"
+                    android:drawableRight="@drawable/right_arrow_gray_2"
+                    android:text="退款详情"
+                    android:textColor="@color/color_6"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/top_address"
@@ -308,7 +342,6 @@
                         android:layout_alignLeft="@id/address_name"
                         android:layout_below="@id/address_name"
                         android:layout_marginTop="@dimen/x6"
-                        android:text="华杰大厦大钟寺13号四道口路"
                         android:textColor="@color/color_3"
                         android:textSize="12sp" />
 
@@ -526,7 +559,7 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:padding="@dimen/x15"
-                android:text="你可能喜欢"
+                android:text="你可能会喜欢"
                 android:textColor="@color/color_3"
                 android:textSize="12sp" />
 
@@ -553,6 +586,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
 </RelativeLayout>

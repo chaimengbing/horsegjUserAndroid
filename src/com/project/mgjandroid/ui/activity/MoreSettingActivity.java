@@ -77,8 +77,12 @@ public class MoreSettingActivity extends BaseActivity implements View.OnClickLis
         }
         String quality = PreferenceUtils.getStringPreference("ImageQuality", "普通", mContext);
         imgQuality.setText(quality);
-        String autoCacheSize = FileUtils.getAutoCacheSize();
-        tvCacheSize.setText(autoCacheSize);
+        try {
+            String autoCacheSize = FileUtils.getAutoCacheSize();
+            tvCacheSize.setText(autoCacheSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

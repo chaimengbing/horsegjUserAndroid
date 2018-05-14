@@ -60,6 +60,7 @@ public class CommonUtils {
     public final static String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
     public final static String yyyy_MM_dd_HH_mm = "yyyy-MM-dd HH:mm";
     public final static String yyyy_MM_dd = "yyyy-MM-dd";
+    public final static String MM_dd_HH_mm = "MM-dd HH:mm";
 
     public static boolean isSupportSinaSSO(Context context) {
         Intent intent = new Intent("com.sina.weibo.remotessoservice");

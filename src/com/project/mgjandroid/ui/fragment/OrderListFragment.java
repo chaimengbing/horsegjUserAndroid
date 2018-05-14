@@ -52,6 +52,7 @@ import com.project.mgjandroid.ui.activity.ConfirmOrderActivity;
 import com.project.mgjandroid.ui.activity.EvaluateActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.OrderDetailActivity;
+import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
 import com.project.mgjandroid.ui.activity.SmsLoginActivity;
 import com.project.mgjandroid.ui.activity.carhailing.CarHailingDriverActivity;
 import com.project.mgjandroid.ui.activity.carhailing.CarHailingEvaluateActivity;
@@ -743,6 +744,14 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                     startActivityForResult(intent, REFRESH);
                 }
                 break;
+            case R.id.order_state_refund:
+            case R.id.order_state_refund_to_balance:
+                int mTag3 = (int) v.getTag();
+                NewOrderFragmentModel.ValueEntity mValueEntity3 = adapter.getData().get(mTag3);
+                Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
+                intent2.putExtra("orderId", mValueEntity3.getId());
+                startActivity(intent2);
+                break;
             case R.id.order_state_more_one:
                 int tag2 = (int) v.getTag();
                 NewOrderFragmentModel.ValueEntity valueEntity1 = adapter.getData().get(tag2);
@@ -1311,12 +1320,10 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                 startActivityForResult(intentDetail, REFRESH);
                 mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
             } else if (order.getType() == 6) {
-//                String orderId = String.valueOf(order.getId());
                 Intent intentDetail = new Intent(mActivity, GroupBuyingOrderForGoodsDetailsActivity.class);
                 intentDetail.putExtra("orderId", order.getGroupPurchaseOrder().getId());
                 startActivityForResult(intentDetail, REFRESH);
                 mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
-
             } else if (order.getType() == 9) {
                 Intent intentDetail = new Intent(mActivity, LegworkOrderdetailsActivity.class);
                 intentDetail.putExtra("orderId", order.getLegWorkOrder().getId());
@@ -1324,6 +1331,7 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                 mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
             } else {
                 if (order.getThirdpartyOrder() == null || TextUtils.isEmpty(order.getThirdpartyOrder().getUrl())) {
+                    ToastUtils.displayMsg("请升级马管家最新版本", mActivity);
                     return;
                 }
                 Intent intent = new Intent(mActivity, YLBWebViewActivity.class);

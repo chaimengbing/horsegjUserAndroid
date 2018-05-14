@@ -95,9 +95,11 @@ public class YLH5Container extends WebView implements WebViewJsBridge, WebPageLo
         webSetting.setDatabaseEnabled(true);
         webSetting.setDomStorageEnabled(true);
         webSetting.setGeolocationEnabled(true);
+        String appCachePath = mContext.getApplicationContext().getCacheDir().getAbsolutePath();
+        webSetting.setAppCachePath(appCachePath);
         webSetting.setPluginState(WebSettings.PluginState.ON);
         webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSetting.setCacheMode(2);
+        webSetting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         if (Build.VERSION.SDK_INT >= 21) {
             webSetting.setMixedContentMode(0);
         }
@@ -227,7 +229,7 @@ public class YLH5Container extends WebView implements WebViewJsBridge, WebPageLo
 
     public void handlerReturnData(String url) {
         String funcName = JsBridgeUtils.getFuncFromUrl(url);
-        JsBridgeCallBack func = (JsBridgeCallBack) this.callbacks.get(funcName);
+        JsBridgeCallBack func = this.callbacks.get(funcName);
         String data = JsBridgeUtils.getDataFromUrl(url);
         if (func != null) {
             func.onCallBack(data);
@@ -237,7 +239,7 @@ public class YLH5Container extends WebView implements WebViewJsBridge, WebPageLo
     }
 
     public void sendMessage(String jsHandlerName, String data) {
-        this.sendMessage(jsHandlerName, data, (JsBridgeCallBack) null);
+        this.sendMessage(jsHandlerName, data, null);
     }
 
     public void sendMessage(String jsHandlerName, String data, JsBridgeCallBack callBack) {
@@ -295,7 +297,7 @@ public class YLH5Container extends WebView implements WebViewJsBridge, WebPageLo
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             this.loadUrl("javascript:YLJsBridge._fetchQueue();", new JsBridgeCallBack() {
                 public void onCallBack(String data) {
-                    List list = null;
+                    List list;
 
                     try {
                         list = JsBridgeMessage.toArrayList(data);
@@ -311,12 +313,11 @@ public class YLH5Container extends WebView implements WebViewJsBridge, WebPageLo
                             JsBridgeCallBack callBack;
                             final String callbackId;
                             if (!TextUtils.isEmpty(responseId)) {
-                                callBack = (JsBridgeCallBack) YLH5Container.this.callbacks.get(responseId);
+                                callBack = YLH5Container.this.callbacks.get(responseId);
                                 callbackId = m.getResult();
                                 callBack.onCallBack(callbackId);
                                 YLH5Container.this.callbacks.remove(responseId);
                             } else {
-                                callBack = null;
                                 callbackId = m.getCallbackId();
                                 if (!TextUtils.isEmpty(callbackId)) {
                                     callBack = new JsBridgeCallBack() {
@@ -336,7 +337,7 @@ public class YLH5Container extends WebView implements WebViewJsBridge, WebPageLo
 
                                 JsBridgeHandler handler = YLH5Container.this.defaultHandler;
                                 if (!TextUtils.isEmpty(m.getHandlerName()) && YLH5Container.this.messageHandlers.containsKey(m.getHandlerName())) {
-                                    handler = (JsBridgeHandler) YLH5Container.this.messageHandlers.get(m.getHandlerName());
+                                    handler = YLH5Container.this.messageHandlers.get(m.getHandlerName());
                                 }
 
                                 if (handler != null) {

@@ -1,6 +1,5 @@
 package com.project.mgjandroid.ui.activity.employment;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,20 +14,15 @@ import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.information.InformationFreeStandard;
-import com.project.mgjandroid.bean.information.InformationOrder;
-import com.project.mgjandroid.bean.information.InformationOrderStatus;
 import com.project.mgjandroid.bean.information.InformationType;
 import com.project.mgjandroid.bean.information.OrderType;
-import com.project.mgjandroid.bean.information.PositionInformation;
 import com.project.mgjandroid.bean.information.RecruitInformation;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.information.InformationPositionListModel;
 import com.project.mgjandroid.model.information.InformationRecruitListModel;
-import com.project.mgjandroid.model.information.PositionInformationModel;
 import com.project.mgjandroid.model.information.RecruitInformationModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.information.InformationDetailActivity;
-import com.project.mgjandroid.ui.activity.information.MyPublishInformationActivity;
 import com.project.mgjandroid.ui.activity.information.PayActivity;
 import com.project.mgjandroid.ui.fragment.BaseFragment;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;

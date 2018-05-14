@@ -18,6 +18,7 @@ import com.project.mgjandroid.model.NewOrderFragmentModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
+import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
 import com.project.mgjandroid.ui.adapter.NewOrderListAdapter;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
@@ -270,6 +271,13 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
                 mIntent.putExtra("orderId", mValueEntity2.getId());
                 mIntent.putExtra("agentId", "" + mValueEntity2.getAgentId());
                 startActivityForResult(mIntent, 2000);
+                break;
+            case R.id.order_state_refund:
+                int mTag3 = (int) v.getTag();
+                NewOrderFragmentModel.ValueEntity mValueEntity3 = adapter.getData().get(mTag3);
+                Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
+                intent2.putExtra("orderId", mValueEntity3.getId());
+                startActivity(intent2);
                 break;
             case R.id.common_back:
                 finish();

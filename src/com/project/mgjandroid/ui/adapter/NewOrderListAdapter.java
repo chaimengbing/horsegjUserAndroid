@@ -49,23 +49,28 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
     @Override
     protected void getRealView(ViewHolder holder, NewOrderFragmentModel.ValueEntity bean, int position, View convertView, ViewGroup parent) {
         if (bean.getThirdpartyOrder() != null) {
+            //第三方订单
             showThirdItem(bean, holder, position);
         } else {
             switch (bean.getType()) {
                 case 1:
                 case 3:
+                    // 外卖/商超
                     showItem(bean, holder, position);
                     break;
                 case 2:
+                    //拼团
                     showGroupItem(bean, holder, position);
                     break;
                 case 4:
                     showCarItem(bean, holder, position);
                     break;
                 case 6:
+                    //团购
                     showGroupPurchaseItem(bean, holder, position);
                     break;
                 case 9:
+                    //跑腿代购
                     showLegWorkItem(bean, holder, position);
                     break;
             }
@@ -80,24 +85,31 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             TextView tvState = holder.getView(R.id.order_list_item_tv_state_legwoerk);
             ImageView ivBuy = holder.getView(R.id.legwork_iv_buy);
             TextView tvBuyAddress = holder.getView(R.id.legwork_tv_buy_address);
-            TextView tvBuyInformation = holder.getView(R.id.legwork_tv_buy_personal_information);
+            //TextView tvBuyInformation = holder.getView(R.id.legwork_tv_buy_personal_information);
             TextView tvDeliverAddress = holder.getView(R.id.legwork_tv_deliver_address);
             TextView tvDeliverInformation = holder.getView(R.id.legwork_tv_deliver_personal_information);
             TextView tvLegworkTime = holder.getView(R.id.tv_legwork_time);
             TimeTextView tvLegworkPay = holder.getView(R.id.order_state_go_pay1);
             TextView tvOrderStateEvalute = holder.getView(R.id.order_state_evaluate1);
+            TextView tvOrderStateRefund = holder.getView(R.id.order_state_refund);//退款详情
             view.setVisibility(View.GONE);
             view2.setVisibility(View.VISIBLE);
             if (valueEntity.getLegWorkOrder().getChildType() == 1) {
                 tvCategory.setText("取送件");
                 ivBuy.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.icon_take));
             } else {
-                tvCategory.setText("代购");
+                tvCategory.setText("跑腿");
                 ivBuy.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_legwork_buy));
             }
             switch (valueEntity.getLegWorkOrder().getStatus()) {
                 case -1:
                     tvState.setText("已取消");
+                    if (valueEntity.getLegWorkOrder().getPaymentState() == 1) {
+                        //已经支付
+                        tvOrderStateRefund.setVisibility(View.VISIBLE);
+                    } else {
+                        tvOrderStateRefund.setVisibility(View.GONE);
+                    }
                     tvLegworkPay.setVisibility(View.GONE);
                     tvOrderStateEvalute.setVisibility(View.GONE);
                     break;
@@ -105,39 +117,44 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                     tvState.setText("待付款");
                     tvLegworkPay.setVisibility(View.VISIBLE);
                     tvOrderStateEvalute.setVisibility(View.GONE);
+                    tvOrderStateRefund.setVisibility(View.GONE);
                     tvLegworkPay.setTimes(getTimeBetween(valueEntity.getServerTime(), valueEntity.getLegWorkOrder().getPaymentExpireTime()));
                     break;
                 case 2:
                     tvState.setText("待确认");
                     tvLegworkPay.setVisibility(View.GONE);
                     tvOrderStateEvalute.setVisibility(View.GONE);
+                    tvOrderStateRefund.setVisibility(View.GONE);
                     break;
                 case 4:
                     tvState.setText("待取货");
                     tvLegworkPay.setVisibility(View.GONE);
                     tvOrderStateEvalute.setVisibility(View.GONE);
+                    tvOrderStateRefund.setVisibility(View.GONE);
                     break;
                 case 5:
                     tvState.setText("配送中");
                     tvLegworkPay.setVisibility(View.GONE);
                     tvOrderStateEvalute.setVisibility(View.GONE);
+                    tvOrderStateRefund.setVisibility(View.GONE);
                     break;
                 case 7:
                     tvState.setText("已完成");
                     tvLegworkPay.setVisibility(View.GONE);
+                    tvOrderStateRefund.setVisibility(View.GONE);
                     tvOrderStateEvalute.setVisibility(View.VISIBLE);
                     if (valueEntity.getLegWorkOrder().getHasComments() == 1) {
                         tvOrderStateEvalute.setEnabled(false);
                         tvOrderStateEvalute.setText("已评价");
                     } else {
                         tvOrderStateEvalute.setEnabled(true);
-                        tvOrderStateEvalute.setText("评价");
+                        tvOrderStateEvalute.setText("去评价");
                     }
                     break;
             }
             if (valueEntity.getLegWorkOrder().getShipperType() == 1) {
                 tvBuyAddress.setText("就近购买");
-                tvBuyInformation.setVisibility(View.GONE);
+                //tvBuyInformation.setVisibility(View.GONE);
             } else if (valueEntity.getLegWorkOrder().getShipperType() == 2) {
                 String shipperHouseNumber = valueEntity.getLegWorkOrder().getShipperHouseNumber();
                 String userHouseNumber = valueEntity.getLegWorkOrder().getUserHouseNumber();
@@ -146,14 +163,16 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 } else {
                     tvBuyAddress.setText(valueEntity.getLegWorkOrder().getShipperAddress() + (TextUtils.isEmpty(userHouseNumber) ? "" : userHouseNumber) + "\n" + valueEntity.getLegWorkOrder().getShipperHouseNumber());
                 }
-                tvBuyInformation.setVisibility(View.GONE);
+                // tvBuyInformation.setVisibility(View.GONE);
             } else if (valueEntity.getLegWorkOrder().getShipperType() == 0) {
                 tvBuyAddress.setText(valueEntity.getLegWorkOrder().getShipperAddress());
-                tvBuyInformation.setVisibility(View.VISIBLE);
-                tvBuyInformation.setText(valueEntity.getLegWorkOrder().getShipperName() + " " + valueEntity.getLegWorkOrder().getShipperGender() + " " + valueEntity.getLegWorkOrder().getShipperMobile());
+                //tvBuyInformation.setVisibility(View.VISIBLE);
+                //tvBuyInformation.setText(valueEntity.getLegWorkOrder().getShipperName() + " " + valueEntity.getLegWorkOrder().getShipperGender() + " " + valueEntity.getLegWorkOrder().getShipperMobile());
             }
             tvLegworkPay.setTag(position);
             tvLegworkPay.setOnClickListener(listener);
+            tvOrderStateRefund.setTag(position);
+            tvOrderStateRefund.setOnClickListener(listener);
             tvOrderStateEvalute.setTag(position);
             tvOrderStateEvalute.setOnClickListener(listener);
             String userHouseNumber = valueEntity.getLegWorkOrder().getUserHouseNumber();
@@ -189,7 +208,6 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             TextView tvCode = holder.getView(R.id.order_state_to_see_code);
             TextView tvRefund = holder.getView(R.id.order_state_refund_to_balance);
             tvCode.setVisibility(View.GONE);
-            tvRefund.setVisibility(View.GONE);
             tvInvite.setVisibility(View.GONE);
             tvMoreOrder.setVisibility(View.GONE);
             tvEvaluate.setVisibility(View.GONE);
@@ -214,6 +232,14 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             tvPay.setOnClickListener(listener);
             tvEvaluate.setTag(position);
             tvEvaluate.setOnClickListener(listener);
+            tvRefund.setTag(position);
+            tvRefund.setOnClickListener(listener);
+
+            if (valueEntity.getThirdpartyOrder().getStatus() == -1 && valueEntity.getThirdpartyOrder().getPaymentState() == 1) {
+                tvRefund.setVisibility(View.VISIBLE);
+            } else {
+                tvRefund.setVisibility(View.GONE);
+            }
 
             if (valueEntity.getOrderFlowStatus() == 1) {
                 //"paymentExpireTime": 1515575449643,
@@ -285,8 +311,8 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             } else if (order.getStatus() == GroupPurchaseOrderStatus.Cancel.getValue()) {
                 tvStatus.setText("已取消");
             } else if (order.getStatus() == GroupPurchaseOrderStatus.Refund.getValue()) {
-                tvRefund.setVisibility(View.VISIBLE);
-                tvStatus.setText("");
+                //tvRefund.setVisibility(View.VISIBLE);
+                tvStatus.setText("已退款");
             } else {
                 tvStatus.setText(GroupPurchaseOrderStatus.getGroupPurchaseCouponTypeByValue(order.getStatus()).getMemo());
             }
@@ -299,7 +325,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             tvTitle.setText(order.getGroupPurchaseMerchantName() + (order.getGroupPurchaseCouponType() == 1 ? "代金券" : "团购券"));
             tvIntro.setText("有效期至：" + order.getGroupPurchaseCouponEndTime());
             tvTotalPrice.setText(StringUtils.BigDecimal2Str(order.getTotalPrice()));
-            tvQuantity.setText("(" + order.getQuantity() + "张)");
+            tvQuantity.setText(" (" + order.getQuantity() + "张)");
 
             tvCode.setTag(position);
             tvCode.setOnClickListener(listener);
@@ -322,25 +348,25 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 tvPay.setVisibility(View.GONE);
                 tvCode.setVisibility(View.GONE);
                 tvEvaluate.setVisibility(View.GONE);
-                tvRefund.setVisibility(View.VISIBLE);
+                //tvRefund.setVisibility(View.VISIBLE);
                 tvStatus.setText("");
             } else if (order.getQueryType() == 3) { // 待评价
                 tvPay.setVisibility(View.GONE);
                 tvCode.setVisibility(View.GONE);
                 tvEvaluate.setVisibility(View.VISIBLE);
-                tvRefund.setVisibility(View.GONE);
+                //tvRefund.setVisibility(View.GONE);
                 tvStatus.setText("待评价");
             } else if (order.getQueryType() == 2) { // 待销费
                 tvPay.setVisibility(View.GONE);
                 tvCode.setVisibility(View.VISIBLE);
                 tvEvaluate.setVisibility(View.GONE);
-                tvRefund.setVisibility(View.GONE);
+                //tvRefund.setVisibility(View.GONE);
                 tvStatus.setText("待消费");
             } else if (order.getQueryType() == 1) { // 待付款
                 tvPay.setVisibility(View.VISIBLE);
                 tvCode.setVisibility(View.GONE);
                 tvEvaluate.setVisibility(View.GONE);
-                tvRefund.setVisibility(View.GONE);
+                //tvRefund.setVisibility(View.GONE);
                 tvStatus.setText("等待付款");
                 tvPay.setTimes(getTimeBetween(valueEntity.getServerTime(), order.getPaymentExpireTime()));
             }
@@ -472,7 +498,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                         tvPay.setTimes(getTimeBetween1(new Date(), groupBuyOrder.getPaymentExpireTime()));
                         break;
                     case 2:
-                        groupStatus.setText("已支付,未成团");
+                        groupStatus.setText("已支付，未成团");
                         tvPay.setVisibility(View.GONE);
                         tvInvite.setVisibility(View.VISIBLE);
                         break;
@@ -491,7 +517,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                         tvInvite.setVisibility(View.GONE);
                         break;
                     case 5:
-                        groupStatus.setText("未成团,退款成功");
+                        groupStatus.setText("未成团，退款成功");
                         tvPay.setVisibility(View.GONE);
                         tvInvite.setVisibility(View.GONE);
                         break;
@@ -548,13 +574,19 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             tvPay.setTag(position);
             tvEvaluate.setTag(position);
             imgFather.setTag(position);
+            tvRefund.setTag(position);
             tvMoreOrder.setOnClickListener(listener);
             tvPay.setOnClickListener(listener);
             tvEvaluate.setOnClickListener(listener);
             imgFather.setOnClickListener(listener);
+            tvRefund.setOnClickListener(listener);
             switch (valueEntity.getOrderFlowStatus()) {
                 case -1://取消
                     changeButtonShowState(holder, true, false, false, false, false);
+                    if (valueEntity.getPaymentState() == 1) {
+                        //已支付
+                        tvRefund.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case 0://已创建
                     changeButtonShowState(holder, true, false, false, true, false);

@@ -1,15 +1,9 @@
 package com.project.mgjandroid.ui.activity.groupbuying;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,12 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -37,31 +29,23 @@ import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchant;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseOrder;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseOrderCouponCode;
 import com.project.mgjandroid.constants.Constants;
-import com.project.mgjandroid.model.Entity;
-import com.project.mgjandroid.model.groupbuying.GroupBuyingComplainModel;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingCouponModel;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingMerchantModel;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingOrderModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
-
+import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
 import com.project.mgjandroid.ui.adapter.RefundListAdapter;
-import com.project.mgjandroid.ui.view.CommonDialog;
 import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
-import com.project.mgjandroid.ui.view.MyScrollView;
-import com.project.mgjandroid.ui.view.NoticeDialog;
 import com.project.mgjandroid.ui.view.RefundDialog;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.StringUtils;
-import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
-import com.ta.utdid2.android.utils.IntUtils;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -71,18 +55,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static com.project.mgjandroid.R.drawable.merchant;
 import static com.project.mgjandroid.R.id.group_buying_feedback;
 import static com.project.mgjandroid.R.id.group_buying_refund;
 import static com.project.mgjandroid.R.id.img_phone;
 import static com.project.mgjandroid.R.id.layout_address;
 import static com.project.mgjandroid.R.id.layout_group_buying_details;
-import static com.project.mgjandroid.R.id.layout_phone;
-import static com.project.mgjandroid.R.id.outside;
 import static com.project.mgjandroid.R.id.refund_outside;
 import static com.project.mgjandroid.R.id.tv_immediate_use;
 import static com.project.mgjandroid.R.id.tv_more;
-import static com.project.mgjandroid.R.id.tv_publish;
 import static com.project.mgjandroid.R.id.tv_refund;
 import static com.project.mgjandroid.R.id.tv_refund_amount;
 
@@ -330,7 +310,6 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         tvTimeOfPayment.setText(format.format(order.getPayDoneTime()));
         tvCount.setText(order.getQuantity() + "");
         tvTotalPrice.setText("¥" + StringUtils.BigDecimal2Str(order.getTotalPrice()));
-
     }
 
     /**
@@ -388,15 +367,29 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             TextView tvName = (TextView) layout.findViewById(R.id.tv_quanma);
             TextView tvSpending = (TextView) layout.findViewById(R.id.tv_spending);
-            tvName.setText("券码:" + order.getGroupPurchaseOrderCouponCodeList().get(i).getCouponCode());
+            tvName.setText("券码：" + order.getGroupPurchaseOrderCouponCodeList().get(i).getCouponCode());
             if (order.getGroupPurchaseOrderCouponCodeList().get(i).getStatus() == 0 && order.getQuantity() > 0) {
                 tvSpending.setText("未消费");
                 tvImmediateUse.setVisibility(View.VISIBLE);
             } else if (order.getGroupPurchaseOrderCouponCodeList().get(i).getStatus() == 1) {
                 tvSpending.setText("已使用");
             } else {
-                tvSpending.setText("已退款");
+                tvSpending.setText("退款详情 >");
             }
+            final int finalI = i;
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GroupPurchaseOrderCouponCode groupPurchaseOrderCouponCode = order.getGroupPurchaseOrderCouponCodeList().get(finalI);
+                    if (groupPurchaseOrderCouponCode.getStatus() == 2) {
+                        // 已退款
+                        Intent intent = new Intent(mActivity, OrderRefundInfoActivity.class);
+                        intent.putExtra("orderId", order.getId());
+                        intent.putExtra("groupPurchaseOrderCouponCodeId", "" + groupPurchaseOrderCouponCode.getId());
+                        startActivity(intent);
+                    }
+                }
+            });
             couponCodeLayout.addView(layout, layoutParams);
             if (i != size - 1) {
                 View v = new View(mActivity);

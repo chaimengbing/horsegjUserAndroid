@@ -42,9 +42,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="center"
                     android:layout_marginBottom="@dimen/x20"
                     android:layout_marginTop="@dimen/x8"
+                    android:gravity="center"
                     android:textColor="@color/color_6"
                     android:textSize="15sp" />
 
@@ -84,10 +84,10 @@
                         android:id="@+id/img_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/x15"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/x33"
+                        android:padding="@dimen/x15"
                         android:src="@drawable/ic_legwork_phone" />
                 </RelativeLayout>
             </LinearLayout>
@@ -172,7 +172,7 @@
                         android:minWidth="@dimen/x120"
                         android:paddingLeft="@dimen/x5"
                         android:paddingRight="@dimen/x5"
-                        android:text="立即支付¥1.0"
+                        android:text="立即支付¥0.0"
                         android:textColor="@color/color_3"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -186,7 +186,7 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
-                >
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_legwork_status_3"
@@ -215,9 +215,9 @@
                     android:id="@+id/tv_to_evaluate"
                     android:layout_width="@dimen/x120"
                     android:layout_height="@dimen/x35"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/x18"
                     android:background="@drawable/bg_legwork_payment"
-                    android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="去评价"
                     android:textColor="@color/color_3"
@@ -231,7 +231,8 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:paddingBottom="@dimen/x19"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_content"
@@ -241,7 +242,6 @@
                     android:layout_marginTop="@dimen/x20"
                     android:drawablePadding="@dimen/x7"
                     android:drawableRight="@drawable/right_arrow_gray"
-                    android:text="已完成"
                     android:textColor="#383838"
                     android:textSize="19sp"
                     android:textStyle="bold" />
@@ -251,11 +251,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/x19"
                     android:layout_marginTop="@dimen/x8"
                     android:text="感谢使用马管家跑腿"
                     android:textColor="@color/color_6"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_refund_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/x15"
+                    android:background="@drawable/bg_legwork_payment"
+                    android:gravity="center"
+                    android:minHeight="@dimen/x35"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
+                    android:text="退款详情"
+                    android:textColor="@color/color_3"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -268,16 +283,16 @@
                 android:layout_marginTop="@dimen/x12"
                 android:text="商品信息"
                 android:textColor="@color/color_6"
-                android:visibility="gone"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/layout_goods_information"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:visibility="gone"
-                android:padding="@dimen/x15">
+                android:padding="@dimen/x15"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_goods_information"

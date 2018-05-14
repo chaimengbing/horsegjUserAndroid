@@ -24,6 +24,7 @@ public class GroupPurchaseOrderCouponCode extends BaseBean {
      * 代理商编号
      **/
     private Long agentId;
+
     /**
      * 用户编号
      */

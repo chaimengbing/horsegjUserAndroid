@@ -70,6 +70,14 @@ public class H5TestActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.btn_expressage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(H5TestActivity.this, YLBWebViewActivity.class);
+                intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, "http://39.108.16.242/kuaidi/user/index.html");
+                startActivity(intent);
+            }
+        });
         findViewById(R.id.btn_out).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

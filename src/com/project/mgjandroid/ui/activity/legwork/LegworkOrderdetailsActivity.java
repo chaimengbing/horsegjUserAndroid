@@ -28,6 +28,7 @@ import com.project.mgjandroid.model.LegworkStatusModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
+import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
 import com.project.mgjandroid.ui.adapter.LegworkStatusAdapter;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.RoundImageView;
@@ -124,6 +125,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private TextView tvprompt;
     @InjectView(R.id.tv_pick_up)
     private TextView tvPickUp;
+    @InjectView(R.id.tv_refund_desc)
+    private TextView tvRefundDesc;
 
     private String orderId;
     private LegworkOrderDetailsModel.ValueBean valueBean;
@@ -161,6 +164,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         tvStatus2.setOnClickListener(this);
         tvStatus3.setOnClickListener(this);
         imgPhone.setOnClickListener(this);
+        tvRefundDesc.setOnClickListener(this);
         tvTitle.setText("订单详情");
         tvText.setText("客服");
         tvPrePaymentTime.setOnTimerStopListener(new TimeView.OnTimerStopListener() {
@@ -212,8 +216,12 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutNoPayment.setVisibility(View.GONE);
                         layoutNoPickUp.setVisibility(View.GONE);
                         layoutPublic.setVisibility(View.VISIBLE);
+                        if (valueBean.getPaymentState() == 1) {
+                            //已经支付
+                            tvRefundDesc.setVisibility(View.VISIBLE);
+                        }
                         tvContent.setText("已取消");
-                        tvprompt.setText("期待下次为您服务");
+                        tvprompt.setText("感谢使用马管家跑腿");
                         break;
                     case 1:
                         layoutComplete.setVisibility(View.GONE);
@@ -281,6 +289,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutPublic.setVisibility(View.VISIBLE);
                         tvContent.setText("已取消");
                         tvprompt.setText("期待下次为您服务");
+                        if (valueBean.getPaymentState() == 1) {
+                            //已经支付
+                            tvRefundDesc.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case 1:
                         layoutComplete.setVisibility(View.GONE);
@@ -519,6 +531,12 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                     }
                 }, "", valueBean.getDeliveryTask().getDeliveryman().getMobile());
                 dialog.show();
+                break;
+            case R.id.tv_refund_desc:
+                //退款详情
+                Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
+                intent2.putExtra("orderId", valueBean.getId());
+                startActivity(intent2);
                 break;
         }
     }
