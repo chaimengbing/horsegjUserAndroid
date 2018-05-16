@@ -119,7 +119,6 @@ public abstract class YLH5CBaseActivity extends Activity {
                 this.finish();
             }
         }
-
         return true;
     }
 

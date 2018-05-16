@@ -685,9 +685,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 break;
             case R.id.order_detail_order_state_tv_des:
                 //退款
-                if (valueEntity.getOrderFlowStatus() == -1 && valueEntity.getPaymentState() == 1) {
+                if (submitOrderEntity != null && submitOrderEntity.getOrderFlowStatus() == -1 && submitOrderEntity.getPaymentState() == 1) {
                     Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
-                    intent2.putExtra("orderId", valueEntity.getId());
+                    intent2.putExtra("orderId", submitOrderEntity.getId());
                     startActivity(intent2);
                 }
                 break;
@@ -1391,6 +1391,13 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 //未支付
                 tvStateDes.setText("支付超时自动取消");
             }
+            if (!TextUtils.isEmpty(expectDeliveryTime) && !expectDeliveryTime.equals("1")) {
+                tvArriveTime.setText("送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm));
+            }
+            return;
+        } else if (submitOrderEntity.getOrderFlowStatus() == 7) {
+            //已完成
+            tvStateDes.setText("期待为再次为您服务");
             if (!TextUtils.isEmpty(expectDeliveryTime) && !expectDeliveryTime.equals("1")) {
                 tvArriveTime.setText("送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm));
             }

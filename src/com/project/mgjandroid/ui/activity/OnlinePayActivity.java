@@ -532,6 +532,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
             intent.putExtra("orderId", orderId);
             intent.putExtra("hasRedPackage", true);
             startActivity(intent);
+            setResult(RESULT_OK);
             finish();
         }
     }

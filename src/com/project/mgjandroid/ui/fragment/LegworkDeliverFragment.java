@@ -184,6 +184,7 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                 if (CommonUtils.checkLogin(mActivity)) {
                     Intent intent = new Intent(mActivity, AddressManageActivity.class);
                     intent.putExtra("group", "group");
+                    intent.putExtra("title", "取货地址");
                     startActivityForResult(intent, SELECT_TAKE_ADDRESS);
                 }
                 break;

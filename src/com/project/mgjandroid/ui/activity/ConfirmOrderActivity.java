@@ -36,14 +36,12 @@ import com.project.mgjandroid.model.SmsLoginModel;
 import com.project.mgjandroid.model.SubmitOrderModel;
 import com.project.mgjandroid.model.SuperMarketCartModel;
 import com.project.mgjandroid.net.VolleyOperater;
-import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingOrderForGoodsDetailsActivity;
 import com.project.mgjandroid.ui.adapter.ConfirmOrderListAdapter;
 import com.project.mgjandroid.ui.adapter.SelectDayListAdapter;
 import com.project.mgjandroid.ui.adapter.SelectTimeListAdapter;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollListView;
-import com.project.mgjandroid.ui.view.RefundDialog;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
@@ -66,6 +64,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     public static final int REQUEST_SET_CAUTION = 10003;
     public static final int RESPONSE_SET_CAUTION = 10004;
     public static final int REQUEST_CHOOSE_RED_BAG = 10005;
+    public static final int GOTO_PAY = 10006;
     @InjectView(R.id.confirm_order_back)
     private ImageView img_back;
     @InjectView(R.id.top_address_tips)
@@ -376,7 +375,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                             Intent intent = new Intent(ConfirmOrderActivity.this, OnlinePayActivity.class);
                             intent.putExtra("orderId", submitOrderModel.getValue().getId());
                             intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
-                            startActivity(intent);
+                            startActivityForResult(intent, GOTO_PAY);
                             clearThisMerchantCart();
                         }
                     }
@@ -939,6 +938,10 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     getOrderPreview();
                 }
             }
+        }
+        if (requestCode == GOTO_PAY && resultCode == RESULT_OK) {
+            //支付成功
+            finish();
         }
     }
 

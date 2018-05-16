@@ -466,6 +466,8 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             tvEvaluate.setTag(position);
             tvInvite.setTag(position);
             imgFather.setTag(position);
+            tvRefund.setTag(position);
+            tvRefund.setOnClickListener(listener);
             tvPay.setOnClickListener(listener);
             tvEvaluate.setOnClickListener(listener);
             tvInvite.setOnClickListener(listener);
@@ -485,6 +487,10 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                         groupStatus.setText("已取消");
                         tvPay.setVisibility(View.GONE);
                         tvInvite.setVisibility(View.GONE);
+                        if (groupBuyOrder.getPaymentState() == 1) {
+                            //已支付
+                            tvRefund.setVisibility(View.VISIBLE);
+                        }
                         break;
                     case 0:
                         groupStatus.setText("订单创建");

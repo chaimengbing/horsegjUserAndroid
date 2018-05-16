@@ -18,9 +18,9 @@ public class Constants {
     public static final String ONLINE_IP = "60.205.120.0";
     //    public static final String ONLINE_IP = "101.200.34.156";
     //    public static final String ONLINE_IP = "47.94.93.98";
-    public static final String TEST_IP = "120.24.16.64";
+    //    public static final String TEST_IP = "120.24.16.64";
     //    public static final String TEST_IP = "60.205.120.0";
-    //    public static final String TEST_IP = "112.74.18.147";
+    public static final String TEST_IP = "112.74.18.147";
     public static final String URL_NEW_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/newUserClient?m="; //120.24.16.64正式123.56.15.86
     public static final String URL_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/userClient?m="; //120.24.16.64正式123.56.15.86
     public static final String URL_SECOND_HAND_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/secondhand/userClient?m="; //120.24.16.64正式123.56.15.86

@@ -601,7 +601,7 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                             dialog.dismiss();
                         }
 
-                    }, "是否确认退款" + GroupBuyingOrderForGoodsDetailsActivity.this.count + "张价值" + StringUtils.BigDecimal2Str(purchaseCoupon.getPrice()) + "元的代金券？", "退款后，金额将返回至您的余额，可从“我的余额”发起提现申请到您的银行卡。", "确定", "取消");
+                    }, "是否确认退款" + GroupBuyingOrderForGoodsDetailsActivity.this.count + "张价值" + StringUtils.BigDecimal2Str(purchaseCoupon.getPrice()) + "元的代金券？", "申请退款成功后，使用余额支付部分将退还至余额，使用第三方支付部分将原路退回。", "确定", "取消");
                     dialog.show();
                 } else {
                     dialog = new RefundDialog(mActivity, new RefundDialog.onBtnClickListener() {
@@ -616,7 +616,7 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                             dialog.dismiss();
                         }
 
-                    }, "是否确认退款" + GroupBuyingOrderForGoodsDetailsActivity.this.count + "张价值" + StringUtils.BigDecimal2Str(purchaseCoupon.getPrice()) + "元的团购券？", "退款后，金额将返回至您的余额，可从“我的余额”发起提现申请到您的银行卡。", "确定", "取消");
+                    }, "是否确认退款" + GroupBuyingOrderForGoodsDetailsActivity.this.count + "张价值" + StringUtils.BigDecimal2Str(purchaseCoupon.getPrice()) + "元的团购券？", "申请退款成功后，使用余额支付部分将退还至余额，使用第三方支付部分将原路退回。", "确定", "取消");
                     dialog.show();
                 }
             }

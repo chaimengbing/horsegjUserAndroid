@@ -43,6 +43,7 @@ import com.project.mgjandroid.h5container.models.PayModel;
 import com.project.mgjandroid.h5container.models.ScanModel;
 import com.project.mgjandroid.h5container.models.ShareModel;
 import com.project.mgjandroid.h5container.models.ShowRightItemModel;
+import com.project.mgjandroid.h5container.models.addressModel;
 import com.project.mgjandroid.h5container.utils.ToastHandler;
 import com.project.mgjandroid.h5container.utils.YLDialogUtils;
 import com.project.mgjandroid.model.FindAgentModel;
@@ -62,8 +63,6 @@ import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ShareUtil;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.zxing.activity.CaptureActivity;
-import com.tencent.smtt.sdk.CookieManager;
-import com.tencent.smtt.sdk.CookieSyncManager;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.WebBackForwardList;
 import com.tencent.smtt.sdk.WebView;
@@ -614,8 +613,13 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
             @Override
             public void handler(String data, JsBridgeCallBack function) {
                 callbacks.put("selectAddress", function);
+                Gson gson = new Gson();
+                addressModel model = gson.fromJson(data, addressModel.class);
                 Intent intent = new Intent(YLBWebViewActivity.this, AddressManageActivity.class);
                 intent.putExtra("group", "group");
+                if (!TextUtils.isEmpty(model.getTitle())) {
+                    intent.putExtra("title", model.getTitle());
+                }
                 startActivityForResult(intent, YLBSdkConstants.YLBSDK_SELECT_ADDRESS);
             }
         });

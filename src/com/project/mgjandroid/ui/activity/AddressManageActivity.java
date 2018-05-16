@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -47,6 +48,8 @@ public class AddressManageActivity extends BaseActivity implements View.OnClickL
     private LinearLayout tvAddAddress;
     @InjectView(R.id.address_manage_act_listView)
     private SwipeMenuListView lvAddress;
+    @InjectView(R.id.address_manage_act_tv_title)
+    private TextView tvTitle;
 
     private AddressManagerListAdapter listAdapter;
     private long merchantId;
@@ -66,6 +69,10 @@ public class AddressManageActivity extends BaseActivity implements View.OnClickL
         merchantId = getIntent().getLongExtra("MERCHANT_ID", -1);
         userAddressId = getIntent().getLongExtra("USER_ADDRESS_ID", -1);
         agentId = getIntent().getIntExtra("agentId", -1);
+        String title = getIntent().getStringExtra("title");
+        if (!TextUtils.isEmpty(title)) {
+            tvTitle.setText(title);
+        }
         loadingDialog = new MLoadingDialog();
         instance = AddressManageActivity.this;
         initView();

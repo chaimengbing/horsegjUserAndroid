@@ -146,6 +146,7 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
         tvCancel.setOnClickListener(this);
         tvPay.setOnClickListener(this);
         llStatus.setOnClickListener(this);
+        tvGroupRefund.setOnClickListener(this);
     }
 
     private void initView() {
@@ -156,7 +157,6 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
             getData();
         } else {
             finish();
-            return;
         }
     }
 
@@ -234,7 +234,7 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                     rlNoWaiting.setVisibility(View.GONE);
                     rlIsWaiting.setVisibility(View.GONE);
                     llStatus.setVisibility(View.VISIBLE);
-                    if (order.getPaymentState() == 1) {
+                    if (order.getGroupbuyOrder().getPaymentState() == 1) {
                         //已付款
                         tvGroupRefund.setVisibility(View.VISIBLE);
                         tvGroupState.setText("等待商家退款");
@@ -382,6 +382,14 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                         intent2.putExtra("orderId", orderId);
                         startActivity(intent2);
                     }
+                }
+                break;
+            case R.id.tv_group_refund:
+                //退款
+                if (model.getValue().getGroupbuyOrder().getStatus() == -1 && model.getValue().getGroupbuyOrder().getPaymentState() == 1) {
+                    Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
+                    intent2.putExtra("orderId", model.getValue().getGroupbuyOrder().getId());
+                    startActivity(intent2);
                 }
                 break;
         }
