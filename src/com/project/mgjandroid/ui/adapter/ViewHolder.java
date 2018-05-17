@@ -88,6 +88,16 @@ public class ViewHolder {
         return this;
     }
 
+    public ViewHolder setVisibility(int viewId, boolean isShow) {
+        if (isShow) {
+            getView(viewId).setVisibility(View.VISIBLE);
+        } else {
+            getView(viewId).setVisibility(View.GONE);
+        }
+        return this;
+    }
+
+
     /**
      * @param viewId
      * @param colorId

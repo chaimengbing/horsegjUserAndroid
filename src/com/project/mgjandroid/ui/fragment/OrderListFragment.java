@@ -75,7 +75,6 @@ import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CustomDialog;
 import com.project.mgjandroid.utils.ImageUtils;
-import com.project.mgjandroid.utils.MLog;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.ta.utdid2.android.utils.NetworkUtils;
@@ -227,32 +226,21 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
         }
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-//        if (isFirstIn) {
-//            getDate(false);
-//        }
-//        isFirstIn = false;
-    }
-
     private void initViews() {
         loadingDialog = new MLoadingDialog();
         layoutTip = (RelativeLayout) view.findViewById(R.id.orderlist_fragment_layout_tips);
-        layoutTip.setOnClickListener(this);
         imgClose = (ImageView) view.findViewById(R.id.orderlist_fragment_close);
-        imgClose.setOnClickListener(this);
         orderListStateAbnormal = (LinearLayout) view.findViewById(R.id.orderlist_fragment_state_abnormal);
+        listView = (PullToRefreshListView) view.findViewById(R.id.orderlist_fragment_listView);
         orderListStateMsg = (TextView) orderListStateAbnormal.findViewById(R.id.orderlist_fragment_state_msg);
         orderListStateDeal = (TextView) orderListStateAbnormal.findViewById(R.id.orderlist_fragment_state_deal);
         orderListStateImage = (ImageView) orderListStateAbnormal.findViewById(R.id.orderlist_fragment_state_img);
+        layoutTip.setOnClickListener(this);
+        imgClose.setOnClickListener(this);
         orderListStateDeal.setOnClickListener(this);
         initTabLayout();
         initFilterLayout();
-        listView = (PullToRefreshListView) view.findViewById(R.id.orderlist_fragment_listView);
         listView.setMode(PullToRefreshBase.Mode.BOTH);
-//        listView.setAddMoreCountText(maxResults);
-//        adapter = new OrderListAdapter(mActivity, this);
         adapter = new NewOrderListAdapter(R.layout.item_new_order_list, mActivity);
         adapter.setListener(this);
         listView.setAdapter(adapter);
@@ -511,7 +499,6 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                         } else {
                             adapter.setData(mlist);
                             adapter.notifyDataSetChanged();
-//                            AnimatorUtils.fadeFadeIn(listView, mActivity);
                         }
                     } else {
                         if (isLoadMore) {
@@ -669,12 +656,6 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                 //去支付
                 int tag1 = (int) v.getTag();
                 NewOrderFragmentModel.ValueEntity valueEntity = adapter.getData().get(tag1);
-//                if (valueEntity.getThirdpartyOrder() != null && !TextUtils.isEmpty(valueEntity.getThirdpartyOrder().getUrl())) {
-//                    Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
-//                    intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, valueEntity.getThirdpartyOrder().getUrl());
-//                    startActivityForResult(intent, REFRESH);
-//                    return;
-//                }
                 try {
                     String paymentExpireTime = valueEntity.getPaymentExpireTime();
                     if (valueEntity.getType() == UserOrderType.Takeaway.getValue() || valueEntity.getType() == UserOrderType.Shop.getValue()) {
@@ -704,6 +685,12 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                         intent.putExtra("agentId", valueEntity.getAgentId());
                         intent.putExtra("isGroupPurchase", true);
                         startActivityForResult(intent, REFRESH);
+                    } else if (valueEntity.getType() == 9) {
+                        Intent intent = new Intent(mActivity, OnlinePayActivity.class);
+                        intent.putExtra("orderId", valueEntity.getId());
+                        intent.putExtra("agentId", valueEntity.getAgentId());
+                        intent.putExtra("isLegwork", true);
+                        startActivityForResult(intent, REFRESH);
                     } else {
                         if (valueEntity.getThirdpartyOrder() != null && !TextUtils.isEmpty(valueEntity.getThirdpartyOrder().getUrl())) {
                             // 第三方订单
@@ -721,27 +708,6 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
-                }
-                break;
-            case R.id.order_state_go_pay1:
-                int mTag = (int) v.getTag();
-                NewOrderFragmentModel.ValueEntity mValueEntity = adapter.getData().get(mTag);
-                if (mValueEntity.getType() == 9) {
-                    Intent intent = new Intent(mActivity, OnlinePayActivity.class);
-                    intent.putExtra("orderId", mValueEntity.getId());
-                    intent.putExtra("agentId", mValueEntity.getAgentId());
-                    intent.putExtra("isLegwork", true);
-                    startActivityForResult(intent, REFRESH);
-                }
-                break;
-            case R.id.order_state_evaluate1:
-                int mTag1 = (int) v.getTag();
-                NewOrderFragmentModel.ValueEntity mValueEntity1 = adapter.getData().get(mTag1);
-                if (mValueEntity1.getType() == 9) {
-                    Intent intent = new Intent(mActivity, LegworkEvaluateActivity.class);
-                    intent.putExtra("orderId", mValueEntity1.getId());
-                    intent.putExtra("agentId", "" + mValueEntity1.getAgentId());
-                    startActivityForResult(intent, REFRESH);
                 }
                 break;
             case R.id.order_state_refund:
@@ -905,6 +871,11 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                     carEvaluate.putExtra("groupPurchaseOrder", valueEntityEvaluate.getGroupPurchaseOrder());
                     carEvaluate.putExtra("isFromOrderList", true);
                     startActivityForResult(carEvaluate, REFRESH);
+                } else if (adapter.getData().get(tagEvaluate).getType() == 9) {
+                    Intent intent = new Intent(mActivity, LegworkEvaluateActivity.class);
+                    intent.putExtra("orderId", valueEntityEvaluate.getId());
+                    intent.putExtra("agentId", "" + valueEntityEvaluate.getAgentId());
+                    startActivityForResult(intent, REFRESH);
                 }
                 break;
             case R.id.order_list_item_tv_name:
@@ -1470,23 +1441,18 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
 
         @Override
         public void onComplete(Object response) {
-            MLog.i("onComplete:" + response.toString());
             ToastUtils.displayMsg("分享成功", getActivity());
             mActivity.finish();
         }
 
         @Override
         public void onError(UiError e) {
-            MLog.i("onError:" + "code:" + e.errorCode + ", msg:"
-                    + e.errorMessage + ", detail:" + e.errorDetail);
             ToastUtils.displayMsg("分享失败", getActivity());
         }
 
         @Override
         public void onCancel() {
-            MLog.i("onCancel");
             mActivity.finish();
-//            ToastUtils.displayMsg("分享已取消", ShareActivity.this);
         }
     }
 }

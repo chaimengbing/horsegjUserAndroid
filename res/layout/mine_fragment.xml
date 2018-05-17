@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/gray_white"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x170"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_user"
         android:orientation="vertical">
 
@@ -49,44 +48,35 @@
                 android:visibility="gone" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/mine_fragment_layout_to_user_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/x20">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/x30"
+            android:paddingLeft="@dimen/x20"
+            android:paddingRight="@dimen/x20"
+            android:paddingTop="@dimen/x15">
 
             <com.project.mgjandroid.ui.view.RoundImageView
                 android:id="@+id/mine_fragment_avatar"
-                android:layout_width="@dimen/x70"
-                android:layout_height="@dimen/x70"
-                android:layout_centerVertical="true"
+                android:layout_width="@dimen/x50"
+                android:layout_height="@dimen/x50"
                 android:scaleType="centerCrop"
-                android:src="@drawable/user_avatar"
-                imagecontrol:border_inside_color="#FFFAFA"
-                imagecontrol:border_thickness="@dimen/x4" />
-
-            <ImageView
-                android:id="@+id/mine_fragment_img_to_user_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/right_arrow" />
+                android:src="@drawable/user_portrait" />
 
             <LinearLayout
-                android:layout_width="@dimen/x70"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/x16"
-                android:layout_toLeftOf="@id/mine_fragment_img_to_user_info"
-                android:layout_toRightOf="@id/mine_fragment_avatar"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/mine_fragment_username"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:text="@string/please_login"
@@ -95,11 +85,11 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/x12"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x7"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
 
                     <ImageView
                         android:id="@+id/mine_fragment_mobile_icon"
@@ -109,51 +99,54 @@
                         android:src="@drawable/mine_fragment_mobile_icon"
                         android:visibility="gone" />
 
+
                     <TextView
                         android:id="@+id/mine_fragment_mobile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
                         android:singleLine="true"
-                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="12sp" />
+
                 </LinearLayout>
+
 
             </LinearLayout>
 
-        </RelativeLayout>
+            <ImageView
+                android:id="@+id/mine_fragment_img_to_user_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/right_arrow_white" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/title_bar"
-        android:background="@color/gray_white"
-        android:overScrollMode="never"
-        android:scrollbars="none">
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="@dimen/x88">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x20"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_mine_white_radius"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/x10"
+                android:paddingRight="@dimen/x10">
 
                 <LinearLayout
                     android:id="@+id/mine_fragment_balance_operate"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/x18"
-                    android:paddingTop="@dimen/x18">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -165,8 +158,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="@color/mine_number_color_grey"
-                            android:textSize="16sp" />
+                            android:textColor="@color/title_bar_bg"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/mine_fragment_balance_unit"
@@ -174,38 +167,27 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/x2"
                             android:text="元"
-                            android:textColor="@color/mine_number_color_grey"
+                            android:textColor="@color/title_bar_bg"
                             android:textSize="10sp" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/x5"
-                        android:drawableLeft="@drawable/balance_operate"
-                        android:drawablePadding="@dimen/x5"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
+                        android:layout_marginTop="@dimen/x8"
                         android:text="@string/mine_balance"
                         android:textColor="@color/color_3"
                         android:textSize="12sp" />
-                </LinearLayout>
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="@dimen/x50"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/mine_divide_grey" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/red_package"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/x18"
-                    android:paddingTop="@dimen/x18">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -217,8 +199,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="@color/mine_number_color_grey"
-                            android:textSize="16sp" />
+                            android:textColor="@color/title_bar_bg"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/mine_fragment_red_bag_unit"
@@ -226,38 +208,28 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/x2"
                             android:text="个"
-                            android:textColor="@color/mine_number_color_grey"
+                            android:textColor="@color/title_bar_bg"
                             android:textSize="10sp" />
+
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/x5"
-                        android:drawableLeft="@drawable/red_bag"
-                        android:drawablePadding="@dimen/x5"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
+                        android:layout_marginTop="@dimen/x8"
                         android:text="@string/mine_redbag"
                         android:textColor="@color/color_3"
                         android:textSize="12sp" />
-                </LinearLayout>
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="@dimen/x50"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/mine_divide_grey" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/mine_cards"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/x18"
-                    android:paddingTop="@dimen/x18">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -269,51 +241,66 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="@color/mine_number_color_grey"
-                            android:textSize="16sp" />
+                            android:textColor="@color/title_bar_bg"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/mine_fragment_bank_card_unit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/x2"
-                            android:text="张"
-                            android:textColor="@color/mine_number_color_grey"
+                            android:text="次"
+                            android:textColor="@color/title_bar_bg"
                             android:textSize="10sp" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/x5"
-                        android:drawableLeft="@drawable/bank_card"
-                        android:drawablePadding="@dimen/x5"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
-                        android:text="@string/mine_cards"
+                        android:layout_marginTop="@dimen/x8"
+                        android:text="@string/mine_rebate"
                         android:textColor="@color/color_3"
                         android:textSize="12sp" />
+
                 </LinearLayout>
+
             </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/x10"
-                android:background="@drawable/bg_mine_stroke_grey"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/mine_fragment_address_manager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16">
 
                     <ImageView
                         android:id="@+id/icon_1"
-                        android:layout_width="@dimen/x20"
-                        android:layout_height="@dimen/x20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_1" />
@@ -323,7 +310,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_1"
                         android:gravity="center_vertical"
                         android:text="@string/address_manager"
@@ -347,9 +334,11 @@
                 <RelativeLayout
                     android:id="@+id/mine_fragment_my_publish"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16">
 
                     <ImageView
                         android:id="@+id/icon_publish"
@@ -364,7 +353,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_publish"
                         android:gravity="center_vertical"
                         android:text="@string/my_publish"
@@ -390,9 +379,11 @@
                 <RelativeLayout
                     android:id="@+id/mine_fragment_pintuan"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
                     android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16"
                     android:visibility="gone">
 
                     <ImageView
@@ -408,7 +399,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_8"
                         android:gravity="center_vertical"
                         android:text="@string/my_pintuan"
@@ -432,9 +423,11 @@
                 <RelativeLayout
                     android:id="@+id/mine_fragment_my_save"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16">
 
                     <ImageView
                         android:id="@+id/icon_2"
@@ -449,7 +442,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_2"
                         android:gravity="center_vertical"
                         android:text="@string/my_save"
@@ -468,14 +461,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_marginLeft="@dimen/x15"
-                    android:background="@color/mine_divide_grey" />
+                    android:background="@color/mine_divide_grey"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/mine_fragment_my_invite"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/icon_invite"
@@ -492,7 +489,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_invite"
                         android:gravity="center_vertical"
                         android:text="邀请好友"
@@ -514,15 +511,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/x10"
                 android:layout_marginTop="@dimen/x10"
-                android:background="@drawable/bg_mine_stroke_grey"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/mine_fragment_feed_back"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/icon_6"
@@ -537,7 +537,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_6"
                         android:gravity="center_vertical"
                         android:text="@string/feedback"
@@ -556,14 +556,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_marginLeft="@dimen/x15"
-                    android:background="@color/mine_divide_grey" />
+                    android:background="@color/mine_divide_grey"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/mine_fragment_agent_join"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16">
 
                     <ImageView
                         android:id="@+id/icon_9"
@@ -577,7 +580,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_9"
                         android:gravity="center_vertical"
                         android:text="@string/agent_join"
@@ -597,14 +600,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_marginLeft="@dimen/x15"
-                    android:background="@color/mine_divide_grey" />
+                    android:background="@color/mine_divide_grey"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/mine_fragment_merchant_join"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/icon_10"
@@ -618,7 +625,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_10"
                         android:gravity="center_vertical"
                         android:text="@string/merchant_join"
@@ -642,10 +649,11 @@
                 <RelativeLayout
                     android:id="@+id/mine_fragment_serve_center"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
                     android:paddingRight="@dimen/x16"
-                    android:visibility="gone">
+                    android:paddingTop="@dimen/x16">
 
                     <ImageView
                         android:id="@+id/icon_3"
@@ -659,7 +667,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_3"
                         android:gravity="center_vertical"
                         android:text="@string/serve_center"
@@ -678,14 +686,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_marginLeft="@dimen/x15"
-                    android:background="@color/mine_divide_grey" />
+                    android:background="@color/mine_divide_grey"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/mine_fragment_tel_num"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/icon_tel_num"
@@ -700,7 +712,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_tel_num"
                         android:gravity="center_vertical"
                         android:text="@string/tel_num"
@@ -719,14 +731,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_marginLeft="@dimen/x15"
-                    android:background="@color/mine_divide_grey" />
+                    android:background="@color/mine_divide_grey"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/mine_fragment_score"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/icon_4"
@@ -741,7 +757,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_4"
                         android:gravity="center_vertical"
                         android:text="@string/score"
@@ -765,9 +781,11 @@
                 <RelativeLayout
                     android:id="@+id/mine_fragment_setting"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
                     android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x16">
+                    android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16">
 
                     <ImageView
                         android:id="@+id/icon_7"
@@ -782,7 +800,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_7"
                         android:gravity="center_vertical"
                         android:text="@string/set"
@@ -807,9 +825,11 @@
                 <RelativeLayout
                     android:id="@+id/mine_fragment_about"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x42"
-                    android:paddingLeft="@dimen/x24"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x16"
+                    android:paddingLeft="@dimen/x20"
                     android:paddingRight="@dimen/x16"
+                    android:paddingTop="@dimen/x16"
                     android:visibility="gone">
 
                     <ImageView
@@ -824,7 +844,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x15"
                         android:layout_toRightOf="@id/icon_5"
                         android:gravity="center_vertical"
                         android:text="@string/about"
@@ -842,6 +862,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

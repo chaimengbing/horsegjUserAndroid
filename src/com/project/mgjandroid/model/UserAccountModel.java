@@ -65,7 +65,16 @@ public class UserAccountModel extends Entity {
         private String modifyTime;
         private BigDecimal balance;
         private int userBankCount;
+        private int cashbackCount;
         private int redBagCount;
+
+        public int getCashbackCount() {
+            return cashbackCount;
+        }
+
+        public void setCashbackCount(int cashbackCount) {
+            this.cashbackCount = cashbackCount;
+        }
 
         public void setId(int id) {
             this.id = id;

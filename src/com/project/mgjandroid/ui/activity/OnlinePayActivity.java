@@ -341,6 +341,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             intent.putExtra(OrderDetailActivity.ORDER_ID, balancePayModel.getValue().getId());
                             intent.putExtra("hasRedPackage", true);
                             startActivity(intent);
+                            setResult(RESULT_OK);
                             finish();
                         }
                     }

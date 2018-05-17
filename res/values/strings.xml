@@ -7,11 +7,11 @@
     <string name="mine">个人中心</string>
     <string name="tag_mine">我的</string>
     <string name="address_manager">收货地址</string>
-    <string name="serve_center">联系客服</string>
+    <string name="serve_center">客服中心</string>
     <string name="score">欢迎评分</string>
     <string name="tel_num">投诉电话</string>
     <string name="feedback">意见反馈</string>
-    <string name="agent_join">代理商加盟</string>
+    <string name="agent_join">加盟合作</string>
     <string name="merchant_join">商家入驻</string>
     <string name="about">我要合作</string>
     <string name="more_set">我的设置</string>
@@ -349,6 +349,7 @@
     <string name="mine_balance">我的余额</string>
     <string name="mine_redbag">我的红包</string>
     <string name="mine_cards">我的银行卡</string>
+    <string name="mine_rebate">我的返利</string>
     <string name="my_card_no">尾号 %s</string>
     <string name="has_no_redbag">您目前没有红包</string>
     <string name="has_no_bank_card">您没有绑定银行卡</string>

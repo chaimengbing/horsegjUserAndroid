@@ -37,7 +37,6 @@ import com.project.mgjandroid.ui.activity.BalanceOperateActivity;
 import com.project.mgjandroid.ui.activity.HomeActivity;
 import com.project.mgjandroid.ui.activity.MerchantCollectionActivity;
 import com.project.mgjandroid.ui.activity.MoreSettingActivity;
-import com.project.mgjandroid.ui.activity.MyBankCardActivity;
 import com.project.mgjandroid.ui.activity.MyPublishCategoryActivity;
 import com.project.mgjandroid.ui.activity.MyRedBagActivity;
 import com.project.mgjandroid.ui.activity.NoticeActivity;
@@ -55,7 +54,6 @@ import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.ViewFindUtils;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +131,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private void initView() {
 
         RelativeLayout tvAddressManage = ViewFindUtils.find(view, R.id.mine_fragment_address_manager);
-        RelativeLayout rlUserInfo = ViewFindUtils.find(view, R.id.mine_fragment_layout_to_user_info);
+        LinearLayout rlUserInfo = ViewFindUtils.find(view, R.id.mine_fragment_layout_to_user_info);
         userAvatar = ViewFindUtils.find(view, R.id.mine_fragment_avatar);
         TextView tvLogin = ViewFindUtils.find(view, R.id.mine_fragment_tv_login);
         tvName = ViewFindUtils.find(view, R.id.mine_fragment_username);
@@ -252,7 +250,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.mine_cards:
                 if (CommonUtils.checkLogin(mActivity)) {
-                    Intent intent = new Intent(mActivity, MyBankCardActivity.class);
+                    //Intent intent = new Intent(mActivity, MyBankCardActivity.class);
+                    Intent intent = new Intent(mActivity, InvitingFriendsActivity.class);
                     startActivity(intent);
                 }
                 break;
@@ -422,27 +421,27 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private void setAccountView(UserAccountModel.ValueEntity value) {
         if (value == null) return;
 
-        if (value.getBalance() != null && value.getBalance().compareTo(BigDecimal.ZERO) > 0) {
-            tvBalance.setTextColor(getResources().getColor(R.color.color_6));
-            tvBalanceUnit.setTextColor(getResources().getColor(R.color.color_6));
-        } else {
-            tvBalance.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
-            tvBalanceUnit.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
-        }
-        if (value.getUserBankCount() > 0) {
-            tvBankCard.setTextColor(getResources().getColor(R.color.mine_number_color_red));
-//            tvBankCardUnit.setTextColor(getResources().getColor(R.color.mine_number_color_red));
-        } else {
-            tvBankCard.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
-            tvBankCardUnit.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
-        }
-        if (value.getRedBagCount() > 0) {
-            tvRedbag.setTextColor(getResources().getColor(R.color.mine_number_color_red));
-//            tvRedBagUnit.setTextColor(getResources().getColor(R.color.mine_number_color_red));
-        } else {
-            tvRedbag.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
-            tvRedBagUnit.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
-        }
+//        if (value.getBalance() != null && value.getBalance().compareTo(BigDecimal.ZERO) > 0) {
+//            tvBalance.setTextColor(getResources().getColor(R.color.color_6));
+//            tvBalanceUnit.setTextColor(getResources().getColor(R.color.color_6));
+//        } else {
+//            tvBalance.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
+//            tvBalanceUnit.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
+//        }
+//        if (value.getUserBankCount() > 0) {
+//            tvBankCard.setTextColor(getResources().getColor(R.color.mine_number_color_red));
+////            tvBankCardUnit.setTextColor(getResources().getColor(R.color.mine_number_color_red));
+//        } else {
+//            tvBankCard.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
+//            tvBankCardUnit.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
+//        }
+//        if (value.getRedBagCount() > 0) {
+//            tvRedbag.setTextColor(getResources().getColor(R.color.mine_number_color_red));
+////            tvRedBagUnit.setTextColor(getResources().getColor(R.color.mine_number_color_red));
+//        } else {
+//            tvRedbag.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
+//            tvRedBagUnit.setTextColor(getResources().getColor(R.color.mine_number_color_grey));
+//        }
         balance = "";
         if (value.getBalance() != null) {
             balance = StringUtils.BigDecimal2Str(value.getBalance());
@@ -450,7 +449,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             balance = "0";
         }
         tvBalance.setText(balance);
-        tvBankCard.setText(String.valueOf(value.getUserBankCount()));
+        tvBankCard.setText(String.valueOf(value.getCashbackCount()));
         tvRedbag.setText(String.valueOf(value.getRedBagCount()));
     }
 

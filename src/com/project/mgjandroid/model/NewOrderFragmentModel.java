@@ -1,7 +1,6 @@
 package com.project.mgjandroid.model;
 
 import com.project.mgjandroid.bean.GroupBuyOrder;
-import com.project.mgjandroid.bean.GroupInfo;
 import com.project.mgjandroid.bean.Merchant;
 import com.project.mgjandroid.bean.ThirdPartyOrderBean;
 import com.project.mgjandroid.bean.carhailing.CarHailingOrder;
@@ -65,6 +64,7 @@ public class NewOrderFragmentModel extends Entity {
         private String modifyTime;
         private String id;
         private int type;
+        private String typeName;
         private int merchantId;
         private Merchant merchant;
         private int merchantSettleMode;
@@ -155,6 +155,10 @@ public class NewOrderFragmentModel extends Entity {
             this.groupPurchaseOrder = groupPurchaseOrder;
         }
 
+        public void setTypeName(String typeName) {
+            this.typeName = typeName;
+        }
+
         public String getCreateTime() {
             return createTime;
         }
@@ -181,6 +185,10 @@ public class NewOrderFragmentModel extends Entity {
 
         public int getType() {
             return type;
+        }
+
+        public String getTypeName() {
+            return typeName;
         }
 
         public void setType(int type) {

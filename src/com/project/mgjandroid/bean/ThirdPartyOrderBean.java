@@ -2,6 +2,8 @@ package com.project.mgjandroid.bean;
 
 import com.project.mgjandroid.model.Entity;
 
+import java.math.BigDecimal;
+
 /**
  * Created by User_Cjh on 2018/1/4.
  */
@@ -55,6 +57,33 @@ public class ThirdPartyOrderBean extends Entity {
     private String url;
     private String type;
     private String serverTime;
+    private String startAddress;
+    private String endAddress;
+    private BigDecimal totalPrice;
+
+    public String getStartAddress() {
+        return startAddress;
+    }
+
+    public void setStartAddress(String startAddress) {
+        this.startAddress = startAddress;
+    }
+
+    public String getEndAddress() {
+        return endAddress;
+    }
+
+    public void setEndAddress(String endAddress) {
+        this.endAddress = endAddress;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public int getPaymentState() {
         return paymentState;

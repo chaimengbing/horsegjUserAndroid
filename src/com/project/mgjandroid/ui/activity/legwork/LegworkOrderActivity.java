@@ -253,7 +253,7 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.order_state_go_pay1:
+            case R.id.order_state_go_pay:
                 int mTag = (int) v.getTag();
                 NewOrderFragmentModel.ValueEntity mValueEntity = adapter.getData().get(mTag);
                 if (mValueEntity.getType() == 9) {
@@ -264,7 +264,7 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
                     startActivityForResult(intent, 2000);
                 }
                 break;
-            case R.id.order_state_evaluate1:
+            case R.id.order_state_evaluate:
                 int mTag2 = (int) v.getTag();
                 NewOrderFragmentModel.ValueEntity mValueEntity2 = adapter.getData().get(mTag2);
                 Intent mIntent = new Intent(mActivity, LegworkEvaluateActivity.class);

@@ -1,11 +1,12 @@
 package com.project.mgjandroid.utils;
 
+import android.annotation.SuppressLint;
+import android.text.TextUtils;
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import android.annotation.SuppressLint;
 
 /**
  * 类说明： 日期时间工具类
@@ -78,6 +79,9 @@ public class DateUtils {
      * @return
      */
     public static String getFormatTime1(String pubtime, String format) {
+        if (TextUtils.isEmpty(pubtime)) {
+            return "";
+        }
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Date date = null;
