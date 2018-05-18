@@ -296,6 +296,12 @@
         android:orientation="vertical" />
 
     <LinearLayout
+        android:id="@+id/layout_show_second_hand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <LinearLayout
         android:id="@+id/show_recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

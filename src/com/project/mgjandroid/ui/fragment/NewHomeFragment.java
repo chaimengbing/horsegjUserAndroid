@@ -224,6 +224,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     private ImageView ivLottery;
     private ImageView ivPopupBack;
     private ImageView ivPopupLottery;
+    private LinearLayout secondHandLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -811,6 +812,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
         positionLayout = (LinearLayout) listHeaderView.findViewById(R.id.show_position);
         recruitLayout = (LinearLayout) listHeaderView.findViewById(R.id.show_recruit);
         leaseLayout = (LinearLayout) listHeaderView.findViewById(R.id.layout_show_lease);
+        secondHandLayout = (LinearLayout) listHeaderView.findViewById(R.id.layout_show_second_hand);
         showRecommendLayout = (LinearLayout) listHeaderView.findViewById(R.id.show_recommend);
         merchantDividerLayout = (RelativeLayout) listHeaderView.findViewById(R.id.merchant_divider_layout);
     }
@@ -3125,10 +3127,12 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                     List<NewInformation.ValueBean.PositionDataBean> positionData = model.getValue().getPositionData();
                     List<NewInformation.ValueBean.RecruitDataBean> recruitData = model.getValue().getRecruitData();
                     List<NewInformation.ValueBean.LeaseDataBean> leaseData = model.getValue().getLeaseData();
+                    List<NewInformation.ValueBean.SecondHandBean> secondHand = model.getValue().getSecondHand();
                     showNewsInformation(newsInformationData);
                     showPosition(positionData);
                     showRecruit(recruitData);
                     showLease(leaseData);
+                    showSecondHand(secondHand);
                 }
             }
         }, NewInformation.class);
@@ -3150,6 +3154,58 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 }
             }
         }, NewRecommendGoodsModel.class);
+    }
+    /**
+     * 首页信息展示 二手市场
+     */
+    private void showSecondHand(final List<NewInformation.ValueBean.SecondHandBean> secondHand){
+        secondHandLayout.removeAllViews();
+        if (secondHand.size() == 0) {
+            return;
+        }
+        for (int i = 0; i < secondHand.size(); i++) {
+            final NewInformation.ValueBean.SecondHandBean secondHandBean = secondHand.get(i);
+            LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.item_new_second_hand, null);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ListView.LayoutParams.MATCH_PARENT, ListView.LayoutParams.WRAP_CONTENT);
+            RelativeLayout layoutTitle = (RelativeLayout) linearLayout.findViewById(R.id.layout_title);
+            LinearLayout layoutSecondHand = (LinearLayout) linearLayout.findViewById(R.id.layout_second_hand);
+            TextView tvMore = (TextView) linearLayout.findViewById(R.id.tv_More);
+            TextView tvTitle = (TextView) linearLayout.findViewById(R.id.second_market_name);
+            TextView tvLabel = (TextView) linearLayout.findViewById(R.id.second_market_tag);
+            TextView tvAddress = (TextView) linearLayout.findViewById(R.id.second_hand_address);
+            TextView tvTime = (TextView) linearLayout.findViewById(R.id.second_hand_price);
+            TextView newHomeLabel = (TextView) linearLayout.findViewById(R.id.new_home_label);
+            tvMore.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(mActivity, InformationActivity.class).putExtra("informationType", InformationType.Secondhand.getValue()));
+                }
+            });
+            layoutSecondHand.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    InformationDetailActivity.toInformationDetail(mActivity, secondHandBean.getInformationDetail().getId(), InformationType.Secondhand.getValue());
+                }
+            });
+            newHomeLabel.setText("二手市场");
+            CornerImageView cornerImageView = (CornerImageView) linearLayout.findViewById(R.id.second_market_image_view);
+            View view = linearLayout.findViewById(R.id.view);
+            if (TextUtils.isEmpty(secondHandBean.getInformationDetail().getImgs())) {
+                cornerImageView.setVisibility(View.GONE);
+            } else {
+                cornerImageView.setVisibility(View.VISIBLE);
+                ImageUtils.loadBitmap(mActivity, secondHandBean.getInformationDetail().getImgs().split(";")[0], cornerImageView, R.drawable.horsegj_default, Constants.getEndThumbnail(86, 66));
+            }
+            tvTitle.setText(secondHandBean.getInformationDetail().getTitle());
+            tvLabel.setText(secondHandBean.getInformationDetail().getCategoryName());
+            tvAddress.setText(secondHandBean.getInformationDetail().getAmt()+"元");
+            tvTime.setText("发布时间：" + com.project.mgjandroid.utils.DateUtils.getFormatTime1(secondHandBean.getInformationDetail().getRefreshTime(), "yyyy-MM-dd"));
+            if (i > 0) {
+                layoutTitle.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
+            }
+            secondHandLayout.addView(linearLayout, layoutParams);
+        }
     }
 
     /**

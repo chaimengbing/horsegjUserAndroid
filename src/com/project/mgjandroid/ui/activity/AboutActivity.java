@@ -1,13 +1,16 @@
 package com.project.mgjandroid.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.BuildConfig;
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
@@ -20,21 +23,23 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     private ImageView aboutBack;
     @InjectView(R.id.about_version_code)
     private TextView tvCode;
-    @InjectView(R.id.about_business)
-    private View business;
+    //    @InjectView(R.id.about_business)
+//    private View business;
+    @InjectView(R.id.mine_fragment_score)
+    private RelativeLayout rlScore;
     @InjectView(R.id.user_service_protocol)
-    private TextView tvProtocol;
+    private RelativeLayout tvProtocol;
     @InjectView(R.id.disclaimer)
-    private TextView tvDisclaimer;
+    private RelativeLayout tvDisclaimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         Injector.get(this).inject();
-
+        rlScore.setOnClickListener(this);
         aboutBack.setOnClickListener(this);
-        business.setOnClickListener(this);
+//        business.setOnClickListener(this);
         tvProtocol.setOnClickListener(this);
         tvDisclaimer.setOnClickListener(this);
         tvCode.setText(getString(R.string.v) + CommonUtils.getCurrentVersionName());
@@ -46,12 +51,21 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
             case R.id.about_back:
                 finish();
                 break;
-            case R.id.about_business:
-                if (BuildConfig.IS_DEBUG) {
-                    toWebView(getString(R.string.shangwu_hezuo), "http://120.24.16.64/maguanjia/Buscooperation.html");
-                } else {
-                    toWebView(getString(R.string.shangwu_hezuo), "http://123.56.15.86/maguanjia/Buscooperation.html");
-                }
+//            case R.id.about_business:
+//                if (BuildConfig.IS_DEBUG) {
+//                    toWebView(getString(R.string.shangwu_hezuo), "http://120.24.16.64/maguanjia/Buscooperation.html");
+//                } else {
+//                    toWebView(getString(R.string.shangwu_hezuo), "http://123.56.15.86/maguanjia/Buscooperation.html");
+//                }
+//                break;
+            case R.id.mine_fragment_score:
+//                if(hasAnyMarketInstalled(mActivity)) {
+                Intent intent1 = new Intent("android.intent.action.VIEW");
+                intent1.setData(Uri.parse("market://details?id=" + App.getContext().getPackageName()));
+                startActivity(intent1);
+//                }else{
+//                    ToastUtils.displayMsg("手机上没有应用市场",mActivity);
+//                }
                 break;
             case R.id.user_service_protocol:
                 if (BuildConfig.IS_DEBUG) {
