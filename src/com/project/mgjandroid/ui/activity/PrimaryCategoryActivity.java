@@ -343,8 +343,14 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
                     List<CategoryRightBean> list1 = list.get(mSelectPosition).getChildTagCategoryList();
                     if (list1 != null) {
                         mCategoryRightAdapter.setList(list1);
+                        if(childListView!=null){
+                            childListView.setVisibility(View.VISIBLE);
+                        }
                     } else {
                         mCategoryRightAdapter.setList(new ArrayList<CategoryRightBean>());
+                        if(childListView!=null){
+                            childListView.setVisibility(View.GONE);
+                        }
                     }
                     leftMenuWindow.showAsDropDown(menuBar, 0, 0);
                 }
@@ -579,6 +585,8 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
         childListView.setAdapter(mCategoryRightAdapter);
         groupListView.setSelection(mSelectPosition);
         childListView.setSelection(mSelectChildPosition);
+        if (childListView != null)
+            childListView.setVisibility(View.VISIBLE);
     }
 
     private View.OnClickListener groupListener = new View.OnClickListener() {
@@ -597,7 +605,11 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
             leftPopMenuChild = leftPopMenuGroup.get(i).getChildTagCategoryList();
             if (leftPopMenuChild != null) {
                 mCategoryRightAdapter.setList(leftPopMenuChild);
+                if (childListView != null)
+                    childListView.setVisibility(View.VISIBLE);
             } else {
+                if (childListView != null)
+                    childListView.setVisibility(View.GONE);
                 tvMenu1.setText(list.get(i).getName());
                 tagId = list.get(i).getId();
                 tagParentId = list.get(i).getParentId();
