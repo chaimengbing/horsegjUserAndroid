@@ -107,6 +107,28 @@ public class DateUtils {
     }
 
     /**
+     * 比较字符串时间是否在指定时间之后
+     */
+    public static boolean compareTimeBefore(String str, Long time) {
+        if (TextUtils.isEmpty(str)) {
+            return false;
+        }
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return sdf.parse(str).getTime() > time;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //1525968000  2018/5/11
+    public static boolean compareTimeBefore(String str) {
+        return compareTimeBefore(str, 1525968000000L);
+    }
+
+
+    /**
      * 获取两个时间戳之间差值,并且返回小时
      */
     public static int subTimeStamp2Hour(Timestamp one, Timestamp two) {

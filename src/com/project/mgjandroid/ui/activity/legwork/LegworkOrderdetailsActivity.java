@@ -34,6 +34,7 @@ import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.RoundImageView;
 import com.project.mgjandroid.ui.view.TimeView;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
@@ -216,7 +217,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutNoPayment.setVisibility(View.GONE);
                         layoutNoPickUp.setVisibility(View.GONE);
                         layoutPublic.setVisibility(View.VISIBLE);
-                        if (valueBean.getPaymentState() == 1) {
+                        if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
                             tvRefundDesc.setVisibility(View.VISIBLE);
                         }
@@ -289,7 +290,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutPublic.setVisibility(View.VISIBLE);
                         tvContent.setText("已取消");
                         tvprompt.setText("期待下次为您服务");
-                        if (valueBean.getPaymentState() == 1) {
+                        if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
                             tvRefundDesc.setVisibility(View.VISIBLE);
                         }

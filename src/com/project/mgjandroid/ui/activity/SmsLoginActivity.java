@@ -359,12 +359,27 @@ public class SmsLoginActivity extends BaseActivity implements View.OnClickListen
 
     public static SmsLoginActivity instance;
 
-    public void thirdLoginSuccess(boolean isFromQQ) {
+    public void thirdLoginSuccess(boolean isFromQQ, String token) {
         if (isFromQQ) {
             loadingDialog.dismiss();
         }
-        setResult(MineFragment.LOGIN_IN_SUCCESS, new Intent());
-        finish();
+        if (isFromThird) {
+            try {
+                JSONObject object = new JSONObject();
+                object.put("code", 0);
+                object.put("value", token);
+                Intent i = new Intent();
+                i.putExtra(YLBSdkConstants.EXTRA_YLBSDK_RESULT, object.toString());
+                setResult(RESULT_OK, i);
+                finish();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                finish();
+            }
+        } else {
+            setResult(MineFragment.LOGIN_IN_SUCCESS, new Intent());
+            finish();
+        }
     }
 
     private class BaseUiListener implements IUiListener {
@@ -423,7 +438,7 @@ public class SmsLoginActivity extends BaseActivity implements View.OnClickListen
                         JPushInterface.checkTagBindState(SmsLoginActivity.this, 101, "agent_" + value.getAgentId());
                     }
                     PreferenceUtils.saveStringPreference("token", wechatLoginModel.getValue().getToken(), SmsLoginActivity.this);
-                    SmsLoginActivity.instance.thirdLoginSuccess(true);
+                    SmsLoginActivity.instance.thirdLoginSuccess(true, wechatLoginModel.getValue().getToken());
                 }
             }
         }, WechatLoginModel.class);

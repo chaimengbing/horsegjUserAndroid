@@ -27,6 +27,8 @@ import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
+import com.tencent.smtt.sdk.CookieManager;
+import com.tencent.smtt.sdk.CookieSyncManager;
 
 public class MoreSettingActivity extends BaseActivity implements View.OnClickListener {
     @InjectView(R.id.more_setting_back)
@@ -148,6 +150,13 @@ public class MoreSettingActivity extends BaseActivity implements View.OnClickLis
                         finish();
                     }
                 }
+                //清空缓存
+                CookieSyncManager.createInstance(mActivity);  //Create a singleton CookieSyncManager within a context
+                CookieManager cookieManager = CookieManager.getInstance(); // the singleton CookieManager instance
+                cookieManager.removeAllCookie();// Removes all cookies.
+                cookieManager.setAcceptCookie(true);
+                CookieSyncManager.getInstance().sync(); // forces sync manager to sync now
+                System.gc();
             }
         }, LogoutModel.class);
     }

@@ -105,7 +105,7 @@ public class ViewHolder {
      */
     public ViewHolder setTextColor(int viewId, int colorId) {
         TextView tv = getView(viewId);
-        tv.setTextColor(colorId);
+        tv.setTextColor(mConvertView.getContext().getResources().getColor(colorId));
         return this;
     }
 

@@ -64,6 +64,7 @@ import com.project.mgjandroid.ui.view.pullableview.PullToRefreshLayout.OnRefresh
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.CustomDialog;
+import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
@@ -685,7 +686,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 break;
             case R.id.order_detail_order_state_tv_des:
                 //退款
-                if (submitOrderEntity != null && submitOrderEntity.getOrderFlowStatus() == -1 && submitOrderEntity.getPaymentState() == 1) {
+                if (submitOrderEntity != null && submitOrderEntity.getOrderFlowStatus() == -1 && submitOrderEntity.getPaymentState() == 1 && DateUtils.compareTimeBefore(submitOrderEntity.getCreateTime())) {
                     Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
                     intent2.putExtra("orderId", submitOrderEntity.getId());
                     startActivity(intent2);
@@ -1386,7 +1387,11 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         if (submitOrderEntity.getOrderFlowStatus() == -1) {
             if (submitOrderEntity.getPaymentState() == 1) {
                 //已支付
-                tvStateDes.setText("退款详情 >");
+                if (DateUtils.compareTimeBefore(submitOrderEntity.getCreateTime())) {
+                    tvStateDes.setText("退款详情 >");
+                } else {
+                    tvStateDes.setText("");
+                }
             } else {
                 //未支付
                 tvStateDes.setText("支付超时自动取消");

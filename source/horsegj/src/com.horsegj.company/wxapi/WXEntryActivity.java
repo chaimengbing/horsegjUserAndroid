@@ -141,12 +141,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         JPushInterface.checkTagBindState(WXEntryActivity.this, 101, "agent_" + value.getAgentId());
                     }
                     PreferenceUtils.saveStringPreference("token", wechatLoginModel.getValue().getToken(), WXEntryActivity.this);
-                    SmsLoginActivity.instance.thirdLoginSuccess(false);
+                    SmsLoginActivity.instance.thirdLoginSuccess(false, wechatLoginModel.getValue().getToken());
                 }
                 finish();
             }
         }, WechatLoginModel.class);
-//        this.finish();
     }
 
     private void handleIntent(Intent paramIntent) {

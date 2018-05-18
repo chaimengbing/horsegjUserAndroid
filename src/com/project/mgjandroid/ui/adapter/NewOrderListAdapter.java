@@ -17,6 +17,7 @@ import com.project.mgjandroid.constants.OrderFlowStatus;
 import com.project.mgjandroid.model.NewOrderFragmentModel;
 import com.project.mgjandroid.ui.view.TimeTextView;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.StringUtils;
 
 import java.text.ParseException;
@@ -86,6 +87,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         holder.setText(R.id.tv_item_time, com.project.mgjandroid.utils.DateUtils.getFormatTime1(valueEntity.getCreateTime(), "MM-dd HH:mm"));
         holder.setVisibility(R.id.tv_item_right1, false);
         holder.setText(R.id.tv_item_price, StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()));
+        holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
         LinearLayout llItemInfo = holder.getView(R.id.ll_item_order_info); //商品信息
         if (valueEntity.getType() == 7) {
             //顺风车
@@ -155,7 +157,8 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         tvPay.setOnClickListener(listener);
         tvRefund.setOnClickListener(listener);
 
-        if (valueEntity.getThirdpartyOrder().getStatus() == -1 && valueEntity.getThirdpartyOrder().getPaymentState() == 1) {
+        //1525968000  2018/5/11
+        if (valueEntity.getThirdpartyOrder().getStatus() == -1 && valueEntity.getThirdpartyOrder().getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
             tvRefund.setVisibility(View.VISIBLE);
         } else {
             tvRefund.setVisibility(View.GONE);
@@ -245,6 +248,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         switch (valueEntity.getLegWorkOrder().getStatus()) {
             case -1:
                 tvState.setText("已取消");
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                 if (valueEntity.getLegWorkOrder().getPaymentState() == 1) {
                     //已经支付
                     tvOrderStateRefund.setVisibility(View.VISIBLE);
@@ -255,6 +259,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 tvOrderStateEvalute.setVisibility(View.GONE);
                 break;
             case 1:
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 tvState.setText("待付款");
                 tvLegworkPay.setVisibility(View.VISIBLE);
                 tvOrderStateEvalute.setVisibility(View.GONE);
@@ -262,24 +267,28 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 tvLegworkPay.setTimes(getTimeBetween(valueEntity.getServerTime(), valueEntity.getLegWorkOrder().getPaymentExpireTime()));
                 break;
             case 2:
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 tvState.setText("待确认");
                 tvLegworkPay.setVisibility(View.GONE);
                 tvOrderStateEvalute.setVisibility(View.GONE);
                 tvOrderStateRefund.setVisibility(View.GONE);
                 break;
             case 4:
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 tvState.setText("待取货");
                 tvLegworkPay.setVisibility(View.GONE);
                 tvOrderStateEvalute.setVisibility(View.GONE);
                 tvOrderStateRefund.setVisibility(View.GONE);
                 break;
             case 5:
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 tvState.setText("配送中");
                 tvLegworkPay.setVisibility(View.GONE);
                 tvOrderStateEvalute.setVisibility(View.GONE);
                 tvOrderStateRefund.setVisibility(View.GONE);
                 break;
             case 7:
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                 tvState.setText("已完成");
                 tvLegworkPay.setVisibility(View.GONE);
                 tvOrderStateRefund.setVisibility(View.GONE);
@@ -330,19 +339,26 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         tvEvaluate.setOnClickListener(listener);
 
         if (order.getStatus() == GroupPurchaseOrderStatus.Done.getValue()) {
-            tvStatus.setText("已完成");
             if (order.getUsableQuantity() > 0) {
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 tvStatus.setText("待消费");
                 tvCode.setVisibility(View.VISIBLE);
             } else if (order.getUsableQuantity() == 0 && order.getUseQuantity() > 0 && order.getHasComments() == 0) {
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 tvStatus.setText("待评价");
                 tvEvaluate.setVisibility(View.VISIBLE);
+            } else {
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
+                tvStatus.setText("已完成");
             }
         } else if (order.getStatus() == GroupPurchaseOrderStatus.Cancel.getValue()) {
+            holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
             tvStatus.setText("已取消");
         } else if (order.getStatus() == GroupPurchaseOrderStatus.Refund.getValue()) {
+            holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
             tvStatus.setText("已退款");
         } else {
+            holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
             tvStatus.setText(GroupPurchaseOrderStatus.getGroupPurchaseCouponTypeByValue(order.getStatus()).getMemo());
         }
 
@@ -402,7 +418,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         holder.setVisibility(R.id.tv_item_right1, false);
         holder.setText(R.id.tv_item_type, valueEntity.getTypeName());
         holder.setText(R.id.tv_item_price, StringUtils.BigDecimal2Str(groupBuyOrder.getTotalPrice()));
-        holder.setText(R.id.tv_item_time, com.project.mgjandroid.utils.DateUtils.getFormatTime1(valueEntity.getCreateTime(), "MM-dd HH:mm"));
+        holder.setText(R.id.tv_item_time, DateUtils.getFormatTime1(valueEntity.getCreateTime(), "MM-dd HH:mm"));
 
         LinearLayout llItemInfo = holder.getView(R.id.ll_item_order_info); //商品信息
         TextView groupStatus = holder.getView(R.id.order_list_item_tv_state);
@@ -431,33 +447,39 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                     groupStatus.setText("已取消");
                     tvPay.setVisibility(View.GONE);
                     tvInvite.setVisibility(View.GONE);
-                    if (groupBuyOrder.getPaymentState() == 1) {
+                    holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
+                    if (groupBuyOrder.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
                         //已支付
                         tvRefund.setVisibility(View.VISIBLE);
                     }
                     break;
                 case 0:
+                    holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                     groupStatus.setText("订单创建");
                     tvPay.setVisibility(View.GONE);
                     tvInvite.setVisibility(View.GONE);
                     break;
                 case 1:
+                    holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                     groupStatus.setText("等待付款");
                     tvPay.setVisibility(View.VISIBLE);
                     tvInvite.setVisibility(View.GONE);
                     tvPay.setTimes(getTimeBetween1(new Date(), groupBuyOrder.getPaymentExpireTime()));
                     break;
                 case 2:
+                    holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                     groupStatus.setText("已支付，未成团");
                     tvPay.setVisibility(View.GONE);
                     tvInvite.setVisibility(View.VISIBLE);
                     break;
                 case 3:
+                    holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                     groupStatus.setText("待发货");
                     tvPay.setVisibility(View.GONE);
                     tvInvite.setVisibility(View.GONE);
                     break;
                 case 4:
+                    holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                     if (groupBuyOrder.getHasComments() == 0) {
                         groupStatus.setText("交易成功");
                     } else {
@@ -467,6 +489,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                     tvInvite.setVisibility(View.GONE);
                     break;
                 case 5:
+                    holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                     groupStatus.setText("未成团，退款成功");
                     tvPay.setVisibility(View.GONE);
                     tvInvite.setVisibility(View.GONE);
@@ -526,40 +549,51 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         tvMoreOrder.setTag(position);
         tvPay.setTag(position);
         tvEvaluate.setTag(position);
+        tvRefund.setTag(position);
         tvMoreOrder.setOnClickListener(listener);
         tvPay.setOnClickListener(listener);
         tvEvaluate.setOnClickListener(listener);
+        tvRefund.setOnClickListener(listener);
 
         switch (valueEntity.getOrderFlowStatus()) {
             case -1://取消
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                 changeButtonShowState(holder, true, false, false, false, false);
-                if (valueEntity.getPaymentState() == 1) {
+                if (valueEntity.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
                     //已支付
                     tvRefund.setVisibility(View.VISIBLE);
                 }
                 break;
             case 0://已创建
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                 changeButtonShowState(holder, true, false, false, true, false);
                 break;
             case 1://等待付款
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 changeButtonShowState(holder, false, false, false, false, true);
                 break;
             case 2://等待商家确认
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 changeButtonShowState(holder, true, false, false, true, false);
                 break;
             case 3://商家已接单
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 changeButtonShowState(holder, true, false, false, true, false);
                 break;
             case 4://配送员取货中
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 changeButtonShowState(holder, true, false, false, true, false);
                 break;
             case 5://配送员已取货
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 changeButtonShowState(holder, true, false, false, true, false);
                 break;
             case 6://等待送达
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
                 changeButtonShowState(holder, true, false, false, true, false);
                 break;
             case 7://完成
+                holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                 if (valueEntity.getHasComments() == 0)
                     changeButtonShowState(holder, true, true, true, false, false);
                 else

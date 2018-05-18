@@ -42,6 +42,8 @@ import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
+import com.tencent.smtt.sdk.CookieManager;
+import com.tencent.smtt.sdk.CookieSyncManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -508,6 +510,13 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     App.setIsLogin(true);
                 } else {
                     PreferenceUtils.saveStringPreference("token", "", HomeActivity.this);
+                    //清空缓存
+                    CookieSyncManager.createInstance(mActivity);  //Create a singleton CookieSyncManager within a context
+                    CookieManager cookieManager = CookieManager.getInstance(); // the singleton CookieManager instance
+                    cookieManager.removeAllCookie();// Removes all cookies.
+                    cookieManager.setAcceptCookie(true);
+                    CookieSyncManager.getInstance().sync(); // forces sync manager to sync now
+                    System.gc();
                 }
             }
         }, AppLaunchModel.class);

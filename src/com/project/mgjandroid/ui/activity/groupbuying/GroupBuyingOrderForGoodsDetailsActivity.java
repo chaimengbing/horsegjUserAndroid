@@ -40,6 +40,7 @@ import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.RefundDialog;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.StringUtils;
@@ -374,14 +375,18 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             } else if (order.getGroupPurchaseOrderCouponCodeList().get(i).getStatus() == 1) {
                 tvSpending.setText("已使用");
             } else {
-                tvSpending.setText("退款详情 >");
+                if (DateUtils.compareTimeBefore(order.getCreateTime())) {
+                    tvSpending.setText("退款详情 >");
+                } else {
+                    tvSpending.setText("已退款 >");
+                }
             }
             final int finalI = i;
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     GroupPurchaseOrderCouponCode groupPurchaseOrderCouponCode = order.getGroupPurchaseOrderCouponCodeList().get(finalI);
-                    if (groupPurchaseOrderCouponCode.getStatus() == 2) {
+                    if (groupPurchaseOrderCouponCode.getStatus() == 2 && DateUtils.compareTimeBefore(order.getCreateTime())) {
                         // 已退款
                         Intent intent = new Intent(mActivity, OrderRefundInfoActivity.class);
                         intent.putExtra("orderId", order.getId());
