@@ -11,6 +11,7 @@ import com.project.mgjandroid.R;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.OrderRefundInfoModel;
 import com.project.mgjandroid.net.VolleyOperater;
+import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
@@ -64,6 +65,8 @@ public class OrderRefundInfoActivity extends BaseActivity {
     private LinearLayout llState3;
 
 
+    private MLoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,7 @@ public class OrderRefundInfoActivity extends BaseActivity {
     }
 
     private void initData() {
+        loadingDialog.show(getFragmentManager(), "");
         String orderId = getIntent().getStringExtra("orderId");
         String groupPurchaseOrderCouponCodeId = getIntent().getStringExtra("groupPurchaseOrderCouponCodeId");
         VolleyOperater<OrderRefundInfoModel> operater = new VolleyOperater<>(mActivity);
@@ -85,6 +89,7 @@ public class OrderRefundInfoActivity extends BaseActivity {
         operater.doRequest(Constants.URL_QUERY_REFUND_INFO, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
+                loadingDialog.dismiss();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
                         toast(obj.toString());
@@ -161,6 +166,7 @@ public class OrderRefundInfoActivity extends BaseActivity {
 
     private void initView() {
         ivBack.setOnClickListener(this);
+        loadingDialog = new MLoadingDialog();
     }
 
     @Override

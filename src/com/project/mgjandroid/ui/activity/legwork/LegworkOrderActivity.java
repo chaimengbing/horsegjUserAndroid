@@ -92,7 +92,7 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
         listView.setAdapter(adapter);
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         mNoDataView = LayoutInflater.from(mActivity).inflate(R.layout.layout_order_list_no_data, null);
-        getDate(false);
+        listView.autoRefresh();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -272,7 +272,7 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
                 mIntent.putExtra("agentId", "" + mValueEntity2.getAgentId());
                 startActivityForResult(mIntent, 2000);
                 break;
-            case R.id.order_state_refund:
+            case R.id.order_state_refund_to_balance:
                 int mTag3 = (int) v.getTag();
                 NewOrderFragmentModel.ValueEntity mValueEntity3 = adapter.getData().get(mTag3);
                 Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);

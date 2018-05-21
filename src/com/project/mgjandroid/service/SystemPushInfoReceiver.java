@@ -24,12 +24,13 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        String extra = "";
-        int notificationId = -1;
-        if (bundle != null) {
-            extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            notificationId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
+        String extra;
+        int notificationId;
+        if (bundle == null) {
+            return;
         }
+        extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        notificationId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
         if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {//点击事件
             try {
                 org.json.JSONObject object = new org.json.JSONObject(extra);
@@ -68,26 +69,26 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-        if (intent != null) {
-            if (bundle != null) {
-                org.json.JSONObject jsonObject = null;
-                try {
-                    jsonObject = new org.json.JSONObject(extra);
-                    String type = jsonObject.optString("type");
-                    String userId = jsonObject.optString("userId");
-                    voiceService = new Intent(context, VoiceService.class);
-                    if (type != null && "Cashback".equals(type)) {
-                        if (App.isLogin() && PreferenceUtils.getPushSwitch(context) && userId != null && userId.equals(App.getUserInfo().getId() + "")) {
-                            //开启声音
-//                            context.startService(voiceService);
-                        } else {
-                            JPushInterface.clearNotificationById(context, notificationId);
-                        }
+        } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
+            //Log.e("TAG", "接受到推送下来的自定义消息");
+
+        } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) { //接受到推送下来的通知
+            try {
+                org.json.JSONObject jsonObject = new org.json.JSONObject(extra);
+                String type = jsonObject.optString("type");
+                String userId = jsonObject.optString("userId");
+                voiceService = new Intent(context, VoiceService.class);
+                if (type != null && "Cashback".equals(type)) {
+                    //人人分利
+                    if (App.isLogin() && PreferenceUtils.getPushSwitch(context) && userId != null && userId.equals(App.getUserInfo().getId() + "")) {
+                        //开启声音
+                        context.startService(voiceService);
+                    } else {
+                        JPushInterface.clearNotificationById(context, notificationId);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

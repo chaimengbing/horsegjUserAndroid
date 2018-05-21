@@ -137,8 +137,8 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_mine_white_radius"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/x10"
-                android:paddingRight="@dimen/x10">
+                android:paddingLeft="@dimen/x25"
+                android:paddingRight="@dimen/x25">
 
                 <LinearLayout
                     android:id="@+id/mine_fragment_balance_operate"

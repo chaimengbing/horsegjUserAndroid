@@ -22,6 +22,7 @@ import com.project.mgjandroid.utils.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -87,7 +88,11 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         holder.setText(R.id.tv_item_time, com.project.mgjandroid.utils.DateUtils.getFormatTime1(valueEntity.getCreateTime(), "MM-dd HH:mm"));
         holder.setVisibility(R.id.tv_item_right1, false);
         holder.setText(R.id.tv_item_price, StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()));
-        holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
+        if (thirdpartyOrder.getStatus() == -1 || thirdpartyOrder.getStatus() == 7) {
+            holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
+        } else {
+            holder.setTextColor(R.id.order_list_item_tv_state, R.color.title_bar_bg);
+        }
         LinearLayout llItemInfo = holder.getView(R.id.ll_item_order_info); //商品信息
         if (valueEntity.getType() == 7) {
             //顺风车
@@ -106,17 +111,33 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             holder.setVisibility(R.id.ll_item_desc2, false);
             holder.setVisibility(R.id.ll_item_desc3, false);
             holder.setVisibility(R.id.ll_item_info, true);
+            ArrayList<ThirdPartyOrderBean.OrderModer> orderList = thirdpartyOrder.getOrderList();
+            List<ThirdPartyOrderBean.OrderModer.OrderItemsBean> items = new ArrayList<>();
+            if (orderList != null) {
+                for (ThirdPartyOrderBean.OrderModer orderModer : orderList) {
+                    List<ThirdPartyOrderBean.OrderModer.OrderItemsBean> orderItems = orderModer.getOrderItems();
+                    if (orderItems != null) {
+                        items.addAll(orderItems);
+                    }
+                }
+            }
             holder.setText(R.id.tv_item_name1, "商品信息：");
-            holder.setText(R.id.tv_item_content1, "共");
+            holder.setText(R.id.tv_item_content1, "共" + items.size() + "件商品");
 
-            View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
-            TextView tvDesc = (TextView) inflate.findViewById(R.id.tv_order_info_desc);
-            TextView tvNum = (TextView) inflate.findViewById(R.id.tv_order_info_num);
-            TextView tvPrice = (TextView) inflate.findViewById(R.id.tv_order_info_price);
-            tvDesc.setText("可视认养名称");
-            tvNum.setText("x " + "个数");
-            tvPrice.setText("¥ " + "单价");
-            llItemInfo.addView(inflate);
+            llItemInfo.removeAllViews();
+
+            for (int i = 0; i < items.size(); i++) {
+                if (i < 2) {
+                    View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
+                    TextView tvDesc = (TextView) inflate.findViewById(R.id.tv_order_info_desc);
+                    TextView tvNum = (TextView) inflate.findViewById(R.id.tv_order_info_num);
+                    TextView tvPrice = (TextView) inflate.findViewById(R.id.tv_order_info_price);
+                    tvDesc.setText(items.get(i).getGoodsName());
+                    tvNum.setText("x " + items.get(i).getTotalQuantity());
+                    tvPrice.setText("¥ " + items.get(i).getPrice());
+                    llItemInfo.addView(inflate);
+                }
+            }
         } else if (valueEntity.getType() == 10) {
             //快递
             holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_10);
@@ -127,12 +148,12 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             holder.setText(R.id.tv_item_name2, "收件地址：");
             holder.setText(R.id.tv_item_content1, thirdpartyOrder.getTitle());
             holder.setText(R.id.tv_item_content2, thirdpartyOrder.getDescription());
-        } else if (valueEntity.getType() == 11) {
-            //洗衣
-            holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_11);
-            holder.setVisibility(R.id.ll_item_desc2, false);
-            holder.setVisibility(R.id.ll_item_desc3, false);
-            holder.setVisibility(R.id.ll_item_info, true);
+//        } else if (valueEntity.getType() == 11) {
+//            //洗衣
+//            holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_11);
+//            holder.setVisibility(R.id.ll_item_desc2, false);
+//            holder.setVisibility(R.id.ll_item_desc3, false);
+//            holder.setVisibility(R.id.ll_item_info, true);
         } else {
             holder.setVisibility(R.id.ll_item_desc2, false);
             holder.setVisibility(R.id.ll_item_desc3, false);
@@ -151,7 +172,6 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         tvInvite.setVisibility(View.GONE);
         tvMoreOrder.setVisibility(View.GONE);
         tvEvaluate.setVisibility(View.GONE);
-
         tvPay.setTag(position);
         tvRefund.setTag(position);
         tvPay.setOnClickListener(listener);
@@ -306,7 +326,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
 
     private void showGroupPurchaseItem(NewOrderFragmentModel.ValueEntity valueEntity, ViewHolder holder, int position) {
         GroupPurchaseOrder order = valueEntity.getGroupPurchaseOrder();
-        holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_2);
+        holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_6);
         holder.setVisibility(R.id.ll_item_desc2, false);
         holder.setVisibility(R.id.ll_item_desc3, false);
         holder.setVisibility(R.id.ll_item_info, true);
@@ -367,14 +387,13 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         holder.setText(R.id.tv_item_right1, "有效期至：" + order.getGroupPurchaseCouponEndTime());
 
         llItemInfo.removeAllViews();
-
         View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
         TextView tvDesc = (TextView) inflate.findViewById(R.id.tv_order_info_desc);
         TextView tvNum = (TextView) inflate.findViewById(R.id.tv_order_info_num);
         TextView tvPrice = (TextView) inflate.findViewById(R.id.tv_order_info_price);
         tvDesc.setText(order.getGroupPurchaseMerchantName() + (order.getGroupPurchaseCouponType() == 1 ? "代金券" : "团购券"));
         tvNum.setText("x " + order.getQuantity());
-        tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(order.getTotalPrice()));
+        tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(order.getPrice()));
         llItemInfo.addView(inflate);
 
         if (order.getStatus() == GroupPurchaseOrderStatus.WaitPay.getValue()) {
@@ -499,18 +518,17 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             groupStatus.setVisibility(View.GONE);
         }
 
-
         holder.setText(R.id.tv_item_name1, "商品信息：");
         holder.setText(R.id.tv_item_content1, "共1件商品");
-        llItemInfo.removeAllViews();
 
+        llItemInfo.removeAllViews();
         View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
         TextView tvDesc = (TextView) inflate.findViewById(R.id.tv_order_info_desc);
         TextView tvNum = (TextView) inflate.findViewById(R.id.tv_order_info_num);
         TextView tvPrice = (TextView) inflate.findViewById(R.id.tv_order_info_price);
         tvDesc.setText(groupBuyOrder.getGroupBuy().getGoodsName());
         tvNum.setText("x " + groupBuyOrder.getQuantity());
-        tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(groupBuyOrder.getTotalPrice()));
+        tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(groupBuyOrder.getPrice()));
         llItemInfo.addView(inflate);
 
         if (groupBuyOrder.getStatus() == 4 && groupBuyOrder.getHasComments() == 0) {
@@ -622,7 +640,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                     TextView tvPrice = (TextView) inflate.findViewById(R.id.tv_order_info_price);
                     tvDesc.setText(orderItems.get(i).getName());
                     tvNum.setText("x " + orderItems.get(i).getQuantity());
-                    tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(orderItems.get(i).getTotalPrice()));
+                    tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(orderItems.get(i).getPrice()));
                     llItemInfo.addView(inflate);
                 }
             }

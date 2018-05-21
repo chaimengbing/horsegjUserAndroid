@@ -2,7 +2,6 @@ package com.project.mgjandroid.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -47,7 +46,7 @@ public class VoiceService extends Service {
     public void onCreate() {
         Log.e(TAG, "MusicSerice onCreate()");
 
-//        mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.notification);
+        mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.cashback);
         //设置可以重复播放
 //        mPlayer.setLooping(false);
 
@@ -79,7 +78,6 @@ public class VoiceService extends Service {
 
     @Override
     public void onStart(Intent intent, int startId) {
-        Log.e(TAG, "MusicSerice onStart()");
 
         currentCount = 0;
         mPlayer = new MediaPlayer();
@@ -96,7 +94,7 @@ public class VoiceService extends Service {
         }
 
         //设置可以重复播放
-        mPlayer.setLooping(false);
+        // mPlayer.setLooping(false);
         super.onStart(intent, startId);
     }
 

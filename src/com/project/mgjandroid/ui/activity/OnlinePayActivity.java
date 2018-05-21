@@ -470,7 +470,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                         }
                     } else {
                         CheckOrderPayModel model = (CheckOrderPayModel) obj;
-                        if (model != null && model.getValue() != null && model.getValue().getPayState() == 1) {
+                        if (model.getValue() != null && model.getValue().getPayState() == 1) {
 
                         } else {
                             ToastUtils.displayMsg("系统错误，如支付已完成，但订单页面仍显示“待支付”或“去支付”状态，请稍后刷新页面或联系客服", mActivity);

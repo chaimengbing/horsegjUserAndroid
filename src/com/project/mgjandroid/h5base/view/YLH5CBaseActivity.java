@@ -108,7 +108,6 @@ public abstract class YLH5CBaseActivity extends Activity {
         if (this.h5Container != null) {
             this.h5Container.loadUrl("javascript:localStorage.clear()");
         }
-
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

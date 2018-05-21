@@ -39,16 +39,12 @@
             android:textSize="@dimen/title_bar_text_size" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x15"
-        android:background="#ededeb" />
-
     <RelativeLayout
         android:id="@+id/setting_clear_cache"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x42"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,15 +66,12 @@
             android:textColor="@color/common_gray_text" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/common_gray_line" />
 
     <RelativeLayout
         android:id="@+id/setting_non_wifi"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x42"
+        android:layout_height="@dimen/x50"
+        android:layout_marginTop="@dimen/x10"
         android:background="@color/white"
         android:visibility="visible">
 
@@ -143,10 +136,8 @@
     <RelativeLayout
         android:id="@+id/setting_push_notice"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x42"
-        android:layout_marginTop="@dimen/x10"
-        android:background="@color/white"
-        android:visibility="visible">
+        android:layout_height="@dimen/x50"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
@@ -180,10 +171,9 @@
     <RelativeLayout
         android:id="@+id/setting_about"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x42"
+        android:layout_height="@dimen/x50"
         android:layout_marginTop="@dimen/x10"
-        android:background="@color/white"
-        android:visibility="visible">
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
@@ -211,8 +201,8 @@
         android:layout_marginTop="@dimen/x10"
         android:background="@color/white"
         android:gravity="center"
-        android:paddingBottom="@dimen/x12"
-        android:paddingTop="@dimen/x12"
+        android:paddingBottom="@dimen/x13"
+        android:paddingTop="@dimen/x13"
         android:text="@string/sign_out"
         android:textColor="@color/orange_text"
         android:textSize="16sp"

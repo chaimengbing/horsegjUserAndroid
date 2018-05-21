@@ -17,12 +17,13 @@ import android.widget.TextView;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.constants.Constants;
+import com.project.mgjandroid.h5base.view.YLH5Container;
+import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.LogoutModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.fragment.MineFragment;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.utils.CommonUtils;
-import com.project.mgjandroid.utils.FileUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
@@ -79,12 +80,12 @@ public class MoreSettingActivity extends BaseActivity implements View.OnClickLis
         }
         String quality = PreferenceUtils.getStringPreference("ImageQuality", "普通", mContext);
         imgQuality.setText(quality);
-        try {
-            String autoCacheSize = FileUtils.getAutoCacheSize();
-            tvCacheSize.setText(autoCacheSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            String autoCacheSize = FileUtils.getAutoCacheSize();
+//            tvCacheSize.setText(autoCacheSize);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -96,10 +97,10 @@ public class MoreSettingActivity extends BaseActivity implements View.OnClickLis
             case R.id.more_setting_exit:
                 exit();
                 break;
-            case R.id.setting_clear_cache:
-                FileUtils.deleteAllCacheFile();
-                tvCacheSize.setText("0B");
-                break;
+//            case R.id.setting_clear_cache:
+//                FileUtils.deleteAllCacheFile();
+//                tvCacheSize.setText("0B");
+//                break;
             case R.id.setting_about:
                 startActivity(new Intent(mActivity, AboutActivity.class));
                 break;
@@ -140,6 +141,7 @@ public class MoreSettingActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
                 loadingDialog.dismiss();
+
                 if (isSucceed && obj != null) {
                     LogoutModel logoutModel = (LogoutModel) obj;
                     if (logoutModel.isSuccess()) {
@@ -150,7 +152,8 @@ public class MoreSettingActivity extends BaseActivity implements View.OnClickLis
                         finish();
                     }
                 }
-                //清空缓存
+
+                // 清空缓存
                 CookieSyncManager.createInstance(mActivity);  //Create a singleton CookieSyncManager within a context
                 CookieManager cookieManager = CookieManager.getInstance(); // the singleton CookieManager instance
                 cookieManager.removeAllCookie();// Removes all cookies.
