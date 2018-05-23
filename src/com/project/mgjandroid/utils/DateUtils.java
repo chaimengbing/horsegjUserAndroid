@@ -122,9 +122,14 @@ public class DateUtils {
         }
     }
 
-    //1525968000  2018/5/11
+    //1525968000  2018/5/11 之后
     public static boolean compareTimeBefore(String str) {
         return compareTimeBefore(str, 1525968000000L);
+    }
+
+    //1525968000  2018/5/11
+    public static boolean compareTimeBefore(Date date) {
+        return date.getTime() > 1525968000000L;
     }
 
 
