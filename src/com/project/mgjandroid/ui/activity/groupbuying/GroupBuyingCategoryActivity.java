@@ -348,28 +348,28 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
 
     private void showLeftMenuPop(final ArrayList<GroupPurchaseCategory> categories) {
         LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.group_buying_menu_left, null);
-        final ListView leftListView = (ListView) linearLayout.findViewById(R.id.group_buying_menu_list);
+        ListView leftListView = (ListView) linearLayout.findViewById(R.id.group_buying_menu_list);
         categoryAdapter = new GroupBuyingCategoryAdapter(mActivity);
         leftListView.setAdapter(categoryAdapter);
         categoryAdapter.setData(categories);
         leftListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (leftMenuWindow.isShowing()) {
                     leftMenuWindow.dismiss();
                 }
-                if (categories.get(position).isSelected()) {
+                if (categories.get(i).isSelected()) {
                     return;
                 }
                 for (GroupPurchaseCategory category : categories) {
                     category.setSelected(false);
                 }
-                categories.get(position).setSelected(true);
+                categories.get(i).setSelected(true);
                 categoryAdapter.notifyDataSetChanged();
-                tvMenu1.setText(categories.get(position).getName());
+                tvMenu1.setText(categories.get(i).getName());
 
                 start = 0;
-                childCategoryId = categories.get(position).getId();
+                childCategoryId = categories.get(i).getId();
                 getData(false);
             }
         });
@@ -444,7 +444,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
         GridView rightGridView = (GridView) linearLayout.findViewById(R.id.group_buying_menu_list);
         serviceAdapter = new GroupBuyingMerchantServiceMenuAdapter(mActivity);
         rightGridView.setAdapter(serviceAdapter);
-        final GroupPurchaseMerchantService service = new GroupPurchaseMerchantService();
+        GroupPurchaseMerchantService service = new GroupPurchaseMerchantService();
         service.setName("不限");
         service.setValue(-1);
         service.setSelected(true);

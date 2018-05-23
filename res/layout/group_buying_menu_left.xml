@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -13,14 +13,13 @@
         android:id="@+id/group_buying_menu_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:cacheColorHint="@color/transparent"
-        android:fadingEdge="none"
         android:divider="@color/color_e5"
         android:dividerHeight="1px"
+        android:fadingEdge="none"
         android:listSelector="@null"
-        android:scrollbars="none"
-        android:layout_weight="1"
-        android:background="@color/white" />
+        android:scrollbars="none" />
 
     <View
         android:layout_width="match_parent"
@@ -30,8 +29,8 @@
     <View
         android:id="@+id/group_buying_menu_cover_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="99"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/popup_main_background" />
 
 </LinearLayout>

@@ -471,6 +471,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     LotteryStatusModel.ValueBean value = ((LotteryStatusModel) obj).getValue();
+                    if (value == null) {
+                        return;
+                    }
                     if (value.getSwitchSign() == 8) { //8是打开，7是关闭
                         showLotteryBtn();
                         HomeActivity activity = (HomeActivity) getActivity();
@@ -1134,6 +1137,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                             Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
                             intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, primaryCategory.getGotoUrl().replace("maguanjia://", ""));
                             startActivity(intent);
+                        } else if ("maguanjia://supermarket".equals(primaryCategory.getGotoUrl())) {
+                            //跳商超
+                            if (mActivity != null)
+                                if (mActivity instanceof HomeActivity) {
+                                    ((HomeActivity) mActivity).setToSuperMarket(0, 0);
+                                }
                         } else {
                             if (primaryCategory.getGotoUrl().startsWith("maguanjia://")) {
                                 Routers.open(mActivity, ActivitySchemeManager.SCHEME + primaryCategory.getGotoUrl().replace("maguanjia://", ""), new RouterCallback() {
@@ -1451,12 +1460,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     List<CategoryRightBean> list1 = list.get(mSelectPosition).getChildTagCategoryList();
                     if (list1 != null) {
                         mCategoryRightAdapter.setList(list1);
-                        if(childListView!=null){
+                        if (childListView != null) {
                             childListView.setVisibility(View.VISIBLE);
                         }
                     } else {
                         mCategoryRightAdapter.setList(new ArrayList<CategoryRightBean>());
-                        if(childListView!=null){
+                        if (childListView != null) {
                             childListView.setVisibility(View.GONE);
                         }
                     }
@@ -2984,6 +2993,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                         Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
                         intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, bean.getLinkUrl().replace("maguanjia://", ""));
                         startActivity(intent);
+                    } else if ("maguanjia://supermarket".equals(bean.getLinkUrl())) {
+                        //跳商超
+                        if (mActivity != null)
+                            if (mActivity instanceof HomeActivity) {
+                                ((HomeActivity) mActivity).setToSuperMarket(0, 0);
+                            }
                     } else {
                         Routers.open(mActivity, ActivitySchemeManager.SCHEME + bean.getLinkUrl().replace("maguanjia://", ""), new RouterCallback() {
                             @Override

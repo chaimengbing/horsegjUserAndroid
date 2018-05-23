@@ -289,8 +289,8 @@ public class DeviceParameter {
     }
 
     /*
-  * 
-  */
+     *
+     */
     public static String getNetWorkType() {
         Context appContext = App.getInstance();
         ConnectivityManager cm = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -595,19 +595,17 @@ public class DeviceParameter {
             String result;
             try {
                 result = getAdressMacByInterface();
-                if (result != null) {
+                if (result != null && !TextUtils.isEmpty(result)) {
                     return result;
                 } else {
                     //result = getAddressMacByFile(wifiMan);
                     return marshmallowMacAddress;
                 }
-//            } catch (IOException e) {
-//                Log.e("MobileAccess", "Erreur lecture propriete Adresse MAC");
             } catch (Exception e) {
                 Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ");
             }
         } else {
-            if (wifiInf != null && wifiInf.getMacAddress() != null) {
+            if (wifiInf != null && wifiInf.getMacAddress() != null && !TextUtils.isEmpty(wifiInf.getMacAddress())) {
                 return wifiInf.getMacAddress();
             } else {
                 return marshmallowMacAddress;

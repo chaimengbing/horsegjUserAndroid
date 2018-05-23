@@ -77,8 +77,13 @@ public class JsWebViewClient extends WebViewClient {
                     var4.printStackTrace();
                 }
             } else {
-                //view.loadUrl(url);
-                return super.shouldOverrideUrlLoading(view, url);
+//                https://open.zhongan.com/external/chexian/baoBiaoAgent.htm?utm_source=agent&redirectType=H5&redirectType=h5&productCode=PRD180299655030&promoteCategory=single_product&payChannel=alipay,wxpay&campaignId=10002538191&1=1&businessId=10002538191010&1=1&promotionCode=INST180385864240:PRD180299655030&1=1&agent_user_code=B01446BMC18022763976&requestId=e397211b538f4bf0951cb0bbf1741413
+                if (url.contains("zhongan")) {
+                    //TODO 车险无法跳转 暂时解决方案
+                    return super.shouldOverrideUrlLoading(view, url);
+                } else {
+                    view.loadUrl(url);
+                }
             }
             return true;
         }

@@ -65,23 +65,19 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
                     context.startActivity(i);
                 }
                 JPushInterface.clearNotificationById(context, notificationId);
-                return;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-            //Log.e("TAG", "接受到推送下来的自定义消息");
-
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) { //接受到推送下来的通知
             try {
                 org.json.JSONObject jsonObject = new org.json.JSONObject(extra);
                 String type = jsonObject.optString("type");
                 String userId = jsonObject.optString("userId");
-                voiceService = new Intent(context, VoiceService.class);
                 if (type != null && "Cashback".equals(type)) {
                     //人人分利
                     if (App.isLogin() && PreferenceUtils.getPushSwitch(context) && userId != null && userId.equals(App.getUserInfo().getId() + "")) {
                         //开启声音
+                        voiceService = new Intent(context, VoiceService.class);
                         context.startService(voiceService);
                     } else {
                         JPushInterface.clearNotificationById(context, notificationId);

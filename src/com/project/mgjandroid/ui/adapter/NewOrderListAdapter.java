@@ -122,10 +122,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 }
             }
             holder.setText(R.id.tv_item_name1, "商品信息：");
-            holder.setText(R.id.tv_item_content1, "共" + items.size() + "件商品");
 
             llItemInfo.removeAllViews();
-
+            int count = 0;
             for (int i = 0; i < items.size(); i++) {
                 if (i < 2) {
                     View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
@@ -137,7 +136,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                     tvPrice.setText("¥ " + items.get(i).getPrice());
                     llItemInfo.addView(inflate);
                 }
+                count = count + items.get(i).getTotalQuantity();
             }
+            holder.setText(R.id.tv_item_content1, "共" + count + "件商品");
         } else if (valueEntity.getType() == 10) {
             //快递
             holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_10);
@@ -214,7 +215,6 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
     }
 
     private void showLegWorkItem(NewOrderFragmentModel.ValueEntity valueEntity, ViewHolder holder, int position) {
-
         holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_9);
         holder.setVisibility(R.id.ll_item_desc2, true);
         holder.setVisibility(R.id.ll_item_desc3, false);
@@ -383,7 +383,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         }
 
         holder.setText(R.id.tv_item_name1, "团购内容：");
-        holder.setText(R.id.tv_item_content1, "共1件商品");
+        holder.setText(R.id.tv_item_content1, "共" + order.getQuantity() + "件商品");
         holder.setText(R.id.tv_item_right1, "有效期至：" + order.getGroupPurchaseCouponEndTime());
 
         llItemInfo.removeAllViews();
@@ -519,7 +519,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         }
 
         holder.setText(R.id.tv_item_name1, "商品信息：");
-        holder.setText(R.id.tv_item_content1, "共1件商品");
+        holder.setText(R.id.tv_item_content1, "共" + groupBuyOrder.getQuantity() + "件商品");
 
         llItemInfo.removeAllViews();
         View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
@@ -629,7 +629,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         List<NewOrderFragmentModel.ValueEntity.OrderItemsEntity> orderItems = valueEntity.getOrderItems();
         if (CheckUtils.isNoEmptyList(orderItems)) {
             holder.setText(R.id.tv_item_name2, "商品信息：");
-            holder.setText(R.id.tv_item_content2, "共" + orderItems.size() + "件商品");
+            int count = 0;
             llItemInfo.removeAllViews();
             for (int i = 0; i < orderItems.size(); i++) {
                 if (i < 2) {
@@ -643,7 +643,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                     tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(orderItems.get(i).getPrice()));
                     llItemInfo.addView(inflate);
                 }
+                count = count + orderItems.get(i).getQuantity();
             }
+            holder.setText(R.id.tv_item_content2, "共" + count + "件商品");
         } else {
             holder.setVisibility(R.id.ll_item_desc2, false);
             holder.setVisibility(R.id.ll_item_info, false);

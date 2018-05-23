@@ -535,6 +535,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     UpdateModel updateModel = (UpdateModel) obj;
                     if (updateModel.getCode() == 0) {
                         AppVersion value = updateModel.getValue();
+                        if (value == null) {
+                            return;
+                        }
                         String clientVersion = value.getClientVersion();
                         if (Integer.parseInt(clientVersion) > CommonUtils.getCurrentVersionCode()) {
                             if (value.getIsCoerceUpdate() == 1) {

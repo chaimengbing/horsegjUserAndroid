@@ -77,7 +77,6 @@ public class GroupBuyingCategoryAdapter extends BaseAdapter {
         }
 
         showItem(convertView, position, holder);
-
         return convertView;
     }
 

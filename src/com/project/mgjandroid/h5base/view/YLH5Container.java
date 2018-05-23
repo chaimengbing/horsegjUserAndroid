@@ -95,11 +95,9 @@ public class YLH5Container extends WebView implements WebViewJsBridge, WebPageLo
         webSetting.setDatabaseEnabled(true);
         webSetting.setDomStorageEnabled(true);
         webSetting.setGeolocationEnabled(true);
-        String appCachePath = mContext.getApplicationContext().getCacheDir().getAbsolutePath();
-        webSetting.setAppCachePath(appCachePath);
         webSetting.setPluginState(WebSettings.PluginState.ON);
         webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSetting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSetting.setCacheMode(2);
         if (Build.VERSION.SDK_INT >= 21) {
             webSetting.setMixedContentMode(0);
         }
@@ -251,7 +249,6 @@ public class YLH5Container extends WebView implements WebViewJsBridge, WebPageLo
         if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
             this.loadUrl(javascriptCommand);
         }
-
     }
 
     private void doSendMessage(String handlerName, String data, JsBridgeCallBack callBack) {

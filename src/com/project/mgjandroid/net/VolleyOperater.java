@@ -3,6 +3,7 @@ package com.project.mgjandroid.net;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
@@ -79,7 +80,11 @@ public class VolleyOperater<T> {
 //        if (localMacAddress == null || "".equals(localMacAddress)) {
 //            localMacAddress = DeviceParameter.getLocalMacAddressFromIp(App.getInstance());
 //        }
-        map.put("mac", localMacAddress);
+        if (TextUtils.isEmpty(localMacAddress)) {
+            map.put("mac", "02:00:00:00:00:00");
+        } else {
+            map.put("mac", localMacAddress);
+        }
         map.put("imei", DeviceParameter.getIMEI());
         map.put("params", mapParams);
         MLog.d("----params---" + map.toString());

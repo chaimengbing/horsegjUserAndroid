@@ -385,7 +385,7 @@ public class ThirdPartyOrderBean extends Entity {
              */
 
             private String goodsName;
-            private String totalQuantity;
+            private int totalQuantity;
             private int totalPrice;
             private String price;
 
@@ -397,11 +397,11 @@ public class ThirdPartyOrderBean extends Entity {
                 this.goodsName = goodsName;
             }
 
-            public String getTotalQuantity() {
+            public int getTotalQuantity() {
                 return totalQuantity;
             }
 
-            public void setTotalQuantity(String totalQuantity) {
+            public void setTotalQuantity(int totalQuantity) {
                 this.totalQuantity = totalQuantity;
             }
 

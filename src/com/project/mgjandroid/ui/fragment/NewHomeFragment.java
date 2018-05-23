@@ -458,6 +458,9 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     LotteryStatusModel.ValueBean value = ((LotteryStatusModel) obj).getValue();
+                    if (value == null) {
+                        return;
+                    }
                     if (value.getSwitchSign() == 8) { //8是打开，7是关闭
                         showLotteryBtn();
                         HomeActivity activity = (HomeActivity) getActivity();
@@ -3155,10 +3158,11 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
             }
         }, NewRecommendGoodsModel.class);
     }
+
     /**
      * 首页信息展示 二手市场
      */
-    private void showSecondHand(final List<NewInformation.ValueBean.SecondHandBean> secondHand){
+    private void showSecondHand(final List<NewInformation.ValueBean.SecondHandBean> secondHand) {
         secondHandLayout.removeAllViews();
         if (secondHand.size() == 0) {
             return;
@@ -3198,7 +3202,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
             }
             tvTitle.setText(secondHandBean.getInformationDetail().getTitle());
             tvLabel.setText(secondHandBean.getInformationDetail().getCategoryName());
-            tvAddress.setText(secondHandBean.getInformationDetail().getAmt()+"元");
+            tvAddress.setText(secondHandBean.getInformationDetail().getAmt() + "元");
             tvTime.setText("发布时间：" + com.project.mgjandroid.utils.DateUtils.getFormatTime1(secondHandBean.getInformationDetail().getRefreshTime(), "yyyy-MM-dd"));
             if (i > 0) {
                 layoutTitle.setVisibility(View.GONE);
@@ -3538,6 +3542,9 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 if (isSucceed && obj != null) {
                     try {
                         BroadcastNew value = ((BroadcastNewModel) obj).getValue();
+                        if (value == null) {
+                            return;
+                        }
                         String titleJson = value.getTitleJson();
                         newsUrl = value.getNewsUrl();
                         if (CheckUtils.isNoEmptyStr(titleJson)) {

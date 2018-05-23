@@ -18,6 +18,7 @@ import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
+import com.project.mgjandroid.model.PushSetModel;
 import com.project.mgjandroid.model.SendSmsModel;
 import com.project.mgjandroid.model.SmsLoginModel;
 import com.project.mgjandroid.model.WechatLoginModel;
@@ -306,6 +307,7 @@ public class SmsLoginActivity extends BaseActivity implements View.OnClickListen
                             JPushInterface.checkTagBindState(SmsLoginActivity.this, 101, "agent_" + value.getAppUser().getAgentId());
                         }
                         PreferenceUtils.saveStringPreference("token", smsLoginModel.getValue().getAppUser().getToken(), mContext);
+                        getPushStatus();
                         if (isFromThird) {
                             try {
                                 JSONObject object = new JSONObject();
@@ -363,6 +365,7 @@ public class SmsLoginActivity extends BaseActivity implements View.OnClickListen
         if (isFromQQ) {
             loadingDialog.dismiss();
         }
+        getPushStatus();
         if (isFromThird) {
             try {
                 JSONObject object = new JSONObject();
@@ -442,6 +445,22 @@ public class SmsLoginActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         }, WechatLoginModel.class);
+    }
+
+    private void getPushStatus() {
+        VolleyOperater<PushSetModel> operater = new VolleyOperater<>(this);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pushType", 1);
+        operater.doRequest(Constants.URL_FIND_PUSH_SET, map, new VolleyOperater.ResponseListener() {
+
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (isSucceed && obj != null) {
+                    int isAble = ((PushSetModel) obj).getValue().getIsAble();
+                    PreferenceUtils.savePushSwitch(isAble != 0, mActivity);
+                }
+            }
+        }, PushSetModel.class);
     }
 
     @Override

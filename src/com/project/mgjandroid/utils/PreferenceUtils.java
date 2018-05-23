@@ -156,7 +156,7 @@ public class PreferenceUtils {
     }
 
     public static boolean getPushSwitch(Context context) {
-        return getBoolPreference(PUSH_SWITCH, false, context);
+        return getBoolPreference(PUSH_SWITCH, true, context);
     }
 
     public static void savePushSwitch(boolean info, Context context) {
