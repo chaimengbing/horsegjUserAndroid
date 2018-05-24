@@ -180,7 +180,11 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
 
         //1525968000  2018/5/11
         if (valueEntity.getThirdpartyOrder().getStatus() == -1 && valueEntity.getThirdpartyOrder().getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
-            tvRefund.setVisibility(View.VISIBLE);
+            if(StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")){
+                tvRefund.setVisibility(View.GONE);
+            }else {
+                tvRefund.setVisibility(View.VISIBLE);
+            }
         } else {
             tvRefund.setVisibility(View.GONE);
         }
@@ -271,7 +275,11 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                 if (valueEntity.getLegWorkOrder().getPaymentState() == 1) {
                     //已经支付
-                    tvOrderStateRefund.setVisibility(View.VISIBLE);
+                    if(StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")){
+                        tvOrderStateRefund.setVisibility(View.GONE);
+                    }else {
+                        tvOrderStateRefund.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     tvOrderStateRefund.setVisibility(View.GONE);
                 }
@@ -469,7 +477,11 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                     holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                     if (groupBuyOrder.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
                         //已支付
-                        tvRefund.setVisibility(View.VISIBLE);
+                        if(StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")){
+                            tvRefund.setVisibility(View.GONE);
+                        }else {
+                            tvRefund.setVisibility(View.VISIBLE);
+                        }
                     }
                     break;
                 case 0:
@@ -579,7 +591,11 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 changeButtonShowState(holder, true, false, false, false, false);
                 if (valueEntity.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
                     //已支付
-                    tvRefund.setVisibility(View.VISIBLE);
+                    if(StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")){
+                        tvRefund.setVisibility(View.GONE);
+                    }else {
+                        tvRefund.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case 0://已创建
