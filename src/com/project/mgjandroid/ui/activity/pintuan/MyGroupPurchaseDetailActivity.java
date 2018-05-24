@@ -32,6 +32,7 @@ import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.ShareUtil;
+import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
@@ -237,7 +238,11 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                     llStatus.setVisibility(View.VISIBLE);
                     if (order.getGroupbuyOrder().getPaymentState() == 1 && DateUtils.compareTimeBefore(order.getGroupbuyOrder().getCreateTime())) {
                         //已付款
-                        tvGroupRefund.setVisibility(View.VISIBLE);
+                        if(StringUtils.BigDecimal2Str(order.getGroupbuyOrder().getTotalPrice()).equals("0")){
+                            tvGroupRefund.setVisibility(View.GONE);
+                        }else {
+                            tvGroupRefund.setVisibility(View.VISIBLE);
+                        }
                         tvGroupState.setText("申请退款成功");
                     } else {
                         tvGroupState.setText("订单已取消");
