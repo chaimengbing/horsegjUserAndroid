@@ -18,6 +18,8 @@ YLBSdkConstants {
 
     public static final String EXTRA_H5_TITLE = "extra_h5_title";
 
+    public static final String EXTRA_H5_TITLE_COLOR = "extra_h5_title_color";
+
     public static final String EXTRA_H5_SHARE = "extra_h5_share";
 
     public static final String EXTRA_YLBSDK_MSG = "extra_ylbsdk_msg";

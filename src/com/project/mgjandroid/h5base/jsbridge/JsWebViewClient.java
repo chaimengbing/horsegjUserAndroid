@@ -104,8 +104,14 @@ public class JsWebViewClient extends WebViewClient {
         super.onDetectedBlankScreen(arg0, arg1);
     }
 
-    public WebResourceResponse shouldInterceptRequest(WebView arg0, String arg1) {
-        return super.shouldInterceptRequest(arg0, arg1);
+    public WebResourceResponse shouldInterceptRequest(WebView webView, String url) {
+        //做广告拦截，ADFIlterTool 为广告拦截工具类
+//        if (!ADFilterTool.hasAd(webView.getContext(), url)) {
+//            return super.shouldInterceptRequest(webView, url);
+//        } else {
+//            return new WebResourceResponse(null, null, null);
+//        }
+        return super.shouldInterceptRequest(webView, url);
     }
 }
 

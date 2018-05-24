@@ -861,6 +861,18 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_test_web"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x10"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/x10"
+                android:text="web网页测试"
+                android:textColor="@color/color_3"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </ScrollView>

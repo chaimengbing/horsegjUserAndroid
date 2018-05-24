@@ -128,5 +128,6 @@
     <!--节日背景色  节后切换为主色调-->
     <color name="bg_festival">#ff9900</color>
     <color name="legwork_status">#ffce4b</color>
+    <color name="web_title">#ff9a02</color>
 
 </resources>

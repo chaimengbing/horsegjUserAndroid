@@ -842,6 +842,28 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
                 startActivityForResult(intent, YLBSdkConstants.YLBSDK_SCAN_CODE);
             }
         });
+
+        //反馈 feedback
+        registerHandler("feedback", new JsBridgeHandler() {
+            @Override
+            public void handler(String data, final JsBridgeCallBack function) {
+                Routers.open(YLBWebViewActivity.this, ActivitySchemeManager.SCHEME + ActivitySchemeManager.URL_FEED_BACK);
+            }
+        });
+
+        //返回代理商电话
+        registerHandler("getAgentTel", new JsBridgeHandler() {
+            @Override
+            public void handler(String data, final JsBridgeCallBack function) {
+                //tel
+                String agentPhone = PreferenceUtils.getStringPreference("agentPhone", getString(R.string.sale_phone), YLBWebViewActivity.this);
+                if (TextUtils.isEmpty(agentPhone)) {
+                    agentPhone = getString(R.string.sale_phone);
+                }
+                Native2H5Model native2H5Model = new Native2H5Model(0, agentPhone);
+                function.onCallBack(new Gson().toJson(native2H5Model));
+            }
+        });
     }
 
     /**
@@ -879,6 +901,8 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
     @Override
     protected void initial() {
         mTvTitle = (TextView) findViewById(R.id.tv_title);
+        FrameLayout mFlTitle = (FrameLayout) findViewById(R.id.fl_title);
+        View viewLine = (View) findViewById(R.id.view_line);
 
         mRightItem = (TextView) findViewById(R.id.tv_right_text);
         mRightItem.setOnClickListener(this);
@@ -904,6 +928,15 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
         }
         tag = this.getIntent().getStringExtra(YLBSdkConstants.EXTRA_H5_SHARE);
 
+        boolean isTitleColor = this.getIntent().getBooleanExtra(YLBSdkConstants.EXTRA_H5_TITLE_COLOR, false);
+        if (isTitleColor) {
+            mFlTitle.setBackgroundColor(getResources().getColor(R.color.web_title));
+            mTvTitle.setTextColor(getResources().getColor(R.color.white));
+            mRightItem.setTextColor(getResources().getColor(R.color.white));
+            ivTitleBack.setImageDrawable(getResources().getDrawable(R.drawable.ic_back_white));
+            ivTitleClose.setImageDrawable(getResources().getDrawable(R.drawable.ic_close_white));
+            viewLine.setVisibility(View.GONE);
+        }
     }
 
     /**

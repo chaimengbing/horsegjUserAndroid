@@ -25,6 +25,7 @@ import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.UserFavorites;
 import com.project.mgjandroid.constants.ActivitySchemeManager;
 import com.project.mgjandroid.constants.Constants;
+import com.project.mgjandroid.h5container.H5TestActivity;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
@@ -159,6 +160,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         rlPintuan = ViewFindUtils.find(view, R.id.mine_fragment_pintuan);
         vPintuan = ViewFindUtils.find(view, R.id.mine_fragment_pintuan_line);
         rlInvite = ViewFindUtils.find(view, R.id.mine_fragment_my_invite);
+        TextView tvTestWeb = ViewFindUtils.find(view, R.id.tv_test_web);
         //新增投诉
         RelativeLayout telNum = ViewFindUtils.find(view, R.id.mine_fragment_tel_num);
         contentView = (RelativeLayout) View.inflate(mActivity, R.layout.pick_or_take_photo_dialog, null);
@@ -184,6 +186,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         rlPublish.setOnClickListener(this);
         rlPintuan.setOnClickListener(this);
         rlInvite.setOnClickListener(this);
+        tvTestWeb.setOnClickListener(this);
+
+        if (BuildConfig.IS_DEBUG) {
+            tvTestWeb.setVisibility(View.VISIBLE);
+        } else {
+            tvTestWeb.setVisibility(View.GONE);
+        }
     }
 
 
@@ -237,7 +246,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 }
                 break;
             case R.id.mine_fragment_serve_center:
-                showDialog();
+                toWebView("http://120.24.16.64/horsegj/dist/html/user/serviceCenter.html", true);
                 break;
             case R.id.red_package:
                 if (CommonUtils.checkLogin(mActivity)) {
@@ -316,18 +325,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 avatarDialog.dismiss();
                 break;
             case R.id.mine_fragment_agent_join:
-                if (BuildConfig.IS_DEBUG) {
-                    toWebView(getString(R.string.agent_join), "http://120.24.16.64/horsegj/dist/html/agent/merchantSet.html");
-                } else {
-                    toWebView(getString(R.string.agent_join), "http://123.56.15.86/horsegj/dist/html/agent/merchantSet.html");
-                }
+                toWebView("http://120.24.16.64/horsegj/dist/html/user/joinCoopera.html");
                 break;
             case R.id.mine_fragment_merchant_join:
-                if (BuildConfig.IS_DEBUG) {
-                    toWebView(getString(R.string.merchant_join), "http://120.24.16.64/horsegj/dist/html/agent/merchantJoin.html");
-                } else {
-                    toWebView(getString(R.string.merchant_join), "http://123.56.15.86/horsegj/dist/html/agent/merchantJoin.html");
-                }
+                toWebView("http://120.24.16.64/horsegj/dist/html/user/joinCoopera.html");
                 break;
             case R.id.mine_fragment_my_invite://邀请好友
                 if (CommonUtils.checkLogin(mActivity)) {
@@ -335,20 +336,23 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     startActivity(intent);
                 }
                 break;
+            case R.id.tv_test_web:
+                Intent it = new Intent(mActivity, H5TestActivity.class);
+                startActivity(it);
+                break;
             default:
                 break;
         }
     }
 
-    private void toWebView(String name, String url) {
-//        Intent intent = new Intent(mActivity, Banner2WebActivity.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("name", name);
-//        bundle.putString("url", url);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
+    private void toWebView(String url) {
+        toWebView(url, false);
+    }
+
+    private void toWebView(String url, boolean isTitleColor) {
         Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
         intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, url);
+        intent.putExtra(YLBSdkConstants.EXTRA_H5_TITLE_COLOR, isTitleColor);
         startActivity(intent);
     }
 
@@ -571,13 +575,16 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 CustomerAndComplainPhoneDTOModel model = (CustomerAndComplainPhoneDTOModel) obj;
                 for (int i = 0; i < model.getValue().size(); i++) {
                     if (model.getValue() != null && 2 == model.getValue().get(i).getType()) {
+                        // 2：投诉电话 (区域负责人)
                         agentMobile = model.getValue().get(i).getPhone();
                     } else if (model.getValue() != null && 3 == model.getValue().get(i).getType()) {
                         //总部热线
                         mgjPhone = model.getValue().get(i).getPhone();
                         PreferenceUtils.saveStringPreference("mgjPhone", mgjPhone, mActivity);
                     } else if (model.getValue() != null && 1 == model.getValue().get(i).getType()) {
+                        // 代理商客服电话
                         constomer = model.getValue().get(i).getPhone();
+                        PreferenceUtils.saveStringPreference("agentPhone", constomer, mActivity);
                     }
                     if (CheckUtils.isTelNum(constomer)) {
                         rlServerCenter.setVisibility(View.GONE);
