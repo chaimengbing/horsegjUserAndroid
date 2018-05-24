@@ -219,7 +219,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutPublic.setVisibility(View.VISIBLE);
                         if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
-                            tvRefundDesc.setVisibility(View.VISIBLE);
+                            if(valueBean.getServePrice().equals("0.0")){
+                                tvRefundDesc.setVisibility(View.GONE);
+                            }else {
+                                tvRefundDesc.setVisibility(View.VISIBLE);
+                            }
                         }
                         tvContent.setText("已取消");
                         tvprompt.setText("感谢使用马管家跑腿");
@@ -292,7 +296,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         tvprompt.setText("期待下次为您服务");
                         if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
-                            tvRefundDesc.setVisibility(View.VISIBLE);
+                            if(valueBean.getServePrice().equals("0.0")){
+                                tvRefundDesc.setVisibility(View.GONE);
+                            }else {
+                                tvRefundDesc.setVisibility(View.VISIBLE);
+                            }
                         }
                         break;
                     case 1:

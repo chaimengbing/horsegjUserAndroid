@@ -1388,7 +1388,11 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             if (submitOrderEntity.getPaymentState() == 1) {
                 //已支付
                 if (DateUtils.compareTimeBefore(submitOrderEntity.getCreateTime())) {
-                    tvStateDes.setText("退款详情 >");
+                    if(StringUtils.BigDecimal2Str(submitOrderEntity.getTotalPrice()).equals("0")){
+                        tvStateDes.setText("");
+                    }else {
+                        tvStateDes.setText("退款详情 >");
+                    }
                 } else {
                     tvStateDes.setText("");
                 }
