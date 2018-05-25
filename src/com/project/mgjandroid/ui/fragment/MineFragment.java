@@ -325,10 +325,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 avatarDialog.dismiss();
                 break;
             case R.id.mine_fragment_agent_join:
-                toWebView("http://120.24.16.64/horsegj/dist/html/user/joinCoopera.html");
+                toWebView("http://123.56.15.86/horsegj/dist/html/user/joinCoopera.html");
                 break;
             case R.id.mine_fragment_merchant_join:
-                toWebView("http://120.24.16.64/horsegj/dist/html/user/joinCoopera.html");
+                toWebView("http://123.56.15.86/horsegj/dist/html/user/joinCoopera.html");
                 break;
             case R.id.mine_fragment_my_invite://邀请好友
                 if (CommonUtils.checkLogin(mActivity)) {

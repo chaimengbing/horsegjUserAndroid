@@ -219,9 +219,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutPublic.setVisibility(View.VISIBLE);
                         if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
-                            if(valueBean.getServePrice().equals("0.0")){
+                            if (valueBean.getServePrice().equals("0.0") || valueBean.getServePrice().equals("0.00") || valueBean.getServePrice().equals("0")) {
                                 tvRefundDesc.setVisibility(View.GONE);
-                            }else {
+                            } else {
                                 tvRefundDesc.setVisibility(View.VISIBLE);
                             }
                         }
@@ -296,9 +296,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         tvprompt.setText("期待下次为您服务");
                         if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
-                            if(valueBean.getServePrice().equals("0.0")){
+                            if (valueBean.getServePrice().equals("0.0") || valueBean.getServePrice().equals("0.00") || valueBean.getServePrice().equals("0")) {
                                 tvRefundDesc.setVisibility(View.GONE);
-                            }else {
+                            } else {
                                 tvRefundDesc.setVisibility(View.VISIBLE);
                             }
                         }

@@ -34,14 +34,14 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="@dimen/x10"
-        android:background="@color/gray_bg"></View>
+        android:background="@color/gray_bg"/>
 
     <TextView
         android:id="@+id/order_detail_detail_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x10"
-        android:text="联系人: 谢飞"
+        android:text="联系人: "
         android:textColor="@color/color_6"
         android:textSize="14sp" />
 
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x10"
-        android:text="联系电话: 15696325987"
+        android:text="联系电话: "
         android:textColor="@color/color_6"
         android:textSize="14sp" />
 
@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x10"
-        android:text="收货地址: 新源街37号楼2单元503"
+        android:text="收货地址: "
         android:textColor="@color/color_6"
         android:textSize="14sp" />
 
@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x10"
-        android:text="支付方式: 餐到付款"
+        android:text="支付方式: "
         android:textColor="@color/color_6"
         android:textSize="14sp" />
 
@@ -130,7 +130,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/x10"
-        android:text="下单时间: 2015-12-13 12:12"
+        android:text="下单时间: "
         android:textColor="@color/color_6"
         android:textSize="14sp" />
 

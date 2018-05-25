@@ -687,9 +687,11 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             case R.id.order_detail_order_state_tv_des:
                 //退款
                 if (submitOrderEntity != null && submitOrderEntity.getOrderFlowStatus() == -1 && submitOrderEntity.getPaymentState() == 1 && DateUtils.compareTimeBefore(submitOrderEntity.getCreateTime())) {
-                    Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
-                    intent2.putExtra("orderId", submitOrderEntity.getId());
-                    startActivity(intent2);
+                    if (!StringUtils.BigDecimal2Str(submitOrderEntity.getTotalPrice()).equals("0")) {
+                        Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
+                        intent2.putExtra("orderId", submitOrderEntity.getId());
+                        startActivity(intent2);
+                    }
                 }
                 break;
             default:
@@ -1388,9 +1390,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             if (submitOrderEntity.getPaymentState() == 1) {
                 //已支付
                 if (DateUtils.compareTimeBefore(submitOrderEntity.getCreateTime())) {
-                    if(StringUtils.BigDecimal2Str(submitOrderEntity.getTotalPrice()).equals("0")){
+                    if (StringUtils.BigDecimal2Str(submitOrderEntity.getTotalPrice()).equals("0")) {
                         tvStateDes.setText("");
-                    }else {
+                    } else {
                         tvStateDes.setText("退款详情 >");
                     }
                 } else {

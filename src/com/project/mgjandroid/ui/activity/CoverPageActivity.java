@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.util.Util;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.constants.Constants;
-import com.project.mgjandroid.h5container.H5TestActivity;
 import com.project.mgjandroid.manager.LocationManager;
 import com.project.mgjandroid.model.FestivalModel;
 import com.project.mgjandroid.model.HomeVersionModel;
@@ -115,6 +114,7 @@ public class CoverPageActivity extends BaseActivity {
         //获取坐标位置
         LocationManager.getIManager().registeLocation(this, listener);
     }
+
 
     //注册一个定位监听
     BDLocationListener listener = new BDLocationListener() {
