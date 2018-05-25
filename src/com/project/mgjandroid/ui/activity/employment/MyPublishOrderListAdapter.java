@@ -19,6 +19,7 @@ import com.project.mgjandroid.ui.view.TimeTextView;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DateUtils;
+import com.project.mgjandroid.utils.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,7 +56,11 @@ public class MyPublishOrderListAdapter extends BaseListAdapter<InformationOrder>
         }
         if (bean.getStatus() == InformationOrderStatus.Refund.getValue() && bean.getPaymentState() == 1 && DateUtils.compareTimeBefore(bean.getCreateTime())) {
             //已支付 取消
-            tvRefund.setVisibility(View.VISIBLE);
+            if(StringUtils.BigDecimal2Str(bean.getTotalPrice()).equals("0")){
+                tvRefund.setVisibility(View.GONE);
+            }else {
+                tvRefund.setVisibility(View.VISIBLE);
+            }
         } else {
             tvRefund.setVisibility(View.GONE);
         }
