@@ -240,6 +240,8 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
         layoutParams.height = CommonUtils.getScreenWidth(mActivity.getWindowManager());
         image_container.setLayoutParams(layoutParams);
 
+        mHeaderViewPagerLayout.setIsScroller(true);
+
         mContext = this;
         inflater = LayoutInflater.from(mContext);
         Goods getGoods = (Goods) getIntent().getExtras().getSerializable("goods");
