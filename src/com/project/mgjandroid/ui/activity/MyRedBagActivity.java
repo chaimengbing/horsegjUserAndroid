@@ -40,6 +40,7 @@ public class MyRedBagActivity extends BaseActivity {
     private String promoInfoJson;
     private long redBagId;
     private long agentId;
+    private String discountGoodsDiscountAmt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class MyRedBagActivity extends BaseActivity {
         longitude = getIntent().getDoubleExtra("longitude", -1);
         itemsPrice = getIntent().getDoubleExtra("itemsPrice", -1);
         merchantId = getIntent().getLongExtra("merchantId", -1);
+        discountGoodsDiscountAmt = getIntent().getStringExtra("discountGoodsDiscountAmt");
         promoInfoJson = getIntent().getStringExtra("PromoInfoJson");
         agentId = getIntent().getLongExtra("agentId", -1);
         if (promoInfoJson == null) promoInfoJson = "[]";
@@ -73,6 +75,7 @@ public class MyRedBagActivity extends BaseActivity {
             args.putDouble("latitude", latitude);
             args.putDouble("itemsPrice", itemsPrice);
             args.putLong("merchantId", merchantId);
+            args.putString("discountGoodsDiscountAmt", discountGoodsDiscountAmt);
             args.putString("PromoInfoJson", promoInfoJson);
             args.putLong("agentId", agentId);
             args.putLong("redBagId", redBagId);
@@ -134,6 +137,7 @@ public class MyRedBagActivity extends BaseActivity {
                 args.putDouble("latitude", latitude);
                 args.putDouble("itemsPrice", itemsPrice);
                 args.putLong("merchantId", merchantId);
+                args.putString("discountGoodsDiscountAmt", discountGoodsDiscountAmt);
                 args.putString("PromoInfoJson", promoInfoJson);
                 args.putLong("agentId", agentId);
                 args.putLong("redBagId", redBagId);

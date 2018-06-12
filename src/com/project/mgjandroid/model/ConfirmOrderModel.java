@@ -95,6 +95,7 @@ public class ConfirmOrderModel extends Entity {
         private BigDecimal originalTotalPrice;
         private BigDecimal totalPrice;
         private BigDecimal discountAmt;
+        private BigDecimal discountGoodsDiscountAmt;
         private String tip;
         private String caution;
         private String promoMutexInfo;
@@ -397,6 +398,14 @@ public class ConfirmOrderModel extends Entity {
             this.discountAmt = discountAmt;
         }
 
+        public BigDecimal getDiscountGoodsDiscountAmt() {
+            return discountGoodsDiscountAmt;
+        }
+
+        public void setDiscountGoodsDiscountAmt(BigDecimal discountGoodsDiscountAmt) {
+            this.discountGoodsDiscountAmt = discountGoodsDiscountAmt;
+        }
+
         public static class ExpectedArrivalEntity extends Entity {
             private int clickable;
             private String viewTime;
@@ -464,6 +473,15 @@ public class ConfirmOrderModel extends Entity {
             private int isPromo;
             private String tip;
             private String attributes;
+            private int hasDiscount;
+
+            public int getHasDiscount() {
+                return hasDiscount;
+            }
+
+            public void setHasDiscount(int hasDiscount) {
+                this.hasDiscount = hasDiscount;
+            }
 
             public String getAttributes() {
                 return attributes;

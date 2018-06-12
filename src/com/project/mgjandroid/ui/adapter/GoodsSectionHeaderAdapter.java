@@ -77,6 +77,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
     private int selection;
     private int tag;
     private NoticeDialog noticeDialog;
+    private boolean isFirst = true;
 
 
     public GoodsSectionHeaderAdapter(Context context, Merchant merchant) {
@@ -453,6 +454,15 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                             } else {
                                 if (num == 1) {
                                     num--;
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                                        if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                                            goods.setFirst(true);
+                                        }
+                                    } else {
+                                        if (num - goods.getSurplusDiscountStock() <= 0) {
+                                            goods.setFirst(true);
+                                        }
+                                    }
                                     holder.tvBuyCount.setText(num + "");
                                     goodsSpec1.setBuyCount(num);
                                     AnimatorUtils.rightTranslationRotating(holder.specMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_MINUS, 0, context));
@@ -462,6 +472,15 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 } else {
                                     if (num > 0) {
                                         num--;
+                                        if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                                            if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                                                goods.setFirst(true);
+                                            }
+                                        } else {
+                                            if (num - goods.getSurplusDiscountStock() <= 0) {
+                                                goods.setFirst(true);
+                                            }
+                                        }
                                         goodsSpec1.setBuyCount(num);
                                         listener.productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec1.getId(), goodsSpec1.getBuyCount(), false, false);
                                     }
@@ -494,6 +513,15 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 num = num == goodsSpec1.getMinOrderNum() ? 1 : num;
                                 if (num == 1) {
                                     num--;
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                                        if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                                            goods.setFirst(true);
+                                        }
+                                    } else {
+                                        if (num - goods.getSurplusDiscountStock() <= 0) {
+                                            goods.setFirst(true);
+                                        }
+                                    }
                                     holder.tvBuyCount.setText(num + "");
                                     goodsSpec1.setBuyCount(num);
                                     AnimatorUtils.rightTranslationRotating(holder.specMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_MINUS, 0, context));
@@ -503,6 +531,15 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 } else {
                                     if (num > 0) {
                                         num--;
+                                        if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                                            if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                                                goods.setFirst(true);
+                                            }
+                                        } else {
+                                            if (num - goods.getSurplusDiscountStock() <= 0) {
+                                                goods.setFirst(true);
+                                            }
+                                        }
                                         goodsSpec1.setBuyCount(num);
                                         listener.productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec1.getId(), goodsSpec1.getBuyCount(), false, false);
                                     }
@@ -540,13 +577,18 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                 } else {
                     holder.tvStock.setVisibility(View.GONE);
                 }
-                if (goodsSpec.getOrderLimit() != null && goodsSpec.getOrderLimit() > 0) {
+                if (goods.getHasDiscount() == 1 && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                     holder.tvLimit.setVisibility(View.VISIBLE);
-                    holder.tvLimit.setText("每单限购" + goodsSpec.getOrderLimit() + "份");
+                    holder.tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
                 } else {
-                    holder.tvLimit.setVisibility(View.GONE);
+                    if (goodsSpec.getOrderLimit() != null && goodsSpec.getOrderLimit() > 0) {
+                        holder.tvLimit.setVisibility(View.VISIBLE);
+                        holder.tvLimit.setText("每单限购" + goodsSpec.getOrderLimit() + "份");
+                    } else {
+                        holder.tvLimit.setVisibility(View.GONE);
+                    }
                 }
-                if (goodsSpec.getMinOrderNum() != null && goodsSpec.getMinOrderNum() > 0) {
+                if (goodsSpec.getMinOrderNum() != null && goodsSpec.getMinOrderNum() > 1) {
                     holder.tvMin.setVisibility(View.VISIBLE);
                     holder.tvMin.setText(goodsSpec.getMinOrderNum() + "份起购");
                 } else {
@@ -599,12 +641,71 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                         }
                         if (count == 0) {
                             count++;
+                            if(goods.getHasDiscount()==1){
+                                if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                    if (count > goods.getSurplusDiscountStock()) {
+                                        if (goods.isFirst()) {
+                                            ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
+                                            goods.setFirst(false);
+                                        }
+                                    }
+                                } else {
+                                    if (count > goods.getEveryGoodsEveryOrderBuyCount()&& goods.getEveryGoodsEveryOrderBuyCount()>0) {
+                                        if (goods.isFirst()) {
+                                            ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
+                                            goods.setFirst(false);
+                                        }
+                                    }
+//                                    if (count > goods.getSurplusDiscountStock()) {
+//                                        ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
+//                                    }
+
+                                }
+                                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null ){
+                                    if (count > (goods.getSurplusDiscountStock() + goodsSpec.getStock())) {
+                                        if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
+                                            ToastUtils.displayMsg("该商品库存不足", context);
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+
                             goodsSpec.setBuyCount(count);
                             holder.tvBuyCount.setText(count + "");
                             AnimatorUtils.leftTranslationRotating(holder.imgMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
                             AnimatorUtils.leftTranslationRotating(holder.tvBuyCount, PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
                         } else {
                             count++;
+                            if(goods.getHasDiscount()==1){
+                                if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                    if (count > goods.getSurplusDiscountStock()) {
+                                        if (goods.isFirst()) {
+                                            ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
+                                            goods.setFirst(false);
+                                        }
+                                    }
+                                } else {
+                                    if (count > goods.getEveryGoodsEveryOrderBuyCount()&& goods.getEveryGoodsEveryOrderBuyCount()>0) {
+                                        if (goods.isFirst()) {
+                                            ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
+                                            goods.setFirst(false);
+                                        }
+                                    }
+//                                    if (count > goods.getSurplusDiscountStock()) {
+//                                        ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
+//                                    }
+
+                                }
+                                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null ){
+                                    if (count > (goods.getSurplusDiscountStock() + goodsSpec.getStock())) {
+                                        if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
+                                            ToastUtils.displayMsg("该商品库存不足", context);
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
                             holder.tvBuyCount.setText(count + "");
                             goodsSpec.setBuyCount(count);
                         }
@@ -972,11 +1073,16 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                 } else {
                     tvStock.setVisibility(View.GONE);
                 }
-                if (goods.getGoodsSpecList().get(i).getOrderLimit() != null && goods.getGoodsSpecList().get(i).getOrderLimit() > 0) {
+                if (goods.getHasDiscount() == 1 && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                     tvLimit.setVisibility(View.VISIBLE);
-                    tvLimit.setText("每单限购" + goods.getGoodsSpecList().get(i).getOrderLimit() + "份");
+                    tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
                 } else {
-                    tvLimit.setVisibility(View.GONE);
+                    if (goods.getGoodsSpecList().get(i).getOrderLimit() != null && goods.getGoodsSpecList().get(i).getOrderLimit() > 0) {
+                        tvLimit.setVisibility(View.VISIBLE);
+                        tvLimit.setText("每单限购" + goods.getGoodsSpecList().get(i).getOrderLimit() + "份");
+                    } else {
+                        tvLimit.setVisibility(View.GONE);
+                    }
                 }
                 if (goods.getGoodsSpecList().get(i).getMinOrderNum() != null && goods.getGoodsSpecList().get(i).getMinOrderNum() > 0) {
                     tvMin.setVisibility(View.VISIBLE);
@@ -1246,6 +1352,39 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 buyCount += pickGood.getPickCount();
                             }
                         }
+                        if (goods.getHasDiscount() == 1) {
+                            for (PickGoods pickGood : pickGoods) {
+                                if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId()) {
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                        if ((buyCount + 1) > goods.getSurplusDiscountStock()) {
+                                            if (goods.isFirst()) {
+                                                ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
+                                                goods.setFirst(false);
+                                            }
+                                        }
+                                    } else {
+                                        if ((buyCount + 1) > goods.getEveryGoodsEveryOrderBuyCount()&& goods.getEveryGoodsEveryOrderBuyCount()>0) {
+                                            if (goods.isFirst()) {
+                                                ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
+                                                goods.setFirst(false);
+                                            }
+                                        }
+//                                        if ((buyCount + 1) > goods.getSurplusDiscountStock()) {
+//                                            ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
+//                                        }
+
+                                    }
+                                    if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null){
+                                        if ((buyCount + 1) > (goods.getSurplusDiscountStock() + mGoodsSpec.getStock())) {
+                                            if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && buyCount >= mGoodsSpec.getStock()) {
+                                                ToastUtils.displayMsg("该商品库存不足", context);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     if (mGoodsSpec.getOrderLimit() != 0 && buyCount >= mGoodsSpec.getOrderLimit()) {
                         ToastUtils.displayMsg(goods.getName() + "商品限购" + mGoodsSpec.getOrderLimit() + "份", context);
@@ -1314,18 +1453,59 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                         }
                         for (PickGoods pickGood : pickGoods) {
                             int count = pickGood.getPickCount();
-                            if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId() && sName1.equals(pickGood.getGoodsName())) {
-                                if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && buyCount >= mGoodsSpec.getStock()) {
-                                    ToastUtils.displayMsg("该商品库存不足", context);
-                                    return;
+                            if (goods.getHasDiscount() == 1) {
+                                if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId()) {
+                                    //每单限购大于折扣库存
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                        if ((buyCount + 1) > goods.getSurplusDiscountStock()) {
+                                            if (goods.isFirst()) {
+                                                ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
+                                                goods.setFirst(false);
+                                            }
+                                        }
+                                    } else {
+                                        if ((buyCount + 1) > goods.getEveryGoodsEveryOrderBuyCount()&& goods.getEveryGoodsEveryOrderBuyCount()>0) {
+                                            if (goods.isFirst()) {
+                                                ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
+                                                goods.setFirst(false);
+                                            }
+                                        }
+//                                        if ((buyCount + 1) > goods.getSurplusDiscountStock()) {
+//                                            ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
+//                                        }
+
+                                    }
+                                    if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null){
+                                        if ((buyCount + 1) > (goods.getSurplusDiscountStock() + mGoodsSpec.getStock())) {
+                                            if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && buyCount >= mGoodsSpec.getStock()) {
+                                                ToastUtils.displayMsg("该商品库存不足", context);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId() && sName1.equals(pickGood.getGoodsName())) {
+                                        count++;
+                                        tvBuyCount.setText(count + "");
+                                        listener.newProductHasChange(goods, goods.getCategoryId(), goods.getId(), mGoodsSpec.getId(), count, false, true, sName1);
+                                    }
                                 }
-                                if (mGoodsSpec.getOrderLimit() != 0 && buyCount >= mGoodsSpec.getOrderLimit()) {
-                                    ToastUtils.displayMsg(goods.getName() + "商品限购" + mGoodsSpec.getOrderLimit() + "份", context);
-                                    return;
+                            } else {
+                                if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId() && sName1.equals(pickGood.getGoodsName())) {
+                                    if ((buyCount + 1) - goods.getSurplusDiscountStock() >= 0) {
+
+                                    }
+                                    if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && buyCount >= mGoodsSpec.getStock()) {
+                                        ToastUtils.displayMsg("该商品库存不足", context);
+                                        return;
+                                    }
+                                    if (mGoodsSpec.getOrderLimit() != 0 && buyCount >= mGoodsSpec.getOrderLimit()) {
+                                        ToastUtils.displayMsg(goods.getName() + "商品限购" + mGoodsSpec.getOrderLimit() + "份", context);
+                                        return;
+                                    }
+                                    count++;
+                                    tvBuyCount.setText(count + "");
+                                    listener.newProductHasChange(goods, goods.getCategoryId(), goods.getId(), mGoodsSpec.getId(), count, false, true, sName1);
                                 }
-                                count++;
-                                tvBuyCount.setText(count + "");
-                                listener.newProductHasChange(goods, goods.getCategoryId(), goods.getId(), mGoodsSpec.getId(), count, false, true, sName1);
                             }
                         }
                     }
@@ -1376,6 +1556,15 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
 //                    }
                     if (count > 0) {
                         count--;
+                        if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                            if (count - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                                goods.setFirst(true);
+                            }
+                        } else {
+                            if (count - goods.getSurplusDiscountStock() <= 0) {
+                                goods.setFirst(true);
+                            }
+                        }
                         tvBuyCount.setText(count + "");
                         mGoodsSpec.setBuyCount(count);
                         if (count == 0) {

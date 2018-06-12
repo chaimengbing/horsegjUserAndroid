@@ -48,6 +48,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
     private String promoInfoJson;
     private long agentId;
     private long redBagId;
+    private String discountGoodsDiscountAmt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
         longitude = getArguments().getDouble("longitude", -1);
         itemsPrice = getArguments().getDouble("itemsPrice", -1);
         merchantId = getArguments().getLong("merchantId", -1);
+        discountGoodsDiscountAmt = getArguments().getString("discountGoodsDiscountAmt");
         promoInfoJson = getArguments().getString("PromoInfoJson");
         agentId = getArguments().getLong("agentId", -1);
         redBagId = getArguments().getLong("redBagId", -1);
@@ -188,6 +190,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
         map.put("itemsPrice", itemsPrice);
         map.put("merchantId", merchantId);
         map.put("promoInfoJson", promoInfoJson);
+        map.put("discountGoodsDiscountAmt", discountGoodsDiscountAmt);
         VolleyOperater<RedBagListModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_FILTER_USABLE_RED_BAG_LIST, map, new VolleyOperater.ResponseListener() {
             @Override

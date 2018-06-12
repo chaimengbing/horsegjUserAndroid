@@ -116,6 +116,10 @@ public class Goods extends Entity {
     private boolean isChecked;
     private boolean saleStatus;
     private int count;
+    private int hasDiscount;
+    private int everyGoodsEveryOrderBuyCount;
+    private int surplusDiscountStock;
+    private boolean isFirst = true;
 
     public List<String> getSpecName() {
         return specName;
@@ -372,6 +376,38 @@ public class Goods extends Entity {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public int getHasDiscount() {
+        return hasDiscount;
+    }
+
+    public void setHasDiscount(int hasDiscount) {
+        this.hasDiscount = hasDiscount;
+    }
+
+    public int getEveryGoodsEveryOrderBuyCount() {
+        return everyGoodsEveryOrderBuyCount;
+    }
+
+    public void setEveryGoodsEveryOrderBuyCount(int everyGoodsEveryOrderBuyCount) {
+        this.everyGoodsEveryOrderBuyCount = everyGoodsEveryOrderBuyCount;
+    }
+
+    public int getSurplusDiscountStock() {
+        return surplusDiscountStock;
+    }
+
+    public void setSurplusDiscountStock(int surplusDiscountStock) {
+        this.surplusDiscountStock = surplusDiscountStock;
+    }
+
+    public boolean isFirst() {
+        return isFirst;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
     }
 
     public String getHighLights() {

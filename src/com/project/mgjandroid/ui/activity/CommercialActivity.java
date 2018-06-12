@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
+import com.project.mgjandroid.bean.CouDanModel;
 import com.project.mgjandroid.bean.Goods;
 import com.project.mgjandroid.bean.GoodsSpec;
 import com.project.mgjandroid.bean.Menu;
@@ -57,6 +59,7 @@ import com.project.mgjandroid.model.MerchantEvaluateTopModel;
 import com.project.mgjandroid.model.PickGoodsModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.BottomCartListAdapter;
+import com.project.mgjandroid.ui.adapter.CouDanListAdapter;
 import com.project.mgjandroid.ui.fragment.EvaluateFragment;
 import com.project.mgjandroid.ui.fragment.GoodsFragment;
 import com.project.mgjandroid.ui.fragment.MerchantsFragment;
@@ -73,6 +76,7 @@ import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CustomDialog;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
+import com.project.mgjandroid.utils.MLog;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ShareUtil;
 import com.project.mgjandroid.utils.StringUtils;
@@ -175,6 +179,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private ImageView ivBroad;
     @InjectView(R.id.notice_view)
     private NoticeView nvPromotion;
+    @InjectView(R.id.tv_full_subtract)
+    private TextView tvFullSubtract;
+    @InjectView(R.id.ll_layout_full_subtract)
+    private LinearLayout llFullSubtract;
 
     //    private CommercialPagerAdapter commercialAdapter;
     private ArrayList<HeaderViewPagerFragment> fragments;
@@ -213,6 +221,15 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private int goodsId = -1;//用于搜索设置跳转
     private ShareUtil shareUtil;
     private Goods goods;
+    private BigDecimal multiply;
+    private BigDecimal decimal;
+    private BigDecimal multiply1;
+    private BigDecimal decimal1;
+    private BigDecimal bigDecimal;
+    private PopupWindow couDanPopupWindow;
+    private ListView cListView;
+    private List<CouDanModel.ValueBean> couDanModelValue;
+    private CouDanListAdapter couDanListAdapter;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -446,6 +463,17 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
 
     private void init(Merchant merchant) {
         tvTitle.setText(merchant.getName());
+        if (!CheckUtils.isEmptyList(merchant.getPromotionActivityList())) {
+            for (int i = 0; i < merchant.getPromotionActivityList().size(); i++) {
+                if (merchant.getPromotionActivityList().get(i).getRuleDtoList() != null && merchant.getPromotionActivityList().get(i).getRuleDtoList().size() > 0) {
+                    tvFullSubtract.setText(merchant.getPromotionActivityList().get(i).getPromoName());
+                    tvFullSubtract.setVisibility(View.VISIBLE);
+                    overlay.setVisibility(View.GONE);
+                    llFullSubtract.setVisibility(View.GONE);
+                }
+            }
+        }
+
         if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 1) {
             tv_cart_shipping.setText("另需配送费¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
             tv_cart_package.setTextSize(10);
@@ -456,6 +484,59 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         }
         tv_cart_qisong.setText("¥" + StringUtils.BigDecimal2Str(merchant.getMinPrice()) + "起送");
         initPopWindow();
+
+
+    }
+    private void getCouDanData(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("merchantId", merchantId);
+        map.put("price", 2);
+        VolleyOperater<CouDanModel> operater = new VolleyOperater<>(mActivity);
+        operater.doRequest(Constants.URL_FIND_TGOODS_BY_PRICE, map, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (isSucceed && obj != null) {
+                    CouDanModel couDanModel = (CouDanModel) obj;
+                    couDanModelValue = couDanModel.getValue();
+//                    couDanListAdapter.setData(couDanModelValue);
+                    initCouDanPopWindow();
+                }
+            }
+        },CouDanModel.class);
+    }
+
+    /**
+     *  初始化去凑单弹框
+     */
+    private void initCouDanPopWindow(){
+        View view = LayoutInflater.from(this).inflate(R.layout.coudan_item, null);
+        couDanPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        couDanPopupWindow.setContentView(view);
+        couDanPopupWindow.setHeight(DipToPx.dip2px(mActivity, 250));
+        couDanPopupWindow.setOutsideTouchable(true);
+        cListView = (ListView) view.findViewById(R.id.coudan_list_view);
+        LinearLayout llsub = (LinearLayout) view.findViewById(R.id.ll_layout_full_subtract);
+        llsub.setOnClickListener(this);
+        couDanListAdapter = new CouDanListAdapter(this, couDanModelValue,mCartProducts,this);
+        cListView.setAdapter(couDanListAdapter);
+        if (couDanPopupWindow != null) {
+            if (!couDanPopupWindow.isShowing()) {
+                //设置popwindow显示位置
+                bottomCart.measure(0, 0);
+                int measuredHeight = bottomCart.getMeasuredHeight();
+                couDanPopupWindow.showAtLocation(bottomCart, Gravity.BOTTOM, 0, measuredHeight);
+                linearCover.setVisibility(View.VISIBLE);
+                overlay.setVisibility(View.VISIBLE);
+                AnimatorUtils.showBottom(tvFullSubtract, this);
+                AnimatorUtils.showBottom(cListView, mActivity);
+                AnimatorUtils.alphaIn(linearCover, mActivity);
+            } else {
+                couDanPopupWindow.dismiss();
+                linearCover.setVisibility(View.INVISIBLE);
+                overlay.setVisibility(View.INVISIBLE);
+            }
+        }
+
     }
 
     /**
@@ -471,6 +552,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (int i = 0; i < mCartProducts.size(); i++) {
+                    if (mCartProducts.get(i).getGoods().getHasDiscount() == 1 && mCartProducts.get(i).getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
+                        mCartProducts.get(i).getGoods().setFirst(true);
+                    }
+                }
                 goodsFragment.clearList(mCartProducts);
                 mCartProducts.clear();
                 clearPickGoods();
@@ -549,6 +635,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         tv_goAccount.setOnClickListener(this);
         linearBroadcast.setOnClickListener(this);
         bottomLayout.setOnClickListener(this);
+        tvFullSubtract.setOnClickListener(this);
     }
 
     public Merchant getMerchant() {
@@ -733,6 +820,13 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 }
                 break;
             case R.id.commercial_act_bottom_car://底部购物车的点击事件
+                if(couDanPopupWindow!=null&&couDanPopupWindow.isShowing()){
+                    couDanPopupWindow.dismiss();
+                    tvFullSubtract.setVisibility(View.VISIBLE);
+                    linearCover.setVisibility(View.INVISIBLE);
+                    overlay.setVisibility(View.INVISIBLE);
+                    return;
+                }
                 if (mCartProducts == null || mCartProducts.size() == 0) {
                     return;
                 }
@@ -759,6 +853,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 //onClick(bottomCart);
                 if (mPopWindow != null) {
                     mPopWindow.dismiss();
+                }
+                if(couDanPopupWindow!=null){
+                    couDanPopupWindow.dismiss();
+                    tvFullSubtract.setVisibility(View.VISIBLE);
                 }
                 linearCover.setVisibility(View.INVISIBLE);
                 overlay.setVisibility(View.INVISIBLE);
@@ -821,6 +919,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 mPopWindow.dismiss();
                 overlay.setVisibility(View.INVISIBLE);
                 linearCover.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.tv_full_subtract:
+                tvFullSubtract.setVisibility(View.GONE);
+                getCouDanData();
                 break;
             default:
                 break;
@@ -931,6 +1033,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             m.put("quantity", goods.getPickCount());
             m.put("specId", goods.getGoodsSpecId());
             m.put("attributes", goods.getGoodsName());
+            m.put("hasDiscount", goods.getGoods().getHasDiscount());
             orderItems.add(m);
         }
         map.put("orderItems", orderItems);
@@ -979,6 +1082,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     intent.putExtra("confirmOrderModel", confirmOrderModel);
                                     intent.putExtra("onceMoreOrder", previewJsonData);
+                                    Log.d("---", previewJsonData.toString());
                                     startActivityForResult(intent, ActRequestCode.GOODS_DETAIL);
                                     return;
                                 } else {
@@ -1218,7 +1322,36 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             for (PickGoods pro : mCartProducts) {
                 for (GoodsSpec goodsSpec : pro.getGoods().getGoodsSpecList()) {
                     if (goodsSpec.getId() == pro.getGoodsSpecId()) {
-                        num = num.add(goodsSpec.getPrice().multiply(BigDecimal.valueOf((long) pro.getPickCount())));
+                        if (pro.getGoods().getHasDiscount() == 1) {
+                            int everyGoodsEveryOrderBuyCount = pro.getGoods().getEveryGoodsEveryOrderBuyCount();
+                            int surplusDiscountStock = pro.getGoods().getSurplusDiscountStock();
+                            if (everyGoodsEveryOrderBuyCount > 0) {
+                                multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                            } else {
+                                if (pro.getPickCount() > surplusDiscountStock) {
+                                    multiply1 = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
+                                    decimal1 = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
+                                } else {
+                                    bigDecimal = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                }
+                            }
+                            if (pro.getPickCount() > everyGoodsEveryOrderBuyCount) {
+                                if (everyGoodsEveryOrderBuyCount > 0) {
+                                    num = num.add(multiply.add(decimal));
+                                } else {
+                                    if (pro.getPickCount() > surplusDiscountStock) {
+                                        num = num.add(multiply1.add(decimal1));
+                                    } else {
+                                        num = num.add(bigDecimal);
+                                    }
+                                }
+                            } else {
+                                num = num.add(goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount())));
+                            }
+                        } else {
+                            num = num.add(goodsSpec.getPrice().multiply(BigDecimal.valueOf((long) pro.getPickCount())));
+                        }
                         num_package = num_package.add(goodsSpec.getBoxPrice().multiply(BigDecimal.valueOf(pro.getPickCount())));
                         break;
                     }

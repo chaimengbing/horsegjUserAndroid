@@ -2,6 +2,7 @@ package com.project.mgjandroid.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by yuandi on 2016/5/20.
@@ -26,6 +27,11 @@ public class PromotionActivity implements Serializable {
 
     private String promoImg;
     private String presentGoodsName;
+    /**
+     * 满减
+     */
+    private List<FullSub> ruleDtoList;
+
     /**
      * 活动类型 0：减钱 1：赠送
      */
@@ -117,5 +123,13 @@ public class PromotionActivity implements Serializable {
 
     public void setPresentGoodsName(String presentGoodsName) {
         this.presentGoodsName = presentGoodsName;
+    }
+
+    public List<FullSub> getRuleDtoList() {
+        return ruleDtoList;
+    }
+
+    public void setRuleDtoList(List<FullSub> ruleDtoList) {
+        this.ruleDtoList = ruleDtoList;
     }
 }

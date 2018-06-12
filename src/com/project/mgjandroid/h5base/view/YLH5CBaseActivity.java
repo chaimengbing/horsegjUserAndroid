@@ -30,7 +30,7 @@ public abstract class YLH5CBaseActivity extends Activity {
         this.initial();
         this.h5Container = new YLH5Container(this, null, true);
         this.h5Container.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
-        this.h5Container.getSettings().setUserAgentString("appChannel/androidylh5sdk, appVersion/1.0.0");
+//        this.h5Container.getSettings().setUserAgentString("appChannel/androidylh5sdk, appVersion/1.0.0");
         if (this.getWebViewContainer() == null) {
             throw new IllegalArgumentException("function getWebViewContainer() must not return null!");
         } else {

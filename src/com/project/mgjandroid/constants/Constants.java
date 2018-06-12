@@ -20,7 +20,7 @@ public class Constants {
 //        public static final String ONLINE_IP = "47.94.93.98";
     public static final String TEST_IP = "120.24.16.64";
     //    public static final String TEST_IP = "60.205.120.0";
-    //    public static final String TEST_IP = "112.74.18.147";
+//        public static final String TEST_IP = "112.74.18.147";
     public static final String URL_NEW_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/newUserClient?m="; //120.24.16.64正式123.56.15.86
     public static final String URL_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/userClient?m="; //120.24.16.64正式123.56.15.86
     public static final String URL_SECOND_HAND_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/secondhand/userClient?m="; //120.24.16.64正式123.56.15.86
@@ -33,13 +33,13 @@ public class Constants {
     //    public static final String URL_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG?TEST_IP:ONLINE_IP) + "/merchant/userClient?m="; //192.168.199.50正式123.56.15.86
     public static final String URL_IMAGE_FRONT = "http://7xpvkm.com1.z0.glb.clouddn.com/";
 
-    public static final String URL_fIND_TAKE_AWAY_MERCHANT = URL_HOME_MAIN + "findTakeAwayMerchant";
+    public static final String URL_fIND_TAKE_AWAY_MERCHANT = URL_HOME_MAIN + "findTakeAwayMerchant4";
     //商铺页面获取商品列表
     public static final String URL_SHOW_MERCHANT_TAKE_AWAY_MENU = URL_HOME_MAIN + "showMerchantTakeAwayMenu";
     //商铺页面获取商品列表(大容量方案)
-    public static final String URL_SHOW_MERCHANT_TAKE_AWAY_CATEGORY = URL_HOME_MAIN + "showMerchantTakeAwayCategory";
+    public static final String URL_SHOW_MERCHANT_TAKE_AWAY_CATEGORY = URL_HOME_MAIN + "showMerchantTakeAwayCategory2";
     //商铺页面加载分页商品列表(大容量方案)
-    public static final String URL_TAKE_AWAY_CATEGORY_MORE = URL_HOME_MAIN + "showMerchantTakeAwayFindByCategoryId";
+    public static final String URL_TAKE_AWAY_CATEGORY_MORE = URL_HOME_MAIN + "showMerchantTakeAwayFindByCategoryId2";
 
     //	public static final String URL_FIND_MERCHANT_TCOMENTS = URL_HOME_MAIN + "findMerchantTComents";
 //	public static final String URL_ORDER_LIST = URL_HOME_MAIN + "getOrderList";
@@ -70,7 +70,7 @@ public class Constants {
     //检验保存个人地址
     public static final String URL_CHECK_ADDRESS = URL_HOME_MAIN + "checkUserAddress";
     //订单预览
-    public static final String URL_GET_ORDER_PREVIEW = URL_HOME_MAIN + "orderPreview";
+    public static final String URL_GET_ORDER_PREVIEW = URL_HOME_MAIN + "orderPreview2";
 
     public static final String BASE_PATH = Environment.getExternalStorageDirectory().toString() + File.separator + "maguanjia";
     public static final String IMG_PATH = BASE_PATH + File.separator + "image";
@@ -91,7 +91,7 @@ public class Constants {
     //删除地址
     public static final String URL_DELETE_ADDRESS = URL_HOME_MAIN + "delUserAddress";
     //订单提交
-    public static final String URL_SUBMIT_ORDER = URL_HOME_MAIN + "orderSubmit";
+    public static final String URL_SUBMIT_ORDER = URL_HOME_MAIN + "orderSubmit2";
     //查询订单
     public static final String URL_GET_ORDER_LIST = URL_HOME_MAIN + "findUserTOrders";
     //查询用户订单(new)
@@ -153,7 +153,7 @@ public class Constants {
     //查询商品评价
     public static final String URL_GOODS_EVALUATE = URL_HOME_MAIN + "findGoodsComments";
     //展示商家评价
-    public static final String URL_SHOW_EVALUATE = URL_HOME_MAIN + "findMerchantInfo";
+    public static final String URL_SHOW_EVALUATE = URL_HOME_MAIN + "findMerchantInfo2";
     //ping++ 充值
     public static final String URL_ALIPAY_CHARGE = URL_HOME_MAIN + "pingxxCharge";
     //ping++ 支付
@@ -164,6 +164,8 @@ public class Constants {
     public static final String URL_ACCOUNT_DETAILS = URL_HOME_MAIN + "findUserAccountDetails";
     //appLaunch
     public static final String URL_APP_LAUNCH = URL_HOME_MAIN + "appLaunch";
+    //凑单接口
+    public static final String URL_FIND_TGOODS_BY_PRICE = URL_HOME_MAIN + "findTGoodsByPrice";
     /**
      * 收藏商家
      */
@@ -185,7 +187,7 @@ public class Constants {
      */
     public static final String URL_FIND_DEFAULT_ADDRESS_LIST = URL_HOME_MAIN + "findDefaultAddressList";
     //搜索
-    public static final String URL_SEARCH = URL_HOME_MAIN + "searchTakeAwayMerchant";
+    public static final String URL_SEARCH = URL_HOME_MAIN + "searchTakeAwayMerchant2";
     //热搜
     public static final String URL_HOT_SEARCH = URL_HOME_MAIN + "findHotSearch";
     //用户反馈
@@ -455,7 +457,7 @@ public class Constants {
     /**
      * 再来一单
      */
-    public static final String URL_AGAIN_ORDER_PREVIEW = URL_HOME_MAIN + "againOrderPreview";
+    public static final String URL_AGAIN_ORDER_PREVIEW = URL_HOME_MAIN + "againOrderPreview2";
 
     /**
      * 获取七牛上传文件所需要的uploadToken

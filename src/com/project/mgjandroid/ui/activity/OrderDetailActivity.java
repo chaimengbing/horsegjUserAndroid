@@ -1408,7 +1408,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             return;
         } else if (submitOrderEntity.getOrderFlowStatus() == 7) {
             //已完成
-            tvStateDes.setText("期待为再次为您服务");
+            tvStateDes.setText("期待再次为您服务");
             if (!TextUtils.isEmpty(expectDeliveryTime) && !expectDeliveryTime.equals("1")) {
                 tvArriveTime.setText("送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm));
             }

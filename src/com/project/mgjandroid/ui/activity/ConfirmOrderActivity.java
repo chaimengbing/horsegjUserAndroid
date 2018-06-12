@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.DayBean;
+import com.project.mgjandroid.bean.MerchantTakeAwayMenu;
 import com.project.mgjandroid.bean.PromotionActivity;
 import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.bean.TimeBean;
@@ -176,6 +178,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     private boolean canPayOnline = false, canPayOutline = false;
     private TextView tv_outline;
     private TextView tv_online;
+    private MerchantTakeAwayMenu merchantTakeAwayMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,6 +221,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         timeListView = (ListView) view.findViewById(R.id.time_list_view);
         timeListAdapter = new SelectTimeListAdapter(R.layout.item_select_time_list_view, this);
         ArrayList<TimeBean> timeList = new ArrayList<>();
+        timeListAdapter.setData(timeList);
         timeListAdapter.setData(timeList);
         timeListView.setAdapter(timeListAdapter);
         timeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -274,6 +278,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         }
         if (intent != null && intent.hasExtra("onceMoreOrder")) {
             previewJsonData = new JSONObject((Map<String, Object>) intent.getSerializableExtra("onceMoreOrder"));
+            Log.d("aaa",previewJsonData.toString());
         }
         if (intent != null && intent.hasExtra("isFromMarket")) {
             isFromMarket = intent.getBooleanExtra("isFromMarket", false);
@@ -308,6 +313,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
      */
     private void submitOrder() {
         SmsLoginModel.ValueEntity.AppUserEntity userInfo = App.getUserInfo();
+        List<ConfirmOrderModel.ValueEntity.OrderItemsEntity> orderItems = confirmOrderModel.getValue().getOrderItems();
         try {
             if (userInfo != null) {
                 previewJsonData.put("userId", userInfo.getId());
@@ -322,18 +328,18 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 selectTime = dayList.get(0).getTimeList().get(0);//默认第0条
             }
             previewJsonData.put("expectedArrivalTime", selectTime.getId());//送达时间
-
+            previewJsonData.put("orderItems",orderItems);
             if (redBag == null && previewJsonData.containsKey("redBags")) {
                 previewJsonData.remove("redBags");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         mLoadingDialog.show(getFragmentManager(), "");
 //        MLog.s("----json data--->" + previewJsonData.toString());
         Map<String, Object> map = new HashMap<>();
         map.put("data", previewJsonData.toString());
+        Log.d("bbb",previewJsonData.toString());
         map.put("longitude", longitude);
         map.put("latitude", latitude);
         VolleyOperater<SubmitOrderModel> operater = new VolleyOperater<>(ConfirmOrderActivity.this);
@@ -423,7 +429,6 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             previewJsonData.remove("redBags");
         }
         previewJsonData.put("expectedArrivalTime", selectTime.getId());
-
         Map<String, Object> params = new HashMap<>();
         params.put("data", previewJsonData.toString());
         params.put("longitude", longitude);
@@ -554,7 +559,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         tv_shippingFee.setText("¥" + StringUtils.BigDecimal2Str(valueEntity.getShippingFee()));
         tv_totalPrice.setText("" + StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()));
         if (valueEntity.getDiscountAmt() != null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountAmt()) != 0) {
-            freeMoney.setText(" | 优惠¥" + valueEntity.getDiscountAmt());
+            freeMoney.setText(" | 优惠¥" + valueEntity.getDiscountAmt().add(valueEntity.getDiscountGoodsDiscountAmt()));
             freeMoney.setVisibility(View.VISIBLE);
         } else {
             freeMoney.setVisibility(View.GONE);
@@ -858,6 +863,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 }
                 intentRedBag.putExtra("itemsPrice", confirmOrderModel.getValue().getItemsPrice().doubleValue());
                 intentRedBag.putExtra("merchantId", confirmOrderModel.getValue().getMerchantId());
+                intentRedBag.putExtra("discountGoodsDiscountAmt", ""+confirmOrderModel.getValue().getDiscountGoodsDiscountAmt());
                 intentRedBag.putExtra("isFromConfirmOrder", true);
                 if (redBag != null) {
                     intentRedBag.putExtra("redBagId", redBag.getId());

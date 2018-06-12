@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.CouDanModel;
 import com.project.mgjandroid.bean.GoodsSpec;
 import com.project.mgjandroid.bean.PickGoods;
-import com.project.mgjandroid.model.PickGoodsModel;
 import com.project.mgjandroid.ui.listener.BottomCartListener;
 import com.project.mgjandroid.utils.AnimatorUtils;
 import com.project.mgjandroid.utils.CheckUtils;
@@ -23,28 +23,27 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by ning on 2016/3/9.
+ * Created by SunXueLiang on 2018/6/8.
  */
-public class BottomCartListAdapter extends BaseAdapter {
+public class CouDanListAdapter extends BaseAdapter {
     private Context context;
     private List<PickGoods> products;
+    private List<CouDanModel.ValueBean> couDanModelValue;
     private BottomCartListener listener;
-    private boolean isFirst = true;
-    private BigDecimal multiply;
-    private BigDecimal decimal;
-    private BigDecimal multiply1;
-    private BigDecimal decimal1;
-    private BigDecimal bigDecimal;
+    private PickGoods pickGoods;
+    private int buy = 0;
+    private PickGoods product;
 
-    public BottomCartListAdapter(Context context, List<PickGoods> mCartProducts, BottomCartListener listener) {
+    public CouDanListAdapter(Context context, List<CouDanModel.ValueBean> couDanModelValue, List<PickGoods> mCartProducts, BottomCartListener listener) {
         this.context = context;
+        this.couDanModelValue = couDanModelValue;
         this.products = mCartProducts;
         this.listener = listener;
     }
 
     @Override
     public int getCount() {
-        return products.size();
+        return couDanModelValue.size();
     }
 
     @Override
@@ -61,81 +60,53 @@ public class BottomCartListAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_bottom_cart, viewGroup, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_coudan, viewGroup, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
         holder = (ViewHolder) convertView.getTag();
+        CouDanModel.ValueBean valueBean = couDanModelValue.get(i);
 
-        PickGoods product = products.get(i);
-        String spec = "";
-        for (int j = 0; j < product.getGoods().getGoodsSpecList().size(); j++) {
-            if (product.getGoodsSpecId() == product.getGoods().getGoodsSpecList().get(j).getId()) {
-                if (!TextUtils.isEmpty(product.getGoods().getGoodsSpecList().get(j).getSpec())) {
-                    spec = " (" + product.getGoods().getGoodsSpecList().get(j).getSpec() + ")";
-                }
-                break;
+        if (valueBean.getTGoodsSpec() != null) {
+            if (CheckUtils.isEmptyStr(valueBean.getTGoodsSpec().getSpec())) {
+                holder.tv_name.setText(valueBean.getName());
+            } else {
+                holder.tv_name.setText(valueBean.getName() + "(" + valueBean.getTGoodsSpec().getSpec() + ")");
             }
         }
-        if (product.getGoodsName() != null) {
-            holder.tv_name.setText(product.getGoods().getName() + spec + product.getGoodsName());
-        } else {
-            holder.tv_name.setText(product.getGoods().getName() + spec);
-        }
 
-        showBuyView(product, holder);
+        showBuyView(valueBean, holder, products);
+
         return convertView;
     }
 
-    private void showBuyView(final PickGoods product, final ViewHolder holder) {
+    private void showBuyView(final CouDanModel.ValueBean bean, final ViewHolder holder, final List<PickGoods> products) {
+        final CouDanModel.ValueBean.TGoodsSpecBean tGoodsSpec = bean.getTGoodsSpec();
         GoodsSpec myGoodsSpec = null;
+        for (int i = 0; i < products.size(); i++) {
+            product = products.get(i);
+        }
         for (GoodsSpec spec : product.getGoods().getGoodsSpecList()) {
             if (spec.getId() == product.getGoodsSpecId()) {
                 myGoodsSpec = spec;
             }
         }
+
+
         final GoodsSpec goodsSpec = myGoodsSpec;
         final int maxCount = goodsSpec.getOrderLimit();
-        int pickCount = product.getPickCount();
-        if (product.getGoods().getHasDiscount() == 1) {
-            int everyGoodsEveryOrderBuyCount = product.getGoods().getEveryGoodsEveryOrderBuyCount();
-            int surplusDiscountStock = product.getGoods().getSurplusDiscountStock();
 
-            if(everyGoodsEveryOrderBuyCount>0){
-                multiply = goodsSpec.getPrice().multiply(new BigDecimal(product.getGoods().getEveryGoodsEveryOrderBuyCount()));
-                decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - everyGoodsEveryOrderBuyCount));
-            }else {
-                if(pickCount>surplusDiscountStock){
-                    multiply1 = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
-                    decimal1 = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - surplusDiscountStock));
-                }else {
-                    bigDecimal = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
-                }
-
+        for (PickGoods pGoods : products) {
+            if (bean.getId() == pGoods.getGoodsId() && tGoodsSpec.getId() == pGoods.getGoodsSpecId()) {
+                buy = pGoods.getPickCount();
             }
-            if (pickCount > everyGoodsEveryOrderBuyCount) {
-                if(everyGoodsEveryOrderBuyCount>0){
-                    holder.tv_price.setText(multiply.add(decimal) + "");
-                }else {
-                    if(pickCount>surplusDiscountStock){
-                        holder.tv_price.setText(multiply1.add(decimal1)+"");
-                    }else {
-                        holder.tv_price.setText(bigDecimal + "");
-                    }
-                }
-            } else {
-                holder.tv_price.setText("" + goodsSpec.getPrice().multiply(new BigDecimal(pickCount)));
-            }
-        } else {
-            holder.tv_price.setText("" + goodsSpec.getPrice().multiply(new BigDecimal(pickCount)));
         }
-        holder.tvBuyCount.setText(product.getPickCount() + "");
-        if (product.getPickCount() > 0) {
-            holder.imgMinus.setTranslationX(PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-            holder.tvBuyCount.setTranslationX(PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
+
+        holder.tvBuyCount.setText("" + buy);
+        if (buy == 0) {
+            holder.tv_price.setText("" + tGoodsSpec.getPrice());
         } else {
-            holder.imgMinus.setTranslationX(0f);
-            holder.tvBuyCount.setTranslationX(0f);
+            holder.tv_price.setText("" + tGoodsSpec.getPrice().multiply(new BigDecimal(buy)));
         }
 
         holder.imgAdd.setOnClickListener(new View.OnClickListener() {
@@ -307,8 +278,8 @@ public class BottomCartListAdapter extends BaseAdapter {
         });
     }
 
-    public void setData(List<PickGoods> data) {
-        products = data;
+    public void setData(List<CouDanModel.ValueBean> data) {
+        couDanModelValue = data;
         notifyDataSetChanged();
     }
 

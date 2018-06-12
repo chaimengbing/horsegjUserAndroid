@@ -192,6 +192,10 @@ public class Merchant extends Entity {
      * 商家红包
      **/
     private List<MerchantRedBag> merchantRedBagList;
+    /**
+     * 活动共享关系
+     **/
+    private List<SharingRelationship> activitySharedRelationList;
     private List<Goods> goodsList;
     private String highLights;
     private boolean isShowGoods;
@@ -609,6 +613,14 @@ public class Merchant extends Entity {
 
     public void setMerchantRedBagList(List<MerchantRedBag> merchantRedBagList) {
         this.merchantRedBagList = merchantRedBagList;
+    }
+
+    public List<SharingRelationship> getActivitySharedRelationList() {
+        return activitySharedRelationList;
+    }
+
+    public void setActivitySharedRelationList(List<SharingRelationship> activitySharedRelationList) {
+        this.activitySharedRelationList = activitySharedRelationList;
     }
 
     public List<Goods> getGoodsList() {
