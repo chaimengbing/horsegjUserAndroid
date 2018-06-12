@@ -228,8 +228,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private BigDecimal bigDecimal;
     private PopupWindow couDanPopupWindow;
     private ListView cListView;
-    private List<CouDanModel.ValueBean> couDanModelValue;
     private CouDanListAdapter couDanListAdapter;
+    private List<Goods> couDanModelValue;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -497,8 +497,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     CouDanModel couDanModel = (CouDanModel) obj;
-                    couDanModelValue = couDanModel.getValue();
-//                    couDanListAdapter.setData(couDanModelValue);
+                    couDanModelValue =  couDanModel.getValue();
                     initCouDanPopWindow();
                 }
             }

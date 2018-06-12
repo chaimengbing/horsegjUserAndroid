@@ -2,6 +2,7 @@ package com.project.mgjandroid.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.CouDanModel;
+import com.project.mgjandroid.bean.Goods;
 import com.project.mgjandroid.bean.GoodsSpec;
 import com.project.mgjandroid.bean.PickGoods;
+import com.project.mgjandroid.model.PickGoodsModel;
 import com.project.mgjandroid.ui.listener.BottomCartListener;
 import com.project.mgjandroid.utils.AnimatorUtils;
 import com.project.mgjandroid.utils.CheckUtils;
@@ -28,13 +31,14 @@ import java.util.List;
 public class CouDanListAdapter extends BaseAdapter {
     private Context context;
     private List<PickGoods> products;
-    private List<CouDanModel.ValueBean> couDanModelValue;
+    private List<Goods> couDanModelValue;
     private BottomCartListener listener;
     private PickGoods pickGoods;
     private int buy = 0;
     private PickGoods product;
+    private Goods goods;
 
-    public CouDanListAdapter(Context context, List<CouDanModel.ValueBean> couDanModelValue, List<PickGoods> mCartProducts, BottomCartListener listener) {
+    public CouDanListAdapter(Context context, List<Goods> couDanModelValue, List<PickGoods> mCartProducts, BottomCartListener listener) {
         this.context = context;
         this.couDanModelValue = couDanModelValue;
         this.products = mCartProducts;
@@ -65,153 +69,71 @@ public class CouDanListAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         holder = (ViewHolder) convertView.getTag();
-        CouDanModel.ValueBean valueBean = couDanModelValue.get(i);
-
-        if (valueBean.getTGoodsSpec() != null) {
-            if (CheckUtils.isEmptyStr(valueBean.getTGoodsSpec().getSpec())) {
-                holder.tv_name.setText(valueBean.getName());
+        goods = couDanModelValue.get(i);
+        Log.d("------", goods.getName());
+        if (goods.getTGoodsSpec() != null) {
+            if (CheckUtils.isEmptyStr(goods.getTGoodsSpec().getSpec())) {
+                holder.tv_name.setText(goods.getName());
             } else {
-                holder.tv_name.setText(valueBean.getName() + "(" + valueBean.getTGoodsSpec().getSpec() + ")");
+                holder.tv_name.setText(goods.getName() + "(" + goods.getTGoodsSpec().getSpec() + ")");
             }
         }
-
-        showBuyView(valueBean, holder, products);
+        showBuyView(goods, holder, products);
 
         return convertView;
     }
 
-    private void showBuyView(final CouDanModel.ValueBean bean, final ViewHolder holder, final List<PickGoods> products) {
-        final CouDanModel.ValueBean.TGoodsSpecBean tGoodsSpec = bean.getTGoodsSpec();
-        GoodsSpec myGoodsSpec = null;
+    private void showBuyView(final Goods bean, final ViewHolder holder, final List<PickGoods> products) {
+        final GoodsSpec goodsSpec = bean.getTGoodsSpec();
         for (int i = 0; i < products.size(); i++) {
             product = products.get(i);
         }
-        for (GoodsSpec spec : product.getGoods().getGoodsSpecList()) {
-            if (spec.getId() == product.getGoodsSpecId()) {
-                myGoodsSpec = spec;
-            }
-        }
-
-
-        final GoodsSpec goodsSpec = myGoodsSpec;
-        final int maxCount = goodsSpec.getOrderLimit();
 
         for (PickGoods pGoods : products) {
-            if (bean.getId() == pGoods.getGoodsId() && tGoodsSpec.getId() == pGoods.getGoodsSpecId()) {
+            if (bean.getId() == pGoods.getGoodsId() && goodsSpec.getId() == pGoods.getGoodsSpecId()) {
                 buy = pGoods.getPickCount();
             }
         }
 
         holder.tvBuyCount.setText("" + buy);
         if (buy == 0) {
-            holder.tv_price.setText("" + tGoodsSpec.getPrice());
+            holder.tv_price.setText("" + goodsSpec.getPrice());
         } else {
-            holder.tv_price.setText("" + tGoodsSpec.getPrice().multiply(new BigDecimal(buy)));
+            holder.tv_price.setText("" + goodsSpec.getPrice().multiply(new BigDecimal(buy)));
         }
 
         holder.imgAdd.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                int count = product.getPickCount();
-                int buyCount = 0;
-                for (int i = 0; i < products.size(); i++) {
-                    if (product.getGoodsId() == products.get(i).getGoods().getId() && product.getGoodsSpecId() == products.get(i).getGoodsSpecId()) {
-                        buyCount += products.get(i).getPickCount();
-                    }
-                }
-                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && buyCount >= goodsSpec.getStock()) {
+                int count = goodsSpec.getBuyCount();
+                int maxCount = goodsSpec.getOrderLimit();
+                PickGoodsModel.getInstance().setIsRemove(false);
+                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
                     ToastUtils.displayMsg("该商品库存不足", context);
                     return;
                 }
-                if (maxCount != 0 && buyCount >= maxCount) {
-                    String spec = "";
-                    if (!TextUtils.isEmpty(goodsSpec.getSpec())) {
-                        spec = " (" + goodsSpec.getSpec() + ")";
+                if (count == 0) {
+                    if (goods.getTGoodsSpec().getMinOrderNum() != 0 && count <= goods.getTGoodsSpec().getMinOrderNum()) {
+                        ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", context);
+                        count = goods.getTGoodsSpec().getMinOrderNum() - 1;
                     }
-                    ToastUtils.displayMsg(product.getGoods().getName() + spec + "商品限购" + goodsSpec.getOrderLimit() + "份", context);
+                }
+                if (maxCount != 0 && count >= maxCount) {
+                    ToastUtils.displayMsg(goods.getName() + "商品限购" + goodsSpec.getOrderLimit() + "份", context);
                     return;
                 }
-
                 if (count == 0) {
                     count++;
-                    if (product.getGoods().getHasDiscount() == 1) {
-                        if (product.getGoods().getEveryGoodsEveryOrderBuyCount() > product.getGoods().getSurplusDiscountStock()) {
-                            if ((buyCount + 1) > product.getGoods().getSurplusDiscountStock()) {
-                                if (product.getGoods().isFirst()) {
-                                    ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
-                                    product.getGoods().setFirst(false);
-                                }
-                            }
-                        } else {
-                            if ((buyCount + 1) > product.getGoods().getEveryGoodsEveryOrderBuyCount() && product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
-                                if (product.getGoods().isFirst()) {
-                                    ToastUtils.displayMsg("当前折扣商品每单限购" + product.getGoods().getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
-                                    product.getGoods().setFirst(false);
-                                }
-                            }
-//                            if ((buyCount + 1) > product.getGoods().getSurplusDiscountStock()) {
-//                                ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
-//                            }
-
-                        }
-                        if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
-                            if ((buyCount + 1) > (product.getGoods().getSurplusDiscountStock() + goodsSpec.getStock())) {
-                                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
-                                    ToastUtils.displayMsg("该商品库存不足", context);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                    product.setPickCount(count);
                     goodsSpec.setBuyCount(count);
                     holder.tvBuyCount.setText(count + "");
-                    AnimatorUtils.leftTranslationRotating(holder.imgMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-                    AnimatorUtils.leftTranslationRotating(holder.tvBuyCount, PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
                 } else {
                     count++;
-                    if (product.getGoods().getHasDiscount() == 1) {
-                        if (product.getGoods().getEveryGoodsEveryOrderBuyCount() > product.getGoods().getSurplusDiscountStock()) {
-                            if ((buyCount + 1) > product.getGoods().getSurplusDiscountStock()) {
-                                if (product.getGoods().isFirst()) {
-                                    ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
-                                    product.getGoods().setFirst(false);
-                                }
-                            }
-                        } else {
-                            if ((buyCount + 1) > product.getGoods().getEveryGoodsEveryOrderBuyCount() && product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
-                                if (product.getGoods().isFirst()) {
-                                    ToastUtils.displayMsg("当前折扣商品每单限购" + product.getGoods().getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
-                                    product.getGoods().setFirst(false);
-                                }
-                            }
-//                            if ((buyCount + 1) > product.getGoods().getSurplusDiscountStock()) {
-//                                ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
-//                            }
-
-                        }
-                        if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
-                            if ((buyCount + 1) > (product.getGoods().getSurplusDiscountStock() + goodsSpec.getStock())) {
-                                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
-                                    ToastUtils.displayMsg("该商品库存不足", context);
-                                    return;
-                                }
-                            }
-                        }
-                    }
                     holder.tvBuyCount.setText(count + "");
                     goodsSpec.setBuyCount(count);
-                    product.setPickCount(count);
                 }
-                if (CheckUtils.isEmptyStr(product.getGoodsName())) {
-                    //只要点击了就去更新购物车
-                    listener.productHasChange(product.getGoods(), product.getGoods().getCategoryId(), product.getGoods().getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, false);
-                } else {
-                    //只要点击了就去更新购物车
-                    listener.newProductHasChange(product.getGoods(), product.getGoods().getCategoryId(), product.getGoods().getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, false, product.getGoodsName());
-                }
-
+                //只要点击了就去更新购物车
+                listener.productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, true);
             }
         });
         holder.imgMinus.setOnClickListener(new View.OnClickListener() {
@@ -278,7 +200,7 @@ public class CouDanListAdapter extends BaseAdapter {
         });
     }
 
-    public void setData(List<CouDanModel.ValueBean> data) {
+    public void setData(List<Goods> data) {
         couDanModelValue = data;
         notifyDataSetChanged();
     }

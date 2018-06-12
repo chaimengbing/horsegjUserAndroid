@@ -108,6 +108,7 @@ public class Goods extends Entity {
 
     private String shareUrl;
 
+    private GoodsSpec tGoodsSpec;
     private List<GoodsSpec> goodsSpecList;
     private List<GoodsAttribute> goodsAttributeList;
 
@@ -296,6 +297,14 @@ public class Goods extends Entity {
     public void setDelTime(Date delTime) {
         this.delTime = delTime;
     }
+
+    public GoodsSpec getTGoodsSpec() {
+            return tGoodsSpec;
+        }
+
+        public void setTGoodsSpec(GoodsSpec tGoodsSpec) {
+            this.tGoodsSpec = tGoodsSpec;
+        }
 
     public List<GoodsSpec> getGoodsSpecList() {
         return goodsSpecList;
