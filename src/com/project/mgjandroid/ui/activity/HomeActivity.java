@@ -487,36 +487,38 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
-                if (isSucceed && obj != null) {
+                if (isSucceed) {
                     AppLaunchModel appLaunchModel = (AppLaunchModel) obj;
-                    SmsLoginModel.ValueEntity.AppUserEntity appUserEntity = new SmsLoginModel.ValueEntity.AppUserEntity();
-                    AppLaunchModel.ValueEntity valueEntity = appLaunchModel.getValue();
-                    appUserEntity.setId(valueEntity.getId());
-                    appUserEntity.setCreateTime(valueEntity.getCreateTime());
-                    appUserEntity.setModifyTime(valueEntity.getModifyTime());
-                    appUserEntity.setName(valueEntity.getName());
-                    appUserEntity.setMobile(valueEntity.getMobile());
-                    appUserEntity.setPwd(valueEntity.getPwd());
-                    appUserEntity.setHeaderImg(valueEntity.getHeaderImg());
-                    appUserEntity.setRegTime(valueEntity.getRegTime());
-                    appUserEntity.setLastLoginTime(valueEntity.getLastLoginTime());
-                    appUserEntity.setChannel(valueEntity.getChannel());
-                    appUserEntity.setToken(valueEntity.getToken());
-                    //极光推送TAG绑定
-                    if (!TextUtils.isEmpty(valueEntity.getAgentId())) {
-                        JPushInterface.checkTagBindState(mActivity, 101, "agent_" + valueEntity.getAgentId());
+                    if (appLaunchModel.getCode() == 0) {
+                        SmsLoginModel.ValueEntity.AppUserEntity appUserEntity = new SmsLoginModel.ValueEntity.AppUserEntity();
+                        AppLaunchModel.ValueEntity valueEntity = appLaunchModel.getValue();
+                        appUserEntity.setId(valueEntity.getId());
+                        appUserEntity.setCreateTime(valueEntity.getCreateTime());
+                        appUserEntity.setModifyTime(valueEntity.getModifyTime());
+                        appUserEntity.setName(valueEntity.getName());
+                        appUserEntity.setMobile(valueEntity.getMobile());
+                        appUserEntity.setPwd(valueEntity.getPwd());
+                        appUserEntity.setHeaderImg(valueEntity.getHeaderImg());
+                        appUserEntity.setRegTime(valueEntity.getRegTime());
+                        appUserEntity.setLastLoginTime(valueEntity.getLastLoginTime());
+                        appUserEntity.setChannel(valueEntity.getChannel());
+                        appUserEntity.setToken(valueEntity.getToken());
+                        //极光推送TAG绑定
+                        if (!TextUtils.isEmpty(valueEntity.getAgentId())) {
+                            JPushInterface.checkTagBindState(mActivity, 101, "agent_" + valueEntity.getAgentId());
+                        }
+                        App.setUserInfo(appUserEntity);
+                        App.setIsLogin(true);
+                    } else if(appLaunchModel.getCode() == 100000){
+                        PreferenceUtils.saveStringPreference("token", "", HomeActivity.this);
+                        //清空缓存
+                        CookieSyncManager.createInstance(mActivity);  //Create a singleton CookieSyncManager within a context
+                        CookieManager cookieManager = CookieManager.getInstance(); // the singleton CookieManager instance
+                        cookieManager.removeAllCookie();// Removes all cookies.
+                        cookieManager.setAcceptCookie(true);
+                        CookieSyncManager.getInstance().sync(); // forces sync manager to sync now
+                        System.gc();
                     }
-                    App.setUserInfo(appUserEntity);
-                    App.setIsLogin(true);
-                } else {
-                    PreferenceUtils.saveStringPreference("token", "", HomeActivity.this);
-                    //清空缓存
-                    CookieSyncManager.createInstance(mActivity);  //Create a singleton CookieSyncManager within a context
-                    CookieManager cookieManager = CookieManager.getInstance(); // the singleton CookieManager instance
-                    cookieManager.removeAllCookie();// Removes all cookies.
-                    cookieManager.setAcceptCookie(true);
-                    CookieSyncManager.getInstance().sync(); // forces sync manager to sync now
-                    System.gc();
                 }
             }
         }, AppLaunchModel.class);

@@ -699,7 +699,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     tvGoodsOriginPrice.setVisibility(View.GONE);
                 }
                 if (goods.getGoodsSpecList().get(i).getStockType() == 1 && goods.getGoodsSpecList().get(i).getStock() != null && goods.getGoodsSpecList().get(i).getStock() != 0 && 10 > goods.getGoodsSpecList().get(i).getStock()) {
-                    tvStock.setVisibility(View.VISIBLE);
+                    if(goods.getHasDiscount()==1){
+                        tvStock.setVisibility(View.GONE);
+                    }else {
+                        tvStock.setVisibility(View.VISIBLE);
+                    }
                     tvStock.setText("仅剩" + goods.getGoodsSpecList().get(i).getStock() + "份");
                 } else {
                     tvStock.setVisibility(View.GONE);
@@ -716,7 +720,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     }
                 }
                 if (goods.getGoodsSpecList().get(i).getMinOrderNum() != null && goods.getGoodsSpecList().get(i).getMinOrderNum() > 0) {
-                    tvMin.setVisibility(View.VISIBLE);
+                    if(goods.getHasDiscount()==1){
+                        tvMin.setVisibility(View.GONE);
+                    }else {
+                        tvMin.setVisibility(View.VISIBLE);
+                    }
                     tvMin.setText(goods.getGoodsSpecList().get(i).getMinOrderNum() + "份起购");
                 } else {
                     tvMin.setVisibility(View.GONE);
@@ -813,7 +821,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         tvGoodsOriginPrice.setVisibility(View.GONE);
                     }
                     if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && 10 > mGoodsSpec.getStock()) {
-                        tvStock.setVisibility(View.VISIBLE);
+                        if(goods.getHasDiscount()==1){
+                            tvStock.setVisibility(View.GONE);
+                        }else {
+                            tvStock.setVisibility(View.VISIBLE);
+                        }
                         tvStock.setText("仅剩" + mGoodsSpec.getStock() + "份");
                     } else {
                         tvStock.setVisibility(View.GONE);
@@ -825,7 +837,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         tvLimit.setVisibility(View.GONE);
                     }
                     if (mGoodsSpec.getMinOrderNum() != null && mGoodsSpec.getMinOrderNum() > 0) {
-                        tvMin.setVisibility(View.VISIBLE);
+                        if(goods.getHasDiscount()==1){
+                            tvMin.setVisibility(View.GONE);
+                        }else {
+                            tvMin.setVisibility(View.VISIBLE);
+                        }
                         tvMin.setText(mGoodsSpec.getMinOrderNum() + "份起购");
                     } else {
                         tvMin.setVisibility(View.GONE);
@@ -1062,7 +1078,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         return;
                     }
                     if (mGoodsSpec.getOrderLimit() != 0 && count >= mGoodsSpec.getOrderLimit()) {
-                        ToastUtils.displayMsg(goods.getName() + "商品限购" + mGoodsSpec.getOrderLimit() + "份", mContext);
+                        ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
                         return;
                     }
                     if (count == 0) {
@@ -1547,7 +1563,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 }
 
                 if (goodsSpecList != null && goodsSpecList.get(0).getMinOrderNum() != null && goodsSpecList.get(0).getMinOrderNum() > 1) {
-                    tvMin.setVisibility(View.VISIBLE);
+                    if(goods.getHasDiscount()==1){
+                        tvMin.setVisibility(View.GONE);
+                    }else {
+                        tvMin.setVisibility(View.VISIBLE);
+                    }
                     tvMin.setText(goodsSpecList.get(0).getMinOrderNum() + "份起购");
                 } else {
                     tvMin.setVisibility(View.GONE);
