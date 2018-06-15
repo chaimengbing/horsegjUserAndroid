@@ -2511,65 +2511,73 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 listView.onRefreshComplete();
                 refreshFlag = true;
                 if (isSucceed && obj != null) {
-                    ArrayList<Merchant> mlist = ((CommercialListModel) obj).getValue();
-                    if (!isLoadMore) {
-                        if (mlist.size() == 0 && midPrePosition == -1 && leftMenuCurrentGroup == -1 && leftMenuCurrentChild == -1 && isClearFilter()) {
-                            ArrayList<Merchant> data = new ArrayList<>();
-                            data.add(new Merchant());
-                            adapter.setSystemTime(null);
-                            adapter.setList(data);
-                            handler.sendEmptyMessage(LOCATION_NO_MERCHANT);
-                            return;
-                        }
+                    CommercialListModel model = (CommercialListModel) obj;
+                    if (model.getCode() == 0) {
+                        ArrayList<Merchant> mlist = ((CommercialListModel) obj).getValue();
+                        if (!isLoadMore) {
+                            if (mlist.size() == 0 && midPrePosition == -1 && leftMenuCurrentGroup == -1 && leftMenuCurrentChild == -1 && isClearFilter()) {
+                                ArrayList<Merchant> data = new ArrayList<>();
+                                data.add(new Merchant());
+                                adapter.setSystemTime(null);
+                                adapter.setList(data);
+                                handler.sendEmptyMessage(LOCATION_NO_MERCHANT);
+                                return;
+                            }
 //                        else {
 //                            hasNoNet.setVisibility(View.GONE);
 //                        }
-                    }
-                    if (CheckUtils.isNoEmptyList(mlist)) {
-                        if (CheckUtils.isNoEmptyList(PickGoodsModel.getInstance().getMerchantPickGoodsList()))
-                            for (MerchantPickGoods merchantPickGoods : PickGoodsModel.getInstance().getMerchantPickGoodsList()) {
-                                for (Merchant merchant : mlist) {
-                                    if (merchant.getId() == merchantPickGoods.getMerchantId()) {
-                                        merchant.setPickGoodsCount(merchantPickGoods.getGoodsCount());
-                                        break;
+                        }
+                        if (CheckUtils.isNoEmptyList(mlist)) {
+                            if (CheckUtils.isNoEmptyList(PickGoodsModel.getInstance().getMerchantPickGoodsList()))
+                                for (MerchantPickGoods merchantPickGoods : PickGoodsModel.getInstance().getMerchantPickGoodsList()) {
+                                    for (Merchant merchant : mlist) {
+                                        if (merchant.getId() == merchantPickGoods.getMerchantId()) {
+                                            merchant.setPickGoodsCount(merchantPickGoods.getGoodsCount());
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                        if (isLoadMore) {
-                            if (mlist.size() < maxResults) {
-                                ToastUtils.displayMsg("到底了", mActivity);
+                            if (isLoadMore) {
+                                if (mlist.size() < maxResults) {
+                                    ToastUtils.displayMsg("到底了", mActivity);
 //                                listView.setMode(PullToRefreshBase.Mode.);
-                            }
-                            ArrayList<Merchant> mlistOrg = adapter.getList();
-                            if (mlistOrg != null) {
+                                }
+                                ArrayList<Merchant> mlistOrg = adapter.getList();
+                                if (mlistOrg != null) {
+                                    mlistOrg.addAll(mlist);
+                                    adapter.setSystemTime(((CommercialListModel) obj).getServertime());
+                                    adapter.setList(mlistOrg);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            } else {
+                                if (listHeaderButton.getVisibility() == View.INVISIBLE) {
+                                    listHeaderButton.setVisibility(View.VISIBLE);
+                                }
+                                ArrayList<Merchant> mlistOrg = adapter.getList();
+                                mlistOrg.clear();
                                 mlistOrg.addAll(mlist);
                                 adapter.setSystemTime(((CommercialListModel) obj).getServertime());
                                 adapter.setList(mlistOrg);
-                                adapter.notifyDataSetChanged();
-                            }
-                        } else {
-                            if (listHeaderButton.getVisibility() == View.INVISIBLE) {
-                                listHeaderButton.setVisibility(View.VISIBLE);
-                            }
-                            ArrayList<Merchant> mlistOrg = adapter.getList();
-                            mlistOrg.clear();
-                            mlistOrg.addAll(mlist);
-                            adapter.setSystemTime(((CommercialListModel) obj).getServertime());
-                            adapter.setList(mlistOrg);
 //                            adapter.notifyDataSetChanged();
 //                            AnimatorUtils.fadeFadeIn(listView, mActivity);
+                            }
+                        } else {
+
+                            if (isLoadMore) {
+                                ToastUtils.displayMsg("到底了", mActivity);
+                            } else {
+                                MLog.d("isempty");
+                                mlist = new ArrayList<>();
+                                mlist.add(new Merchant());
+                                adapter.setSystemTime(null);
+                                adapter.setList(mlist);
+                            }
                         }
                     } else {
-
-                        if (isLoadMore) {
-                            ToastUtils.displayMsg("到底了", mActivity);
-                        } else {
-                            MLog.d("isempty");
-                            mlist = new ArrayList<>();
-                            mlist.add(new Merchant());
-                            adapter.setSystemTime(null);
-                            adapter.setList(mlist);
-                        }
+                        ArrayList<Merchant> mlist = new ArrayList<>();
+                        mlist.add(new Merchant());
+                        adapter.setSystemTime(null);
+                        adapter.setList(mlist);
                     }
                 } else {
                     ArrayList<Merchant> mlist = new ArrayList<>();

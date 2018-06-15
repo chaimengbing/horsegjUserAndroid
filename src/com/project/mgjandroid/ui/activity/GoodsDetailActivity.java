@@ -460,8 +460,12 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             }
             if (isOver) {
                 rlSpecLabel.setVisibility(View.GONE);
-                tvSleep.setVisibility(View.VISIBLE);
-                tvSleep.setText("商品已售罄");
+                if(goods.getHasDiscount() ==1 && goods.getSurplusDiscountStock()>0){
+                    tvSleep.setVisibility(View.GONE);
+                }else {
+                    tvSleep.setVisibility(View.VISIBLE);
+                    tvSleep.setText("商品已售罄");
+                }
                 tvLimit.setVisibility(View.GONE);
                 tvMin.setVisibility(View.GONE);
                 rlHideBuyCount.setVisibility(View.INVISIBLE);
@@ -499,8 +503,12 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             if (goods.getGoodsSpecList().get(0).getStockType() == 1 && goods.getGoodsSpecList().get(0).getStock() == 0) {
                 currentType = 1;
                 rlSpecLabel.setVisibility(View.GONE);
-                tvSleep.setVisibility(View.VISIBLE);
-                tvSleep.setText("商品已售罄");
+                if(goods.getHasDiscount() ==1 && goods.getSurplusDiscountStock()>0){
+                    tvSleep.setVisibility(View.GONE);
+                }else {
+                    tvSleep.setVisibility(View.VISIBLE);
+                    tvSleep.setText("商品已售罄");
+                }
                 rlHideBuyCount.setVisibility(View.INVISIBLE);
                 tvLimit.setVisibility(View.GONE);
                 tvMin.setVisibility(View.GONE);
@@ -508,9 +516,13 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 currentType = 1;
                 if (goods.getStatus() == 0 || goods.getStatus() == 2) {
                     rlSpecLabel.setVisibility(View.GONE);
-                    tvSleep.setVisibility(View.VISIBLE);
                     tvChooseSpec.setVisibility(View.GONE);
-                    tvSleep.setText("商品已售罄");
+                    if(goods.getHasDiscount() ==1 && goods.getSurplusDiscountStock()>0){
+                        tvSleep.setVisibility(View.GONE);
+                    }else {
+                        tvSleep.setVisibility(View.VISIBLE);
+                        tvSleep.setText("商品已售罄");
+                    }
                     tvLimit.setVisibility(View.GONE);
                     tvMin.setVisibility(View.GONE);
                     rlHideBuyCount.setVisibility(View.INVISIBLE);
@@ -555,8 +567,12 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             }
             if (isOver) {
                 rlSpecLabel.setVisibility(View.GONE);
-                tvSleep.setVisibility(View.VISIBLE);
-                tvSleep.setText("商品已售罄");
+                if(goods.getHasDiscount() ==1 && goods.getSurplusDiscountStock()>0){
+                    tvSleep.setVisibility(View.GONE);
+                }else {
+                    tvSleep.setVisibility(View.VISIBLE);
+                    tvSleep.setText("商品已售罄");
+                }
                 tvLimit.setVisibility(View.GONE);
                 tvMin.setVisibility(View.GONE);
                 rlHideBuyCount.setVisibility(View.INVISIBLE);
@@ -699,9 +715,9 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     tvGoodsOriginPrice.setVisibility(View.GONE);
                 }
                 if (goods.getGoodsSpecList().get(i).getStockType() == 1 && goods.getGoodsSpecList().get(i).getStock() != null && goods.getGoodsSpecList().get(i).getStock() != 0 && 10 > goods.getGoodsSpecList().get(i).getStock()) {
-                    if(goods.getHasDiscount()==1){
+                    if (goods.getHasDiscount() == 1) {
                         tvStock.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         tvStock.setVisibility(View.VISIBLE);
                     }
                     tvStock.setText("仅剩" + goods.getGoodsSpecList().get(i).getStock() + "份");
@@ -720,9 +736,9 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     }
                 }
                 if (goods.getGoodsSpecList().get(i).getMinOrderNum() != null && goods.getGoodsSpecList().get(i).getMinOrderNum() > 0) {
-                    if(goods.getHasDiscount()==1){
+                    if (goods.getHasDiscount() == 1) {
                         tvMin.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         tvMin.setVisibility(View.VISIBLE);
                     }
                     tvMin.setText(goods.getGoodsSpecList().get(i).getMinOrderNum() + "份起购");
@@ -821,9 +837,9 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         tvGoodsOriginPrice.setVisibility(View.GONE);
                     }
                     if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && 10 > mGoodsSpec.getStock()) {
-                        if(goods.getHasDiscount()==1){
+                        if (goods.getHasDiscount() == 1) {
                             tvStock.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             tvStock.setVisibility(View.VISIBLE);
                         }
                         tvStock.setText("仅剩" + mGoodsSpec.getStock() + "份");
@@ -837,9 +853,9 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         tvLimit.setVisibility(View.GONE);
                     }
                     if (mGoodsSpec.getMinOrderNum() != null && mGoodsSpec.getMinOrderNum() > 0) {
-                        if(goods.getHasDiscount()==1){
+                        if (goods.getHasDiscount() == 1) {
                             tvMin.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             tvMin.setVisibility(View.VISIBLE);
                         }
                         tvMin.setText(mGoodsSpec.getMinOrderNum() + "份起购");
@@ -993,6 +1009,16 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
 //                    } else {
                     int buyCount = 0;
                     List<MerchantPickGoods> merchantPickGoodsList = PickGoodsModel.getInstance().getMerchantPickGoodsList();
+                    if (merchantPickGoodsList.size() == 0) {
+                        if (goods.getHasDiscount() == 1) {
+                            if ((buyCount + 1) == goods.getEveryGoodsEveryOrderBuyCount()) {
+                                if (goods.isFirst()) {
+                                    ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", mContext);
+                                    goods.setFirst(false);
+                                }
+                            }
+                        }
+                    }
                     for (MerchantPickGoods merchantPickGoods : merchantPickGoodsList) {
                         List<PickGoods> pickGoods = merchantPickGoods.getPickGoods();
                         for (PickGoods pickGood : pickGoods) {
@@ -1001,42 +1027,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                             }
                         }
                         if (goods.getHasDiscount() == 1) {
-                            for (PickGoods pickGood : pickGoods) {
-                                int count = pickGood.getPickCount();
-                                if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId()) {
-                                    //每单限购大于折扣库存
-                                    if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
-                                        if ((buyCount + 1) > goods.getSurplusDiscountStock()) {
-                                            if (goods.isFirst()) {
-                                                ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", mActivity);
-                                                goods.setFirst(false);
-                                            }
-                                        }
-                                    } else {
-                                        if ((buyCount + 1) > goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
-                                            if (goods.isFirst()) {
-                                                ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", mActivity);
-                                                goods.setFirst(false);
-                                            }
-                                        }
-//                                        if ((buyCount + 1) > goods.getSurplusDiscountStock()) {
-//                                            ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", mActivity);
-//                                        }
-
-                                    }
-                                    if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null) {
-                                        if ((buyCount + 1) > (goods.getSurplusDiscountStock() + mGoodsSpec.getStock())) {
-                                            if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && buyCount >= mGoodsSpec.getStock()) {
-                                                ToastUtils.displayMsg("该商品库存不足", mActivity);
-                                                return;
-                                            }
-                                        }
-                                    }
-                                    if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId() && sName1.equals(pickGood.getGoodsName())) {
-                                        count++;
-                                        tvBuyCount.setText(count + "");
-                                        mGoodsSpec.setBuyCount(count);
-                                        newProductHasChange(goods, goods.getCategoryId(), goods.getId(), mGoodsSpec.getId(), count, false, true, sName1);
+                            if (pickGoods.size() == 0) {
+                                if ((buyCount + 1) == goods.getEveryGoodsEveryOrderBuyCount()) {
+                                    if (goods.isFirst()) {
+                                        ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", mContext);
+                                        goods.setFirst(false);
                                     }
                                 }
                             }
@@ -1108,6 +1103,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     }
                     String sName1 = "";
                     int buyCount = 0;
+                    int minBuyCount = 0;
                     sName1 = sName.substring(0, sName.lastIndexOf(","));
                     List<MerchantPickGoods> merchantPickGoodsList = PickGoodsModel.getInstance().getMerchantPickGoodsList();
                     for (MerchantPickGoods merchantPickGoods : merchantPickGoodsList) {
@@ -1121,35 +1117,104 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                             int count = pickGood.getPickCount();
                             if (goods.getHasDiscount() == 1) {
                                 if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId()) {
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                        if (count == goods.getSurplusDiscountStock()) {
+                                            if (mGoodsSpec.getMinOrderNum() > 0) {
+                                                if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null) {
+                                                    minBuyCount = mGoodsSpec.getMinOrderNum() > mGoodsSpec.getStock() ? mGoodsSpec.getStock() : mGoodsSpec.getMinOrderNum();
+                                                } else {
+                                                    minBuyCount = mGoodsSpec.getMinOrderNum();
+                                                }
+                                                if (mGoodsSpec.getMinOrderNum() != 0 && (count - goods.getSurplusDiscountStock()) <= mGoodsSpec.getMinOrderNum()) {
+                                                    ToastUtils.displayMsg(goods.getName() + "商品最少购买" + mGoodsSpec.getMinOrderNum() + "份", mActivity);
+                                                    count = count + minBuyCount - 1;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        if (count == goods.getEveryGoodsEveryOrderBuyCount()) {
+                                            if (mGoodsSpec.getMinOrderNum() > 0) {
+                                                if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null) {
+                                                    minBuyCount = mGoodsSpec.getMinOrderNum() > mGoodsSpec.getStock() ? mGoodsSpec.getStock() : mGoodsSpec.getMinOrderNum();
+                                                } else {
+                                                    minBuyCount = mGoodsSpec.getMinOrderNum();
+                                                }
+                                                if (mGoodsSpec.getMinOrderNum() != 0 && (count - goods.getEveryGoodsEveryOrderBuyCount()) <= mGoodsSpec.getMinOrderNum()) {
+                                                    ToastUtils.displayMsg(goods.getName() + "商品最少购买" + mGoodsSpec.getMinOrderNum() + "份", mActivity);
+                                                    count = count + minBuyCount - 1;
+                                                }
+                                            }
+                                        }
+                                    }
                                     //每单限购大于折扣库存
                                     if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
-                                        if ((buyCount + 1) > goods.getSurplusDiscountStock()) {
+                                        if ((buyCount + 1) >= goods.getSurplusDiscountStock()) {
                                             if (goods.isFirst()) {
                                                 ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", mActivity);
                                                 goods.setFirst(false);
                                             }
                                         }
+                                        if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
+                                            if (goodsSpec.getOrderLimit() > goodsSpec.getStock()) {
+                                                if ((buyCount + 1) - goods.getSurplusDiscountStock() > goodsSpec.getStock()) {
+                                                    ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                                    return;
+                                                }
+                                            } else {
+                                                if ((buyCount + 1) - goods.getSurplusDiscountStock() > goodsSpec.getOrderLimit()&&mGoodsSpec.getOrderLimit()>0) {
+                                                    ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                                    return;
+                                                }
+                                                if(mGoodsSpec.getOrderLimit()==0&&(buyCount + 1)-goods.getSurplusDiscountStock()>mGoodsSpec.getStock()){
+                                                    ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                                    return;
+                                                }
+                                            }
+                                        } else {
+                                            if ((buyCount + 1) - goods.getSurplusDiscountStock() > goodsSpec.getOrderLimit()&&mGoodsSpec.getOrderLimit()>0) {
+                                                ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                                return;
+                                            }
+                                        }
+                                        if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && (count - goods.getSurplusDiscountStock()) > mGoodsSpec.getStock()) {
+                                            ToastUtils.displayMsg("该商品库存不足", mContext);
+                                            return;
+                                        }
                                     } else {
-                                        if ((buyCount + 1) > goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
+                                        if ((buyCount + 1) == goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                             if (goods.isFirst()) {
                                                 ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", mActivity);
                                                 goods.setFirst(false);
                                             }
                                         }
-//                                        if ((buyCount + 1) > goods.getSurplusDiscountStock()) {
-//                                            ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", mActivity);
-//                                        }
 
-                                    }
-                                    if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null) {
-                                        if ((buyCount + 1) > (goods.getSurplusDiscountStock() + mGoodsSpec.getStock())) {
-                                            if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && buyCount >= mGoodsSpec.getStock()) {
-                                                ToastUtils.displayMsg("该商品库存不足", mActivity);
+                                        if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
+                                            if (goodsSpec.getOrderLimit() > goodsSpec.getStock()) {
+                                                if ((buyCount + 1) - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getStock()) {
+                                                    ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                                    return;
+                                                }
+                                            } else {
+                                                if ((buyCount + 1) - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit()&&mGoodsSpec.getOrderLimit()>0) {
+                                                    ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                                    return;
+                                                }
+                                                if(mGoodsSpec.getOrderLimit()==0&&(buyCount + 1)-goods.getEveryGoodsEveryOrderBuyCount()>mGoodsSpec.getStock()){
+                                                    ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                                    return;
+                                                }
+                                            }
+                                        } else {
+                                            if ((buyCount + 1) - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit()&&mGoodsSpec.getOrderLimit()>0) {
+                                                ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
                                                 return;
                                             }
                                         }
+                                        if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && (count - goods.getEveryGoodsEveryOrderBuyCount()) > mGoodsSpec.getStock()) {
+                                            ToastUtils.displayMsg("该商品库存不足", mContext);
+                                            return;
+                                        }
                                     }
-
                                     if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId() && sName1.equals(pickGood.getGoodsName())) {
                                         count++;
                                         tvBuyCount.setText(count + "");
@@ -1221,7 +1286,6 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
 //                    }
 
                     if (count > 0) {
-                        count--;
                         if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
                             if (count - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
                                 goods.setFirst(true);
@@ -1231,6 +1295,18 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                                 goods.setFirst(true);
                             }
                         }
+                        if (goods.getHasDiscount() == 1) {
+                            if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                if (mGoodsSpec.getMinOrderNum() > 0 && count - goods.getSurplusDiscountStock() == mGoodsSpec.getMinOrderNum()) {
+                                    count = count - mGoodsSpec.getMinOrderNum()+1;
+                                }
+                            } else {
+                                if (mGoodsSpec.getMinOrderNum() > 0 && goods.getEveryGoodsEveryOrderBuyCount() > 0 && count - goods.getEveryGoodsEveryOrderBuyCount() == mGoodsSpec.getMinOrderNum()) {
+                                    count = count - mGoodsSpec.getMinOrderNum()+1;
+                                }
+                            }
+                        }
+                        count--;
                         tvBuyCount.setText(count + "");
                         if (count == 0) {
                             btnLayout.setVisibility(View.INVISIBLE);
@@ -1563,9 +1639,9 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 }
 
                 if (goodsSpecList != null && goodsSpecList.get(0).getMinOrderNum() != null && goodsSpecList.get(0).getMinOrderNum() > 1) {
-                    if(goods.getHasDiscount()==1){
+                    if (goods.getHasDiscount() == 1) {
                         tvMin.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         tvMin.setVisibility(View.VISIBLE);
                     }
                     tvMin.setText(goodsSpecList.get(0).getMinOrderNum() + "份起购");
@@ -1602,6 +1678,9 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             if (goodsSpecList != null && goodsSpecList.get(0).getStockType() == 1) {
                 Integer remNum = goodsSpecList.get(0).getStock();
                 if (remNum > 0 && remNum <= 9) {
+                    if(goods.getHasDiscount()==1){
+                        tvRemNum.setVisibility(View.GONE);
+                    }
                     tvRemNum.setText("仅剩" + remNum + "件");
                 } else {
                     tvRemNum.setVisibility(View.GONE);
@@ -1737,52 +1816,132 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             case R.id.goods_item_img_add1:
                 int count = goodsSpec.getBuyCount();
                 int maxCount = goodsSpec.getOrderLimit();
+                int minBuyCount = 0;
                 PickGoodsModel.getInstance().setIsRemove(false);
-                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
-                    ToastUtils.displayMsg("该商品库存不足", mContext);
-                    return;
-                }
-                if (count == 0) {
-                    for (int i = 0; i < goods.getGoodsSpecList().size(); i++) {
-                        if (goods.getGoodsSpecList().get(i).getMinOrderNum() != 0 && count <= goods.getGoodsSpecList().get(i).getMinOrderNum()) {
-                            ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", mActivity);
-                            count = goods.getGoodsSpecList().get(i).getMinOrderNum() - 1;
-                            break;
+                if (goods.getHasDiscount() == 1) {
+                    if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                        if (count == goods.getSurplusDiscountStock()) {
+                            if (goodsSpec.getMinOrderNum() > 0) {
+                                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
+                                    minBuyCount = goodsSpec.getMinOrderNum() > goodsSpec.getStock() ? goodsSpec.getStock() : goodsSpec.getMinOrderNum();
+                                } else {
+                                    minBuyCount = goodsSpec.getMinOrderNum();
+                                }
+                                for (int i = 0; i < goods.getGoodsSpecList().size(); i++) {
+                                    if (goods.getGoodsSpecList().get(i).getMinOrderNum() != 0 && (count - goods.getSurplusDiscountStock()) <= goods.getGoodsSpecList().get(i).getMinOrderNum()) {
+                                        ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", mContext);
+                                        count = count + minBuyCount - 1;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (count == goods.getEveryGoodsEveryOrderBuyCount()) {
+                            if (goodsSpec.getMinOrderNum() > 0) {
+                                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
+                                    minBuyCount = goodsSpec.getMinOrderNum() > goodsSpec.getStock() ? goodsSpec.getStock() : goodsSpec.getMinOrderNum();
+                                } else {
+                                    minBuyCount = goodsSpec.getMinOrderNum();
+                                }
+                                for (int i = 0; i < goods.getGoodsSpecList().size(); i++) {
+                                    if (goods.getGoodsSpecList().get(i).getMinOrderNum() != 0 && (count - goods.getEveryGoodsEveryOrderBuyCount()) <= goods.getGoodsSpecList().get(i).getMinOrderNum()) {
+                                        ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", mContext);
+                                        count = count + minBuyCount - 1;
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
+                } else {
+                    if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
+                        ToastUtils.displayMsg("该商品库存不足", mContext);
+                        return;
+                    }
+                    if (count == 0) {
+                        for (int i = 0; i < goods.getGoodsSpecList().size(); i++) {
+                            if (goods.getGoodsSpecList().get(i).getMinOrderNum() != 0 && count <= goods.getGoodsSpecList().get(i).getMinOrderNum()) {
+                                ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", mActivity);
+                                count = goods.getGoodsSpecList().get(i).getMinOrderNum() - 1;
+                                break;
+                            }
+                        }
+                    }
+                    if (maxCount != 0 && count >= maxCount) {
+                        ToastUtils.displayMsg(goods.getName() + "商品限购" + goodsSpec.getOrderLimit() + "份", mContext);
+                        return;
+                    }
                 }
-                if (maxCount != 0 && count >= maxCount) {
-                    ToastUtils.displayMsg(goods.getName() + "商品限购" + goodsSpec.getOrderLimit() + "份", mContext);
-                    return;
-                }
+
                 if (count == 0) {
                     count++;
                     if (goods.getHasDiscount() == 1) {
                         if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
-                            if (count > goods.getSurplusDiscountStock()) {
+                            if (count >= goods.getSurplusDiscountStock()) {
                                 if (goods.isFirst()) {
                                     ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", mActivity);
                                     goods.setFirst(false);
                                 }
                             }
+                            if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
+                                if (goodsSpec.getOrderLimit() > goodsSpec.getStock()) {
+                                    if (count - goods.getSurplusDiscountStock() > goodsSpec.getStock()) {
+                                        ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                        return;
+                                    }
+                                } else {
+                                    if (count - goods.getSurplusDiscountStock() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
+                                        ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                        return;
+                                    }
+                                    if(goodsSpec.getOrderLimit()==0&&count-goods.getSurplusDiscountStock()>goodsSpec.getStock()){
+                                        ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                        return;
+                                    }
+                                }
+                            } else {
+                                if (count - goods.getSurplusDiscountStock() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
+                                    ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                    return;
+                                }
+                            }
+                            if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && (count - goods.getSurplusDiscountStock()) > goodsSpec.getStock()) {
+                                ToastUtils.displayMsg("该商品库存不足", mContext);
+                                return;
+                            }
                         } else {
-                            if (count > goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
+                            if (count == goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                 if (goods.isFirst()) {
                                     ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", mActivity);
                                     goods.setFirst(false);
                                 }
                             }
-//                            if (count > goods.getSurplusDiscountStock()) {
-//                                ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", mActivity);
-//                            }
-
-                        }
-                        if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
-                            if (count > (goods.getSurplusDiscountStock() + goodsSpec.getStock())) {
-                                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
-                                    ToastUtils.displayMsg("该商品库存不足", mActivity);
+                            if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
+                                if (goodsSpec.getOrderLimit() > goodsSpec.getStock()) {
+                                    if (count - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getStock()) {
+                                        ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                        return;
+                                    }
+                                } else {
+                                    if (count - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
+                                        ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                        return;
+                                    }
+                                    if(goodsSpec.getOrderLimit()==0&&count-goods.getEveryGoodsEveryOrderBuyCount()>goodsSpec.getStock()){
+                                        ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                        return;
+                                    }
+                                }
+                            } else {
+                                if (count - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
+                                    ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
                                     return;
                                 }
+                            }
+                            if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && (count - goods.getEveryGoodsEveryOrderBuyCount()) > goodsSpec.getStock()) {
+                                ToastUtils.displayMsg("该商品库存不足", mContext);
+                                return;
                             }
                         }
                     }
@@ -1794,30 +1953,70 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     count++;
                     if (goods.getHasDiscount() == 1) {
                         if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
-                            if (count > goods.getSurplusDiscountStock()) {
+                            if (count >= goods.getSurplusDiscountStock()) {
                                 if (goods.isFirst()) {
                                     ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", mActivity);
                                     goods.setFirst(false);
                                 }
                             }
+                            if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
+                                if (goodsSpec.getOrderLimit() > goodsSpec.getStock()) {
+                                    if (count - goods.getSurplusDiscountStock() > goodsSpec.getStock()) {
+                                        ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                        return;
+                                    }
+                                } else {
+                                    if (count - goods.getSurplusDiscountStock() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
+                                        ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                        return;
+                                    }
+                                    if(goodsSpec.getOrderLimit()==0&&count-goods.getSurplusDiscountStock()>goodsSpec.getStock()){
+                                        ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                        return;
+                                    }
+                                }
+                            } else {
+                                if (count - goods.getSurplusDiscountStock() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
+                                    ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                    return;
+                                }
+                            }
+                            if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && (count - goods.getSurplusDiscountStock()) > goodsSpec.getStock()) {
+                                ToastUtils.displayMsg("该商品库存不足", mContext);
+                                return;
+                            }
                         } else {
-                            if (count > goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
+                            if (count == goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                 if (goods.isFirst()) {
                                     ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", mActivity);
                                     goods.setFirst(false);
                                 }
                             }
-//                            if (count > goods.getSurplusDiscountStock()) {
-//                                ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", mActivity);
-//                            }
-
-                        }
-                        if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
-                            if (count > (goods.getSurplusDiscountStock() + goodsSpec.getStock())) {
-                                if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
-                                    ToastUtils.displayMsg("该商品库存不足", mActivity);
+                            if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
+                                if (goodsSpec.getOrderLimit() > goodsSpec.getStock()) {
+                                    if (count - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getStock()) {
+                                        ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                        return;
+                                    }
+                                } else {
+                                    if (count - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
+                                        ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
+                                        return;
+                                    }
+                                    if(goodsSpec.getOrderLimit()==0&&count-goods.getEveryGoodsEveryOrderBuyCount()>goodsSpec.getStock()){
+                                        ToastUtils.displayMsg("您购买的商品库存不足", mContext);
+                                        return;
+                                    }
+                                }
+                            } else {
+                                if (count - goods.getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
+                                    ToastUtils.displayMsg("您购买的商品已超过限购数量", mContext);
                                     return;
                                 }
+                            }
+                            if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && (count - goods.getEveryGoodsEveryOrderBuyCount()) > goodsSpec.getStock()) {
+                                ToastUtils.displayMsg("该商品库存不足", mContext);
+                                return;
                             }
                         }
                     }
@@ -1837,16 +2036,27 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             case R.id.goods_item_img_minus:
             case R.id.goods_item_img_minus1:
                 int count1 = goodsSpec.getBuyCount();
-                for (int i = 0; i < goods.getGoodsSpecList().size(); i++) {
-                    if (count1 == goods.getGoodsSpecList().get(i).getMinOrderNum()) {
-                        if (goods.getGoodsSpecList().get(i).getMinOrderNum() != 0 && count1 <= goods.getGoodsSpecList().get(i).getMinOrderNum()) {
-                            ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", mActivity);
+                if(goods.getHasDiscount()==0){
+                    for (int i = 0; i < goods.getGoodsSpecList().size(); i++) {
+                        if (count1 == goods.getGoodsSpecList().get(i).getMinOrderNum()) {
+                            if (goods.getGoodsSpecList().get(i).getMinOrderNum() != 0 && count1 <= goods.getGoodsSpecList().get(i).getMinOrderNum()) {
+                                ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", mActivity);
+                            }
+                            count1 = 1;
+                            break;
                         }
-                        count1 = 1;
-                        break;
                     }
                 }
                 if (count1 == 1) {
+                    if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                        if (count1 - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                            goods.setFirst(true);
+                        }
+                    } else {
+                        if (count1 - goods.getSurplusDiscountStock() <= 0) {
+                            goods.setFirst(true);
+                        }
+                    }
                     count1--;
                     goodsSpec.setBuyCount(count1);
                     tvBuyCount.setText(count1 + "");
@@ -1856,6 +2066,26 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), true, false);
                 } else {
                     if (count1 > 0) {
+                        if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                            if (count1 - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                                goods.setFirst(true);
+                            }
+                        } else {
+                            if (count1 - goods.getSurplusDiscountStock() <= 0) {
+                                goods.setFirst(true);
+                            }
+                        }
+                        if (goods.getHasDiscount() == 1) {
+                            if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                if (goodsSpec.getMinOrderNum() > 0 && count1 - goods.getSurplusDiscountStock() == goodsSpec.getMinOrderNum()) {
+                                    count1 = count1 - goodsSpec.getMinOrderNum()+1;
+                                }
+                            } else {
+                                if (goodsSpec.getMinOrderNum() > 0 && goods.getEveryGoodsEveryOrderBuyCount() > 0 && count1 - goods.getEveryGoodsEveryOrderBuyCount() == goodsSpec.getMinOrderNum()) {
+                                    count1 = count1 - goodsSpec.getMinOrderNum()+1;
+                                }
+                            }
+                        }
                         count1--;
                         tvBuyCount.setText(count1 + "");
                         goodsSpec.setBuyCount(count1);
@@ -1901,25 +2131,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         }
                     } else {
                         if (num == 1) {
-                            num--;
-                            if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                    goods.setFirst(true);
-                                }
-                            } else {
-                                if (num - goods.getSurplusDiscountStock() <= 0) {
-                                    goods.setFirst(true);
-                                }
-                            }
-                            tvBuyCount.setText(num + "");
-                            goodsSpec1.setBuyCount(num);
-                            AnimatorUtils.rightTranslationRotating(specMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_MINUS, 0, mActivity));
-                            AnimatorUtils.rightTranslationRotating(specCount, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_COUNT, 0, mActivity));
-                            //只要点击了就去更新购物车
-                            productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec1.getId(), goodsSpec1.getBuyCount(), true, false);
-                        } else {
-                            if (num > 0) {
-                                num--;
+                            if(goods.getHasDiscount()==1){
                                 if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
                                     if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
                                         goods.setFirst(true);
@@ -1929,6 +2141,38 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                                         goods.setFirst(true);
                                     }
                                 }
+                            }
+                            num--;
+                            tvBuyCount.setText(num + "");
+                            goodsSpec1.setBuyCount(num);
+                            AnimatorUtils.rightTranslationRotating(specMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_MINUS, 0, mActivity));
+                            AnimatorUtils.rightTranslationRotating(specCount, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_COUNT, 0, mActivity));
+                            //只要点击了就去更新购物车
+                            productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec1.getId(), goodsSpec1.getBuyCount(), true, false);
+                        } else {
+                            if (num > 0) {
+                                if(goods.getHasDiscount()==1){
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                                        if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                                            goods.setFirst(true);
+                                        }
+                                    } else {
+                                        if (num - goods.getSurplusDiscountStock() <= 0) {
+                                            goods.setFirst(true);
+                                        }
+                                    }
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                        if (goodsSpec1.getMinOrderNum() > 0 && num - goods.getSurplusDiscountStock() == goodsSpec1.getMinOrderNum()) {
+                                            num = num - goodsSpec1.getMinOrderNum()+1;
+                                        }
+                                    } else {
+                                        if (goodsSpec1.getMinOrderNum() > 0 && goods.getEveryGoodsEveryOrderBuyCount() > 0 && num - goods.getEveryGoodsEveryOrderBuyCount() == goodsSpec1.getMinOrderNum()) {
+                                            num = num - goodsSpec1.getMinOrderNum()+1;
+                                        }
+                                    }
+
+                                }
+                                num--;
                                 goodsSpec1.setBuyCount(num);
                                 productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec1.getId(), goodsSpec1.getBuyCount(), false, false);
                             }
@@ -1968,27 +2212,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                             dialog.show();
                         }
                     } else {
-                        num = num == goodsSpec1.getMinOrderNum() ? 1 : num;
+                        if(goods.getHasDiscount()==0){
+                            num = num == goodsSpec1.getMinOrderNum() ? 1 : num;
+                        }
                         if (num == 1) {
-                            num--;
-                            if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                    goods.setFirst(true);
-                                }
-                            } else {
-                                if (num - goods.getSurplusDiscountStock() <= 0) {
-                                    goods.setFirst(true);
-                                }
-                            }
-                            tvBuyCount.setText(num + "");
-                            goodsSpec1.setBuyCount(num);
-                            AnimatorUtils.rightTranslationRotating(specMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_MINUS, 0, mActivity));
-                            AnimatorUtils.rightTranslationRotating(specCount, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_COUNT, 0, mActivity));
-                            //只要点击了就去更新购物车
-                            productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec1.getId(), goodsSpec1.getBuyCount(), true, false);
-                        } else {
-                            if (num > 0) {
-                                num--;
+                            if(goods.getHasDiscount()==1){
                                 if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
                                     if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
                                         goods.setFirst(true);
@@ -1998,6 +2226,37 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                                         goods.setFirst(true);
                                     }
                                 }
+                            }
+                            num--;
+                            tvBuyCount.setText(num + "");
+                            goodsSpec1.setBuyCount(num);
+                            AnimatorUtils.rightTranslationRotating(specMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_MINUS, 0, mActivity));
+                            AnimatorUtils.rightTranslationRotating(specCount, PreferenceUtils.getFloatPreference(PreferenceUtils.MY_COUNT, 0, mActivity));
+                            //只要点击了就去更新购物车
+                            productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec1.getId(), goodsSpec1.getBuyCount(), true, false);
+                        } else {
+                            if (num > 0) {
+                                if(goods.getHasDiscount()==1){
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
+                                        if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
+                                            goods.setFirst(true);
+                                        }
+                                    } else {
+                                        if (num - goods.getSurplusDiscountStock() <= 0) {
+                                            goods.setFirst(true);
+                                        }
+                                    }
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
+                                        if (goodsSpec1.getMinOrderNum() > 0 && num - goods.getSurplusDiscountStock() == goodsSpec1.getMinOrderNum()) {
+                                            num = num - goodsSpec1.getMinOrderNum()+1;
+                                        }
+                                    } else {
+                                        if (goodsSpec1.getMinOrderNum() > 0 && goods.getEveryGoodsEveryOrderBuyCount() > 0 && num - goods.getEveryGoodsEveryOrderBuyCount() == goodsSpec1.getMinOrderNum()) {
+                                            num = num - goodsSpec1.getMinOrderNum()+1;
+                                        }
+                                    }
+                                }
+                                num--;
                                 goodsSpec1.setBuyCount(num);
                                 productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec1.getId(), goodsSpec1.getBuyCount(), false, false);
                             }
@@ -2568,8 +2827,12 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
         }
         if (goods.getStatus() == 0 || goods.getStatus() == 2) {
             rlSpecLabel.setVisibility(View.GONE);
-            tvSleep.setVisibility(View.VISIBLE);
-            tvSleep.setText("商品已售罄");
+            if(goods.getHasDiscount() ==1 && goods.getSurplusDiscountStock()>0){
+                tvSleep.setVisibility(View.GONE);
+            }else {
+                tvSleep.setVisibility(View.VISIBLE);
+                tvSleep.setText("商品已售罄");
+            }
             rlHideBuyCount.setVisibility(View.INVISIBLE);
         }
     }
