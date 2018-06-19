@@ -34,7 +34,7 @@ public class CouDanListAdapter extends BaseAdapter {
     private List<Goods> couDanModelValue;
     private BottomCartListener listener;
     private PickGoods pickGoods;
-    private int buy = 0;
+
     private PickGoods product;
     private Goods goods;
 
@@ -84,10 +84,14 @@ public class CouDanListAdapter extends BaseAdapter {
     }
 
     private void showBuyView(final Goods bean, final ViewHolder holder, final List<PickGoods> products) {
+        int buy = 0;
         final GoodsSpec goodsSpec = bean.getTGoodsSpec();
         for (int i = 0; i < products.size(); i++) {
             product = products.get(i);
+            List<GoodsSpec> goodsSpecList = product.getGoods().getGoodsSpecList();
+            goodsSpecList.add(bean.getTGoodsSpec());
         }
+
 
         for (PickGoods pGoods : products) {
             if (bean.getId() == pGoods.getGoodsId() && goodsSpec.getId() == pGoods.getGoodsSpecId()) {
@@ -108,19 +112,18 @@ public class CouDanListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 int count = goodsSpec.getBuyCount();
                 int maxCount = goodsSpec.getOrderLimit();
-                PickGoodsModel.getInstance().setIsRemove(false);
                 if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && goodsSpec.getStock() != 0 && count >= goodsSpec.getStock()) {
                     ToastUtils.displayMsg("该商品库存不足", context);
                     return;
                 }
                 if (count == 0) {
-                    if (goods.getTGoodsSpec().getMinOrderNum() != 0 && count <= goods.getTGoodsSpec().getMinOrderNum()) {
-                        ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", context);
+                    if (bean.getTGoodsSpec().getMinOrderNum() != 0 && count <= bean.getTGoodsSpec().getMinOrderNum()) {
+                        ToastUtils.displayMsg(bean.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", context);
                         count = goods.getTGoodsSpec().getMinOrderNum() - 1;
                     }
                 }
                 if (maxCount != 0 && count >= maxCount) {
-                    ToastUtils.displayMsg(goods.getName() + "商品限购" + goodsSpec.getOrderLimit() + "份", context);
+                    ToastUtils.displayMsg(bean.getName() + "商品限购" + goodsSpec.getOrderLimit() + "份", context);
                     return;
                 }
                 if (count == 0) {
@@ -129,11 +132,11 @@ public class CouDanListAdapter extends BaseAdapter {
                     holder.tvBuyCount.setText(count + "");
                 } else {
                     count++;
-                    holder.tvBuyCount.setText(count + "");
                     goodsSpec.setBuyCount(count);
+                    holder.tvBuyCount.setText(count + "");
                 }
                 //只要点击了就去更新购物车
-                listener.productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, true);
+                listener.productHasChange(bean, bean.getCategoryId(), bean.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, true);
             }
         });
         holder.imgMinus.setOnClickListener(new View.OnClickListener() {

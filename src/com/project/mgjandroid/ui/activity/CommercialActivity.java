@@ -556,7 +556,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         mCartProducts.get(i).getGoods().setFirst(true);
                     }
                 }
-                goodsFragment.clearList(mCartProducts);
+                goodsFragment.clearList(mCartProducts,false);
                 mCartProducts.clear();
                 clearPickGoods();
                 mAdapter.notifyDataSetChanged();
@@ -1136,7 +1136,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (currentIndex == INDEX_GOODS) {
                             if (isAgainOrder && object != null && object.getJSONArray("goodsJson").size() > 0) {
                                 //再次购买跳转
-                                goodsFragment.clearList(mCartProducts);
+                                goodsFragment.clearList(mCartProducts,false);
                                 mCartProducts.clear();
                                 clearPickGoods();
                                 mAdapter.notifyDataSetChanged();
@@ -1568,7 +1568,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             }
             PickGoodsModel.getInstance().setIsRemove(false);
         } else {
-            goodsFragment.clearList(mCartProducts);
+            goodsFragment.clearList(mCartProducts,true);
         }
         initCartProducts();
         mAdapter.setData(mCartProducts);

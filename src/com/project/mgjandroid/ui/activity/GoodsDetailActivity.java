@@ -1817,7 +1817,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 int count = goodsSpec.getBuyCount();
                 int maxCount = goodsSpec.getOrderLimit();
                 int minBuyCount = 0;
-                PickGoodsModel.getInstance().setIsRemove(false);
+//                PickGoodsModel.getInstance().setIsRemove(false);
                 if (goods.getHasDiscount() == 1) {
                     if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
                         if (count == goods.getSurplusDiscountStock()) {
