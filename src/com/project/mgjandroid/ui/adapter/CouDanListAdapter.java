@@ -15,6 +15,7 @@ import com.project.mgjandroid.bean.CouDanModel;
 import com.project.mgjandroid.bean.Goods;
 import com.project.mgjandroid.bean.GoodsSpec;
 import com.project.mgjandroid.bean.PickGoods;
+import com.project.mgjandroid.bean.yellowpage.GoodsAttribute;
 import com.project.mgjandroid.model.PickGoodsModel;
 import com.project.mgjandroid.ui.listener.BottomCartListener;
 import com.project.mgjandroid.utils.AnimatorUtils;
@@ -23,6 +24,7 @@ import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,9 +36,11 @@ public class CouDanListAdapter extends BaseAdapter {
     private List<Goods> couDanModelValue;
     private BottomCartListener listener;
     private PickGoods pickGoods;
+    List<GoodsSpec> goodsSpecList = new ArrayList<>();
 
     private PickGoods product;
     private Goods goods;
+    private GoodsAttribute goodsAttribute;
 
     public CouDanListAdapter(Context context, List<Goods> couDanModelValue, List<PickGoods> mCartProducts, BottomCartListener listener) {
         this.context = context;
@@ -75,23 +79,31 @@ public class CouDanListAdapter extends BaseAdapter {
             if (CheckUtils.isEmptyStr(goods.getTGoodsSpec().getSpec())) {
                 holder.tv_name.setText(goods.getName());
             } else {
-                holder.tv_name.setText(goods.getName() + "(" + goods.getTGoodsSpec().getSpec() + ")");
+                if(CheckUtils.isEmptyList(goods.getGoodsAttributeList())){
+                    holder.tv_name.setText(goods.getName() + "(" + goods.getTGoodsSpec().getSpec() + ")");
+                }else {
+                    holder.tv_name.setText(goods.getName() + "(" + goods.getTGoodsSpec().getSpec() + ")"+goods.getGoodsAttributeList().get(0).getName());
+                }
             }
         }
-        showBuyView(goods, holder, products);
+        showBuyView(goods, holder, i);
 
         return convertView;
     }
 
-    private void showBuyView(final Goods bean, final ViewHolder holder, final List<PickGoods> products) {
+    private void showBuyView(final Goods bean, final ViewHolder holder, final int position) {
         int buy = 0;
-        final GoodsSpec goodsSpec = bean.getTGoodsSpec();
-        for (int i = 0; i < products.size(); i++) {
-            product = products.get(i);
-            List<GoodsSpec> goodsSpecList = product.getGoods().getGoodsSpecList();
-            goodsSpecList.add(bean.getTGoodsSpec());
+        if(CheckUtils.isNoEmptyList(bean.getGoodsAttributeList())){
+            for(int i=0;i<bean.getGoodsAttributeList().size();i++){
+                goodsAttribute = bean.getGoodsAttributeList().get(i);
+            }
         }
-
+        final GoodsSpec goodsSpec = bean.getTGoodsSpec();
+        goodsSpecList.clear();
+        for (int i = 0; i < couDanModelValue.size(); i++) {
+            goodsSpecList.add(couDanModelValue.get(i).getTGoodsSpec());
+        }
+        bean.setGoodsSpecList(goodsSpecList);
 
         for (PickGoods pGoods : products) {
             if (bean.getId() == pGoods.getGoodsId() && goodsSpec.getId() == pGoods.getGoodsSpecId()) {
@@ -100,6 +112,7 @@ public class CouDanListAdapter extends BaseAdapter {
         }
 
         holder.tvBuyCount.setText("" + buy);
+        goodsSpec.setBuyCount(buy);
         if (buy == 0) {
             holder.tv_price.setText("" + goodsSpec.getPrice());
         } else {
@@ -117,9 +130,9 @@ public class CouDanListAdapter extends BaseAdapter {
                     return;
                 }
                 if (count == 0) {
-                    if (bean.getTGoodsSpec().getMinOrderNum() != 0 && count <= bean.getTGoodsSpec().getMinOrderNum()) {
+                    if (goodsSpec.getMinOrderNum() != 0 && count <= goodsSpec.getMinOrderNum()) {
                         ToastUtils.displayMsg(bean.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", context);
-                        count = goods.getTGoodsSpec().getMinOrderNum() - 1;
+                        count = goodsSpec.getMinOrderNum() - 1;
                     }
                 }
                 if (maxCount != 0 && count >= maxCount) {
@@ -135,67 +148,47 @@ public class CouDanListAdapter extends BaseAdapter {
                     goodsSpec.setBuyCount(count);
                     holder.tvBuyCount.setText(count + "");
                 }
-                //只要点击了就去更新购物车
-                listener.productHasChange(bean, bean.getCategoryId(), bean.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, true);
+                if(CheckUtils.isEmptyList(bean.getGoodsAttributeList())){
+                    //只要点击了就去更新购物车
+                    listener.productHasChange(bean, bean.getCategoryId(), bean.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, false);
+                }else {
+                    listener.newProductHasChange(bean, bean.getCategoryId(), bean.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, false,goodsAttribute.getName());
+                }
+
             }
         });
         holder.imgMinus.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                int count = product.getPickCount();
-                for (int i = 0; i < product.getGoods().getGoodsSpecList().size(); i++) {
-                    if (count == product.getGoods().getGoodsSpecList().get(i).getMinOrderNum() && product.getGoods().getGoodsSpecList().get(i).getId() == goodsSpec.getId()) {
-                        if (product.getGoods().getGoodsSpecList().get(i).getMinOrderNum() != 0 && count <= product.getGoods().getGoodsSpecList().get(i).getMinOrderNum()) {
-                            ToastUtils.displayMsg(product.getGoods().getName() + "商品最少购买" + product.getGoods().getGoodsSpecList().get(i).getMinOrderNum() + "份", context);
+                int count = goodsSpec.getBuyCount();
+                    if (count == goodsSpec.getMinOrderNum() ) {
+                        if (goodsSpec.getMinOrderNum() != 0 && count <= goodsSpec.getMinOrderNum()) {
+                            ToastUtils.displayMsg(goods.getName() + "商品最少购买" + goodsSpec.getMinOrderNum() + "份", context);
                         }
                         count = 1;
-                        break;
                     }
-                }
                 if (count == 1) {
                     count--;
-                    if (product.getGoods().getEveryGoodsEveryOrderBuyCount() <= product.getGoods().getSurplusDiscountStock()) {
-                        if (count - product.getGoods().getEveryGoodsEveryOrderBuyCount() <= 0) {
-                            product.getGoods().setFirst(true);
-                        }
-                    } else {
-                        if (count - product.getGoods().getSurplusDiscountStock() <= 0) {
-                            product.getGoods().setFirst(true);
-                        }
-                    }
-                    product.setPickCount(count);
+                    goodsSpec.setBuyCount(count);
                     holder.tvBuyCount.setText(count + "");
-                    if (CheckUtils.isEmptyList(product.getGoods().getGoodsAttributeList())) {
-                        goodsSpec.setBuyCount(count);
-//                    AnimatorUtils.rightTranslationRotating(holder.imgMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-//                    AnimatorUtils.rightTranslationRotating(holder.tvBuyCount, PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
+                    if (CheckUtils.isEmptyList(bean.getGoodsAttributeList())) {
                         //只要点击了就去更新购物车
-                        listener.productHasChange(product.getGoods(), product.getGoods().getCategoryId(), product.getGoods().getId(), goodsSpec.getId(), product.getPickCount(), true, false);
+                        listener.productHasChange(bean, bean.getCategoryId(), bean.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), true, false);
                     } else {
-                        listener.newProductHasChange(product.getGoods(), product.getGoods().getCategoryId(), product.getGoods().getId(), goodsSpec.getId(), product.getPickCount(), true, false, product.getGoodsName());
+                        listener.newProductHasChange(bean, bean.getCategoryId(), bean.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), true, false,goodsAttribute.getName());
                     }
 
                 } else {
                     if (count > 0) {
                         count--;
-                        if (product.getGoods().getEveryGoodsEveryOrderBuyCount() <= product.getGoods().getSurplusDiscountStock()) {
-                            if (count - product.getGoods().getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                product.getGoods().setFirst(true);
-                            }
-                        } else {
-                            if (count - product.getGoods().getSurplusDiscountStock() <= 0) {
-                                product.getGoods().setFirst(true);
-                            }
-                        }
                         holder.tvBuyCount.setText(count + "");
-                        product.setPickCount(count);
-                        if (CheckUtils.isEmptyList(product.getGoods().getGoodsAttributeList())) {
-                            goodsSpec.setBuyCount(count);
+                        goodsSpec.setBuyCount(count);
+                        if (CheckUtils.isEmptyList(bean.getGoodsAttributeList())) {
                             //只要点击了就去更新购物车
-                            listener.productHasChange(product.getGoods(), product.getGoods().getCategoryId(), product.getGoods().getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, false);
+                            listener.productHasChange(bean, bean.getCategoryId(), bean.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, false);
                         } else {
-                            listener.newProductHasChange(product.getGoods(), product.getGoods().getCategoryId(), product.getGoods().getId(), goodsSpec.getId(), product.getPickCount(), false, false, product.getGoodsName());
+                            listener.newProductHasChange(bean, bean.getCategoryId(), bean.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, false,goodsAttribute.getName());
                         }
                     }
                 }
