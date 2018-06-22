@@ -416,15 +416,6 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/overlay"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x20"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/x48"
-        android:background="@color/white"
-        android:visibility="gone" />
-
     <TextView
         android:id="@+id/tv_full_subtract"
         android:layout_width="match_parent"
@@ -435,7 +426,8 @@
         android:gravity="center"
         android:text="满1元减50;满2元减200"
         android:textColor="@color/color_6"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/ll_layout_full_subtract"
@@ -446,9 +438,18 @@
         android:background="#fdf9db"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/tv_has_been_reduced"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tv_text1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -487,14 +488,32 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tv_character"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="(在线支付专享)"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/tv_add_on_items"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="【去凑单】"
             android:textColor="#d17034"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone"/>
     </LinearLayout>
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x20"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/x48"
+        android:background="@color/white"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/commercial_act_bottom_car"

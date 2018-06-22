@@ -4,7 +4,7 @@
     android:propertyName="translationY"
     android:repeatCount="0"
     android:repeatMode="reverse"
-    android:valueFrom="200"
+    android:valueFrom="250"
     android:valueTo="0">
 
 </objectAnimator> 

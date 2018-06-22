@@ -671,9 +671,11 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
 
                     @Override
                     public void onClick(View v) {
+
                         int count = goodsSpec.getBuyCount();
                         int minBuyCount = 0;
                         if (goods.getHasDiscount() == 1) {
+                            ((CommercialActivity) context).popUp();
                             if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
                                 if (count == goods.getSurplusDiscountStock()) {
                                     if (goodsSpec.getMinOrderNum() > 0) {
@@ -1683,6 +1685,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
 
             @Override
             public void onClick(View v) {
+
                 if (CheckUtils.isEmptyList(goods.getGoodsAttributeList())) {
                     int count = mGoodsSpec.getBuyCount();
                     if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null && mGoodsSpec.getStock() != 0 && count >= mGoodsSpec.getStock()) {
@@ -1723,6 +1726,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                         for (PickGoods pickGood : pickGoods) {
                             int count = pickGood.getPickCount();
                             if (goods.getHasDiscount() == 1) {
+                                ((CommercialActivity) context).popUp();
                                 if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId()) {
                                     if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
                                         if (count == goods.getSurplusDiscountStock()) {

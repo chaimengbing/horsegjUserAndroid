@@ -2,29 +2,31 @@ package com.project.mgjandroid.bean;
 
 import com.project.mgjandroid.model.Entity;
 
+import java.math.BigDecimal;
+
 public class FullSub extends Entity{
 
-    private int full;
-    private int sub;
+    private BigDecimal full;
+    private BigDecimal sub;
     private Object present;
     private Object fullRange;
     private Object subRange;
     private int merchantBearAmt;
     private int agentBearAmt;
 
-    public int getFull() {
+    public BigDecimal getFull() {
         return full;
     }
 
-    public void setFull(int full) {
+    public void setFull(BigDecimal full) {
         this.full = full;
     }
 
-    public int getSub() {
+    public BigDecimal getSub() {
         return sub;
     }
 
-    public void setSub(int sub) {
+    public void setSub(BigDecimal sub) {
         this.sub = sub;
     }
 

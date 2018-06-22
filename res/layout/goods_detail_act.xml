@@ -430,6 +430,96 @@
         android:background="#444444"
         android:orientation="vertical"
         android:visibility="invisible" />
+    <TextView
+        android:id="@+id/tv_full_subtract"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x28"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/x48"
+        android:background="#fdf9db"
+        android:gravity="center"
+        android:text="满1元减50;满2元减200"
+        android:textColor="@color/color_6"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/ll_layout_full_subtract"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x28"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/x48"
+        android:background="#fdf9db"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/tv_has_been_reduced"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="再买"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_price_spread"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x5"
+            android:layout_marginRight="@dimen/x5"
+            android:gravity="center"
+            android:text="2.15元"
+            android:textColor="#d17034"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="可减"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_diminishbb_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x5"
+            android:layout_marginRight="@dimen/x5"
+            android:gravity="center"
+            android:text="15元"
+            android:textColor="#d17034"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_character"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="(在线支付专享)"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_add_on_items"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="【去凑单】"
+            android:textColor="#d17034"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+    </LinearLayout>
 
     <View
         android:id="@+id/overlay"

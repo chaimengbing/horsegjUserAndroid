@@ -42,6 +42,7 @@ import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.CouDanModel;
+import com.project.mgjandroid.bean.FullSub;
 import com.project.mgjandroid.bean.Goods;
 import com.project.mgjandroid.bean.GoodsSpec;
 import com.project.mgjandroid.bean.Menu;
@@ -50,6 +51,7 @@ import com.project.mgjandroid.bean.MerchantPickGoods;
 import com.project.mgjandroid.bean.MerchantTakeAwayMenu;
 import com.project.mgjandroid.bean.PickGoods;
 import com.project.mgjandroid.bean.PromotionActivity;
+import com.project.mgjandroid.bean.SharingRelationship;
 import com.project.mgjandroid.constants.ActRequestCode;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.ConfirmOrderModel;
@@ -183,6 +185,17 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private TextView tvFullSubtract;
     @InjectView(R.id.ll_layout_full_subtract)
     private LinearLayout llFullSubtract;
+    @InjectView(R.id.tv_price_spread)
+    private TextView tvPriceSpread;
+    @InjectView(R.id.tv_diminishbb_price)
+    private TextView tvDimPrice;
+    @InjectView(R.id.tv_add_on_items)
+    private TextView tvAddOnItems;
+    @InjectView(R.id.tv_has_been_reduced)
+    private TextView tvHas;
+    @InjectView(R.id.tv_text1)
+    private TextView tvText1;
+
 
     //    private CommercialPagerAdapter commercialAdapter;
     private ArrayList<HeaderViewPagerFragment> fragments;
@@ -230,6 +243,17 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private ListView cListView;
     private CouDanListAdapter couDanListAdapter;
     private List<Goods> couDanModelValue;
+    private boolean isShare;
+    private boolean hasDis;
+    private TextView pTvHas;
+    private TextView pTvText1;
+    private TextView pTvPriceSpread;
+    private TextView pTvdimin;
+    private boolean visible = false;
+    private boolean isHint = false;
+    private BigDecimal couDanPrice;
+    private boolean hasFullSub;
+
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -463,17 +487,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
 
     private void init(Merchant merchant) {
         tvTitle.setText(merchant.getName());
-        if (!CheckUtils.isEmptyList(merchant.getPromotionActivityList())) {
-            for (int i = 0; i < merchant.getPromotionActivityList().size(); i++) {
-                if (merchant.getPromotionActivityList().get(i).getRuleDtoList() != null && merchant.getPromotionActivityList().get(i).getRuleDtoList().size() > 0) {
-                    tvFullSubtract.setText(merchant.getPromotionActivityList().get(i).getPromoName());
-                    tvFullSubtract.setVisibility(View.VISIBLE);
-                    overlay.setVisibility(View.GONE);
-                    llFullSubtract.setVisibility(View.GONE);
-                }
-            }
-        }
-
+        checkFullReduction(merchant);
         if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 1) {
             tv_cart_shipping.setText("另需配送费¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
             tv_cart_package.setTextSize(10);
@@ -484,39 +498,360 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         }
         tv_cart_qisong.setText("¥" + StringUtils.BigDecimal2Str(merchant.getMinPrice()) + "起送");
         initPopWindow();
-
-
     }
-    private void getCouDanData(){
+
+    //判断是否满减
+    private void checkFullReduction(Merchant merchant) {
+        isShare = false;
+        hasDis = false;
+        boolean isToast = false;
+        if (mCartProducts != null && mCartProducts.size() > 0) {
+            for (SharingRelationship sList : merchant.getActivitySharedRelationList()) {
+                if (sList.getPromotionActivityType() == 2 && sList.getRelationPromotionActivityType() == 5 && sList.getStatus() == 1) {
+                    isShare = true;
+                    return;
+                } else if (sList.getPromotionActivityType() == 5 && sList.getRelationPromotionActivityType() == 2 && sList.getStatus() == 1) {
+                    isShare = true;
+                    return;
+                }
+            }
+
+            if (isShare) {
+                BigDecimal num = BigDecimal.ZERO;
+                for (PickGoods pro : mCartProducts) {
+                    for (GoodsSpec goodsSpec : pro.getGoods().getGoodsSpecList()) {
+                        if (goodsSpec.getId() == pro.getGoodsSpecId()) {
+                            if (pro.getGoods().getHasDiscount() == 1) {
+                                int everyGoodsEveryOrderBuyCount = pro.getGoods().getEveryGoodsEveryOrderBuyCount();
+                                int surplusDiscountStock = pro.getGoods().getSurplusDiscountStock();
+                                if (everyGoodsEveryOrderBuyCount > 0) {
+                                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                    decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                                } else {
+                                    if (pro.getPickCount() > surplusDiscountStock) {
+                                        multiply1 = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
+                                        decimal1 = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
+                                    } else {
+                                        bigDecimal = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                    }
+                                }
+                                if (pro.getPickCount() > everyGoodsEveryOrderBuyCount) {
+                                    if (everyGoodsEveryOrderBuyCount > 0) {
+                                        num = num.add(multiply.add(decimal));
+                                    } else {
+                                        if (pro.getPickCount() > surplusDiscountStock) {
+                                            num = num.add(multiply1.add(decimal1));
+                                        } else {
+                                            num = num.add(bigDecimal);
+                                        }
+                                    }
+                                } else {
+                                    num = num.add(goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount())));
+                                }
+                            } else {
+                                num = num.add(goodsSpec.getPrice().multiply(BigDecimal.valueOf((long) pro.getPickCount())));
+                            }
+                        }
+                    }
+                }
+                if (visible || couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
+                    tvFullSubtract.setVisibility(View.GONE);
+                    overlay.setVisibility(View.GONE);
+                    llFullSubtract.setVisibility(View.GONE);
+                    visible = false;
+                } else {
+                    tvFullSubtract.setVisibility(View.GONE);
+                    overlay.setVisibility(View.GONE);
+                    llFullSubtract.setVisibility(View.VISIBLE);
+                }
+
+                FullSub max = new FullSub();//已满足的最大红包
+                FullSub min = new FullSub();//未满足的最小红包
+                for (PromotionActivity promotion : merchant.getPromotionActivityList()) {
+                    for (FullSub fs : promotion.getRuleDtoList()) {
+                        if (num.compareTo(fs.getFull()) >= 0) {
+                            max = fs;
+                        } else if (min.getFull() == null && min.getSub() == null) {
+                            min = fs;
+                        }
+                    }
+                }
+                if (max.getFull() != null && max.getSub() != null) {
+                    BigDecimal full = max.getFull();
+                    BigDecimal sub = max.getSub();
+                    if (min.getFull() != null && min.getSub() != null) {
+                        tvHas.setVisibility(View.VISIBLE);
+                        tvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
+                        if (couDanPopupWindow != null) {
+                            pTvHas.setVisibility(View.VISIBLE);
+                            pTvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
+                        }
+
+                    } else {
+                        tvHas.setVisibility(View.GONE);
+                        tvText1.setText("已满");
+                        tvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
+                        tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                        tvAddOnItems.setVisibility(View.GONE);
+                        llFullSubtract.setClickable(false);
+                        if (couDanPopupWindow != null) {
+                            pTvHas.setVisibility(View.GONE);
+                            pTvText1.setText("已满");
+                            pTvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
+                            pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                            tvAddOnItems.setVisibility(View.GONE);
+                            llFullSubtract.setClickable(false);
+                        }
+                    }
+                }
+                if (min.getFull() != null && min.getSub() != null) {
+                    BigDecimal full = min.getFull();
+                    BigDecimal sub = min.getSub();
+                    BigDecimal subtract = full.subtract(num);
+                    if (max.getFull() == null && max.getSub() == null) {
+                        tvHas.setVisibility(View.GONE);
+                        if (couDanPopupWindow != null) {
+                            pTvHas.setVisibility(View.GONE);
+                        }
+                    }
+                    tvText1.setText("再买");
+                    tvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
+                    tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                    if (couDanPopupWindow != null) {
+                        pTvText1.setText("再买");
+                        pTvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
+                        pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                    }
+                    BigDecimal multiply = full.multiply(new BigDecimal(0.8));
+                    if (num.compareTo(multiply) >= 0 ) {
+                        tvAddOnItems.setVisibility(View.VISIBLE);
+                        llFullSubtract.setClickable(true);
+                        couDanPrice = num.subtract(multiply);
+                    } else {
+                        tvAddOnItems.setVisibility(View.GONE);
+                        llFullSubtract.setClickable(false);
+                    }
+                }
+            } else {
+                for (PickGoods pro : mCartProducts) {
+                    for (GoodsSpec goodsSpec : pro.getGoods().getGoodsSpecList()) {
+                        if (goodsSpec.getId() == pro.getGoodsSpecId()) {
+                            if (pro.getGoods().getHasDiscount() == 1) {
+                                hasDis = true;
+                            }
+                            if (pro.getGoods().getHasDiscount() == 0) {
+                                hasFullSub = true;
+                            }
+                        }
+                    }
+                }
+
+//                if (hasDis && hasFullSub) {
+//                    ToastUtils.displayMsg("满减活动与折扣商品不同享", mActivity);
+//                }
+                if (hasDis) {
+                    tvFullSubtract.setVisibility(View.GONE);
+                    overlay.setVisibility(View.GONE);
+                    llFullSubtract.setVisibility(View.GONE);
+                } else {
+                    BigDecimal num = BigDecimal.ZERO;
+                    for (PickGoods pro : mCartProducts) {
+                        for (GoodsSpec goodsSpec : pro.getGoods().getGoodsSpecList()) {
+                            if (goodsSpec.getId() == pro.getGoodsSpecId()) {
+                                if (pro.getGoods().getHasDiscount() == 1) {
+                                    int everyGoodsEveryOrderBuyCount = pro.getGoods().getEveryGoodsEveryOrderBuyCount();
+                                    int surplusDiscountStock = pro.getGoods().getSurplusDiscountStock();
+                                    if (everyGoodsEveryOrderBuyCount > 0) {
+                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                        decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                                    } else {
+                                        if (pro.getPickCount() > surplusDiscountStock) {
+                                            multiply1 = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
+                                            decimal1 = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
+                                        } else {
+                                            bigDecimal = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                        }
+                                    }
+                                    if (pro.getPickCount() > everyGoodsEveryOrderBuyCount) {
+                                        if (everyGoodsEveryOrderBuyCount > 0) {
+                                            num = num.add(multiply.add(decimal));
+                                        } else {
+                                            if (pro.getPickCount() > surplusDiscountStock) {
+                                                num = num.add(multiply1.add(decimal1));
+                                            } else {
+                                                num = num.add(bigDecimal);
+                                            }
+                                        }
+                                    } else {
+                                        num = num.add(goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount())));
+                                    }
+                                } else {
+                                    num = num.add(goodsSpec.getPrice().multiply(BigDecimal.valueOf((long) pro.getPickCount())));
+                                }
+                            }
+                        }
+                    }
+                    if (visible || couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
+                        tvFullSubtract.setVisibility(View.GONE);
+                        overlay.setVisibility(View.GONE);
+                        llFullSubtract.setVisibility(View.GONE);
+                        visible = false;
+                    } else {
+                        tvFullSubtract.setVisibility(View.GONE);
+                        overlay.setVisibility(View.GONE);
+                        llFullSubtract.setVisibility(View.VISIBLE);
+                    }
+                    FullSub max = new FullSub();//已满足的最大红包
+                    FullSub min = new FullSub();//未满足的最小红包
+                    for (PromotionActivity promotion : merchant.getPromotionActivityList()) {
+                        for (FullSub fs : promotion.getRuleDtoList()) {
+                            if (num.compareTo(fs.getFull()) >= 0) {
+                                max = fs;
+                            } else if (min.getFull() == null && min.getSub() == null) {
+                                min = fs;
+                            }
+                        }
+                    }
+                    if (max.getFull() != null && max.getSub() != null) {
+                        BigDecimal full = max.getFull();
+                        BigDecimal sub = max.getSub();
+                        if (min.getFull() != null && min.getSub() != null) {
+                            tvHas.setVisibility(View.VISIBLE);
+                            tvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
+                            if (couDanPopupWindow != null) {
+                                pTvHas.setVisibility(View.VISIBLE);
+                                pTvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
+                            }
+
+                        } else {
+                            tvHas.setVisibility(View.GONE);
+                            tvText1.setText("已满");
+                            tvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
+                            tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                            tvAddOnItems.setVisibility(View.GONE);
+                            llFullSubtract.setClickable(false);
+                            if (couDanPopupWindow != null) {
+                                pTvHas.setVisibility(View.GONE);
+                                pTvText1.setText("已满");
+                                pTvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
+                                pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                                tvAddOnItems.setVisibility(View.GONE);
+                                llFullSubtract.setClickable(false);
+                            }
+                        }
+                    }
+                    if (min.getFull() != null && min.getSub() != null) {
+                        BigDecimal full = min.getFull();
+                        BigDecimal sub = min.getSub();
+                        BigDecimal subtract = full.subtract(num);
+                        if (max.getFull() == null && max.getSub() == null) {
+                            tvHas.setVisibility(View.GONE);
+                            if (couDanPopupWindow != null) {
+                                pTvHas.setVisibility(View.GONE);
+                            }
+                        }
+                        tvText1.setText("再买");
+                        tvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
+                        tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                        if (couDanPopupWindow != null) {
+                            pTvText1.setText("再买");
+                            pTvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
+                            pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                        }
+                        BigDecimal multiply = full.multiply(new BigDecimal(0.8));
+                        if (num.compareTo(multiply) >= 0 ) {
+                            tvAddOnItems.setVisibility(View.VISIBLE);
+                            llFullSubtract.setClickable(true);
+                            couDanPrice = num.subtract(multiply);
+                        } else {
+                            tvAddOnItems.setVisibility(View.GONE);
+                            llFullSubtract.setClickable(false);
+                        }
+                    }
+                }
+            }
+
+        } else {
+            if (couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
+                couDanPopupWindow.dismiss();
+                linearCover.setVisibility(View.INVISIBLE);
+                overlay.setVisibility(View.INVISIBLE);
+            }
+            if (!CheckUtils.isEmptyList(merchant.getPromotionActivityList())) {
+                for (int i = 0; i < merchant.getPromotionActivityList().size(); i++) {
+                    if (merchant.getPromotionActivityList().get(i).getRuleDtoList() != null && merchant.getPromotionActivityList().get(i).getRuleDtoList().size() > 0) {
+                        tvFullSubtract.setText(merchant.getPromotionActivityList().get(i).getPromoName());
+                        tvFullSubtract.setVisibility(View.VISIBLE);
+                        overlay.setVisibility(View.GONE);
+                        llFullSubtract.setVisibility(View.GONE);
+                    }
+                }
+            }
+        }
+    }
+
+    public void popUp() {
+        boolean hasDis1 = false;
+        if (mCartProducts != null && mCartProducts.size() > 0) {
+            for (SharingRelationship sList : merchant.getActivitySharedRelationList()) {
+                if (sList.getPromotionActivityType() == 2 && sList.getRelationPromotionActivityType() == 5 && sList.getStatus() == 1) {
+                    isShare = true;
+                    return;
+                } else if (sList.getPromotionActivityType() == 5 && sList.getRelationPromotionActivityType() == 2 && sList.getStatus() == 1) {
+                    isShare = true;
+                    return;
+                }
+            }
+            if (!isShare) {
+                for (PickGoods pro : mCartProducts) {
+                    for (GoodsSpec goodsSpec : pro.getGoods().getGoodsSpecList()) {
+                        if (goodsSpec.getId() == pro.getGoodsSpecId()) {
+                            if (pro.getGoods().getHasDiscount() == 1) {
+                                hasDis1 = true;
+                            }
+                        }
+                    }
+                }
+                if (!hasDis1) {
+                    ToastUtils.displayMsg("满减活动与折扣商品不同享", mActivity);
+                }
+            }
+        }
+    }
+
+    private void getCouDanData() {
         Map<String, Object> map = new HashMap<>();
         map.put("merchantId", merchantId);
-        map.put("price", 2);
+        map.put("price", StringUtils.BigDecimal2Str(couDanPrice));
         VolleyOperater<CouDanModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_FIND_TGOODS_BY_PRICE, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     CouDanModel couDanModel = (CouDanModel) obj;
-                    couDanModelValue =  couDanModel.getValue();
+                    couDanModelValue = couDanModel.getValue();
                     initCouDanPopWindow();
                 }
             }
-        },CouDanModel.class);
+        }, CouDanModel.class);
     }
 
     /**
-     *  初始化去凑单弹框
+     * 初始化去凑单弹框
      */
-    private void initCouDanPopWindow(){
+    private void initCouDanPopWindow() {
         View view = LayoutInflater.from(this).inflate(R.layout.coudan_item, null);
         couDanPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         couDanPopupWindow.setContentView(view);
         couDanPopupWindow.setHeight(DipToPx.dip2px(mActivity, 250));
         couDanPopupWindow.setOutsideTouchable(true);
         cListView = (ListView) view.findViewById(R.id.coudan_list_view);
-        LinearLayout llsub = (LinearLayout) view.findViewById(R.id.ll_layout_full_subtract);
-        llsub.setOnClickListener(this);
-        couDanListAdapter = new CouDanListAdapter(this, couDanModelValue,mCartProducts,this);
+        pTvHas = (TextView) view.findViewById(R.id.tv_has_been_reduced);
+        pTvText1 = (TextView) view.findViewById(R.id.tv_text1);
+        pTvPriceSpread = (TextView) view.findViewById(R.id.tv_price_spread);
+        pTvdimin = (TextView) view.findViewById(R.id.tv_diminishbb_price);
+        checkFullReduction(merchant);
+        couDanListAdapter = new CouDanListAdapter(this, couDanModelValue, mCartProducts, this);
         cListView.setAdapter(couDanListAdapter);
         if (couDanPopupWindow != null) {
             if (!couDanPopupWindow.isShowing()) {
@@ -556,7 +891,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         mCartProducts.get(i).getGoods().setFirst(true);
                     }
                 }
-                goodsFragment.clearList(mCartProducts,false);
+                goodsFragment.clearList(mCartProducts, false);
                 mCartProducts.clear();
                 clearPickGoods();
                 mAdapter.notifyDataSetChanged();
@@ -634,7 +969,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         tv_goAccount.setOnClickListener(this);
         linearBroadcast.setOnClickListener(this);
         bottomLayout.setOnClickListener(this);
-        tvFullSubtract.setOnClickListener(this);
+        llFullSubtract.setOnClickListener(this);
     }
 
     public Merchant getMerchant() {
@@ -694,6 +1029,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 paint.setFakeBoldText(true);
                 tvEvaluate.setTextColor(getResources().getColor(R.color.color_6));
                 tvMerchants.setTextColor(getResources().getColor(R.color.color_6));
+                AnimatorUtils.showBottom(llFullSubtract, CommercialActivity.this);
+                AnimatorUtils.showBottom(tvFullSubtract, CommercialActivity.this);
                 AnimatorUtils.showBottom(bottomLayout, CommercialActivity.this);
                 AnimatorUtils.showBottom(bottomCart, CommercialActivity.this);
                 //0704修改 对应用没有影响
@@ -710,6 +1047,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 if (currentIndex == INDEX_GOODS) {
                     AnimatorUtils.hideBottom(bottomLayout, CommercialActivity.this);
                     AnimatorUtils.hideBottom(bottomCart, CommercialActivity.this);
+                    AnimatorUtils.hideBottom(llFullSubtract, CommercialActivity.this);
+                    AnimatorUtils.hideBottom(tvFullSubtract, CommercialActivity.this);
                 }
 //                if (merchant != null) {
 //                    evaluateFragment.setHeader(merchant);
@@ -725,6 +1064,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 if (currentIndex == INDEX_GOODS) {
                     AnimatorUtils.hideBottom(bottomLayout, CommercialActivity.this);
                     AnimatorUtils.hideBottom(bottomCart, CommercialActivity.this);
+                    AnimatorUtils.hideBottom(llFullSubtract, CommercialActivity.this);
+                    AnimatorUtils.hideBottom(tvFullSubtract, CommercialActivity.this);
                 }
                 if (merchant != null) {
                     merchantsFragment.getData(merchant);
@@ -819,7 +1160,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 }
                 break;
             case R.id.commercial_act_bottom_car://底部购物车的点击事件
-                if(couDanPopupWindow!=null&&couDanPopupWindow.isShowing()){
+                if (couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
                     couDanPopupWindow.dismiss();
                     tvFullSubtract.setVisibility(View.VISIBLE);
                     linearCover.setVisibility(View.INVISIBLE);
@@ -853,9 +1194,9 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 if (mPopWindow != null) {
                     mPopWindow.dismiss();
                 }
-                if(couDanPopupWindow!=null){
+                if (couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
                     couDanPopupWindow.dismiss();
-                    tvFullSubtract.setVisibility(View.VISIBLE);
+                    checkFullReduction(merchant);
                 }
                 linearCover.setVisibility(View.INVISIBLE);
                 overlay.setVisibility(View.INVISIBLE);
@@ -919,8 +1260,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 overlay.setVisibility(View.INVISIBLE);
                 linearCover.setVisibility(View.INVISIBLE);
                 break;
-            case R.id.tv_full_subtract:
-                tvFullSubtract.setVisibility(View.GONE);
+            case R.id.ll_layout_full_subtract:
+                llFullSubtract.setVisibility(View.GONE);
+                overlay.setVisibility(View.GONE);
+                visible = true;
                 getCouDanData();
                 break;
             default:
@@ -1136,7 +1479,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (currentIndex == INDEX_GOODS) {
                             if (isAgainOrder && object != null && object.getJSONArray("goodsJson").size() > 0) {
                                 //再次购买跳转
-                                goodsFragment.clearList(mCartProducts,false);
+                                goodsFragment.clearList(mCartProducts, false);
                                 mCartProducts.clear();
                                 clearPickGoods();
                                 mAdapter.notifyDataSetChanged();
@@ -1280,6 +1623,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     }
 
     private void setCart() {
+        checkFullReduction(merchant);
         if (mCartProducts != null && mCartProducts.size() > 0) {
             calculatePrice();
         } else {
@@ -1568,7 +1912,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             }
             PickGoodsModel.getInstance().setIsRemove(false);
         } else {
-            goodsFragment.clearList(mCartProducts,true);
+            goodsFragment.clearList(mCartProducts, true);
         }
         initCartProducts();
         mAdapter.setData(mCartProducts);
