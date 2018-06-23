@@ -38,6 +38,8 @@ public class Merchant extends Entity {
      * 商家联系方式
      */
     private String contacts;
+    /** 商家联系方式 */
+    private String contactsArray;
     /**
      * 开户行
      */
@@ -677,5 +679,13 @@ public class Merchant extends Entity {
 
     public void setHygieneLicenseImg(String hygieneLicenseImg) {
         this.hygieneLicenseImg = hygieneLicenseImg;
+    }
+
+    public String getContactsArray() {
+        return contactsArray;
+    }
+
+    public void setContactsArray(String contactsArray) {
+        this.contactsArray = contactsArray;
     }
 }

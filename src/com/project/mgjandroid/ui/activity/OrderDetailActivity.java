@@ -9,23 +9,24 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -46,25 +47,23 @@ import com.project.mgjandroid.model.ConfirmOrderModel;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
 import com.project.mgjandroid.model.GetRedPackageModel;
 import com.project.mgjandroid.model.GroupOrderDetailModel;
-import com.project.mgjandroid.model.LegworkStatusModel;
 import com.project.mgjandroid.model.NewOrderFragmentModel;
 import com.project.mgjandroid.model.SubmitOrderModel;
 import com.project.mgjandroid.model.SubmitOrderModel.ValueEntity;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.net.VolleyOperater.ResponseListener;
-import com.project.mgjandroid.ui.adapter.LegworkStatusAdapter;
 import com.project.mgjandroid.ui.fragment.OrderListFragment;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.CommonDialog;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.RoundImageView;
 import com.project.mgjandroid.ui.view.TimeTextView;
+import com.project.mgjandroid.ui.view.materialdialog.MaterialDialog;
 import com.project.mgjandroid.ui.view.pullableview.PullToRefreshLayout;
 import com.project.mgjandroid.ui.view.pullableview.PullToRefreshLayout.OnRefreshListener;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.CustomDialog;
-import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
@@ -250,10 +249,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private TextView tvTuihuo;
     @InjectView(R.id.order_detail_act_confirm_delivery)
     private TextView tvShouhuo;
-    @InjectView(R.id.rl_order_state)
-    private RelativeLayout rlOrderState;
-    @InjectView(R.id.iv_arrow)
-    private ImageView ivArrow;
 
     String orderId;
     private boolean refreshFlag = true;
@@ -262,8 +257,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     private final static int ONE_MINUTE = 60 * 1000;
     private BaiduMap baiduMap;
-    private CallPhoneDialog dialog;
     private Dialog avatarDialog;
+    private CallPhoneDialog dialog;
     private NewOrderFragmentModel.ValueEntity valueEntity;
     private SimpleDateFormat sdf;
     private CommonDialog mRedDialog;
@@ -281,7 +276,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private String mgjName = "总部热线", areaName = "区域热线";
     private String areaPhone;
     private String mgjPhone;
-    private Dialog mStatusDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -330,8 +324,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         tvEvaluate.setOnClickListener(this);
         tvTuihuo.setOnClickListener(this);
         tvShouhuo.setOnClickListener(this);
-        rlOrderState.setOnClickListener(this);
-        tvStateDes.setOnClickListener(this);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
 
             @Override
@@ -408,8 +400,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.order_detail_act_iv_back:
-                //onBackPressed();
-                back();
+                onBackPressed();
                 break;
             case R.id.order_detail_act_iv_iphone:
                 initDialog();
@@ -578,28 +569,17 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             case R.id.btn_take_photo:
                 if (CheckUtils.isEmptyStr(mgjPhone)) break;
                 if (dialog_bt_take_photo.getText().toString().trim().equals("联系商家")) {
-                    agentMobile = submitOrderEntity.getMerchant().getContacts();
+                    List<String> numList = JSONArray.parseArray(submitOrderEntity.getMerchant().getContactsArray(), String.class);
+                    if (numList != null && numList.size() > 1) {
+                        showContacts(numList);
+                        return;
+                    } else {
+                        agentMobile = submitOrderEntity.getMerchant().getContacts();
+                    }
                 } else {
                     agentMobile = mgjPhone;
                 }
-                dialog = new CallPhoneDialog(OrderDetailActivity.this, new CallPhoneDialog.onBtnClickListener() {
-                    @Override
-                    public void onSure() {
-                        //拨打电话
-                        Intent intent = new Intent();
-                        intent.setAction("android.intent.action.DIAL");
-                        //submitOrderEntity.getMerchant().getContacts() 商家电话
-                        intent.setData(Uri.parse("tel:" + agentMobile));
-                        OrderDetailActivity.this.startActivity(intent);
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onExit() {
-                        dialog.dismiss();
-                    }
-                }, "", agentMobile);
-                dialog.show();
+                showCallDialog(agentMobile);
                 avatarDialog.dismiss();
                 break;
             case R.id.btn_pick_photo:
@@ -609,24 +589,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 } else {
                     agentPhone = areaPhone;
                 }
-                dialog = new CallPhoneDialog(OrderDetailActivity.this, new CallPhoneDialog.onBtnClickListener() {
-                    @Override
-                    public void onSure() {
-                        //拨打电话
-                        Intent intent = new Intent();
-                        intent.setAction("android.intent.action.DIAL");
-                        intent.setData(Uri.parse("tel:" + agentPhone));
-                        OrderDetailActivity.this.startActivity(intent);
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onExit() {
-                        dialog.dismiss();
-                    }
-                }, "", agentPhone);
-                dialog.show();
-                avatarDialog.dismiss();
+                showCallDialog(agentPhone);
                 break;
 
             case R.id.red_package_show:
@@ -639,22 +602,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 }
                 break;
             case R.id.order_detail_tv_shipping_driver_phone://给骑手打电话
-                dialog = new CallPhoneDialog(mActivity, new CallPhoneDialog.onBtnClickListener() {
-                    @Override
-                    public void onSure() {
-                        Intent intent = new Intent();
-                        intent.setAction("android.intent.action.DIAL");
-                        intent.setData(Uri.parse("tel:" + driverPhone));
-                        OrderDetailActivity.this.startActivity(intent);
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onExit() {
-                        dialog.dismiss();
-                    }
-                }, "", driverPhone);
-                dialog.show();
+                showCallDialog(driverPhone);
                 break;
             case R.id.order_detail_act_iv_tuihuo:
                 Intent tuihuo = new Intent(mActivity, ApplyAdultsActivity.class);
@@ -678,25 +626,79 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 }
                 shouhuoDialog.show();
                 break;
-            case R.id.rl_order_state:
-                //状态
-                if (mStatusDialog != null) {
-                    mStatusDialog.show();
-                }
-                break;
-            case R.id.order_detail_order_state_tv_des:
-                //退款
-                if (submitOrderEntity != null && submitOrderEntity.getOrderFlowStatus() == -1 && submitOrderEntity.getPaymentState() == 1 && DateUtils.compareTimeBefore(submitOrderEntity.getCreateTime())) {
-                    if (!StringUtils.BigDecimal2Str(submitOrderEntity.getTotalPrice()).equals("0")) {
-                        Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
-                        intent2.putExtra("orderId", submitOrderEntity.getId());
-                        startActivity(intent2);
-                    }
-                }
-                break;
             default:
                 break;
         }
+    }
+
+    private void showContacts(final List<String> contactsArray) {
+        final MaterialDialog alert = new MaterialDialog(this);
+
+        final ArrayAdapter<String> arrayAdapter
+                = new ArrayAdapter<>(this,
+                R.layout.item_call);
+        for (int j = 0; j < contactsArray.size(); j++) {
+            arrayAdapter.add(contactsArray.get(j));
+        }
+
+        final ListView listView = new ListView(this);
+        listView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        View v = new View(this);
+        v.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 0));
+        listView.addHeaderView(v);
+        listView.addFooterView(v);
+        listView.setDividerHeight(1);
+        listView.setHeaderDividersEnabled(true);
+        listView.setFooterDividersEnabled(true);
+        listView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        if (contactsArray.size() > 4) {
+            listView.setVerticalScrollBarEnabled(true);
+        } else {
+            listView.setVerticalScrollBarEnabled(false);
+        }
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showCallDialog(contactsArray.get(position - 1));
+                alert.dismiss();
+            }
+        });
+
+        alert.setTitle("联系商家")
+                .setContentView(listView)
+                .setPositiveButton(getString(R.string.cancel), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                    }
+                });
+
+        alert.show();
+    }
+
+    private void showCallDialog(final String mobild) {
+        dialog = new CallPhoneDialog(OrderDetailActivity.this, new CallPhoneDialog.onBtnClickListener() {
+            @Override
+            public void onSure() {
+                //拨打电话
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.DIAL");
+                //submitOrderEntity.getMerchant().getContacts() 商家电话
+                intent.setData(Uri.parse("tel:" + mobild));
+                OrderDetailActivity.this.startActivity(intent);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onExit() {
+                dialog.dismiss();
+            }
+        }, "", mobild);
+        dialog.show();
     }
 
     private void confirmDelivery() {
@@ -780,98 +782,11 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                     }
                     getTelNumId(agentType);
                     showDetails(orderDetail.getValue());
-                    initStatusDialog(orderDetail.getValue());
                 } else {
 
                 }
             }
         }, SubmitOrderModel.class);
-    }
-
-    ArrayList<LegworkStatusModel> statusModels = new ArrayList<>();
-
-    private void initStatusDialog(SubmitOrderModel.ValueEntity orderDetail) {
-        LinearLayout view = (LinearLayout) View.inflate(this, R.layout.dialog_legwork_status, null);
-        TextView tvBack = (TextView) view.findViewById(R.id.tv_legwork_status_back);
-        RecyclerView rvStatus = (RecyclerView) view.findViewById(R.id.rv_legwork_status);
-        tvBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mStatusDialog != null) {
-                    mStatusDialog.dismiss();
-                }
-            }
-        });
-
-        statusModels.clear();
-
-        if (!TextUtils.isEmpty(orderDetail.getCreateTime())) {
-            LegworkStatusModel legworkStatusModel = new LegworkStatusModel();
-            legworkStatusModel.setTime(orderDetail.getCreateTime());
-            legworkStatusModel.setName("订单已提交");
-            statusModels.add(legworkStatusModel);
-        }
-        if (!TextUtils.isEmpty(orderDetail.getPaymentFinishTime())) {
-            LegworkStatusModel legworkStatusModel = new LegworkStatusModel();
-            legworkStatusModel.setTime(orderDetail.getPaymentFinishTime());
-            legworkStatusModel.setName("支付成功");
-            statusModels.add(legworkStatusModel);
-        }
-        if (orderDetail.getDeliveryTask() != null) {
-            if (!TextUtils.isEmpty(orderDetail.getDeliveryTask().getOrderConfirmTime())) {
-                LegworkStatusModel legworkStatusModel = new LegworkStatusModel();
-                legworkStatusModel.setTime(orderDetail.getDeliveryTask().getOrderConfirmTime());
-                legworkStatusModel.setName("商家已接单");
-                statusModels.add(legworkStatusModel);
-            }
-            if (!TextUtils.isEmpty(orderDetail.getDeliveryTask().getAcceptTime())) {
-                LegworkStatusModel legworkStatusModel = new LegworkStatusModel();
-                legworkStatusModel.setTime(orderDetail.getDeliveryTask().getAcceptTime());
-                legworkStatusModel.setName("骑手已接单");
-                statusModels.add(legworkStatusModel);
-            }
-            if (!TextUtils.isEmpty(orderDetail.getDeliveryTask().getArrivalMerchantTime())) {
-                LegworkStatusModel legworkStatusModel = new LegworkStatusModel();
-                legworkStatusModel.setTime(orderDetail.getDeliveryTask().getArrivalMerchantTime());
-                legworkStatusModel.setName("骑手已取餐");
-                statusModels.add(legworkStatusModel);
-            }
-            if (!TextUtils.isEmpty(orderDetail.getDeliveryTask().getArrivalMerchantTime())) {
-                LegworkStatusModel legworkStatusModel = new LegworkStatusModel();
-                legworkStatusModel.setTime(orderDetail.getDeliveryTask().getArrivalMerchantTime());
-                legworkStatusModel.setName("骑手已送达");
-                statusModels.add(legworkStatusModel);
-            }
-        }
-        if (!TextUtils.isEmpty(orderDetail.getOrderDoneTime())) {
-            LegworkStatusModel legworkStatusModel = new LegworkStatusModel();
-            legworkStatusModel.setTime(orderDetail.getOrderDoneTime());
-            legworkStatusModel.setName("已完成");
-            statusModels.add(legworkStatusModel);
-        }
-        if (orderDetail.getOrderFlowStatus() == -1 && !TextUtils.isEmpty(orderDetail.getModifyTime())) {
-            LegworkStatusModel legworkStatusModel = new LegworkStatusModel();
-            legworkStatusModel.setTime(orderDetail.getModifyTime());
-            legworkStatusModel.setName("订单已取消");
-            statusModels.add(legworkStatusModel);
-        }
-
-        if (statusModels != null && statusModels.size() > 0) {
-            rvStatus.setLayoutManager(new LinearLayoutManager(this));
-            rvStatus.setAdapter(new LegworkStatusAdapter(statusModels, this));
-        }
-        mStatusDialog = null;
-        mStatusDialog = new Dialog(this, R.style.MyDialogStyle);
-        Window dialogWindow = mStatusDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-        mStatusDialog.setContentView(view);
-        dialogWindow.setWindowAnimations(R.style.MenuDialogAnimation); // 添加动画
-        mStatusDialog.setCanceledOnTouchOutside(true);
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        int height = getWindow().getWindowManager().getDefaultDisplay().getHeight();
-        lp.height = height / 5 * 3;
-        lp.width = getWindow().getWindowManager().getDefaultDisplay().getWidth();
-        dialogWindow.setAttributes(lp);
     }
 
     /**
@@ -886,27 +801,14 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 animator.setTarget(layoutDetail);
                 animator.start();
             }
-//            String expectDeliveryTime = submitOrderEntity.getExpectArrivalTime();
-//            if (CheckUtils.isNoEmptyStr(expectDeliveryTime)) {
-//                if (expectDeliveryTime.equals("1")) {
-//                    String paymentFinishTime = submitOrderEntity.getPaymentFinishTime();
-//                    if (TextUtils.isEmpty(paymentFinishTime)) {
-//                        tvStateDes.setText("预计送达时间: 立即送达");
-//                    } else {
-//                        try {
-//                            SimpleDateFormat sdf = new SimpleDateFormat(CommonUtils.yyyy_MM_dd_HH_mm_ss);
-//                            long timeStr = sdf.parse(paymentFinishTime).getTime() + submitOrderEntity.getMerchant().getAvgDeliveryTime() * 60 * 1000;
-//                            String s = CommonUtils.formatTime(timeStr, CommonUtils.yyyy_MM_dd_HH_mm);
-//                            tvStateDes.setText("预计送达时间: 立即送达  [" + s + "]");
-//                        } catch (ParseException e) {
-//                            e.printStackTrace();
-//                            tvStateDes.setText("预计送达时间: 立即送达");
-//                        }
-//                    }
-//                } else {
-//                    tvStateDes.setText("预计送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm));
-//                }
-//            }
+            String expectDeliveryTime = submitOrderEntity.getExpectArrivalTime();
+            if (CheckUtils.isNoEmptyStr(expectDeliveryTime)) {
+                if (expectDeliveryTime.equals("1")) {
+                    tvStateDes.setText("预计送达时间: 立即送达");
+                } else {
+                    tvStateDes.setText("预计送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm_ss));
+                }
+            }
             showState(submitOrderEntity);
             showCommercial(submitOrderEntity);
             showDelivery(submitOrderEntity);
@@ -925,21 +827,15 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
      * 订单状态
      */
     private void showState(ValueEntity submitOrderEntity) {
-        //tvState.setTextColor(mResource.getColor(R.color.color_9));
+        tvState.setTextColor(mResource.getColor(R.color.color_9));
         tvStateLeft.setTextColor(mResource.getColor(R.color.color_9));
         tvStateMidL.setTextColor(mResource.getColor(R.color.color_9));
         tvStateMidR.setTextColor(mResource.getColor(R.color.color_9));
         tvStateRight.setTextColor(mResource.getColor(R.color.color_9));
         switch (submitOrderEntity.getOrderFlowStatus()) {
             case STATE_CANCEL:
-                if (submitOrderEntity.getPaymentState() == 1) {
-                    tvState.setText("申请退款成功");
-                    ivArrow.setVisibility(View.GONE);
-                    //tvStateDes.setText("退款详情 >");
-                } else {
-                    tvState.setText("已取消");
-                    //tvStateDes.setText("支付超时自动取消");
-                }
+                tvState.setText("取消订单");
+//			tvStateDes.setText("预计送达时间：" + showOrderTime(submitOrderEntity));
                 tvStateLeft.setText("订单已提交");
                 imgStateLeft.setBackgroundResource(R.drawable.icon_point_gray);
                 layoutStateMidL.setVisibility(View.GONE);
@@ -963,8 +859,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 tvShouhuo.setVisibility(View.GONE);
                 break;
             case STATE_WAIT_PAY:
-                tvState.setText("订单已提交");
-                //tvStateDes.setText("等待付款");
+                tvState.setText("等待付款");
+//			tvStateDes.setText("预计送达时间：" + showOrderTime(submitOrderEntity));
                 tvStateLeft.setText("订单已提交");
                 tvStateLeft.setTextColor(mResource.getColor(R.color.title_bar_bg));
                 imgStateLeft.setBackgroundResource(R.drawable.order_detail_status_icon);
@@ -995,8 +891,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 }
                 break;
             case STATE_WAIT_CONFIRM:
-                tvState.setText("支付成功");
-                //tvStateDes.setText("等待商家接单");
+                tvState.setText("等待商家接单");
+//			tvStateDes.setText("预计送达时间：" + showOrderTime(submitOrderEntity));
                 tvStateLeft.setText("订单已提交");
                 imgStateLeft.setBackgroundResource(R.drawable.icon_point_gray);
                 tvStateMidL.setText("等待商家接单");
@@ -1055,8 +951,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 tvShouhuo.setVisibility(View.GONE);
                 break;
             case STATE_WAIT_TAKE:
-                tvState.setText("骑手已接单");
-                //tvStateDes.setText("小马哥正在前往商家取餐");
+                tvState.setText("配送员取货中");
+//			tvStateDes.setText("预计送达时间：" + showOrderTime(submitOrderEntity));
                 tvStateLeft.setText("商家已接单");
                 imgStateLeft.setBackgroundResource(R.drawable.icon_point_gray);
                 tvStateMidL.setText("配送员取货中");
@@ -1090,8 +986,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 break;
             case STATE_HAS_TAKE:
             case STATE_WAIT_DELIVERY:
-                tvState.setText("骑手已取货");
-                //tvStateDes.setText("小马哥正在为您送餐");
+                tvState.setText("骑手配送中");
+//			tvStateDes.setText("预计送达时间：" + showOrderTime(submitOrderEntity));
                 tvStateLeft.setText("商家已接单");
                 imgStateLeft.setBackgroundResource(R.drawable.icon_point_gray);
                 tvStateMidL.setText("配送员取货中");
@@ -1129,8 +1025,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 }
                 break;
             case STATE_DONE:
-                tvState.setText("已完成");
-                //tvStateDes.setText("期待为再次为您服务");
+                tvState.setText("完成");
+//			tvStateDes.setText("送达时间：" + CommonUtils.formatTime(Long.parseLong(submitOrderEntity.getExpectArrivalTime()), CommonUtils.yyyy_MM_dd_HH_mm_ss));
                 tvStateLeft.setText("商家已接单");
                 imgStateLeft.setBackgroundResource(R.drawable.icon_point_gray);
                 tvStateMidL.setText("配送员取货中");
@@ -1386,52 +1282,11 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         if (!TextUtils.isEmpty(submitOrderEntity.getCaution()))
             tvOrderCaution.setText(submitOrderEntity.getCaution());
         String expectDeliveryTime = submitOrderEntity.getExpectArrivalTime();
-        if (submitOrderEntity.getOrderFlowStatus() == -1) {
-            if (submitOrderEntity.getPaymentState() == 1) {
-                //已支付
-                if (DateUtils.compareTimeBefore(submitOrderEntity.getCreateTime())) {
-                    if (StringUtils.BigDecimal2Str(submitOrderEntity.getTotalPrice()).equals("0")) {
-                        tvStateDes.setText("");
-                    } else {
-                        tvStateDes.setText("退款详情 >");
-                    }
-                } else {
-                    tvStateDes.setText("");
-                }
-            } else {
-                //未支付
-                tvStateDes.setText("支付超时自动取消");
-            }
-            if (!TextUtils.isEmpty(expectDeliveryTime) && !expectDeliveryTime.equals("1")) {
-                tvArriveTime.setText("送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm));
-            }
-            return;
-        } else if (submitOrderEntity.getOrderFlowStatus() == 7) {
-            //已完成
-            tvStateDes.setText("期待再次为您服务");
-            if (!TextUtils.isEmpty(expectDeliveryTime) && !expectDeliveryTime.equals("1")) {
-                tvArriveTime.setText("送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm));
-            }
-            return;
-        }
         if (CheckUtils.isNoEmptyStr(expectDeliveryTime)) {
             if (expectDeliveryTime.equals("1")) {
-                String paymentFinishTime = submitOrderEntity.getPaymentFinishTime();
-                if (TextUtils.isEmpty(paymentFinishTime)) {
-                    tvStateDes.setText("预计送达时间: 立即送达");
-                } else {
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat(CommonUtils.yyyy_MM_dd_HH_mm_ss);
-                        long timeStr = sdf.parse(paymentFinishTime).getTime() + submitOrderEntity.getMerchant().getAvgDeliveryTime() * 60 * 1000;
-                        String s = CommonUtils.formatTime(timeStr, CommonUtils.MM_dd_HH_mm);
-                        tvStateDes.setText("预计送达时间: 立即送达  [ " + s + " ]");
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        tvStateDes.setText("预计送达时间: 立即送达");
-                    }
-                }
+                tvArriveTime.setText("送达时间: 立即送达");
             } else {
-                tvArriveTime.setText("送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm));
+                tvArriveTime.setText("送达时间: " + CommonUtils.formatTime(Long.parseLong(expectDeliveryTime), CommonUtils.yyyy_MM_dd_HH_mm_ss));
             }
         }
 
@@ -1489,9 +1344,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
 
     @Override
     public void onBackPressed() {
-//        Intent intentHome = new Intent(this, HomeActivity.class);
-//        intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intentHome);
+        Intent intentHome = new Intent(this, HomeActivity.class);
+        intentHome.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentHome);
         back();
     }
 
