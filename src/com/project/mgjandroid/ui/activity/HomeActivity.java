@@ -19,8 +19,10 @@ import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.AppVersion;
+import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.download.FileDownloadManager;
+import com.project.mgjandroid.model.AddressManageModel;
 import com.project.mgjandroid.model.AppLaunchModel;
 import com.project.mgjandroid.model.FestivalModel;
 import com.project.mgjandroid.model.HomeVersionModel;
@@ -48,6 +50,7 @@ import com.tencent.smtt.sdk.CookieSyncManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -124,6 +127,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     private FileDownloadManager mManager2;
     private String gifName;
     public boolean isLotteryShow = false;
+    private List<UserAddress> userAddressList;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -131,7 +135,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         setContentView(R.layout.home_act);
         Injector.get(this).inject();
         instance = this;
-
+        PreferenceUtils.saveBoolPreference("isLocation",false,getApplicationContext());
         homePagerAdapter = new HomePagerAdapter(this.getSupportFragmentManager());
         fragments = homePagerAdapter.getFragments();
         pager.setAdapter(homePagerAdapter);
@@ -145,7 +149,6 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         addFragments();
         initUpdateDialog();
         checkUpdate();
-
         //预加载闪屏gif
         getSplashGif();
     }
@@ -617,10 +620,15 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     }
 
 
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+    }
+
     /**
      * 获取新版首页
      */
-    private void getNewHomePage() {
+    public void getNewHomePage() {
         VolleyOperater<HomeVersionModel> operater = new VolleyOperater<>(mActivity);
         HashMap<String, Object> map = new HashMap<>();
         map.put("latitude", PreferenceUtils.getLocation(mActivity)[0]);
@@ -656,9 +664,11 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         ArrayList<BaseFragment> fragments = homePagerAdapter.getFragments();
         if (versionType == 1) {
             fragments.set(0, newHomeFragment);
+            newHomeFragment.showAddress();
             superMarketLayout.setVisibility(View.GONE);
         } else {
             fragments.set(0, homeFragment);
+            homeFragment.showAddress();
             superMarketLayout.setVisibility(View.VISIBLE);
         }
         homePagerAdapter.notifyDataSetChanged();

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/x35"
+    android:paddingRight="@dimen/x35"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/bg_service_charge"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/x22">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择收货地址"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/img_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_close" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_marginTop="@dimen/x35"
+            android:ellipsize="end"
+            android:maxEms="12"
+            android:singleLine="true"
+            android:text="请选择收货地址请选择收货"
+            android:textColor="@color/bg_festival"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/color_f5" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_marginTop="@dimen/x20"
+            android:ellipsize="end"
+            android:maxEms="12"
+            android:singleLine="true"
+            android:text="请选择收货地址请选择"
+            android:textColor="@color/bg_festival"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/color_f5" />
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_marginTop="@dimen/x20"
+            android:ellipsize="end"
+            android:maxEms="12"
+            android:singleLine="true"
+            android:text="请选择收货地址请选择"
+            android:textColor="@color/bg_festival"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x5"
+            android:background="@color/color_f5" />
+
+        <RelativeLayout
+            android:id="@+id/rl_other_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/x20"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="其他地址"
+                android:textColor="@color/color_3"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_in" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>
