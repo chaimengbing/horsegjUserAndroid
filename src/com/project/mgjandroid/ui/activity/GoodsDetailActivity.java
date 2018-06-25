@@ -269,6 +269,8 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
     private CouDanListAdapter couDanListAdapter;
     private BigDecimal couDanPrice;
     private boolean hasDis1;
+    private BigDecimal subtract;
+    private boolean isFullSub;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -368,10 +370,18 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             for (SharingRelationship sList : merchant.getActivitySharedRelationList()) {
                 if (sList.getPromotionActivityType() == 2 && sList.getRelationPromotionActivityType() == 5 && sList.getStatus() == 1) {
                     isShare = true;
-                    return;
+                    break;
                 } else if (sList.getPromotionActivityType() == 5 && sList.getRelationPromotionActivityType() == 2 && sList.getStatus() == 1) {
                     isShare = true;
-                    return;
+                    break;
+                }
+            }
+
+            if (!CheckUtils.isEmptyList(merchant.getPromotionActivityList())) {
+                for (int i = 0; i < merchant.getPromotionActivityList().size(); i++) {
+                    if (merchant.getPromotionActivityList().get(i).getRuleDtoList() != null && merchant.getPromotionActivityList().get(i).getRuleDtoList().size() > 0) {
+                        isFullSub = true;
+                    }
                 }
             }
 
@@ -413,16 +423,19 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         }
                     }
                 }
-                if (visible || couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
-                    tvFullSubtract.setVisibility(View.GONE);
-                    overlay.setVisibility(View.GONE);
-                    llFullSubtract.setVisibility(View.GONE);
-                    visible = false;
-                } else {
-                    tvFullSubtract.setVisibility(View.GONE);
-                    overlay.setVisibility(View.GONE);
-                    llFullSubtract.setVisibility(View.VISIBLE);
+                if(isFullSub){
+                    if (visible || couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
+                        tvFullSubtract.setVisibility(View.GONE);
+                        overlay.setVisibility(View.GONE);
+                        llFullSubtract.setVisibility(View.GONE);
+                        visible = false;
+                    } else {
+                        tvFullSubtract.setVisibility(View.GONE);
+                        overlay.setVisibility(View.GONE);
+                        llFullSubtract.setVisibility(View.VISIBLE);
+                    }
                 }
+
 
                 FullSub max = new FullSub();//已满足的最大红包
                 FullSub min = new FullSub();//未满足的最小红包
@@ -466,7 +479,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 if (min.getFull() != null && min.getSub() != null) {
                     BigDecimal full = min.getFull();
                     BigDecimal sub = min.getSub();
-                    BigDecimal subtract = full.subtract(num);
+                    subtract = full.subtract(num);
                     if (max.getFull() == null && max.getSub() == null) {
                         tvHas.setVisibility(View.GONE);
                         if (couDanPopupWindow != null) {
@@ -485,7 +498,6 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     if (num.compareTo(multiply) >= 0 ) {
                         tvAddOnItems.setVisibility(View.VISIBLE);
                         llFullSubtract.setClickable(true);
-                        couDanPrice = num.subtract(multiply);
                     } else {
                         tvAddOnItems.setVisibility(View.GONE);
                         llFullSubtract.setClickable(false);
@@ -547,16 +559,19 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                             }
                         }
                     }
-                    if (visible || couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
-                        tvFullSubtract.setVisibility(View.GONE);
-                        overlay.setVisibility(View.GONE);
-                        llFullSubtract.setVisibility(View.GONE);
-                        visible = false;
-                    } else {
-                        tvFullSubtract.setVisibility(View.GONE);
-                        overlay.setVisibility(View.GONE);
-                        llFullSubtract.setVisibility(View.VISIBLE);
+                    if(isFullSub){
+                        if (visible || couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
+                            tvFullSubtract.setVisibility(View.GONE);
+                            overlay.setVisibility(View.GONE);
+                            llFullSubtract.setVisibility(View.GONE);
+                            visible = false;
+                        } else {
+                            tvFullSubtract.setVisibility(View.GONE);
+                            overlay.setVisibility(View.GONE);
+                            llFullSubtract.setVisibility(View.VISIBLE);
+                        }
                     }
+
                     FullSub max = new FullSub();//已满足的最大红包
                     FullSub min = new FullSub();//未满足的最小红包
                     for (PromotionActivity promotion : merchant.getPromotionActivityList()) {
@@ -599,7 +614,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     if (min.getFull() != null && min.getSub() != null) {
                         BigDecimal full = min.getFull();
                         BigDecimal sub = min.getSub();
-                        BigDecimal subtract = full.subtract(num);
+                        subtract = full.subtract(num);
                         if (max.getFull() == null && max.getSub() == null) {
                             tvHas.setVisibility(View.GONE);
                             if (couDanPopupWindow != null) {
@@ -618,7 +633,6 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         if (num.compareTo(multiply) >= 0) {
                             tvAddOnItems.setVisibility(View.VISIBLE);
                             llFullSubtract.setClickable(true);
-                            couDanPrice = num.subtract(multiply);
                         } else {
                             tvAddOnItems.setVisibility(View.GONE);
                             llFullSubtract.setClickable(false);
@@ -640,6 +654,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         tvFullSubtract.setVisibility(View.VISIBLE);
                         overlay.setVisibility(View.GONE);
                         llFullSubtract.setVisibility(View.GONE);
+                        isFullSub = true;
                     }
                 }
             }
@@ -651,10 +666,10 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             for (SharingRelationship sList : merchant.getActivitySharedRelationList()) {
                 if (sList.getPromotionActivityType() == 2 && sList.getRelationPromotionActivityType() == 5 && sList.getStatus() == 1) {
                     isShare = true;
-                    return;
+                    break;
                 } else if (sList.getPromotionActivityType() == 5 && sList.getRelationPromotionActivityType() == 2 && sList.getStatus() == 1) {
                     isShare = true;
-                    return;
+                    break;
                 }
             }
             if(!isShare){
@@ -667,7 +682,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         }
                     }
                 }
-                if(!hasDis1){
+                if(!hasDis1 && isFullSub){
                     ToastUtils.displayMsg("满减活动与折扣商品不同享", mActivity);
                     hasDis1 = true;
                 }
@@ -862,7 +877,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             if (goods.getStatus() != 0 && goods.getStatus() != 2) {
                 for (int i = 0; i < goods.getGoodsSpecList().size(); i++) {
                     GoodsSpec spec = goods.getGoodsSpecList().get(i);
-                    if (spec.getStockType() == 0 || (spec.getStockType() == 1 && spec.getStock() != 0)) {
+                    if (spec.getStockType() == 0 || (spec.getStockType() == 1 && spec.getStock() != 0)||goods.getHasDiscount() ==1 && goods.getSurplusDiscountStock()>0) {
                         isOver = false;
                         break;
                     }
@@ -876,7 +891,12 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     tvSleep.setVisibility(View.VISIBLE);
                     tvSleep.setText("商品已售罄");
                 }
-                tvLimit.setVisibility(View.GONE);
+                if (goods.getHasDiscount() == 1 && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
+                    tvLimit.setVisibility(View.VISIBLE);
+                    tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                }else {
+                    tvLimit.setVisibility(View.GONE);
+                }
                 tvMin.setVisibility(View.GONE);
                 rlHideBuyCount.setVisibility(View.INVISIBLE);
                 return;
@@ -910,7 +930,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             }
         } else if (goods.getGoodsSpecList() != null && goods.getGoodsSpecList().size() == 1) {
             //TODO 一种规格
-            if (goods.getGoodsSpecList().get(0).getStockType() == 1 && goods.getGoodsSpecList().get(0).getStock() == 0) {
+            if (goods.getGoodsSpecList().get(0).getStockType() == 1 && goods.getGoodsSpecList().get(0).getStock() == 0&&goods.getHasDiscount() ==0 ) {
                 currentType = 1;
                 rlSpecLabel.setVisibility(View.GONE);
                 if(goods.getHasDiscount() ==1 && goods.getSurplusDiscountStock()>0){
@@ -969,7 +989,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             if (goods.getStatus() != 0 && goods.getStatus() != 2) {
                 for (int i = 0; i < goods.getGoodsSpecList().size(); i++) {
                     GoodsSpec spec = goods.getGoodsSpecList().get(i);
-                    if (spec.getStockType() == 0 || (spec.getStockType() == 1 && spec.getStock() != 0)) {
+                    if (spec.getStockType() == 0 || (spec.getStockType() == 1 && spec.getStock() != 0)||goods.getHasDiscount() ==1 && goods.getSurplusDiscountStock()>0) {
                         isOver = false;
                         break;
                     }
@@ -1437,6 +1457,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                             }
                         }
                         if (goods.getHasDiscount() == 1) {
+                            popUp();
                             if (pickGoods.size() == 0) {
                                 if ((buyCount + 1) == goods.getEveryGoodsEveryOrderBuyCount()) {
                                     if (goods.isFirst()) {
@@ -1525,7 +1546,6 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         for (PickGoods pickGood : pickGoods) {
                             int count = pickGood.getPickCount();
                             if (goods.getHasDiscount() == 1) {
-                                popUp();
                                 if (pickGood.getGoodsId() == goods.getId() && pickGood.getGoodsSpecId() == mGoodsSpec.getId()) {
                                     if (goods.getEveryGoodsEveryOrderBuyCount() > goods.getSurplusDiscountStock()) {
                                         if (count == goods.getSurplusDiscountStock()) {

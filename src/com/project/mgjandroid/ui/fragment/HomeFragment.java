@@ -232,10 +232,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         view = inflater.inflate(R.layout.home_fragment, container, false);
         mActivity = getActivity();
-        getAddressList();
+        LocationManager.getIManager().registeLocation(mActivity, listener);
+//        getAddressList();
         mLoadingDialog = new LoadingDialog(mActivity);
         initData();
         initViews();
@@ -1529,8 +1529,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     userAddressList = ((AddressManageModel) obj).getValue();
-                    if (!PreferenceUtils.getBoolPreference("isLocation",getActivity())){
-                        PreferenceUtils.saveBoolPreference("isLocation",true,getActivity());
+                    if (!PreferenceUtils.getBoolPreference("isLocation", getActivity())) {
+                        PreferenceUtils.saveBoolPreference("isLocation", true, getActivity());
                         LocationManager.getIManager().registeLocation(mActivity, listener);
                     }
                 }
@@ -1588,7 +1588,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     ((HomeActivity) mActivity).getInformationArea();
                 }
             } else {
-            handler.obtainMessage(LOCATION_FAIL).sendToTarget();
+                handler.obtainMessage(LOCATION_FAIL).sendToTarget();
             }
         }
 

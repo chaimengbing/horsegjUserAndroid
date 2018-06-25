@@ -558,7 +558,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
         tv_shippingFee.setText("¥" + StringUtils.BigDecimal2Str(valueEntity.getShippingFee()));
         tv_totalPrice.setText("" + StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()));
-        if (valueEntity.getDiscountAmt() != null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountAmt()) != 0) {
+        if (valueEntity.getDiscountAmt() != null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountAmt()) != 0 || valueEntity.getDiscountGoodsDiscountAmt()!=null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountGoodsDiscountAmt()) != 0) {
             freeMoney.setText(" | 优惠¥" + valueEntity.getDiscountAmt().add(valueEntity.getDiscountGoodsDiscountAmt()));
             freeMoney.setVisibility(View.VISIBLE);
         } else {
