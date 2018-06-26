@@ -16,6 +16,7 @@ import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -230,11 +231,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         view = inflater.inflate(R.layout.home_fragment, container, false);
         mActivity = getActivity();
         getAddressList();
+        initHandle();
         mLoadingDialog = new LoadingDialog(mActivity);
         initData();
         initViews();
         checkNet();
-        initHandle();
         return view;
     }
 
@@ -1334,6 +1335,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
      */
     public void showAddress() {
         String address = PreferenceUtils.getAddressName(getActivity());
+        Log.i(TAG, "showAddress::address:" + address);
         if (CheckUtils.isNoEmptyStr(address)) {
 //            if (isFirstIn && App.isLogin()) {
 //                isFirstIn = false;

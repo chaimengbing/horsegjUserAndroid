@@ -236,10 +236,10 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
         view = inflater.inflate(R.layout.new_home_fragment, container, false);
         mActivity = getActivity();
         mLoadingDialog = new LoadingDialog(mActivity);
+        initHandler();
         initData();
         initViews();
         checkNet();
-        initHandler();
         return view;
     }
 

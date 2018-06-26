@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
+import com.baidu.location.Poi;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
@@ -41,6 +42,7 @@ import com.project.mgjandroid.ui.fragment.OrderListFragment;
 import com.project.mgjandroid.ui.fragment.SuperMarketFragment;
 import com.project.mgjandroid.ui.view.CommonDialog;
 import com.project.mgjandroid.ui.view.CustomViewPager;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
@@ -52,6 +54,7 @@ import com.tencent.smtt.sdk.CookieSyncManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -689,31 +692,23 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
             BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
             if (fragment instanceof HomeFragment) {
                 handler = ((HomeFragment) fragment).getHandler();
+                ((HomeFragment) fragment).showAddress();
             } else {
+                ((NewHomeFragment) fragment).showAddress();
                 handler = ((NewHomeFragment) fragment).getHandler();
             }
 
             if (handler != null) {
-                //            if (location != null) {
-////                PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
-////                PreferenceUtils.saveAddressName(location.getAddrStr(), mActivity);
-//                if (CheckUtils.isNoEmptyList(location.getPoiList())) {
-//                    List<Poi> list = location.getPoiList();
-//                    PreferenceUtils.saveAddressDes(list.get(0).getName(), mActivity);
-//                }
-////                if (location.getAddress() != null && location.getAddress().city != null) {
-////                    PreferenceUtils.saveAddressCity(location.getAddress().city, mActivity);
-////                }
-//                if (location.getAddress() != null && location.getAddress().cityCode != null) {
-//                    PreferenceUtils.saveAddressCityCode(location.getAddress().cityCode, mActivity);
-//                }
-//                showAddress();
-//                if (mActivity instanceof HomeActivity) {
-//                    ((HomeActivity) mActivity).getInformationArea();
-//                }
-//            } else {
+                if (CheckUtils.isNoEmptyList(location.getPoiList())) {
+                    List<Poi> list = location.getPoiList();
+                    PreferenceUtils.saveAddressDes(list.get(0).getName(), mActivity);
+                }
+                if (location.getAddress() != null && location.getAddress().cityCode != null) {
+                    PreferenceUtils.saveAddressCityCode(location.getAddress().cityCode, mActivity);
+                }
+                getInformationArea();
+            } else {
                 handler.obtainMessage(Constants.LOCATION_FAIL).sendToTarget();
-//            }
             }
         }
 
