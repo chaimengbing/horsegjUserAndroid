@@ -234,6 +234,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         initData();
         initViews();
         checkNet();
+        initHandle();
         return view;
     }
 
