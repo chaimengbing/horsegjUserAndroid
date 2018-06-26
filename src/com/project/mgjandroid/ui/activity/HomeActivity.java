@@ -3,6 +3,7 @@ package com.project.mgjandroid.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,14 +16,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.AppVersion;
-import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.download.FileDownloadManager;
-import com.project.mgjandroid.model.AddressManageModel;
+import com.project.mgjandroid.manager.LocationManager;
 import com.project.mgjandroid.model.AppLaunchModel;
 import com.project.mgjandroid.model.FestivalModel;
 import com.project.mgjandroid.model.HomeVersionModel;
@@ -50,7 +52,6 @@ import com.tencent.smtt.sdk.CookieSyncManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -127,7 +128,8 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     private FileDownloadManager mManager2;
     private String gifName;
     public boolean isLotteryShow = false;
-    private List<UserAddress> userAddressList;
+
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -135,7 +137,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         setContentView(R.layout.home_act);
         Injector.get(this).inject();
         instance = this;
-        PreferenceUtils.saveBoolPreference("isLocation",false,getApplicationContext());
+        PreferenceUtils.saveBoolPreference("isLocation", false, getApplicationContext());
         homePagerAdapter = new HomePagerAdapter(this.getSupportFragmentManager());
         fragments = homePagerAdapter.getFragments();
         pager.setAdapter(homePagerAdapter);
@@ -151,6 +153,16 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         checkUpdate();
         //预加载闪屏gif
         getSplashGif();
+
+
+        //延迟定位，为了首先请求到收货地址列表
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                registeLocation();
+            }
+        }, 500);
+
     }
 
     /**
@@ -321,6 +333,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 break;
         }
 
+    }
+
+    public void registeLocation() {
+        LocationManager.getIManager().registeLocation(getApplicationContext(), locationListener);
     }
 
     private void hiddenUpdateDialog() {
@@ -512,7 +528,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                         }
                         App.setUserInfo(appUserEntity);
                         App.setIsLogin(true);
-                    } else if(appLaunchModel.getCode() == 100000){
+                    } else if (appLaunchModel.getCode() == 100000) {
                         PreferenceUtils.saveStringPreference("token", "", HomeActivity.this);
                         //清空缓存
                         CookieSyncManager.createInstance(mActivity);  //Create a singleton CookieSyncManager within a context
@@ -660,18 +676,68 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         }, HomeVersionModel.class);
     }
 
+    /**
+     * 注册一个定位监听
+     */
+    BDLocationListener locationListener = new BDLocationListener() {
+        @SuppressWarnings("unchecked")
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            LocationManager.getIManager().stopLocation();
+            Log.i("11", "1111111111111111111111111111");
+            Handler handler;
+            BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
+            if (fragment instanceof HomeFragment) {
+                handler = ((HomeFragment) fragment).getHandler();
+            } else {
+                handler = ((NewHomeFragment) fragment).getHandler();
+            }
+
+            if (handler != null) {
+                //            if (location != null) {
+////                PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
+////                PreferenceUtils.saveAddressName(location.getAddrStr(), mActivity);
+//                if (CheckUtils.isNoEmptyList(location.getPoiList())) {
+//                    List<Poi> list = location.getPoiList();
+//                    PreferenceUtils.saveAddressDes(list.get(0).getName(), mActivity);
+//                }
+////                if (location.getAddress() != null && location.getAddress().city != null) {
+////                    PreferenceUtils.saveAddressCity(location.getAddress().city, mActivity);
+////                }
+//                if (location.getAddress() != null && location.getAddress().cityCode != null) {
+//                    PreferenceUtils.saveAddressCityCode(location.getAddress().cityCode, mActivity);
+//                }
+//                showAddress();
+//                if (mActivity instanceof HomeActivity) {
+//                    ((HomeActivity) mActivity).getInformationArea();
+//                }
+//            } else {
+                handler.obtainMessage(Constants.LOCATION_FAIL).sendToTarget();
+//            }
+            }
+        }
+
+    };
+
     private void updataFragment() {
         ArrayList<BaseFragment> fragments = homePagerAdapter.getFragments();
         if (versionType == 1) {
             fragments.set(0, newHomeFragment);
-            newHomeFragment.showAddress();
+//            newHomeFragment.showAddress();
             superMarketLayout.setVisibility(View.GONE);
         } else {
             fragments.set(0, homeFragment);
-            homeFragment.showAddress();
+//            homeFragment.showAddress();
             superMarketLayout.setVisibility(View.VISIBLE);
         }
+
         homePagerAdapter.notifyDataSetChanged();
+        BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
+        if (fragment instanceof HomeFragment) {
+            ((HomeFragment) fragment).showAddress();
+        } else {
+            ((NewHomeFragment) fragment).showAddress();
+        }
         if (versionType == 1) {
             if (pager.getCurrentItem() != INDEX_HOME) {
                 pager.setCurrentItem(INDEX_HOME, false);

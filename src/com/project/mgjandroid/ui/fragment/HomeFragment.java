@@ -1,6 +1,5 @@
 package com.project.mgjandroid.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +16,6 @@ import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +33,6 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.Poi;
-import com.baidu.mapapi.model.LatLng;
 import com.github.mzule.activityrouter.router.RouterCallback;
 import com.github.mzule.activityrouter.router.Routers;
 import com.project.mgjandroid.R;
@@ -62,15 +56,12 @@ import com.project.mgjandroid.constants.ActivitySchemeManager;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
-import com.project.mgjandroid.manager.LocationManager;
 import com.project.mgjandroid.model.AddressManageModel;
-import com.project.mgjandroid.model.BaiduGeocoderModel;
 import com.project.mgjandroid.model.BroadcastModel;
 import com.project.mgjandroid.model.CommercialListModel;
 import com.project.mgjandroid.model.FindAgentModel;
 import com.project.mgjandroid.model.FindCategoryModel;
 import com.project.mgjandroid.model.HomeBannerModel;
-import com.project.mgjandroid.model.LegworkOrderDetailsModel;
 import com.project.mgjandroid.model.LotteryStatusModel;
 import com.project.mgjandroid.model.MerchantFilterModel;
 import com.project.mgjandroid.model.MerchantFilterModel.ValueEntity.MerchantPropertyListEntity;
@@ -86,7 +77,6 @@ import com.project.mgjandroid.ui.activity.BindMobileActivity;
 import com.project.mgjandroid.ui.activity.CommercialActivity;
 import com.project.mgjandroid.ui.activity.CommodityDetailActivity;
 import com.project.mgjandroid.ui.activity.HomeActivity;
-import com.project.mgjandroid.ui.activity.LocationActivity;
 import com.project.mgjandroid.ui.activity.LocationNewActivity;
 import com.project.mgjandroid.ui.activity.OldHomeActivity;
 import com.project.mgjandroid.ui.activity.PrimaryCategoryActivity;
@@ -134,6 +124,9 @@ import java.util.Map;
  * @author jian
  */
 public class HomeFragment extends BaseFragment implements OnClickListener, OnBannerItemClickListener, RadioGroup.OnCheckedChangeListener {
+
+    private final static String TAG = "HomeFragment";
+
     public static final int IS_LINK = 1;
     public static final int IS_CATEGORY = 2;
     public static final int IS_MERCHANT = 3;
@@ -172,10 +165,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             R.drawable.head_04, R.drawable.head_05, R.drawable.head_06};
     private int[] sortIds = new int[]{1, 2, 3, 4, 5, 6};
     private MerchantFilterModel.ValueEntity filterValue;
-    private static final int LOCATION_SUCCESS = 233;
-    private static final int LOCATION_FAIL = 234;
-    private static final int NO_NET = 500;
-    private static final int LOCATION_NO_MERCHANT = 501;
     private int tagId = -1;
     private int tagParentId = -1;
     private SegmentedGroup shipmentLinear;
@@ -227,15 +216,20 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     private List<UserAddress> userAddressList;
     private PopupWindow popupWindow;
     private boolean isShowPop = true;
-    private boolean isFail;
+    private boolean isFail = false;
+    private Handler handler;
+
+    public Handler getHandler() {
+        return handler;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
         view = inflater.inflate(R.layout.home_fragment, container, false);
         mActivity = getActivity();
-        LocationManager.getIManager().registeLocation(mActivity, listener);
-//        getAddressList();
+        getAddressList();
         mLoadingDialog = new LoadingDialog(mActivity);
         initData();
         initViews();
@@ -269,138 +263,125 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         }
     }
 
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (listView.isRefreshing()) {
-                listView.onRefreshComplete();
-            }
-            switch (msg.what) {
-                case 0:
-                    titleBarBg.setAlpha(0);
-                    tvAdress.setBackgroundResource(R.drawable.home_title_bg);
-                    tvAdress.setTextColor(getResources().getColor(R.color.white));
-                    Drawable drawableLeft = getResources().getDrawable(R.drawable.local_white);
-                    drawableLeft.setBounds(0, 0, drawableLeft.getMinimumWidth(), drawableLeft.getMinimumHeight());
-                    Drawable drawableRight = getResources().getDrawable(R.drawable.nabla);
-                    drawableRight.setBounds(0, 0, drawableRight.getMinimumWidth(), drawableRight.getMinimumHeight());
-                    tvAdress.setCompoundDrawables(drawableLeft, null, drawableRight, null);
-                    ivSearch.setBackgroundResource(R.drawable.home_title_bg);
-                    ivSearch.setImageResource(R.drawable.icon_search);
-                    mLoadingDialog.show();
-                    LocationManager.getIManager().registeLocation(mActivity, listener);
-                    break;
-                case LOCATION_SUCCESS:
-                    locateFail.setVisibility(View.GONE);
-                    break;
-                case LOCATION_FAIL:
-                    isFail = true;
-//                    String address = PreferenceUtils.getAddressName(App.getInstance());
-//                    if (CheckUtils.isNoEmptyStr(address) && App.isLogin()) {
-//                        if (!address.equals(tvAdress.getText().toString())) {
-//                            ToastUtils.displayMsg("已切换到" + address, mActivity);
-//                            showAddress();
-//                        }
-//                        MineFragment mineFragment = MineFragment.newInstance();
-//                        if (mineFragment != null) {
-//                            mineFragment.getLocation(Double.parseDouble(PreferenceUtils.getLocation(mActivity)[0]), Double.parseDouble(PreferenceUtils.getLocation(mActivity)[1]));
-//                        }
-//                    } else  && CheckUtils.isEmptyStr(address)
-                    if (App.isLogin() && userAddressList.size() > 0) {
-                        mPopupWindow(userAddressList);
-                        UserAddress info = userAddressList.get(0);
-                        if (info != null) {
-                            PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
-                            if (!TextUtils.isEmpty(info.getHouseNumber())) {
-                                PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
-                            } else {
-                                PreferenceUtils.saveAddressDes("", mActivity);
+    private void initHandle() {
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (listView.isRefreshing()) {
+                    listView.onRefreshComplete();
+                }
+                switch (msg.what) {
+                    case 0:
+                        titleBarBg.setAlpha(0);
+                        tvAdress.setBackgroundResource(R.drawable.home_title_bg);
+                        tvAdress.setTextColor(getResources().getColor(R.color.white));
+                        Drawable drawableLeft = getResources().getDrawable(R.drawable.local_white);
+                        drawableLeft.setBounds(0, 0, drawableLeft.getMinimumWidth(), drawableLeft.getMinimumHeight());
+                        Drawable drawableRight = getResources().getDrawable(R.drawable.nabla);
+                        drawableRight.setBounds(0, 0, drawableRight.getMinimumWidth(), drawableRight.getMinimumHeight());
+                        tvAdress.setCompoundDrawables(drawableLeft, null, drawableRight, null);
+                        ivSearch.setBackgroundResource(R.drawable.home_title_bg);
+                        ivSearch.setImageResource(R.drawable.icon_search);
+                        mLoadingDialog.show();
+                        ((HomeActivity) getActivity()).registeLocation();
+                        break;
+                    case Constants.LOCATION_SUCCESS:
+                        locateFail.setVisibility(View.GONE);
+                        break;
+                    case Constants.LOCATION_FAIL:
+                        isFail = true;
+                        String address = PreferenceUtils.getAddressName(App.getInstance());
+                        if (CheckUtils.isNoEmptyStr(address) && App.isLogin()) {
+                            if (!address.equals(tvAdress.getText().toString())) {
+                                ToastUtils.displayMsg("已切换到" + address, mActivity);
+                                showAddress();
                             }
-                            PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-                            showAddress();
+                            MineFragment mineFragment = MineFragment.newInstance();
+                            if (mineFragment != null) {
+                                mineFragment.getLocation(Double.parseDouble(PreferenceUtils.getLocation(mActivity)[0]), Double.parseDouble(PreferenceUtils.getLocation(mActivity)[1]));
+                            }
+                        } else if (App.isLogin() && userAddressList.size() > 0 && CheckUtils.isEmptyStr(address)) {
+                            mPopupWindow(userAddressList);
+                            UserAddress info = userAddressList.get(0);
+                            if (info != null) {
+                                PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
+                                if (!TextUtils.isEmpty(info.getHouseNumber())) {
+                                    PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
+                                } else {
+                                    PreferenceUtils.saveAddressDes("", mActivity);
+                                }
+                                PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
+                                showAddress();
+                            }
+                        } else {
+                            titleBarBg.setAlpha(1);
+                            tvAdress.setBackgroundResource(0);
+                            tvAdress.setTextColor(getResources().getColor(R.color.title_tv_festival));
+                            Drawable drawableLeft2 = getResources().getDrawable(R.drawable.local_white);
+                            drawableLeft2.setBounds(0, 0, drawableLeft2.getMinimumWidth(), drawableLeft2.getMinimumHeight());
+                            Drawable drawableRight2 = getResources().getDrawable(R.drawable.nabla);
+                            drawableRight2.setBounds(0, 0, drawableRight2.getMinimumWidth(), drawableRight2.getMinimumHeight());
+                            tvAdress.setCompoundDrawables(drawableLeft2, null, drawableRight2, null);
+                            ivSearch.setBackgroundResource(0);
+                            ivSearch.setImageResource(R.drawable.icon_search);
+                            mLoadingDialog.dismiss();
+                            locateFail.setVisibility(View.VISIBLE);
+//                    ToastUtils.displayMsg("定位失败，请检查网络或定位是否打开", mActivity);
+                            hasNoNet.setVisibility(View.GONE);
+                            TextView locateByOneself = (TextView) locateFail.findViewById(R.id.home_fragment_locate_by_oneself);
+                            TextView locateReload = (TextView) locateFail.findViewById(R.id.home_fragment_locate_reload);
+                            locateByOneself.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(mActivity, LocationNewActivity.class);
+                                    intent.putExtra("curAddress", tvAdress.getText().toString());
+                                    startActivityForResult(intent, ActRequestCode.LOCATION);
+                                    mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
+                                }
+                            });
+                            locateReload.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((HomeActivity) getActivity()).registeLocation();
+                                }
+                            });
                         }
-                    } else {
+                        break;
+                    case Constants.NO_NET:
                         titleBarBg.setAlpha(1);
                         tvAdress.setBackgroundResource(0);
                         tvAdress.setTextColor(getResources().getColor(R.color.title_tv_festival));
-                        Drawable drawableLeft2 = getResources().getDrawable(R.drawable.local_white);
-                        drawableLeft2.setBounds(0, 0, drawableLeft2.getMinimumWidth(), drawableLeft2.getMinimumHeight());
-                        Drawable drawableRight2 = getResources().getDrawable(R.drawable.nabla);
-                        drawableRight2.setBounds(0, 0, drawableRight2.getMinimumWidth(), drawableRight2.getMinimumHeight());
-                        tvAdress.setCompoundDrawables(drawableLeft2, null, drawableRight2, null);
+                        Drawable drawableLeft3 = getResources().getDrawable(R.drawable.local_white);
+                        drawableLeft3.setBounds(0, 0, drawableLeft3.getMinimumWidth(), drawableLeft3.getMinimumHeight());
+                        Drawable drawableRight3 = getResources().getDrawable(R.drawable.nabla);
+                        drawableRight3.setBounds(0, 0, drawableRight3.getMinimumWidth(), drawableRight3.getMinimumHeight());
+                        tvAdress.setCompoundDrawables(drawableLeft3, null, drawableRight3, null);
                         ivSearch.setBackgroundResource(0);
                         ivSearch.setImageResource(R.drawable.icon_search);
-                        mLoadingDialog.dismiss();
-                        locateFail.setVisibility(View.VISIBLE);
-//                    ToastUtils.displayMsg("定位失败，请检查网络或定位是否打开", mActivity);
-                        hasNoNet.setVisibility(View.GONE);
-                        TextView locateByOneself = (TextView) locateFail.findViewById(R.id.home_fragment_locate_by_oneself);
-                        TextView locateReload = (TextView) locateFail.findViewById(R.id.home_fragment_locate_reload);
-                        locateByOneself.setOnClickListener(new OnClickListener() {
+                        hasNoNet.setVisibility(View.VISIBLE);
+                        hasNoNetIcon.setImageResource(R.drawable.has_no_net);
+                        hasNoNetMsg.setText("未能连接到互联网");
+                        reload.setText("刷新重试");
+                        reload = (TextView) hasNoNet.findViewById(R.id.home_fragment_reload);
+                        reload.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent = new Intent(mActivity, LocationNewActivity.class);
-                                intent.putExtra("curAddress", tvAdress.getText().toString());
-                                startActivityForResult(intent, ActRequestCode.LOCATION);
-                                mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
+                                if (!NetworkUtils.isConnected(mActivity)) {
+                                    return;
+                                }
+                                hasNoNet.setVisibility(View.GONE);
+                                handler.sendEmptyMessage(0);
                             }
                         });
-                        locateReload.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                LocationManager.getIManager().registeLocation(mActivity, listener);
-//                            showAddress();
-                            }
-                        });
-                    }
-                    break;
-                case NO_NET:
-                    titleBarBg.setAlpha(1);
-                    tvAdress.setBackgroundResource(0);
-                    tvAdress.setTextColor(getResources().getColor(R.color.title_tv_festival));
-                    Drawable drawableLeft3 = getResources().getDrawable(R.drawable.local_white);
-                    drawableLeft3.setBounds(0, 0, drawableLeft3.getMinimumWidth(), drawableLeft3.getMinimumHeight());
-                    Drawable drawableRight3 = getResources().getDrawable(R.drawable.nabla);
-                    drawableRight3.setBounds(0, 0, drawableRight3.getMinimumWidth(), drawableRight3.getMinimumHeight());
-                    tvAdress.setCompoundDrawables(drawableLeft3, null, drawableRight3, null);
-                    ivSearch.setBackgroundResource(0);
-                    ivSearch.setImageResource(R.drawable.icon_search);
-                    hasNoNet.setVisibility(View.VISIBLE);
-                    hasNoNetIcon.setImageResource(R.drawable.has_no_net);
-                    hasNoNetMsg.setText("未能连接到互联网");
-                    reload.setText("刷新重试");
-                    reload = (TextView) hasNoNet.findViewById(R.id.home_fragment_reload);
-                    reload.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (!NetworkUtils.isConnected(mActivity)) {
-                                return;
-                            }
-                            hasNoNet.setVisibility(View.GONE);
-                            handler.sendEmptyMessage(0);
-                        }
-                    });
-                    break;
-                case LOCATION_NO_MERCHANT:
-//                    hasNoNet.setVisibility(View.VISIBLE);
-//                    hasNoNetIcon.setImageResource(R.drawable.has_no_merchant);
-//                    hasNoNetMsg.setText("附近没有外卖商家");
-//                    reload.setText("切换地址");
-//                    Log.e("merchant", hasNoNetMsg.getText() + "");
-//                    reload.setOnClickListener(new OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Intent intent = new Intent(mActivity, LocationActivity.class);
-//                            startActivityForResult(intent, ActRequestCode.LOCATION);
-//                            mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
-//                        }
-//                    });
-                    showNavigateDialog();
-                    break;
+                        break;
+                    case Constants.LOCATION_NO_MERCHANT:
+                        showNavigateDialog();
+                        break;
+                }
             }
-        }
-    };
+        };
+    }
+
 
     //附近无商家提示切换地址
     private void showNavigateDialog() {
@@ -1374,7 +1355,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 //            listView.autoRefresh();
 //                getDate(false, false);
                 getAgentIdByXY();
-                handler.sendEmptyMessage(LOCATION_SUCCESS);
+                handler.sendEmptyMessage(Constants.LOCATION_SUCCESS);
             }
         } else {
             tvAdress.setText("未知位置");
@@ -1422,64 +1403,19 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         tv1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (popupWindow != null && popupWindow.isShowing()) {
-                    popupWindow.dismiss();
-                }
-                if (CheckUtils.isNoEmptyList(userAddressList)) {
-                    UserAddress info = userAddressList.get(0);
-                    if (info != null) {
-                        PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
-                        if (!TextUtils.isEmpty(info.getHouseNumber())) {
-                            PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
-                        } else {
-                            PreferenceUtils.saveAddressDes("", mActivity);
-                        }
-                        PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-                        showAddress();
-                    }
-                }
+                switchLocation(userAddressList.get(userAddressList.size() - 1));
             }
         });
         tv2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (popupWindow != null && popupWindow.isShowing()) {
-                    popupWindow.dismiss();
-                }
-                if (CheckUtils.isNoEmptyList(userAddressList)) {
-                    UserAddress info = userAddressList.get(1);
-                    if (info != null) {
-                        PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
-                        if (!TextUtils.isEmpty(info.getHouseNumber())) {
-                            PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
-                        } else {
-                            PreferenceUtils.saveAddressDes("", mActivity);
-                        }
-                        PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-                        showAddress();
-                    }
-                }
+                switchLocation(userAddressList.get(userAddressList.size() - 2));
             }
         });
         tv3.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (popupWindow != null && popupWindow.isShowing()) {
-                    popupWindow.dismiss();
-                }
-                if (CheckUtils.isNoEmptyList(userAddressList)) {
-                    UserAddress info = userAddressList.get(2);
-                    if (info != null) {
-                        PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
-                        if (!TextUtils.isEmpty(info.getHouseNumber())) {
-                            PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
-                        } else {
-                            PreferenceUtils.saveAddressDes("", mActivity);
-                        }
-                        PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-                        showAddress();
-                    }
-                }
+                switchLocation(userAddressList.get(userAddressList.size() - 3));
             }
         });
         rlOtherAddress.setOnClickListener(new OnClickListener() {
@@ -1511,6 +1447,23 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 
     }
 
+    private void switchLocation(UserAddress info) {
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
+        mLoadingDialog.show();
+        if (info != null) {
+            PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
+            if (!TextUtils.isEmpty(info.getHouseNumber())) {
+                PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
+            } else {
+                PreferenceUtils.saveAddressDes("", mActivity);
+            }
+            PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
+            showAddress();
+        }
+    }
+
     public void openPop() {
         if (popupWindow != null && !popupWindow.isShowing()) {
             WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
@@ -1529,10 +1482,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     userAddressList = ((AddressManageModel) obj).getValue();
-                    if (!PreferenceUtils.getBoolPreference("isLocation", getActivity())) {
-                        PreferenceUtils.saveBoolPreference("isLocation", true, getActivity());
-                        LocationManager.getIManager().registeLocation(mActivity, listener);
-                    }
                 }
             }
         }, AddressManageModel.class);
@@ -1557,42 +1506,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 
     private void doWhileLocationFail() {
         if (!NetworkUtils.isConnected(mActivity)) {
-            handler.sendEmptyMessage(NO_NET);
+            handler.sendEmptyMessage(Constants.NO_NET);
         } else {
-            handler.sendEmptyMessage(LOCATION_FAIL);
+            handler.sendEmptyMessage(Constants.LOCATION_FAIL);
         }
     }
-
-    //注册一个定位监听
-    BDLocationListener listener = new BDLocationListener() {
-        @SuppressWarnings("unchecked")
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            LocationManager.getIManager().stopLocation();
-            Log.i("11", "1111111111111111111111111111");
-            if (location != null) {
-//                PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
-//                PreferenceUtils.saveAddressName(location.getAddrStr(), mActivity);
-                if (CheckUtils.isNoEmptyList(location.getPoiList())) {
-                    List<Poi> list = location.getPoiList();
-                    PreferenceUtils.saveAddressDes(list.get(0).getName(), mActivity);
-                }
-//                if (location.getAddress() != null && location.getAddress().city != null) {
-//                    PreferenceUtils.saveAddressCity(location.getAddress().city, mActivity);
-//                }
-                if (location.getAddress() != null && location.getAddress().cityCode != null) {
-                    PreferenceUtils.saveAddressCityCode(location.getAddress().cityCode, mActivity);
-                }
-                showAddress();
-                if (mActivity instanceof HomeActivity) {
-                    ((HomeActivity) mActivity).getInformationArea();
-                }
-            } else {
-                handler.obtainMessage(LOCATION_FAIL).sendToTarget();
-            }
-        }
-
-    };
 
 
     private void addActivityImages(List<Banner> bannerList) {
@@ -2712,7 +2630,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                                 data.add(new Merchant());
                                 adapter.setSystemTime(null);
                                 adapter.setList(data);
-                                handler.sendEmptyMessage(LOCATION_NO_MERCHANT);
+                                handler.sendEmptyMessage(Constants.LOCATION_NO_MERCHANT);
                                 return;
                             }
 //                        else {

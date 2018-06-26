@@ -881,4 +881,10 @@ public class Constants {
      */
     public static final String URL_QUERY_REFUND_INFO = URL_HOME_MAIN + "refundInfo";
 
+
+    public static final int LOCATION_SUCCESS = 233;
+    public static final int LOCATION_FAIL = 234;
+    public static final int NO_NET = 500;
+    public static final int LOCATION_NO_MERCHANT = 501;
+
 }
