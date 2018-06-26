@@ -100,31 +100,24 @@ public class BottomCartListAdapter extends BaseAdapter {
         if (product.getGoods().getHasDiscount() == 1) {
             int everyGoodsEveryOrderBuyCount = product.getGoods().getEveryGoodsEveryOrderBuyCount();
             int surplusDiscountStock = product.getGoods().getSurplusDiscountStock();
-
-            if(everyGoodsEveryOrderBuyCount>0){
-                multiply = goodsSpec.getPrice().multiply(new BigDecimal(product.getGoods().getEveryGoodsEveryOrderBuyCount()));
-                decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - everyGoodsEveryOrderBuyCount));
-            }else {
-                if(pickCount>surplusDiscountStock){
-                    multiply1 = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
-                    decimal1 = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - surplusDiscountStock));
-                }else {
-                    bigDecimal = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
-                }
-
-            }
-            if (pickCount > everyGoodsEveryOrderBuyCount) {
-                if(everyGoodsEveryOrderBuyCount>0){
-                    holder.tv_price.setText(multiply.add(decimal) + "");
-                }else {
-                    if(pickCount>surplusDiscountStock){
-                        holder.tv_price.setText(multiply1.add(decimal1)+"");
-                    }else {
-                        holder.tv_price.setText(bigDecimal + "");
-                    }
+            if (everyGoodsEveryOrderBuyCount >= surplusDiscountStock) {
+                if (pickCount >= surplusDiscountStock) {
+                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
+                    decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - surplusDiscountStock));
+                    holder.tv_price.setText(""+multiply.add(decimal));
+                } else {
+                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
+                    holder.tv_price.setText(""+multiply);
                 }
             } else {
-                holder.tv_price.setText("" + goodsSpec.getPrice().multiply(new BigDecimal(pickCount)));
+                if (pickCount >= everyGoodsEveryOrderBuyCount) {
+                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(everyGoodsEveryOrderBuyCount));
+                    decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - everyGoodsEveryOrderBuyCount));
+                    holder.tv_price.setText(""+multiply.add(decimal));
+                } else {
+                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
+                    holder.tv_price.setText(""+multiply);
+                }
             }
         } else {
             holder.tv_price.setText("" + goodsSpec.getPrice().multiply(new BigDecimal(pickCount)));

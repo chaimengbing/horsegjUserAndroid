@@ -254,6 +254,9 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private boolean hasFullSub;
     private BigDecimal subtract;
     private boolean isFullSub;
+    private String str;
+    private LinearLayout pLayoutFullSub;
+    private boolean canDisplay = true;
 
 
     @Override
@@ -525,29 +528,24 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                             if (pro.getGoods().getHasDiscount() == 1) {
                                 int everyGoodsEveryOrderBuyCount = pro.getGoods().getEveryGoodsEveryOrderBuyCount();
                                 int surplusDiscountStock = pro.getGoods().getSurplusDiscountStock();
-                                if (everyGoodsEveryOrderBuyCount > 0) {
-                                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
-                                    decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
-                                } else {
-                                    if (pro.getPickCount() > surplusDiscountStock) {
-                                        multiply1 = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
-                                        decimal1 = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
-                                    } else {
-                                        bigDecimal = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
-                                    }
-                                }
-                                if (pro.getPickCount() > everyGoodsEveryOrderBuyCount) {
-                                    if (everyGoodsEveryOrderBuyCount > 0) {
+                                if (everyGoodsEveryOrderBuyCount >= surplusDiscountStock) {
+                                    if (pro.getPickCount() >= surplusDiscountStock) {
+                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getSurplusDiscountStock()));
+                                        decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
                                         num = num.add(multiply.add(decimal));
                                     } else {
-                                        if (pro.getPickCount() > surplusDiscountStock) {
-                                            num = num.add(multiply1.add(decimal1));
-                                        } else {
-                                            num = num.add(bigDecimal);
-                                        }
+                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                        num = num.add(multiply);
                                     }
                                 } else {
-                                    num = num.add(goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount())));
+                                    if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
+                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                        decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                                        num = num.add(multiply.add(decimal));
+                                    } else {
+                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                        num = num.add(multiply);
+                                    }
                                 }
                             } else {
                                 num = num.add(goodsSpec.getPrice().multiply(BigDecimal.valueOf((long) pro.getPickCount())));
@@ -555,15 +553,13 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         }
                     }
                 }
-                if(isFullSub){
+                if (isFullSub) {
                     if (visible || couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
                         tvFullSubtract.setVisibility(View.GONE);
-                        overlay.setVisibility(View.GONE);
                         llFullSubtract.setVisibility(View.GONE);
                         visible = false;
                     } else {
                         tvFullSubtract.setVisibility(View.GONE);
-                        overlay.setVisibility(View.GONE);
                         llFullSubtract.setVisibility(View.VISIBLE);
                     }
                 }
@@ -586,7 +582,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     if (min.getFull() != null && min.getSub() != null) {
                         tvHas.setVisibility(View.VISIBLE);
                         tvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
-                        if (couDanPopupWindow != null) {
+                        if (couDanPopupWindow != null || mPopWindow != null) {
                             pTvHas.setVisibility(View.VISIBLE);
                             pTvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
                         }
@@ -598,7 +594,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
                         tvAddOnItems.setVisibility(View.GONE);
                         llFullSubtract.setClickable(false);
-                        if (couDanPopupWindow != null) {
+                        if (couDanPopupWindow != null || mPopWindow != null) {
                             pTvHas.setVisibility(View.GONE);
                             pTvText1.setText("已满");
                             pTvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
@@ -614,14 +610,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     subtract = full.subtract(num);
                     if (max.getFull() == null && max.getSub() == null) {
                         tvHas.setVisibility(View.GONE);
-                        if (couDanPopupWindow != null) {
+                        if (couDanPopupWindow != null || mPopWindow != null) {
                             pTvHas.setVisibility(View.GONE);
                         }
                     }
                     tvText1.setText("再买");
                     tvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                     tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
-                    if (couDanPopupWindow != null) {
+                    if (couDanPopupWindow != null || mPopWindow != null) {
                         pTvText1.setText("再买");
                         pTvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                         pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
@@ -651,8 +647,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
 
                 if (hasDis) {
                     tvFullSubtract.setVisibility(View.GONE);
-                    overlay.setVisibility(View.GONE);
                     llFullSubtract.setVisibility(View.GONE);
+                    canDisplay = false;
                 } else {
                     BigDecimal num = BigDecimal.ZERO;
                     for (PickGoods pro : mCartProducts) {
@@ -661,29 +657,24 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 if (pro.getGoods().getHasDiscount() == 1) {
                                     int everyGoodsEveryOrderBuyCount = pro.getGoods().getEveryGoodsEveryOrderBuyCount();
                                     int surplusDiscountStock = pro.getGoods().getSurplusDiscountStock();
-                                    if (everyGoodsEveryOrderBuyCount > 0) {
-                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
-                                        decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
-                                    } else {
-                                        if (pro.getPickCount() > surplusDiscountStock) {
-                                            multiply1 = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
-                                            decimal1 = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
-                                        } else {
-                                            bigDecimal = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
-                                        }
-                                    }
-                                    if (pro.getPickCount() > everyGoodsEveryOrderBuyCount) {
-                                        if (everyGoodsEveryOrderBuyCount > 0) {
+                                    if (everyGoodsEveryOrderBuyCount >= surplusDiscountStock) {
+                                        if (pro.getPickCount() >= surplusDiscountStock) {
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getSurplusDiscountStock()));
+                                            decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
                                             num = num.add(multiply.add(decimal));
                                         } else {
-                                            if (pro.getPickCount() > surplusDiscountStock) {
-                                                num = num.add(multiply1.add(decimal1));
-                                            } else {
-                                                num = num.add(bigDecimal);
-                                            }
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                            num = num.add(multiply);
                                         }
                                     } else {
-                                        num = num.add(goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount())));
+                                        if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                            decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                                            num = num.add(multiply.add(decimal));
+                                        } else {
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                            num = num.add(multiply);
+                                        }
                                     }
                                 } else {
                                     num = num.add(goodsSpec.getPrice().multiply(BigDecimal.valueOf((long) pro.getPickCount())));
@@ -699,7 +690,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                             visible = false;
                         } else {
                             tvFullSubtract.setVisibility(View.GONE);
-                            overlay.setVisibility(View.GONE);
                             llFullSubtract.setVisibility(View.VISIBLE);
                         }
                     }
@@ -720,7 +710,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (min.getFull() != null && min.getSub() != null) {
                             tvHas.setVisibility(View.VISIBLE);
                             tvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
-                            if (couDanPopupWindow != null) {
+                            if (couDanPopupWindow != null || mPopWindow != null) {
                                 pTvHas.setVisibility(View.VISIBLE);
                                 pTvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
                             }
@@ -732,7 +722,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                             tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
                             tvAddOnItems.setVisibility(View.GONE);
                             llFullSubtract.setClickable(false);
-                            if (couDanPopupWindow != null) {
+                            if (couDanPopupWindow != null || mPopWindow != null) {
                                 pTvHas.setVisibility(View.GONE);
                                 pTvText1.setText("已满");
                                 pTvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
@@ -748,14 +738,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         subtract = full.subtract(num);
                         if (max.getFull() == null && max.getSub() == null) {
                             tvHas.setVisibility(View.GONE);
-                            if (couDanPopupWindow != null) {
+                            if (couDanPopupWindow != null || mPopWindow != null) {
                                 pTvHas.setVisibility(View.GONE);
                             }
                         }
                         tvText1.setText("再买");
                         tvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                         tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
-                        if (couDanPopupWindow != null) {
+                        if (couDanPopupWindow != null || mPopWindow != null) {
                             pTvText1.setText("再买");
                             pTvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                             pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
@@ -781,7 +771,13 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             if (!CheckUtils.isEmptyList(merchant.getPromotionActivityList())) {
                 for (int i = 0; i < merchant.getPromotionActivityList().size(); i++) {
                     if (merchant.getPromotionActivityList().get(i).getRuleDtoList() != null && merchant.getPromotionActivityList().get(i).getRuleDtoList().size() > 0) {
-                        tvFullSubtract.setText(merchant.getPromotionActivityList().get(i).getPromoName());
+                        String promoName = merchant.getPromotionActivityList().get(i).getPromoName();
+                        if (promoName.startsWith("在线支付")) {
+                            str = promoName.substring(4);
+                        } else {
+                            str = promoName;
+                        }
+                        tvFullSubtract.setText(str);
                         tvFullSubtract.setVisibility(View.VISIBLE);
                         overlay.setVisibility(View.GONE);
                         llFullSubtract.setVisibility(View.GONE);
@@ -864,6 +860,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 couDanPopupWindow.showAtLocation(bottomCart, Gravity.BOTTOM, 0, measuredHeight);
                 linearCover.setVisibility(View.VISIBLE);
                 overlay.setVisibility(View.VISIBLE);
+                if (couDanModelValue.size() >= 4) {
+                    cListView.setPadding(0, 0, 0, DipToPx.dip2px(mActivity, 42));
+                } else {
+                    cListView.setPadding(0, 0, 0, 0);
+                }
                 AnimatorUtils.showBottom(llfs, this);
                 AnimatorUtils.showBottom(cListView, this);
                 AnimatorUtils.alphaIn(linearCover, this);
@@ -886,6 +887,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         mPopWindow.setHeight(DipToPx.dip2px(mActivity, 250));
         mPopWindow.setOutsideTouchable(true);
         TextView textView = (TextView) view.findViewById(R.id.tv_clear_goods);
+        pLayoutFullSub = (LinearLayout) view.findViewById(R.id.ll_layout_full_sub);
+        pTvHas = (TextView) view.findViewById(R.id.tv_has_been_reduced);
+        pTvText1 = (TextView) view.findViewById(R.id.tv_text1);
+        pTvPriceSpread = (TextView) view.findViewById(R.id.tv_price_spread);
+        pTvdimin = (TextView) view.findViewById(R.id.tv_diminishbb_price);
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1181,6 +1187,12 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         mPopWindow.showAtLocation(bottomCart, Gravity.BOTTOM, 0, measuredHeight);
                         linearCover.setVisibility(View.VISIBLE);
                         overlay.setVisibility(View.VISIBLE);
+                        if (isFullSub && canDisplay) {
+                            pLayoutFullSub.setVisibility(View.VISIBLE);
+                        } else {
+                            pLayoutFullSub.setVisibility(View.GONE);
+                        }
+                        checkFullReduction(merchant);
                         AnimatorUtils.showBottom(relativeCenter, this);
                         AnimatorUtils.showBottom(mListView, this);
                         AnimatorUtils.alphaIn(linearCover, this);
@@ -1671,29 +1683,24 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (pro.getGoods().getHasDiscount() == 1) {
                             int everyGoodsEveryOrderBuyCount = pro.getGoods().getEveryGoodsEveryOrderBuyCount();
                             int surplusDiscountStock = pro.getGoods().getSurplusDiscountStock();
-                            if (everyGoodsEveryOrderBuyCount > 0) {
-                                multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
-                                decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
-                            } else {
-                                if (pro.getPickCount() > surplusDiscountStock) {
-                                    multiply1 = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
-                                    decimal1 = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
-                                } else {
-                                    bigDecimal = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
-                                }
-                            }
-                            if (pro.getPickCount() > everyGoodsEveryOrderBuyCount) {
-                                if (everyGoodsEveryOrderBuyCount > 0) {
+                            if (everyGoodsEveryOrderBuyCount >= surplusDiscountStock) {
+                                if (pro.getPickCount() >= surplusDiscountStock) {
+                                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getSurplusDiscountStock()));
+                                    decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
                                     num = num.add(multiply.add(decimal));
                                 } else {
-                                    if (pro.getPickCount() > surplusDiscountStock) {
-                                        num = num.add(multiply1.add(decimal1));
-                                    } else {
-                                        num = num.add(bigDecimal);
-                                    }
+                                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                    num = num.add(multiply);
                                 }
                             } else {
-                                num = num.add(goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount())));
+                                if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
+                                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                    decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                                    num = num.add(multiply.add(decimal));
+                                } else {
+                                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                    num = num.add(multiply);
+                                }
                             }
                         } else {
                             num = num.add(goodsSpec.getPrice().multiply(BigDecimal.valueOf((long) pro.getPickCount())));
