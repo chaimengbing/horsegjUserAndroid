@@ -257,6 +257,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private String str;
     private LinearLayout pLayoutFullSub;
     private boolean canDisplay = true;
+    private TextView pTvAdd;
 
 
     @Override
@@ -539,9 +540,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                     }
                                 } else {
                                     if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
-                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
-                                        decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
-                                        num = num.add(multiply.add(decimal));
+                                        if(everyGoodsEveryOrderBuyCount>0){
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                            decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                                            num = num.add(multiply.add(decimal));
+                                        }else {
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                            num = num.add(multiply);
+                                        }
                                     } else {
                                         multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
                                         num = num.add(multiply);
@@ -599,8 +605,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                             pTvText1.setText("已满");
                             pTvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
                             pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                            pTvAdd.setVisibility(View.GONE);
                             tvAddOnItems.setVisibility(View.GONE);
                             llFullSubtract.setClickable(false);
+                            pLayoutFullSub.setClickable(false);
                         }
                     }
                 }
@@ -626,9 +634,17 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     if (num.compareTo(multiply) >= 0) {
                         tvAddOnItems.setVisibility(View.VISIBLE);
                         llFullSubtract.setClickable(true);
+                        if(mPopWindow != null){
+                            pTvAdd.setVisibility(View.VISIBLE);
+                            pLayoutFullSub.setClickable(true);
+                        }
                     } else {
                         tvAddOnItems.setVisibility(View.GONE);
                         llFullSubtract.setClickable(false);
+                        if(mPopWindow != null){
+                            pTvAdd.setVisibility(View.GONE);
+                            pLayoutFullSub.setClickable(false);
+                        }
                     }
                 }
             } else {
@@ -668,9 +684,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                         }
                                     } else {
                                         if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
-                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
-                                            decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
-                                            num = num.add(multiply.add(decimal));
+                                            if(everyGoodsEveryOrderBuyCount>0){
+                                                multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                                decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                                                num = num.add(multiply.add(decimal));
+                                            }else {
+                                                multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                                num = num.add(multiply);
+                                            }
                                         } else {
                                             multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
                                             num = num.add(multiply);
@@ -685,7 +706,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     if (isFullSub) {
                         if (visible || couDanPopupWindow != null && couDanPopupWindow.isShowing()) {
                             tvFullSubtract.setVisibility(View.GONE);
-                            overlay.setVisibility(View.GONE);
                             llFullSubtract.setVisibility(View.GONE);
                             visible = false;
                         } else {
@@ -727,8 +747,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 pTvText1.setText("已满");
                                 pTvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
                                 pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
+                                pTvAdd.setVisibility(View.GONE);
                                 tvAddOnItems.setVisibility(View.GONE);
                                 llFullSubtract.setClickable(false);
+                                pLayoutFullSub.setClickable(false);
                             }
                         }
                     }
@@ -754,9 +776,17 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (num.compareTo(multiply) >= 0) {
                             tvAddOnItems.setVisibility(View.VISIBLE);
                             llFullSubtract.setClickable(true);
+                            if(mPopWindow != null){
+                                pTvAdd.setVisibility(View.VISIBLE);
+                                pLayoutFullSub.setClickable(true);
+                            }
                         } else {
                             tvAddOnItems.setVisibility(View.GONE);
                             llFullSubtract.setClickable(false);
+                            if(mPopWindow != null){
+                                pTvAdd.setVisibility(View.GONE);
+                                pLayoutFullSub.setClickable(false);
+                            }
                         }
                     }
                 }
@@ -892,6 +922,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         pTvText1 = (TextView) view.findViewById(R.id.tv_text1);
         pTvPriceSpread = (TextView) view.findViewById(R.id.tv_price_spread);
         pTvdimin = (TextView) view.findViewById(R.id.tv_diminishbb_price);
+        pTvAdd = (TextView) view.findViewById(R.id.tv_add_on_items);
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -909,6 +940,15 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 overlay.setVisibility(View.INVISIBLE);
                 linearCover.setVisibility(View.INVISIBLE);
 
+            }
+        });
+        pLayoutFullSub.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopWindow.dismiss();
+                overlay.setVisibility(View.GONE);
+                visible = true;
+                getCouDanData();
             }
         });
         view.setOnClickListener(new OnClickListener() {
@@ -1694,9 +1734,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 }
                             } else {
                                 if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
-                                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
-                                    decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
-                                    num = num.add(multiply.add(decimal));
+                                    if(everyGoodsEveryOrderBuyCount>0){
+                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
+                                        decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
+                                        num = num.add(multiply.add(decimal));
+                                    }else {
+                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                        num = num.add(multiply);
+                                    }
                                 } else {
                                     multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
                                     num = num.add(multiply);

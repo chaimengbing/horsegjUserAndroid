@@ -45,7 +45,7 @@
         android:background="#fceec7"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/x15"
-        android:text="物品重量不超过10kg"
+        android:text="物品超过10公斤将额外收取费用"
         android:textColor="@color/color_6"
         android:textSize="11sp" />
 

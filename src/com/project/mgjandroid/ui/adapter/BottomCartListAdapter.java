@@ -111,9 +111,15 @@ public class BottomCartListAdapter extends BaseAdapter {
                 }
             } else {
                 if (pickCount >= everyGoodsEveryOrderBuyCount) {
-                    multiply = goodsSpec.getPrice().multiply(new BigDecimal(everyGoodsEveryOrderBuyCount));
-                    decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - everyGoodsEveryOrderBuyCount));
-                    holder.tv_price.setText(""+multiply.add(decimal));
+                    if(everyGoodsEveryOrderBuyCount>0){
+                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(everyGoodsEveryOrderBuyCount));
+                        decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - everyGoodsEveryOrderBuyCount));
+                        holder.tv_price.setText(""+multiply.add(decimal));
+                    }else {
+                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
+                        holder.tv_price.setText(""+multiply);
+                    }
+
                 } else {
                     multiply = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
                     holder.tv_price.setText(""+multiply);
