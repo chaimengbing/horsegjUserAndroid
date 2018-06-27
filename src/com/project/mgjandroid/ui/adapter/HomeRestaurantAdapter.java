@@ -153,7 +153,7 @@ public class HomeRestaurantAdapter extends BaseAdapter {
                 holder.tvPickGoodsCount.setVisibility(View.INVISIBLE);
             }
             holder.img.setImageResource(R.drawable.horsegj_default);
-            if (merchant.getStatus() == 0) {
+            if (merchant.getMerchantStatus() == 0 || !DateUtils.isBusinessTime(CommonUtils.formatTime(System.currentTimeMillis(), "HH:mm"), merchant.getWorkingTime())) {
                 holder.imgStatus.setVisibility(View.VISIBLE);
                 holder.imgOffTime.setVisibility(View.GONE);
             } else {

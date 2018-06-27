@@ -2126,11 +2126,13 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     FindAgentModel agentModel = (FindAgentModel) obj;
-                    if (agentModel.getValue().getAgentType() == 1) {
-                        agentId = agentModel.getValue().getId();
-                        PreferenceUtils.saveLongPreference("issueAgentId", agentId, mActivity);
-                    } else {
-                        agentId = 0l;
+                    if (agentModel != null){
+                        if (agentModel.getValue().getAgentType() == 1) {
+                            agentId = agentModel.getValue().getId();
+                            PreferenceUtils.saveLongPreference("issueAgentId", agentId, mActivity);
+                        } else {
+                            agentId = 0l;
+                        }
                     }
 
                 }
