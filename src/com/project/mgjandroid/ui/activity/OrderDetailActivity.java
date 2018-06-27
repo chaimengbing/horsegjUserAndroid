@@ -271,6 +271,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private BaiduMap baiduMap;
     private CallPhoneDialog dialog;
     private Dialog avatarDialog;
+    private Dialog  callNumDialog;
     private NewOrderFragmentModel.ValueEntity valueEntity;
     private SimpleDateFormat sdf;
     private CommonDialog mRedDialog;
@@ -284,6 +285,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private String agentMobile;
     private Button dialog_bt_take_photo;
     private Button dialog_bt_pick_photo;
+
     private String constomer;
     private String mgjName = "总部热线", areaName = "区域热线";
     private String areaPhone;
@@ -665,55 +667,120 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     }
 
     private void showContacts(final List<String> contactsArray) {
-        final MaterialDialog alert = new MaterialDialog(this);
-
-        final ArrayAdapter<String> arrayAdapter
-                = new ArrayAdapter<>(this,
-                R.layout.item_call);
-        for (int j = 0; j < contactsArray.size(); j++) {
-            arrayAdapter.add(contactsArray.get(j));
-        }
-
-        final ListView listView = new ListView(this);
-        listView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        View v = new View(this);
-        v.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 0));
-        listView.addHeaderView(v);
-        listView.addFooterView(v);
-        listView.setDividerHeight(1);
-        listView.setHeaderDividersEnabled(true);
-        listView.setFooterDividersEnabled(true);
-        listView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        if (contactsArray.size() > 4) {
-            listView.setVerticalScrollBarEnabled(true);
-        } else {
-            listView.setVerticalScrollBarEnabled(false);
-        }
-        listView.setAdapter(arrayAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showCallDialog(contactsArray.get(position - 1));
-                alert.dismiss();
+        if (contactsArray != null){
+            if (avatarDialog != null){
+                avatarDialog.dismiss();
             }
-        });
+             callNumDialog = new Dialog(this, R.style.fullDialog);
+            RelativeLayout contentView = (RelativeLayout) View.inflate(this, R.layout.pick_or_take_photo_dialog, null);
+            Button dialog_bt_pick_photo = (Button) contentView.findViewById(R.id.btn_pick_photo);
+            Button dialog_bt_callnum = (Button) contentView.findViewById(R.id.btn_callnum);
+            Button dialog_bt_take_photo = (Button) contentView.findViewById(R.id.btn_take_photo);
+            Button dialog_bt_cancel = (Button) contentView.findViewById(R.id.btn_cancel);
+            View line = contentView.findViewById(R.id.line1);
 
-        alert.setTitle("联系商家")
-                .setContentView(listView)
-                .setPositiveButton(getString(R.string.cancel), new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alert.dismiss();
-                    }
-                });
+            line.setVisibility(View.GONE);
+            dialog_bt_callnum.setVisibility(View.GONE);
+            dialog_bt_pick_photo.setVisibility(View.GONE);
 
-        alert.show();
+            if (contactsArray.size() > 0){
+                dialog_bt_take_photo.setText(contactsArray.get(0));
+            }
+            if (contactsArray.size() > 1){
+                dialog_bt_callnum.setText(contactsArray.get(1));
+                line.setVisibility(View.VISIBLE);
+                dialog_bt_callnum.setVisibility(View.VISIBLE);
+            }
+            if (contactsArray.size() > 2){
+                dialog_bt_pick_photo.setText(contactsArray.get(2));
+                dialog_bt_pick_photo.setVisibility(View.VISIBLE);
+            }
+
+            dialog_bt_take_photo .setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showCallDialog(contactsArray.get(0));
+                }
+            });
+
+            dialog_bt_callnum.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showCallDialog(contactsArray.get(1));
+                }
+            });
+
+            dialog_bt_pick_photo.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showCallDialog(contactsArray.get(2));
+                }
+            });
+            dialog_bt_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callNumDialog.dismiss();
+                }
+            });
+            callNumDialog.setContentView(contentView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            if (layoutDetail.getVisibility() == View.VISIBLE) {
+                callNumDialog.show();
+            }
+        }
+
+//        final MaterialDialog alert = new MaterialDialog(this);
+//
+//        final ArrayAdapter<String> arrayAdapter
+//                = new ArrayAdapter<>(this,
+//                R.layout.item_call);
+//        for (int j = 0; j < contactsArray.size(); j++) {
+//            arrayAdapter.add(contactsArray.get(j));
+//        }
+//
+//        final ListView listView = new ListView(this);
+//        listView.setLayoutParams(new ViewGroup.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT));
+//        View v = new View(this);
+//        v.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 0));
+//        listView.addHeaderView(v);
+//        listView.addFooterView(v);
+//        listView.setDividerHeight(1);
+//        listView.setHeaderDividersEnabled(true);
+//        listView.setFooterDividersEnabled(true);
+//        listView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+//        if (contactsArray.size() > 4) {
+//            listView.setVerticalScrollBarEnabled(true);
+//        } else {
+//            listView.setVerticalScrollBarEnabled(false);
+//        }
+//        listView.setAdapter(arrayAdapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                showCallDialog(contactsArray.get(position - 1));
+//                alert.dismiss();
+//            }
+//        });
+//
+//        alert.setTitle("联系商家")
+//                .setContentView(listView)
+//                .setPositiveButton(getString(R.string.cancel), new OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        alert.dismiss();
+//                    }
+//                });
+//
+//        alert.show();
     }
 
     private void showCallDialog(final String mobild) {
+
+        if (callNumDialog != null){
+            callNumDialog.dismiss();
+        }
         dialog = new CallPhoneDialog(OrderDetailActivity.this, new CallPhoneDialog.onBtnClickListener() {
             @Override
             public void onSure() {
