@@ -14,14 +14,12 @@ import com.project.mgjandroid.utils.inject.Injector;
  */
 public class OldHomeActivity extends BaseActivity {
 
-    private Fragment currentFragment;
-
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.home_old_act);
         Injector.get(this).inject();
-        HomeFragment homeFragment = new HomeFragment();
+        HomeFragment homeFragment = HomeFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putBoolean("isOld", true);
         homeFragment.setArguments(bundle);
@@ -33,22 +31,20 @@ public class OldHomeActivity extends BaseActivity {
     public void switchContent(Fragment to) {
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        if (currentFragment == null) {
-            transaction
-                    .add(R.id.home_act_fl, to, to.getClass().getName());
-        } else {
-            //如果之前没有添加过
-            if (!to.isAdded()) {
-                transaction
-                        .hide(currentFragment)
-                        .add(R.id.home_act_fl, to, to.getClass().getName());  //第三个参数为当前的fragment绑定一个tag，tag为当前绑定fragment的类名
-            } else {
-                transaction
-                        .hide(currentFragment)
-                        .show(to);
-            }
-        }
-        currentFragment = to;
+        transaction.replace(R.id.home_act_fl, to, to.getClass().getName());
+//        } else {
+//            //如果之前没有添加过
+//            if (!to.isAdded()) {
+//                transaction
+//                        .hide(currentFragment)
+//                        .add(R.id.home_act_fl, to, to.getClass().getName());  //第三个参数为当前的fragment绑定一个tag，tag为当前绑定fragment的类名
+//            } else {
+//                transaction
+//                        .hide(currentFragment)
+//                        .show(to);
+//            }
+//        }
+//        currentFragment = to;
         transaction.commit();
     }
 
