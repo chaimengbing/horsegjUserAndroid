@@ -726,11 +726,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         ArrayList<BaseFragment> fragments = homePagerAdapter.getFragments();
         if (versionType == 1) {
             fragments.set(0, newHomeFragment);
-            newHomeFragment.showAddress();
             superMarketLayout.setVisibility(View.GONE);
         } else {
             fragments.set(0, homeFragment);
-            homeFragment.showAddress();
             superMarketLayout.setVisibility(View.VISIBLE);
         }
         homePagerAdapter.notifyDataSetChanged();
