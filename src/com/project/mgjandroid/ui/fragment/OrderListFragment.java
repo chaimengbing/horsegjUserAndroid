@@ -509,7 +509,8 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                         }
                     }
                 } else {
-
+                    adapter.setData(new ArrayList<NewOrderFragmentModel.ValueEntity>());
+                    listView.setEmptyView(mNoDataView);
                 }
             }
         }, NewOrderFragmentModel.class);
