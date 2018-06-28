@@ -20,8 +20,8 @@ allprojects {
     }
 }
 
-ext.appVersionCode = 48
-ext.appVersionName = "3.1.8"
+ext.appVersionCode = 49
+ext.appVersionName = "3.1.9"
 
 dependencies {
     compile fileTree(include: '*.jar', dir: 'libs')

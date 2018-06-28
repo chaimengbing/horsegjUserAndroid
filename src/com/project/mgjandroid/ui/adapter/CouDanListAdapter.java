@@ -113,11 +113,7 @@ public class CouDanListAdapter extends BaseAdapter {
 
         holder.tvBuyCount.setText("" + buy);
         goodsSpec.setBuyCount(buy);
-        if (buy == 0) {
-            holder.tv_price.setText("" + goodsSpec.getPrice());
-        } else {
-            holder.tv_price.setText("" + goodsSpec.getPrice().multiply(new BigDecimal(buy)));
-        }
+        holder.tv_price.setText("" + goodsSpec.getPrice());
 
         holder.imgAdd.setOnClickListener(new View.OnClickListener() {
 
