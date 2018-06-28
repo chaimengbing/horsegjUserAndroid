@@ -396,29 +396,36 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 
     //附近无商家提示切换地址
     private void showNavigateDialog() {
-        if (dialog == null) {
-            dialog = new CustomDialog(mActivity, new CustomDialog.onBtnClickListener() {
-                @Override
-                public void onSure() {
+        try {
+            if (dialog == null) {
+                dialog = new CustomDialog(mActivity, new CustomDialog.onBtnClickListener() {
+                    @Override
+                    public void onSure() {
 //                    Intent intent = new Intent(mActivity, FindDefaultAddressActivity.class);
-                    Intent intent = new Intent(mActivity, LocationNewActivity.class);
-                    intent.putExtra("curAddress", tvAdress.getText().toString());
-                    intent.putExtra("isSelectAddress", true);
-                    startActivityForResult(intent, ActRequestCode.LOCATION);
-                    mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
-                    dialog.dismiss();
-                }
+                        Intent intent = new Intent(mActivity, LocationNewActivity.class);
+                        intent.putExtra("curAddress", tvAdress.getText().toString());
+                        intent.putExtra("isSelectAddress", true);
+                        startActivityForResult(intent, ActRequestCode.LOCATION);
+                        mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
+                        dialog.dismiss();
+                    }
 
-                @Override
-                public void onExit() {
-                    dialog.dismiss();
+                    @Override
+                    public void onExit() {
+                        dialog.dismiss();
 //                    hasNoNet.setVisibility(View.GONE);
-                }
-            }, "切换", "取消", "温馨提示", "抱歉，您所在的区域正加急开通商家，请切换到已开通商家的区域。");
-        }
-        showAddress();
+                    }
+                }, "切换", "取消", "温馨提示", "抱歉，您所在的区域正加急开通商家，请切换到已开通商家的区域。");
+            }
+            showAddress();
 
-        dialog.show();
+            dialog.show();
+        } catch (Exception e) {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.dismiss();
+            }
+        }
+
     }
 
     @Override

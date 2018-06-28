@@ -22,7 +22,9 @@ public class OldHomeActivity extends BaseActivity {
         HomeFragment homeFragment = HomeFragment.newInstance();
         Bundle bundle = new Bundle();
         bundle.putBoolean("isOld", true);
-        homeFragment.setArguments(bundle);
+        if (!homeFragment.isAdded()){
+            homeFragment.setArguments(bundle);
+        }
         switchContent(homeFragment);
     }
 
