@@ -78,7 +78,6 @@ import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CustomDialog;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
-import com.project.mgjandroid.utils.MLog;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ShareUtil;
 import com.project.mgjandroid.utils.StringUtils;
@@ -540,11 +539,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                     }
                                 } else {
                                     if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
-                                        if(everyGoodsEveryOrderBuyCount>0){
+                                        if (everyGoodsEveryOrderBuyCount > 0) {
                                             multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
                                             decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
                                             num = num.add(multiply.add(decimal));
-                                        }else {
+                                        } else {
                                             multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
                                             num = num.add(multiply);
                                         }
@@ -634,14 +633,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     if (num.compareTo(multiply) >= 0) {
                         tvAddOnItems.setVisibility(View.VISIBLE);
                         llFullSubtract.setClickable(true);
-                        if(mPopWindow != null){
+                        if (mPopWindow != null) {
                             pTvAdd.setVisibility(View.VISIBLE);
                             pLayoutFullSub.setClickable(true);
                         }
                     } else {
                         tvAddOnItems.setVisibility(View.GONE);
                         llFullSubtract.setClickable(false);
-                        if(mPopWindow != null){
+                        if (mPopWindow != null) {
                             pTvAdd.setVisibility(View.GONE);
                             pLayoutFullSub.setClickable(false);
                         }
@@ -684,11 +683,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                         }
                                     } else {
                                         if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
-                                            if(everyGoodsEveryOrderBuyCount>0){
+                                            if (everyGoodsEveryOrderBuyCount > 0) {
                                                 multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
                                                 decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
                                                 num = num.add(multiply.add(decimal));
-                                            }else {
+                                            } else {
                                                 multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
                                                 num = num.add(multiply);
                                             }
@@ -776,14 +775,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (num.compareTo(multiply) >= 0) {
                             tvAddOnItems.setVisibility(View.VISIBLE);
                             llFullSubtract.setClickable(true);
-                            if(mPopWindow != null){
+                            if (mPopWindow != null) {
                                 pTvAdd.setVisibility(View.VISIBLE);
                                 pLayoutFullSub.setClickable(true);
                             }
                         } else {
                             tvAddOnItems.setVisibility(View.GONE);
                             llFullSubtract.setClickable(false);
-                            if(mPopWindow != null){
+                            if (mPopWindow != null) {
                                 pTvAdd.setVisibility(View.GONE);
                                 pLayoutFullSub.setClickable(false);
                             }
@@ -931,7 +930,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         mCartProducts.get(i).getGoods().setFirst(true);
                     }
                 }
-                goodsFragment.clearList(mCartProducts, false);
+                goodsFragment.clearList(mCartProducts);
                 mCartProducts.clear();
                 clearPickGoods();
                 mAdapter.notifyDataSetChanged();
@@ -1534,7 +1533,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (currentIndex == INDEX_GOODS) {
                             if (isAgainOrder && object != null && object.getJSONArray("goodsJson").size() > 0) {
                                 //再次购买跳转
-                                goodsFragment.clearList(mCartProducts, false);
+                                goodsFragment.clearList(mCartProducts);
                                 mCartProducts.clear();
                                 clearPickGoods();
                                 mAdapter.notifyDataSetChanged();
@@ -1734,11 +1733,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 }
                             } else {
                                 if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
-                                    if(everyGoodsEveryOrderBuyCount>0){
+                                    if (everyGoodsEveryOrderBuyCount > 0) {
                                         multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
                                         decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
                                         num = num.add(multiply.add(decimal));
-                                    }else {
+                                    } else {
                                         multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
                                         num = num.add(multiply);
                                     }
@@ -1967,7 +1966,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             }
             PickGoodsModel.getInstance().setIsRemove(false);
         } else {
-            goodsFragment.clearList(mCartProducts, true);
+            goodsFragment.clearList(mCartProducts);
         }
         initCartProducts();
         mAdapter.setData(mCartProducts);

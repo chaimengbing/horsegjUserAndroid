@@ -653,7 +653,7 @@ public class GoodsFragment extends HeaderViewPagerFragment {
     /**
      * 清空购物数据
      */
-    public void clearList(List<PickGoods> pickGoodsList,boolean isBack ) {
+    public void clearList(List<PickGoods> pickGoodsList) {
         if (capacityType == 1) {
             for (PickGoods changePickGoods : pickGoodsList) {
                 for (Menu menu : goodsCapacityAdapter.getMenuList()) {
@@ -663,12 +663,7 @@ public class GoodsFragment extends HeaderViewPagerFragment {
                                 List<GoodsSpec> goodsSpecList = goods.getGoodsSpecList();
                                 for (GoodsSpec goodsSpec : goodsSpecList) {
                                     if (changePickGoods.getGoodsId() == goods.getId() && changePickGoods.getGoodsSpecId() == goodsSpec.getId()) {
-                                        if(isBack){
-                                            goodsSpec.setBuyCount(changePickGoods.getPickCount());
-                                        }else {
-                                            goodsSpec.setBuyCount(0);
-                                        }
-                                        break;
+                                        goodsSpec.setBuyCount(0);
                                     }
                                 }
                                 break;
@@ -685,12 +680,7 @@ public class GoodsFragment extends HeaderViewPagerFragment {
                             List<GoodsSpec> goodsSpecList = goods.getGoodsSpecList();
                             for (GoodsSpec goodsSpec : goodsSpecList) {
                                 if (changePickGoods.getGoodsId() == goods.getId() && changePickGoods.getGoodsSpecId() == goodsSpec.getId()) {
-                                    if(isBack){
-                                        goodsSpec.setBuyCount(changePickGoods.getPickCount());
-                                    }else {
-                                        goodsSpec.setBuyCount(0);
-                                    }
-                                    break;
+                                    goodsSpec.setBuyCount(0);
                                 }
                             }
                             break;

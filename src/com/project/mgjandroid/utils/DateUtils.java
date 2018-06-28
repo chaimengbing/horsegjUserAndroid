@@ -223,6 +223,9 @@ public class DateUtils {
      * @return
      */
     public static boolean isBusinessTime(String currentTime, String workTime) {
+        if (TextUtils.isEmpty(workTime) || TextUtils.isEmpty(currentTime)){
+            return false;
+        }
         String works[] = workTime.split(",");
         if (works.length == 1) {
             String times[] = works[0].split("-");

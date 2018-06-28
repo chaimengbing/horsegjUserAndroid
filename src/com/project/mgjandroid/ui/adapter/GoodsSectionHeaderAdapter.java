@@ -653,8 +653,9 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                         if (goodsSpec.getOrderLimit() != 0 && pickGoods.getPickCount() > goodsSpec.getOrderLimit()) {
                             if (goods.getHasDiscount() == 0) {
                                 goodsSpec.setBuyCount(goodsSpec.getOrderLimit());
+                            }else {
+                                goodsSpec.setBuyCount(pickGoods.getPickCount());
                             }
-                            listener.productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), false, false);
                         } else {
                             goodsSpec.setBuyCount(pickGoods.getPickCount());
                         }

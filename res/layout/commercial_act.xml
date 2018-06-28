@@ -44,7 +44,6 @@
                     android:layout_width="@dimen/x55"
                     android:layout_height="@dimen/x55"
                     android:layout_marginLeft="@dimen/x20"
-                    android:scaleType="centerCrop"
                     android:src="@drawable/horsegj_default"
                     app:border_outside_color="#88dfdedf"
                     app:border_thickness="@dimen/x5" />
