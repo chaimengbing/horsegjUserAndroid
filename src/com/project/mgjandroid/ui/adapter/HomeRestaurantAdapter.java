@@ -131,13 +131,16 @@ public class HomeRestaurantAdapter extends BaseAdapter {
 
     private void showItem(View view, final Merchant merchant, final ViewHolder holder) {
         if (merchant != null) {
+            String currentTime;
             if (serviceTime != null) {
-                String currentTime = CommonUtils.formatTime(serviceTime.getTime(), "HH:mm");
-                if (!DateUtils.isBusinessTime(currentTime, merchant.getWorkingTime())) {
-                    merchant.setShoppingTime(false);
-                } else {
-                    merchant.setShoppingTime(true);
-                }
+                currentTime = CommonUtils.formatTime(serviceTime.getTime(), "HH:mm");
+            } else {
+                currentTime = CommonUtils.formatTime(System.currentTimeMillis(), "HH:mm");
+            }
+            if (!DateUtils.isBusinessTime(currentTime, merchant.getWorkingTime())) {
+                merchant.setShoppingTime(false);
+            } else {
+                merchant.setShoppingTime(true);
             }
             if (merchant.getId() == null) {
                 holder.rootView.setVisibility(View.INVISIBLE);
@@ -153,7 +156,7 @@ public class HomeRestaurantAdapter extends BaseAdapter {
                 holder.tvPickGoodsCount.setVisibility(View.INVISIBLE);
             }
             holder.img.setImageResource(R.drawable.horsegj_default);
-            if (merchant.getMerchantStatus() == 0 || !DateUtils.isBusinessTime(CommonUtils.formatTime(System.currentTimeMillis(), "HH:mm"), merchant.getWorkingTime())) {
+            if (merchant.getStatus() == 0) {
                 holder.imgStatus.setVisibility(View.VISIBLE);
                 holder.imgOffTime.setVisibility(View.GONE);
             } else {
