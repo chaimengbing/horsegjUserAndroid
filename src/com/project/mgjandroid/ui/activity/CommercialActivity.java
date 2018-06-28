@@ -854,6 +854,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         overlay.setVisibility(View.GONE);
                         llFullSubtract.setVisibility(View.GONE);
                         isFullSub = true;
+
                     }
                 }
             }
