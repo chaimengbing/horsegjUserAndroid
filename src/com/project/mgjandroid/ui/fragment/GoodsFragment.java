@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -64,6 +65,7 @@ public class GoodsFragment extends HeaderViewPagerFragment {
     protected BaseActivity mActivity;
     protected View view;
     private LinearLayout listLayout;
+    private RelativeLayout goodLayout;
     private ListView groupListView;
     private PinnedHeaderListView goodsListView;
     private PullToRefreshListView goodsListView2;
@@ -156,7 +158,9 @@ public class GoodsFragment extends HeaderViewPagerFragment {
         groupListView = (ListView) view.findViewById(R.id.goods_left_listview);
         goodsListView = (PinnedHeaderListView) view.findViewById(R.id.goods_pinned_listView);
         listLayout = (LinearLayout) view.findViewById(R.id.goods_fragment_list_layout);
+        goodLayout = (RelativeLayout) view.findViewById(R.id.good_layout);
         goodsListView2 = (PullToRefreshListView) view.findViewById(R.id.goods_pinned_listView2);
+        calculateBottom(null,null);
         //左侧
         groupAdapter = new GoodsGroupAdapter(mActivity);
         groupListView.setAdapter(groupAdapter);
@@ -338,6 +342,17 @@ public class GoodsFragment extends HeaderViewPagerFragment {
                 }
             }
         });
+    }
+
+
+    public void calculateBottom(LinearLayout linearLayout, TextView textView) {
+        if (goodLayout != null) {
+            if (linearLayout != null && textView != null && (textView.getVisibility() == View.VISIBLE || linearLayout.getVisibility() == View.VISIBLE)) {
+                goodLayout.setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.x76));
+            } else {
+                goodLayout.setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.x48));
+            }
+        }
     }
 
     /**

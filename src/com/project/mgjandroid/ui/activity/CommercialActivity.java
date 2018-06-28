@@ -815,6 +815,9 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 }
             }
         }
+        if (goodsFragment != null){
+            goodsFragment.calculateBottom(llFullSubtract,tvFullSubtract);
+        }
     }
 
     public void popUp() {
@@ -1318,6 +1321,9 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 llFullSubtract.setVisibility(View.GONE);
                 overlay.setVisibility(View.GONE);
                 visible = true;
+                if (goodsFragment != null){
+                    goodsFragment.calculateBottom(llFullSubtract,tvFullSubtract);
+                }
                 getCouDanData();
                 break;
             default:
@@ -1556,6 +1562,9 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 scrollableLayout.setIsScroller(false);
                             } else {
                                 scrollableLayout.setIsScroller(true);
+                            }
+                            if (goodsFragment != null){
+                                goodsFragment.calculateBottom(llFullSubtract,tvFullSubtract);
                             }
                         }
                     }
