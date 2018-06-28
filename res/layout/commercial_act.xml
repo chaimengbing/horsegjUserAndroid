@@ -522,6 +522,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/x15"
         android:paddingBottom="@dimen/x10">
+        
 
         <ImageView
             android:id="@+id/commercial_act_cart"
@@ -530,6 +531,7 @@
             android:layout_marginRight="@dimen/x5"
             android:layout_marginTop="@dimen/x5"
             android:src="@drawable/cart_1" />
+
 
         <TextView
             android:id="@+id/cart_num"
