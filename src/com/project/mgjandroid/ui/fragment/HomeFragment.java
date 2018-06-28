@@ -311,7 +311,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                             if (mineFragment != null) {
                                 mineFragment.getLocation(Double.parseDouble(PreferenceUtils.getLocation(mActivity)[0]), Double.parseDouble(PreferenceUtils.getLocation(mActivity)[1]));
                             }
-                        } else if (App.isLogin() && userAddressList.size() > 0 && CheckUtils.isEmptyStr(address) && CheckUtils.isEmptyStr(address)) {
+                        } else if (App.isLogin() && userAddressList.size() > 0 && CheckUtils.isEmptyStr(address)) {
                             mPopupWindow(userAddressList);
                             UserAddress info = userAddressList.get(0);
                             if (info != null) {
@@ -470,7 +470,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 
         isOld = getArguments().getBoolean("isOld");
         newAgentId = PreferenceUtils.getIntPreference("agentId", -1, mActivity);
-        if (isOld){
+        if (isOld) {
             showAddress();
         }
 
@@ -1393,15 +1393,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         tv2.setVisibility(View.GONE);
         tv3.setVisibility(View.GONE);
         if (userAddressList.size() > 0) {
-            for (int i = 0; i < userAddressList.size(); i++) {
-                if (i == 0) {
+            for (int i = userAddressList.size() - 1; i >= 0; i--) {
+                if (i == userAddressList.size() - 1) {
                     tv1.setText(userAddressList.get(i).getAddress());
                 }
-                if (i == 1) {
+                if (i == userAddressList.size() - 2) {
                     tv2.setText(userAddressList.get(i).getAddress());
                     tv2.setVisibility(View.VISIBLE);
                 }
-                if (i == 2) {
+                if (i == userAddressList.size() - 3) {
                     tv3.setText(userAddressList.get(i).getAddress());
                     tv3.setVisibility(View.VISIBLE);
                 }
