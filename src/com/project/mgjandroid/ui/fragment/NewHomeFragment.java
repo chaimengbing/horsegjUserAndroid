@@ -2101,7 +2101,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 if (isSucceed && obj != null) {
                     FindAgentModel agentModel = (FindAgentModel) obj;
                     if (agentModel != null) {
-                        if (agentModel.getValue().getAgentType() == 1) {
+                        if (agentModel.getValue() != null && agentModel.getValue().getAgentType() == 1) {
                             agentId = agentModel.getValue().getId();
                             PreferenceUtils.saveLongPreference("issueAgentId", agentId, mActivity);
                         } else {

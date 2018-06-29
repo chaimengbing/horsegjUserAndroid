@@ -731,12 +731,14 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
             fragments.set(0, homeFragment);
             superMarketLayout.setVisibility(View.VISIBLE);
         }
-        homePagerAdapter.notifyDataSetChanged();
-        BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
-        if (fragment instanceof HomeFragment) {
-            ((HomeFragment) fragment).showAddress();
-        } else {
-            ((NewHomeFragment) fragment).showAddress();
+        if (homePagerAdapter != null){
+            homePagerAdapter.notifyDataSetChanged();
+            BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
+            if (fragment instanceof HomeFragment) {
+                ((HomeFragment) fragment).showAddress();
+            } else {
+                ((NewHomeFragment) fragment).showAddress();
+            }
         }
 
         if (versionType == 1) {
