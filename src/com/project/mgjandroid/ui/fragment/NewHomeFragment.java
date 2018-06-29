@@ -436,9 +436,9 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                             if (mineFragment != null) {
                                 mineFragment.getLocation(Double.parseDouble(PreferenceUtils.getLocation(mActivity)[0]), Double.parseDouble(PreferenceUtils.getLocation(mActivity)[1]));
                             }
-                        } else if (App.isLogin() && userAddressList.size() > 0 && CheckUtils.isEmptyStr(address)) {
+                        } else if (App.isLogin() && userAddressList != null && userAddressList.size() > 0 && CheckUtils.isEmptyStr(address)) {
                             mPopupWindow(userAddressList);
-                            UserAddress info = userAddressList.get(0);
+                            UserAddress info = userAddressList.get(userAddressList.size() - 1);
                             if (info != null) {
                                 PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
                                 if (!TextUtils.isEmpty(info.getHouseNumber())) {
