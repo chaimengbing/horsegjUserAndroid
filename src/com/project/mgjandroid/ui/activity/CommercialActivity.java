@@ -461,6 +461,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 tvPromotion.setOnClickListener(CommercialActivity.this);
                             }
                         }
+                    }else {
+                        if (obj instanceof String){
+                            toast(obj.toString());
+                        }
+                        finish();
                     }
                 }
             }
