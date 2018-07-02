@@ -56,12 +56,12 @@ public class PreferenceUtils {
     }
 
     public static String[] getLocation(Context context) {
-        String latitude = getStringPreference(LATITUDE, "", context);
-        String longitude = getStringPreference(LONGITUDE, "", context);
+        String latitude = getStringPreference(LATITUDE, "0.0", context);
+        String longitude = getStringPreference(LONGITUDE, "0.0", context);
         if (CheckUtils.isNoEmptyStr(latitude) && CheckUtils.isNoEmptyStr(longitude)) {
             return new String[]{latitude, longitude};
         } else {
-            return new String[]{"", ""};
+            return new String[]{"0.0", "0.0"};
         }
     }
 
