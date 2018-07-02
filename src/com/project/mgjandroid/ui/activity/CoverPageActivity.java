@@ -111,8 +111,10 @@ public class CoverPageActivity extends BaseActivity {
         //getFestivalStatus();
         PreferenceUtils.saveBoolPreference("festivalStatus", false, mActivity);
 
+        toHomeActivity();
+
         //获取坐标位置
-        LocationManager.getIManager().registeLocation(this, listener);
+//        LocationManager.getIManager().registeLocation(this, listener);
     }
 
 

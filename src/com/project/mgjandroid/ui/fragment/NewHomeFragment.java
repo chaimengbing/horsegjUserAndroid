@@ -202,7 +202,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     private ImageView publicityImg1;
     private RelativeLayout newLayout;
     private HomeRecyclerAdapter horizontalAdapter;
-    private int newAgentId;
+    private int newAgentId = 1;
     private TextView newHomeLabel;
     private NoticeNewView noticeNewView;
     private List<BroadcastNewBean> broadcastNewBeen;
@@ -276,7 +276,17 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 }
             });
         } else {
+            if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                mLoadingDialog.dismiss();
+            }
             mLoadingDialog.show();
+        }
+    }
+
+
+    public void clearData() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.dismiss();
         }
     }
 
@@ -364,6 +374,9 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.dismiss();
+        }
         mLoadingDialog.show();
         if (info != null) {
             PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
@@ -373,7 +386,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 PreferenceUtils.saveAddressDes("", mActivity);
             }
             PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-            showAddress();
+            ((HomeActivity)getActivity()).getNewHomePage();
         }
     }
 
@@ -450,7 +463,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                                     PreferenceUtils.saveAddressDes("", mActivity);
                                 }
                                 PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-                                showAddress();
+                                ((HomeActivity)getActivity()).getNewHomePage();
                             }
                         } else {
                             titleBarBg.setAlpha(1);
@@ -559,10 +572,13 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
 
     @Override
     public void onDestroy() {
+        Log.d("NewHomeFragment", "onDestroy::");
+        clearData();
         super.onDestroy();
     }
 
     private void initData() {
+        Log.d("NewHomeFragment", "initData::newAgentId:" + newAgentId);
         newAgentId = PreferenceUtils.getIntPreference("agentId", -1, mActivity);
     }
 
@@ -1679,6 +1695,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
         if (tvAdress == null) {
             return;
         }
+        Log.i("newHomeFragment", "showAddress::address:" + address);
         if (CheckUtils.isNoEmptyStr(address)) {
 //            if (isFirstIn && App.isLogin()) {
 //                isFirstIn = false;
@@ -2099,6 +2116,9 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
             map.put("latitude", "");
             map.put("longitude", "");
         }
+        Log.d("NewHomeActivity", "getDate::latitude：" + PreferenceUtils.getLocation(mActivity)[0]);
+        Log.d("NewHomeActivity", "getDate::longitude：" + PreferenceUtils.getLocation(mActivity)[1]);
+        Log.d("NewHomeActivity", "getDate::agentId：" + agentId);
         operater.doRequest(Constants.URL_FIND_AGENT_BY_USER_XY, map, new ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
@@ -2421,6 +2441,9 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
             map.put("latitude", "");
             map.put("longitude", "");
         }
+        Log.d("NewHomeActivity", "getDate::latitude：" + PreferenceUtils.getLocation(mActivity)[0]);
+        Log.d("NewHomeActivity", "getDate::longitude：" + PreferenceUtils.getLocation(mActivity)[1]);
+        Log.d("NewHomeActivity", "getDate::agentId：" + agentId);
         String shipParams = getShipParams();
         if (shipParams.length() > 0) {
             map.put("shipFilter", shipParams);

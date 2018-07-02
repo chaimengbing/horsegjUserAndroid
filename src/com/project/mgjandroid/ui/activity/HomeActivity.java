@@ -192,7 +192,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     }
 
     private void addFragments() {
-        newHomeFragment = NewHomeFragment.newInstance();//新版首页
+        newHomeFragment =  NewHomeFragment.newInstance();//新版首页
         Bundle bundle = new Bundle();
         bundle.putInt("agentId", agentId);
         newHomeFragment.setArguments(bundle);
@@ -647,6 +647,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
      * 获取新版首页
      */
     public void getNewHomePage() {
+        Log.i("HomeAvtivity", "getNewHomePage::");
         VolleyOperater<HomeVersionModel> operater = new VolleyOperater<>(mActivity);
         HashMap<String, Object> map = new HashMap<>();
         map.put("latitude", PreferenceUtils.getLocation(mActivity)[0]);
@@ -661,6 +662,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     HomeVersionModel model = (HomeVersionModel) obj;
 
                     if (model.getValue().getAppHomePageVersion() != null) {
+                        Log.i("HomeAvtivity", "getNewHomePage::model.getValue().getAppHomePageVersion().getAgentId():" + model.getValue().getAppHomePageVersion().getAgentId());
                         versionType = model.getValue().getAppHomePageVersion().getVersionType();
                         agentId = model.getValue().getAppHomePageVersion().getAgentId();
                         String secondMenuTypeName = model.getValue().getAppHomePageVersion().getSecondMenuTypeName();
@@ -672,8 +674,8 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                         versionType = 0;//老版本
                         PreferenceUtils.saveIntPreference("versionType", versionType);
                     }
-                    updataFragment();
                 }
+                updataFragment();
             }
         }, HomeVersionModel.class);
     }
@@ -697,6 +699,14 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 handler = ((NewHomeFragment) fragment).getHandler();
             }
             if (location != null) {
+
+                if ("4.9E-324".equals("" + location.getLatitude()) || "4.9E-324".equals("" + location.getLongitude())) {
+//                    ToastUtils.displayMsg("定位失败,请检查马管家定位权限是否开启", HomeActivity.this);
+                }
+                PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
+                //保存定位信息,因为上面保存的位置会因为手动选择而改变
+                PreferenceUtils.saveFixedLocation(location.getLatitude() + "", location.getLongitude() + "", location.getAddrStr(), mActivity);
+                PreferenceUtils.saveAddressName(location.getAddrStr(), mActivity);
                 if (CheckUtils.isNoEmptyList(location.getPoiList())) {
                     List<Poi> list = location.getPoiList();
                     PreferenceUtils.saveAddressDes(list.get(0).getName(), mActivity);
@@ -704,14 +714,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 if (location.getAddress() != null && location.getAddress().cityCode != null) {
                     PreferenceUtils.saveAddressCityCode(location.getAddress().cityCode, mActivity);
                 }
-                if (fragment instanceof HomeFragment) {
-                    Log.i("onReceiveLocation", "onReceiveLocation::HomeFragment::");
-                    ((HomeFragment) fragment).showAddress();
-                } else {
-                    Log.i("onReceiveLocation", "onReceiveLocation::NewHomeFragment::");
-                    ((NewHomeFragment) fragment).showAddress();
-                }
+                getNewHomePage();
                 getInformationArea();
+
+
             } else {
                 if (handler != null) {
                     handler.obtainMessage(Constants.LOCATION_FAIL).sendToTarget();
@@ -723,22 +729,26 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     };
 
     private void updataFragment() {
-        ArrayList<BaseFragment> fragments = homePagerAdapter.getFragments();
-        if (versionType == 1) {
-            fragments.set(0, newHomeFragment);
-            superMarketLayout.setVisibility(View.GONE);
-        } else {
-            fragments.set(0, homeFragment);
-            superMarketLayout.setVisibility(View.VISIBLE);
-        }
-        if (homePagerAdapter != null){
-            homePagerAdapter.notifyDataSetChanged();
+        Log.d("HomeActivity", "updataFragment::");
+        if (homePagerAdapter != null) {
+            ArrayList<BaseFragment> fragments = homePagerAdapter.getFragments();
             BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
+            if (versionType == 1 && fragment instanceof HomeFragment) {
+                ((HomeFragment) fragment).clearData();
+                fragments.set(0, newHomeFragment);
+                superMarketLayout.setVisibility(View.GONE);
+            } else if (versionType == 0 && fragment instanceof NewHomeFragment) {
+                fragments.set(0, homeFragment);
+                superMarketLayout.setVisibility(View.VISIBLE);
+            }
+
+            homePagerAdapter.notifyDataSetChanged();
             if (fragment instanceof HomeFragment) {
                 ((HomeFragment) fragment).showAddress();
             } else {
                 ((NewHomeFragment) fragment).showAddress();
             }
+
         }
 
         if (versionType == 1) {

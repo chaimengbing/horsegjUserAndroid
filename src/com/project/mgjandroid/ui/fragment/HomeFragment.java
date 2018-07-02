@@ -324,7 +324,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                                     PreferenceUtils.saveAddressDes("", mActivity);
                                 }
                                 PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-                                showAddress();
+                                ((HomeActivity)getActivity()).getNewHomePage();
                             }
                         } else {
                             titleBarBg.setAlpha(1);
@@ -474,6 +474,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         super.onPause();
         if (noticeView != null) {
             noticeView.pause();
+        }
+    }
+
+    public void clearData() {
+        Log.d(TAG, "clearData::");
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+            mLoadingDialog.dismiss();
         }
     }
 
@@ -1494,7 +1501,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 PreferenceUtils.saveAddressDes("", mActivity);
             }
             PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-            showAddress();
+            ((HomeActivity)getActivity()).getNewHomePage();
         }
     }
 
