@@ -1,5 +1,6 @@
 package com.project.mgjandroid.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -277,14 +278,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         }
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandle() {
-        handler = new Handler() {
+        handler = new Handler(new Handler.Callback() {
             @Override
-            public void handleMessage(Message msg) {
-                if (listView.isRefreshing()) {
-                    listView.onRefreshComplete();
-                }
-                switch (msg.what) {
+            public boolean handleMessage(Message message) {
+                switch (message.what) {
                     case 0:
                         titleBarBg.setAlpha(0);
                         tvAdress.setBackgroundResource(R.drawable.home_title_bg);
@@ -395,9 +394,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                         }
                         showNavigateDialog();
                         break;
+
+                    default:
+                        break;
                 }
+                return false;
             }
-        };
+        });
     }
 
 
@@ -1383,8 +1386,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 //                getDate(false, false);
                 getAgentIdByXY();
                 handler.sendEmptyMessage(Constants.LOCATION_SUCCESS);
-            }else {
-                if (mLoadingDialog != null && mLoadingDialog.isShowing()){
+            } else {
+                if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
                     mLoadingDialog.dismiss();
                 }
             }
