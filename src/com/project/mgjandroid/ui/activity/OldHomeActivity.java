@@ -19,7 +19,7 @@ public class OldHomeActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.home_old_act);
         Injector.get(this).inject();
-        HomeFragment homeFragment = HomeFragment.newInstance();
+        HomeFragment homeFragment = new HomeFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean("isOld", true);
         if (!homeFragment.isAdded()){

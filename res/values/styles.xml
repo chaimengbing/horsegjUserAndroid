@@ -201,4 +201,9 @@
         <item name="android:windowExitAnimation">@anim/scale_out</item>
     </style>
 
+    <style name="translucentTheme" parent="@android:style/Theme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+
 </resources>

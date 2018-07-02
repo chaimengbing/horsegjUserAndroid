@@ -1,5 +1,6 @@
 package com.project.mgjandroid.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -399,14 +400,16 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
         }, AddressManageModel.class);
     }
 
+
+    @SuppressLint("HandlerLeak")
     private void initHandler() {
-        handler = new Handler() {
+        handler = new Handler(new Handler.Callback() {
             @Override
-            public void handleMessage(Message msg) {
+            public boolean handleMessage(Message message) {
                 if (listView.isRefreshing()) {
                     listView.onRefreshComplete();
                 }
-                switch (msg.what) {
+                switch (message.what) {
                     case 0:
                         titleBarBg.setAlpha(0);
                         tvAdress.setBackgroundResource(R.drawable.home_title_bg);
@@ -436,9 +439,9 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                             if (mineFragment != null) {
                                 mineFragment.getLocation(Double.parseDouble(PreferenceUtils.getLocation(mActivity)[0]), Double.parseDouble(PreferenceUtils.getLocation(mActivity)[1]));
                             }
-                        } else if (App.isLogin() && userAddressList.size() > 0 && CheckUtils.isEmptyStr(address)) {
+                        } else if (App.isLogin() && userAddressList != null && userAddressList.size() > 0 && CheckUtils.isEmptyStr(address)) {
                             mPopupWindow(userAddressList);
-                            UserAddress info = userAddressList.get(0);
+                            UserAddress info = userAddressList.get(userAddressList.size() - 1);
                             if (info != null) {
                                 PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
                                 if (!TextUtils.isEmpty(info.getHouseNumber())) {
@@ -512,8 +515,9 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                     default:
                         break;
                 }
+                return false;
             }
-        };
+        });
     }
 
 
@@ -2101,7 +2105,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 if (isSucceed && obj != null) {
                     FindAgentModel agentModel = (FindAgentModel) obj;
                     if (agentModel != null) {
-                        if (agentModel.getValue().getAgentType() == 1) {
+                        if (agentModel.getValue() != null && agentModel.getValue().getAgentType() == 1) {
                             agentId = agentModel.getValue().getId();
                             PreferenceUtils.saveLongPreference("issueAgentId", agentId, mActivity);
                         } else {

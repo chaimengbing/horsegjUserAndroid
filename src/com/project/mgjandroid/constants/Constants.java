@@ -14,9 +14,9 @@ public class Constants {
     //	public static final String WE_CHAT_APP_SECRET = App.getInstance().getString(R.string.wechat_appsecret);
     //	private static boolean isTest = true;
 
-    //        public static final String ONLINE_IP = "123.56.15.86";
+//            public static final String ONLINE_IP = "123.56.15.86";
     public static final String ONLINE_IP = "60.205.120.0";
-    //        public static final String ONLINE_IP = "101.200.34.156";
+//            public static final String ONLINE_IP = "101.200.34.156";
 //        public static final String ONLINE_IP = "47.94.93.98";
     public static final String TEST_IP = "120.24.16.64";
     //    public static final String TEST_IP = "60.205.120.0";

@@ -1,5 +1,6 @@
 package com.project.mgjandroid.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -245,6 +246,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         initData();
         initViews();
         checkNet();
+        if (isOld) {
+            showAddress();
+        }
         return view;
     }
 
@@ -274,14 +278,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         }
     }
 
+    @SuppressLint("HandlerLeak")
     private void initHandle() {
-        handler = new Handler() {
+        handler = new Handler(new Handler.Callback() {
             @Override
-            public void handleMessage(Message msg) {
-                if (listView.isRefreshing()) {
-                    listView.onRefreshComplete();
-                }
-                switch (msg.what) {
+            public boolean handleMessage(Message message) {
+                switch (message.what) {
                     case 0:
                         titleBarBg.setAlpha(0);
                         tvAdress.setBackgroundResource(R.drawable.home_title_bg);
@@ -313,7 +315,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                             }
                         } else if (App.isLogin() && userAddressList != null && userAddressList.size() > 0 && CheckUtils.isEmptyStr(address)) {
                             mPopupWindow(userAddressList);
-                            UserAddress info = userAddressList.get(0);
+                            UserAddress info = userAddressList.get(userAddressList.size() - 1);
                             if (info != null) {
                                 PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
                                 if (!TextUtils.isEmpty(info.getHouseNumber())) {
@@ -386,11 +388,19 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                         });
                         break;
                     case Constants.LOCATION_NO_MERCHANT:
+                        if (isFail && isShowPop) {
+                            openPop();
+                            isShowPop = false;
+                        }
                         showNavigateDialog();
                         break;
+
+                    default:
+                        break;
                 }
+                return false;
             }
-        };
+        });
     }
 
 
@@ -424,6 +434,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             if (mLoadingDialog != null) {
                 mLoadingDialog.dismiss();
             }
+            showAddress();
         }
 
     }
@@ -477,9 +488,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 
         isOld = getArguments().getBoolean("isOld");
         newAgentId = PreferenceUtils.getIntPreference("agentId", -1, mActivity);
-        if (isOld) {
-            showAddress();
-        }
 
     }
 
@@ -1378,6 +1386,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 //                getDate(false, false);
                 getAgentIdByXY();
                 handler.sendEmptyMessage(Constants.LOCATION_SUCCESS);
+            } else {
+                if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                    mLoadingDialog.dismiss();
+                }
             }
         } else {
             tvAdress.setText("未知位置");
@@ -1916,7 +1928,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     FindAgentModel agentModel = (FindAgentModel) obj;
-                    if (agentModel.getValue().getAgentType() == 1) {
+                    if (agentModel.getValue() != null && agentModel.getValue().getAgentType() == 1) {
                         agentId = agentModel.getValue().getId();
                         PreferenceUtils.saveLongPreference("issueAgentId", agentId, mActivity);
                     } else {
