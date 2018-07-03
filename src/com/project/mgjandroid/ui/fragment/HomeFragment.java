@@ -2245,6 +2245,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     public void onClick(View v) {
                         if (v.getTag() != null) {
                             Intent intent = new Intent();
+                            Log.d(TAG,"((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
                             if (((Goods) v.getTag()).getType() == 1) {
                                 intent.setClass(mActivity, CommodityDetailActivity.class);
                             } else {
@@ -2373,6 +2374,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 public void onClick(View v) {
                     if (v.getTag() != null) {
                         Intent intent = new Intent();
+                        Log.d(TAG,"((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
                         if (((Goods) v.getTag()).getType() == 1) {
                             intent.setClass(mActivity, CommodityDetailActivity.class);
                         } else {
@@ -2518,6 +2520,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 @Override
                 public void onClick(View v) {
                     if (v.getTag() != null) {
+                        Log.d(TAG,"((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
                         Intent intent = new Intent();
                         if (((Goods) v.getTag()).getType() == 1) {
                             intent.setClass(mActivity, CommodityDetailActivity.class);

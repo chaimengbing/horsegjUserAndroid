@@ -160,7 +160,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.CommercialActivity"
-            android:theme="@style/translucentTheme"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.GoodsDetailActivity"
@@ -218,6 +218,7 @@
         <!-- 分类页面 -->
         <activity
             android:name=".ui.activity.PrimaryCategoryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" />
         <!-- 用户协议 -->
         <activity
@@ -871,6 +872,7 @@
         <!--老版首页-->
         <activity
             android:name=".ui.activity.OldHomeActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" />
 
         <!--跑腿代购-->
