@@ -150,6 +150,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 
         versionType = PreferenceUtils.getIntPreference("versionType", 0, this);
         agentId = PreferenceUtils.getIntPreference("agentId", -1, this);
+        PreferenceUtils.saveBoolPreference("isOpenLocationFailDialog", true, getApplicationContext());
 
         addFragments();
         initUpdateDialog();
@@ -662,7 +663,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     HomeVersionModel model = (HomeVersionModel) obj;
 
                     if (model.getValue().getAppHomePageVersion() != null) {
-                        Log.i("HomeAvtivity", "getNewHomePage::model.getValue().getAppHomePageVersion().getAgentId():" + model.getValue().getAppHomePageVersion().getAgentId());
+                        Log.i("HomeAvtivity", "getNewHomePage::model.getValue().getAppHomePageVersion().getVersionType():" + model.getValue().getAppHomePageVersion().getVersionType());
                         versionType = model.getValue().getAppHomePageVersion().getVersionType();
                         agentId = model.getValue().getAppHomePageVersion().getAgentId();
                         String secondMenuTypeName = model.getValue().getAppHomePageVersion().getSecondMenuTypeName();
@@ -691,18 +692,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
             Log.i("onReceiveLocation", "onReceiveLocation::");
             Handler handler;
             BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
-            if (fragment instanceof HomeFragment) {
-                Log.i("onReceiveLocation", "onReceiveLocation::HomeFragment::");
-                handler = ((HomeFragment) fragment).getHandler();
-            } else {
-                Log.i("onReceiveLocation", "onReceiveLocation::NewHomeFragment::");
-                handler = ((NewHomeFragment) fragment).getHandler();
-            }
+
             if (location != null) {
 
-                if ("4.9E-324".equals("" + location.getLatitude()) || "4.9E-324".equals("" + location.getLongitude())) {
-//                    ToastUtils.displayMsg("定位失败,请检查马管家定位权限是否开启", HomeActivity.this);
-                }
+
                 PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
                 //保存定位信息,因为上面保存的位置会因为手动选择而改变
                 PreferenceUtils.saveFixedLocation(location.getLatitude() + "", location.getLongitude() + "", location.getAddrStr(), mActivity);
@@ -714,14 +707,25 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 if (location.getAddress() != null && location.getAddress().cityCode != null) {
                     PreferenceUtils.saveAddressCityCode(location.getAddress().cityCode, mActivity);
                 }
-                getNewHomePage();
-                getInformationArea();
-
-
-            } else {
-                if (handler != null) {
-                    handler.obtainMessage(Constants.LOCATION_FAIL).sendToTarget();
+                if ("4.9E-324".equals("" + location.getLatitude()) || "4.9E-324".equals("" + location.getLongitude())) {
+                    ToastUtils.displayMsg("定位失败,请检查马管家定位权限是否开启", HomeActivity.this);
+                    if (fragment instanceof HomeFragment) {
+                        Log.i("onReceiveLocation", "onReceiveLocation::HomeFragment::");
+                        ((HomeFragment) fragment).showAddress();
+                        handler = ((HomeFragment) fragment).getHandler();
+                    } else {
+                        Log.i("onReceiveLocation", "onReceiveLocation::NewHomeFragment::");
+                        ((NewHomeFragment) fragment).showAddress();
+                        handler = ((NewHomeFragment) fragment).getHandler();
+                    }
+//                    if (handler != null) {
+//                        handler.sendEmptyMessage(Constants.LOCATION_FAIL);
+//                    }
+                } else {
+                    getNewHomePage();
+                    getInformationArea();
                 }
+
             }
 
         }
@@ -734,11 +738,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
             ArrayList<BaseFragment> fragments = homePagerAdapter.getFragments();
             BaseFragment currentFragment = fragments.get(0);
             if (versionType == 1 && currentFragment instanceof HomeFragment) {
-                ((HomeFragment) currentFragment).clearData();
                 fragments.set(0, newHomeFragment);
                 superMarketLayout.setVisibility(View.GONE);
             } else if (versionType == 0 && currentFragment instanceof NewHomeFragment) {
-                ((NewHomeFragment) currentFragment).clearData();
                 fragments.set(0, homeFragment);
                 superMarketLayout.setVisibility(View.VISIBLE);
             }

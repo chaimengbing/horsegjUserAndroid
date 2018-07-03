@@ -2,6 +2,7 @@ package com.project.mgjandroid.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import com.project.mgjandroid.base.App;
 
@@ -95,6 +96,7 @@ public class PreferenceUtils {
     }
 
     public static void saveAddressName(String address, Context context) {
+        Log.d("PreferenceUtils:", "saveAddressName::address:" + address + "context:" + context.getPackageResourcePath());
         saveStringPreference(ADDRESS_NAME, address, context);
     }
 

@@ -217,7 +217,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     private ListView childListView;
     private List<UserAddress> userAddressList;
     private PopupWindow popupWindow;
-    private boolean isShowPop = true;
     private boolean isFail = false;
     private Handler handler;
     private static HomeFragment fragment;
@@ -240,7 +239,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 
         view = inflater.inflate(R.layout.home_fragment, container, false);
         mActivity = getActivity();
-        getAddressList();
         initHandle();
         mLoadingDialog = new LoadingDialog(mActivity);
         initData();
@@ -303,6 +301,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                         break;
                     case Constants.LOCATION_FAIL:
                         isFail = true;
+                        Log.d(TAG, "isVisible::" + isVisible());
                         String address = PreferenceUtils.getAddressName(App.getInstance());
                         if (CheckUtils.isNoEmptyStr(address) && App.isLogin()) {
                             if (!address.equals(tvAdress.getText().toString())) {
@@ -317,6 +316,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                             mPopupWindow(userAddressList);
                             UserAddress info = userAddressList.get(userAddressList.size() - 1);
                             if (info != null) {
+                                Log.d(TAG, "isVisible::" + isVisible());
                                 PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
                                 if (!TextUtils.isEmpty(info.getHouseNumber())) {
                                     PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
@@ -324,7 +324,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                                     PreferenceUtils.saveAddressDes("", mActivity);
                                 }
                                 PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-                                ((HomeActivity)getActivity()).getNewHomePage();
+                                ((HomeActivity) getActivity()).getNewHomePage();
                             }
                         } else {
                             titleBarBg.setAlpha(1);
@@ -388,10 +388,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                         });
                         break;
                     case Constants.LOCATION_NO_MERCHANT:
-                        if (isFail && isShowPop) {
-                            openPop();
-                            isShowPop = false;
-                        }
+                        openLocationDialog();
                         showNavigateDialog();
                         break;
 
@@ -478,7 +475,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     }
 
     public void clearData() {
-        Log.d(TAG, "clearData::");
+        Log.d(TAG, "clearData::isVisible:" + isVisible());
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }
@@ -486,6 +483,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 
     @Override
     public void onDestroy() {
+        clearData();
         super.onDestroy();
     }
 
@@ -1399,9 +1397,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 }
             }
         } else {
+            getAddressList();
             tvAdress.setText("未知位置");
-            //定位失败
-            doWhileLocationFail();
         }
         MineFragment mineFragment = MineFragment.newInstance();
         if (mineFragment != null) {
@@ -1501,7 +1498,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 PreferenceUtils.saveAddressDes("", mActivity);
             }
             PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-            ((HomeActivity)getActivity()).getNewHomePage();
+            ((HomeActivity) getActivity()).getNewHomePage();
         }
     }
 
@@ -1516,16 +1513,24 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     }
 
     private void getAddressList() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        VolleyOperater<AddressManageModel> operater = new VolleyOperater<AddressManageModel>(mActivity);
-        operater.doRequest(Constants.URL_GET_ADDRESS, map, new VolleyOperater.ResponseListener() {
-            @Override
-            public void onRsp(boolean isSucceed, Object obj) {
-                if (isSucceed && obj != null) {
-                    userAddressList = ((AddressManageModel) obj).getValue();
+        if (App.isLogin()) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            VolleyOperater<AddressManageModel> operater = new VolleyOperater<AddressManageModel>(mActivity);
+            operater.doRequest(Constants.URL_GET_ADDRESS, map, new VolleyOperater.ResponseListener() {
+                @Override
+                public void onRsp(boolean isSucceed, Object obj) {
+                    if (isSucceed && obj != null) {
+                        userAddressList = ((AddressManageModel) obj).getValue();
+                        Log.d(TAG, "getAddressList::userAddressList:" + userAddressList.size());
+                    }
+                    //定位失败
+                    doWhileLocationFail();
                 }
-            }
-        }, AddressManageModel.class);
+            }, AddressManageModel.class);
+        } else {
+            //定位失败
+            doWhileLocationFail();
+        }
     }
 
     private void initPopupMenu() {
@@ -2245,7 +2250,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     public void onClick(View v) {
                         if (v.getTag() != null) {
                             Intent intent = new Intent();
-                            Log.d(TAG,"((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
+                            Log.d(TAG, "((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
                             if (((Goods) v.getTag()).getType() == 1) {
                                 intent.setClass(mActivity, CommodityDetailActivity.class);
                             } else {
@@ -2374,7 +2379,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 public void onClick(View v) {
                     if (v.getTag() != null) {
                         Intent intent = new Intent();
-                        Log.d(TAG,"((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
+                        Log.d(TAG, "((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
                         if (((Goods) v.getTag()).getType() == 1) {
                             intent.setClass(mActivity, CommodityDetailActivity.class);
                         } else {
@@ -2520,7 +2525,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 @Override
                 public void onClick(View v) {
                     if (v.getTag() != null) {
-                        Log.d(TAG,"((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
+                        Log.d(TAG, "((Goods) v.getTag()).getType():" + ((Goods) v.getTag()).getType());
                         Intent intent = new Intent();
                         if (((Goods) v.getTag()).getType() == 1) {
                             intent.setClass(mActivity, CommodityDetailActivity.class);
@@ -2739,13 +2744,18 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     adapter.setSystemTime(null);
                     adapter.setList(mlist);
                 }
-                if (isFail && isShowPop) {
-                    openPop();
-                    isShowPop = false;
-                }
+                openLocationDialog();
             }
         }, CommercialListModel.class);
 
+    }
+
+    private void openLocationDialog() {
+        if (isFail && PreferenceUtils.getBoolPreference("isOpenLocationFailDialog", false, getActivity())) {
+            openPop();
+            PreferenceUtils.saveBoolPreference("isOpenLocationFailDialog", false, getActivity());
+            isFail = false;
+        }
     }
 
     private int getSortParam() {

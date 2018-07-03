@@ -136,6 +136,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     public static final int IS_CATEGORY = 2;
     public static final int IS_MERCHANT = 3;
     public static final int IS_GROUPBUY = 4;
+    private static final String TAG = NewHomeFragment.class.getSimpleName();
     protected Activity mActivity;
     protected View view;
     protected boolean refreshFlag = true;
@@ -223,7 +224,6 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     private LinearLayout secondHandLayout;
     private List<UserAddress> userAddressList;
     private PopupWindow popupWindow;
-    private boolean isShowPop = true;
     private boolean isFail = false;
     private Handler handler;
 
@@ -246,7 +246,6 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
         view = inflater.inflate(R.layout.new_home_fragment, container, false);
         mActivity = getActivity();
         mLoadingDialog = new LoadingDialog(mActivity);
-        getAddressList();
         initHandler();
         initData();
         initViews();
@@ -285,6 +284,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
 
 
     public void clearData() {
+        Log.d(TAG, "clearData::isVisible:" + isVisible());
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
         }
@@ -386,7 +386,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 PreferenceUtils.saveAddressDes("", mActivity);
             }
             PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-            ((HomeActivity)getActivity()).getNewHomePage();
+            ((HomeActivity) getActivity()).getNewHomePage();
         }
     }
 
@@ -401,16 +401,24 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     }
 
     private void getAddressList() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        VolleyOperater<AddressManageModel> operater = new VolleyOperater<AddressManageModel>(mActivity);
-        operater.doRequest(Constants.URL_GET_ADDRESS, map, new VolleyOperater.ResponseListener() {
-            @Override
-            public void onRsp(boolean isSucceed, Object obj) {
-                if (isSucceed && obj != null) {
-                    userAddressList = ((AddressManageModel) obj).getValue();
+        if (App.isLogin()) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            VolleyOperater<AddressManageModel> operater = new VolleyOperater<AddressManageModel>(mActivity);
+            operater.doRequest(Constants.URL_GET_ADDRESS, map, new VolleyOperater.ResponseListener() {
+                @Override
+                public void onRsp(boolean isSucceed, Object obj) {
+                    if (isSucceed && obj != null) {
+                        userAddressList = ((AddressManageModel) obj).getValue();
+                        Log.d(TAG, "getAddressList::userAddressList:" + userAddressList.size());
+                    }
+                    //定位失败
+                    doWhileLocationFail();
                 }
-            }
-        }, AddressManageModel.class);
+            }, AddressManageModel.class);
+        } else {
+            //定位失败
+            doWhileLocationFail();
+        }
     }
 
 
@@ -442,6 +450,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                         break;
                     case Constants.LOCATION_FAIL:
                         isFail = true;
+                        Log.d(TAG, "isVisible::" + isVisible());
                         String address = PreferenceUtils.getAddressName(App.getInstance());
                         if (CheckUtils.isNoEmptyStr(address) && App.isLogin()) {
                             if (!address.equals(tvAdress.getText().toString())) {
@@ -456,6 +465,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                             mPopupWindow(userAddressList);
                             UserAddress info = userAddressList.get(userAddressList.size() - 1);
                             if (info != null) {
+                                Log.d(TAG, "isVisible::" + isVisible());
                                 PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
                                 if (!TextUtils.isEmpty(info.getHouseNumber())) {
                                     PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
@@ -463,7 +473,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                                     PreferenceUtils.saveAddressDes("", mActivity);
                                 }
                                 PreferenceUtils.saveLocation(Double.toString(info.getLatitude()), Double.toString(info.getLongitude()), mActivity);
-                                ((HomeActivity)getActivity()).getNewHomePage();
+                                ((HomeActivity) getActivity()).getNewHomePage();
                             }
                         } else {
                             titleBarBg.setAlpha(1);
@@ -1723,9 +1733,8 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 handler.sendEmptyMessage(Constants.LOCATION_SUCCESS);
             }
         } else {
+            getAddressList();
             tvAdress.setText("未知位置");
-            //定位失败
-            doWhileLocationFail();
         }
         MineFragment mineFragment = MineFragment.newInstance();
         if (mineFragment != null) {
@@ -2538,10 +2547,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                     adapter.setSystemTime(null);
                     adapter.setList(mlist);
                 }
-                if (isFail && isShowPop) {
-                    openPop();
-                    isShowPop = false;
-                }
+                openLocationDialog();
             }
         }, CommercialListModel.class);
 
@@ -2596,6 +2602,14 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 }
             }
         }, 3800);
+    }
+
+    private void openLocationDialog() {
+        if (isFail && PreferenceUtils.getBoolPreference("isOpenLocationFailDialog", false, getActivity())) {
+            openPop();
+            PreferenceUtils.saveBoolPreference("isOpenLocationFailDialog", false, getActivity());
+            isFail = false;
+        }
     }
 
     private int getSortParam() {
