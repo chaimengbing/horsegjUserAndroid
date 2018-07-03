@@ -192,7 +192,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     }
 
     private void addFragments() {
-        newHomeFragment =  NewHomeFragment.newInstance();//新版首页
+        newHomeFragment = NewHomeFragment.newInstance();//新版首页
         Bundle bundle = new Bundle();
         bundle.putInt("agentId", agentId);
         newHomeFragment.setArguments(bundle);
@@ -379,9 +379,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 //                if (pager != null && newHomeFragment != null && newHomeFragment.getView() != null && pager.getCurrentItem() == INDEX_HOME) {
 //                    newHomeFragment.showAddress();
 //                }
-                if (pager != null && superMarketFragment != null && superMarketFragment.getView() != null && pager.getCurrentItem() == INDEX_SUPERMARKET) {
-                    superMarketFragment.showAddress();
-                }
+//                if (pager != null && superMarketFragment != null && superMarketFragment.getView() != null && pager.getCurrentItem() == INDEX_SUPERMARKET) {
+//                    superMarketFragment.showAddress();
+//                }
                 getInformationArea();
                 break;
             case GROUP:
@@ -732,17 +732,18 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         Log.d("HomeActivity", "updataFragment::");
         if (homePagerAdapter != null) {
             ArrayList<BaseFragment> fragments = homePagerAdapter.getFragments();
-            BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
-            if (versionType == 1 && fragment instanceof HomeFragment) {
-                ((HomeFragment) fragment).clearData();
+            BaseFragment currentFragment = fragments.get(0);
+            if (versionType == 1 && currentFragment instanceof HomeFragment) {
+                ((HomeFragment) currentFragment).clearData();
                 fragments.set(0, newHomeFragment);
                 superMarketLayout.setVisibility(View.GONE);
-            } else if (versionType == 0 && fragment instanceof NewHomeFragment) {
+            } else if (versionType == 0 && currentFragment instanceof NewHomeFragment) {
+                ((NewHomeFragment) currentFragment).clearData();
                 fragments.set(0, homeFragment);
                 superMarketLayout.setVisibility(View.VISIBLE);
             }
-
             homePagerAdapter.notifyDataSetChanged();
+            BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
             if (fragment instanceof HomeFragment) {
                 ((HomeFragment) fragment).showAddress();
             } else {
