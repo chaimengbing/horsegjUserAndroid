@@ -32,6 +32,68 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x60"
+        android:background="@drawable/title_bar_bg">
+
+
+        <RelativeLayout
+            android:id="@+id/platform_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:id="@+id/platform_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:text="平台红包"
+                android:textColor="@color/title_tv_festival"
+                android:textSize="@dimen/title_bar_text_size" />
+
+            <View
+                android:id="@+id/platform_view"
+                android:layout_width="@dimen/x60"
+                android:layout_height="@dimen/x3"
+                android:layout_below="@id/platform_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/x2"
+                android:background="@color/white" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/vouchers_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:id="@+id/vouchers_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:text="抵用券"
+                android:textColor="@color/redbag_nosel"
+                android:textSize="@dimen/title_bar_text_size" />
+
+            <View
+                android:id="@+id/vouchers_view"
+                android:layout_width="@dimen/x60"
+                android:layout_height="@dimen/x3"
+                android:layout_below="@id/vouchers_textview"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/x2"
+                android:background="@color/redbag_nosel" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/use_red_bag_layout"
         android:layout_width="match_parent"
