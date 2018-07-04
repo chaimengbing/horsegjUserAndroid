@@ -702,6 +702,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     List<Poi> list = location.getPoiList();
                     PreferenceUtils.saveAddressDes(list.get(0).getName(), mActivity);
                 }
+                if (location.getAddress() != null && location.getAddress().city != null) {
+                    PreferenceUtils.saveAddressCity(location.getAddress().city, mActivity);
+                }
                 if (location.getAddress() != null && location.getAddress().cityCode != null) {
                     PreferenceUtils.saveAddressCityCode(location.getAddress().cityCode, mActivity);
                 }
