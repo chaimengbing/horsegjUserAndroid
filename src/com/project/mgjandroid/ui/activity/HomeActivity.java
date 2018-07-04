@@ -695,11 +695,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 
             if (location != null) {
 
-
-                PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
-                //保存定位信息,因为上面保存的位置会因为手动选择而改变
-                PreferenceUtils.saveFixedLocation(location.getLatitude() + "", location.getLongitude() + "", location.getAddrStr(), mActivity);
-                PreferenceUtils.saveAddressName(location.getAddrStr(), mActivity);
+                if (CheckUtils.isNoEmptyStr(location.getAddrStr())){
+                    PreferenceUtils.saveAddressName(location.getAddrStr(), mActivity);
+                }
                 if (CheckUtils.isNoEmptyList(location.getPoiList())) {
                     List<Poi> list = location.getPoiList();
                     PreferenceUtils.saveAddressDes(list.get(0).getName(), mActivity);
@@ -717,6 +715,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                         ((NewHomeFragment) fragment).showAddress();
                     }
                 } else {
+                    PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
+                    //保存定位信息,因为上面保存的位置会因为手动选择而改变
+                    PreferenceUtils.saveFixedLocation(location.getLatitude() + "", location.getLongitude() + "", location.getAddrStr(), mActivity);
                     getNewHomePage();
                     getInformationArea();
                 }
