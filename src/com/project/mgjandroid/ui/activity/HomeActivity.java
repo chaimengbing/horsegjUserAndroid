@@ -712,15 +712,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     if (fragment instanceof HomeFragment) {
                         Log.i("onReceiveLocation", "onReceiveLocation::HomeFragment::");
                         ((HomeFragment) fragment).showAddress();
-                        handler = ((HomeFragment) fragment).getHandler();
                     } else {
                         Log.i("onReceiveLocation", "onReceiveLocation::NewHomeFragment::");
                         ((NewHomeFragment) fragment).showAddress();
-                        handler = ((NewHomeFragment) fragment).getHandler();
                     }
-//                    if (handler != null) {
-//                        handler.sendEmptyMessage(Constants.LOCATION_FAIL);
-//                    }
                 } else {
                     getNewHomePage();
                     getInformationArea();
@@ -744,8 +739,8 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 fragments.set(0, homeFragment);
                 superMarketLayout.setVisibility(View.VISIBLE);
             }
-            homePagerAdapter.notifyDataSetChanged();
             BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
+            homePagerAdapter.notifyDataSetChanged();
             if (fragment instanceof HomeFragment) {
                 ((HomeFragment) fragment).showAddress();
             } else {

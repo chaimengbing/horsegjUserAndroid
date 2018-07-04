@@ -699,6 +699,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     }
 
     private void initViews() {
+        Log.d(TAG, "initViews::");
         SCREEN_WIDTH = DeviceParameter.getDisplayMetrics().widthPixels;
         RelativeLayout titleLayout = (RelativeLayout) view.findViewById(R.id.home_fragment_title_bar);
         titleLayout.setOnClickListener(this);
@@ -751,6 +752,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 }
             }
         });
+        String address = PreferenceUtils.getAddressName(App.getInstance());
+        if (CheckUtils.isNoEmptyStr(address) && tvAdress != null) {
+            tvAdress.setText(address);
+        }
     }
 
     /**

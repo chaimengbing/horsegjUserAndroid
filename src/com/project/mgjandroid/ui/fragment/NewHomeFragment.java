@@ -795,6 +795,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     }
 
     private void initViews() {
+        Log.d(TAG,"initViews::");
         SCREEN_WIDTH = DeviceParameter.getDisplayMetrics().widthPixels;
         RelativeLayout titleLayout = (RelativeLayout) view.findViewById(R.id.home_fragment_title_bar);
         titleLayout.setOnClickListener(this);
@@ -837,6 +838,10 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 getLotteryStatus();
             }
         });
+        String address = PreferenceUtils.getAddressName(App.getInstance());
+        if (CheckUtils.isNoEmptyStr(address) && tvAdress != null) {
+            tvAdress.setText(address);
+        }
 
     }
 
