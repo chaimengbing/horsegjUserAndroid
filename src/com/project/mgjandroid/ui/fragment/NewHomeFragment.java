@@ -838,11 +838,6 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 getLotteryStatus();
             }
         });
-        String address = PreferenceUtils.getAddressName(App.getInstance());
-        if (CheckUtils.isNoEmptyStr(address) && tvAdress != null) {
-            tvAdress.setText(address);
-        }
-
     }
 
     /**

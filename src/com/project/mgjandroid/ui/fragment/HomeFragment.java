@@ -752,10 +752,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 }
             }
         });
-        String address = PreferenceUtils.getAddressName(App.getInstance());
-        if (CheckUtils.isNoEmptyStr(address) && tvAdress != null) {
-            tvAdress.setText(address);
-        }
     }
 
     /**
