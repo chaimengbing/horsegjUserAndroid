@@ -277,7 +277,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     }
 
     @SuppressLint("HandlerLeak")
-    private void initHandle() {
+    private void  initHandle() {
         handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message message) {
@@ -1359,10 +1359,21 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         }
     }
 
-//    public void setIsFirstIn() {
-//        isFirstIn = false;
-//    }
 
+
+    public void showLoactionFailAddress() {
+        String latitude = PreferenceUtils.getFixedLocation(getActivity())[0];
+        String longitude = PreferenceUtils.getFixedLocation(getActivity())[1];
+        if (CheckUtils.isNoEmptyStr(latitude) && CheckUtils.isNoEmptyStr(longitude) && !"4.9E-324".equals(latitude) || !"4.9E-324".equals(longitude)) {
+            String address = PreferenceUtils.getAddressName(App.getInstance());
+            if (CheckUtils.isNoEmptyStr(address) && App.isLogin()) {
+                if (!address.equals(tvAdress.getText().toString())) {
+                    ToastUtils.displayMsg("已切换到" + address, mActivity);
+                }
+            }
+        }
+        showAddress();
+    }
     /**
      * 显示定位信息，并刷新列表
      */

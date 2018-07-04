@@ -795,7 +795,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     }
 
     private void initViews() {
-        Log.d(TAG,"initViews::");
+        Log.d(TAG, "initViews::");
         SCREEN_WIDTH = DeviceParameter.getDisplayMetrics().widthPixels;
         RelativeLayout titleLayout = (RelativeLayout) view.findViewById(R.id.home_fragment_title_bar);
         titleLayout.setOnClickListener(this);
@@ -1695,6 +1695,20 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 }
             });
         }
+    }
+
+    public void showLoactionFailAddress() {
+        String latitude = PreferenceUtils.getFixedLocation(getActivity())[0];
+        String longitude = PreferenceUtils.getFixedLocation(getActivity())[1];
+        if (CheckUtils.isNoEmptyStr(latitude) && CheckUtils.isNoEmptyStr(longitude) && !"4.9E-324".equals(latitude) || !"4.9E-324".equals(longitude)) {
+            String address = PreferenceUtils.getAddressName(App.getInstance());
+            if (CheckUtils.isNoEmptyStr(address) && App.isLogin()) {
+                if (!address.equals(tvAdress.getText().toString())) {
+                    ToastUtils.displayMsg("已切换到" + address, mActivity);
+                }
+            }
+        }
+        showAddress();
     }
 
     /**

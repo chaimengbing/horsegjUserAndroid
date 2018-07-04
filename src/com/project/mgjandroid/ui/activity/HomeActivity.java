@@ -712,10 +712,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     ToastUtils.displayMsg("定位失败,请检查马管家定位权限是否开启", HomeActivity.this);
                     if (fragment instanceof HomeFragment) {
                         Log.i("onReceiveLocation", "onReceiveLocation::HomeFragment::");
-                        ((HomeFragment) fragment).showAddress();
+                        ((HomeFragment) fragment).showLoactionFailAddress();
                     } else {
                         Log.i("onReceiveLocation", "onReceiveLocation::NewHomeFragment::");
-                        ((NewHomeFragment) fragment).showAddress();
+                        ((NewHomeFragment) fragment).showLoactionFailAddress();
                     }
                 } else {
                     PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
