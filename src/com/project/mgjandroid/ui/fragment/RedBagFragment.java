@@ -233,8 +233,13 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                     }
                     RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
                     List<RedBag> mlist = new ArrayList<>();
-                    mlist.addAll(redBagListModel.getVouchersList());
+                    if (redBagType == 1){
+                        mlist.addAll(redBagListModel.getPlatformRedBagList());
+                    }else {
+                        mlist.addAll(redBagListModel.getVouchersList());
+                    }
                     setData(mlist,isLoadMore);
+                    ((MyRedBagActivity)getActivity()).handRedBagTabView(redBagType,redBagListModel.getPlatformRedBagCount(),redBagListModel.getVouchersCount());
                 }
             }
         }, RedBagsModel.class);

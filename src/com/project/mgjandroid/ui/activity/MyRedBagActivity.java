@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.ui.fragment.RedBagFragment;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
@@ -113,7 +114,7 @@ public class MyRedBagActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        handRedBagTabView(false);
+        handRedBagTabView(redBagType, 0, 0);
     }
 
     private void initView() {
@@ -147,8 +148,8 @@ public class MyRedBagActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 redBagType = 2;
-                handRedBagTabView(true);
-                if (fragmentRedBagCanUse != null){
+                handRedBagTabView(redBagType, 0, 0);
+                if (fragmentRedBagCanUse != null) {
                     fragmentRedBagCanUse.setRedBagType(redBagType);
                     fragmentRedBagCanUse.getData(false);
                 }
@@ -159,8 +160,8 @@ public class MyRedBagActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 redBagType = 1;
-                handRedBagTabView(false);
-                if (fragmentRedBagCanUse != null){
+                handRedBagTabView(redBagType, 0, 0);
+                if (fragmentRedBagCanUse != null) {
                     fragmentRedBagCanUse.setRedBagType(redBagType);
                     fragmentRedBagCanUse.getData(false);
                 }
@@ -170,13 +171,22 @@ public class MyRedBagActivity extends BaseActivity {
     }
 
 
-
     /**
-     * @param isVouchers 是否抵用券被选中
+     * @param redBagType leixign
      */
-    private void handRedBagTabView(boolean isVouchers) {
-        platformTextView.setText("红包3个");
-        vouchersTextView.setText("代金券4张");
+    public void handRedBagTabView(int redBagType, int platFormCount, int vouchersCount) {
+        if (platFormCount > 0) {
+            platformTextView.setText("红包" + platFormCount + "个");
+        } else {
+            platformTextView.setText("红包");
+
+        }
+        if (vouchersCount > 0) {
+            vouchersTextView.setText("代金券" + vouchersCount + "张");
+        } else {
+            vouchersTextView.setText("代金券");
+
+        }
         ViewGroup.LayoutParams params = vouchersView.getLayoutParams();
         params.width = vouchersTextView.getWidth();
         vouchersView.setLayoutParams(params);
@@ -187,16 +197,17 @@ public class MyRedBagActivity extends BaseActivity {
         platformView.setLayoutParams(paramsl);
         platformView.invalidate();
 
-        if (isVouchers) {
-            vouchersView.setBackgroundColor(getResources().getColor(R.color.white));
-            vouchersTextView.setTextColor(getResources().getColor(R.color.white));
-            platformView.setBackgroundColor(getResources().getColor(R.color.redbag_nosel));
-            platformTextView.setTextColor(getResources().getColor(R.color.redbag_nosel));
-        } else {
+        if (redBagType == 1) {
             platformView.setBackgroundColor(getResources().getColor(R.color.white));
             platformTextView.setTextColor(getResources().getColor(R.color.white));
             vouchersView.setBackgroundColor(getResources().getColor(R.color.redbag_nosel));
             vouchersTextView.setTextColor(getResources().getColor(R.color.redbag_nosel));
+        } else {
+            vouchersView.setBackgroundColor(getResources().getColor(R.color.white));
+            vouchersTextView.setTextColor(getResources().getColor(R.color.white));
+            platformView.setBackgroundColor(getResources().getColor(R.color.redbag_nosel));
+            platformTextView.setTextColor(getResources().getColor(R.color.redbag_nosel));
+
         }
     }
 
