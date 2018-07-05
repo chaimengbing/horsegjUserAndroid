@@ -317,6 +317,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                             UserAddress info = userAddressList.get(userAddressList.size() - 1);
                             if (info != null) {
                                 Log.d(TAG, "isVisible::" + isVisible());
+
                                 PreferenceUtils.saveAddressName(info.getAddress(), mActivity);
                                 if (!TextUtils.isEmpty(info.getHouseNumber())) {
                                     PreferenceUtils.saveAddressDes(info.getHouseNumber(), mActivity);
