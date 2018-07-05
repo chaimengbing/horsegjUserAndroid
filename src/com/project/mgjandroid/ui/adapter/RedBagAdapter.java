@@ -2,17 +2,14 @@ package com.project.mgjandroid.ui.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mzule.activityrouter.router.Routers;
@@ -21,9 +18,7 @@ import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.constants.ActivitySchemeManager;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.ui.activity.CommercialActivity;
-import com.project.mgjandroid.ui.activity.ConfirmOrderActivity;
 import com.project.mgjandroid.ui.activity.MyRedBagActivity;
-import com.project.mgjandroid.ui.activity.carhailing.CarHailingActivity;
 import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;

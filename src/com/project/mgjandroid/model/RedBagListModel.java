@@ -9,53 +9,52 @@ import java.util.ArrayList;
  */
 public class RedBagListModel extends Entity {
 
-    private int code;
+    /**
+     * "platformRedBagCount": 0,
+     * "vouchersList": [{
+     * }, ],
+     * "platformRedBagList": [],
+     * "vouchersCount": 10
+     */
 
-    private String uuid;
+    private int platformRedBagCount;
+    private int vouchersCount;
 
-    private ArrayList<RedBag> value;
+    //代金券
+    private ArrayList<RedBag> vouchersList;
+    //平台红包
+    private ArrayList<RedBag> platformRedBagList;
 
-    private boolean success;
 
-    private String servertime;
-
-    public int getCode() {
-        return code;
+    public ArrayList<RedBag> getVouchersList() {
+        return vouchersList;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setVouchersList(ArrayList<RedBag> vouchersList) {
+        this.vouchersList = vouchersList;
     }
 
-    public String getUuid() {
-        return uuid;
+    public ArrayList<RedBag> getPlatformRedBagList() {
+        return platformRedBagList;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setPlatformRedBagList(ArrayList<RedBag> platformRedBagList) {
+        this.platformRedBagList = platformRedBagList;
     }
 
-    public ArrayList<RedBag> getValue() {
-        return value;
+    public int getPlatformRedBagCount() {
+        return platformRedBagCount;
     }
 
-    public void setValue(ArrayList<RedBag> value) {
-        this.value = value;
+    public void setPlatformRedBagCount(int platformRedBagCount) {
+        this.platformRedBagCount = platformRedBagCount;
     }
 
-    public boolean isSuccess() {
-        return success;
+    public int getVouchersCount() {
+        return vouchersCount;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getServertime() {
-        return servertime;
-    }
-
-    public void setServertime(String servertime) {
-        this.servertime = servertime;
+    public void setVouchersCount(int vouchersCount) {
+        this.vouchersCount = vouchersCount;
     }
 }

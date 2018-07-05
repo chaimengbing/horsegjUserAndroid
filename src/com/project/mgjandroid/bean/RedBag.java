@@ -3,12 +3,61 @@ package com.project.mgjandroid.bean;
 import com.project.mgjandroid.model.Entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by yuandi on 2016/5/24.
  */
 public class RedBag extends Entity {
+
+    /**
+     * * "id": 14101,
+     * "createTime": "2018-07-02 11:41:22",
+     * "modifyTime": "2018-07-02 11:41:22",
+     * "userId": 73,
+     * "promotionId": null,
+     * "platformRedBagRulesId": null,
+     * "activityId": 385,
+     * "rulesSource": null,
+     * "fromOrderId": "1807020000212737",
+     * "useOrderId": null,
+     * "name": "下单返",
+     * "amt": 15.0,
+     * "discountRate": null,
+     * "restrictAmt": 48.0,
+     * "promotionType": 2,
+     * "redeemCode": null,
+     * "type": 2,
+     * "couponType": 2,
+     * "businessType": null,
+     * "merchantId": 78,
+     * "agentId": null,
+     * "expirationTime": 1533094881527,
+     * "isRestrictTime": 0,
+     * "restrictTime": null,
+     * "usingTime": null,
+     * "sendBackTime": null,
+     * "isCumulate": 0,
+     * "mobile": null,
+     * "status": 0,
+     * "merchantName": "兰州拉面 1",
+     * "merchantLogo": "http://7xu5hi.com1.z0.glb.clouddn.com/201610211712494115412.jpg",
+     * "isDisable": 1,
+     * "businessTypeName": null,
+     * "disableList": []
+     */
+
+    private Integer isDisable = 1;
+    /**
+     * 支持业务名称
+     */
+    private String businessTypeName;
+    /**
+     * 不可用原因
+     */
+    private List<String> disableList = new ArrayList<>();
 
     private Long id;
     /**
@@ -376,5 +425,29 @@ public class RedBag extends Entity {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public Integer getIsDisable() {
+        return isDisable;
+    }
+
+    public void setIsDisable(Integer isDisable) {
+        this.isDisable = isDisable;
+    }
+
+    public String getBusinessTypeName() {
+        return businessTypeName;
+    }
+
+    public void setBusinessTypeName(String businessTypeName) {
+        this.businessTypeName = businessTypeName;
+    }
+
+    public List<String> getDisableList() {
+        return disableList;
+    }
+
+    public void setDisableList(List<String> disableList) {
+        this.disableList = disableList;
     }
 }

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.ui.fragment.RedBagFragment;
@@ -28,6 +30,21 @@ public class MyRedBagActivity extends BaseActivity {
     private RelativeLayout notUseLayout;
     @InjectView(R.id.is_use_red_bag)
     private CheckBox notUse;
+    //红包、抵用
+    @InjectView(R.id.vouchers_layout)
+    private RelativeLayout vouchersLayout;
+    @InjectView(R.id.platform_layout)
+    private RelativeLayout platformLayout;
+    @InjectView(R.id.platform_textview)
+    private TextView platformTextView;
+    @InjectView(R.id.vouchers_textview)
+    private TextView vouchersTextView;
+    @InjectView(R.id.platform_view)
+    private View platformView;
+    @InjectView(R.id.vouchers_view)
+    private View vouchersView;
+    //1:红包  2：抵用券
+    private int redBagType = 1;
 
     private RedBagFragment fragmentRedBagCanUse;
     private RedBagFragment fragmentRedBagCantUse;
@@ -79,6 +96,7 @@ public class MyRedBagActivity extends BaseActivity {
             args.putString("PromoInfoJson", promoInfoJson);
             args.putLong("agentId", agentId);
             args.putLong("redBagId", redBagId);
+            args.putLong("redBagId", redBagType);
             fragmentRedBagCanUse = new RedBagFragment();
             fragmentRedBagCanUse.setArguments(args);
             fragmentManager.beginTransaction().add(R.id.content_view,
@@ -90,6 +108,12 @@ public class MyRedBagActivity extends BaseActivity {
                     .commit();
             mCurrentFragment = fragmentRedBagCanUse;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handRedBagTabView(false);
     }
 
     private void initView() {
@@ -117,7 +141,65 @@ public class MyRedBagActivity extends BaseActivity {
                 mActivity.finish();
             }
         });
+
+        //抵用
+        vouchersLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                redBagType = 2;
+                handRedBagTabView(true);
+                if (fragmentRedBagCanUse != null){
+                    fragmentRedBagCanUse.setRedBagType(redBagType);
+                    fragmentRedBagCanUse.getData(false);
+                }
+            }
+        });
+        //红包、
+        platformLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                redBagType = 1;
+                handRedBagTabView(false);
+                if (fragmentRedBagCanUse != null){
+                    fragmentRedBagCanUse.setRedBagType(redBagType);
+                    fragmentRedBagCanUse.getData(false);
+                }
+            }
+        });
+
     }
+
+
+
+    /**
+     * @param isVouchers 是否抵用券被选中
+     */
+    private void handRedBagTabView(boolean isVouchers) {
+        platformTextView.setText("红包3个");
+        vouchersTextView.setText("代金券4张");
+        ViewGroup.LayoutParams params = vouchersView.getLayoutParams();
+        params.width = vouchersTextView.getWidth();
+        vouchersView.setLayoutParams(params);
+        vouchersView.invalidate();
+
+        ViewGroup.LayoutParams paramsl = platformView.getLayoutParams();
+        paramsl.width = platformTextView.getWidth();
+        platformView.setLayoutParams(paramsl);
+        platformView.invalidate();
+
+        if (isVouchers) {
+            vouchersView.setBackgroundColor(getResources().getColor(R.color.white));
+            vouchersTextView.setTextColor(getResources().getColor(R.color.white));
+            platformView.setBackgroundColor(getResources().getColor(R.color.redbag_nosel));
+            platformTextView.setTextColor(getResources().getColor(R.color.redbag_nosel));
+        } else {
+            platformView.setBackgroundColor(getResources().getColor(R.color.white));
+            platformTextView.setTextColor(getResources().getColor(R.color.white));
+            vouchersView.setBackgroundColor(getResources().getColor(R.color.redbag_nosel));
+            vouchersTextView.setTextColor(getResources().getColor(R.color.redbag_nosel));
+        }
+    }
+
 
     public void doTransaction(boolean canUse) {
         if (canUse) {
