@@ -299,7 +299,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
         RelativeLayout rlOtherAddress = (RelativeLayout) view.findViewById(R.id.rl_other_address);
         tv2.setVisibility(View.GONE);
         tv3.setVisibility(View.GONE);
-        if (userAddressList.size() > 0) {
+        if (userAddressList != null && userAddressList.size() > 0) {
             for (int i = userAddressList.size() - 1; i >= 0; i--) {
                 if (i == userAddressList.size() - 1) {
                     tv1.setText(userAddressList.get(i).getAddress());
