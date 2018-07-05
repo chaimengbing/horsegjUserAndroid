@@ -17,12 +17,11 @@ import android.widget.TextView;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.constants.Constants;
-import com.project.mgjandroid.h5base.view.YLH5Container;
-import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.LogoutModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.fragment.MineFragment;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
@@ -149,6 +148,12 @@ public class MoreSettingActivity extends BaseActivity implements View.OnClickLis
                         App.setUserInfo(null);
                         PreferenceUtils.saveStringPreference("token", "", mContext);
                         setResult(MineFragment.EXIT_APP_SUCCESS, new Intent());
+                        String latitude = PreferenceUtils.getFixedLocation(getApplicationContext())[0];
+                        String longitude = PreferenceUtils.getFixedLocation(getApplicationContext())[1];
+                        if (!(CheckUtils.isNoEmptyStr(latitude) && CheckUtils.isNoEmptyStr(longitude) && !"4.9E-324".equals(latitude) && !"4.9E-324".equals(longitude) && !"0.0".equals(latitude) && !"0.0".equals(longitude))) {
+                            //定位失败清空地址
+                            PreferenceUtils.saveAddressName("", getApplicationContext());
+                        }
                         finish();
                     }
                 }

@@ -23,9 +23,11 @@ import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.AppVersion;
+import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.download.FileDownloadManager;
 import com.project.mgjandroid.manager.LocationManager;
+import com.project.mgjandroid.model.AddressManageModel;
 import com.project.mgjandroid.model.AppLaunchModel;
 import com.project.mgjandroid.model.FestivalModel;
 import com.project.mgjandroid.model.HomeVersionModel;
@@ -131,6 +133,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     private FileDownloadManager mManager2;
     private String gifName;
     public boolean isLotteryShow = false;
+    private List<UserAddress> userAddressList;
 
     private Handler handler = new Handler();
 
@@ -217,13 +220,12 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         fragments.add(mineFragment);
         homePagerAdapter.notify(fragments);
 
-        //延迟定位，为了首先请求到收货地址列表
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 registeLocation();
             }
-        }, 500);
+        }, 600);
     }
 
     public void changeTabUi(int index) {
@@ -541,6 +543,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                         CookieSyncManager.getInstance().sync(); // forces sync manager to sync now
                         System.gc();
                     }
+                    getAddressList();
+                } else {
+                    getAddressList();
                 }
             }
         }, AppLaunchModel.class);
@@ -690,12 +695,11 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         public void onReceiveLocation(BDLocation location) {
             LocationManager.getIManager().stopLocation();
             Log.i("onReceiveLocation", "onReceiveLocation::");
-            Handler handler;
             BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
 
             if (location != null) {
 
-                if (CheckUtils.isNoEmptyStr(location.getAddrStr())){
+                if (CheckUtils.isNoEmptyStr(location.getAddrStr())) {
                     PreferenceUtils.saveAddressName(location.getAddrStr(), mActivity);
                 }
                 if (CheckUtils.isNoEmptyList(location.getPoiList())) {
@@ -710,14 +714,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 }
                 if ("4.9E-324".equals("" + location.getLatitude()) || "4.9E-324".equals("" + location.getLongitude())) {
                     ToastUtils.displayMsg("定位失败,请检查马管家定位权限是否开启", HomeActivity.this);
-                    if (fragment instanceof HomeFragment) {
-                        Log.i("onReceiveLocation", "onReceiveLocation::HomeFragment::");
-                        ((HomeFragment) fragment).showLoactionFailAddress();
-                    } else {
-                        Log.i("onReceiveLocation", "onReceiveLocation::NewHomeFragment::");
-                        ((NewHomeFragment) fragment).showLoactionFailAddress();
-                    }
+                    locationFail(fragment);
+
                 } else {
+                    PreferenceUtils.saveBoolPreference("isOpenLocationFailDialog", false, getApplicationContext());
                     PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", mActivity);
                     //保存定位信息,因为上面保存的位置会因为手动选择而改变
                     PreferenceUtils.saveFixedLocation(location.getLatitude() + "", location.getLongitude() + "", location.getAddrStr(), mActivity);
@@ -725,11 +725,45 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     getInformationArea();
                 }
 
+            } else {
+                locationFail(fragment);
             }
 
         }
 
     };
+
+
+    private void locationFail(BaseFragment fragment) {
+        PreferenceUtils.saveAddressName("", mActivity);
+        PreferenceUtils.saveBoolPreference("isOpenLocationFailDialog", true, getApplicationContext());
+        if (fragment instanceof HomeFragment) {
+            Log.i("onReceiveLocation", "onReceiveLocation::HomeFragment::");
+            ((HomeFragment) fragment).setUserAddressList(userAddressList);
+            ((HomeFragment) fragment).showLoactionFailAddress();
+        } else {
+            Log.i("onReceiveLocation", "onReceiveLocation::NewHomeFragment::");
+            ((NewHomeFragment) fragment).setUserAddressList(userAddressList);
+            ((NewHomeFragment) fragment).showLoactionFailAddress();
+        }
+    }
+
+
+    private void getAddressList() {
+        if (App.isLogin()) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            VolleyOperater<AddressManageModel> operater = new VolleyOperater<AddressManageModel>(mActivity);
+            operater.doRequest(Constants.URL_GET_ADDRESS, map, new VolleyOperater.ResponseListener() {
+                @Override
+                public void onRsp(boolean isSucceed, Object obj) {
+                    if (isSucceed && obj != null) {
+                        userAddressList = ((AddressManageModel) obj).getValue();
+                        Log.i("getAddressList", "getAddressList::getAddressList:" + userAddressList.size());
+                    }
+                }
+            }, AddressManageModel.class);
+        }
+    }
 
     private void updataFragment() {
         Log.d("HomeActivity", "updataFragment::");
@@ -746,8 +780,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
             BaseFragment fragment = (BaseFragment) homePagerAdapter.getItem(0);
             homePagerAdapter.notifyDataSetChanged();
             if (fragment instanceof HomeFragment) {
+                ((HomeFragment) fragment).setUserAddressList(userAddressList);
                 ((HomeFragment) fragment).showAddress();
             } else {
+                ((NewHomeFragment) fragment).setUserAddressList(userAddressList);
                 ((NewHomeFragment) fragment).showAddress();
             }
 
