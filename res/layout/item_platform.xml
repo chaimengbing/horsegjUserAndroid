@@ -30,7 +30,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/merchant_name"
+                    android:id="@+id/paltform_name_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -40,7 +40,7 @@
                     tools:text="天降红包" />
 
                 <TextView
-                    android:id="@+id/tv_red_bag_restrict"
+                    android:id="@+id/expiration_time_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -49,6 +49,7 @@
                     tools:text="有效期至：2018-11-07" />
 
                 <TextView
+                    android:id="@+id/restrict_time_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x10"
@@ -58,6 +59,7 @@
                     tools:text="10：00-12：00 可用" />
 
                 <TextView
+                    android:id="@+id/mobile_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -86,6 +88,7 @@
                     tools:text="￥18" />
 
                 <TextView
+                    android:id="@+id/restrict_amt_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/redbag_money_textview"
@@ -105,13 +108,13 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/category_textview"
+                android:id="@+id/business_type_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/x20"
                 android:textColor="@color/color_3"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 tools:text="限品类：跑腿  快递  外卖" />
 
 

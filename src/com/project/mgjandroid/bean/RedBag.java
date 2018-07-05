@@ -47,6 +47,98 @@ public class RedBag extends Entity {
      * "isDisable": 1,
      * "businessTypeName": null,
      * "disableList": []
+     *
+     *
+     * {
+     "code": 0,
+     "uuid": "352203064445533",
+     "value": {
+     "platformRedBagCount": 7,
+     "vouchersList": [{
+     "id": 13885,
+     "createTime": "2018-06-19 15:55:20",
+     "modifyTime": "2018-06-19 15:55:20",
+     "userId": 1382,
+     "promotionId": null,
+     "platformRedBagRulesId": null,
+     "activityId": 384,
+     "rulesSource": null,
+     "fromOrderId": null,
+     "useOrderId": null,
+     "name": "进店领",
+     "amt": 10.0,
+     "discountRate": null,
+     "restrictAmt": 48.0,
+     "promotionType": 2,
+     "redeemCode": null,
+     "type": 2,
+     "couponType": 2,
+     "businessType": null,
+     "merchantId": 221,
+     "agentId": null,
+     "expirationTime": 1531986919952,
+     "isRestrictTime": 0,
+     "restrictTime": null,
+     "usingTime": null,
+     "sendBackTime": null,
+     "isCumulate": 0,
+     "mobile": null,
+     "status": 0,
+     "merchantName": "德玛西亚",
+     "merchantLogo": "http://7xu5hi.com1.z0.glb.clouddn.com/201805301027148994984.JPG",
+     "isDisable": 1,
+     "businessTypeName": null,
+     "disableList": []
+     }],
+     "platformRedBagList": [{
+     "id": 14127,
+     "createTime": "2018-07-05 16:15:55",
+     "modifyTime": "2018-07-05 16:15:55",
+     "userId": 1382,
+     "promotionId": null,
+     "platformRedBagRulesId": 6,
+     "activityId": null,
+     "rulesSource": null,
+     "fromOrderId": null,
+     "useOrderId": null,
+
+
+     "discountRate": 0.0,
+
+     "promotionType": 3,
+     "redeemCode": null,
+     "type": 4,
+     "couponType": 1,
+     "businessType": "2,6",
+     "merchantId": null,
+     "agentId": 3,
+     "expirationTime": 1534234555332,
+     "isRestrictTime": 1,
+     "name": "dfg ",
+     "restrictTime": "01:00-02:00",
+     "businessTypeName": "拼团 团购",
+     "mobile": "15312345678",
+     "amt": 3.7,
+     "restrictAmt": 40.0,  满减
+     "isDisable": 1,
+     "usingTime": null,
+     "sendBackTime": null,
+     "isCumulate": 0,
+
+     "status": 0,
+     "merchantName": null,
+     "merchantLogo": null,
+
+
+     "disableList": []
+     },],
+     "vouchersCount": 1
+     },
+     "success": true,
+     "servertime": "2018-07-05 16:58:35"
+     }
+     *
+     *
      */
 
     private Integer isDisable = 1;

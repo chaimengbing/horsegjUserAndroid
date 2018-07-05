@@ -33,6 +33,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/redbag_title_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x60"
         android:background="@drawable/title_bar_bg">
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:singleLine="true"
-                android:text="平台红包"
+                android:text="红包"
                 android:textColor="@color/title_tv_festival"
                 android:textSize="@dimen/title_bar_text_size" />
 
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:singleLine="true"
-                android:text="抵用券"
+                android:text="代金券"
                 android:textColor="@color/redbag_nosel"
                 android:textSize="@dimen/title_bar_text_size" />
 
