@@ -43,6 +43,8 @@ public class MyRedBagActivity extends BaseActivity {
     private TextView platformTextView;
     @InjectView(R.id.vouchers_textview)
     private TextView vouchersTextView;
+    @InjectView(R.id.title_textview)
+    private TextView titleTextView;
     @InjectView(R.id.platform_view)
     private View platformView;
     @InjectView(R.id.vouchers_view)
@@ -62,7 +64,7 @@ public class MyRedBagActivity extends BaseActivity {
     private long redBagId;
     private long agentId;
     private String discountGoodsDiscountAmt;
-    private boolean canUse = true;
+    private boolean canUse = false;
 
 
     @Override
@@ -154,18 +156,7 @@ public class MyRedBagActivity extends BaseActivity {
             public void onClick(View view) {
                 redBagType = 2;
                 handRedBagTabView(redBagType, 0, 0);
-                if (canUse){
-                    if (fragmentRedBagCanUse != null) {
-                        fragmentRedBagCanUse.setRedBagType(redBagType);
-                        fragmentRedBagCanUse.getData(false);
-                    }
-                }else {
-                    if (fragmentRedBagCantUse != null) {
-                        fragmentRedBagCantUse.setRedBagType(redBagType);
-                        fragmentRedBagCantUse.getData(false);
-                    }
-                }
-
+                updateData();
             }
         });
         //红包、
@@ -174,21 +165,24 @@ public class MyRedBagActivity extends BaseActivity {
             public void onClick(View view) {
                 redBagType = 1;
                 handRedBagTabView(redBagType, 0, 0);
-                if (canUse){
-                    if (fragmentRedBagCanUse != null) {
-                        fragmentRedBagCanUse.setRedBagType(redBagType);
-                        fragmentRedBagCanUse.getData(false);
-                    }
-                }else {
-                    if (fragmentRedBagCantUse != null) {
-                        fragmentRedBagCantUse.setRedBagType(redBagType);
-                        fragmentRedBagCantUse.getData(false);
-                    }
-                }
-
+                updateData();
             }
         });
 
+    }
+
+    private void updateData() {
+        if (canUse) {
+            if (fragmentRedBagCantUse != null) {
+                fragmentRedBagCantUse.setRedBagType(redBagType);
+                fragmentRedBagCantUse.getData(false);
+            }
+        } else {
+            if (fragmentRedBagCanUse != null) {
+                fragmentRedBagCanUse.setRedBagType(redBagType);
+                fragmentRedBagCanUse.getData(false);
+            }
+        }
     }
 
 
@@ -196,6 +190,11 @@ public class MyRedBagActivity extends BaseActivity {
      * @param redBagType leixign
      */
     public void handRedBagTabView(int redBagType, int platFormCount, int vouchersCount) {
+        if (canUse){
+            titleTextView.setText("历史红包");
+        }else {
+            titleTextView.setText("平台红包");
+        }
         if (platFormCount > 0) {
             platformTextView.setText("红包" + platFormCount + "个");
         }
@@ -228,7 +227,8 @@ public class MyRedBagActivity extends BaseActivity {
 
     public void doTransaction(boolean canUse) {
         this.canUse = canUse;
-        redBagTitleLayout.setVisibility(!canUse ? View.VISIBLE : View.GONE);
+        updateData();
+//        redBagTitleLayout.setVisibility(!canUse ? View.VISIBLE : View.GONE);
         if (canUse) {
             if (fragmentRedBagCantUse == null) {
                 Bundle args = new Bundle();

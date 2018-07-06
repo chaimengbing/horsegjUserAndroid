@@ -227,12 +227,12 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
             public void onRsp(boolean isSucceed, Object obj) {
                 listView.onRefreshComplete();
                 loadingDialog.dismiss();
+                List<RedBag> mlist = new ArrayList<>();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
                         return;
                     }
                     RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
-                    List<RedBag> mlist = new ArrayList<>();
                     if (redBagType == 1){
                         mlist.addAll(redBagListModel.getPlatformRedBagList());
                     }else {
@@ -240,6 +240,8 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                     }
                     setData(mlist,isLoadMore);
                     ((MyRedBagActivity)getActivity()).handRedBagTabView(redBagType,redBagListModel.getPlatformRedBagCount(),redBagListModel.getVouchersCount());
+                }else {
+                    setData(mlist,isLoadMore);
                 }
             }
         }, RedBagsModel.class);

@@ -97,6 +97,13 @@
                     android:textSize="12sp"
                     tools:text="无门槛红包" />
 
+                <ImageView
+                    android:id="@+id/iv_redbag"
+                    android:layout_width="@dimen/x77"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/redbag_invalid" />
 
             </RelativeLayout>
 

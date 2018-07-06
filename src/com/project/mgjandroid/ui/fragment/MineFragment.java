@@ -414,6 +414,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
+                    if (obj instanceof String) {
+                        return;
+                    }
                     UserAccountModel userAccountModel = (UserAccountModel) obj;
                     UserAccountModel.ValueEntity value = userAccountModel.getValue();
                     setAccountView(value);

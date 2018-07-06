@@ -14,12 +14,13 @@ public class Constants {
     //	public static final String WE_CHAT_APP_SECRET = App.getInstance().getString(R.string.wechat_appsecret);
     //	private static boolean isTest = true;
 
-//            public static final String ONLINE_IP = "123.56.15.86";
+    //            public static final String ONLINE_IP = "123.56.15.86";
     public static final String ONLINE_IP = "60.205.120.0";
-//            public static final String ONLINE_IP = "101.200.34.156";
+    //            public static final String ONLINE_IP = "101.200.34.156";
 //        public static final String ONLINE_IP = "47.94.93.98";
-    public static final String TEST_IP = "120.24.16.64";
-    //    public static final String TEST_IP = "60.205.120.0";
+//    public static final String TEST_IP = "120.24.16.64";
+    public static final String TEST_IP = "192.168.199.217:8080";
+    //        public static final String TEST_IP = "60.205.120.0";
 //        public static final String TEST_IP = "112.74.18.147";
     public static final String URL_NEW_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/newUserClient?m="; //120.24.16.64正式123.56.15.86
     public static final String URL_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/userClient?m="; //120.24.16.64正式123.56.15.86
@@ -218,6 +219,11 @@ public class Constants {
      * 用户下单查询用户可用红包
      */
     public static final String URL_FILTER_USABLE_RED_BAG_LIST = URL_HOME_MAIN + "filterUsableRedBagList";
+    /**
+     * * 我的红包
+     * 接口：queryRedBagList
+     */
+    public static final String URL_QUERY_RED_BAG_LIST = URL_HOME_MAIN + "queryRedBagList";
     /**
      * 订单商品列表，包含是否可退换信息，以及申请退换后的状态
      */

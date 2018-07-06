@@ -6,6 +6,7 @@ import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.StringUtils;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,12 +44,30 @@ public class PlatFormAdapter extends BaseListAdapter<RedBag> {
         TextView moneyNum = holder.getView(R.id.redbag_money_textview);
         TextView restrictAmt = holder.getView(R.id.restrict_amt_textview);
         TextView businessType = holder.getView(R.id.business_type_textview);
+        ImageView iv_redbag = holder.getView(R.id.iv_redbag);
 
-        if (canUse){
+        if (canUse) {
             rootView.setBackgroundResource(R.drawable.normal_redbag_bg);
-        }else {
+            iv_redbag.setVisibility(View.INVISIBLE);
+            expirationTextView.setTextColor(mActivity.getResources().getColor(R.color.color_3));
+            businessType.setTextColor(mActivity.getResources().getColor(R.color.color_3));
+        } else if (bean.getStatus() == 1) {
             rootView.setBackgroundResource(R.drawable.invalid_redbag_bg);
+            moneyNum.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            iv_redbag.setVisibility(View.VISIBLE);
+            iv_redbag.setImageResource(R.drawable.redbag_used);
+            restrictAmt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            expirationTextView.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            businessType.setTextColor(mActivity.getResources().getColor(R.color.color_c));
 
+        } else {
+            rootView.setBackgroundResource(R.drawable.invalid_redbag_bg);
+            moneyNum.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            iv_redbag.setVisibility(View.VISIBLE);
+            iv_redbag.setImageResource(R.drawable.redbag_invalid);
+            restrictAmt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            expirationTextView.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            businessType.setTextColor(mActivity.getResources().getColor(R.color.color_c));
         }
 
         nameTextView.setText(CheckUtils.isEmptyStr(bean.getName()) ? "红包" : bean.getName());
@@ -61,8 +81,8 @@ public class PlatFormAdapter extends BaseListAdapter<RedBag> {
             moneyNum.setText(style);
         }
 
-        if (bean.getRestrictAmt() != null) {
-            restrictAmt.setText("满" + StringUtils.BigDecimal2Str(bean.getAmt()) + "可用");
+        if (bean.getRestrictAmt() != null && bean.getRestrictAmt().doubleValue() > 0) {
+            restrictAmt.setText("满" + StringUtils.BigDecimal2Str(bean.getRestrictAmt()) + "可用");
         } else {
             restrictAmt.setText("无门槛红包");
         }
