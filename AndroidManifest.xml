@@ -824,6 +824,9 @@
             android:name=".ui.activity.groupbuying.GroupBuyingFeedbackActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.groupbuying.BuyTicketActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.illegalquery.IllegalQueryActivity"
             android:screenOrientation="portrait" />
         <activity
