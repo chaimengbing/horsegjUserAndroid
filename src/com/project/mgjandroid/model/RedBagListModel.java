@@ -57,4 +57,28 @@ public class RedBagListModel extends Entity {
     public void setVouchersCount(int vouchersCount) {
         this.vouchersCount = vouchersCount;
     }
+
+    /**
+     * "redBagList": null,
+     "type": 1
+     */
+    //平台红包
+    private ArrayList<RedBag> redBagList;
+    private int type = 0;
+
+    public ArrayList<RedBag> getRedBagList() {
+        return redBagList;
+    }
+
+    public void setRedBagList(ArrayList<RedBag> redBagList) {
+        this.redBagList = redBagList;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 }

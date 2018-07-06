@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -23,6 +26,7 @@ import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.AppVersion;
+import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.download.FileDownloadManager;
@@ -32,6 +36,8 @@ import com.project.mgjandroid.model.AppLaunchModel;
 import com.project.mgjandroid.model.FestivalModel;
 import com.project.mgjandroid.model.HomeVersionModel;
 import com.project.mgjandroid.model.InformationAreaModel;
+import com.project.mgjandroid.model.RedBagListModel;
+import com.project.mgjandroid.model.RedBagsModel;
 import com.project.mgjandroid.model.SmsLoginModel;
 import com.project.mgjandroid.model.UpdateModel;
 import com.project.mgjandroid.net.VolleyOperater;
@@ -75,7 +81,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     public static final int LOCATION_RESPOND_CODE = 10086;
     public static final int GROUP = 10011;
     public static final int SUPERMARKET = 10012;
+    public static final int LOGIN_RECEIVER_REDBAG = 10013;
     public final static String CHANGE_PICKED_ADDRESS = "com.project.mgjandroid.HomeActivity.CHANGE_PICKED_ADDRESS";
+    private final static String TAG = HomeActivity.class.getSimpleName();
 
     @InjectView(R.id.home_act_layout_home)
     private LinearLayout homeLayout;
@@ -135,6 +143,19 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     public boolean isLotteryShow = false;
     private List<UserAddress> userAddressList;
 
+    /**
+     * 红包
+     */
+    private CommonDialog redBagDialog;
+    private ImageView redBagBgImageView;
+    private LinearLayout noLoginLayout;
+    private RelativeLayout loginLayout;
+    private TextView receiverTextView;
+    private TextView redBagNumTextView;
+    private TextView loginTextView;
+    private RecyclerView redBagRecylerView;
+
+
     private Handler handler = new Handler();
 
     @Override
@@ -157,6 +178,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 
         addFragments();
         initUpdateDialog();
+        initReceiverRedBagDialog();
         checkUpdate();
         //预加载闪屏gif
         getSplashGif();
@@ -185,6 +207,80 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         mUpdateDialog.setCancelable(false);
     }
 
+
+    /**
+     * 初始化领取红包对话框
+     */
+    private void initReceiverRedBagDialog() {
+        DisplayMetrics dpMetrics = new DisplayMetrics();
+        getWindow().getWindowManager().getDefaultDisplay().getMetrics(dpMetrics);
+        int screenWidth = dpMetrics.widthPixels;
+        Log.d(HomeActivity.class.getSimpleName(), "initReceiverRedBagDialog:screenWidth：" + screenWidth);
+        View view = mInflater.inflate(R.layout.layout_redbag_dialog, null);
+        redBagBgImageView = (ImageView) view.findViewById(R.id.redbag_bg_imageview);
+        noLoginLayout = (LinearLayout) view.findViewById(R.id.no_login_layout);
+//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) noLoginLayout.getLayoutParams();
+//        params.bottomMargin = 20;
+//        noLoginLayout.setLayoutParams(params);
+
+        loginLayout = (RelativeLayout) view.findViewById(R.id.login_layout);
+        receiverTextView = (TextView) view.findViewById(R.id.register_receiver_textview);
+        redBagNumTextView = (TextView) view.findViewById(R.id.redbag_num_textview);
+        loginTextView = (TextView) view.findViewById(R.id.login_textview);
+        redBagRecylerView = (RecyclerView) view.findViewById(R.id.redbag_recylerview);
+        loginTextView.setOnClickListener(this);
+        redBagDialog = new CommonDialog(mActivity, view, this);
+        redBagDialog.setCancelable(true);
+    }
+
+    public void showReceiverRedBagDialog() {
+        noLoginLayout.setVisibility(View.VISIBLE);
+        loginLayout.setVisibility(View.GONE);
+
+        if (App.isLogin()) {//已登录
+            VolleyOperater<RedBagsModel> operater = new VolleyOperater<>(mActivity);
+            operater.doRequest(Constants.URL_GET_PLATFORM_REDBAG, null, new VolleyOperater.ResponseListener() {
+                @Override
+                public void onRsp(boolean isSucceed, Object obj) {
+                    if (isSucceed && obj != null) {
+                        if (obj instanceof String) {
+                            return;
+                        }
+                        RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
+                        Log.d(TAG,"redBagListModel.getType():" + redBagListModel.getType());
+                        if (redBagListModel.getType() == 1) {//已绑定手机号
+                            if (redBagListModel.getRedBagList() != null && redBagListModel.getRedBagList().size() > 0) {
+                                //有可用红包
+                                noLoginLayout.setVisibility(View.GONE);
+                                loginLayout.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            //未绑定手机号
+                            receiverTextView.setText("绑定手机号，即可领取大额红包");
+                            loginTextView.setText("立即绑定，领取红包");
+                            if (redBagDialog != null && !redBagDialog.isShowing()) {
+                                redBagDialog.show();
+                            }
+                        }
+                    }
+                }
+            }, RedBagsModel.class);
+        } else {
+            receiverTextView.setText("注册马管家，即可领取大额红包");
+            loginTextView.setText("立即登录，领取红包");
+            if (redBagDialog != null && !redBagDialog.isShowing()) {
+                redBagDialog.show();
+            }
+        }
+
+
+    }
+
+    private void hiddenReceiverRedBagDialog() {
+        if (redBagDialog != null && redBagDialog.isShowing()) {
+            redBagDialog.dismiss();
+        }
+    }
 
     private void setListener() {
         homeLayout.setOnClickListener(this);
@@ -334,6 +430,14 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 mManager.stop();
                 hiddenUpdateDialog();
                 break;
+            case R.id.login_textview:
+                hiddenReceiverRedBagDialog();
+                if (App.isLogin()) {
+                    startActivityForResult(new Intent(mActivity, BindMobileActivity.class), 0);
+                } else {
+                    startActivityForResult(new Intent(mActivity, SmsLoginActivity.class), 0);
+                }
+                break;
             default:
                 break;
         }
@@ -394,13 +498,8 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 pager.setCurrentItem(INDEX_SUPERMARKET, false);
                 break;
             case MineFragment.LOGIN_IN_SUCCESS:
-//                if (null != homeFragment) {
-//                    homeFragment.setIsFirstIn();
-//                }
-//                if (null != newHomeFragment) {
-//                    newHomeFragment.setIsFirstIn();
-//                }
-//                getSkyRedbagActivity();
+            case LOGIN_RECEIVER_REDBAG:
+                showReceiverRedBagDialog();
                 break;
             default:
                 break;
@@ -499,7 +598,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         String token = PreferenceUtils.getStringPreference("token", "", this);
         if (!"".equals(token)) {
             doLogin();
-        }
+        } /*else {
+            showReceiverRedBagDialog(1);
+        }*/
     }
 
     /**

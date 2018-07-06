@@ -159,6 +159,7 @@ public class BindMobileActivity extends BaseActivity implements View.OnClickList
                         App.setUserInfo(appUserEntity);
                         App.setIsLogin(true);
                         App.setIsUserInfoChange(true);
+                        setResult(HomeActivity.LOCATION_RESPOND_CODE, new Intent());
                         finish();
                     }
                 }

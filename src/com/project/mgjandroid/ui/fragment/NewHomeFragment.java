@@ -58,7 +58,6 @@ import com.project.mgjandroid.constants.ActivitySchemeManager;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
-import com.project.mgjandroid.model.AddressManageModel;
 import com.project.mgjandroid.model.BroadcastNewModel;
 import com.project.mgjandroid.model.CommercialListModel;
 import com.project.mgjandroid.model.FindAgentModel;
@@ -2541,9 +2540,20 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                     adapter.setList(mlist);
                 }
                 openLocationDialog();
+                showReceiverRedBagDialog();
+
             }
         }, CommercialListModel.class);
 
+    }
+
+    /**
+     * 显示天降红包
+     */
+    private void showReceiverRedBagDialog() {
+        if (agentId != 0) {//有代理商
+            ((HomeActivity) getActivity()).showReceiverRedBagDialog();
+        }
     }
 
     //开始导航滑动动画

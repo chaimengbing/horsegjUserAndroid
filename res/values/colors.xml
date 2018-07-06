@@ -103,6 +103,7 @@
     <color name="is_unbind">#e95603</color>
     <color name="is_unopened">#b6b6b6</color>
     <color name="left_menu_group_checked">#dc550f</color>
+    <color name="red_nologin">#ff3d4a</color>
     <color name="left_menu_group_unchecked">#595657</color>
 
     <color name="about_text">#575656</color>
