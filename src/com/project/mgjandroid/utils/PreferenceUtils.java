@@ -204,6 +204,9 @@ public class PreferenceUtils {
 
     // 获取布尔类型，自定义默认值
     public static boolean getBoolPreference(String keyName, boolean defaultValue, Context context) {
+        if (context == null){
+            return false;
+        }
         return context.getSharedPreferences(CONFIG_FILE_NAME, Context.MODE_PRIVATE).getBoolean(keyName, defaultValue);
     }
 

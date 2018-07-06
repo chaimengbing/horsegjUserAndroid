@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,10 +49,13 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.AddressManagerListAdapter;
 import com.project.mgjandroid.ui.adapter.LocalListAdapter;
 import com.project.mgjandroid.ui.fragment.ChooseAddressFragment;
+import com.project.mgjandroid.ui.fragment.HomeFragment;
+import com.project.mgjandroid.ui.fragment.NewHomeFragment;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.MLog;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
@@ -158,6 +162,15 @@ public class LocationNewActivity extends BaseActivity implements OnClickListener
             @Override
             public void onReceiveLocation(BDLocation location) {
                 if (location != null) {
+                    if ("4.9E-324".equals("" + location.getLatitude()) || "4.9E-324".equals("" + location.getLongitude())) {
+                        PreferenceUtils.saveLocation( "0.0", "0.0", LocationNewActivity.this);
+                        PreferenceUtils.saveAddressName("", LocationNewActivity.this);
+                        locationRefresh.clearAnimation();
+                        tvCurrentLoc.setText(R.string.loc_current);
+                        toast("请开启定位权限");
+                        layoutCurrent.setEnabled(true);
+                        return;
+                    }
                     PreferenceUtils.saveLocation(location.getLatitude() + "", location.getLongitude() + "", LocationNewActivity.this);
                     PreferenceUtils.saveAddressName(location.getAddrStr(), LocationNewActivity.this);
                     if (CheckUtils.isNoEmptyList(location.getPoiList())) {
@@ -171,6 +184,14 @@ public class LocationNewActivity extends BaseActivity implements OnClickListener
                         PreferenceUtils.saveAddressCityCode(location.getAddress().cityCode, mActivity);
                     }
                     setResult(HomeActivity.LOCATION_RESPOND_CODE);
+                }else {
+                    PreferenceUtils.saveLocation( "0.0", "0.0", LocationNewActivity.this);
+                    PreferenceUtils.saveAddressName("", LocationNewActivity.this);
+                    locationRefresh.clearAnimation();
+                    tvCurrentLoc.setText(R.string.loc_current);
+                    toast("请开启定位权限");
+                    layoutCurrent.setEnabled(true);
+                    return;
                 }
                 showAddress();
                 LocationManager.getIManager().stopLocation();
