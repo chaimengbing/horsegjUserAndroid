@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -42,6 +43,7 @@ import com.project.mgjandroid.model.SmsLoginModel;
 import com.project.mgjandroid.model.UpdateModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.HomePagerAdapter;
+import com.project.mgjandroid.ui.adapter.HomePlatFormRecyclerAdapter;
 import com.project.mgjandroid.ui.fragment.BaseFragment;
 import com.project.mgjandroid.ui.fragment.HomeFragment;
 import com.project.mgjandroid.ui.fragment.MineFragment;
@@ -147,13 +149,14 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
      * 红包
      */
     private CommonDialog redBagDialog;
-    private ImageView redBagBgImageView;
+    private RelativeLayout redBagBgLayout;
     private LinearLayout noLoginLayout;
     private RelativeLayout loginLayout;
     private TextView receiverTextView;
     private TextView redBagNumTextView;
     private TextView loginTextView;
     private RecyclerView redBagRecylerView;
+    private HomePlatFormRecyclerAdapter homePlatFormRecyclerAdapter;
 
 
     private Handler handler = new Handler();
@@ -217,7 +220,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         int screenWidth = dpMetrics.widthPixels;
         Log.d(HomeActivity.class.getSimpleName(), "initReceiverRedBagDialog:screenWidth：" + screenWidth);
         View view = mInflater.inflate(R.layout.layout_redbag_dialog, null);
-        redBagBgImageView = (ImageView) view.findViewById(R.id.redbag_bg_imageview);
+        redBagBgLayout = (RelativeLayout) view.findViewById(R.id.red_bg_layout);
         noLoginLayout = (LinearLayout) view.findViewById(R.id.no_login_layout);
 //        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) noLoginLayout.getLayoutParams();
 //        params.bottomMargin = 20;
@@ -228,18 +231,33 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         redBagNumTextView = (TextView) view.findViewById(R.id.redbag_num_textview);
         loginTextView = (TextView) view.findViewById(R.id.login_textview);
         redBagRecylerView = (RecyclerView) view.findViewById(R.id.redbag_recylerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        redBagRecylerView.setLayoutManager(layoutManager);
+        homePlatFormRecyclerAdapter = new HomePlatFormRecyclerAdapter(getApplicationContext());
+        redBagRecylerView.setAdapter(homePlatFormRecyclerAdapter);
         loginTextView.setOnClickListener(this);
         redBagDialog = new CommonDialog(mActivity, view, this);
         redBagDialog.setCancelable(true);
     }
 
     public void showReceiverRedBagDialog() {
+        hiddenReceiverRedBagDialog();
         noLoginLayout.setVisibility(View.VISIBLE);
         loginLayout.setVisibility(View.GONE);
+        redBagBgLayout.setBackgroundResource(R.drawable.dialog_nologin_bg);
 
         if (App.isLogin()) {//已登录
-            VolleyOperater<RedBagsModel> operater = new VolleyOperater<>(mActivity);
-            operater.doRequest(Constants.URL_GET_PLATFORM_REDBAG, null, new VolleyOperater.ResponseListener() {
+            VolleyOperater<RedBagsModel> operater = new VolleyOperater<>(getApplication());
+            final Map<String, Object> map = new HashMap<>();
+            if (PreferenceUtils.getLocation(getApplicationContext())[0] != null && PreferenceUtils.getLocation(getApplicationContext())[1] != null) {
+                map.put("latitude", PreferenceUtils.getLocation(getApplicationContext())[0]);
+                map.put("longitude", PreferenceUtils.getLocation(getApplicationContext())[1]);
+            } else {
+                map.put("latitude", "");
+                map.put("longitude", "");
+            }
+            operater.doRequest(Constants.URL_GET_PLATFORM_REDBAG, map, new VolleyOperater.ResponseListener() {
                 @Override
                 public void onRsp(boolean isSucceed, Object obj) {
                     if (isSucceed && obj != null) {
@@ -253,6 +271,11 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                                 //有可用红包
                                 noLoginLayout.setVisibility(View.GONE);
                                 loginLayout.setVisibility(View.VISIBLE);
+                                homePlatFormRecyclerAdapter.setList(redBagListModel.getRedBagList());
+                                redBagBgLayout.setBackgroundResource(R.drawable.dialog_login_bg);
+                                if (redBagDialog != null && !redBagDialog.isShowing()) {
+                                    redBagDialog.show();
+                                }
                             }
                         } else {
                             //未绑定手机号

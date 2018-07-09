@@ -54,7 +54,7 @@ public class HomeRedBagAdapter extends BaseListAdapter<RedBag> {
         }
 
         if (bean.getExpirationTime() != null) {
-            tv_effect_period.setText(sdf.format(new Date(bean.getExpirationTime())));
+            tv_effect_period.setText(bean.getExpirationTime().toString());
         } else {
             tv_effect_period.setText("");
         }

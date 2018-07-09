@@ -447,4 +447,5 @@
     <string name="price_ranking">按价格</string>
     <string name="sales_ranking">按销量</string>
     <string name="no_super_market">当前区域暂未开通商超服务</string>
+    <string name="go_look_redbag">去查看</string>
 </resources>

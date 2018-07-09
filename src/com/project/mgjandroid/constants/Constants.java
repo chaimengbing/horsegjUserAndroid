@@ -18,8 +18,8 @@ public class Constants {
     public static final String ONLINE_IP = "60.205.120.0";
     //            public static final String ONLINE_IP = "101.200.34.156";
 //        public static final String ONLINE_IP = "47.94.93.98";
-//    public static final String TEST_IP = "120.24.16.64";
-    public static final String TEST_IP = "192.168.199.217:8080";
+    public static final String TEST_IP = "120.24.16.64";
+//    public static final String TEST_IP = "192.168.199.217:8080";
     //        public static final String TEST_IP = "60.205.120.0";
 //        public static final String TEST_IP = "112.74.18.147";
     public static final String URL_NEW_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/newUserClient?m="; //120.24.16.64正式123.56.15.86
@@ -886,6 +886,10 @@ public class Constants {
      * 查询订单退款详情
      */
     public static final String URL_QUERY_REFUND_INFO = URL_HOME_MAIN + "refundInfo";
+    /**
+     * 查询领取红包集合
+     */
+    public static final String URL_GET_PLATFORM_REDBAG = URL_HOME_MAIN + "getPlatformRedBag";
 
 
     public static final int LOCATION_SUCCESS = 233;

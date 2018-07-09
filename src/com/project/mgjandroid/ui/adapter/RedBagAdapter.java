@@ -61,7 +61,7 @@ public class RedBagAdapter extends BaseListAdapter<RedBag> {
         }
 
         if (bean.getExpirationTime() != null) {
-            tv_effect_period.setText("有效期至 " + sdf.format(new Date(bean.getExpirationTime())));
+            tv_effect_period.setText("有效期至 " + bean.getExpirationTime());
         } else {
             tv_effect_period.setText("");
         }

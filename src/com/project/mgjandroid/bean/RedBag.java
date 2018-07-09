@@ -215,7 +215,7 @@ public class RedBag extends Entity {
     /**
      * 过期时间
      **/
-    private Long expirationTime;
+    private Date expirationTime;
     /**
      * 是否限制使用时间0:否,1:是
      */
@@ -391,11 +391,11 @@ public class RedBag extends Entity {
         this.agentId = agentId;
     }
 
-    public Long getExpirationTime() {
+    public Date getExpirationTime() {
         return expirationTime;
     }
 
-    public void setExpirationTime(Long expirationTime) {
+    public void setExpirationTime(Date expirationTime) {
         this.expirationTime = expirationTime;
     }
 
