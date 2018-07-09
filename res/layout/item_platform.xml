@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/x12"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/x15"
     android:paddingRight="@dimen/x12"
     android:paddingTop="@dimen/x10">
 
@@ -13,20 +14,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/normal_redbag_bg"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/x10">
 
-        <RelativeLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1">
-
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x15"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/x20"
-                android:layout_marginTop="@dimen/x10"
+                android:layout_marginTop="@dimen/x5"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -69,18 +72,20 @@
 
             </LinearLayout>
 
+
             <RelativeLayout
                 android:id="@+id/layout_amt"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/x77"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/x40">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:layout_marginRight="@dimen/x15"
+                android:layout_weight="2">
 
                 <TextView
                     android:id="@+id/redbag_money_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/x10"
                     android:includeFontPadding="false"
                     android:textColor="@color/mine_number_color_red"
@@ -101,32 +106,33 @@
                     android:id="@+id/iv_redbag"
                     android:layout_width="@dimen/x77"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:src="@drawable/redbag_invalid" />
 
             </RelativeLayout>
 
-        </RelativeLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginTop="@dimen/x10">
 
             <TextView
                 android:id="@+id/business_type_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x20"
+                android:layout_marginTop="@dimen/x5"
                 android:textColor="@color/color_3"
                 android:textSize="12sp"
                 tools:text="限品类：跑腿  快递  外卖" />
 
 
         </RelativeLayout>
-
     </LinearLayout>
 
 </FrameLayout>
