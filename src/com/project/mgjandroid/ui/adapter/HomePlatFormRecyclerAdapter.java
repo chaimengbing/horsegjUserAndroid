@@ -2,15 +2,19 @@ package com.project.mgjandroid.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
@@ -98,15 +102,18 @@ public class HomePlatFormRecyclerAdapter extends RecyclerView.Adapter implements
                 foodViewHolder.expiration_time_textview.setText("");
             }
 
+            StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
             if (redBag.getCouponType() == 3) {
                 String str = StringUtils.BigDecimal2Str(redBag.getDiscountRate()) + "折";
                 SpannableStringBuilder style = new SpannableStringBuilder(str);
                 style.setSpan(new TextAppearanceSpan(null, 0, mContext.getResources().getDimensionPixelSize(R.dimen.title_bar_text_size), null, null), str.length() - 1, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                style.setSpan(styleSpan, 1, style.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
                 foodViewHolder.redbag_money_textview.setText(style);
             } else {
                 String str = "¥" + StringUtils.BigDecimal2Str(redBag.getAmt());
                 SpannableStringBuilder style = new SpannableStringBuilder(str);
                 style.setSpan(new TextAppearanceSpan(null, 0, mContext.getResources().getDimensionPixelSize(R.dimen.title_bar_text_size), null, null), 0, 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                style.setSpan(styleSpan, 1, style.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
                 foodViewHolder.redbag_money_textview.setText(style);
             }
 
@@ -139,18 +146,14 @@ public class HomePlatFormRecyclerAdapter extends RecyclerView.Adapter implements
             } else {
                 platFormViewHolder.restrict_time_textview.setText("");
             }
+            StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);
+            String str = "¥" + StringUtils.BigDecimal2Str(redBag.getAmt());
+            SpannableStringBuilder style = new SpannableStringBuilder(str);
+            style.setSpan(new TextAppearanceSpan(null, 0, mContext.getResources().getDimensionPixelSize(R.dimen.title_bar_text_size), null, null), 0, 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            style.setSpan(styleSpan, 1, style.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 
-            if (redBag.getCouponType() == 3) {
-                String str = StringUtils.BigDecimal2Str(redBag.getDiscountRate()) + "折";
-                SpannableStringBuilder style = new SpannableStringBuilder(str);
-                style.setSpan(new TextAppearanceSpan(null, 0, mContext.getResources().getDimensionPixelSize(R.dimen.title_bar_text_size), null, null), str.length() - 1, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                platFormViewHolder.redbag_money_textview.setText(style);
-            } else {
-                String str = "¥" + StringUtils.BigDecimal2Str(redBag.getAmt());
-                SpannableStringBuilder style = new SpannableStringBuilder(str);
-                style.setSpan(new TextAppearanceSpan(null, 0, mContext.getResources().getDimensionPixelSize(R.dimen.title_bar_text_size), null, null), 0, 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                platFormViewHolder.redbag_money_textview.setText(style);
-            }
+
+            platFormViewHolder.redbag_money_textview.setText(style);
             platFormViewHolder.go_redbag_textview.setText("去查看");
             platFormViewHolder.type_textview.setText("限品类：" + redBag.getBusinessTypeName());
             platFormViewHolder.go_redbag_textview.setOnClickListener(this);
@@ -189,6 +192,7 @@ public class HomePlatFormRecyclerAdapter extends RecyclerView.Adapter implements
         private TextView restrict_amt_textview;
         private TextView go_redbag_textview;
 
+
         public FoodViewHolder(View view) {
             super(view);
             iv_merchant_icon = (CornerImageView) view.findViewById(R.id.merchant_icon);
@@ -198,6 +202,7 @@ public class HomePlatFormRecyclerAdapter extends RecyclerView.Adapter implements
             redbag_money_textview = (TextView) view.findViewById(R.id.redbag_money_textview);
             restrict_amt_textview = (TextView) view.findViewById(R.id.restrict_amt_textview);
             go_redbag_textview = (TextView) view.findViewById(R.id.go_redbag_textview);
+
         }
     }
 
@@ -220,6 +225,16 @@ public class HomePlatFormRecyclerAdapter extends RecyclerView.Adapter implements
             redbag_money_textview = (TextView) view.findViewById(R.id.redbag_money_textview);
             restrict_amt_textview = (TextView) view.findViewById(R.id.restrict_amt_textview);
             go_redbag_textview = (TextView) view.findViewById(R.id.go_redbag_textview);
+//            itemHomeLayout = (RelativeLayout) view.findViewById(R.id.item_home_bg_layout);
+//            itemHomeLayout1 = (RelativeLayout) view.findViewById(R.id.item_home_bg_layout1);
+//            itemHomeLayout2 = (RelativeLayout) view.findViewById(R.id.layout_amt);
+
+//            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) itemHomeLayout1.getLayoutParams();
+//            params.height = itemHomeLayout.getHeight();
+//            itemHomeLayout1.setLayoutParams(params);
+//            LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) itemHomeLayout2.getLayoutParams();
+//            params1.height = itemHomeLayout.getHeight();
+//            itemHomeLayout2.setLayoutParams(params1);
         }
     }
 

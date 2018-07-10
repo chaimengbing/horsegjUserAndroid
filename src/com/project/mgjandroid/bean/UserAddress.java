@@ -16,6 +16,10 @@ public class UserAddress implements Serializable {
      */
     private String address = "";
     /**
+     * 详细地址
+     */
+    private String detailedAddress = "";
+    /**
      * 门牌楼号
      */
     private String houseNumber = "";
@@ -176,4 +180,11 @@ public class UserAddress implements Serializable {
         this.overShippingTxt = overShippingTxt;
     }
 
+    public String getDetailedAddress() {
+        return detailedAddress;
+    }
+
+    public void setDetailedAddress(String detailedAddress) {
+        this.detailedAddress = detailedAddress;
+    }
 }

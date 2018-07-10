@@ -42,6 +42,7 @@
     <color name="red_light">#ffcd423a</color>
     <color name="blue_dark">#ff0c72a9</color>
     <color name="blue_light">#ff3893cf</color>
+    <color name="send_time">#049eb5</color>
     <color name="org_light">#e95603</color>
     <color name="extra_color">#e1991e</color>
     <color name="green_dark">#ff25a044</color>

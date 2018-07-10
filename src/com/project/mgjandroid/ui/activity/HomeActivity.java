@@ -148,8 +148,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     /**
      * 红包
      */
+    private ImageView redBagNoLoginImageView;
+    private ImageView redBagLoginImageView;
+    private ImageView redBagLoginImageView1;
     private CommonDialog redBagDialog;
-    private RelativeLayout redBagBgLayout;
     private LinearLayout noLoginLayout;
     private RelativeLayout loginLayout;
     private TextView receiverTextView;
@@ -215,22 +217,18 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
      * 初始化领取红包对话框
      */
     private void initReceiverRedBagDialog() {
-        DisplayMetrics dpMetrics = new DisplayMetrics();
-        getWindow().getWindowManager().getDefaultDisplay().getMetrics(dpMetrics);
-        int screenWidth = dpMetrics.widthPixels;
-        Log.d(HomeActivity.class.getSimpleName(), "initReceiverRedBagDialog:screenWidth：" + screenWidth);
         View view = mInflater.inflate(R.layout.layout_redbag_dialog, null);
-        redBagBgLayout = (RelativeLayout) view.findViewById(R.id.red_bg_layout);
         noLoginLayout = (LinearLayout) view.findViewById(R.id.no_login_layout);
-//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) noLoginLayout.getLayoutParams();
-//        params.bottomMargin = 20;
-//        noLoginLayout.setLayoutParams(params);
+        redBagNoLoginImageView = (ImageView) view.findViewById(R.id.redbag_nologin_imageview);
 
+        redBagLoginImageView1 = (ImageView) view.findViewById(R.id.redbag_login_imageview1);
+        redBagLoginImageView = (ImageView) view.findViewById(R.id.redbag_login_imageview);
         loginLayout = (RelativeLayout) view.findViewById(R.id.login_layout);
+        redBagRecylerView = (RecyclerView) view.findViewById(R.id.redbag_recylerview);
+
         receiverTextView = (TextView) view.findViewById(R.id.register_receiver_textview);
         redBagNumTextView = (TextView) view.findViewById(R.id.redbag_num_textview);
         loginTextView = (TextView) view.findViewById(R.id.login_textview);
-        redBagRecylerView = (RecyclerView) view.findViewById(R.id.redbag_recylerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         redBagRecylerView.setLayoutManager(layoutManager);
@@ -243,9 +241,12 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 
     public void showReceiverRedBagDialog() {
         hiddenReceiverRedBagDialog();
+
         noLoginLayout.setVisibility(View.VISIBLE);
+        redBagNoLoginImageView.setVisibility(View.VISIBLE);
         loginLayout.setVisibility(View.GONE);
-        redBagBgLayout.setBackgroundResource(R.drawable.dialog_nologin_bg);
+        redBagLoginImageView1.setVisibility(View.GONE);
+        redBagLoginImageView.setVisibility(View.GONE);
 
         if (App.isLogin()) {//已登录
             VolleyOperater<RedBagsModel> operater = new VolleyOperater<>(getApplication());
@@ -265,14 +266,29 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                             return;
                         }
                         RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
-                        Log.d(TAG,"redBagListModel.getType():" + redBagListModel.getType());
+                        Log.d(TAG, "redBagListModel.getType():" + redBagListModel.getType());
                         if (redBagListModel.getType() == 1) {//已绑定手机号
                             if (redBagListModel.getRedBagList() != null && redBagListModel.getRedBagList().size() > 0) {
-                                //有可用红包
                                 noLoginLayout.setVisibility(View.GONE);
+                                redBagNoLoginImageView.setVisibility(View.GONE);
                                 loginLayout.setVisibility(View.VISIBLE);
-                                homePlatFormRecyclerAdapter.setList(redBagListModel.getRedBagList());
-                                redBagBgLayout.setBackgroundResource(R.drawable.dialog_login_bg);
+                                redBagLoginImageView1.setVisibility(View.VISIBLE);
+                                redBagLoginImageView.setVisibility(View.VISIBLE);
+                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) redBagLoginImageView1.getLayoutParams();
+
+                                List<RedBag> list = new ArrayList<>();
+                                for (int i = 0; i < 1; i++) {
+                                    list.add(redBagListModel.getRedBagList().get(0));
+                                }
+                                if (list.size() == 1) {
+                                    params.height = (int) getResources().getDimension(R.dimen.x120);
+                                } else if (list.size() == 2) {
+                                    params.height = (int) getResources().getDimension(R.dimen.x230);
+                                } else {
+                                    params.height = (int) getResources().getDimension(R.dimen.x280);
+                                }
+                                redBagLoginImageView1.setLayoutParams(params);
+                                homePlatFormRecyclerAdapter.setList(list);
                                 if (redBagDialog != null && !redBagDialog.isShowing()) {
                                     redBagDialog.show();
                                 }

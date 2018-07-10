@@ -5,18 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/x100"
     android:background="@drawable/item_home_platform_bg"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/x15"
-    android:paddingRight="@dimen/x8"
     android:layout_marginTop="@dimen/x10"
-    android:paddingTop="@dimen/x10">
+    android:orientation="horizontal">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1">
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_weight="1"
+        android:paddingTop="@dimen/x10">
 
 
         <TextView
@@ -27,12 +26,14 @@
             android:singleLine="true"
             android:textColor="@color/red_nologin"
             android:textSize="19sp"
+            android:textStyle="bold"
             tools:text="天降红包" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_below="@id/name_textview"
+            android:layout_marginTop="@dimen/x2"
             android:orientation="vertical">
 
             <TextView
@@ -41,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/x3"
                 android:textColor="@color/color_9"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 tools:text="有效期至：2018-11-07" />
 
             <TextView
@@ -50,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:lines="1"
                 android:textColor="@color/color_9"
-                android:textSize="10sp"
+                android:textSize="11sp"
                 tools:text="有效期至：2018-11-07" />
         </LinearLayout>
 
@@ -71,18 +72,17 @@
     <RelativeLayout
         android:id="@+id/layout_amt"
         android:layout_width="match_parent"
-        android:layout_weight="2"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true">
+        android:layout_marginRight="@dimen/x5"
+        android:layout_weight="2">
 
         <TextView
             android:id="@+id/redbag_money_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/x10"
-            android:includeFontPadding="false"
-            android:textColor="@color/mine_number_color_red"
+            android:layout_marginTop="@dimen/x5"
+            android:textColor="@color/red_nologin"
             android:textSize="25sp"
             tools:text="￥18" />
 
@@ -90,8 +90,7 @@
             android:id="@+id/restrict_amt_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/redbag_money_textview"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:textColor="@color/color_3"
             android:textSize="12sp"
             tools:text="无门槛红包" />
@@ -103,7 +102,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/x10"
-            android:layout_marginTop="@dimen/x10"
             android:background="@drawable/item_plat_gored_bg"
             android:gravity="center"
             android:textColor="@color/white"

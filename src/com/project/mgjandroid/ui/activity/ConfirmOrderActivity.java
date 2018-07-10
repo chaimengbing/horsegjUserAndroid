@@ -955,7 +955,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         tv_name.setText(userAddress.getName());
         tv_sex.setText(userAddress.getGender());
         tv_mobile.setText(userAddress.getMobile());
-        tv_address.setText(userAddress.getAddress());
+        tv_address.setText(CheckUtils.isNoEmptyStr(userAddress.getDetailedAddress()) ? userAddress.getDetailedAddress() : userAddress.getAddress());
     }
 
     private void initPayTypePicker() {

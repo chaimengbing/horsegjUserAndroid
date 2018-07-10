@@ -1,51 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/x10"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/x10"
+    android:paddingRight="@dimen/x10">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingTop="@dimen/x5">
 
+        <com.project.mgjandroid.ui.view.CornerImageView
+            android:id="@+id/picture_imageview"
+            android:layout_width="@dimen/x30"
+            android:layout_height="@dimen/x30"
+            android:scaleType="centerCrop"
+            android:src="@drawable/horsegj_default"
+            app:borderColor="#e5e5e5"
+            app:borderRadius="@dimen/x4"
+            app:borderThickness="1px"
+            app:type="round" />
+
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="3"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x5"
+            android:layout_weight="3"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/item_confirm_order_list_name"
-                android:textSize="14sp"
                 android:singleLine="true"
-                android:textColor="@color/color_3" />
+                android:text="@string/item_confirm_order_list_name"
+                android:textColor="@color/color_3"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="@string/item_confirm_order_list_name"
+                android:textColor="@color/color_9"
+                android:textSize="12sp" />
+
+
         </LinearLayout>
 
         <TextView
             android:id="@+id/num"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/item_confirm_order_list_count"
-            android:textSize="13sp"
             android:layout_marginLeft="@dimen/x10"
             android:layout_marginRight="@dimen/x10"
+            android:layout_weight="0.5"
             android:gravity="center"
-            android:textColor="@color/color_c" />
+            android:text="@string/item_confirm_order_list_count"
+            android:textColor="@color/color_c"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/item_confirm_order_list_price"
-            android:textSize="13sp"
             android:gravity="right"
-            android:textColor="@color/color_3" />
+            android:text="@string/item_confirm_order_list_price"
+            android:textColor="@color/color_3"
+            android:textSize="13sp" />
     </LinearLayout>
 </LinearLayout>
