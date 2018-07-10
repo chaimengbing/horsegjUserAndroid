@@ -38,10 +38,13 @@ public class ConfirmOrderListAdapter extends BaseListAdapter<ConfirmOrderModel.V
         tv_price.setText("¥" + StringUtils.BigDecimal2Str(bean.getTotalPrice()));
         tv_name.setText(bean.getName());
         String spec = bean.getSpec();
+        tv_type.setVisibility(View.VISIBLE);
         if (CheckUtils.isNoEmptyStr(bean.getAttributes())) {
             tv_type.setText(spec + " / " + bean.getAttributes());
-        } else {
+        } else if(CheckUtils.isNoEmptyStr(spec)){
             tv_type.setText(spec);
+        }else {
+            tv_type.setVisibility(View.GONE);
         }
     }
 }

@@ -138,15 +138,6 @@
                         android:layout_marginRight="@dimen/x10"
                         android:orientation="vertical">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/x6" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@color/common_gray_line" />
-
 
                         <RelativeLayout
                             android:id="@+id/confirm_order_select_time"
@@ -257,6 +248,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1px"
+                            android:visibility="gone"
                             android:background="@color/common_gray_line" />
 
 
@@ -519,6 +511,18 @@
 
                             </com.project.mgjandroid.ui.view.NoScrollListView>
 
+                            <TextView
+                                android:id="@+id/expand_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:textColor="@color/color_3"
+                                android:text="点击展开"
+                                android:padding="@dimen/x3"
+                                android:drawableRight="@drawable/icon_packup"
+                                android:background="@drawable/bg_black_stroke"
+                                android:layout_below="@id/confirm_order_list_view"/>
+
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -527,11 +531,6 @@
                             android:layout_height="@dimen/mine_list_height"
                             android:background="@color/white">
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:layout_marginLeft="@dimen/x15"
-                                android:background="@color/common_gray_line" />
 
                             <TextView
                                 android:layout_width="wrap_content"

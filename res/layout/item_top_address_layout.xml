@@ -6,7 +6,6 @@
     android:layout_marginLeft="@dimen/x10"
     android:layout_marginRight="@dimen/x10"
     android:background="@drawable/address_bg_color"
-    android:paddingBottom="@dimen/x2"
     android:visibility="visible">
 
 
@@ -61,6 +60,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/x10"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:singleLine="true"
+            android:ellipsize="middle"
             android:text="华杰大厦大钟寺13号四道口路"
             android:textColor="@color/color_3"
             android:textSize="16sp" />
@@ -121,6 +124,10 @@
         android:layout_alignParentBottom="true"
         android:progressDrawable="@drawable/order_address_bottom_unit"
         android:visibility="gone" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/common_gray_line" />
 
 </RelativeLayout>
