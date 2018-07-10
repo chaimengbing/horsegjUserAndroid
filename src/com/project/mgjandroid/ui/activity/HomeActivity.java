@@ -276,10 +276,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                                 redBagLoginImageView.setVisibility(View.VISIBLE);
                                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) redBagLoginImageView1.getLayoutParams();
 
-                                List<RedBag> list = new ArrayList<>();
-                                for (int i = 0; i < 1; i++) {
-                                    list.add(redBagListModel.getRedBagList().get(0));
-                                }
+                                List<RedBag> list = redBagListModel.getRedBagList();
                                 if (list.size() == 1) {
                                     params.height = (int) getResources().getDimension(R.dimen.x120);
                                 } else if (list.size() == 2) {
