@@ -519,7 +519,7 @@
                                 android:textColor="@color/color_3"
                                 android:text="点击展开"
                                 android:padding="@dimen/x3"
-                                android:drawableRight="@drawable/icon_packup"
+                                android:drawableRight="@drawable/icon_expand"
                                 android:background="@drawable/bg_black_stroke"
                                 android:layout_below="@id/confirm_order_list_view"/>
 

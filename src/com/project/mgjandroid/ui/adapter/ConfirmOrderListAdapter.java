@@ -18,8 +18,23 @@ import com.project.mgjandroid.utils.StringUtils;
  */
 public class ConfirmOrderListAdapter extends BaseListAdapter<ConfirmOrderModel.ValueEntity.OrderItemsEntity> {
 
+    private boolean isExpand = false;
+
+    public void setExpand(boolean isExpand) {
+        this.isExpand = isExpand;
+    }
+
     public ConfirmOrderListAdapter(int layoutId, Activity mActivity) {
         super(layoutId, mActivity);
+    }
+
+    @Override
+    public int getCount() {
+        if (mDatas != null && mDatas.size() < 3) {
+            return mDatas.size();
+        } else {
+            return isExpand ? mDatas.size() : 3;
+        }
     }
 
     @Override
@@ -34,6 +49,7 @@ public class ConfirmOrderListAdapter extends BaseListAdapter<ConfirmOrderModel.V
             ImageUtils.loadBitmap(mActivity, bean.getLabelUrl(), picture_imageview, R.drawable.horsegj_default, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_USER);
         }
 
+
         tv_num.setText("x" + bean.getQuantity());
         tv_price.setText("¥" + StringUtils.BigDecimal2Str(bean.getTotalPrice()));
         tv_name.setText(bean.getName());
@@ -41,9 +57,9 @@ public class ConfirmOrderListAdapter extends BaseListAdapter<ConfirmOrderModel.V
         tv_type.setVisibility(View.VISIBLE);
         if (CheckUtils.isNoEmptyStr(bean.getAttributes())) {
             tv_type.setText(spec + " / " + bean.getAttributes());
-        } else if(CheckUtils.isNoEmptyStr(spec)){
+        } else if (CheckUtils.isNoEmptyStr(spec)) {
             tv_type.setText(spec);
-        }else {
+        } else {
             tv_type.setVisibility(View.GONE);
         }
     }

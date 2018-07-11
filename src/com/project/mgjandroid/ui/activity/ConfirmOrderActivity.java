@@ -3,7 +3,11 @@ package com.project.mgjandroid.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -86,7 +90,9 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.address_description)
     private TextView tv_address;
     @InjectView(R.id.confirm_order_list_view)
-    private NoScrollListView listView;
+    private NoScrollListView noScrollListView;
+    @InjectView(R.id.expand_textview)
+    private TextView expandTextView;
     @InjectView(R.id.receive_time)
     private TextView tv_receiveTime;
     //    @InjectView(R.id.payment_online)
@@ -148,6 +154,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     @InjectView(R.id.confirm_order_bottom_money_free)
     private TextView freeMoney;
 
+    private boolean isExpand;
     private double longitude;
     private double latitude;
     private JSONObject previewJsonData;
@@ -267,10 +274,20 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initViews() {
+        expandTextView.setOnClickListener(this);
         listAdapter = new ConfirmOrderListAdapter(R.layout.item_confirm_order_list_view, this);
         data = new ArrayList<>();
         listAdapter.setData(data);
-        listView.setAdapter(listAdapter);
+        noScrollListView.setAdapter(listAdapter);
+        if (data != null && data.size() > 3) {
+            expandTextView.setVisibility(View.VISIBLE);
+            isExpand = false;
+        } else {
+            isExpand = true;
+            expandTextView.setVisibility(View.GONE);
+        }
+        listAdapter.setExpand(isExpand);
+        listAdapter.notifyDataSetChanged();
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("confirmOrderModel")) {
             confirmOrderModel = (ConfirmOrderModel) intent.getSerializableExtra("confirmOrderModel");
@@ -278,7 +295,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         }
         if (intent != null && intent.hasExtra("onceMoreOrder")) {
             previewJsonData = new JSONObject((Map<String, Object>) intent.getSerializableExtra("onceMoreOrder"));
-            Log.d("aaa",previewJsonData.toString());
+            Log.d("aaa", previewJsonData.toString());
         }
         if (intent != null && intent.hasExtra("isFromMarket")) {
             isFromMarket = intent.getBooleanExtra("isFromMarket", false);
@@ -328,7 +345,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 selectTime = dayList.get(0).getTimeList().get(0);//默认第0条
             }
             previewJsonData.put("expectedArrivalTime", selectTime.getId());//送达时间
-            previewJsonData.put("orderItems",orderItems);
+            previewJsonData.put("orderItems", orderItems);
             if (redBag == null && previewJsonData.containsKey("redBags")) {
                 previewJsonData.remove("redBags");
             }
@@ -339,7 +356,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 //        MLog.s("----json data--->" + previewJsonData.toString());
         Map<String, Object> map = new HashMap<>();
         map.put("data", previewJsonData.toString());
-        Log.d("bbb",previewJsonData.toString());
+        Log.d("bbb", previewJsonData.toString());
         map.put("longitude", longitude);
         map.put("latitude", latitude);
         VolleyOperater<SubmitOrderModel> operater = new VolleyOperater<>(ConfirmOrderActivity.this);
@@ -479,10 +496,10 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         if (userAddress != null) {
             showAddress(userAddress);
             tv_noAddressTips.setVisibility(View.INVISIBLE);
+            iv_orderPosition.setVisibility(View.INVISIBLE);
             latitude = userAddress.getLatitude();
             longitude = userAddress.getLongitude();
             rl_addressPanel.setVisibility(View.VISIBLE);
-            iv_orderPosition.setBackgroundResource(R.drawable.icon_order_user_address);
         } else {
             iv_orderPosition.setBackgroundResource(R.drawable.icon_order_user_address);
         }
@@ -554,11 +571,19 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         List<ConfirmOrderModel.ValueEntity.OrderItemsEntity> orderItems = valueEntity.getOrderItems();
         data.clear();
         data.addAll(orderItems);
+        if (data != null && data.size() > 3) {
+            expandTextView.setVisibility(View.VISIBLE);
+            isExpand = false;
+        } else {
+            isExpand = true;
+            expandTextView.setVisibility(View.GONE);
+        }
+        listAdapter.setExpand(isExpand);
         listAdapter.notifyDataSetChanged();
 
         tv_shippingFee.setText("¥" + StringUtils.BigDecimal2Str(valueEntity.getShippingFee()));
         tv_totalPrice.setText("" + StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()));
-        if (valueEntity.getDiscountAmt() != null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountAmt()) != 0 || valueEntity.getDiscountGoodsDiscountAmt()!=null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountGoodsDiscountAmt()) != 0) {
+        if (valueEntity.getDiscountAmt() != null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountAmt()) != 0 || valueEntity.getDiscountGoodsDiscountAmt() != null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountGoodsDiscountAmt()) != 0) {
             freeMoney.setText(" | 优惠¥" + valueEntity.getDiscountAmt().add(valueEntity.getDiscountGoodsDiscountAmt()));
             freeMoney.setVisibility(View.VISIBLE);
         } else {
@@ -749,11 +774,29 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         layout.addView(childLayout, paramsChild);
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirm_order_back:
                 finish();
+                break;
+            case R.id.expand_textview:
+                Drawable drawable = null;
+                if (isExpand) {
+                    expandTextView.setText("点击展开");
+                    drawable = ContextCompat.getDrawable(getApplication(), R.drawable.icon_expand);
+                    isExpand = false;
+                } else {
+                    isExpand = true;
+                    expandTextView.setText("点击收起");
+                    drawable = ContextCompat.getDrawable(getApplication(), R.drawable.icon_packup);
+                }
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                expandTextView.setCompoundDrawables(null, null, drawable, null);
+                listAdapter.setExpand(isExpand);
+                listAdapter.notifyDataSetChanged();
                 break;
             case R.id.top_address:
                 if (!TextUtils.isEmpty(errorMsg)) {
@@ -863,7 +906,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 }
                 intentRedBag.putExtra("itemsPrice", confirmOrderModel.getValue().getItemsPrice().doubleValue());
                 intentRedBag.putExtra("merchantId", confirmOrderModel.getValue().getMerchantId());
-                intentRedBag.putExtra("discountGoodsDiscountAmt", ""+confirmOrderModel.getValue().getDiscountGoodsDiscountAmt());
+                intentRedBag.putExtra("discountGoodsDiscountAmt", "" + confirmOrderModel.getValue().getDiscountGoodsDiscountAmt());
                 intentRedBag.putExtra("isFromConfirmOrder", true);
                 if (redBag != null) {
                     intentRedBag.putExtra("redBagId", redBag.getId());
