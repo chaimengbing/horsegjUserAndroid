@@ -619,11 +619,11 @@ public class Constants {
     /**
      * 查询团购商家列表
      */
-    public static final String URL_FIND_GROUP_PURCHASE_MERCHANT = URL_HOME_MAIN + "findGroupPurchaseMerchant";
+    public static final String URL_FIND_GROUP_PURCHASE_MERCHANT = URL_HOME_MAIN + "findGroupPurchaseMerchant2";
     /**
      * 查询附近团购商家列表
      */
-    public static final String URL_FIND_NEAR_GROUP_PURCHASE_MERCHANT = URL_HOME_MAIN + "findNearGroupPurchaseMerchant";
+    public static final String URL_FIND_NEAR_GROUP_PURCHASE_MERCHANT = URL_HOME_MAIN + "findNearGroupPurchaseMerchant2";
     /**
      * 获取团购商家服务分类集合
      */

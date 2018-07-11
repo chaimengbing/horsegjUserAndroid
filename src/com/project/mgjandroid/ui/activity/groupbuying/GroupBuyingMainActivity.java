@@ -100,7 +100,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
     private void initView() {
         ivBack.setOnClickListener(this);
         initHeaderView();
-        adapter = new GroupBuyingMerchantAdapter(mActivity, true);
+        adapter = new GroupBuyingMerchantAdapter(mActivity, false);
         listView.setAdapter(adapter);
         listView.setMode(PullToRefreshBase.Mode.BOTH);
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {

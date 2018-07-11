@@ -190,10 +190,14 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
                 holder.tvAveragePrice.setText("");
             }
             holder.tvRecommendedDishes.setText((CheckUtils.isNoEmptyStr(merchant.getMerchantTag()) ? merchant.getMerchantTag() : ""));
-
+            holder.layoutActive.removeAllViews();
+            if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())){
+                double discount = Integer.parseInt(merchant.getDiscountRatio()) *0.01*10;
+                addActive(holder.layoutActive, R.drawable.ic_buy, "在线支付，"+discount+"折");
+            }
             if (CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())) {
-                holder.promotionLine.setVisibility(View.VISIBLE);
-                holder.layoutActive.setVisibility(View.VISIBLE);
+//                holder.promotionLine.setVisibility(View.VISIBLE);
+//                holder.layoutActive.setVisibility(View.VISIBLE);
                 String quan = "";
                 String tuan = "";
                 for (GroupPurchaseCoupon coupon : merchant.getGroupPurchaseCouponList()) {
@@ -203,14 +207,18 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
                         tuan += StringUtils.BigDecimal2Str(coupon.getPrice()) + "元" + coupon.getGroupPurchaseName() + "  ";
                     }
                 }
-                holder.layoutActive.removeAllViews();
+
                 if (CheckUtils.isNoEmptyStr(tuan)) {
                     addActive(holder.layoutActive, R.drawable.group_buying_tuan, tuan.substring(0, tuan.length() - 2));
                 }
                 if (CheckUtils.isNoEmptyStr(quan)) {
                     addActive(holder.layoutActive, R.drawable.group_buying_quan, quan.substring(0, quan.length() - 2));
                 }
-            } else {
+            }
+            if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())||CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())){
+                holder.promotionLine.setVisibility(View.VISIBLE);
+                holder.layoutActive.setVisibility(View.VISIBLE);
+            }else {
                 holder.promotionLine.setVisibility(View.GONE);
                 holder.layoutActive.setVisibility(View.GONE);
             }

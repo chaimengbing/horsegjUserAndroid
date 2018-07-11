@@ -4,46 +4,69 @@
     android:id="@+id/voucher_item_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:paddingLeft="@dimen/x36"
-    android:paddingRight="@dimen/x15"
-    android:background="@color/white">
+    android:paddingRight="@dimen/x15">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/right_arrow_gray"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_pay_bill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/buy_bg"
+            android:padding="@dimen/x5"
+            android:textColor="@color/title_bar_bg"
+            android:textSize="13sp"
+            tools:text="购买" />
+
+        <TextView
+            android:id="@+id/tv_sold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x8"
+            android:text="已售1000"
+            android:textColor="@color/color_9"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="#fb4e44"
         android:layout_marginTop="@dimen/x14"
+        android:textColor="#fb4e44"
+        android:textSize="14sp"
         tools:text="￥80" />
 
     <TextView
         android:id="@+id/tv_origin_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/color_3"
+        android:layout_marginLeft="@dimen/x15"
         android:layout_marginTop="@dimen/x14"
-        tools:text="代￥100"
         android:layout_toRightOf="@+id/tv_price"
-        android:layout_marginLeft="@dimen/x15" />
+        android:textColor="@color/color_3"
+        android:textSize="14sp"
+        tools:text="代￥100" />
 
     <TextView
         android:id="@+id/tv_option"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@color/color_9"
-        tools:text="免预约 | 可叠加"
         android:layout_below="@+id/tv_price"
         android:layout_marginTop="@dimen/x6"
-        android:paddingBottom="@dimen/x10" />
+        android:paddingBottom="@dimen/x10"
+        android:textColor="@color/color_9"
+        android:textSize="12sp"
+        tools:text="免预约 | 可叠加" />
 
 </RelativeLayout>

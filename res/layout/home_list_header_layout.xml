@@ -95,7 +95,9 @@
         android:id="@+id/publicity_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/x4"
         android:visibility="gone">
 
         <View
@@ -107,36 +109,41 @@
             android:id="@+id/publicity_img_1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x90"
-            android:scaleType="centerCrop"
-            android:visibility="gone" />
+            android:padding="1dp"
+            android:scaleType="centerInside"
+            android:layout_marginLeft="@dimen/x4"
+            android:layout_marginTop="@dimen/x4"
+            android:layout_marginRight="@dimen/x4"
+            android:background="@drawable/bg_frame"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/publicity_container_4"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x158"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:paddingTop="@dimen/x4"
+            android:paddingLeft="@dimen/x4"
+            android:paddingRight="@dimen/x4"
+            android:visibility="gone"
+            >
 
             <ImageView
                 android:id="@+id/publicity_img_2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="33"
-                android:background="@color/white"
-                android:scaleType="centerCrop" />
+                android:background="@drawable/bg_frame"
+                android:padding="1dp"
+                android:scaleType="centerInside"/>
 
-            <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/x3"
-                android:layout_marginTop="@dimen/x3"
-                android:background="#e5e5e5" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="42"
                 android:background="@color/white"
+                android:paddingLeft="@dimen/x4"
                 android:orientation="vertical">
 
                 <ImageView
@@ -144,17 +151,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="14"
-                    android:scaleType="centerCrop" />
+                    android:background="@drawable/bg_frame"
+                    android:padding="1dp"
+                    android:scaleType="centerInside" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#e5e5e5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="19"
+                    android:paddingTop="@dimen/x4"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -162,20 +168,18 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:scaleType="centerCrop" />
-
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/x3"
-                        android:background="#e5e5e5" />
+                        android:background="@drawable/bg_frame"
+                        android:padding="1dp"
+                        android:scaleType="centerInside" />
 
                     <ImageView
                         android:id="@+id/publicity_img_5"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:scaleType="centerCrop" />
+                        android:background="@drawable/bg_frame"
+                        android:padding="1dp"
+                        android:scaleType="centerInside" />
 
                 </LinearLayout>
 

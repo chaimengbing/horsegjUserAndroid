@@ -664,6 +664,7 @@
         <activity
             android:name=".ui.activity.pintuan.GroupCheckActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.PhotoActivity"
             android:screenOrientation="portrait" />
@@ -824,6 +825,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.groupbuying.GroupBuyingFeedbackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.groupbuying.DiscountBuyTicketActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.groupbuying.GroupBuyingPrivilegeActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.groupbuying.BuyTicketActivity"

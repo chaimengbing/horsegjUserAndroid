@@ -82,10 +82,16 @@ public class DateAdapter extends BaseAdapter {
         //是否是本年本月显示的今天、明天、后天
         if (day == days[i] && nowadayMonth == month && nowadayYear == year) {
             viewHolder.date_item.setText("今天");
+            viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
+            viewHolder.date_item.getPaint().setFakeBoldText(true);
         } else if (day == days[i] - 1 && nowadayMonth == month && nowadayYear == year) {
             viewHolder.date_item.setText("明天");
+            viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
+            viewHolder.date_item.getPaint().setFakeBoldText(true);
         } else if (day == days[i] - 2 && nowadayMonth == month && nowadayYear == year) {
             viewHolder.date_item.setText("后天");
+            viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
+            viewHolder.date_item.getPaint().setFakeBoldText(true);
         }
 
 

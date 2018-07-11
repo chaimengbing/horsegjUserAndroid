@@ -31,7 +31,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.tv_appointment_date)
     private TextView tvDate;
     @InjectView(R.id.common_back)
-    private TextView tvBack;
+    private ImageView tvBack;
     @InjectView(R.id.common_title)
     private TextView tvTitle;
 

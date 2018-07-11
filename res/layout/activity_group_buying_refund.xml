@@ -151,8 +151,6 @@
             android:layout_marginTop="@dimen/x21"
             android:background="@drawable/et_bg_publish_info">
 
-
-
             <EditText
                 android:id="@+id/et_evaluation"
                 android:layout_width="match_parent"
