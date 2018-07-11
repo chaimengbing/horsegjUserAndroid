@@ -3,8 +3,8 @@
     android:id="@+id/top_address"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/x10"
-    android:layout_marginRight="@dimen/x10"
+    android:layout_marginLeft="@dimen/x15"
+    android:layout_marginRight="@dimen/x15"
     android:background="@drawable/address_bg_color"
     android:visibility="visible">
 
@@ -33,7 +33,7 @@
             android:layout_toRightOf="@id/confirm_order_position"
             android:text="@string/confirm_order_input_address"
             android:textColor="@color/color_3"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <ImageView
@@ -51,8 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:paddingBottom="@dimen/x15"
-        android:paddingTop="@dimen/x15"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:paddingTop="@dimen/x15">
 
         <TextView
             android:id="@+id/address_description"
@@ -66,7 +66,7 @@
             android:ellipsize="middle"
             android:text="华杰大厦大钟寺13号四道口路"
             android:textColor="@color/color_3"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,8 +80,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="任金鹏"
-                android:textColor="@color/color_9"
-                android:textSize="12sp" />
+                android:textColor="@color/color_3"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/address_sex"
@@ -90,8 +90,8 @@
                 android:layout_marginLeft="@dimen/x5"
                 android:layout_toRightOf="@id/address_name"
                 android:text="先生"
-                android:textColor="@color/color_9"
-                android:textSize="12sp" />
+                android:textColor="@color/color_3"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/address_mobile"
@@ -100,8 +100,8 @@
                 android:layout_marginLeft="@dimen/x15"
                 android:layout_toRightOf="@id/address_sex"
                 android:text="18501967780"
-                android:textColor="@color/color_9"
-                android:textSize="12sp" />
+                android:textColor="@color/color_3"
+                android:textSize="11sp" />
 
         </LinearLayout>
 

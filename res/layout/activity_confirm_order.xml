@@ -134,8 +134,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/x10"
-                        android:layout_marginRight="@dimen/x10"
+                        android:layout_marginLeft="@dimen/x15"
+                        android:layout_marginRight="@dimen/x15"
                         android:orientation="vertical">
 
 
@@ -394,7 +394,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/x6" />
+                            android:layout_height="@dimen/x8" />
 
                         <RelativeLayout
                             android:id="@+id/use_red_bag"
@@ -517,7 +517,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:textColor="@color/color_3"
-                                android:text="点击展开"
+                                android:textSize="12sp"
+                                android:text="@string/expant"
                                 android:padding="@dimen/x3"
                                 android:drawableRight="@drawable/icon_expand"
                                 android:background="@drawable/bg_black_stroke"
@@ -564,6 +565,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1px"
                                 android:layout_marginLeft="@dimen/x15"
+                                android:layout_marginRight="@dimen/x15"
                                 android:background="@color/common_gray_line" />
 
                             <TextView
@@ -601,7 +603,7 @@
                                 android:singleLine="true"
                                 android:text=""
                                 android:textColor="@color/color_9"
-                                android:textSize="11sp" />
+                                android:textSize="14sp" />
                         </RelativeLayout>
 
 
@@ -622,12 +624,59 @@
                             android:layout_height="1px"
                             android:layout_alignParentBottom="true"
                             android:background="@color/common_gray_line" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/mine_list_height"
+                            android:background="@color/white">
+
+                            <TextView
+                                android:id="@+id/platform_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x15"
+                                android:text="@string/platform_redbag"
+                                android:textColor="@color/color_3"
+                                android:textSize="14sp" />
+
+                            <ImageView
+                                android:id="@+id/right"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:paddingLeft="@dimen/x5"
+                                android:paddingRight="@dimen/x15"
+                                android:src="@drawable/arrow_right_gray" />
+
+                            <TextView
+                                android:id="@+id/platform_num_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x30"
+                                android:layout_toLeftOf="@id/right"
+                                android:layout_toRightOf="@id/platform_textview"
+                                android:ellipsize="end"
+                                android:gravity="right"
+                                android:text="-￥12"
+                                android:singleLine="true"
+                                android:textColor="@color/platform_color"
+                                android:textSize="14sp" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x8"
+                            android:background="@color/transparent" />
 
                         <RelativeLayout
                             android:id="@+id/confirm_order_caution"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/mine_list_height"
                             android:background="@color/white">
+
 
                             <TextView
                                 android:id="@+id/tv_caution"
@@ -637,7 +686,7 @@
                                 android:layout_marginLeft="@dimen/x15"
                                 android:text="@string/confirm_order_remark"
                                 android:textColor="@color/color_3"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <ImageView
                                 android:id="@+id/other_right_arrow"
@@ -663,7 +712,7 @@
                                 android:singleLine="true"
                                 android:textColor="@color/color_6"
                                 android:textColorHint="@color/color_9"
-                                android:textSize="12sp" />
+                                android:textSize="14sp" />
 
                             <View
                                 android:layout_width="match_parent"

@@ -67,7 +67,7 @@
             android:gravity="center"
             android:text="@string/item_confirm_order_list_count"
             android:textColor="@color/color_c"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/price"
@@ -78,6 +78,6 @@
             android:textStyle="bold"
             android:text="@string/item_confirm_order_list_price"
             android:textColor="@color/color_3"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

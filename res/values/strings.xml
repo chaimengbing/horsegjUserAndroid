@@ -129,7 +129,7 @@
     <string name="confirm_order_input_address">请填写地址</string>
     <string name="confirm_order_arrival_time">送达时间</string>
     <string name="confirm_order_select_arrival_time">请选择送达时间</string>
-    <string name="confirm_order_remark">订单备注</string>
+    <string name="confirm_order_remark">备注</string>
     <string name="confirm_order_taste">偏好等其他需求</string>
     <string name="confirm_order_invoice_head">发票抬头</string>
     <string name="confirm_order_not_need_invoice">不需要发票</string>
@@ -448,4 +448,6 @@
     <string name="sales_ranking">按销量</string>
     <string name="no_super_market">当前区域暂未开通商超服务</string>
     <string name="go_look_redbag">去查看</string>
+    <string name="platform_redbag">平台红包</string>
+    <string name="expant">点击展开</string>
 </resources>

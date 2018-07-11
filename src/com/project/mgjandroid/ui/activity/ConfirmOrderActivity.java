@@ -639,6 +639,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             view.setBackgroundColor(getResources().getColor(R.color.common_gray_line));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
             params.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.x1);
+            params.rightMargin = getResources().getDimensionPixelOffset(R.dimen.x15);
             promotionLayout.addView(view, params);
 
             for (PromotionActivity promotion : valueEntity.getPromoList()) {
@@ -727,7 +728,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             } else {
                 tv.setText("");
             }
-            tv.setTextColor(0xffff9900);
+            tv.setTextColor(0xffff5959);
             tv.setTextSize(12);
             tv.setGravity(Gravity.RIGHT);
             childLayout.addView(tv, params);
@@ -764,7 +765,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             params.rightMargin = getResources().getDimensionPixelOffset(R.dimen.x15);
             params.leftMargin = getResources().getDimensionPixelOffset(R.dimen.x15);
             tv.setText("- ¥" + promotion.getAmt());
-            tv.setTextColor(0xffff9900);
+            tv.setTextColor(0xffff5959);
             tv.setTextSize(12);
             tv.setGravity(Gravity.RIGHT);
             childLayout.addView(tv, params);

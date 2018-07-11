@@ -132,5 +132,6 @@
     <color name="bg_festival">#ff9900</color>
     <color name="legwork_status">#ffce4b</color>
     <color name="web_title">#ff9a02</color>
+    <color name="platform_color">#ff5959</color>
 
 </resources>
