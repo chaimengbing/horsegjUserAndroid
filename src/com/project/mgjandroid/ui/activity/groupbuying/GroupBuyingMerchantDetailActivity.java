@@ -138,8 +138,13 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private ImageView imgRight;
     @InjectView(R.id.layout_qualification)
     private LinearLayout qualificationLayout;
+    @InjectView(R.id.rl_distance_pay_bill)
+    private RelativeLayout rlDistancePayBill;
+    @InjectView(R.id.tv_discount)
+    private TextView tvDiscount;
+    @InjectView(R.id.tv_discount_pay_bill)
+    private TextView tvDiscounPayBill;
     private List<String> urls = new ArrayList<>();
-
     private int topBarAlphaMinH;
     private int topBarAlphaMaxH;
 
@@ -174,6 +179,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         tvEvaluation.setOnClickListener(this);
         imgLeft.setOnClickListener(this);
         imgRight.setOnClickListener(this);
+        tvDiscounPayBill.setOnClickListener(this);
 
         topBarAlphaMinH = getResources().getDimensionPixelOffset(R.dimen.x70);
         topBarAlphaMaxH = getResources().getDimensionPixelOffset(R.dimen.x140);
@@ -285,6 +291,13 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         if (CheckUtils.isNoEmptyStr(merchant.getMerchantRecommend())) {
             recommendLayout.setVisibility(View.VISIBLE);
             tvDishes.setText(merchant.getMerchantRecommend());
+        }
+        if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())){
+            rlDistancePayBill.setVisibility(View.VISIBLE);
+            double discount = Integer.parseInt(merchant.getDiscountRatio()) *0.01*10;
+            tvDiscount.setText(discount+"折");
+        }else {
+            rlDistancePayBill.setVisibility(View.GONE);
         }
         showService();
     }
@@ -398,11 +411,15 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             TextView tvPrice = (TextView) layout.findViewById(R.id.tv_price);
             TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_origin_price);
             TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
+            TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill);
+            TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
             root.setTag(bean);
+            tvPayBill.setText("购买");
             tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
             tvOriginPrice.setText("代¥" + StringUtils.BigDecimal2Str(bean.getOriginPrice()));
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + (bean.getIsCumulate() == 0 ? "不可叠加" : "可叠加"));
             root.setOnClickListener(this);
+            tvPayBill.setOnClickListener(this);
             quanLayout.addView(layout);
             if (i != size - 1) {
                 View view = new View(mActivity);
@@ -425,9 +442,11 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             CornerImageView icon = (CornerImageView) layout.findViewById(R.id.img);
             TextView tvName = (TextView) layout.findViewById(R.id.tv_name);
             TextView tvPrice = (TextView) layout.findViewById(R.id.tv_price);
+            TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill1);
             TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_origin_price);
             TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
             root.setTag(bean);
+            tvPayBill.setText("购买");
             if (CheckUtils.isNoEmptyStr(bean.getImages())) {
                 ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
             }
@@ -438,6 +457,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             }
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
             root.setOnClickListener(this);
+            tvPayBill.setOnClickListener(this);
             tuanLayout.addView(layout);
             if (i != size - 1) {
                 View view = new View(mActivity);
@@ -487,6 +507,17 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             case R.id.voucher_item_root:
             case R.id.group_buying_item_root:
                 Routers.open(mActivity, ActivitySchemeManager.SCHEME + "groupPurchaseCoupon/" + ((GroupPurchaseCoupon) v.getTag()).getId());
+                break;
+            case R.id.tv_pay_bill:
+                startActivity(new Intent(this,BuyTicketActivity.class));
+                break;
+            case R.id.tv_pay_bill1:
+                startActivity(new Intent(this,BuyTicketActivity.class));
+                break;
+            case R.id.tv_discount_pay_bill:
+                Intent intent1 = new Intent(this, DiscountBuyTicketActivity.class);
+                intent1.putExtra("Name",merchant.getName());
+                startActivity(intent1);
                 break;
             case R.id.baidu_map:
             case R.id.gaode_map:

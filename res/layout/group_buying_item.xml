@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/tv_option"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textColor="@color/color_9"
@@ -42,8 +42,7 @@
         android:layout_below="@+id/tv_name"
         android:layout_alignLeft="@+id/tv_name"
         android:layout_marginTop="@dimen/x5"
-        android:layout_marginRight="@dimen/x15"
-        android:drawableRight="@drawable/right_arrow_gray" />
+        android:layout_marginRight="@dimen/x15" />
 
     <TextView
         android:id="@+id/tv_price"
@@ -67,5 +66,48 @@
         android:layout_toRightOf="@+id/tv_price"
         android:layout_marginLeft="@dimen/x10"
         android:paddingBottom="@dimen/x1" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_discount_pay_bill"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="13sp"-->
+        <!--android:textColor="@color/title_bar_bg"-->
+        <!--tools:text="优惠买单"-->
+        <!--android:padding="@dimen/x5"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:background="@drawable/buy_bg"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="@dimen/x15" />-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/x15"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_pay_bill1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/buy_bg"
+            android:padding="@dimen/x5"
+            android:textColor="@color/title_bar_bg"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_sold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x8"
+            android:text="已售1000"
+            android:textColor="@color/color_9"
+            android:textSize="12sp" />
+    </LinearLayout>
+
 
 </RelativeLayout>

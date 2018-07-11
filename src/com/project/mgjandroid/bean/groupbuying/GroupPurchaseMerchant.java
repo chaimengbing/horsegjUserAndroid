@@ -208,6 +208,14 @@ public class GroupPurchaseMerchant extends BaseBean {
      * 卫生许可证
      **/
     private String hygieneLicenseImg;
+    /**
+     * 是否共享 1共享2不共享
+     */
+    private int isSharingRelationship;
+    /**
+     * 折扣
+     */
+    private String discountRatio;
 
     private List<GroupPurchaseCoupon> groupPurchaseCouponList;
 
@@ -625,5 +633,21 @@ public class GroupPurchaseMerchant extends BaseBean {
 
     public void setHygieneLicenseImg(String hygieneLicenseImg) {
         this.hygieneLicenseImg = hygieneLicenseImg;
+    }
+
+    public int getIsSharingRelationship() {
+        return isSharingRelationship;
+    }
+
+    public void setIsSharingRelationship(int isSharingRelationship) {
+        this.isSharingRelationship = isSharingRelationship;
+    }
+
+    public String getDiscountRatio() {
+        return discountRatio;
+    }
+
+    public void setDiscountRatio(String discountRatio) {
+        this.discountRatio = discountRatio;
     }
 }
