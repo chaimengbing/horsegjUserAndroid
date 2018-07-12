@@ -72,6 +72,8 @@ public class Constants {
     public static final String URL_CHECK_ADDRESS = URL_HOME_MAIN + "checkUserAddress";
     //订单预览
     public static final String URL_GET_ORDER_PREVIEW = URL_HOME_MAIN + "orderPreview2";
+    //平台红包订单预览
+    public static final String URL_GET_REDBAG_SETTING = URL_HOME_MAIN + "redBagSetting";
 
     public static final String BASE_PATH = Environment.getExternalStorageDirectory().toString() + File.separator + "maguanjia";
     public static final String IMG_PATH = BASE_PATH + File.separator + "image";

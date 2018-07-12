@@ -10,29 +10,38 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.mzule.activityrouter.annotation.Router;
+import com.google.gson.JsonArray;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.GroupInfo;
+import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
+import com.project.mgjandroid.model.ConfirmGroupOrModel;
+import com.project.mgjandroid.model.ConfirmGroupOrderModel;
+import com.project.mgjandroid.model.ConfirmOrderModel;
 import com.project.mgjandroid.model.JoinGroupModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.AddressManageActivity;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.BindMobileActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
+import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
+import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,6 +92,10 @@ public class JoinGroupActivity extends BaseActivity {
     private TextView tvBalance;
     @InjectView(R.id.join_group_submit_order)
     private TextView tvSubmitOrder;
+    @InjectView(R.id.platform_redbag_layout)
+    private RelativeLayout platform_redbag_layout;
+    @InjectView(R.id.platform_num_textview)
+    private TextView platform_num_textview;
 
     private GroupInfo group;
     private final int REQUEST_GET_ADDRESS = 101;
@@ -100,6 +113,8 @@ public class JoinGroupActivity extends BaseActivity {
     private String orderId;
     private CallPhoneDialog dialog;
 
+    private RedBag redBag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +123,7 @@ public class JoinGroupActivity extends BaseActivity {
 
         initView();
         setListener();
+        getOrderPreview();
     }
 
     private void setListener() {
@@ -117,6 +133,7 @@ public class JoinGroupActivity extends BaseActivity {
         addCount.setOnClickListener(this);
         llUseBalance.setOnClickListener(this);
         tvSubmitOrder.setOnClickListener(this);
+        platform_redbag_layout.setOnClickListener(this);
     }
 
     private void initView() {
@@ -198,6 +215,19 @@ public class JoinGroupActivity extends BaseActivity {
                 }
                 submitOrder();
                 break;
+            case R.id.platform_redbag_layout:
+                Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, totalPrice);
+                intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
+                intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 2);
+                intentSelect.putExtra(SelectRedBagActivity.QUANTITY, currentCount);
+                if (redBag != null) {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
+                } else {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1);
+                }
+                startActivityForResult(intentSelect, 1111);
+                break;
         }
     }
 
@@ -270,6 +300,81 @@ public class JoinGroupActivity extends BaseActivity {
         }, JoinGroupModel.class);
     }
 
+
+    /**
+     * 订单预览刷新
+     */
+    private void getOrderPreview() {
+
+        mLoadingDialog.show(getFragmentManager(), "");
+        ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
+        if (redBag != null) {
+            Map<String, Object> redmap = new HashMap<>();
+            redmap.put("id", redBag.getId());
+            redmap.put("name", redBag.getName());
+            redmap.put("amt", redBag.getAmt());
+            redmap.put("promotionType", redBag.getPromotionType());
+            redBagList.add(redmap);
+        }
+        Map<String, Object> params = new HashMap<>();
+        if (userAddress != null) {
+            params.put("userAddressId", userAddress.getId());
+        } else {
+            params.remove("userAddressId");
+        }
+
+        params.put("itemPrice", group.getPrice());
+        params.put("totalPrice", totalPrice);
+        params.put("quantity", currentCount);
+        params.put("agentId", group.getAgentId());
+        params.put("businessType", 2);
+        params.put("redBags", JSONArray.toJSON(redBagList).toString());
+        VolleyOperater<ConfirmGroupOrderModel> operater = new VolleyOperater<>(this);
+        String url = Constants.URL_GET_REDBAG_SETTING;
+        operater.doRequest(url, params, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                mLoadingDialog.dismiss();
+                if (isSucceed && obj != null) {
+                    if (obj instanceof String) {
+                        errorMsg = (String) obj;
+                        ToastUtils.displayMsg(errorMsg, mActivity);
+                    } else {
+                        errorMsg = null;
+                    }
+                    ConfirmGroupOrModel confirmGroupOrModel = ((ConfirmGroupOrderModel) obj).getValue();
+                    setViewData(confirmGroupOrModel);
+                }
+            }
+        }, ConfirmGroupOrderModel.class);
+    }
+
+    private void setViewData(ConfirmGroupOrModel confirmGroupOrModel) {
+        if (confirmGroupOrModel != null) {
+//            if (confirmGroupOrModel.getPlatformRedBagList() != null && confirmGroupOrModel.getPlatformRedBagList().size() > 0) {
+//                String money = StringUtils.BigDecimal2Str(confirmGroupOrModel.getPlatformRedBagList().get(0).getAmt());
+////                if (CheckUtils.isNoEmptyStr(money)) {
+////                    platform_num_textview.setText("-￥" + String.valueOf(money));
+////                }
+////            } else {
+////                platform_num_textview.setText("");
+////            }
+            if (confirmGroupOrModel.getRedBagsTotalAmt() != null && confirmGroupOrModel.getRedBagsTotalAmt().compareTo(BigDecimal.ZERO) == 1) {
+                platform_num_textview.setText("-￥" + StringUtils.BigDecimal2Str(confirmGroupOrModel.getRedBagsTotalAmt()));
+            } else {
+                platform_num_textview.setText("");
+            }
+            if (confirmGroupOrModel.getPlatformRedBagCount() > 0) {
+                platform_redbag_layout.setVisibility(View.VISIBLE);
+                platform_num_textview.setHint("有" + confirmGroupOrModel.getPlatformRedBagCount() + "个红包可用");
+            } else {
+                platform_redbag_layout.setVisibility(View.GONE);
+            }
+            totalPrice = confirmGroupOrModel.getTotalPrice();
+            tvTotalPrice.setText(StringUtils.BigDecimal2Str(totalPrice));
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -285,9 +390,17 @@ public class JoinGroupActivity extends BaseActivity {
                         showAddress(userAddress);
                     } else {
                         showAddress(userAddress);
-                        ;
                     }
                 }
+                getOrderPreview();
+                break;
+        }
+        switch (resultCode) {
+            case SelectRedBagActivity.RED_BAG_MONEY:
+                redBag = (RedBag) data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG);
+                getOrderPreview();
+                break;
+            default:
                 break;
         }
     }

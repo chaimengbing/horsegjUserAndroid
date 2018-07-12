@@ -34,6 +34,7 @@ import java.util.Map;
 public class SelectRedBagActivity extends BaseActivity {
 
     public final static String BUSINESS_TYPE = "businessType";
+    public final static String QUANTITY = "quantity";
     public final static String ADDRESS = "address";
     public final static String ITEMS_PRICE = "itemsPrice";
     public final static String RED_MONEY_BAG = "red_money_bag";
@@ -74,6 +75,7 @@ public class SelectRedBagActivity extends BaseActivity {
     private int businessType = 1;
     private String platformRedbags;
     private long platformRedbagId;
+    private int quantity = -1;
 
 
     @Override
@@ -82,6 +84,7 @@ public class SelectRedBagActivity extends BaseActivity {
         setContentView(R.layout.activity_select_redbag);
         Injector.get(this).inject();
         businessType = getIntent().getIntExtra(BUSINESS_TYPE, businessType);
+        quantity = getIntent().getIntExtra(QUANTITY, quantity);
         userAddress = (UserAddress) getIntent().getSerializableExtra(ADDRESS);
         itemsPrice = getIntent().getDoubleExtra(ITEMS_PRICE, 0);
         platformRedbags = getIntent().getStringExtra(PLATFORM_REDBAGS);
@@ -107,6 +110,9 @@ public class SelectRedBagActivity extends BaseActivity {
             map.put("userAddressId", userAddress.getId());
         }
         map.put("itemsPrice", itemsPrice);
+        if (quantity != -1) {
+            map.put("quantity", quantity);
+        }
         VolleyOperater<RedBagsModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_QUERY_PLATFORM_REDBAGLIST, map, new VolleyOperater.ResponseListener() {
             @Override
