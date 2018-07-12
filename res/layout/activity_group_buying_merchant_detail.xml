@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarThumbVertical="@drawable/xg_scrollbar"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -290,12 +290,40 @@
                     android:textColor="@color/color_3"
                     android:textSize="15sp" />
 
-            </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/color_e5" />
+                    <com.project.mgjandroid.ui.view.NoScrollListView
+                        android:id="@+id/tuan_list_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x80"
+                        android:background="@color/white"
+                        android:divider="@null"
+                        android:dividerHeight="0dp"
+                        android:listSelector="@android:color/transparent"
+                        android:scrollbars="none"
+                        android:visibility="visible">
+
+                    </com.project.mgjandroid.ui.view.NoScrollListView>
+
+                    <TextView
+                        android:id="@+id/expand_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/x44"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/color_9"
+                        android:textSize="12sp"
+                        android:text="查看更多套餐 >>"
+                        android:gravity="center"
+                        android:background="@color/gray_bg_2"
+                        android:padding="@dimen/x3"
+                        android:layout_below="@id/tuan_list_view"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/recommend_layout"

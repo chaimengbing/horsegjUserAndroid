@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -32,11 +33,13 @@ import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCoupon;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCouponGoods;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCouponGoodsType;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseEvaluate;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchant;
 import com.project.mgjandroid.constants.ActivitySchemeManager;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.SubmitOrderModel;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingCouponModel;
+import com.project.mgjandroid.model.groupbuying.GroupBuyingEvaluationListModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.BindMobileActivity;
@@ -44,8 +47,10 @@ import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.SmsLoginActivity;
 import com.project.mgjandroid.ui.pictureviewer.PictureViewActivity;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
+import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.MyScrollView;
+import com.project.mgjandroid.ui.view.NoScrollListView;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.MLog;
@@ -59,6 +64,7 @@ import com.project.mgjandroid.utils.inject.Injector;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -131,6 +137,16 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout useRulesLayout;
     @InjectView(R.id.tv_buy_take_away)
     private LinearLayout tvBuyTakeAway;
+    @InjectView(R.id.tv_evaluate)
+    private TextView tvEvaluation;
+    @InjectView(R.id.evaluation_layout)
+    private LinearLayout evaluationLayout;
+    @InjectView(R.id.evaluation_list)
+    private NoScrollListView evaluationListView;
+    @InjectView(R.id.discount_layout)
+    private LinearLayout discountLayout;
+    @InjectView(R.id.discount_tuan_layout)
+    private LinearLayout discountTuanLayout;
 
     private PopupWindow mPopupWindow;
     private TextView tvAmt;
@@ -169,6 +185,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         addressLayout.setOnClickListener(this);
         ivCall.setOnClickListener(this);
         tvBuyTakeAway.setOnClickListener(this);
+        tvEvaluation.setOnClickListener(this);
         scrollView.setOnScrollChangeListener(new MyScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChanged(int t, int oldt) {
@@ -237,6 +254,22 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             if (groupPurchaseCoupon.getType() == 2 && CheckUtils.isNoEmptyList(groupPurchaseCoupon.getGroupPurchaseCouponGoodsTypeList())) {
                 showGoodsList();
             }
+            if (CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())) {
+                ArrayList<GroupPurchaseCoupon> tuanList = new ArrayList<>();
+                for (GroupPurchaseCoupon bean : merchant.getGroupPurchaseCouponList()) {
+                    if (bean.getType() == 2) {
+                        tuanList.add(bean);
+                    }
+                }
+                if (CheckUtils.isNoEmptyList(tuanList)){
+                    showGroupBuying(tuanList);
+                }
+            }
+
+        }
+        if (merchant.getMerchantCommentNum() != null && merchant.getMerchantCommentNum() > 0) {
+            tvEvaluation.setText("评价（" + merchant.getMerchantCommentNum() + "）");
+            getEvaluation();
         }
     }
 
@@ -416,8 +449,51 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     Routers.open(mActivity, ActivitySchemeManager.SCHEME + "groupPurchaseMerchant/" + groupPurchaseCoupon.getMerchantId());
                 }
                 break;
+            case R.id.tv_evaluate:
+                GroupBuyingAllEvaluationActivity.toGroupBuyingAllEvaluationActivity(mActivity, merchant.getId());
+                break;
         }
     }
+
+    private void showGroupBuying(ArrayList<GroupPurchaseCoupon> tuanList) {
+        discountLayout.setVisibility(View.VISIBLE);
+        for (int i = 0, size = tuanList.size(); i < size; i++) {
+            GroupPurchaseCoupon bean = tuanList.get(i);
+            RelativeLayout layout = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.group_buying_item, null);
+            RelativeLayout root = (RelativeLayout) layout.findViewById(R.id.group_buying_item_root);
+            CornerImageView icon = (CornerImageView) layout.findViewById(R.id.img);
+            TextView tvName = (TextView) layout.findViewById(R.id.tv_name);
+            TextView tvPrice = (TextView) layout.findViewById(R.id.tv_price);
+            TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill1);
+            TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_origin_price);
+            TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
+            root.setTag(bean);
+            tvPayBill.setText("购买");
+            if (CheckUtils.isNoEmptyStr(bean.getImages())) {
+                ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
+            }
+            tvName.setText(bean.getGroupPurchaseName());
+            tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
+            if (bean.getSumGroupPurchaseCouponGoodsOriginPrice() != null && bean.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
+                tvOriginPrice.setText("门市价¥" + StringUtils.BigDecimal2Str(bean.getSumGroupPurchaseCouponGoodsOriginPrice()));
+            }
+            tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
+            root.setOnClickListener(this);
+            tvPayBill.setOnClickListener(this);
+            discountLayout.addView(layout);
+            if (i != size - 1) {
+                View view = new View(mActivity);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+                layoutParams.setMargins(getResources().getDimensionPixelOffset(R.dimen.x15), 0,
+                        getResources().getDimensionPixelOffset(R.dimen.x15), 0);
+                view.setLayoutParams(layoutParams);
+                view.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
+                discountLayout.addView(view);
+            }
+        }
+    }
+
+
 
     public void showDialog() {
         if (dialog == null) {
@@ -541,6 +617,35 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 }
             }
         }, GroupBuyingCouponModel.class);
+    }
+
+    public void getEvaluation() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchant.getId());
+        params.put("start", 0);
+        params.put("size", 3);
+        VolleyOperater<GroupBuyingEvaluationListModel> operater = new VolleyOperater<>(mActivity);
+        operater.doRequest(Constants.URL_FIND_GROUP_PURCHASE_EVLUATE_LIST, params, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (isSucceed && obj != null) {
+                    if (obj instanceof String) {
+                        return;
+                    }
+                    ArrayList<GroupPurchaseEvaluate> mlist = ((GroupBuyingEvaluationListModel) obj).getValue();
+                    if (CheckUtils.isNoEmptyList(mlist)) {
+                        showEvaluation(mlist);
+                    }
+                }
+            }
+        }, GroupBuyingEvaluationListModel.class);
+    }
+
+    private void showEvaluation(ArrayList<GroupPurchaseEvaluate> mlist) {
+        evaluationLayout.setVisibility(View.VISIBLE);
+        GroupBuyingEvaluationAdapter adapter = new GroupBuyingEvaluationAdapter(mActivity);
+        evaluationListView.setAdapter(adapter);
+        adapter.setData(mlist);
     }
 
     private void initPhoneWindow() {

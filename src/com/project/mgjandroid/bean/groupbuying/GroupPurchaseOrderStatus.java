@@ -13,7 +13,9 @@ public enum GroupPurchaseOrderStatus {
 
     Done(2, "支付完成"),
 
-    Refund(3, "已退款");
+    Refund(3, "已退款"),
+
+    WaitConfirm(4, "等待商家确认");
 
     private int value;
     private String memo;

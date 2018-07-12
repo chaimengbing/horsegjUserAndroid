@@ -1,6 +1,7 @@
 package com.project.mgjandroid.ui.activity.groupbuying;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -144,6 +146,11 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private TextView tvDiscount;
     @InjectView(R.id.tv_discount_pay_bill)
     private TextView tvDiscounPayBill;
+    @InjectView(R.id.tuan_list_view)
+    private NoScrollListView tuanListView;
+    @InjectView(R.id.expand_textview)
+    private TextView expandTextView;
+
     private List<String> urls = new ArrayList<>();
     private int topBarAlphaMinH;
     private int topBarAlphaMaxH;
@@ -154,6 +161,8 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private CustomDialog dialog;
     private MLoadingDialog loadingDialog;
     private ShareUtil shareUtil;
+    private GroupBuyMealListAdapter listAdapter;
+    private boolean isExpand;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -180,7 +189,9 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         imgLeft.setOnClickListener(this);
         imgRight.setOnClickListener(this);
         tvDiscounPayBill.setOnClickListener(this);
-
+        expandTextView.setOnClickListener(this);
+        listAdapter = new GroupBuyMealListAdapter(R.layout.group_buying_item,this);
+        tuanListView.setAdapter(listAdapter);
         topBarAlphaMinH = getResources().getDimensionPixelOffset(R.dimen.x70);
         topBarAlphaMaxH = getResources().getDimensionPixelOffset(R.dimen.x140);
         scrollView.setOnScrollChangeListener(new MyScrollView.OnScrollChangeListener() {
@@ -258,7 +269,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 }
             }
             if (CheckUtils.isNoEmptyList(quanList)) showVoucher(quanList);
-            if (CheckUtils.isNoEmptyList(tuanList)) showGroupBuying(tuanList);
+            if (CheckUtils.isNoEmptyList(tuanList)) showGroupBuying1(tuanList);
         }
         if (merchant.getMerchantCommentNum() != null && merchant.getMerchantCommentNum() > 0) {
             tvEvaluation.setText("评价（" + merchant.getMerchantCommentNum() + "）");
@@ -433,42 +444,24 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         }
     }
 
-    private void showGroupBuying(ArrayList<GroupPurchaseCoupon> tuanList) {
+    private void showGroupBuying1(final ArrayList<GroupPurchaseCoupon> tuanList) {
         tuanLayout.setVisibility(View.VISIBLE);
-        for (int i = 0, size = tuanList.size(); i < size; i++) {
-            GroupPurchaseCoupon bean = tuanList.get(i);
-            RelativeLayout layout = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.group_buying_item, null);
-            RelativeLayout root = (RelativeLayout) layout.findViewById(R.id.group_buying_item_root);
-            CornerImageView icon = (CornerImageView) layout.findViewById(R.id.img);
-            TextView tvName = (TextView) layout.findViewById(R.id.tv_name);
-            TextView tvPrice = (TextView) layout.findViewById(R.id.tv_price);
-            TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill1);
-            TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_origin_price);
-            TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
-            root.setTag(bean);
-            tvPayBill.setText("购买");
-            if (CheckUtils.isNoEmptyStr(bean.getImages())) {
-                ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
-            }
-            tvName.setText(bean.getGroupPurchaseName());
-            tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
-            if (bean.getSumGroupPurchaseCouponGoodsOriginPrice() != null && bean.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
-                tvOriginPrice.setText("门市价¥" + StringUtils.BigDecimal2Str(bean.getSumGroupPurchaseCouponGoodsOriginPrice()));
-            }
-            tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
-            root.setOnClickListener(this);
-            tvPayBill.setOnClickListener(this);
-            tuanLayout.addView(layout);
-            if (i != size - 1) {
-                View view = new View(mActivity);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
-                layoutParams.setMargins(getResources().getDimensionPixelOffset(R.dimen.x15), 0,
-                        getResources().getDimensionPixelOffset(R.dimen.x15), 0);
-                view.setLayoutParams(layoutParams);
-                view.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
-                tuanLayout.addView(view);
-            }
+        listAdapter.setData(tuanList);
+        if (tuanList != null && tuanList.size() > 2) {
+            expandTextView.setVisibility(View.VISIBLE);
+            isExpand = false;
+        } else {
+            isExpand = true;
+            expandTextView.setVisibility(View.GONE);
         }
+        listAdapter.setExpand(isExpand);
+        listAdapter.notifyDataSetChanged();
+        tuanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Routers.open(mActivity, ActivitySchemeManager.SCHEME + "groupPurchaseCoupon/" + tuanList.get(i).getId());
+            }
+        });
     }
 
     @Override
@@ -505,13 +498,9 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 GroupBuyingAllEvaluationActivity.toGroupBuyingAllEvaluationActivity(mActivity, merchant.getId());
                 break;
             case R.id.voucher_item_root:
-            case R.id.group_buying_item_root:
                 Routers.open(mActivity, ActivitySchemeManager.SCHEME + "groupPurchaseCoupon/" + ((GroupPurchaseCoupon) v.getTag()).getId());
                 break;
             case R.id.tv_pay_bill:
-                startActivity(new Intent(this,BuyTicketActivity.class));
-                break;
-            case R.id.tv_pay_bill1:
                 startActivity(new Intent(this,BuyTicketActivity.class));
                 break;
             case R.id.tv_discount_pay_bill:
@@ -545,6 +534,11 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 } else if (urls.size() > 1) {
                     PictureViewActivity.toViewPicture(mActivity, JSONArray.toJSONString(urls), 1);
                 }
+                break;
+            case R.id.expand_textview:
+                listAdapter.setExpand(true);
+                expandTextView.setVisibility(View.GONE);
+                listAdapter.notifyDataSetChanged();
                 break;
         }
     }
