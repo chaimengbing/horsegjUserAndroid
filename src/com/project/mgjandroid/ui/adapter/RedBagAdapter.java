@@ -80,12 +80,12 @@ public class RedBagAdapter extends BaseListAdapter<RedBag> {
 
         if (canUse) {
             if (bean.isSelected()) {
-                rootView.setBackgroundResource(R.drawable.selected_redbag_bg);
-                tv_type.setTextColor(mActivity.getResources().getColor(R.color.white));
-                tv_discount_amt.setTextColor(mActivity.getResources().getColor(R.color.white));
-                tv_effect_period.setTextColor(mActivity.getResources().getColor(R.color.white));
-                tv_merchant_name.setTextColor(mActivity.getResources().getColor(R.color.white));
-                tv_restrict.setTextColor(mActivity.getResources().getColor(R.color.white));
+                rootView.setBackgroundResource(R.drawable.reabag_selected_bg);
+//                tv_type.setTextColor(mActivity.getResources().getColor(R.color.white));
+//                tv_discount_amt.setTextColor(mActivity.getResources().getColor(R.color.white));
+//                tv_effect_period.setTextColor(mActivity.getResources().getColor(R.color.white));
+//                tv_merchant_name.setTextColor(mActivity.getResources().getColor(R.color.white));
+//                tv_restrict.setTextColor(mActivity.getResources().getColor(R.color.white));
             } else {
                 rootView.setBackgroundResource(R.drawable.normal_redbag_bg);
                 tv_type.setTextColor(mActivity.getResources().getColor(R.color.color_3));

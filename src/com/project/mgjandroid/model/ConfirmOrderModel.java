@@ -5,6 +5,7 @@ import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.bean.UserAddress;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -128,6 +129,7 @@ public class ConfirmOrderModel extends Entity {
         private String againOrderTip;
         //可使用红包个数
         private int platformRedBagCount;
+        private ArrayList<RedBag> platformRedBags;
 
         /**
          * id : 4
@@ -418,6 +420,14 @@ public class ConfirmOrderModel extends Entity {
 
         public void setPlatformRedBagCount(int platformRedBagCount) {
             this.platformRedBagCount = platformRedBagCount;
+        }
+
+        public ArrayList<RedBag> getPlatformRedBags() {
+            return platformRedBags;
+        }
+
+        public void setPlatformRedBags(ArrayList<RedBag> platformRedBags) {
+            this.platformRedBags = platformRedBags;
         }
 
         public static class ExpectedArrivalEntity extends Entity {

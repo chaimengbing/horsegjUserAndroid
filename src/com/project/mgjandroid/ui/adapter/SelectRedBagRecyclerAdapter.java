@@ -130,17 +130,17 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
                 platFormViewHolder.businessType.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (redBag.getDisableList() != null && redBag.getDisableList().size() > 0){
-                            if (isExpand){
+                        if (redBag.getDisableList() != null && redBag.getDisableList().size() > 0) {
+                            if (isExpand) {
                                 isExpand = false;
                                 platFormViewHolder.disTextview.setVisibility(View.GONE);
                                 platFormViewHolder.businessType.setCompoundDrawables(null, null, drawablePackup, null);
-                            }else {
+                            } else {
                                 platFormViewHolder.disTextview.setVisibility(View.VISIBLE);
                                 platFormViewHolder.businessType.setCompoundDrawables(null, null, drawableExpand, null);
                                 isExpand = true;
                                 String result = "";
-                                for (String disString:redBag.getDisableList()){
+                                for (String disString : redBag.getDisableList()) {
                                     result += "" + disString + "\n";
                                 }
                                 platFormViewHolder.disTextview.setText(result.trim());
@@ -149,9 +149,13 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
                     }
                 });
             } else {
+                if (redBag.isSelected()) {
+                    platFormViewHolder.rootView.setBackgroundResource(R.drawable.reabag_selected_bg);
+                } else {
+                    platFormViewHolder.rootView.setBackgroundResource(R.drawable.normal_redbag_bg);
+                }
                 platFormViewHolder.oneLayout.setBackgroundResource(0);
                 platFormViewHolder.twoLayout.setBackgroundResource(0);
-                platFormViewHolder.rootView.setBackgroundResource(R.drawable.normal_redbag_bg);
                 platFormViewHolder.moneyNum.setTextColor(mContext.getResources().getColor(R.color.mine_number_color_red));
                 platFormViewHolder.businessType.setCompoundDrawables(null, null, null, null);
                 platFormViewHolder.businessType.setTextColor(mContext.getResources().getColor(R.color.color_3));
@@ -163,7 +167,7 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
                 @Override
                 public void onClick(View view) {
                     if (redBag.getIsDisable() == 1) {
-                        ((SelectRedBagActivity) mContext).setResult(SelectRedBagActivity.RED_BAG_MONEY, new Intent().putExtra(SelectRedBagActivity.RED_MONEY, StringUtils.BigDecimal2Str(redBag.getAmt())));
+                        ((SelectRedBagActivity) mContext).setResult(SelectRedBagActivity.RED_BAG_MONEY, new Intent().putExtra(SelectRedBagActivity.RED_MONEY_BAG, redBag));
                         ((SelectRedBagActivity) mContext).finish();
                     }
                 }

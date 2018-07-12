@@ -1,10 +1,13 @@
 package com.project.mgjandroid.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
@@ -33,7 +36,9 @@ public class SelectRedBagActivity extends BaseActivity {
     public final static String BUSINESS_TYPE = "businessType";
     public final static String ADDRESS = "address";
     public final static String ITEMS_PRICE = "itemsPrice";
-    public final static String RED_MONEY = "red_money";
+    public final static String RED_MONEY_BAG = "red_money_bag";
+    public final static String PLATFORM_REDBAGS = "platform_redbags";
+    public final static String PLATFORM_REDBAG_ID = "platform_redbag_id";
     public static final int RED_BAG_MONEY = 10007;
 
     @InjectView(R.id.my_redbag_act_back)
@@ -42,6 +47,10 @@ public class SelectRedBagActivity extends BaseActivity {
     private TextView titleTextView;
     @InjectView(R.id.red_bag_list)
     private RecyclerView recyclerView;
+    @InjectView(R.id.use_red_bag_layout)
+    private RelativeLayout notUseLayout;
+    @InjectView(R.id.is_use_red_bag)
+    private CheckBox notUse;
 
 
     private SelectRedBagRecyclerAdapter selectRedBagRecyclerAdapter;
@@ -63,6 +72,8 @@ public class SelectRedBagActivity extends BaseActivity {
      * Laundry(11,"洗衣");
      */
     private int businessType = 1;
+    private String platformRedbags;
+    private long platformRedbagId;
 
 
     @Override
@@ -73,6 +84,14 @@ public class SelectRedBagActivity extends BaseActivity {
         businessType = getIntent().getIntExtra(BUSINESS_TYPE, businessType);
         userAddress = (UserAddress) getIntent().getSerializableExtra(ADDRESS);
         itemsPrice = getIntent().getDoubleExtra(ITEMS_PRICE, 0);
+        platformRedbags = getIntent().getStringExtra(PLATFORM_REDBAGS);
+        platformRedbagId = getIntent().getLongExtra(PLATFORM_REDBAG_ID, -1);
+
+        if (platformRedbagId == -1) {
+            notUse.setChecked(true);
+        } else {
+            notUse.setChecked(false);
+        }
         initView();
         initData();
     }
@@ -102,6 +121,13 @@ public class SelectRedBagActivity extends BaseActivity {
                     mlist.addAll(redBagListModel.getPlatformRedBagList());
                     mlist.add(new RedBag());
                     mlist.addAll(redBagListModel.getPlatformRedBagAvailableList());
+                    if (platformRedbagId != -1 && redBagListModel.getPlatformRedBagList() != null) {
+                        for (RedBag redBag : redBagListModel.getPlatformRedBagList()) {
+                            if (redBag.getId() == platformRedbagId) {
+                                redBag.setSelected(true);
+                            }
+                        }
+                    }
                     selectRedBagRecyclerAdapter.setPlatformNum(redBagListModel.getPlatformRedBagCount());
                     selectRedBagRecyclerAdapter.setPlatformNumDis(redBagListModel.getPlatformRedBagAvailableList().size());
                     selectRedBagRecyclerAdapter.setList(mlist);
@@ -129,6 +155,23 @@ public class SelectRedBagActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 back();
+            }
+        });
+
+        notUseLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notUse.setChecked(true);
+                mActivity.setResult(SelectRedBagActivity.RED_BAG_MONEY, new Intent());
+                mActivity.finish();
+            }
+        });
+        notUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notUse.setChecked(true);
+                mActivity.setResult(SelectRedBagActivity.RED_BAG_MONEY, new Intent());
+                mActivity.finish();
             }
         });
     }

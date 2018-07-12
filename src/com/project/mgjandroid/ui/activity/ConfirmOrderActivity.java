@@ -180,6 +180,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     private MLoadingDialog mLoadingDialog;
     private boolean needPostDiscountAmt = false;
     private RedBag redBag;
+    private RedBag platformRedBag;
     private CallPhoneDialog dialog;
 
     private boolean isFromMarket = false;
@@ -438,18 +439,27 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         if (selectTime == null) {
             selectTime = dayList.get(0).getTimeList().get(0);
         }
+        ArrayList<Map<String, Object>> redBagRequestDTOs = new ArrayList<>();
         if (redBag != null) {
-            ArrayList<Map<String, Object>> redBagRequestDTOs = new ArrayList<>();
             HashMap<String, Object> m = new HashMap<>();
             m.put("id", redBag.getId());
             m.put("name", redBag.getName());
             m.put("amt", redBag.getAmt());
             m.put("promotionType", redBag.getPromotionType());
             redBagRequestDTOs.add(m);
-            previewJsonData.put("redBags", redBagRequestDTOs);
-        } else if (previewJsonData.containsKey("redBags")) {
-            previewJsonData.remove("redBags");
         }
+
+        if (platformRedBag != null) {
+            HashMap<String, Object> m = new HashMap<>();
+            m.put("id", platformRedBag.getId());
+            m.put("name", platformRedBag.getName());
+            m.put("amt", platformRedBag.getAmt());
+            m.put("promotionType", platformRedBag.getPromotionType());
+            redBagRequestDTOs.add(m);
+        }
+
+
+        previewJsonData.put("redBags", redBagRequestDTOs);
         previewJsonData.put("expectedArrivalTime", selectTime.getId());
         Map<String, Object> params = new HashMap<>();
         params.put("data", previewJsonData.toString());
@@ -608,12 +618,21 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             rl_shipFee.setVisibility(View.GONE);
         }
 
+        if (valueEntity.getPlatformRedBags() != null && valueEntity.getPlatformRedBags().size() > 0) {
+            String money = StringUtils.BigDecimal2Str(valueEntity.getPlatformRedBags().get(0).getAmt());
+            if (CheckUtils.isNoEmptyStr(money)) {
+                platform_num_textview.setText("-￥" + String.valueOf(money));
+            }
+        } else {
+            platform_num_textview.setText("");
+        }
         if (valueEntity.getPlatformRedBagCount() > 0) {
             platform_redbag_layout.setVisibility(View.VISIBLE);
             platform_num_textview.setHint("有" + valueEntity.getPlatformRedBagCount() + "个红包可用");
         } else {
             platform_redbag_layout.setVisibility(View.GONE);
         }
+
 
         if (userAddress != null) {
             showAddress(userAddress);
@@ -661,23 +680,23 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         } else {
             promotionLayout.setVisibility(View.GONE);
         }
-        if (CheckUtils.isNoEmptyList(valueEntity.getRedBags())) {
-            for (RedBag promotion : valueEntity.getRedBags()) {
-                addPromotion(promotionLayout, promotion);
-            }
-            promotionLayout.setVisibility(View.VISIBLE);
-        } else {
-            if (CheckUtils.isEmptyList(valueEntity.getPromoList())) {
-                promotionLayout.setVisibility(View.GONE);
-            }
-        }
+//        if (CheckUtils.isNoEmptyList(valueEntity.getRedBags())) {
+//            for (RedBag promotion : valueEntity.getRedBags()) {
+//                addPromotion(promotionLayout, promotion);
+//            }
+//            promotionLayout.setVisibility(View.VISIBLE);
+//        } else {
+//        if (CheckUtils.isEmptyList(valueEntity.getPromoList())) {
+//            promotionLayout.setVisibility(View.GONE);
+//        }
+//        }
 
         if (valueEntity.getRedBagUsableCount() > 0) {
             hasRedBag = true;
             newRedBagLayout.setVisibility(View.VISIBLE);
             newRedBagShow.setHint("有" + valueEntity.getRedBagUsableCount() + "个红包可用");
             if (redBag != null && redBag.getAmt() != null) {
-                newRedBagShow.setText("红包金额为" + StringUtils.BigDecimal2Str(redBag.getAmt()) + "元");
+                newRedBagShow.setText("-￥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
             } else {
                 newRedBagShow.setText("");
             }
@@ -894,6 +913,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, confirmOrderModel.getValue().getItemsPrice().doubleValue());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 1);
+                intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAGS, JSONArray.toJSONString(confirmOrderModel.getValue().getPlatformRedBags()));
+                if (platformRedBag != null) {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, platformRedBag.getId());
+                } else {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1);
+                }
                 ConfirmOrderActivity.this.startActivityForResult(intentSelect, REQUEST_SET_CAUTION);
                 break;
             case R.id.select_time_cancel:
@@ -931,7 +956,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 if (redBag != null) {
                     intentRedBag.putExtra("redBagId", redBag.getId());
                 } else {
-                    intentRedBag.putExtra("redBagId", -1);
+                    intentRedBag.putExtra("redBagId", -1l);
                 }
                 try {
                     intentRedBag.putExtra("PromoInfoJson", JSONArray.toJSONString(confirmOrderModel.getValue().getPromoList()));
@@ -994,10 +1019,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     if (caution != null) tv_caution.setText(caution);
                     break;
                 case SelectRedBagActivity.RED_BAG_MONEY:
-                    String money = data.getStringExtra(SelectRedBagActivity.RED_MONEY);
-                    if (CheckUtils.isNoEmptyStr(money)) {
-                        platform_num_textview.setText("-￥" + String.valueOf(money));
-                    }
+                    platformRedBag = (RedBag) data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG);
+                    getOrderPreview();
                     break;
             }
         }

@@ -11,6 +11,7 @@ import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.RedBagListModel;
+import com.project.mgjandroid.model.RedBagSelectListModel;
 import com.project.mgjandroid.model.RedBagsModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.MyRedBagActivity;
@@ -255,7 +256,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
         map.put("merchantId", merchantId);
         map.put("promoInfoJson", promoInfoJson);
         map.put("discountGoodsDiscountAmt", discountGoodsDiscountAmt);
-        VolleyOperater<RedBagListModel> operater = new VolleyOperater<>(mActivity);
+        VolleyOperater<RedBagSelectListModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_FILTER_USABLE_RED_BAG_LIST, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
@@ -268,9 +269,9 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                     if (obj instanceof String) {
                         return;
                     }
-                    RedBagListModel redBagListModel = (RedBagListModel) obj;
+                    RedBagSelectListModel redBagListModel = (RedBagSelectListModel) obj;
                     List<RedBag> mlist = new ArrayList<>();
-                    mlist.addAll(redBagListModel.getVouchersList());
+                    mlist.addAll(redBagListModel.getValue());
                     if (redBagId != -1 && CheckUtils.isNoEmptyList(mlist)) {
                         for (int i = mlist.size() - 1; i >= 0; i--) {
                             if (redBagId == mlist.get(i).getId()) {
@@ -289,13 +290,13 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                     }
                 }
             }
-        }, RedBagListModel.class);
+        }, RedBagSelectListModel.class);
     }
 
     private void getCallCarDataAvailable() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("agentId", agentId);
-        VolleyOperater<RedBagListModel> operater = new VolleyOperater<>(mActivity);
+        VolleyOperater<RedBagSelectListModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_FIND_CAR_USABLE_REDBAG_LIST, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
@@ -308,9 +309,9 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                     if (obj instanceof String) {
                         return;
                     }
-                    RedBagListModel redBagListModel = (RedBagListModel) obj;
+                    RedBagSelectListModel redBagListModel = (RedBagSelectListModel) obj;
                     List<RedBag> mlist = new ArrayList<>();
-                    mlist.addAll(redBagListModel.getVouchersList());
+                    mlist.addAll(redBagListModel.getValue());
                     if (redBagId != -1 && CheckUtils.isNoEmptyList(mlist)) {
                         for (int i = mlist.size() - 1; i >= 0; i--) {
                             if (redBagId == mlist.get(i).getId()) {
@@ -329,7 +330,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                     }
                 }
             }
-        }, RedBagListModel.class);
+        }, RedBagSelectListModel.class);
     }
 
     @Override

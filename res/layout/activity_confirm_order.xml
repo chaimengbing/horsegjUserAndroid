@@ -299,58 +299,6 @@
 
                         </RelativeLayout>
 
-                        <RelativeLayout
-                            android:id="@+id/new_red_bag_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/mine_list_height"
-                            android:background="@color/white"
-                            android:visibility="gone">
-
-                            <TextView
-                                android:id="@+id/tv_new_red_bag"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/x15"
-                                android:text="我的红包"
-                                android:textColor="@color/color_3"
-                                android:textSize="16sp" />
-
-                            <ImageView
-                                android:id="@+id/new_red_bag_right_arrow"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:paddingLeft="@dimen/x5"
-                                android:paddingRight="@dimen/x15"
-                                android:src="@drawable/arrow_right_gray" />
-
-                            <TextView
-                                android:id="@+id/tv_new_red_bag_show"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/x30"
-                                android:layout_toLeftOf="@id/new_red_bag_right_arrow"
-                                android:layout_toRightOf="@id/tv_new_red_bag"
-                                android:ellipsize="end"
-                                android:gravity="right"
-                                android:hint="无可用红包"
-                                android:singleLine="true"
-                                android:textColor="@color/color_6"
-                                android:textColorHint="@color/color_9"
-                                android:textSize="12sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1px"
-                                android:layout_alignParentBottom="true"
-                                android:layout_marginLeft="@dimen/x15"
-                                android:background="@color/common_gray_line" />
-                        </RelativeLayout>
-
-
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -628,6 +576,7 @@
                             android:id="@+id/platform_redbag_layout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/mine_list_height"
+                            android:visibility="gone"
                             android:background="@color/white">
 
                             <TextView
@@ -661,9 +610,62 @@
                                 android:ellipsize="end"
                                 android:gravity="right"
                                 android:singleLine="true"
+                                android:hint="无可用红包"
+                                android:textColorHint="@color/color_9"
                                 android:textColor="@color/platform_color"
+                                android:textSize="12sp" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/new_red_bag_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/mine_list_height"
+                            android:visibility="gone"
+                            android:background="@color/white">
+
+                            <TextView
+                                android:id="@+id/tv_new_red_bag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x15"
+                                android:text="商家代金券"
+                                android:textColor="@color/color_3"
                                 android:textSize="14sp" />
 
+                            <ImageView
+                                android:id="@+id/new_red_bag_right_arrow"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:paddingLeft="@dimen/x5"
+                                android:paddingRight="@dimen/x15"
+                                android:src="@drawable/arrow_right_gray" />
+
+                            <TextView
+                                android:id="@+id/tv_new_red_bag_show"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x30"
+                                android:layout_toLeftOf="@id/new_red_bag_right_arrow"
+                                android:layout_toRightOf="@id/tv_new_red_bag"
+                                android:ellipsize="end"
+                                android:gravity="right"
+                                android:hint="无可用代金券"
+                                android:textColor="@color/platform_color"
+                                android:singleLine="true"
+                                android:textColorHint="@color/color_9"
+                                android:textSize="12sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginLeft="@dimen/x15"
+                                android:background="@color/common_gray_line" />
                         </RelativeLayout>
 
                         <View

@@ -82,14 +82,18 @@ public class MyRedBagActivity extends BaseActivity {
         if (promoInfoJson == null) promoInfoJson = "[]";
         redBagId = getIntent().getLongExtra("redBagId", -1);
         if (getIntent().getBooleanExtra("isFromConfirmOrder", false)) {
+            redBagType = 2;
             notUseLayout.setVisibility(View.VISIBLE);
+            redBagTitleLayout.setVisibility(View.GONE);
             if (redBagId == -1) {
                 notUse.setChecked(true);
             } else {
                 notUse.setChecked(false);
             }
         } else {
+            redBagType = 1;
             notUseLayout.setVisibility(View.GONE);
+            redBagTitleLayout.setVisibility(View.VISIBLE);
         }
 
         initView();
@@ -104,13 +108,14 @@ public class MyRedBagActivity extends BaseActivity {
             args.putString("PromoInfoJson", promoInfoJson);
             args.putLong("agentId", agentId);
             args.putLong("redBagId", redBagId);
-            args.putLong("redBagId", redBagType);
             fragmentRedBagCanUse = new RedBagFragment();
             fragmentRedBagCanUse.setArguments(args);
+            fragmentRedBagCanUse.setRedBagType(redBagType);
             fragmentManager.beginTransaction().add(R.id.content_view,
                     fragmentRedBagCanUse).commit();
             mCurrentFragment = fragmentRedBagCanUse;
         } else if (fragmentRedBagCanUse != null) {
+            fragmentRedBagCanUse.setRedBagType(redBagType);
             fragmentManager.beginTransaction()
                     .show(fragmentRedBagCanUse)
                     .commit();
