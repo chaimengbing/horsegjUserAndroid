@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/my_redbag_act_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg">
+
+        <ImageView
+            android:id="@+id/my_redbag_act_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x8"
+            android:background="@drawable/icon_back"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:singleLine="true"
+            android:text="@string/select_redbag"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="@dimen/title_bar_text_size" />
+
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/red_bag_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       />
+
+    <RelativeLayout
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_bg"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/x150"
+            android:drawableTop="@drawable/has_no_redbag"
+            android:drawablePadding="@dimen/x22"
+            android:textColor="@color/color_9"
+            android:textSize="14sp"
+            android:text="@string/has_no_redbag" />
+
+        <TextView
+            android:id="@+id/tv_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/x10"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textSize="13sp"
+            android:textColor="@color/color_9"
+            android:text="查看历史红包 >>" />
+
+    </RelativeLayout>
+
+</LinearLayout>

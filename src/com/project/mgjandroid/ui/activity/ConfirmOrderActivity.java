@@ -141,6 +141,10 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     private RelativeLayout rl_caution;
     @InjectView(R.id.tv_order_caution)
     private TextView tv_caution;
+    @InjectView(R.id.platform_redbag_layout)
+    private RelativeLayout platform_redbag_layout;
+    @InjectView(R.id.platform_num_textview)
+    private TextView platform_num_textview;
     @InjectView(R.id.confir_order_act_shipping_fee_label)
     private LinearLayout ll_shippingFeeLabel;
     @InjectView(R.id.confir_order_act_shipping_fee_change)
@@ -319,6 +323,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         tv_confirm.setOnClickListener(this);
         rl_selectTime.setOnClickListener(this);
         rl_caution.setOnClickListener(this);
+        platform_redbag_layout.setOnClickListener(this);
         cb_redBag.setOnClickListener(this);
         redBagLayout.setOnClickListener(this);
         newRedBagLayout.setOnClickListener(this);
@@ -603,6 +608,13 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             rl_shipFee.setVisibility(View.GONE);
         }
 
+        if (valueEntity.getPlatformRedBagCount() > 0) {
+            platform_redbag_layout.setVisibility(View.VISIBLE);
+            platform_num_textview.setHint("有" + valueEntity.getPlatformRedBagCount() + "个红包可用");
+        } else {
+            platform_redbag_layout.setVisibility(View.GONE);
+        }
+
         if (userAddress != null) {
             showAddress(userAddress);
             latitude = userAddress.getLatitude();
@@ -877,6 +889,13 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 intentCaution.putExtra("caution", caution);
                 ConfirmOrderActivity.this.startActivityForResult(intentCaution, REQUEST_SET_CAUTION);
                 break;
+            case R.id.platform_redbag_layout:
+                Intent intentSelect = new Intent(ConfirmOrderActivity.this, SelectRedBagActivity.class);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, confirmOrderModel.getValue().getItemsPrice().doubleValue());
+                intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
+                intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 1);
+                ConfirmOrderActivity.this.startActivityForResult(intentSelect, REQUEST_SET_CAUTION);
+                break;
             case R.id.select_time_cancel:
             case R.id.popup_outside:
                 if (popupWindow != null && popupWindow.isShowing()) {
@@ -973,6 +992,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 case RESPONSE_SET_CAUTION:
                     caution = data.getStringExtra("caution");
                     if (caution != null) tv_caution.setText(caution);
+                    break;
+                case SelectRedBagActivity.RED_BAG_MONEY:
+                    String money = data.getStringExtra(SelectRedBagActivity.RED_MONEY);
+                    if (CheckUtils.isNoEmptyStr(money)) {
+                        platform_num_textview.setText("-￥" + String.valueOf(money));
+                    }
                     break;
             }
         }

@@ -449,5 +449,6 @@
     <string name="no_super_market">当前区域暂未开通商超服务</string>
     <string name="go_look_redbag">去查看</string>
     <string name="platform_redbag">平台红包</string>
+    <string name="select_redbag">红包</string>
     <string name="expant">点击展开</string>
 </resources>

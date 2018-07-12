@@ -60,7 +60,7 @@ public class RedBagListModel extends Entity {
 
     /**
      * "redBagList": null,
-     "type": 1
+     * "type": 1
      */
     //平台红包
     private ArrayList<RedBag> redBagList;
@@ -80,5 +80,31 @@ public class RedBagListModel extends Entity {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    /**
+     * platformRedBagCount：可用红包数
+     * platformRedBagAvailableList：不可用红包集合
+     * platformRedBagList：可用红包集合
+     */
+
+    //不可用红包集合
+    private ArrayList<RedBag> platformRedBagAvailableList;
+    private int platformRedBagAvailableCount;
+
+    public ArrayList<RedBag> getPlatformRedBagAvailableList() {
+        return platformRedBagAvailableList;
+    }
+
+    public void setPlatformRedBagAvailableList(ArrayList<RedBag> platformRedBagAvailableList) {
+        this.platformRedBagAvailableList = platformRedBagAvailableList;
+    }
+
+    public int getPlatformRedBagAvailableCount() {
+        return platformRedBagAvailableCount;
+    }
+
+    public void setPlatformRedBagAvailableCount(int platformRedBagAvailableCount) {
+        this.platformRedBagAvailableCount = platformRedBagAvailableCount;
     }
 }

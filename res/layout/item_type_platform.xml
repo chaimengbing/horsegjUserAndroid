@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/x15"
+    android:paddingRight="@dimen/x12"
+    android:paddingTop="@dimen/x10">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/x5"
+        android:paddingTop="@dimen/x5">
+
+        <View
+            android:id="@+id/left"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/redbag_num_textview"
+            android:background="@color/color_6" />
+
+        <TextView
+            android:id="@+id/redbag_num_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:text="可使用红包"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/right"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/redbag_num_textview"
+            android:background="@color/color_6" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

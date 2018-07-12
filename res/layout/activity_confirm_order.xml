@@ -625,6 +625,7 @@
                             android:layout_alignParentBottom="true"
                             android:background="@color/common_gray_line" />
                         <RelativeLayout
+                            android:id="@+id/platform_redbag_layout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/mine_list_height"
                             android:background="@color/white">
@@ -659,7 +660,6 @@
                                 android:layout_toRightOf="@id/platform_textview"
                                 android:ellipsize="end"
                                 android:gravity="right"
-                                android:text="-￥12"
                                 android:singleLine="true"
                                 android:textColor="@color/platform_color"
                                 android:textSize="14sp" />

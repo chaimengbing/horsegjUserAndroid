@@ -78,6 +78,7 @@
     <color name="gray_white">#f4f4f4</color>
     <color name="org_yellow">#FF9912</color>
     <color name="transparent">#00000000</color>
+    <color name="ll_transparent">#4D000000</color>
     <color name="day_refresh_text_color">#bcbcbc</color>
     <color name="day_item_bg_color">#ffffff</color>
     <color name="item_group_bg_color">#e6e6e6</color>

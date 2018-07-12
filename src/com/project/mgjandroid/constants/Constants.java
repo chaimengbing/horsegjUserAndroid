@@ -225,6 +225,11 @@ public class Constants {
      */
     public static final String URL_QUERY_RED_BAG_LIST = URL_HOME_MAIN + "queryRedBagList";
     /**
+     * * 选择红包
+     * 接口：queryPlatformRedBagList
+     */
+    public static final String URL_QUERY_PLATFORM_REDBAGLIST = URL_HOME_MAIN + "queryPlatformRedBagList";
+    /**
      * 订单商品列表，包含是否可退换信息，以及申请退换后的状态
      */
     public static final String URL_RETURN_OR_CHANGE_STATUS = URL_HOME_MAIN + "findReturnOrChangeOrderById";

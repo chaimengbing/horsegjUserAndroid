@@ -34,6 +34,10 @@ public class ConfirmOrderModel extends Entity {
      * tip :
      * caution : null
      * cautionlist : []
+     * "platformRedBags": [],
+     "redBagTotalAmt": 0,
+     "redBagUsableCount": 0,
+     "platformRedBagCount": 4,
      * promoMutexInfo :
      * promoList : []
      * addressInfo : null
@@ -122,6 +126,8 @@ public class ConfirmOrderModel extends Entity {
         private int redBagUsableCount;
         private Integer againOrderStatus;//0 商家已下线 1 商品已下线
         private String againOrderTip;
+        //可使用红包个数
+        private int platformRedBagCount;
 
         /**
          * id : 4
@@ -404,6 +410,14 @@ public class ConfirmOrderModel extends Entity {
 
         public void setDiscountGoodsDiscountAmt(BigDecimal discountGoodsDiscountAmt) {
             this.discountGoodsDiscountAmt = discountGoodsDiscountAmt;
+        }
+
+        public int getPlatformRedBagCount() {
+            return platformRedBagCount;
+        }
+
+        public void setPlatformRedBagCount(int platformRedBagCount) {
+            this.platformRedBagCount = platformRedBagCount;
         }
 
         public static class ExpectedArrivalEntity extends Entity {

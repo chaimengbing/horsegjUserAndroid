@@ -9,130 +9,158 @@
     android:paddingRight="@dimen/x12"
     android:paddingTop="@dimen/x10">
 
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/item_content_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/normal_redbag_bg"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/x10">
+        >
 
 
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/dis_one_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/x15"
-            android:orientation="horizontal">
+            android:paddingTop="@dimen/x10"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginBottom="@dimen/x5"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x5"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/paltform_name_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@color/color_3"
+                        android:textSize="19sp"
+                        tools:text="天降红包" />
+
+                    <TextView
+                        android:id="@+id/expiration_time_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:textColor="@color/color_3"
+                        android:textSize="12sp"
+                        tools:text="有效期至：2018-11-07" />
+
+                    <TextView
+                        android:id="@+id/restrict_time_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x10"
+                        android:lines="1"
+                        android:textColor="@color/color_9"
+                        android:textSize="10sp"
+                        tools:text="10：00-12：00 可用" />
+
+                    <TextView
+                        android:id="@+id/mobile_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:textColor="@color/color_9"
+                        android:textSize="10sp"
+                        tools:text="限收货人手机号18701501121" />
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_amt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:layout_marginRight="@dimen/x15"
+                    android:layout_weight="2">
+
+                    <TextView
+                        android:id="@+id/redbag_money_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/x10"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/mine_number_color_red"
+                        android:textSize="35sp"
+                        tools:text="￥18" />
+
+                    <TextView
+                        android:id="@+id/restrict_amt_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/redbag_money_textview"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/color_3"
+                        android:textSize="12sp"
+                        tools:text="无门槛红包" />
+
+                    <ImageView
+                        android:id="@+id/iv_redbag"
+                        android:layout_width="@dimen/x77"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/redbag_invalid"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/dis_two_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dis_one_layout">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/x5"
-                android:layout_marginLeft="@dimen/x15"
-                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/x30"
+                android:layout_marginRight="@dimen/x30"
+                android:layout_marginBottom="@dimen/x15"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/paltform_name_textview"
+                    android:id="@+id/business_type_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="@color/color_3"
-                    android:textSize="19sp"
-                    tools:text="天降红包" />
-
-                <TextView
-                    android:id="@+id/expiration_time_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lines="1"
                     android:textColor="@color/color_3"
                     android:textSize="12sp"
-                    tools:text="有效期至：2018-11-07" />
+                    tools:text="限品类：跑腿  快递  外卖" />
 
                 <TextView
-                    android:id="@+id/restrict_time_textview"
+                    android:id="@+id/dis_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/x10"
-                    android:lines="1"
-                    android:textColor="@color/color_9"
-                    android:textSize="10sp"
-                    tools:text="10：00-12：00 可用" />
+                    android:layout_marginTop="@dimen/x5"
+                    android:textColor="@color/color_3"
+                    android:visibility="gone"
+                    android:textSize="12sp"
+                    tools:text="llllssss" />
 
-                <TextView
-                    android:id="@+id/mobile_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:textColor="@color/color_9"
-                    android:textSize="10sp"
-                    tools:text="限收货人手机号18701501121" />
 
             </LinearLayout>
+        </FrameLayout>
 
-
-            <RelativeLayout
-                android:id="@+id/layout_amt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x10"
-                android:layout_marginRight="@dimen/x15"
-                android:layout_weight="2">
-
-                <TextView
-                    android:id="@+id/redbag_money_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/x10"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/mine_number_color_red"
-                    android:textSize="35sp"
-                    tools:text="￥18" />
-
-                <TextView
-                    android:id="@+id/restrict_amt_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/redbag_money_textview"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/color_3"
-                    android:textSize="12sp"
-                    tools:text="无门槛红包" />
-
-                <ImageView
-                    android:id="@+id/iv_redbag"
-                    android:layout_width="@dimen/x77"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:src="@drawable/redbag_invalid" />
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x30"
-            android:layout_marginTop="@dimen/x10">
-
-            <TextView
-                android:id="@+id/business_type_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/x5"
-                android:textColor="@color/color_3"
-                android:textSize="12sp"
-                tools:text="限品类：跑腿  快递  外卖" />
-
-
-        </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
