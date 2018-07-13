@@ -134,7 +134,6 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase refreshView) {
-        start = 0;
         getData(false);
     }
 
@@ -213,6 +212,9 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
 
     public void getData(final boolean isLoadMore) {
         setAdapter();
+        if (!isLoadMore){
+            start = 0;
+        }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("start", start);
         map.put("size", maxResults);

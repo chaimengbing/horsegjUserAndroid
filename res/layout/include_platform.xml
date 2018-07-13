@@ -3,8 +3,8 @@
     android:id="@+id/platform_redbag_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/mine_list_height"
-    android:background="@color/white"
-    android:visibility="gone">
+    android:visibility="gone"
+    android:background="@color/white">
 
 
 

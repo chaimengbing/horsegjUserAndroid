@@ -10,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.mzule.activityrouter.annotation.Router;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
@@ -274,8 +276,19 @@ public class JoinGroupActivity extends BaseActivity {
         map.put("price", group.getPrice());
         map.put("totalPrice", totalPrice);
         map.put("quantity", currentCount);
+        ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
+        if (redBag != null) {
+            Map<String, Object> redmap = new HashMap<>();
+            redmap.put("id", redBag.getId());
+            redmap.put("name", redBag.getName());
+            redmap.put("amt", redBag.getAmt());
+            redmap.put("promotionType", redBag.getPromotionType());
+            redBagList.add(redmap);
+        }
+        map.put("redBags", redBagList);
         data = new JSONObject(map);
         params.put("data", data.toString());
+
         VolleyOperater<JoinGroupModel> operater = new VolleyOperater<>(JoinGroupActivity.this);
         operater.doRequest(Constants.URL_GROUP_ORDER_SUBMIT, params, new VolleyOperater.ResponseListener() {
             @Override
@@ -375,7 +388,7 @@ public class JoinGroupActivity extends BaseActivity {
                 divier.setVisibility(View.GONE);
             }
             totalPrice = confirmGroupOrModel.getTotalPrice();
-            tvTotalPrice.setText(StringUtils.BigDecimal2Str(totalPrice));
+            tvTotalPrice.setText("总计 ¥" + totalPrice);
         }
     }
 

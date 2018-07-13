@@ -25,12 +25,16 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
+import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
+import com.project.mgjandroid.model.ConfirmGroupOrModel;
+import com.project.mgjandroid.model.ConfirmGroupOrderModel;
 import com.project.mgjandroid.model.LegworkEntityModel;
 import com.project.mgjandroid.model.LegworkOrderModel;
 import com.project.mgjandroid.model.LegworkServiceChargeModel;
@@ -38,16 +42,19 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.AddressManageActivity;
 import com.project.mgjandroid.ui.activity.BindMobileActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
+import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
 import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.KeyboardStatusDetector;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.InjectorFragment;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +107,11 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
     private TextView tvLegworkGoPay;
     @InjectView(R.id.tv_service_charge)
     private TextView tvServiceCharge;
+    @InjectView(R.id.platform_redbag_layout)
+    private RelativeLayout platform_redbag_layout;
+    @InjectView(R.id.platform_num_textview)
+    private TextView platform_num_textview;
+    private RedBag redBag;
 
     public static final int SELECT_TAKE_ADDRESS = 301;
     public static final int SELECT_DELIVER_ADDRESS = 302;
@@ -139,6 +151,7 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
         tvLegworkGoPay.setOnClickListener(this);
         tvServiceCharge.setOnClickListener(this);
         tvSelectTime.setOnClickListener(this);
+        platform_redbag_layout.setOnClickListener(this);
         rgLegworkServiceTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -252,6 +265,18 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                     mServiceaDialog.dismiss();
                 }
                 break;
+            case R.id.platform_redbag_layout:
+                Intent intentSelect = new Intent(getActivity(), SelectRedBagActivity.class);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, price);
+                intentSelect.putExtra(SelectRedBagActivity.ADDRESS, deliverAddress);
+                intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 9);
+                if (redBag != null) {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
+                } else {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1);
+                }
+                startActivityForResult(intentSelect, 1111);
+                break;
         }
     }
 
@@ -302,7 +327,12 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                 }
             }
         }
+        if (resultCode == SelectRedBagActivity.RED_BAG_MONEY){
+            redBag = (RedBag) data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG);
+            computingServicePrice();
+        }
     }
+
 
     private void initData() {
         VolleyOperater<LegworkEntityModel> operater = new VolleyOperater<>(mActivity);
@@ -332,6 +362,7 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                 }
             }
         }, LegworkEntityModel.class);
+
     }
 
     /**
@@ -347,8 +378,20 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
         map.put("shipperAddressId", takeAddress.getId()); //取货地址编号
         map.put("agentId", agentId);
         map.put("shipperType", 0); // 1：代购时就近购买；2：代购时指定地址，0：取送件的用户地址
-        map.put("servePrice", price); //服务费
+        map.put("servePrice", serviceChargeModel.getServiceCharge()); //服务费
         map.put("totalPrice", price); //总金额
+        if (redBag != null){
+            ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
+            if (redBag != null) {
+                Map<String, Object> redmap = new HashMap<>();
+                redmap.put("id", redBag.getId());
+                redmap.put("name", redBag.getName());
+                redmap.put("amt", redBag.getAmt());
+                redmap.put("promotionType", redBag.getPromotionType());
+                redBagList.add(redmap);
+            }
+            map.put("redBags", JSONArray.toJSON(redBagList).toString());
+        }
         if (!TextUtils.isEmpty(desc)) {
             map.put("remark", desc); //取送件备注
         }
@@ -388,6 +431,26 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
         isComputingSuccess = false;
         VolleyOperater<LegworkServiceChargeModel> operater = new VolleyOperater<>(mActivity);
         HashMap<String, Object> map = new HashMap<>();
+        ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
+        if (redBag != null) {
+            Map<String, Object> redmap = new HashMap<>();
+            redmap.put("id", redBag.getId());
+            redmap.put("name", redBag.getName());
+            redmap.put("amt", redBag.getAmt());
+            redmap.put("promotionType", redBag.getPromotionType());
+            redBagList.add(redmap);
+        }
+        if (deliverAddress != null) {
+            map.put("userAddressId", deliverAddress.getId());
+        } else {
+            map.remove("userAddressId");
+        }
+
+        map.put("itemPrice", price);
+        map.put("totalPrice", price);
+        map.put("agentId", agentId);
+        map.put("businessType", 9);
+        map.put("redBags", JSONArray.toJSON(redBagList).toString());
         map.put("agentId", agentId);
         map.put("shipperType", 0); //1：代购时就近购买；2：代购时指定地址，0：取送件的用户地址
         if (isSpecifyTime && stringStringMap != null) {
@@ -413,7 +476,19 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                     }
                     LegworkServiceChargeModel model = (LegworkServiceChargeModel) obj;
                     serviceChargeModel = model.getValue();
-                    price = serviceChargeModel.getServiceCharge();
+                    if (redBag != null) {
+                        platform_redbag_layout.setVisibility(View.VISIBLE);
+                        platform_num_textview.setText("-￥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
+                    } else {
+                        platform_num_textview.setText("");
+                        if (serviceChargeModel.getPlatformRedBagCount() > 0) {
+                            platform_redbag_layout.setVisibility(View.VISIBLE);
+                            platform_num_textview.setHint("有" + serviceChargeModel.getPlatformRedBagCount() + "个红包可用");
+                        } else {
+                            platform_redbag_layout.setVisibility(View.GONE);
+                        }
+                    }
+                    price = serviceChargeModel.getTotalPrice().doubleValue();
                     tvServicePrice.setText("¥" + price);
                     // 添加总价
                     tvLegworkPrice.setText("费用：¥" + price);

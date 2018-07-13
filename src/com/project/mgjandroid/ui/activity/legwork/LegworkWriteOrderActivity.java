@@ -24,14 +24,19 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
+import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.BaiduGeocoderModel;
+import com.project.mgjandroid.model.ConfirmGroupOrModel;
+import com.project.mgjandroid.model.ConfirmGroupOrderModel;
 import com.project.mgjandroid.model.LegworkEntityModel;
 import com.project.mgjandroid.model.LegworkOrderModel;
 import com.project.mgjandroid.model.LegworkServiceChargeModel;
@@ -40,6 +45,7 @@ import com.project.mgjandroid.ui.activity.AddressManageActivity;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.BindMobileActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
+import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
 import com.project.mgjandroid.ui.activity.SetAddressActivity;
 import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
@@ -48,10 +54,12 @@ import com.project.mgjandroid.ui.view.FlowLayout;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,6 +118,12 @@ public class LegworkWriteOrderActivity extends BaseActivity {
     @InjectView(R.id.ll_address_detailed)
     private LinearLayout llDetailed;
 
+    //平台红包
+    @InjectView(R.id.platform_redbag_layout)
+    private RelativeLayout platform_redbag_layout;
+    @InjectView(R.id.platform_num_textview)
+    private TextView platform_num_textview;
+    private RedBag redBag;
     public static final int SELECT_TAKE_ADDRESS = 301;
     public static final int SELECT_DELIVER_ADDRESS = 302;
     public static final int GO_PAY = 221;
@@ -156,6 +170,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         tvLegworkGoPay.setOnClickListener(this);
         tvLegworkProtocol.setOnClickListener(this);
         tvServiceCharge.setOnClickListener(this);
+        platform_redbag_layout.setOnClickListener(this);
         tvSelectTime.setOnClickListener(this);
         rgLegworkAddress.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -291,6 +306,18 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                     mServiceaDialog.dismiss();
                 }
                 break;
+            case R.id.platform_redbag_layout:
+                Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, price);
+                intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
+                intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 9);
+                if (redBag != null) {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
+                } else {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1);
+                }
+                startActivityForResult(intentSelect, 1111);
+                break;
         }
     }
 
@@ -351,6 +378,10 @@ public class LegworkWriteOrderActivity extends BaseActivity {
             // 计算服务费
             computingServicePrice();
         }
+        if (resultCode == SelectRedBagActivity.RED_BAG_MONEY){
+            redBag = (RedBag) data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG);
+            computingServicePrice();
+        }
     }
 
     private void initData() {
@@ -409,8 +440,20 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         map.put("userAddressId", userAddress.getId()); //收货地址编号
         map.put("agentId", agentId);
         map.put("shipperType", isSpecifyAddress ? 2 : 1); // 1：代购时就近购买；2：代购时指定地址，0：取送件的用户地址
-        map.put("servePrice", price); //服务费
+        map.put("servePrice", serviceChargeModel.getServiceCharge()); //服务费
         map.put("totalPrice", price); //总金额
+        if (redBag != null){
+            ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
+            if (redBag != null) {
+                Map<String, Object> redmap = new HashMap<>();
+                redmap.put("id", redBag.getId());
+                redmap.put("name", redBag.getName());
+                redmap.put("amt", redBag.getAmt());
+                redmap.put("promotionType", redBag.getPromotionType());
+                redBagList.add(redmap);
+            }
+            map.put("redBags", JSONArray.toJSON(redBagList).toString());
+        }
         if (isSpecifyTime && stringStringMap != null) {
             String time = "1";
             for (String s : stringStringMap.keySet()) {
@@ -460,6 +503,26 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         isComputingSuccess = false;
         VolleyOperater<LegworkServiceChargeModel> operater = new VolleyOperater<>(mActivity);
         HashMap<String, Object> map = new HashMap<>();
+        ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
+        if (redBag != null) {
+            Map<String, Object> redmap = new HashMap<>();
+            redmap.put("id", redBag.getId());
+            redmap.put("name", redBag.getName());
+            redmap.put("amt", redBag.getAmt());
+            redmap.put("promotionType", redBag.getPromotionType());
+            redBagList.add(redmap);
+        }
+        if (userAddress != null) {
+            map.put("userAddressId", userAddress.getId());
+        } else {
+            map.remove("userAddressId");
+        }
+
+        map.put("itemPrice", price);
+        map.put("totalPrice", price);
+        map.put("agentId", agentId);
+        map.put("businessType", 9);
+        map.put("redBags", JSONArray.toJSON(redBagList).toString());
         map.put("agentId", agentId);
         if (isSpecifyTime && stringStringMap != null) {
             String time = "1";
@@ -497,15 +560,29 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                     }
                     LegworkServiceChargeModel model = (LegworkServiceChargeModel) obj;
                     serviceChargeModel = model.getValue();
-                    price = serviceChargeModel.getServiceCharge();
+                    if (redBag != null) {
+                        platform_redbag_layout.setVisibility(View.VISIBLE);
+                        platform_num_textview.setText("-￥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
+                    } else {
+                        platform_num_textview.setText("");
+                        if (serviceChargeModel.getPlatformRedBagCount() > 0) {
+                            platform_redbag_layout.setVisibility(View.VISIBLE);
+                            platform_num_textview.setHint("有" + serviceChargeModel.getPlatformRedBagCount() + "个红包可用");
+                        } else {
+                            platform_redbag_layout.setVisibility(View.GONE);
+                        }
+                    }
+                    price = serviceChargeModel.getTotalPrice().doubleValue();
                     tvServicePrice.setText("¥" + price);
                     // 添加总价
                     tvLegworkPrice.setText("费用：¥" + price);
                     isComputingSuccess = true;
+
                 }
             }
         }, LegworkServiceChargeModel.class);
     }
+
 
     private void addTab(final List<LegworkEntityModel.ValueBean.LegWorkGoodsCategoryListBean> legWorkGoodsCategoryList) {
         flLegwork.removeAllViews();

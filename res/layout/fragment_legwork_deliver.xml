@@ -229,6 +229,12 @@
 
             </LinearLayout>
 
+            <include
+                layout="@layout/include_platform"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/x1"
+                android:layout_height="@dimen/mine_list_height"/>
+
             <LinearLayout
                 android:id="@+id/ll_legwork_desc"
                 android:layout_width="match_parent"

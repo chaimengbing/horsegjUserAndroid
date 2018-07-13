@@ -352,7 +352,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             }
             previewJsonData.put("expectedArrivalTime", selectTime.getId());//送达时间
             previewJsonData.put("orderItems", orderItems);
-            if (redBag == null && previewJsonData.containsKey("redBags")) {
+            if ((redBag == null && platformRedBag == null) && previewJsonData.containsKey("redBags")) {
                 previewJsonData.remove("redBags");
             }
         } catch (Exception e) {
