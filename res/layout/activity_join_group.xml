@@ -213,53 +213,13 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/platform_redbag_layout"
+    <View
+        android:id="@+id/divier"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/mine_list_height"
-        android:visibility="gone"
-        android:background="@color/white">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/common_gray_line" />
-        <TextView
-            android:id="@+id/platform_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x15"
-            android:text="@string/platform_redbag"
-            android:textColor="@color/color_3"
-            android:textSize="14sp" />
+        android:layout_height="0.8dp"
+        android:background="@color/color_c" />
 
-        <ImageView
-            android:id="@+id/right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/x5"
-            android:paddingRight="@dimen/x15"
-            android:src="@drawable/arrow_right_gray" />
-
-        <TextView
-            android:id="@+id/platform_num_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x30"
-            android:layout_toLeftOf="@id/right"
-            android:layout_toRightOf="@id/platform_textview"
-            android:ellipsize="end"
-            android:gravity="right"
-            android:singleLine="true"
-            android:hint="无可用红包"
-            android:textColorHint="@color/color_9"
-            android:textColor="@color/platform_color"
-            android:textSize="12sp" />
-
-    </RelativeLayout>
+    <include layout="@layout/include_platform" />
 
     <LinearLayout
         android:layout_width="match_parent"

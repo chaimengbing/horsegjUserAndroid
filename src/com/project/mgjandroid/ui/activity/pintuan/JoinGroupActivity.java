@@ -96,6 +96,8 @@ public class JoinGroupActivity extends BaseActivity {
     private RelativeLayout platform_redbag_layout;
     @InjectView(R.id.platform_num_textview)
     private TextView platform_num_textview;
+    @InjectView(R.id.divier)
+    private View divier;
 
     private GroupInfo group;
     private final int REQUEST_GET_ADDRESS = 101;
@@ -305,7 +307,7 @@ public class JoinGroupActivity extends BaseActivity {
      * 订单预览刷新
      */
     private void getOrderPreview() {
-
+        divier.setVisibility(View.GONE);
         mLoadingDialog.show(getFragmentManager(), "");
         ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
         if (redBag != null) {
@@ -366,9 +368,11 @@ public class JoinGroupActivity extends BaseActivity {
             }
             if (confirmGroupOrModel.getPlatformRedBagCount() > 0) {
                 platform_redbag_layout.setVisibility(View.VISIBLE);
+                divier.setVisibility(View.VISIBLE);
                 platform_num_textview.setHint("有" + confirmGroupOrModel.getPlatformRedBagCount() + "个红包可用");
             } else {
                 platform_redbag_layout.setVisibility(View.GONE);
+                divier.setVisibility(View.GONE);
             }
             totalPrice = confirmGroupOrModel.getTotalPrice();
             tvTotalPrice.setText(StringUtils.BigDecimal2Str(totalPrice));
