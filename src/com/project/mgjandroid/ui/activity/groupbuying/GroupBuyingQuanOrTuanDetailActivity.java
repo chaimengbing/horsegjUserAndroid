@@ -33,6 +33,7 @@ import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCoupon;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCouponGoods;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCouponGoodsType;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCouponList;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseEvaluate;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchant;
 import com.project.mgjandroid.constants.ActivitySchemeManager;
@@ -207,7 +208,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         } else {
             comTitle.setText("团购券");
         }
-
+        getgetGroupPurchaseCouponList(groupPurchaseCoupon.getType());
         if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
             ImageUtils.loadBitmap(mActivity, groupPurchaseCoupon.getImages().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(375, 190));
             img.setOnClickListener(this);
@@ -254,18 +255,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             if (groupPurchaseCoupon.getType() == 2 && CheckUtils.isNoEmptyList(groupPurchaseCoupon.getGroupPurchaseCouponGoodsTypeList())) {
                 showGoodsList();
             }
-            if (CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())) {
-                ArrayList<GroupPurchaseCoupon> tuanList = new ArrayList<>();
-                for (GroupPurchaseCoupon bean : merchant.getGroupPurchaseCouponList()) {
-                    if (bean.getType() == 2) {
-                        tuanList.add(bean);
-                    }
-                }
-                if (CheckUtils.isNoEmptyList(tuanList)){
-                    showGroupBuying(tuanList);
-                }
-            }
-
         }
         if (merchant.getMerchantCommentNum() != null && merchant.getMerchantCommentNum() > 0) {
             tvEvaluation.setText("评价（" + merchant.getMerchantCommentNum() + "）");
@@ -455,7 +444,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         }
     }
 
-    private void showGroupBuying(ArrayList<GroupPurchaseCoupon> tuanList) {
+    private void showGroupBuying(List<GroupPurchaseCoupon> tuanList) {
         discountLayout.setVisibility(View.VISIBLE);
         for (int i = 0, size = tuanList.size(); i < size; i++) {
             GroupPurchaseCoupon bean = tuanList.get(i);
@@ -617,6 +606,28 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 }
             }
         }, GroupBuyingCouponModel.class);
+    }
+
+    private void getgetGroupPurchaseCouponList(int type){
+        loadingDialog.show(getFragmentManager(), "");
+        VolleyOperater<GroupPurchaseCouponList> operater = new VolleyOperater<>(mActivity);
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", type);
+        map.put("start", 0);
+        map.put("size", 20);
+        map.put("merchantId", groupPurchaseCoupon.getMerchantId());
+        map.put("groupPurchaseCouponId", couponId);
+        operater.doRequest(Constants.URL_FIND_GROUP_PURCHASE_COUPON_LIST, map, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                loadingDialog.dismiss();
+                if (isSucceed && obj != null) {
+                    if (obj instanceof String) return;
+                    List<GroupPurchaseCoupon> value = ((GroupPurchaseCouponList) obj).getValue();
+                    showGroupBuying(value);
+                }
+            }
+        }, GroupPurchaseCouponList.class);
     }
 
     public void getEvaluation() {

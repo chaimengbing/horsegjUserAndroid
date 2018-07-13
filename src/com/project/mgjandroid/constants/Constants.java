@@ -672,6 +672,10 @@ public class Constants {
      */
     public static final String URL_FIND_GROUP_PURCHASE_COUPON_INFO = URL_HOME_MAIN + "findGroupPurchaseCouponInfo";
     /**
+     * 查询代金/团购券信息列表
+     */
+    public static final String URL_FIND_GROUP_PURCHASE_COUPON_LIST = URL_HOME_MAIN + "findGroupPurchaseCouponList";
+    /**
      * 查询团购首页广告图
      */
     public static final String URL_FIND_GROUP_PURCHASE_BANNER_LIST = URL_HOME_MAIN + "findGroupPurchaseBannerList";

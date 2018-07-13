@@ -978,7 +978,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             @Override
             public void onClick(View v) {
                 for (int i = 0; i < mCartProducts.size(); i++) {
-                    if (mCartProducts.get(i).getGoods().getHasDiscount() == 1 && mCartProducts.get(i).getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
+                    if (mCartProducts.get(i).getGoods().getHasDiscount() == 1) {
                         mCartProducts.get(i).getGoods().setFirst(true);
                     }
                 }
@@ -1667,7 +1667,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         //刷新PopWindow
         mAdapter.setData(mCartProducts);
         if (mCartProducts.size() >= 4) {
-            mListView.setPadding(0, 0, 0, DipToPx.dip2px(mActivity, 42));
+            mListView.setPadding(0, 0, 0, (int)getResources().getDimension(R.dimen.x60));
         } else {
             mListView.setPadding(0, 0, 0, 0);
         }
@@ -1723,7 +1723,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         //刷新PopWindow
         mAdapter.setData(mCartProducts);
         if (mCartProducts.size() >= 4) {
-            mListView.setPadding(0, 0, 0, DipToPx.dip2px(mActivity, 42));
+            mListView.setPadding(0, 0, 0, (int)getResources().getDimension(R.dimen.x60));
         } else {
             mListView.setPadding(0, 0, 0, 0);
         }
@@ -1796,8 +1796,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                         decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
                                         num = num.add(multiply.add(decimal));
                                     }else {
-                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
-                                        num = num.add(multiply);
+                                        if(pro.getPickCount()>=surplusDiscountStock){
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
+                                            decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
+                                            num = num.add(multiply.add(decimal));
+                                        }else {
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                            num = num.add(multiply);
+                                        }
                                     }
                                 } else {
                                     multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));

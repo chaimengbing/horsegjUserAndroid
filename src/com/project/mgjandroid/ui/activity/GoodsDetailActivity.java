@@ -1852,11 +1852,17 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
 
                     if (count > 0) {
                         if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                            if (count - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                goods.setFirst(true);
+                            if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                if (count <= goods.getEveryGoodsEveryOrderBuyCount()) {
+                                    goods.setFirst(true);
+                                }
+                            }else {
+                                if (count <= goods.getSurplusDiscountStock()) {
+                                    goods.setFirst(true);
+                                }
                             }
                         } else {
-                            if (count - goods.getSurplusDiscountStock() <= 0) {
+                            if (count <= goods.getSurplusDiscountStock()) {
                                 goods.setFirst(true);
                             }
                         }
@@ -1919,11 +1925,17 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     if (count > 0) {
                         count--;
                         if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                            if (count - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                goods.setFirst(true);
+                            if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                if (count <= goods.getEveryGoodsEveryOrderBuyCount()) {
+                                    goods.setFirst(true);
+                                }
+                            }else {
+                                if (count <= goods.getSurplusDiscountStock()) {
+                                    goods.setFirst(true);
+                                }
                             }
                         } else {
-                            if (count - goods.getSurplusDiscountStock() <= 0) {
+                            if (count <= goods.getSurplusDiscountStock()) {
                                 goods.setFirst(true);
                             }
                         }
@@ -2146,8 +2158,14 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                                         decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
                                         num = num.add(multiply.add(decimal));
                                     } else {
-                                        multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
-                                        num = num.add(multiply);
+                                        if(pro.getPickCount()>=surplusDiscountStock){
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
+                                            decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
+                                            num = num.add(multiply.add(decimal));
+                                        }else {
+                                            multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
+                                            num = num.add(multiply);
+                                        }
                                     }
                                 } else {
                                     multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
@@ -2752,11 +2770,17 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 }
                 if (count1 == 1) {
                     if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                        if (count1 - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                            goods.setFirst(true);
+                        if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                            if (count1 <= goods.getEveryGoodsEveryOrderBuyCount()) {
+                                goods.setFirst(true);
+                            }
+                        }else {
+                            if (count1 <= goods.getSurplusDiscountStock()) {
+                                goods.setFirst(true);
+                            }
                         }
                     } else {
-                        if (count1 - goods.getSurplusDiscountStock() <= 0) {
+                        if (count1 <= goods.getSurplusDiscountStock()) {
                             goods.setFirst(true);
                         }
                     }
@@ -2770,11 +2794,17 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 } else {
                     if (count1 > 0) {
                         if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                            if (count1 - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                goods.setFirst(true);
+                            if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                if (count1 <= goods.getEveryGoodsEveryOrderBuyCount()) {
+                                    goods.setFirst(true);
+                                }
+                            }else {
+                                if (count1 <= goods.getSurplusDiscountStock()) {
+                                    goods.setFirst(true);
+                                }
                             }
                         } else {
-                            if (count1 - goods.getSurplusDiscountStock() <= 0) {
+                            if (count1 <= goods.getSurplusDiscountStock()) {
                                 goods.setFirst(true);
                             }
                         }
@@ -2836,11 +2866,17 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         if (num == 1) {
                             if (goods.getHasDiscount() == 1) {
                                 if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                    if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                        goods.setFirst(true);
+                                    if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                        if (num <= goods.getEveryGoodsEveryOrderBuyCount()) {
+                                            goods.setFirst(true);
+                                        }
+                                    }else {
+                                        if (num <= goods.getSurplusDiscountStock()) {
+                                            goods.setFirst(true);
+                                        }
                                     }
                                 } else {
-                                    if (num - goods.getSurplusDiscountStock() <= 0) {
+                                    if (num <= goods.getSurplusDiscountStock()) {
                                         goods.setFirst(true);
                                     }
                                 }
@@ -2856,11 +2892,17 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                             if (num > 0) {
                                 if (goods.getHasDiscount() == 1) {
                                     if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                        if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                            goods.setFirst(true);
+                                        if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                            if (num <= goods.getEveryGoodsEveryOrderBuyCount()) {
+                                                goods.setFirst(true);
+                                            }
+                                        }else {
+                                            if (num <= goods.getSurplusDiscountStock()) {
+                                                goods.setFirst(true);
+                                            }
                                         }
                                     } else {
-                                        if (num - goods.getSurplusDiscountStock() <= 0) {
+                                        if (num <= goods.getSurplusDiscountStock()) {
                                             goods.setFirst(true);
                                         }
                                     }
@@ -2921,11 +2963,17 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         if (num == 1) {
                             if (goods.getHasDiscount() == 1) {
                                 if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                    if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                        goods.setFirst(true);
+                                    if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                        if (num <= goods.getEveryGoodsEveryOrderBuyCount()) {
+                                            goods.setFirst(true);
+                                        }
+                                    }else {
+                                        if (num <= goods.getSurplusDiscountStock()) {
+                                            goods.setFirst(true);
+                                        }
                                     }
                                 } else {
-                                    if (num - goods.getSurplusDiscountStock() <= 0) {
+                                    if (num <= goods.getSurplusDiscountStock()) {
                                         goods.setFirst(true);
                                     }
                                 }
@@ -2941,11 +2989,17 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                             if (num > 0) {
                                 if (goods.getHasDiscount() == 1) {
                                     if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                        if (num - goods.getEveryGoodsEveryOrderBuyCount() <= 0) {
-                                            goods.setFirst(true);
+                                        if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                            if (num <= goods.getEveryGoodsEveryOrderBuyCount()) {
+                                                goods.setFirst(true);
+                                            }
+                                        }else {
+                                            if (num <= goods.getSurplusDiscountStock()) {
+                                                goods.setFirst(true);
+                                            }
                                         }
                                     } else {
-                                        if (num - goods.getSurplusDiscountStock() <= 0) {
+                                        if (num <= goods.getSurplusDiscountStock()) {
                                             goods.setFirst(true);
                                         }
                                     }
@@ -3155,7 +3209,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
         //刷新PopWindow
         bottomAdapter.setData(mCartProducts);
         if (mCartProducts.size() >= 4) {
-            bottomListView.setPadding(0, 0, 0, DipToPx.dip2px(mActivity, 42));
+            bottomListView.setPadding(0, 0, 0, (int)getResources().getDimension(R.dimen.x60));
         } else {
             bottomListView.setPadding(0, 0, 0, 0);
         }
@@ -3240,6 +3294,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
         }
         //刷新PopWindow
         bottomAdapter.setData(mCartProducts);
+        if (mCartProducts.size() >= 4) {
+            bottomListView.setPadding(0, 0, 0, (int)getResources().getDimension(R.dimen.x60));
+        } else {
+            bottomListView.setPadding(0, 0, 0, 0);
+        }
         if (!isSetAnim) {
             setCart();
         }
