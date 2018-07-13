@@ -2746,7 +2746,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
      */
     private void showReceiverRedBagDialog() {
         if (agentId != 0) {//有代理商
-            ((HomeActivity) getActivity()).showReceiverRedBagDialog();
+            if (getActivity() instanceof HomeActivity) {
+                ((HomeActivity) getActivity()).showReceiverRedBagDialog();
+            }
         }
     }
 
