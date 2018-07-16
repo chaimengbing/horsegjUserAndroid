@@ -314,7 +314,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 if (redBag != null) {
                     intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
                 } else {
-                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1);
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1l);
                 }
                 startActivityForResult(intentSelect, 1111);
                 break;

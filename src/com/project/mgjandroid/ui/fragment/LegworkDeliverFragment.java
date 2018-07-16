@@ -273,7 +273,7 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                 if (redBag != null) {
                     intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
                 } else {
-                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1);
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1l);
                 }
                 startActivityForResult(intentSelect, 1111);
                 break;

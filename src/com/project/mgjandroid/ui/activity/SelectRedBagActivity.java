@@ -88,13 +88,14 @@ public class SelectRedBagActivity extends BaseActivity {
         userAddress = (UserAddress) getIntent().getSerializableExtra(ADDRESS);
         itemsPrice = getIntent().getDoubleExtra(ITEMS_PRICE, 0);
         platformRedbags = getIntent().getStringExtra(PLATFORM_REDBAGS);
-        platformRedbagId = getIntent().getLongExtra(PLATFORM_REDBAG_ID, -1);
+        platformRedbagId = getIntent().getLongExtra(PLATFORM_REDBAG_ID, -1l);
 
         if (platformRedbagId == -1) {
             notUse.setChecked(true);
         } else {
             notUse.setChecked(false);
         }
+        loadingDialog = new MLoadingDialog();
         initView();
         initData();
     }
@@ -103,6 +104,7 @@ public class SelectRedBagActivity extends BaseActivity {
      * 请求红包
      */
     private void initData() {
+        loadingDialog.show(getFragmentManager(),"");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("agentId", agentId);
         map.put("businessType", businessType);
@@ -117,6 +119,7 @@ public class SelectRedBagActivity extends BaseActivity {
         operater.doRequest(Constants.URL_QUERY_PLATFORM_REDBAGLIST, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
+                loadingDialog.dismiss();
                 List<RedBag> mlist = new ArrayList<>();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {

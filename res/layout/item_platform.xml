@@ -155,6 +155,7 @@
                     android:textColor="@color/color_3"
                     android:visibility="gone"
                     android:textSize="12sp"
+                    android:layout_marginBottom="@dimen/x15"
                     tools:text="llllssss" />
 
 

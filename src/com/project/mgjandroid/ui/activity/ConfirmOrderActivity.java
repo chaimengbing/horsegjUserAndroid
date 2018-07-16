@@ -917,7 +917,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 if (platformRedBag != null) {
                     intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, platformRedBag.getId());
                 } else {
-                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1);
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1l);
                 }
                 ConfirmOrderActivity.this.startActivityForResult(intentSelect, REQUEST_SET_CAUTION);
                 break;
