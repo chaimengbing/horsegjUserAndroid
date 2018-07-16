@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.constants.Constants;
+import com.project.mgjandroid.ui.activity.HomeActivity;
 import com.project.mgjandroid.ui.activity.MyRedBagActivity;
 import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.utils.CheckUtils;
@@ -176,6 +177,7 @@ public class HomePlatFormRecyclerAdapter extends RecyclerView.Adapter implements
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.go_redbag_textview) {
+            ((HomeActivity) mContext).hiddenReceiverRedBagDialog();
             Intent intentRedBag = new Intent(mContext, MyRedBagActivity.class);
             intentRedBag.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intentRedBag);

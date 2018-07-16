@@ -96,6 +96,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/x10"
                         android:includeFontPadding="false"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColor="@color/mine_number_color_red"
                         android:textSize="35sp"
                         tools:text="￥18" />

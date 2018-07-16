@@ -232,7 +232,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         redBagRecylerView.setLayoutManager(layoutManager);
-        homePlatFormRecyclerAdapter = new HomePlatFormRecyclerAdapter(getApplicationContext());
+        homePlatFormRecyclerAdapter = new HomePlatFormRecyclerAdapter(this);
         redBagRecylerView.setAdapter(homePlatFormRecyclerAdapter);
         loginTextView.setOnClickListener(this);
         redBagDialog = new CommonDialog(mActivity, view, this);
@@ -312,7 +312,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 
     }
 
-    private void hiddenReceiverRedBagDialog() {
+    public void hiddenReceiverRedBagDialog() {
         if (redBagDialog != null && redBagDialog.isShowing()) {
             redBagDialog.dismiss();
         }
