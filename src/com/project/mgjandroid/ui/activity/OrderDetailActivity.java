@@ -1407,7 +1407,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         if (submitOrderEntity.getRedBagTotalAmt() != null && submitOrderEntity.getRedBagTotalAmt().compareTo(BigDecimal.ZERO) > 0) {
             View view = LayoutInflater.from(OrderDetailActivity.this).inflate(R.layout.order_detail_package_and_shipping_item, null);
             if (submitOrderEntity.getType() == 1) {//外卖
-
                 List<RedBag> redBags = JSON.parseArray(submitOrderEntity.getRedBagJson(), RedBag.class);
                 View view1 = LayoutInflater.from(OrderDetailActivity.this).inflate(R.layout.order_detail_package_and_shipping_item, null);
                 for (RedBag redBag : redBags) {
@@ -1424,7 +1423,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                     }
                 }
                 layoutShip.addView(view1, params);
-
             } else {
                 TextView tvRedBagName = (TextView) view.findViewById(R.id.order_detail_commercial_shipping);
                 TextView tvRedBagMoney = (TextView) view.findViewById(R.id.order_detail_commercial_shipping_money);
