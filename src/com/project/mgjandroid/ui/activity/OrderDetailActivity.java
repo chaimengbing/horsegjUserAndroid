@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.mapapi.map.BaiduMap;
@@ -42,8 +43,10 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
 import com.github.mzule.activityrouter.annotation.Router;
+import com.google.gson.JsonArray;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
+import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.constants.ActRequestCode;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.constants.PaymentMode;
@@ -271,7 +274,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private BaiduMap baiduMap;
     private CallPhoneDialog dialog;
     private Dialog avatarDialog;
-    private Dialog  callNumDialog;
+    private Dialog callNumDialog;
     private NewOrderFragmentModel.ValueEntity valueEntity;
     private SimpleDateFormat sdf;
     private CommonDialog mRedDialog;
@@ -667,11 +670,11 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     }
 
     private void showContacts(final List<String> contactsArray) {
-        if (contactsArray != null){
-            if (avatarDialog != null){
+        if (contactsArray != null) {
+            if (avatarDialog != null) {
                 avatarDialog.dismiss();
             }
-             callNumDialog = new Dialog(this, R.style.fullDialog);
+            callNumDialog = new Dialog(this, R.style.fullDialog);
             RelativeLayout contentView = (RelativeLayout) View.inflate(this, R.layout.pick_or_take_photo_dialog, null);
             Button dialog_bt_pick_photo = (Button) contentView.findViewById(R.id.btn_pick_photo);
             Button dialog_bt_callnum = (Button) contentView.findViewById(R.id.btn_callnum);
@@ -683,20 +686,20 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             dialog_bt_callnum.setVisibility(View.GONE);
             dialog_bt_pick_photo.setVisibility(View.GONE);
 
-            if (contactsArray.size() > 0){
+            if (contactsArray.size() > 0) {
                 dialog_bt_take_photo.setText(contactsArray.get(0));
             }
-            if (contactsArray.size() > 1){
+            if (contactsArray.size() > 1) {
                 dialog_bt_callnum.setText(contactsArray.get(1));
                 line.setVisibility(View.VISIBLE);
                 dialog_bt_callnum.setVisibility(View.VISIBLE);
             }
-            if (contactsArray.size() > 2){
+            if (contactsArray.size() > 2) {
                 dialog_bt_pick_photo.setText(contactsArray.get(2));
                 dialog_bt_pick_photo.setVisibility(View.VISIBLE);
             }
 
-            dialog_bt_take_photo .setOnClickListener(new OnClickListener() {
+            dialog_bt_take_photo.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showCallDialog(contactsArray.get(0));
@@ -778,7 +781,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
 
     private void showCallDialog(final String mobild) {
 
-        if (callNumDialog != null){
+        if (callNumDialog != null) {
             callNumDialog.dismiss();
         }
         dialog = new CallPhoneDialog(OrderDetailActivity.this, new CallPhoneDialog.onBtnClickListener() {
@@ -1403,10 +1406,31 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         }
         if (submitOrderEntity.getRedBagTotalAmt() != null && submitOrderEntity.getRedBagTotalAmt().compareTo(BigDecimal.ZERO) > 0) {
             View view = LayoutInflater.from(OrderDetailActivity.this).inflate(R.layout.order_detail_package_and_shipping_item, null);
-            TextView tvRedBagName = (TextView) view.findViewById(R.id.order_detail_commercial_shipping);
-            TextView tvRedBagMoney = (TextView) view.findViewById(R.id.order_detail_commercial_shipping_money);
-            tvRedBagName.setText("红包金额");
-            tvRedBagMoney.setText("- ¥" + StringUtils.BigDecimal2Str(submitOrderEntity.getRedBagTotalAmt()));
+            if (submitOrderEntity.getType() == 1) {//外卖
+
+                List<RedBag> redBags = JSON.parseArray(submitOrderEntity.getRedBagJson(), RedBag.class);
+                View view1 = LayoutInflater.from(OrderDetailActivity.this).inflate(R.layout.order_detail_package_and_shipping_item, null);
+                for (RedBag redBag : redBags) {
+                    if (redBag.getPromotionType() == 2) {
+                        TextView tvRedBagName1 = (TextView) view1.findViewById(R.id.order_detail_commercial_shipping);
+                        TextView tvRedBagMoney1 = (TextView) view1.findViewById(R.id.order_detail_commercial_shipping_money);
+                        tvRedBagName1.setText("商家代金券");
+                        tvRedBagMoney1.setText("- ¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
+                    } else {
+                        TextView tvRedBagName = (TextView) view.findViewById(R.id.order_detail_commercial_shipping);
+                        TextView tvRedBagMoney = (TextView) view.findViewById(R.id.order_detail_commercial_shipping_money);
+                        tvRedBagName.setText("红包金额");
+                        tvRedBagMoney.setText("- ¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
+                    }
+                }
+                layoutShip.addView(view1, params);
+
+            } else {
+                TextView tvRedBagName = (TextView) view.findViewById(R.id.order_detail_commercial_shipping);
+                TextView tvRedBagMoney = (TextView) view.findViewById(R.id.order_detail_commercial_shipping_money);
+                tvRedBagName.setText("红包金额");
+                tvRedBagMoney.setText("- ¥" + StringUtils.BigDecimal2Str(submitOrderEntity.getRedBagTotalAmt()));
+            }
             layoutShip.addView(view, params);
         }
         layoutCampaigns.removeAllViews();
