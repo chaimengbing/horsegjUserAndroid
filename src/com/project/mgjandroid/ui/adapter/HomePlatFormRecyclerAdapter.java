@@ -143,7 +143,7 @@ public class HomePlatFormRecyclerAdapter extends RecyclerView.Adapter implements
             }
 
             if (redBag.getRestrictTime() != null) {
-                platFormViewHolder.restrict_time_textview.setText(redBag.getRestrictTime());
+                platFormViewHolder.restrict_time_textview.setText(redBag.getRestrictTime() + "可用");
             } else {
                 platFormViewHolder.restrict_time_textview.setText("");
             }

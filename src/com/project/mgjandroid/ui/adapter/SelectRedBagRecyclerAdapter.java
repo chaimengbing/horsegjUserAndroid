@@ -104,7 +104,7 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
             }
 
             if (redBag.getRestrictTime() != null) {
-                platFormViewHolder.restrictTime.setText(redBag.getRestrictTime());
+                platFormViewHolder.restrictTime.setText(redBag.getRestrictTime() + "可用");
             } else {
                 platFormViewHolder.restrictTime.setText("");
             }

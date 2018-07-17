@@ -83,7 +83,7 @@ public class PlatFormAdapter extends BaseListAdapter<RedBag> {
 
         nameTextView.setText(CheckUtils.isEmptyStr(bean.getName()) ? "红包" : bean.getName());
         expirationTextView.setText("有效期至：" + bean.getExpirationTime());
-        restrictTime.setText(CheckUtils.isEmptyStr(bean.getRestrictTime()) ? "" : bean.getRestrictTime());
+        restrictTime.setText(CheckUtils.isEmptyStr(bean.getRestrictTime()) ? "" : bean.getRestrictTime() + "可用");
         mobile.setText("限收货人手机号" + bean.getMobile());
         if (bean.getAmt() != null) {
             String str = "¥" + StringUtils.BigDecimal2Str(bean.getAmt());
