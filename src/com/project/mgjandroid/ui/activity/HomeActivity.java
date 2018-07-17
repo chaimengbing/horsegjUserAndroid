@@ -220,9 +220,11 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         View view = mInflater.inflate(R.layout.layout_redbag_dialog, null);
         noLoginLayout = (LinearLayout) view.findViewById(R.id.no_login_layout);
         redBagNoLoginImageView = (ImageView) view.findViewById(R.id.redbag_nologin_imageview);
-
         redBagLoginImageView1 = (ImageView) view.findViewById(R.id.redbag_login_imageview1);
         redBagLoginImageView = (ImageView) view.findViewById(R.id.redbag_login_imageview);
+        redBagNoLoginImageView.setOnClickListener(this);
+        redBagLoginImageView1.setOnClickListener(this);
+        redBagLoginImageView.setOnClickListener(this);
         loginLayout = (RelativeLayout) view.findViewById(R.id.login_layout);
         redBagRecylerView = (RecyclerView) view.findViewById(R.id.redbag_recylerview);
 
@@ -465,6 +467,11 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
             case R.id.update_delete:
                 mManager.stop();
                 hiddenUpdateDialog();
+                break;
+            case R.id.redbag_nologin_imageview:
+            case R.id.redbag_login_imageview1:
+            case R.id.redbag_login_imageview:
+                hiddenReceiverRedBagDialog();
                 break;
             case R.id.login_textview:
                 hiddenReceiverRedBagDialog();
