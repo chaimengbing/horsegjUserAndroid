@@ -80,7 +80,7 @@ public class GroupOrderDetailModel extends Entity {
         private Object userLongitude;
         private Object userLatitude;
         private Object promoInfoJson;
-        private Object redBagJson;
+        private String redBagJson;
         private Object redBagTotalAmt;
         private Object shipmentType;
         private Object caution;
@@ -298,11 +298,11 @@ public class GroupOrderDetailModel extends Entity {
             this.promoInfoJson = promoInfoJson;
         }
 
-        public Object getRedBagJson() {
+        public String getRedBagJson() {
             return redBagJson;
         }
 
-        public void setRedBagJson(Object redBagJson) {
+        public void setRedBagJson(String redBagJson) {
             this.redBagJson = redBagJson;
         }
 

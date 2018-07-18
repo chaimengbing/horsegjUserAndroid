@@ -113,6 +113,8 @@ public class LegworkOrderDetailsModel extends Entity {
         private String hasTakeFinishTime;
         private String orderCancelTime;
         private String orderDoneTime;
+        private String redBagDiscountTotalAmt;
+        private String redBagJson;
         private int setoutTime;
         private AgentBean agent;
         private DeliveryTaskBean deliveryTask;
@@ -611,6 +613,22 @@ public class LegworkOrderDetailsModel extends Entity {
 
         public void setDeliveryTask(DeliveryTaskBean deliveryTask) {
             this.deliveryTask = deliveryTask;
+        }
+
+        public String getRedBagDiscountTotalAmt() {
+            return redBagDiscountTotalAmt;
+        }
+
+        public void setRedBagDiscountTotalAmt(String redBagDiscountTotalAmt) {
+            this.redBagDiscountTotalAmt = redBagDiscountTotalAmt;
+        }
+
+        public String getRedBagJson() {
+            return redBagJson;
+        }
+
+        public void setRedBagJson(String redBagJson) {
+            this.redBagJson = redBagJson;
         }
 
         public static class AgentBean {

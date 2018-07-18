@@ -91,8 +91,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/pay_cancel_layout"
         android:layout_below="@id/common_top_bar"
-        android:scrollbars="none"
-        android:visibility="invisible">
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -414,6 +413,19 @@
                     app:borderRadius="@dimen/x4"
                     app:type="round" />
 
+                <TextView
+                    android:id="@+id/pintuan_redbags_price"
+                    android:layout_width="@dimen/x75"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/my_pintuan_image_2"
+                    android:layout_marginTop="@dimen/x6"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="30.6"
+                    android:textColor="@color/color_9"
+                    android:textSize="11sp" />
                 <TextView
                     android:id="@+id/my_pintuan_goods_price_2"
                     android:layout_width="wrap_content"

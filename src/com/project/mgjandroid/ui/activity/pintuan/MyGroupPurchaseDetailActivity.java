@@ -14,7 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.constants.AgentRequestType;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
@@ -38,6 +40,7 @@ import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -120,6 +123,8 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
     private TextView tvCancel;
     @InjectView(R.id.to_pay_order)
     private TextView tvPay;
+    @InjectView(R.id.pintuan_redbags_price)
+    private TextView pintuanRedbagsPrice;
     @InjectView(R.id.my_group_detail_layout)
     private ScrollView svDetail;
 
@@ -213,6 +218,13 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
         if (CheckUtils.isNoEmptyStr(order.getGroupbuyOrder().getGroupBuy().getImgs())) {
             ImageUtils.loadBitmap(mActivity, order.getGroupbuyOrder().getGroupBuy().getImgs().split(";")[0], ivImage1, R.drawable.horsegj_default, Constants.getEndThumbnail(75, 75));
             ImageUtils.loadBitmap(mActivity, order.getGroupbuyOrder().getGroupBuy().getImgs().split(";")[0], ivImage2, R.drawable.horsegj_default, Constants.getEndThumbnail(75, 75));
+        }
+        List<RedBag> redBags = JSON.parseArray(order.getRedBagJson(), RedBag.class);
+        if (redBags != null && redBags.size() > 0){
+            pintuanRedbagsPrice.setText("红包抵扣" + redBags.get(0).getAmt() + "元");
+            pintuanRedbagsPrice.setVisibility(View.VISIBLE);
+        }else {
+            pintuanRedbagsPrice.setVisibility(View.INVISIBLE);
         }
         tvTitle1.setText(order.getGroupbuyOrder().getGroupBuy().getGoodsName());
         tvTitle2.setText(order.getGroupbuyOrder().getGroupBuy().getGoodsName());

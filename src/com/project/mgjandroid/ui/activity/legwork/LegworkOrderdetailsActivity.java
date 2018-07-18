@@ -112,6 +112,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private RelativeLayout layoutGoodPrice;
     @InjectView(R.id.layout_remarks)
     private RelativeLayout layoutRemarks;
+    @InjectView(R.id.redbags_layout)
+    private RelativeLayout redbagsLayout;
     @InjectView(R.id.layout_public)
     private LinearLayout layoutPublic;
     @InjectView(R.id.tv_content)
@@ -128,6 +130,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private TextView tvPickUp;
     @InjectView(R.id.tv_refund_desc)
     private TextView tvRefundDesc;
+    @InjectView(R.id.redbags_money_textview)
+    private TextView redbagsMoneyTextView;
+    @InjectView(R.id.pay_money_textview)
+    private TextView payMoneyTextView;
 
     private String orderId;
     private LegworkOrderDetailsModel.ValueBean valueBean;
@@ -351,6 +357,13 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                             tvToEvaluate.setEnabled(true);
                         }
                         break;
+                }
+                if (CheckUtils.isNoEmptyStr(valueBean.getRedBagDiscountTotalAmt()) && !"0".equals(valueBean.getRedBagDiscountTotalAmt()) && !"0.0".endsWith(valueBean.getRedBagDiscountTotalAmt())){
+                    redbagsLayout.setVisibility(View.VISIBLE);
+                    redbagsMoneyTextView.setText("(红包抵扣" + valueBean.getRedBagDiscountTotalAmt() + "元)");
+                    payMoneyTextView.setText("￥" + valueBean.getTotalPrice());
+                }else {
+                    redbagsLayout.setVisibility(View.GONE);
                 }
                 tvGoodsInformation.setText(valueBean.getDescription());
                 ivLegworkIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_legwork_buy));
