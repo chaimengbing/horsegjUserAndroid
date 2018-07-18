@@ -48,7 +48,9 @@ import com.project.mgjandroid.ui.adapter.SelectTimeListAdapter;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollListView;
+import com.project.mgjandroid.ui.view.newpulltorefresh.internal.Utils;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
@@ -694,7 +696,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         if (valueEntity.getRedBagUsableCount() > 0) {
             hasRedBag = true;
             newRedBagLayout.setVisibility(View.VISIBLE);
-            newRedBagShow.setHint("有" + valueEntity.getRedBagUsableCount() + "个红包可用");
+            newRedBagShow.setHint("有" + valueEntity.getRedBagUsableCount() + "个代金券可用");
             if (redBag != null && redBag.getAmt() != null) {
                 newRedBagShow.setText("-￥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
             } else {
@@ -704,7 +706,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             redBag = null;
             hasRedBag = false;
             newRedBagLayout.setVisibility(View.GONE);
-            newRedBagShow.setHint("无可用红包");
+            newRedBagShow.setHint("无可用代金券");
             newRedBagShow.setText("");
         }
 
@@ -909,6 +911,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 ConfirmOrderActivity.this.startActivityForResult(intentCaution, REQUEST_SET_CAUTION);
                 break;
             case R.id.platform_redbag_layout:
+                if (confirmOrderModel.getValue().getRedBagSharedRelation() == 0){
+                    if (redBag != null){
+                        toast("不可与商家代金券优惠同时使用");
+                        return;
+                    }
+                }
                 Intent intentSelect = new Intent(ConfirmOrderActivity.this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, confirmOrderModel.getValue().getItemsPrice().doubleValue());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
@@ -943,6 +951,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             case R.id.new_red_bag_layout:
                 if (!hasRedBag) {
                     break;
+                }
+                if (confirmOrderModel.getValue().getRedBagSharedRelation() == 0){
+                    if (platformRedBag != null){
+                        toast("不可与平台红包优惠同时使用");
+                        return;
+                    }
                 }
                 Intent intentRedBag = new Intent(ConfirmOrderActivity.this, MyRedBagActivity.class);
                 if (userAddress != null) {

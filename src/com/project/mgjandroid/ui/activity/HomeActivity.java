@@ -250,25 +250,24 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         redBagLoginImageView1.setVisibility(View.GONE);
         redBagLoginImageView.setVisibility(View.GONE);
 
-        if (App.isLogin()) {//已登录
-            VolleyOperater<RedBagsModel> operater = new VolleyOperater<>(getApplication());
-            final Map<String, Object> map = new HashMap<>();
-            if (PreferenceUtils.getLocation(getApplicationContext())[0] != null && PreferenceUtils.getLocation(getApplicationContext())[1] != null) {
-                map.put("latitude", PreferenceUtils.getLocation(getApplicationContext())[0]);
-                map.put("longitude", PreferenceUtils.getLocation(getApplicationContext())[1]);
-            } else {
-                map.put("latitude", "");
-                map.put("longitude", "");
-            }
-            operater.doRequest(Constants.URL_GET_PLATFORM_REDBAG, map, new VolleyOperater.ResponseListener() {
-                @Override
-                public void onRsp(boolean isSucceed, Object obj) {
-                    if (isSucceed && obj != null) {
-                        if (obj instanceof String) {
-                            return;
-                        }
-                        RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
-                        Log.d(TAG, "redBagListModel.getType():" + redBagListModel.getType());
+        VolleyOperater<RedBagsModel> operater = new VolleyOperater<>(getApplication());
+        final Map<String, Object> map = new HashMap<>();
+        if (PreferenceUtils.getLocation(getApplicationContext())[0] != null && PreferenceUtils.getLocation(getApplicationContext())[1] != null) {
+            map.put("latitude", PreferenceUtils.getLocation(getApplicationContext())[0]);
+            map.put("longitude", PreferenceUtils.getLocation(getApplicationContext())[1]);
+        } else {
+            map.put("latitude", "");
+            map.put("longitude", "");
+        }
+        operater.doRequest(Constants.URL_GET_PLATFORM_REDBAG, map, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (isSucceed && obj != null) {
+                    if (obj instanceof String) {
+                        return;
+                    }
+                    RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
+                    if (App.isLogin()) {
                         if (redBagListModel.getType() == 1) {//已绑定手机号
                             if (redBagListModel.getRedBagList() != null && redBagListModel.getRedBagList().size() > 0) {
                                 noLoginLayout.setVisibility(View.GONE);
@@ -300,18 +299,21 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                                 redBagDialog.show();
                             }
                         }
+                    } else {
+                        Log.d(TAG, "redBagListModel.getStatus():" + redBagListModel.getStatus());
+                        if (redBagListModel.getStatus() == 1) {
+                            receiverTextView.setText("注册马管家，即可领取大额红包");
+                            loginTextView.setText("立即登录，领取红包");
+                            if (redBagDialog != null && !redBagDialog.isShowing()) {
+                                redBagDialog.show();
+                            }
+                            return;
+                        }
                     }
+
                 }
-            }, RedBagsModel.class);
-        } else {
-            receiverTextView.setText("注册马管家，即可领取大额红包");
-            loginTextView.setText("立即登录，领取红包");
-            if (redBagDialog != null && !redBagDialog.isShowing()) {
-                redBagDialog.show();
             }
-        }
-
-
+        }, RedBagsModel.class);
     }
 
     public void hiddenReceiverRedBagDialog() {

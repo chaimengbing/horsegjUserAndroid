@@ -41,7 +41,7 @@
         android:hint="无可用红包"
         android:singleLine="true"
         android:textColor="@color/platform_color"
-        android:textColorHint="@color/color_9"
+        android:textColorHint="@color/platform_color"
         android:textSize="12sp" />
 
 

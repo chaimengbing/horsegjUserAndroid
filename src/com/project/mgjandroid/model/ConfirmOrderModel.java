@@ -36,9 +36,9 @@ public class ConfirmOrderModel extends Entity {
      * caution : null
      * cautionlist : []
      * "platformRedBags": [],
-     "redBagTotalAmt": 0,
-     "redBagUsableCount": 0,
-     "platformRedBagCount": 4,
+     * "redBagTotalAmt": 0,
+     * "redBagUsableCount": 0,
+     * "platformRedBagCount": 4,
      * promoMutexInfo :
      * promoList : []
      * addressInfo : null
@@ -129,6 +129,8 @@ public class ConfirmOrderModel extends Entity {
         private String againOrderTip;
         //可使用红包个数
         private int platformRedBagCount;
+        //平台红包与商家代金券共享关系 1：共享  0 ：不共享
+        private int redBagSharedRelation = 1;
         private ArrayList<RedBag> platformRedBags;
 
         /**
@@ -428,6 +430,14 @@ public class ConfirmOrderModel extends Entity {
 
         public void setPlatformRedBags(ArrayList<RedBag> platformRedBags) {
             this.platformRedBags = platformRedBags;
+        }
+
+        public int getRedBagSharedRelation() {
+            return redBagSharedRelation;
+        }
+
+        public void setRedBagSharedRelation(int redBagSharedRelation) {
+            this.redBagSharedRelation = redBagSharedRelation;
         }
 
         public static class ExpectedArrivalEntity extends Entity {

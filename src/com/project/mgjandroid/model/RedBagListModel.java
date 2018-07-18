@@ -61,10 +61,13 @@ public class RedBagListModel extends Entity {
     /**
      * "redBagList": null,
      * "type": 1
+     * "status": 1 ： 代理商有红包活动  0 代理商没红包活动
+     *
      */
     //平台红包
     private ArrayList<RedBag> redBagList;
     private int type = 0;
+    private int status = 0;
 
     public ArrayList<RedBag> getRedBagList() {
         return redBagList;
@@ -106,5 +109,13 @@ public class RedBagListModel extends Entity {
 
     public void setPlatformRedBagAvailableCount(int platformRedBagAvailableCount) {
         this.platformRedBagAvailableCount = platformRedBagAvailableCount;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
