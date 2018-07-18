@@ -221,7 +221,7 @@ public class JoinGroupActivity extends BaseActivity {
                 break;
             case R.id.platform_redbag_layout:
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
-                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, totalPrice);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, group.getPrice().doubleValue());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 2);
                 intentSelect.putExtra(SelectRedBagActivity.QUANTITY, currentCount);

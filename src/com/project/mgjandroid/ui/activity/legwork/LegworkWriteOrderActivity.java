@@ -308,7 +308,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 break;
             case R.id.platform_redbag_layout:
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
-                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, price);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, serviceChargeModel.getServiceCharge());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 9);
                 if (redBag != null) {
