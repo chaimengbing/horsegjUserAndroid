@@ -86,6 +86,7 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
     private PopupWindow phoneWindow;
     private MLoadingDialog loadingDialog;
     private long agentId;
+    private String editUserAddress = "";
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -414,6 +415,8 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
                 BaiduGeocoderModel.ResultBean.PoisBean poiInfo = (BaiduGeocoderModel.ResultBean.PoisBean) data.getSerializableExtra(KEY_POI_INFO);
                 tvLocation.setText(poiInfo.getAddr() + poiInfo.getName());
 //                etHouseNum.setText(poiInfo.getAddr());
+                Log.i("userAddress", "poiInfo.getAddr() " + poiInfo.getAddr() + ",poiInfo.getName():" + poiInfo.getName());
+                editUserAddress = poiInfo.getName();
                 etHouseNum.requestFocus();
 //                Editable spannable = etHouseNum.getText();
 //                Selection.setSelection(spannable, spannable.length());
@@ -421,6 +424,8 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
                 latitude = poiInfo.getPoint().getY();
             } else if (resultCode == SetAddressActivity.SUGGESTION_RESULT) {
                 SuggestionResult.SuggestionInfo poiInfo = data.getParcelableExtra(KEY_POI_INFO);
+                Log.i("userAddress", "city" + poiInfo.city + ",district:" + poiInfo.district + ",key:" + poiInfo.key);
+                editUserAddress = poiInfo.key;
                 tvLocation.setText(poiInfo.city + poiInfo.district + poiInfo.key);
 //                etHouseNum.setText(poiInfo.key);
                 etHouseNum.requestFocus();
@@ -434,8 +439,10 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
 
     private void saveUserAddress(boolean isInspectAddress) {
         Map<String, Object> map = new HashMap<>();
-        if (userAddress != null)
+        if (userAddress != null) {
             map.put("id", userAddress.getId());
+        }
+        map.put("detailedAddress", editUserAddress);
         if (!TextUtils.isEmpty(etName.getText().toString())) {
             if (!checkUsername(etName.getText().toString().trim())) {
                 ToastUtils.displayMsg("输入内容不合法", this);
