@@ -48,9 +48,7 @@ import com.project.mgjandroid.ui.adapter.SelectTimeListAdapter;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollListView;
-import com.project.mgjandroid.ui.view.newpulltorefresh.internal.Utils;
 import com.project.mgjandroid.utils.CheckUtils;
-import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
@@ -354,6 +352,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             }
             previewJsonData.put("expectedArrivalTime", selectTime.getId());//送达时间
             previewJsonData.put("orderItems", orderItems);
+
             if ((redBag == null && platformRedBag == null) && previewJsonData.containsKey("redBags")) {
                 previewJsonData.remove("redBags");
             }
@@ -917,11 +916,19 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         return;
                     }
                 }
+                ConfirmOrderModel.ValueEntity valueEntity = confirmOrderModel.getValue();
+                double totalPrice  = valueEntity.getTotalPrice().doubleValue();
+                if (valueEntity.getShippingFee().doubleValue() > 0){
+                    totalPrice = totalPrice - valueEntity.getShippingFee().doubleValue();
+                }
+                if (valueEntity.getBoxPrice().doubleValue() > 0){
+                    totalPrice = totalPrice - valueEntity.getBoxPrice().doubleValue();
+                }
                 Intent intentSelect = new Intent(ConfirmOrderActivity.this, SelectRedBagActivity.class);
-                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, confirmOrderModel.getValue().getItemsPrice().doubleValue());
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, totalPrice);
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, isFromMarket ? 3 : 1);
-                intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAGS, JSONArray.toJSONString(confirmOrderModel.getValue().getPlatformRedBags()));
+                intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAGS, JSONArray.toJSONString(valueEntity.getPlatformRedBags()));
                 if (platformRedBag != null) {
                     intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, platformRedBag.getId());
                 } else {

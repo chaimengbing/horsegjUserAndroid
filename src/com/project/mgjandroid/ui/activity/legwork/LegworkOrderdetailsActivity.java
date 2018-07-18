@@ -358,13 +358,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         }
                         break;
                 }
-                if (CheckUtils.isNoEmptyStr(valueBean.getRedBagDiscountTotalAmt()) && !"0".equals(valueBean.getRedBagDiscountTotalAmt()) && !"0.0".endsWith(valueBean.getRedBagDiscountTotalAmt())){
-                    redbagsLayout.setVisibility(View.VISIBLE);
-                    redbagsMoneyTextView.setText("(红包抵扣" + valueBean.getRedBagDiscountTotalAmt() + "元)");
-                    payMoneyTextView.setText("￥" + valueBean.getTotalPrice());
-                }else {
-                    redbagsLayout.setVisibility(View.GONE);
-                }
                 tvGoodsInformation.setText(valueBean.getDescription());
                 ivLegworkIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_legwork_buy));
                 TvBuyPersonalInformation.setVisibility(View.GONE);
@@ -398,6 +391,13 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 tvRemarks.setText(valueBean.getRemark());
             } else {
                 tvRemarks.setText("无");
+            }
+            if (CheckUtils.isNoEmptyStr(valueBean.getRedBagDiscountTotalAmt()) && !"0".equals(valueBean.getRedBagDiscountTotalAmt()) && !"0.0".endsWith(valueBean.getRedBagDiscountTotalAmt())){
+                redbagsLayout.setVisibility(View.VISIBLE);
+                redbagsMoneyTextView.setText("(红包抵扣" + valueBean.getRedBagDiscountTotalAmt() + "元)");
+                payMoneyTextView.setText("￥" + valueBean.getTotalPrice());
+            }else {
+                redbagsLayout.setVisibility(View.GONE);
             }
             tvServiceCharge.setText("¥" + valueBean.getServePrice());
             tvOrderNumber.setText(valueBean.getId());
