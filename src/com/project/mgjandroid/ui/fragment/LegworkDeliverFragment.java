@@ -494,7 +494,7 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                         }
                     }
                     price = serviceChargeModel.getTotalPrice().doubleValue();
-                    tvServicePrice.setText("¥" + price);
+                    tvServicePrice.setText("¥" + serviceChargeModel.getServiceCharge());
                     // 添加总价
                     tvLegworkPrice.setText("费用：¥" + price);
                     isComputingSuccess = true;

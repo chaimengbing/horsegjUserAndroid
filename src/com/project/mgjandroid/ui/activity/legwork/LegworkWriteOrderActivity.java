@@ -578,7 +578,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                         }
                     }
                     price = serviceChargeModel.getTotalPrice().doubleValue();
-                    tvServicePrice.setText("¥" + price);
+                    tvServicePrice.setText("¥" + serviceChargeModel.getServiceCharge());
                     // 添加总价
                     tvLegworkPrice.setText("费用：¥" + price);
                     isComputingSuccess = true;
