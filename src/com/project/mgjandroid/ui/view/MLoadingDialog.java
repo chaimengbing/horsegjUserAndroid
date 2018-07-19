@@ -40,6 +40,9 @@ public class MLoadingDialog extends DialogFragment {
     @Override
     public void show(FragmentManager manager, String tag) {
         try {
+            if (this.isAdded()){
+                return;
+            }
             FragmentTransaction ft = manager.beginTransaction();
             ft.add(this, tag);
             ft.commit();

@@ -92,6 +92,14 @@ public class GroupPurchaseCoupon extends BaseBean {
      * 团购名称
      **/
     private String groupPurchaseName;
+    /**
+     * 已售
+     **/
+    private int buyCount;
+    /**
+     * 可预约天数
+     **/
+    private int bespeakDays;
 
     private BigDecimal sumGroupPurchaseCouponGoodsOriginPrice;
 
@@ -291,5 +299,21 @@ public class GroupPurchaseCoupon extends BaseBean {
 
     public void setShareUrl(String shareUrl) {
         this.shareUrl = shareUrl;
+    }
+
+    public int getBuyCount() {
+        return buyCount;
+    }
+
+    public void setBuyCount(int buyCount) {
+        this.buyCount = buyCount;
+    }
+
+    public int getBespeakDays() {
+        return bespeakDays;
+    }
+
+    public void setBespeakDays(int bespeakDays) {
+        this.bespeakDays = bespeakDays;
     }
 }

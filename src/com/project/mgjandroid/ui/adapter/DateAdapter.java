@@ -18,9 +18,12 @@ public class DateAdapter extends BaseAdapter {
     private Context context;
     private int year;
     private int month;
+    private int bespeakDays;
+
+    private int nextCount = -1;
     Date today = new Date();
 
-    public DateAdapter(Context context, int[][] days, int year, int month) {
+    public DateAdapter(Context context, int[][] days, int year, int month, int bespeakDays) {
         this.context = context;
         int dayNum = 0;
         //将二维数组转化为一维数组，方便使用
@@ -32,6 +35,22 @@ public class DateAdapter extends BaseAdapter {
         }
         this.year = year;
         this.month = month;
+        this.bespeakDays = bespeakDays;
+    }
+
+    public void setData(int[][] days, int year, int month, int bespeakDays){
+        int dayNum = 0;
+        //将二维数组转化为一维数组，方便使用
+        for (int i = 0; i < days.length; i++) {
+            for (int j = 0; j < days[i].length; j++) {
+                this.days[dayNum] = days[i][j];
+                dayNum++;
+            }
+        }
+        this.year = year;
+        this.month = month;
+        this.bespeakDays = bespeakDays;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -67,10 +86,10 @@ public class DateAdapter extends BaseAdapter {
             viewHolder.date_item.setTextColor(Color.rgb(204, 204, 204));
             viewHolder.date_item.setVisibility(View.INVISIBLE);
         }
-        if(viewHolder.date_item.getVisibility()== View.VISIBLE){
+        if (viewHolder.date_item.getVisibility() == View.VISIBLE) {
             view.setEnabled(false);
             view.setClickable(false);
-        }else {
+        } else {
             view.setEnabled(true);
             view.setClickable(true);
         }
@@ -92,6 +111,25 @@ public class DateAdapter extends BaseAdapter {
             viewHolder.date_item.setText("后天");
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
             viewHolder.date_item.getPaint().setFakeBoldText(true);
+        }
+        int count = day + 20;
+        if (days[i] >= day && days[i] < count && nowadayMonth == month) {
+            viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.is_unopened));
+            int max = 0;
+            if (viewHolder.date_item.getVisibility() == View.VISIBLE){
+                if (max < days[i]){
+                    max = days[i];
+                }
+                max = days[i];
+
+            }
+            nextCount = count - max + 1;
+        }
+
+        if (nextCount > 0 && month == nowadayMonth + 1){
+            if (days[i] < nextCount){
+                viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.is_unopened));
+            }
         }
 
 

@@ -11,8 +11,9 @@
         android:background="@drawable/title_bar_bg"
         android:paddingLeft="@dimen/x10"
         android:paddingRight="@dimen/x15">
+
         <ImageView
-            android:id="@+id/common_back"
+            android:id="@+id/common_back1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
@@ -35,7 +36,7 @@
             android:textSize="@dimen/title_bar_text_size" />
 
         <TextView
-            android:id="@+id/tv_publish"
+            android:id="@+id/tv_explain"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="优惠说明"
@@ -78,7 +79,6 @@
             android:hint="其他不爽，告诉我们"
             android:inputType="number"
             android:maxEms="9"
-            android:maxLength="300"
             android:textColor="@color/color_3"
             android:textColorHint="@color/color_c"
             android:textSize="15sp" />
@@ -95,11 +95,19 @@
         android:paddingRight="@dimen/x15">
 
         <TextView
+            android:id="@+id/tv_discount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="9.5折"
             android:textColor="@color/color_3"
             android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/img_unselected"
+            android:textColor="@color/color_3"
+            android:textSize="17sp" />
 
         <ImageView
             android:id="@+id/img_unselected"
@@ -118,6 +126,7 @@
         android:background="@color/color_e5" />
 
     <RelativeLayout
+        android:id="@+id/rl_voucher"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x44"
         android:background="@color/white"
@@ -133,12 +142,13 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_voucher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawablePadding="@dimen/x3"
             android:drawableRight="@drawable/right_arrow_gray"
-            android:textColor="#f95046"
+            android:textColor="@color/color_9"
             android:textSize="15sp" />
     </RelativeLayout>
 
@@ -150,6 +160,7 @@
         android:background="@color/color_e5" />
 
     <RelativeLayout
+        android:id="@+id/rl_platform_redbag_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x44"
         android:background="@color/white"
@@ -165,12 +176,13 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_red_bag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawablePadding="@dimen/x3"
             android:drawableRight="@drawable/right_arrow_gray"
-            android:textColor="#f95046"
+            android:textColor="@color/color_9"
             android:textSize="15sp" />
     </RelativeLayout>
 
@@ -197,15 +209,16 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_amoun_actually_paid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="¥36"
             android:textColor="@color/bg_festival"
             android:textSize="17sp" />
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_confirm"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x42"
         android:layout_marginLeft="@dimen/x15"
@@ -215,6 +228,7 @@
         android:gravity="center"
         android:text="确认买单"
         android:textColor="@color/white"
+        android:enabled="false"
         android:textSize="17sp" />
 
     <TextView

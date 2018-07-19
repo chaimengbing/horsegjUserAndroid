@@ -1,6 +1,7 @@
 package com.project.mgjandroid.ui.activity.groupbuying;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -14,15 +15,32 @@ import android.widget.CalendarView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.RedBag;
+import com.project.mgjandroid.constants.Constants;
+import com.project.mgjandroid.model.ConfirmGroupOrModel;
+import com.project.mgjandroid.model.ConfirmGroupOrderModel;
+import com.project.mgjandroid.model.groupbuying.GroupBuyingPreviewModel;
+import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
+import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
 import com.project.mgjandroid.ui.adapter.DateAdapter;
+import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.utils.CalendarUtils;
+import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.StringUtils;
+import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BuyTicketActivity extends BaseActivity implements View.OnClickListener{
 
@@ -34,6 +52,24 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private ImageView tvBack;
     @InjectView(R.id.common_title)
     private TextView tvTitle;
+    @InjectView(R.id.rl_red_bag)
+    private RelativeLayout rlRedBag;
+    @InjectView(R.id.tv_ticket_name)
+    private TextView tvTicketName;
+    @InjectView(R.id.tv_ticket_price)
+    private TextView tvTicketPrice;
+    @InjectView(R.id.tv_count)
+    private TextView tvCount;
+    @InjectView(R.id.iv_add)
+    private ImageView ivAdd;
+    @InjectView(R.id.iv_minus)
+    private ImageView ivMinus;
+    @InjectView(R.id.tv_red_bag)
+    private TextView tvRedBag;
+    @InjectView(R.id.tv_pay_price)
+    private TextView tvPayPrice;
+    @InjectView(R.id.rl_calendar)
+    private RelativeLayout rlCalendar;
 
     private GridView record_gridView;//定义gridView
     private DateAdapter dateAdapter;//定义adapter
@@ -48,6 +84,19 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private CalendarView calendarView;
     private Context context;
     private PopupWindow mPopWindow;
+    private RedBag redBag;
+    private boolean isClickNext;
+    private boolean isClickLast = true;
+    private MLoadingDialog mLoadingDialog;
+    private String errorMsg;
+    private double ticketPrice;
+    private long agentId;
+    private String ticketName;
+    private int count = 1;
+    private String ticketOriginalPrice;
+    private int type;
+    private int bespeak;
+    private int bespeakDays;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -60,6 +109,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         initPopWindow();
         //组件点击监听事件
         initEvent();
+
     }
 
     private void initData() {
@@ -72,7 +122,32 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         record_right.setOnClickListener(this);
         imgCalendar.setOnClickListener(this);
         tvBack.setOnClickListener(this);
+        rlRedBag.setOnClickListener(this);
+        ivAdd.setOnClickListener(this);
+        ivMinus.setOnClickListener(this);
         tvTitle.setText("支付订单");
+        mLoadingDialog = new MLoadingDialog();
+        ticketName = getIntent().getStringExtra("ticketName");
+        agentId = getIntent().getLongExtra("agentId", -1);
+        ticketPrice = getIntent().getDoubleExtra("ticketPrice",0);
+        ticketOriginalPrice = getIntent().getStringExtra("ticketOriginalPrice");
+        type = getIntent().getIntExtra("type", -1);
+        bespeak = getIntent().getIntExtra("bespeak", -1);
+        bespeakDays = getIntent().getIntExtra("bespeakDays", -1);
+        if(type==1){
+            rlCalendar.setVisibility(View.GONE);
+            tvTicketName.setText(ticketOriginalPrice+"元代金券");
+        }else {
+            if(bespeak==1){
+                rlCalendar.setVisibility(View.VISIBLE);
+            }else {
+                rlCalendar.setVisibility(View.GONE);
+            }
+            tvTicketName.setText(ticketName);
+        }
+        tvTicketPrice.setText("¥"+ticketPrice);
+        tvCount.setText(""+count);
+        getOrderPreview();
     }
 
 
@@ -97,7 +172,11 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
          */
         record_gridView = (GridView) view.findViewById(R.id.record_gridView);
         days = CalendarUtils.getDayOfMonthFormat(2018, 7);
-        dateAdapter = new DateAdapter(this, days, year, month);//传入当前月的年
+        if (dateAdapter != null){
+            dateAdapter.setData( days, year, month,bespeakDays);
+        }else {
+            dateAdapter = new DateAdapter(this, days, year, month,bespeakDays);
+        }//传入当前月的年
         record_gridView.setAdapter(dateAdapter);
         record_gridView.setVerticalSpacing(60);
         record_gridView.setEnabled(true);
@@ -178,6 +257,69 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == SelectRedBagActivity.RED_BAG_MONEY) {
+            redBag = (RedBag) data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG);
+            getOrderPreview();
+        }
+    }
+
+    private void getOrderPreview() {
+        mLoadingDialog.show(getFragmentManager(), "");
+        ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
+        if (redBag != null) {
+            Map<String, Object> redmap = new HashMap<>();
+            redmap.put("id", redBag.getId());
+            redmap.put("name", redBag.getName());
+            redmap.put("amt", redBag.getAmt());
+            redmap.put("promotionType", redBag.getPromotionType());
+            redBagList.add(redmap);
+        }
+        Map<String, Object> params = new HashMap<>();
+
+
+        params.put("itemPrice", ticketPrice);
+//        params.put("totalPrice", totalPrice);
+        params.put("quantity", count);
+        params.put("agentId", agentId);
+        params.put("businessType", 6);
+        params.put("redBags", JSONArray.toJSON(redBagList).toString());
+        VolleyOperater<ConfirmGroupOrderModel> operater = new VolleyOperater<>(this);
+        String url = Constants.URL_GET_REDBAG_SETTING;
+        operater.doRequest(url, params, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                mLoadingDialog.dismiss();
+                if (isSucceed && obj != null) {
+                    if (obj instanceof String) {
+                        errorMsg = (String) obj;
+                        ToastUtils.displayMsg(errorMsg, mActivity);
+                    } else {
+                        errorMsg = null;
+                    }
+                    ConfirmGroupOrModel confirmGroupOrModel = ((ConfirmGroupOrderModel) obj).getValue();
+                    showPreviewOrder(confirmGroupOrModel);
+                }
+            }
+        }, ConfirmGroupOrderModel.class);
+    }
+
+    private void showPreviewOrder(ConfirmGroupOrModel confirmGroupOrModel) {
+        if (redBag != null) {
+            tvRedBag.setText("-¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
+        } else {
+            tvRedBag.setText("");
+            if (confirmGroupOrModel.getPlatformRedBagCount() > 0) {
+                tvRedBag.setText("有"+confirmGroupOrModel.getPlatformRedBagCount()+"个可用红包");
+            }
+        }
+        if (!CheckUtils.isEmptyStr(StringUtils.BigDecimal2Str(confirmGroupOrModel.getTotalPrice()))) {
+            tvPayPrice.setText("¥" + confirmGroupOrModel.getTotalPrice());
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
@@ -189,15 +331,38 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.record_left:
+                if(isClickNext){
+                    isClickLast = true;
+                    record_right.setEnabled(true);
+                    record_left.setEnabled(false);
+                    record_right.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.ic_calendar_right));
+                    record_left.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.ic_last_unselect));
+                }
                 days = prevMonth();
-                dateAdapter = new DateAdapter(this, days, year, month);
+                if (dateAdapter != null){
+                    dateAdapter.setData( days, year, month,bespeakDays);
+                }else {
+                    dateAdapter = new DateAdapter(this, days, year, month,bespeakDays);
+                }
                 record_gridView.setAdapter(dateAdapter);
                 dateAdapter.notifyDataSetChanged();
                 setTile();
                 break;
             case R.id.record_right:
+                if(isClickLast){
+                    isClickNext = true;
+                    record_left.setEnabled(true);
+                    record_right.setEnabled(false);
+                    record_left.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.ic_calendar_left));
+                    record_right.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.ic_next_unselect));
+                }
                 days = nextMonth();
-                dateAdapter = new DateAdapter(this, days, year, month);
+                if (dateAdapter != null){
+                    dateAdapter.setData( days, year, month,bespeakDays);
+                }else {
+                    dateAdapter = new DateAdapter(this, days, year, month,bespeakDays);
+                }
+
                 record_gridView.setAdapter(dateAdapter);
                 dateAdapter.notifyDataSetChanged();
                 setTile();
@@ -205,6 +370,33 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
             case R.id.common_back:
                 back();
                 break;
+            case R.id.rl_red_bag:
+                Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE,ticketPrice);
+                intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 6);
+                if (redBag != null) {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
+                } else {
+                    intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, -1l);
+                }
+                startActivityForResult(intentSelect, 1111);
+                break;
+            case R.id.iv_add:
+                count++;
+                ivMinus.setEnabled(true);
+                tvCount.setText(""+count);
+                getOrderPreview();
+                break;
+            case R.id.iv_minus:
+                if(count==1){
+                    ivMinus.setEnabled(false);
+                    break;
+                }
+                count--;
+                tvCount.setText(""+count);
+                getOrderPreview();
+                break;
         }
+
     }
 }

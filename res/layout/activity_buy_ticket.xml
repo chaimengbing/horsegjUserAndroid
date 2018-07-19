@@ -16,6 +16,7 @@
         android:paddingRight="@dimen/x15">
 
         <TextView
+            android:id="@+id/tv_ticket_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="宏伟8K欢唱券"
@@ -23,6 +24,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_ticket_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -99,6 +101,7 @@
         android:background="@color/color_e5" />
 
     <RelativeLayout
+        android:id="@+id/rl_calendar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x50"
         android:background="@color/white"
@@ -144,6 +147,7 @@
         android:background="@color/color_e5" />
 
     <RelativeLayout
+        android:id="@+id/rl_red_bag"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x50"
         android:background="@color/white"
@@ -159,6 +163,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_red_bag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -192,6 +197,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_pay_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

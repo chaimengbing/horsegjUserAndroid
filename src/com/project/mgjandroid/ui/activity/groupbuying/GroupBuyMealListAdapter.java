@@ -53,6 +53,7 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         TextView tvSold =holder.getView(R.id.tv_sold);
         TextView tvPrice =holder.getView(R.id.tv_price);
         tvPayBill.setText("购买");
+        tvSold.setText("已售"+bean.getBuyCount());
         if (CheckUtils.isNoEmptyStr(bean.getImages())) {
             ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
         }
@@ -65,7 +66,14 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         tvPayBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mActivity.startActivity(new Intent(mActivity,BuyTicketActivity.class));
+                Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
+                intent2.putExtra("ticketName",bean.getGroupPurchaseName());
+                intent2.putExtra("ticketPrice",bean.getPrice().doubleValue());
+                intent2.putExtra("type",bean.getType());
+                intent2.putExtra("bespeak",bean.getIsBespeak());
+                intent2.putExtra("agentId",bean.getAgentId());
+                intent2.putExtra("bespeakDays",bean.getBespeakDays());
+                mActivity.startActivity(intent2);
             }
         });
     }

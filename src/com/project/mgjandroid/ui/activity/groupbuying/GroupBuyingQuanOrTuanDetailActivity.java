@@ -207,8 +207,8 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             comTitle.setText("代金券");
         } else {
             comTitle.setText("团购券");
+            getGroupPurchaseCouponList(groupPurchaseCoupon.getType());
         }
-        getgetGroupPurchaseCouponList(groupPurchaseCoupon.getType());
         if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
             ImageUtils.loadBitmap(mActivity, groupPurchaseCoupon.getImages().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(375, 190));
             img.setOnClickListener(this);
@@ -441,6 +441,10 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             case R.id.tv_evaluate:
                 GroupBuyingAllEvaluationActivity.toGroupBuyingAllEvaluationActivity(mActivity, merchant.getId());
                 break;
+            case R.id.group_buying_item_root:
+            case R.id.voucher_item_root:
+                Routers.open(mActivity, ActivitySchemeManager.SCHEME + "groupPurchaseCoupon/" + ((GroupPurchaseCoupon) v.getTag()).getId());
+                break;
         }
     }
 
@@ -608,7 +612,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         }, GroupBuyingCouponModel.class);
     }
 
-    private void getgetGroupPurchaseCouponList(int type){
+    private void getGroupPurchaseCouponList(int type){
         loadingDialog.show(getFragmentManager(), "");
         VolleyOperater<GroupPurchaseCouponList> operater = new VolleyOperater<>(mActivity);
         Map<String, Object> map = new HashMap<>();

@@ -1,105 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/x15"
-    android:paddingRight="@dimen/x12"
-    android:paddingTop="@dimen/x10">
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg_2"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/title_bar_bg"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x15">
+
+        <ImageView
+            android:id="@+id/common_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/back"
+            android:paddingRight="10dp"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/common_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLength="13"
+            android:singleLine="true"
+            android:textColor="@color/title_tv_festival"
+            android:textSize="@dimen/title_bar_text_size" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_bg"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/x150"
+            android:drawableTop="@drawable/has_no_redbag"
+            android:drawablePadding="@dimen/x22"
+            android:textColor="@color/color_9"
+            android:textSize="14sp"
+            android:text="您目前没有抵用券" />
+
+        <TextView
+            android:id="@+id/tv_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/x10"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textSize="13sp"
+            android:textColor="@color/color_9"
+            android:text="查看历史红包 >>" />
+
+    </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/item_content_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/x44"
+        android:orientation="horizontal"
+        android:background="#FDF8DC"
+        android:gravity="center_horizontal">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/vouchers_left_bg"
-            android:paddingLeft="@dimen/x15"
-            android:orientation="vertical">
+            android:src="@drawable/ic_message"
+            android:layout_gravity="center"/>
 
-
-            <TextView
-                android:id="@+id/merchant_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:layout_marginTop="@dimen/x10"
-                android:textColor="@color/color_3"
-                android:textSize="19sp"
-                tools:text="代金券" />
-
-            <TextView
-                android:id="@+id/expiration_time_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x5"
-                android:lines="1"
-                android:textColor="@color/color_6"
-                android:textSize="12sp"
-                tools:text="有效期：2018-12-22" />
-
-            <TextView
-                android:id="@+id/restrict_amt_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x3"
-                android:lines="1"
-                android:textColor="@color/color_6"
-                android:textSize="12sp"
-                tools:text="可叠加使用" />
-
-            <TextView
-                android:id="@+id/vouchers_num_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x3"
-                android:lines="1"
-                android:textColor="@color/color_9"
-                android:textSize="12sp"
-                tools:text="券码：123456789" />
-
-
-        </LinearLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/layout_amt"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/vouchers_right_bg"
             android:gravity="center"
-            android:layout_weight="2">
-
-            <TextView
-                android:id="@+id/discount_amt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/x2"
-                android:includeFontPadding="false"
-                android:textColor="@color/color_c"
-                android:textSize="35sp"
-                tools:text="18" />
-
-            <ImageView
-                android:id="@+id/iv_redbag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:src="@drawable/redbag_invalid" />
-
-        </RelativeLayout>
-
-
+            android:text="代金券使用说明：不可提现，买卖，转赠他人，且不找零"
+            android:layout_marginLeft="@dimen/x5"
+            android:layout_gravity="center"
+            android:textColor="#ff7200"
+            android:textSize="12sp" />
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/list_view"
+        android:paddingTop="@dimen/x10"
+        android:layout_width="match_parent"
+        android:background="@color/gray_bg_2"
+        android:divider="#00000000"
+        android:dividerHeight="@dimen/x10"
+        android:listSelector="@color/gray_bg_2"
+        android:layout_height="wrap_content"></ListView>
+
+    <TextView
+        android:id="@+id/tv_history"
+        android:layout_marginTop="@dimen/x20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:padding="@dimen/x15"
+        android:textColor="@color/color_9"
+        android:text="查看历史代金券 >>"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_affirm"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x44"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:layout_marginTop="@dimen/x20"
+        android:background="@drawable/bg_login_orange_button"
+        android:gravity="center"
+        android:text="去使用"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/x20"
+        android:textSize="17sp" />
+
+
+</LinearLayout>

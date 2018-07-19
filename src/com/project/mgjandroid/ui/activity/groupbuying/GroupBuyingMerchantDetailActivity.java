@@ -425,7 +425,9 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill);
             TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
             root.setTag(bean);
+            tvPayBill.setTag(bean);
             tvPayBill.setText("购买");
+            tvSold.setText("已售"+bean.getBuyCount());
             tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
             tvOriginPrice.setText("代¥" + StringUtils.BigDecimal2Str(bean.getOriginPrice()));
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + (bean.getIsCumulate() == 0 ? "不可叠加" : "可叠加"));
@@ -501,11 +503,18 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 Routers.open(mActivity, ActivitySchemeManager.SCHEME + "groupPurchaseCoupon/" + ((GroupPurchaseCoupon) v.getTag()).getId());
                 break;
             case R.id.tv_pay_bill:
-                startActivity(new Intent(this,BuyTicketActivity.class));
+                Intent intent2 = new Intent(this, BuyTicketActivity.class);
+                intent2.putExtra("ticketPrice",((GroupPurchaseCoupon) v.getTag()).getPrice().doubleValue());
+                intent2.putExtra("ticketOriginalPrice",StringUtils.BigDecimal2Str(((GroupPurchaseCoupon) v.getTag()).getOriginPrice()));
+                intent2.putExtra("type",((GroupPurchaseCoupon) v.getTag()).getType());
+                intent2.putExtra("bespeak",((GroupPurchaseCoupon) v.getTag()).getIsBespeak());
+                intent2.putExtra("agentId",((GroupPurchaseCoupon) v.getTag()).getAgentId());
+                startActivity(intent2);
                 break;
             case R.id.tv_discount_pay_bill:
                 Intent intent1 = new Intent(this, DiscountBuyTicketActivity.class);
                 intent1.putExtra("Name",merchant.getName());
+                intent1.putExtra("merchant",merchant);
                 startActivity(intent1);
                 break;
             case R.id.baidu_map:

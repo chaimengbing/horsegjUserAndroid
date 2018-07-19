@@ -18,7 +18,7 @@
             android:id="@+id/record_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_calendar_left" />
+            android:background="@drawable/ic_last_unselect" />
 
         <TextView
             android:id="@+id/record_title"

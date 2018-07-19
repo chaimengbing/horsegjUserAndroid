@@ -695,6 +695,14 @@ public class Constants {
      * 查询团购券退款
      */
     public static final String URL_BATCH_REFUND_GROUP_PURCHASE_ORDER_COUPON_CODE = URL_HOME_MAIN + "batchRefundGroupPurchaseOrderCouponCode";
+    /**
+     * 团购优惠买单
+     */
+    public static final String URL_GROUP_PURCHASE_ORDER_PREVIEW = URL_HOME_MAIN + "groupPurchaseOrderPreview";
+    /**
+     * 查询用户 已购买代金券 列表
+     */
+    public static final String URL_FIND_GROUP_PURCHASE_ORDER_COUPON_CODE_LIST = URL_HOME_MAIN + "findGroupPurchaseOrderCouponCodeList";
 
     /**
      * ----------------------------------------新信息发布--------------------------------------------
