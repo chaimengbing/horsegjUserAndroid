@@ -307,6 +307,10 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 }
                 break;
             case R.id.platform_redbag_layout:
+                if (serviceChargeModel.getPlatformRedBagCount() <= 0){
+                    toast("无可用红包");
+                    return;
+                }
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, serviceChargeModel.getServiceCharge());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
@@ -566,10 +570,11 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                     } else {
                         platform_num_textview.setText("");
                         if (serviceChargeModel.getPlatformRedBagCount() > 0) {
-                            platform_redbag_layout.setVisibility(View.VISIBLE);
+                            platform_num_textview.setHintTextColor(getResources().getColor(R.color.platform_color));
                             platform_num_textview.setHint("有" + serviceChargeModel.getPlatformRedBagCount() + "个红包可用");
                         } else {
-                            platform_redbag_layout.setVisibility(View.GONE);
+                            platform_num_textview.setHintTextColor(getResources().getColor(R.color.color_6));
+                            platform_num_textview.setHint("无可用红包");
                         }
                     }
                     price = serviceChargeModel.getTotalPrice().doubleValue();

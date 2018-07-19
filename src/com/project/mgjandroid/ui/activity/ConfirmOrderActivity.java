@@ -624,14 +624,13 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             if (CheckUtils.isNoEmptyStr(money)) {
                 platform_num_textview.setText("-￥" + String.valueOf(money));
             }
-        } else {
-            platform_num_textview.setText("");
         }
         if (valueEntity.getPlatformRedBagCount() > 0) {
-            platform_redbag_layout.setVisibility(View.VISIBLE);
             platform_num_textview.setHint("有" + valueEntity.getPlatformRedBagCount() + "个红包可用");
+            platform_num_textview.setHintTextColor(getResources().getColor(R.color.platform_color));
         } else {
-            platform_redbag_layout.setVisibility(View.GONE);
+            platform_num_textview.setHintTextColor(getResources().getColor(R.color.color_6));
+            platform_num_textview.setHint("无可用红包");
         }
 
 
@@ -910,18 +909,22 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 ConfirmOrderActivity.this.startActivityForResult(intentCaution, REQUEST_SET_CAUTION);
                 break;
             case R.id.platform_redbag_layout:
-                if (confirmOrderModel.getValue().getRedBagSharedRelation() == 0){
-                    if (redBag != null){
+                if (confirmOrderModel.getValue().getRedBagSharedRelation() == 0) {
+                    if (redBag != null) {
                         toast("不可与商家代金券优惠同时使用");
                         return;
                     }
                 }
                 ConfirmOrderModel.ValueEntity valueEntity = confirmOrderModel.getValue();
-                double totalPrice  = valueEntity.getTotalPrice().doubleValue();
-                if (valueEntity.getShippingFee().doubleValue() > 0){
+                if (valueEntity.getPlatformRedBagCount() <= 0){
+                    toast("无可用红包");
+                    return;
+                }
+                double totalPrice = valueEntity.getTotalPrice().doubleValue();
+                if (valueEntity.getShippingFee().doubleValue() > 0) {
                     totalPrice = totalPrice - valueEntity.getShippingFee().doubleValue();
                 }
-                if (valueEntity.getBoxPrice().doubleValue() > 0){
+                if (valueEntity.getBoxPrice().doubleValue() > 0) {
                     totalPrice = totalPrice - valueEntity.getBoxPrice().doubleValue();
                 }
                 Intent intentSelect = new Intent(ConfirmOrderActivity.this, SelectRedBagActivity.class);
@@ -959,8 +962,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 if (!hasRedBag) {
                     break;
                 }
-                if (confirmOrderModel.getValue().getRedBagSharedRelation() == 0){
-                    if (platformRedBag != null){
+                if (confirmOrderModel.getValue().getRedBagSharedRelation() == 0) {
+                    if (platformRedBag != null) {
                         toast("不可与平台红包优惠同时使用");
                         return;
                     }

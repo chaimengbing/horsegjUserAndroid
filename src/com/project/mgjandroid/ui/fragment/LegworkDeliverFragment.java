@@ -266,6 +266,10 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                 }
                 break;
             case R.id.platform_redbag_layout:
+                if (serviceChargeModel.getPlatformRedBagCount() <= 0){
+                    ToastUtils.displayMsg("无可用红包",mActivity);
+                    return;
+                }
                 Intent intentSelect = new Intent(getActivity(), SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, serviceChargeModel.getServiceCharge());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, deliverAddress);
@@ -482,10 +486,11 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                     } else {
                         platform_num_textview.setText("");
                         if (serviceChargeModel.getPlatformRedBagCount() > 0) {
-                            platform_redbag_layout.setVisibility(View.VISIBLE);
+                            platform_num_textview.setHintTextColor(getResources().getColor(R.color.platform_color));
                             platform_num_textview.setHint("有" + serviceChargeModel.getPlatformRedBagCount() + "个红包可用");
                         } else {
-                            platform_redbag_layout.setVisibility(View.GONE);
+                            platform_num_textview.setHintTextColor(getResources().getColor(R.color.color_6));
+                            platform_num_textview.setHint("无可用红包");
                         }
                     }
                     price = serviceChargeModel.getTotalPrice().doubleValue();

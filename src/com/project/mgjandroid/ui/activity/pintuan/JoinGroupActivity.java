@@ -98,16 +98,13 @@ public class JoinGroupActivity extends BaseActivity {
     private RelativeLayout platform_redbag_layout;
     @InjectView(R.id.platform_num_textview)
     private TextView platform_num_textview;
-    @InjectView(R.id.divier)
-    private View divier;
 
     private GroupInfo group;
     private final int REQUEST_GET_ADDRESS = 101;
     private final int RESPONSE_GET_ADDRESS = 10002;
     private UserAddress userAddress;
-    private Double latitude;
-    private Double longitude;
     private int currentCount = 1;
+    private int redbagsNum = 0;
     private BigDecimal price;
     private BigDecimal totalPrice;
     private boolean useBalance = false;
@@ -220,6 +217,10 @@ public class JoinGroupActivity extends BaseActivity {
                 submitOrder();
                 break;
             case R.id.platform_redbag_layout:
+                if (redbagsNum <= 0) {
+                    ToastUtils.displayMsg("无可用红包", mActivity);
+                    return;
+                }
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, group.getPrice().doubleValue());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
@@ -320,7 +321,6 @@ public class JoinGroupActivity extends BaseActivity {
      * 订单预览刷新
      */
     private void getOrderPreview() {
-        divier.setVisibility(View.GONE);
         mLoadingDialog.show(getFragmentManager(), "");
         ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
         if (redBag != null) {
@@ -376,16 +376,14 @@ public class JoinGroupActivity extends BaseActivity {
 ////            }
             if (confirmGroupOrModel.getRedBagsTotalAmt() != null && confirmGroupOrModel.getRedBagsTotalAmt().compareTo(BigDecimal.ZERO) == 1) {
                 platform_num_textview.setText("-￥" + StringUtils.BigDecimal2Str(confirmGroupOrModel.getRedBagsTotalAmt()));
-            } else {
-                platform_num_textview.setText("");
             }
-            if (confirmGroupOrModel.getPlatformRedBagCount() > 0) {
-                platform_redbag_layout.setVisibility(View.VISIBLE);
-                divier.setVisibility(View.VISIBLE);
+            redbagsNum = confirmGroupOrModel.getPlatformRedBagCount();
+            if (redbagsNum > 0) {
+                platform_num_textview.setHintTextColor(getResources().getColor(R.color.platform_color));
                 platform_num_textview.setHint("有" + confirmGroupOrModel.getPlatformRedBagCount() + "个红包可用");
             } else {
-                platform_redbag_layout.setVisibility(View.GONE);
-                divier.setVisibility(View.GONE);
+                platform_num_textview.setHintTextColor(getResources().getColor(R.color.color_6));
+                platform_num_textview.setHint("无可用红包");
             }
             totalPrice = confirmGroupOrModel.getTotalPrice();
             tvTotalPrice.setText("总计 ¥" + totalPrice);
@@ -401,8 +399,6 @@ public class JoinGroupActivity extends BaseActivity {
                     userAddress = (UserAddress) data.getSerializableExtra("address");
                     if (userAddress != null) {
                         tv_noAddressTips.setVisibility(View.INVISIBLE);
-                        latitude = userAddress.getLatitude();
-                        longitude = userAddress.getLongitude();
                         rl_addressPanel.setVisibility(View.VISIBLE);
                         showAddress(userAddress);
                     } else {
