@@ -127,6 +127,7 @@
     <string name="confirm_order">确认订单</string>
     <string name="confirm_order_fast_login">快速登录</string>
     <string name="confirm_order_input_address">请填写地址</string>
+    <string name="confirm_order_no_address">请添加配送地址</string>
     <string name="confirm_order_arrival_time">送达时间</string>
     <string name="confirm_order_select_arrival_time">请选择送达时间</string>
     <string name="confirm_order_remark">备注</string>

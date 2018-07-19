@@ -30,8 +30,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x5"
+            android:textStyle="bold"
             android:layout_toRightOf="@id/confirm_order_position"
-            android:text="@string/confirm_order_input_address"
+            android:text="@string/confirm_order_no_address"
             android:textColor="@color/color_3"
             android:textSize="18sp" />
     </LinearLayout>
@@ -51,19 +52,19 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:paddingBottom="@dimen/x15"
-        android:visibility="gone"
-        android:paddingTop="@dimen/x15">
+        android:paddingTop="@dimen/x15"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/address_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/x10"
             android:layout_marginLeft="@dimen/x25"
             android:layout_marginRight="@dimen/x25"
-            android:singleLine="true"
+            android:layout_marginTop="@dimen/x10"
             android:ellipsize="middle"
+            android:singleLine="true"
             android:text="华杰大厦大钟寺13号四道口路"
             android:textColor="@color/color_3"
             android:textSize="18sp" />
@@ -124,6 +125,7 @@
         android:layout_alignParentBottom="true"
         android:progressDrawable="@drawable/order_address_bottom_unit"
         android:visibility="gone" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
