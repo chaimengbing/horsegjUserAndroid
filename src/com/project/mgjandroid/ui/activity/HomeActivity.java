@@ -267,50 +267,48 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                         return;
                     }
                     RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
-                    if (App.isLogin()) {
-                        if (redBagListModel.getType() == 1) {//已绑定手机号
-                            if (redBagListModel.getRedBagList() != null && redBagListModel.getRedBagList().size() > 0) {
-                                noLoginLayout.setVisibility(View.GONE);
-                                redBagNoLoginImageView.setVisibility(View.GONE);
-                                loginLayout.setVisibility(View.VISIBLE);
-                                redBagLoginImageView1.setVisibility(View.VISIBLE);
-                                redBagLoginImageView.setVisibility(View.VISIBLE);
-                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) redBagLoginImageView1.getLayoutParams();
+                    Log.d(TAG, "redBagListModel.getStatus():" + redBagListModel.getStatus());
+                    if (redBagListModel.getStatus() == 1) {
+                        if (App.isLogin()) {
+                            if (redBagListModel.getType() == 1) {//已绑定手机号
+                                if (redBagListModel.getRedBagList() != null && redBagListModel.getRedBagList().size() > 0) {
+                                    noLoginLayout.setVisibility(View.GONE);
+                                    redBagNoLoginImageView.setVisibility(View.GONE);
+                                    loginLayout.setVisibility(View.VISIBLE);
+                                    redBagLoginImageView1.setVisibility(View.VISIBLE);
+                                    redBagLoginImageView.setVisibility(View.VISIBLE);
+                                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) redBagLoginImageView1.getLayoutParams();
 
-                                List<RedBag> list = redBagListModel.getRedBagList();
-                                if (list.size() == 1) {
-                                    params.height = (int) getResources().getDimension(R.dimen.x120);
-                                } else if (list.size() == 2) {
-                                    params.height = (int) getResources().getDimension(R.dimen.x230);
-                                } else {
-                                    params.height = (int) getResources().getDimension(R.dimen.x280);
+                                    List<RedBag> list = redBagListModel.getRedBagList();
+                                    if (list.size() == 1) {
+                                        params.height = (int) getResources().getDimension(R.dimen.x120);
+                                    } else if (list.size() == 2) {
+                                        params.height = (int) getResources().getDimension(R.dimen.x230);
+                                    } else {
+                                        params.height = (int) getResources().getDimension(R.dimen.x280);
+                                    }
+                                    redBagLoginImageView1.setLayoutParams(params);
+                                    homePlatFormRecyclerAdapter.setList(list);
+                                    if (redBagDialog != null && !redBagDialog.isShowing()) {
+                                        redBagDialog.show();
+                                    }
                                 }
-                                redBagLoginImageView1.setLayoutParams(params);
-                                homePlatFormRecyclerAdapter.setList(list);
+                            } else {
+                                //未绑定手机号
+                                receiverTextView.setText("绑定手机号，即可领取大额红包");
+                                loginTextView.setText("立即绑定，领取红包");
                                 if (redBagDialog != null && !redBagDialog.isShowing()) {
                                     redBagDialog.show();
                                 }
                             }
                         } else {
-                            //未绑定手机号
-                            receiverTextView.setText("绑定手机号，即可领取大额红包");
-                            loginTextView.setText("立即绑定，领取红包");
-                            if (redBagDialog != null && !redBagDialog.isShowing()) {
-                                redBagDialog.show();
-                            }
-                        }
-                    } else {
-                        Log.d(TAG, "redBagListModel.getStatus():" + redBagListModel.getStatus());
-                        if (redBagListModel.getStatus() == 1) {
                             receiverTextView.setText("注册马管家，即可领取大额红包");
                             loginTextView.setText("立即登录，领取红包");
                             if (redBagDialog != null && !redBagDialog.isShowing()) {
                                 redBagDialog.show();
                             }
-                            return;
                         }
                     }
-
                 }
             }
         }, RedBagsModel.class);
