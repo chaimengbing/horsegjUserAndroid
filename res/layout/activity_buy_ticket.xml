@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x10"
             android:layout_toRightOf="@+id/tv_time"
-            android:text="2018-7-5"
+            android:text="请选择日期"
             android:textColor="@color/color_9"
             android:textSize="15sp" />
 
@@ -207,6 +207,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_submit_order"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x44"
         android:layout_marginLeft="@dimen/x15"

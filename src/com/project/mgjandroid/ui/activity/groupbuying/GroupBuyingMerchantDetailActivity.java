@@ -509,6 +509,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 intent2.putExtra("type",((GroupPurchaseCoupon) v.getTag()).getType());
                 intent2.putExtra("bespeak",((GroupPurchaseCoupon) v.getTag()).getIsBespeak());
                 intent2.putExtra("agentId",((GroupPurchaseCoupon) v.getTag()).getAgentId());
+                intent2.putExtra("groupPurchaseCoupon",((GroupPurchaseCoupon) v.getTag()));
                 startActivity(intent2);
                 break;
             case R.id.tv_discount_pay_bill:

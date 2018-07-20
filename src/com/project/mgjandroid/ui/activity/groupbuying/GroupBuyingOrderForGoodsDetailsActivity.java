@@ -500,8 +500,9 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                 startActivity(intent1);
                 break;
             case group_buying_refund:
-                hideMoreWindow();
-                refundPopupWindow();
+//                hideMoreWindow();
+//                refundPopupWindow();
+               startActivity(new Intent(mActivity,GroupBuyingRefundActivity.class));
                 break;
             case layout_address:
                 if (merchant != null)

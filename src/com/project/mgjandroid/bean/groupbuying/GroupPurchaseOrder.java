@@ -182,6 +182,15 @@ public class GroupPurchaseOrder extends Entity {
      * 团购名称
      **/
     private String groupPurchaseName;
+    /**
+     * 优惠买单 3
+     **/
+    private int orderType;
+    private BigDecimal redBagDiscountTotalAmt;
+    /** 折扣优惠总金额 **/
+    private BigDecimal discountAmt = BigDecimal.ZERO;
+    /** 代金券总金额 */
+    private BigDecimal cashDeductionPrice = BigDecimal.ZERO;
 
     private GroupPurchaseCoupon groupPurchaseCoupon;
 
@@ -618,5 +627,37 @@ public class GroupPurchaseOrder extends Entity {
 
     public void setRefreshTime(int refreshTime) {
         this.refreshTime = refreshTime;
+    }
+
+    public int getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(int orderType) {
+        this.orderType = orderType;
+    }
+
+    public BigDecimal getRedBagDiscountTotalAmt() {
+        return redBagDiscountTotalAmt;
+    }
+
+    public void setRedBagDiscountTotalAmt(BigDecimal redBagDiscountTotalAmt) {
+        this.redBagDiscountTotalAmt = redBagDiscountTotalAmt;
+    }
+
+    public BigDecimal getDiscountAmt() {
+        return discountAmt;
+    }
+
+    public void setDiscountAmt(BigDecimal discountAmt) {
+        this.discountAmt = discountAmt;
+    }
+
+    public BigDecimal getCashDeductionPrice() {
+        return cashDeductionPrice;
+    }
+
+    public void setCashDeductionPrice(BigDecimal cashDeductionPrice) {
+        this.cashDeductionPrice = cashDeductionPrice;
     }
 }

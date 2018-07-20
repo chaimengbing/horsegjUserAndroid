@@ -87,6 +87,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         holder.setText(R.id.order_list_item_tv_state, valueEntity.getThirdpartyOrder().getOrderFlowStatusStr());
         holder.setText(R.id.tv_item_time, com.project.mgjandroid.utils.DateUtils.getFormatTime1(valueEntity.getCreateTime(), "MM-dd HH:mm"));
         holder.setVisibility(R.id.tv_item_right1, false);
+        holder.setVisibility(R.id.ll_item_desc4, false);
+        holder.setVisibility(R.id.rl_total_price, true);
+        holder.setVisibility(R.id.ll_item_desc1, true);
         holder.setText(R.id.tv_item_price, StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()));
         if (thirdpartyOrder.getStatus() == -1 || thirdpartyOrder.getStatus() == 7) {
             holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
@@ -240,6 +243,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
 
     private void showLegWorkItem(NewOrderFragmentModel.ValueEntity valueEntity, ViewHolder holder, int position) {
         holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_9);
+        holder.setVisibility(R.id.ll_item_desc4, false);
+        holder.setVisibility(R.id.rl_total_price, true);
+        holder.setVisibility(R.id.ll_item_desc1, true);
         holder.setVisibility(R.id.ll_item_desc2, true);
         holder.setVisibility(R.id.ll_item_desc3, false);
         holder.setVisibility(R.id.ll_item_info, false);
@@ -357,14 +363,50 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_6);
         holder.setVisibility(R.id.ll_item_desc2, false);
         holder.setVisibility(R.id.ll_item_desc3, false);
-        holder.setVisibility(R.id.ll_item_info, true);
-        holder.setVisibility(R.id.tv_item_right1, true);
         holder.setText(R.id.tv_item_type, "团购");
+        if(order.getOrderType()==3){
+            holder.setVisibility(R.id.ll_item_info, false);
+            holder.setVisibility(R.id.tv_item_right1, false);
+            holder.setVisibility(R.id.ll_item_desc1, false);
+            holder.setVisibility(R.id.ll_item_desc4, true);
+            holder.setVisibility(R.id.rl_total_price, false);
+            holder.setText(R.id.tv_item_name4, "优惠买单");
+            holder.setText(R.id.tv_item_content4, "¥" + StringUtils.BigDecimal2Str(order.getTotalPrice()));
+        }else {
+            /**
+             * holder.setVisibility(R.id.ll_item_desc4, false);
+             * holder.setVisibility(R.id.rl_total_price, true);
+             * holder.setVisibility(R.id.ll_item_desc1, true);
+             */
+            holder.setVisibility(R.id.ll_item_desc1, true);
+            holder.setVisibility(R.id.ll_item_desc4, false);
+            holder.setVisibility(R.id.ll_item_info, true);
+            holder.setVisibility(R.id.tv_item_right1, true);
+            holder.setVisibility(R.id.rl_total_price, true);
+            LinearLayout llItemInfo = holder.getView(R.id.ll_item_order_info); //商品信息
+            holder.setText(R.id.tv_item_name1, "团购内容：");
+            holder.setText(R.id.tv_item_content1, "共" + order.getQuantity() + "件商品");
+            holder.setText(R.id.tv_item_right1, "有效期至：" + order.getGroupPurchaseCouponEndTime());
+
+            llItemInfo.removeAllViews();
+            View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
+            TextView tvDesc = (TextView) inflate.findViewById(R.id.tv_order_info_desc);
+            TextView tvNum = (TextView) inflate.findViewById(R.id.tv_order_info_num);
+            TextView tvPrice = (TextView) inflate.findViewById(R.id.tv_order_info_price);
+            tvDesc.setText(order.getGroupPurchaseMerchantName() + (order.getGroupPurchaseCouponType() == 1 ? "代金券" : "团购券"));
+            tvNum.setText("x " + order.getQuantity());
+            tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(order.getPrice()));
+            llItemInfo.addView(inflate);
+        }
+
+
+
         holder.setText(R.id.tv_item_price, StringUtils.BigDecimal2Str(order.getTotalPrice()));
         holder.setText(R.id.tv_item_time, com.project.mgjandroid.utils.DateUtils.getFormatTime1(order.getCreateTime(), "MM-dd HH:mm"));
 
-        LinearLayout llItemInfo = holder.getView(R.id.ll_item_order_info); //商品信息
+
         TextView tvStatus = holder.getView(R.id.order_list_item_tv_state);
+
 
 
         TimeTextView tvPay = holder.getView(R.id.order_state_go_pay);
@@ -410,19 +452,7 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             tvStatus.setText(GroupPurchaseOrderStatus.getGroupPurchaseCouponTypeByValue(order.getStatus()).getMemo());
         }
 
-        holder.setText(R.id.tv_item_name1, "团购内容：");
-        holder.setText(R.id.tv_item_content1, "共" + order.getQuantity() + "件商品");
-        holder.setText(R.id.tv_item_right1, "有效期至：" + order.getGroupPurchaseCouponEndTime());
 
-        llItemInfo.removeAllViews();
-        View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
-        TextView tvDesc = (TextView) inflate.findViewById(R.id.tv_order_info_desc);
-        TextView tvNum = (TextView) inflate.findViewById(R.id.tv_order_info_num);
-        TextView tvPrice = (TextView) inflate.findViewById(R.id.tv_order_info_price);
-        tvDesc.setText(order.getGroupPurchaseMerchantName() + (order.getGroupPurchaseCouponType() == 1 ? "代金券" : "团购券"));
-        tvNum.setText("x " + order.getQuantity());
-        tvPrice.setText("¥ " + StringUtils.BigDecimal2Str(order.getPrice()));
-        llItemInfo.addView(inflate);
 
         if (order.getStatus() == GroupPurchaseOrderStatus.WaitPay.getValue()) {
             String paymentExpireTime = order.getPaymentExpireTime();
@@ -459,6 +489,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
     private void showGroupItem(NewOrderFragmentModel.ValueEntity valueEntity, ViewHolder holder, int position) {
         GroupBuyOrder groupBuyOrder = valueEntity.getGroupbuyOrder();
         holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_2);
+        holder.setVisibility(R.id.ll_item_desc4, false);
+        holder.setVisibility(R.id.rl_total_price, true);
+        holder.setVisibility(R.id.ll_item_desc1, true);
         holder.setVisibility(R.id.ll_item_desc2, false);
         holder.setVisibility(R.id.ll_item_desc3, false);
         holder.setVisibility(R.id.ll_item_info, true);
@@ -576,6 +609,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
         } else {
             holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_3);
         }
+        holder.setVisibility(R.id.ll_item_desc4, false);
+        holder.setVisibility(R.id.rl_total_price, true);
+        holder.setVisibility(R.id.ll_item_desc1, true);
         holder.setVisibility(R.id.ll_item_desc2, true);
         holder.setVisibility(R.id.ll_item_desc3, false);
         holder.setVisibility(R.id.ll_item_info, true);

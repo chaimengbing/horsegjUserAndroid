@@ -104,6 +104,7 @@ public class NewOrderFragmentModel extends Entity {
         private int deliveryTaskId;
         private Object deliveryTask;
         private int hasComments;
+        private int orderType;
 
         public String getServerTime() {
             return serverTime;
@@ -505,6 +506,14 @@ public class NewOrderFragmentModel extends Entity {
 
         public void setHasComments(int hasComments) {
             this.hasComments = hasComments;
+        }
+
+        public int getOrderType() {
+            return orderType;
+        }
+
+        public void setOrderType(int orderType) {
+            this.orderType = orderType;
         }
 
         public BigDecimal getSysRate() {

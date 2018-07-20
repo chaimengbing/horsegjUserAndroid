@@ -40,6 +40,13 @@
             android:background="@drawable/ic_calendar_right" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/x5"
+        android:layout_marginRight="@dimen/x5"
+        android:background="@color/color_e5" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -49,9 +56,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/x5"
+            android:layout_marginRight="@dimen/x5"
+            android:layout_marginTop="@dimen/x5"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -157,7 +164,9 @@
             android:id="@+id/record_gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:listSelector="@color/white"
+            android:horizontalSpacing="@dimen/x5"
+            android:verticalSpacing="@dimen/x5"
             android:numColumns="7" />
     </LinearLayout>
 

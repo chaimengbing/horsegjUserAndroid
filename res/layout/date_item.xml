@@ -7,8 +7,11 @@
 
     <TextView
         android:id="@+id/date_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/color_3"
+        android:layout_width="@dimen/x45"
+        android:layout_height="@dimen/x45"
+        android:gravity="center"
+        android:enabled="true"
+        android:clickable="true"
+        android:textColor="@color/color_c"
         android:textSize="14sp" />
 </LinearLayout>

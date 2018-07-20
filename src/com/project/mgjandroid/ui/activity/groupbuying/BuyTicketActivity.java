@@ -18,16 +18,21 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.RedBag;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCoupon;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.ConfirmGroupOrModel;
 import com.project.mgjandroid.model.ConfirmGroupOrderModel;
+import com.project.mgjandroid.model.SubmitOrderModel;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingPreviewModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
+import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
 import com.project.mgjandroid.ui.adapter.DateAdapter;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
@@ -38,6 +43,8 @@ import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +77,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private TextView tvPayPrice;
     @InjectView(R.id.rl_calendar)
     private RelativeLayout rlCalendar;
+    @InjectView(R.id.tv_submit_order)
+    private TextView tvSubmitOrder;
 
     private GridView record_gridView;//定义gridView
     private DateAdapter dateAdapter;//定义adapter
@@ -97,6 +106,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private int type;
     private int bespeak;
     private int bespeakDays;
+    private GroupPurchaseCoupon groupPurchaseCoupon;
+    private ConfirmGroupOrModel confirmGroupOrModel;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -125,6 +136,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         rlRedBag.setOnClickListener(this);
         ivAdd.setOnClickListener(this);
         ivMinus.setOnClickListener(this);
+        tvSubmitOrder.setOnClickListener(this);
         tvTitle.setText("支付订单");
         mLoadingDialog = new MLoadingDialog();
         ticketName = getIntent().getStringExtra("ticketName");
@@ -134,6 +146,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         type = getIntent().getIntExtra("type", -1);
         bespeak = getIntent().getIntExtra("bespeak", -1);
         bespeakDays = getIntent().getIntExtra("bespeakDays", -1);
+        groupPurchaseCoupon = (GroupPurchaseCoupon)getIntent().getSerializableExtra("groupPurchaseCoupon");
         if(type==1){
             rlCalendar.setVisibility(View.GONE);
             tvTicketName.setText(ticketOriginalPrice+"元代金券");
@@ -178,7 +191,6 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
             dateAdapter = new DateAdapter(this, days, year, month,bespeakDays);
         }//传入当前月的年
         record_gridView.setAdapter(dateAdapter);
-        record_gridView.setVerticalSpacing(60);
         record_gridView.setEnabled(true);
         record_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -196,6 +208,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     }
                 }
                 tvDate.setText(title+days1[position]);
+                record_gridView.setItemChecked(position,true);
+                dateAdapter.setSeclection(position,month);
             }
         });
         /**
@@ -265,6 +279,78 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    public void submitOrder() {
+        mLoadingDialog.show(getFragmentManager(), "");
+        Map<String, Object> params = new HashMap<>();
+
+        Map<String, Object> data = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
+        data.put("groupPurchaseCouponId", groupPurchaseCoupon.getId());
+        data.put("groupPurchaseCouponType", groupPurchaseCoupon.getType());
+        ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
+        if (redBag != null) {
+            Map<String, Object> redmap = new HashMap<>();
+            redmap.put("id", redBag.getId());
+            redmap.put("name", redBag.getName());
+            redmap.put("amt", redBag.getAmt());
+            redmap.put("promotionType", redBag.getPromotionType());
+            redBagList.add(redmap);
+        }
+        data.put("loginToken", App.getUserInfo().getToken());
+        data.put("merchantId", groupPurchaseCoupon.getMerchantId());
+        if (groupPurchaseCoupon.getType() == 1) {
+            data.put("originalPrice", groupPurchaseCoupon.getOriginPrice());
+        } else {
+            data.put("originalPrice", groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice());
+        }
+        if (groupPurchaseCoupon.getType() == 1) {
+            data.put("totalOriginalPrice", groupPurchaseCoupon.getOriginPrice().multiply(BigDecimal.valueOf(count)));
+        } else {
+            data.put("totalOriginalPrice", groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice().multiply(BigDecimal.valueOf(count)));
+        }
+        data.put("price", groupPurchaseCoupon.getPrice());
+        data.put("quantity", count);
+//        data.put("totalPrice", 1);
+        data.put("userId", App.getUserInfo().getId());
+//        团购订单订单类型 1, "代金券",2, "团购券",3, "优惠买单"
+        data.put("groupPurchaseOrderType", type);
+        if (redBagList.size() > 0) {
+            data.put("redBags", redBagList);
+        }
+        if(groupPurchaseCoupon.getType() == 2&&bespeak==1){
+            if("请选择日期".equals(tvDate.getText().toString().trim())){
+                mLoadingDialog.dismiss();
+                toast("请选择日期");
+                return;
+            }
+            data.put("targetDate", tvDate.getText().toString().trim());
+        }
+
+        data.put("totalPrice", confirmGroupOrModel.getTotalPrice());
+//        params.put("groupPurchaseOrderCouponCodeList", JSON.toJSONString(data));
+        params.put("data", JSON.toJSONString(data));
+
+        VolleyOperater<SubmitOrderModel> operater = new VolleyOperater<>(mActivity);
+        operater.doRequest(Constants.URL_GROUP_PURCHASE_ORDER_SUBMIT, params, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                mLoadingDialog.dismiss();
+                if (isSucceed && obj != null) {
+                    if (obj instanceof String) {
+                        ToastUtils.displayMsg(obj.toString(), mActivity);
+                        return;
+                    }
+                    SubmitOrderModel submitOrderModel = (SubmitOrderModel) obj;
+                    Intent intent = new Intent(mActivity, OnlinePayActivity.class);
+                    intent.putExtra("orderId", submitOrderModel.getValue().getId());
+                    intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
+                    intent.putExtra("isGroupPurchase", true);
+                    startActivity(intent);
+                }
+            }
+        }, SubmitOrderModel.class);
+    }
+
     private void getOrderPreview() {
         mLoadingDialog.show(getFragmentManager(), "");
         ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
@@ -298,7 +384,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     } else {
                         errorMsg = null;
                     }
-                    ConfirmGroupOrModel confirmGroupOrModel = ((ConfirmGroupOrderModel) obj).getValue();
+                    confirmGroupOrModel = ((ConfirmGroupOrderModel) obj).getValue();
                     showPreviewOrder(confirmGroupOrModel);
                 }
             }
@@ -395,6 +481,9 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 count--;
                 tvCount.setText(""+count);
                 getOrderPreview();
+                break;
+            case R.id.tv_submit_order:
+                submitOrder();
                 break;
         }
 

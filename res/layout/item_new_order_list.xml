@@ -150,6 +150,36 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_item_desc4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:layout_marginTop="@dimen/x30"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_item_name4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_item_content4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/color_3"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_item_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -177,12 +207,14 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_total_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/x8"
             android:layout_marginLeft="@dimen/x10"
             android:layout_marginRight="@dimen/x10"
-            android:layout_marginTop="@dimen/x5">
+            android:layout_marginTop="@dimen/x5"
+            >
 
             <TextView
                 android:id="@+id/tv_item_price"

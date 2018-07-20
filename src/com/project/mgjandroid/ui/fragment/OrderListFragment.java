@@ -61,6 +61,7 @@ import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingAddEvaluationAc
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingOrderForGoodsDetailsActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingQuanOrTuanDetailActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingUseActivity;
+import com.project.mgjandroid.ui.activity.groupbuying.PayBillDetailActivity;
 import com.project.mgjandroid.ui.activity.legwork.LegworkEvaluateActivity;
 import com.project.mgjandroid.ui.activity.legwork.LegworkOrderdetailsActivity;
 import com.project.mgjandroid.ui.activity.pintuan.EvaluateGroupActivity;
@@ -1296,7 +1297,12 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                 intentDetail.putExtra("orderId", order.getGroupPurchaseOrder().getId());
                 startActivityForResult(intentDetail, REFRESH);
                 mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
-            } else if (order.getType() == 9) {
+            } else if(order.getOrderType()==3){
+                Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
+                intentDetail.putExtra("orderId", order.getGroupPurchaseOrder().getId());
+                startActivityForResult(intentDetail, REFRESH);
+                mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
+            }else if (order.getType() == 9) {
                 Intent intentDetail = new Intent(mActivity, LegworkOrderdetailsActivity.class);
                 intentDetail.putExtra("orderId", order.getLegWorkOrder().getId());
                 startActivityForResult(intentDetail, REFRESH);

@@ -347,8 +347,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
 //                loadingDialog.dismiss();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
+                        if(isCanSelect){
+                            isDiscount = 0;
+                        }
                         ToastUtils.displayMsg(obj.toString(), mActivity);
-                        if(isVoucherChecked){
+                        if(isVoucherChecked&&!isCanSelect){
                             list.clear();
                         }
                         return;
