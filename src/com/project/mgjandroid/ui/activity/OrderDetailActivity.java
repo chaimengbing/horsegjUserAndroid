@@ -1415,6 +1415,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                         TextView tvRedBagMoney1 = (TextView) view1.findViewById(R.id.order_detail_commercial_shipping_money);
                         tvRedBagName1.setText("商家代金券");
                         tvRedBagMoney1.setText("- ¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
+                        layoutShip.addView(view1, params);
                     } else {
                         TextView tvRedBagName = (TextView) view.findViewById(R.id.order_detail_commercial_shipping);
                         TextView tvRedBagMoney = (TextView) view.findViewById(R.id.order_detail_commercial_shipping_money);
@@ -1422,7 +1423,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                         tvRedBagMoney.setText("- ¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
                     }
                 }
-                layoutShip.addView(view1, params);
             } else {
                 TextView tvRedBagName = (TextView) view.findViewById(R.id.order_detail_commercial_shipping);
                 TextView tvRedBagMoney = (TextView) view.findViewById(R.id.order_detail_commercial_shipping_money);
