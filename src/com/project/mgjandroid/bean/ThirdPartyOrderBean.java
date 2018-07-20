@@ -63,6 +63,7 @@ public class ThirdPartyOrderBean extends Entity {
     private String endAddress;
     private BigDecimal totalPrice;
     private ArrayList<OrderModer> orderList;
+    private List<CommItemsBean> commodityList;
 
     public ArrayList<OrderModer> getOrderList() {
         return orderList;
@@ -184,6 +185,62 @@ public class ThirdPartyOrderBean extends Entity {
         this.url = url;
     }
 
+    public List<CommItemsBean> getCommodityList() {
+        return commodityList;
+    }
+
+    public void setCommodityList(List<CommItemsBean> commodityList) {
+        this.commodityList = commodityList;
+    }
+
+    public static class CommItemsBean extends Entity {
+        public String getImgUrl() {
+            return imgUrl;
+        }
+
+        public void setImgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
+        }
+
+        public int getBuyNum() {
+            return buyNum;
+        }
+
+        public void setBuyNum(int buyNum) {
+            this.buyNum = buyNum;
+        }
+
+        public double getCommodityPrice() {
+            return commodityPrice;
+        }
+
+        public void setCommodityPrice(double commodityPrice) {
+            this.commodityPrice = commodityPrice;
+        }
+
+        public String getCommodityName() {
+            return commodityName;
+        }
+
+        public void setCommodityName(String commodityName) {
+            this.commodityName = commodityName;
+        }
+
+        /**
+         * "imgUrl": "http://p8gaatum0.bkt.clouddn.com/FsD1ttoGAFOW8RgkGXXEklwnQJ2R",
+         * "buyNum": 1,
+         * "commodityPrice": 20,
+         * "commodityName": "长裤"
+         */
+
+        private String imgUrl;
+        private int buyNum;
+        private double commodityPrice;
+        private String commodityName;
+
+
+    }
+
     public static class OrderModer extends Entity {
 
         /**
@@ -217,6 +274,7 @@ public class ThirdPartyOrderBean extends Entity {
         private String expressFee;
         private String agentRate;
         private List<OrderItemsBean> orderItems;
+
 
         public String getHasPayed() {
             return hasPayed;
@@ -330,6 +388,7 @@ public class ThirdPartyOrderBean extends Entity {
             this.orderItems = orderItems;
         }
 
+
         public static class CommissionJsonBean extends Entity {
             /**
              * partnerAgentId : 202
@@ -421,5 +480,7 @@ public class ThirdPartyOrderBean extends Entity {
                 this.price = price;
             }
         }
+
+
     }
 }

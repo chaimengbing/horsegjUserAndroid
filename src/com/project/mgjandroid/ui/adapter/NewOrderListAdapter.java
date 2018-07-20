@@ -149,12 +149,32 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             holder.setText(R.id.tv_item_name2, "收件地址：");
             holder.setText(R.id.tv_item_content1, thirdpartyOrder.getTitle());
             holder.setText(R.id.tv_item_content2, thirdpartyOrder.getDescription());
-//        } else if (valueEntity.getType() == 11) {
-//            //洗衣
-//            holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_11);
-//            holder.setVisibility(R.id.ll_item_desc2, false);
-//            holder.setVisibility(R.id.ll_item_desc3, false);
-//            holder.setVisibility(R.id.ll_item_info, true);
+        } else if (valueEntity.getType() == 11) {
+            //洗衣
+            holder.setImageResource(R.id.iv_item_type, R.drawable.item_icon_11);
+            holder.setVisibility(R.id.ll_item_desc2, false);
+            holder.setVisibility(R.id.ll_item_desc3, false);
+            holder.setVisibility(R.id.ll_item_info, true);
+            holder.setText(R.id.tv_item_name1, "商品信息：");
+            List<ThirdPartyOrderBean.CommItemsBean> items = thirdpartyOrder.getCommodityList();
+            int count = 0;
+            if (items != null) {
+                llItemInfo.removeAllViews();
+                for (int i = 0; i < items.size(); i++) {
+                    if (i < 2) {
+                        View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);
+                        TextView tvDesc = (TextView) inflate.findViewById(R.id.tv_order_info_desc);
+                        TextView tvNum = (TextView) inflate.findViewById(R.id.tv_order_info_num);
+                        TextView tvPrice = (TextView) inflate.findViewById(R.id.tv_order_info_price);
+                        tvDesc.setText(items.get(i).getCommodityName());
+                        tvNum.setText("x " + items.get(i).getBuyNum());
+                        tvPrice.setText("¥ " + items.get(i).getCommodityPrice());
+                        llItemInfo.addView(inflate);
+                    }
+                    count = count + items.get(i).getBuyNum();
+                }
+            }
+            holder.setText(R.id.tv_item_content1, "共" + count + "件商品");
         } else {
             holder.setVisibility(R.id.ll_item_desc2, false);
             holder.setVisibility(R.id.ll_item_desc3, false);
@@ -180,9 +200,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
 
         //1525968000  2018/5/11
         if (valueEntity.getThirdpartyOrder().getStatus() == -1 && valueEntity.getThirdpartyOrder().getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
-            if(StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")){
+            if (StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")) {
                 tvRefund.setVisibility(View.GONE);
-            }else {
+            } else {
                 tvRefund.setVisibility(View.VISIBLE);
             }
         } else {
@@ -275,9 +295,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                 if (valueEntity.getLegWorkOrder().getPaymentState() == 1) {
                     //已经支付
-                    if(StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")){
+                    if (StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")) {
                         tvOrderStateRefund.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         tvOrderStateRefund.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -477,9 +497,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                     holder.setTextColor(R.id.order_list_item_tv_state, R.color.color_3);
                     if (groupBuyOrder.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
                         //已支付
-                        if(StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")){
+                        if (StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")) {
                             tvRefund.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             tvRefund.setVisibility(View.VISIBLE);
                         }
                     }
@@ -591,9 +611,9 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
                 changeButtonShowState(holder, true, false, false, false, false);
                 if (valueEntity.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueEntity.getCreateTime())) {
                     //已支付
-                    if(StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")){
+                    if (StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()).equals("0")) {
                         tvRefund.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         tvRefund.setVisibility(View.VISIBLE);
                     }
                 }
