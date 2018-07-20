@@ -25,6 +25,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.project.mgjandroid.R;
@@ -920,18 +921,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     toast("无可用红包");
                     return;
                 }
-                double totalPrice = valueEntity.getTotalPrice().doubleValue();
-                if (valueEntity.getShippingFee().doubleValue() > 0) {
-                    totalPrice = totalPrice - valueEntity.getShippingFee().doubleValue();
-                }
-                if (valueEntity.getBoxPrice().doubleValue() > 0) {
-                    totalPrice = totalPrice - valueEntity.getBoxPrice().doubleValue();
-                }
                 Intent intentSelect = new Intent(ConfirmOrderActivity.this, SelectRedBagActivity.class);
-                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, totalPrice);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, valueEntity.getItemsPrice().doubleValue());
+                intentSelect.putExtra(SelectRedBagActivity.PROMOINFO_JSON, JSON.toJSONString(valueEntity.getPromoList()));
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, isFromMarket ? 3 : 1);
-                intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAGS, JSONArray.toJSONString(valueEntity.getPlatformRedBags()));
                 if (platformRedBag != null) {
                     intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, platformRedBag.getId());
                 } else {

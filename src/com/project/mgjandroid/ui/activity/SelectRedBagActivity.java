@@ -19,6 +19,7 @@ import com.project.mgjandroid.model.RedBagsModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.SelectRedBagRecyclerAdapter;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
@@ -37,6 +38,7 @@ public class SelectRedBagActivity extends BaseActivity {
     public final static String QUANTITY = "quantity";
     public final static String ADDRESS = "address";
     public final static String ITEMS_PRICE = "itemsPrice";
+    public final static String PROMOINFO_JSON = "promoInfoJson";
     public final static String RED_MONEY_BAG = "red_money_bag";
     public final static String PLATFORM_REDBAGS = "platform_redbags";
     public final static String PLATFORM_REDBAG_ID = "platform_redbag_id";
@@ -73,7 +75,7 @@ public class SelectRedBagActivity extends BaseActivity {
      * Laundry(11,"洗衣");
      */
     private int businessType = 1;
-    private String platformRedbags;
+    private String promoInfoJson;
     private long platformRedbagId;
     private int quantity = -1;
 
@@ -86,8 +88,8 @@ public class SelectRedBagActivity extends BaseActivity {
         businessType = getIntent().getIntExtra(BUSINESS_TYPE, businessType);
         quantity = getIntent().getIntExtra(QUANTITY, quantity);
         userAddress = (UserAddress) getIntent().getSerializableExtra(ADDRESS);
-        itemsPrice = getIntent().getDoubleExtra(ITEMS_PRICE, 0);
-        platformRedbags = getIntent().getStringExtra(PLATFORM_REDBAGS);
+        itemsPrice = getIntent().getDoubleExtra(ITEMS_PRICE, 0.0);
+        promoInfoJson = getIntent().getStringExtra(PROMOINFO_JSON);
         platformRedbagId = getIntent().getLongExtra(PLATFORM_REDBAG_ID, -1l);
 
         if (platformRedbagId == -1) {
@@ -104,7 +106,7 @@ public class SelectRedBagActivity extends BaseActivity {
      * 请求红包
      */
     private void initData() {
-        loadingDialog.show(getFragmentManager(),"");
+        loadingDialog.show(getFragmentManager(), "");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("agentId", agentId);
         map.put("businessType", businessType);
@@ -114,6 +116,9 @@ public class SelectRedBagActivity extends BaseActivity {
         map.put("itemsPrice", itemsPrice);
         if (quantity != -1) {
             map.put("quantity", quantity);
+        }
+        if (CheckUtils.isNoEmptyStr(promoInfoJson)) {
+            map.put("promoInfoJson", promoInfoJson);
         }
         VolleyOperater<RedBagsModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_QUERY_PLATFORM_REDBAGLIST, map, new VolleyOperater.ResponseListener() {

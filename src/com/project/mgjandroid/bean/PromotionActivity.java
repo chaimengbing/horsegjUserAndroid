@@ -9,6 +9,27 @@ import java.util.List;
  */
 public class PromotionActivity implements Serializable {
 
+    /**
+     * "activityId": 14,
+     "promotionId": 3,
+     "agentId": 3,
+     "promoName": "满减优惠",
+     "promoType": 1,
+     "rule": "满60减20",
+     "discountAmt": 20,
+     "promoTip": "",
+     "promoImg": "http://7xu5hi.com1.z0.glb.clouddn.com/1611021611432865318.png",
+     "type": 0,
+     "presentGoodsName": null,
+     "activityType": 2,
+     "merchantBearAmt": 0,
+     "agentBearAmt": 20,
+     "startTime": null,
+     "endTime": null,
+     "promoValue": "-￥20",
+     "ruleDtoList": []
+     */
+
     private Long activityId;
 
     private Long promotionId;
@@ -18,12 +39,49 @@ public class PromotionActivity implements Serializable {
     private String promoName;
 
     private Integer promoType;
+    private Integer activityType;
 
     private String rule;
 
     private BigDecimal discountAmt;
 
     private String promoTip;
+
+    public Integer getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(Integer activityType) {
+        this.activityType = activityType;
+    }
+
+    public String getPromoValue() {
+        return promoValue;
+    }
+
+    public void setPromoValue(String promoValue) {
+        this.promoValue = promoValue;
+    }
+
+    public BigDecimal getAgentBearAmt() {
+        return agentBearAmt;
+    }
+
+    public void setAgentBearAmt(BigDecimal agentBearAmt) {
+        this.agentBearAmt = agentBearAmt;
+    }
+
+    public BigDecimal getMerchantBearAmt() {
+        return merchantBearAmt;
+    }
+
+    public void setMerchantBearAmt(BigDecimal merchantBearAmt) {
+        this.merchantBearAmt = merchantBearAmt;
+    }
+
+    private String promoValue;
+    private BigDecimal agentBearAmt;
+    private BigDecimal merchantBearAmt;
 
     private String promoImg;
     private String presentGoodsName;
