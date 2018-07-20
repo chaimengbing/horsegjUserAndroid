@@ -98,8 +98,8 @@
                         android:includeFontPadding="false"
                         android:singleLine="true"
                         android:ellipsize="end"
-                        android:textColor="@color/mine_number_color_red"
-                        android:textSize="35sp"
+                        android:textColor="@color/platform_color"
+                        android:textSize="@dimen/x28"
                         tools:text="￥18" />
 
                     <TextView

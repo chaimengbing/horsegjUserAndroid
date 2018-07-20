@@ -81,7 +81,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/x2"
                 android:includeFontPadding="false"
-                android:textColor="@color/price_red"
+                android:textColor="@color/platform_color"
                 android:layout_alignBottom="@id/discount_amt"
                 android:layout_toLeftOf="@+id/discount_amt"
                 android:textSize="15sp"
@@ -95,7 +95,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/x2"
                 android:includeFontPadding="false"
-                android:textColor="@color/price_red"
+                android:textColor="@color/platform_color"
                 android:textSize="30sp"
                 tools:text="18" />
 
