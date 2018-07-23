@@ -1292,15 +1292,17 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                 intentDetail.putExtra(OrderDetailActivity.ORDER_ID, orderId);
                 startActivityForResult(intentDetail, REFRESH);
                 mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
-            } else if (order.getType() == 6) {
-                Intent intentDetail = new Intent(mActivity, GroupBuyingOrderForGoodsDetailsActivity.class);
-                intentDetail.putExtra("orderId", order.getGroupPurchaseOrder().getId());
-                startActivityForResult(intentDetail, REFRESH);
-                mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
-            } else if(order.getOrderType()==3){
-                Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
-                intentDetail.putExtra("orderId", order.getGroupPurchaseOrder().getId());
-                startActivityForResult(intentDetail, REFRESH);
+            }else if (order.getType() == 6) {
+                if(order.getGroupPurchaseOrder().getOrderType()==3){
+                    Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
+                    intentDetail.putExtra("orderId", order.getGroupPurchaseOrder().getId());
+                    startActivityForResult(intentDetail, REFRESH);
+                    mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
+                }else {
+                    Intent intentDetail = new Intent(mActivity, GroupBuyingOrderForGoodsDetailsActivity.class);
+                    intentDetail.putExtra("orderId", order.getGroupPurchaseOrder().getId());
+                    startActivityForResult(intentDetail, REFRESH);
+                }
                 mActivity.overridePendingTransition(R.anim.common_in_from_right, R.anim.common_out_to_left);
             }else if (order.getType() == 9) {
                 Intent intentDetail = new Intent(mActivity, LegworkOrderdetailsActivity.class);

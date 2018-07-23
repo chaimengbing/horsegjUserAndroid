@@ -502,7 +502,9 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             case group_buying_refund:
 //                hideMoreWindow();
 //                refundPopupWindow();
-               startActivity(new Intent(mActivity,GroupBuyingRefundActivity.class));
+                Intent intent2 = new Intent(mActivity, GroupBuyingRefundActivity.class);
+                intent2.putExtra("order",order);
+                startActivity(intent2);
                 break;
             case layout_address:
                 if (merchant != null)

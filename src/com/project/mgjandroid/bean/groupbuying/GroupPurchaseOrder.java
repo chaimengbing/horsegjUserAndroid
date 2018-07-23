@@ -108,6 +108,8 @@ public class GroupPurchaseOrder extends Entity {
     private String transactionId;
     /**
      * 支付类型 {PaymentType}
+     * 1.在线支付
+     * 2.货到付款
      */
     private Integer paymentType;
     /**
@@ -191,6 +193,7 @@ public class GroupPurchaseOrder extends Entity {
     private BigDecimal discountAmt = BigDecimal.ZERO;
     /** 代金券总金额 */
     private BigDecimal cashDeductionPrice = BigDecimal.ZERO;
+    private String groupPurchaseMerchantImg;
 
     private GroupPurchaseCoupon groupPurchaseCoupon;
 
@@ -659,5 +662,13 @@ public class GroupPurchaseOrder extends Entity {
 
     public void setCashDeductionPrice(BigDecimal cashDeductionPrice) {
         this.cashDeductionPrice = cashDeductionPrice;
+    }
+
+    public String getGroupPurchaseMerchantImg() {
+        return groupPurchaseMerchantImg;
+    }
+
+    public void setGroupPurchaseMerchantImg(String groupPurchaseMerchantImg) {
+        this.groupPurchaseMerchantImg = groupPurchaseMerchantImg;
     }
 }

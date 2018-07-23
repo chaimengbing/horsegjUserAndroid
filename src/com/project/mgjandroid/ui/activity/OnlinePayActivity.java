@@ -24,6 +24,7 @@ import com.project.mgjandroid.model.PayWaysModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.carhailing.CarHailingOrderDetailActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingOrderForGoodsDetailsActivity;
+import com.project.mgjandroid.ui.activity.groupbuying.PayBillDetailActivity;
 import com.project.mgjandroid.ui.activity.legwork.LegworkOrderdetailsActivity;
 import com.project.mgjandroid.ui.activity.pintuan.MyGroupPurchaseDetailActivity;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
@@ -77,6 +78,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     private boolean isCarHailing = false;
     private NoticeDialog dialog;
     private boolean isGroupPurchase = false;
+    private boolean isGroupPurchaseBuy = false;
     private boolean isFromThird = false;
     private boolean isThirdparty = false;
     private String thirdUrl;
@@ -117,6 +119,9 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         }
         if (intent.hasExtra("isGroupPurchase")) {
             isGroupPurchase = true;
+        }
+        if (intent.hasExtra("isGroupPurchaseBuy")) {
+            isGroupPurchaseBuy = true;
         }
         if (intent.hasExtra("isThirdparty")) {
             isThirdparty = intent.getBooleanExtra("isThirdparty", false);
@@ -305,7 +310,16 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                                 }
                                 setResult(RESULT_OK);
                                 finish();
-                            } else if (isThirdparty) {
+                            }  else if (isGroupPurchaseBuy) {
+                                if (!getIntent().hasExtra("isFromDetail")) {
+                                    Intent intent = new Intent(OnlinePayActivity.this, PayBillDetailActivity.class);
+                                    intent.putExtra("orderId", id);
+                                    intent.putExtra("paySuccess", "onLinePay");
+                                    startActivity(intent);
+                                }
+                                setResult(RESULT_OK);
+                                finish();
+                            }else if (isThirdparty) {
                                 Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
                                 intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, thirdUrl);
                                 startActivity(intent);
@@ -516,7 +530,14 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
             startActivity(intent);
             setResult(RESULT_OK);
             finish();
-        } else if (isThirdparty) {
+        } else if (isGroupPurchaseBuy) {
+            Intent intent = new Intent(OnlinePayActivity.this, PayBillDetailActivity.class);
+            intent.putExtra("orderId", orderId);
+            intent.putExtra("paySuccess", "onLinePay");
+            startActivity(intent);
+            setResult(RESULT_OK);
+            finish();
+        }else if (isThirdparty) {
             Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
             intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, thirdUrl);
             startActivity(intent);

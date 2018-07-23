@@ -279,7 +279,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text=""
+                    android:text="支付成功"
                     android:textColor="@color/color_3"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -311,7 +311,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="¥36"
+                    android:text="¥0"
                     android:textColor="@color/color_3"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -343,7 +343,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="¥36"
+
                     android:textColor="@color/color_3"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -375,7 +375,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="¥36"
                     android:textColor="@color/color_3"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -407,7 +406,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="订单编号"
                     android:textColor="@color/color_3"
                     android:textSize="13sp" />
             </RelativeLayout>

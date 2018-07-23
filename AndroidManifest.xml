@@ -845,6 +845,9 @@
             android:name=".ui.activity.groupbuying.GroupBuyingHistoricalVouchersActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.groupbuying.GroupBuyingRefundActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.illegalquery.IllegalQueryActivity"
             android:screenOrientation="portrait" />
         <activity

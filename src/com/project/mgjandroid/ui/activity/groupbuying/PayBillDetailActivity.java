@@ -17,6 +17,7 @@ import com.project.mgjandroid.model.groupbuying.GroupBuyingOrderModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.StringUtils;
@@ -59,6 +60,8 @@ public class PayBillDetailActivity extends BaseActivity {
     private TextView tvEvaluate;
     @InjectView(R.id.merchant_avatar)
     private ImageView imgAcatar;
+    @InjectView(R.id.merchant_name)
+    private TextView titleMerchantName;
 
     private MLoadingDialog loadingDialog;
     private String orderId;
@@ -89,6 +92,7 @@ public class PayBillDetailActivity extends BaseActivity {
         operater.doRequest(Constants.URL_NEW_ORDER_DETAIL, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
+                loadingDialog.dismiss();
                 if (isSucceed && obj != null) {
                     order = ((GroupBuyingOrderModel) obj).getValue().getGroupPurchaseOrder();
                     showDetail();
@@ -99,13 +103,30 @@ public class PayBillDetailActivity extends BaseActivity {
 
     private void showDetail(){
         tvMerchantName.setText(order.getGroupPurchaseMerchantName());
-        ImageUtils.loadBitmap(mActivity, order.getGroupPurchaseCouponImages().split(";")[0], imgAcatar, R.drawable.horsegj_default, Constants.getEndThumbnail(86, 66));
+        if(CheckUtils.isNoEmptyStr(order.getGroupPurchaseMerchantImg())){
+            ImageUtils.loadBitmap(mActivity, order.getGroupPurchaseMerchantImg().split(";")[0], imgAcatar, R.drawable.horsegj_default, Constants.getEndThumbnail(86, 66));
+        }
         tvPaymentMoney.setText(StringUtils.BigDecimal2Str(order.getTotalPrice()));
-        tvOrderMoney.setText(StringUtils.BigDecimal2Str(order.getTotalOriginalPrice()));
+        tvOrderMoney.setText(StringUtils.BigDecimal2Str(order.getOriginalPrice()));
         tvDiscount.setText(StringUtils.BigDecimal2Str(order.getDiscountAmt()));
         tvVoucher.setText(StringUtils.BigDecimal2Str(order.getCashDeductionPrice()));
         tvRedBag.setText(StringUtils.BigDecimal2Str(order.getRedBagDiscountTotalAmt()));
 //        tvNowStatus.setText();
+        titleMerchantName.setText(order.getGroupPurchaseMerchantName());
+        tvPayTime.setText(order.getPaymentExpireTime());
+        if(order.getPaymentType()==1){
+            tvPayWay.setText("在线支付");
+        }else {
+            tvPayWay.setText("货到付款");
+        }
+        tvOrderNumber.setText(order.getId());
+        if (order.getHasComments() == 0){
+            tvEvaluate.setEnabled(true);
+            tvEvaluate.setText("评价");
+        }else {
+            tvEvaluate.setEnabled(false);
+            tvEvaluate.setText("已评价");
+        }
 
     }
 
