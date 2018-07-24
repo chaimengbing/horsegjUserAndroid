@@ -1,6 +1,8 @@
 package com.project.mgjandroid.ui.activity.groupbuying;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +18,8 @@ import com.project.mgjandroid.model.groupbuying.GroupBuyingMerchantModel;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingOrderModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
+import com.project.mgjandroid.ui.activity.OrderDetailActivity;
+import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
@@ -66,6 +70,9 @@ public class PayBillDetailActivity extends BaseActivity {
     private MLoadingDialog loadingDialog;
     private String orderId;
     private GroupPurchaseOrder order;
+    public static final int REFRESH = 2000;
+    private Dialog callNumDialog;
+    private CallPhoneDialog dialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -82,6 +89,7 @@ public class PayBillDetailActivity extends BaseActivity {
         imgPhone.setOnClickListener(this);
         orderId = getIntent().getStringExtra("orderId");
         loadingDialog = new MLoadingDialog();
+        callNumDialog = new Dialog(this, R.style.fullDialog);
     }
 
     private void getOrderData() {
@@ -106,11 +114,24 @@ public class PayBillDetailActivity extends BaseActivity {
         if(CheckUtils.isNoEmptyStr(order.getGroupPurchaseMerchantImg())){
             ImageUtils.loadBitmap(mActivity, order.getGroupPurchaseMerchantImg().split(";")[0], imgAcatar, R.drawable.horsegj_default, Constants.getEndThumbnail(86, 66));
         }
-        tvPaymentMoney.setText(StringUtils.BigDecimal2Str(order.getTotalPrice()));
-        tvOrderMoney.setText(StringUtils.BigDecimal2Str(order.getOriginalPrice()));
-        tvDiscount.setText(StringUtils.BigDecimal2Str(order.getDiscountAmt()));
-        tvVoucher.setText(StringUtils.BigDecimal2Str(order.getCashDeductionPrice()));
-        tvRedBag.setText(StringUtils.BigDecimal2Str(order.getRedBagDiscountTotalAmt()));
+        tvPaymentMoney.setText("¥"+StringUtils.BigDecimal2Str(order.getTotalPrice()));
+        tvOrderMoney.setText("¥"+StringUtils.BigDecimal2Str(order.getOriginalPrice()));
+        if(CheckUtils.isNoEmptyStr(StringUtils.BigDecimal2Str(order.getDiscountAmt()))){
+            tvDiscount.setText("-¥"+StringUtils.BigDecimal2Str(order.getDiscountAmt()));
+        }else {
+            tvDiscount.setText("无");
+        }
+        if(CheckUtils.isNoEmptyStr(StringUtils.BigDecimal2Str(order.getCashDeductionPrice()))){
+            tvVoucher.setText("-¥"+StringUtils.BigDecimal2Str(order.getCashDeductionPrice()));
+        }else {
+            tvVoucher.setText("无");
+        }
+        if(CheckUtils.isNoEmptyStr(StringUtils.BigDecimal2Str(order.getRedBagDiscountTotalAmt()))){
+            tvRedBag.setText("-¥"+StringUtils.BigDecimal2Str(order.getRedBagDiscountTotalAmt()));
+        }else {
+            tvRedBag.setText("无");
+        }
+
 //        tvNowStatus.setText();
         titleMerchantName.setText(order.getGroupPurchaseMerchantName());
         tvPayTime.setText(order.getPaymentExpireTime());
@@ -138,11 +159,46 @@ public class PayBillDetailActivity extends BaseActivity {
                 back();
                 break;
             case R.id.tv_evaluate:
-                startActivity(new Intent(this,GroupBuyingAddEvaluationActivity.class));
+                Intent carEvaluate = new Intent(mActivity, GroupBuyingAddEvaluationActivity.class);
+                carEvaluate.putExtra("groupPurchaseOrder", order);
+                startActivityForResult(carEvaluate, REFRESH);
                 break;
             case R.id.img_phone:
-
+                showCallDialog(order.getGroupPurchaseMerchantContacts());
                 break;
+        }
+    }
+
+    private void showCallDialog(final String mobild) {
+
+        if (callNumDialog != null) {
+            callNumDialog.dismiss();
+        }
+        dialog = new CallPhoneDialog(PayBillDetailActivity.this, new CallPhoneDialog.onBtnClickListener() {
+            @Override
+            public void onSure() {
+                //拨打电话
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.DIAL");
+                //submitOrderEntity.getMerchant().getContacts() 商家电话
+                intent.setData(Uri.parse("tel:" + mobild));
+                PayBillDetailActivity.this.startActivity(intent);
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onExit() {
+                dialog.dismiss();
+            }
+        }, "", mobild);
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REFRESH) {
+            getOrderData();
         }
     }
 }

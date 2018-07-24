@@ -194,6 +194,7 @@ public class GroupPurchaseOrder extends Entity {
     /** 代金券总金额 */
     private BigDecimal cashDeductionPrice = BigDecimal.ZERO;
     private String groupPurchaseMerchantImg;
+    private String groupPurchaseMerchantContacts;
 
     private GroupPurchaseCoupon groupPurchaseCoupon;
 
@@ -670,5 +671,13 @@ public class GroupPurchaseOrder extends Entity {
 
     public void setGroupPurchaseMerchantImg(String groupPurchaseMerchantImg) {
         this.groupPurchaseMerchantImg = groupPurchaseMerchantImg;
+    }
+
+    public String getGroupPurchaseMerchantContacts() {
+        return groupPurchaseMerchantContacts;
+    }
+
+    public void setGroupPurchaseMerchantContacts(String groupPurchaseMerchantContacts) {
+        this.groupPurchaseMerchantContacts = groupPurchaseMerchantContacts;
     }
 }

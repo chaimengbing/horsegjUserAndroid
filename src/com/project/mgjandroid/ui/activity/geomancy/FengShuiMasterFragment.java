@@ -107,7 +107,7 @@ public class FengShuiMasterFragment extends BaseFragment implements PullToRefres
         });
         emptyView = mInflater.inflate(R.layout.empty_view_publish, null);
         TextView tvEmpty = (TextView) emptyView.findViewById(R.id.tv_no_data);
-        tvEmpty.setText("暂无风水大师信息");
+        tvEmpty.setText("暂无共享大师信息");
 //        listView.setEmptyView(emptyView);
     }
 

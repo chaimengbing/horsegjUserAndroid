@@ -175,7 +175,6 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         setContentView(R.layout.activity_order_for_goods_details);
         Injector.get(this).inject();
         initView();
-        getOrderData();
     }
 
     private void initView() {
@@ -191,6 +190,12 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         layoutDetails.setOnClickListener(this);
         loadingDialog = new MLoadingDialog();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getOrderData();
     }
 
     private void getOrderData() {

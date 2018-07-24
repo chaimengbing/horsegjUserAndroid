@@ -433,7 +433,6 @@
                     android:layout_height="@dimen/x25"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/et_bg_publish_info"
-                    android:text="评价"
                     android:gravity="center"
                     android:textColor="@color/color_3"
                     android:textSize="13sp" />

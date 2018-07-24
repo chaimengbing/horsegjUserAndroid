@@ -343,7 +343,6 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra("orderId", submitOrderModel.getValue().getId());
                     intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
                     intent.putExtra("isGroupPurchaseBuy", true);
-
                     startActivity(intent);
                 }
             }
@@ -394,7 +393,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         if (redBag != null) {
             tvRedBag.setText("-¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
         } else {
-            tvRedBag.setText("");
+            tvRedBag.setText("无可用红包");
             if (confirmGroupOrModel.getPlatformRedBagCount() > 0) {
                 tvRedBag.setText("有" + confirmGroupOrModel.getPlatformRedBagCount() + "个可用红包");
             }

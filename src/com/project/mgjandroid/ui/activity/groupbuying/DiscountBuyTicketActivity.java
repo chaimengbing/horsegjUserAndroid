@@ -66,7 +66,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private RelativeLayout rlVoucher;
     @InjectView(R.id.tv_amoun_actually_paid)
     private TextView tvAmounActuallyPaid;
-
+    @InjectView(R.id.rl_discount)
+    private RelativeLayout rlDiscount;
 
 
     private String titleName;
@@ -80,6 +81,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private ArrayList<Map<String, Object>> list = new ArrayList<>();
     private boolean isCanSelect;
     private boolean isVoucherChecked;
+    private double discount;
+    private GroupBuyingVoucherListModel voucherList;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -99,7 +102,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         rlVoucher.setOnClickListener(this);
         tvConfirm.setOnClickListener(this);
         imgSelected.setOnClickListener(this);
-        double discount = Integer.parseInt(merchant.getDiscountRatio()) * 0.01 * 10;
+        if(CheckUtils.isEmptyStr(merchant.getDiscountRatio())){
+            rlDiscount.setVisibility(View.GONE);
+        }else {
+            discount = Integer.parseInt(merchant.getDiscountRatio()) * 0.01 * 10;
+        }
         tvDiscount.setText(discount + "折");
 //        loadingDialog = new MLoadingDialog();
         etEvalution.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -128,7 +135,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if(editable.toString().trim().length()>0){
+                    etEvalution.setHint("");
+                }else {
+                    etEvalution.setHint("询问服务员后输入");
+                }
             }
         });
     }
@@ -155,8 +166,17 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 startActivityForResult(intentSelect, 1111);
                 break;
             case R.id.rl_voucher:
+                if(isCanSelect){
+                    if(merchant.getIsSharingRelationship()==2){
+                        isDiscount = 0;
+                        toast("代金券和优惠折扣不可同时选择");
+                        return;
+                    }
+                }
                 Intent intent = new Intent(this, GroupBuyingMyVoucher.class);
                 intent.putExtra("merchantId", merchant.getId());
+                intent.putExtra("totalPrice", etEvalution.getText().toString().trim());
+                intent.putExtra("voucherList", voucherList);
                 startActivityForResult(intent,2018);
                 break;
             case R.id.tv_confirm:
@@ -164,19 +184,31 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 break;
             case R.id.img_unselected:
                 if(CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())){
-                    if(isCanSelect){
-                        isDiscount = 0;
-                        isCanSelect = false;
+                    if(isVoucherChecked){
+                        if(merchant.getIsSharingRelationship()==2){
+                            isDiscount = 0;
+                            toast("代金券和优惠折扣不可同时选择");
+                            return;
+                        }else {
+                            isDiscount = 1;
+                            tvSelected.setText("-¥"+previewModelValue.getDiscountAmt());
+                            imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
+                        }
                     }else {
-                        isDiscount = 1;
-                        isCanSelect = true;
+                        if(isCanSelect){
+                            isDiscount = 0;
+                            isCanSelect = false;
+                        }else {
+                            isDiscount = 1;
+                            isCanSelect = true;
+                        }
                     }
                 }
-                if(merchant.getIsSharingRelationship()==0){
-                    isVoucherChecked = false;
-                }else {
-                    isVoucherChecked = true;
-                }
+//                if(merchant.getIsSharingRelationship()==1){
+//                    isVoucherChecked = false;
+//                }else {
+//                    isVoucherChecked = true;
+//                }
                 payForPreview();
                 break;
 
@@ -191,12 +223,9 @@ public class DiscountBuyTicketActivity extends BaseActivity {
             payForPreview();
         }
         if(resultCode == 2018){
-//            if(merchant.getIsSharingRelationship()==1||merchant.getIsSharingRelationship()==0&&!isCanSelect){
-//
-//            }
             list.clear();
-            GroupBuyingVoucherListModel voucherList = (GroupBuyingVoucherListModel)data.getSerializableExtra("selectVoucher");
-            for(GroupBuyingVoucherListModel.ValueBean bean:voucherList.getValue()){
+            voucherList = (GroupBuyingVoucherListModel)data.getSerializableExtra("selectVoucher");
+            for(GroupBuyingVoucherListModel.ValueBean bean: voucherList.getValue()){
                 if(bean.isChecked()){
                     Map<String,Object> voucherMap = new HashMap<>();
                     voucherMap.put("id", bean.getId());
@@ -220,7 +249,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
             voucherPrice = previewModelValue.getCashDeductionPrice();
             tvVoucher.setText("-¥" + previewModelValue.getCashDeductionPrice());
         }else {
-            tvVoucher.setText("");
+            voucherPrice= "0";
+            tvVoucher.setText("无可用抵用券");
             if (previewModelValue.getEnableGroupPurchaseOrderCouponCodeCount() > 0) {
                 tvVoucher.setText("有" + previewModelValue.getEnableGroupPurchaseOrderCouponCodeCount() + "个抵用券可用");
             }
@@ -228,7 +258,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         if (redBag != null) {
             tvRedBag.setText("-¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
         } else {
-            tvRedBag.setText("");
+            tvRedBag.setText("无可用红包");
             if (CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())&&previewModelValue.getPlatformRedBagCount() > 0) {
                 tvRedBag.setText("去使用");
             }
@@ -295,7 +325,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     Intent intent = new Intent(mActivity, OnlinePayActivity.class);
                     intent.putExtra("orderId", submitOrderModel.getValue().getId());
                     intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
-                    intent.putExtra("isGroupPurchase", true);
+                    intent.putExtra("isGroupPurchaseBuy", true);
                     startActivity(intent);
                 }
             }
@@ -353,6 +383,14 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                         ToastUtils.displayMsg(obj.toString(), mActivity);
                         if(isVoucherChecked&&!isCanSelect){
                             list.clear();
+                            voucherPrice= "0";
+                            isVoucherChecked = false;
+                            if(voucherList!=null){
+                                for(int i=0;i<voucherList.getValue().size();i++){
+                                    voucherList.getValue().get(i).setIsChecked(false);
+                                }
+                            }
+
                         }
                         return;
                     }
