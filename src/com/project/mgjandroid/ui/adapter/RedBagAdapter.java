@@ -89,7 +89,7 @@ public class RedBagAdapter extends BaseListAdapter<RedBag> {
             } else {
                 rootView.setBackgroundResource(R.drawable.normal_redbag_bg);
                 tv_type.setTextColor(mActivity.getResources().getColor(R.color.color_3));
-                tv_discount_amt.setTextColor(mActivity.getResources().getColor(R.color.red_3));
+                tv_discount_amt.setTextColor(mActivity.getResources().getColor(R.color.platform_color));
                 tv_effect_period.setTextColor(mActivity.getResources().getColor(R.color.color_3));
                 tv_merchant_name.setTextColor(mActivity.getResources().getColor(R.color.color_3));
                 tv_restrict.setTextColor(mActivity.getResources().getColor(R.color.color_9));

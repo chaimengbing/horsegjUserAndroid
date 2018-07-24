@@ -42,17 +42,18 @@ public class PlatFormAdapter extends BaseListAdapter<RedBag> {
         TextView nameTextView = holder.getView(R.id.paltform_name_textview);
         TextView expirationTextView = holder.getView(R.id.expiration_time_textview);
         TextView restrictTime = holder.getView(R.id.restrict_time_textview);
-        TextView mobile = holder.getView(R.id.mobile_textview);
+//        TextView mobile = holder.getView(R.id.mobile_textview);
         TextView moneyNum = holder.getView(R.id.redbag_money_textview);
         TextView restrictAmt = holder.getView(R.id.restrict_amt_textview);
         TextView businessType = holder.getView(R.id.business_type_textview);
         ImageView iv_redbag = holder.getView(R.id.iv_redbag);
         FrameLayout oneLayout = holder.getView(R.id.dis_one_layout);
-        FrameLayout twoLayout= holder.getView(R.id.dis_two_layout);
+//        FrameLayout twoLayout = holder.getView(R.id.dis_two_layout);
+        ImageView dis_two_imageview = holder.getView(R.id.dis_two_imageview);
 
         if (canUse) {
             oneLayout.setBackgroundResource(0);
-            twoLayout.setBackgroundResource(0);
+            dis_two_imageview.setBackgroundResource(0);
             rootView.setBackgroundResource(R.drawable.normal_redbag_bg);
             iv_redbag.setVisibility(View.INVISIBLE);
             expirationTextView.setTextColor(mActivity.getResources().getColor(R.color.color_3));
@@ -60,7 +61,7 @@ public class PlatFormAdapter extends BaseListAdapter<RedBag> {
         } else if (bean.getStatus() == 1) {
             rootView.setBackgroundResource(0);
             oneLayout.setBackgroundResource(R.drawable.redbag_disable_bg_1);
-            twoLayout.setBackgroundResource(R.drawable.redbag_disable_bg_2);
+            dis_two_imageview.setBackgroundResource(R.drawable.redbag_disable_bg_2);
             rootView.setBackgroundResource(R.drawable.invalid_redbag_bg);
             moneyNum.setTextColor(mActivity.getResources().getColor(R.color.color_c));
             iv_redbag.setVisibility(View.VISIBLE);
@@ -72,7 +73,7 @@ public class PlatFormAdapter extends BaseListAdapter<RedBag> {
         } else {
             rootView.setBackgroundResource(0);
             oneLayout.setBackgroundResource(R.drawable.redbag_disable_bg_1);
-            twoLayout.setBackgroundResource(R.drawable.redbag_disable_bg_2);
+            dis_two_imageview.setBackgroundResource(R.drawable.redbag_disable_bg_2);
             moneyNum.setTextColor(mActivity.getResources().getColor(R.color.color_c));
             iv_redbag.setVisibility(View.VISIBLE);
             iv_redbag.setImageResource(R.drawable.redbag_invalid);
@@ -83,8 +84,11 @@ public class PlatFormAdapter extends BaseListAdapter<RedBag> {
 
         nameTextView.setText(CheckUtils.isEmptyStr(bean.getName()) ? "红包" : bean.getName());
         expirationTextView.setText("有效期至：" + bean.getExpirationTime());
-        restrictTime.setText(CheckUtils.isEmptyStr(bean.getRestrictTime()) ? "" : bean.getRestrictTime() + "可用");
-        mobile.setText("限收货人手机号" + bean.getMobile());
+        if (CheckUtils.isEmptyStr(bean.getRestrictTime())) {
+            restrictTime.setText("限收货人手机号" + bean.getMobile());
+        } else {
+            restrictTime.setText(bean.getRestrictTime() + "可用" + "\n限收货人手机号" + bean.getMobile());
+        }
         if (bean.getAmt() != null) {
             String str = "¥" + StringUtils.BigDecimal2Str(bean.getAmt());
             SpannableStringBuilder style = new SpannableStringBuilder(str);

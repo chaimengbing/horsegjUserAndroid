@@ -249,6 +249,11 @@ public class RedBag extends Entity {
      **/
     private int status;
 
+    /**
+     * 是否展开不可用原因
+     */
+    private boolean isExpand = false;
+
     private String redBagImg;
 
     private String title;
@@ -541,5 +546,13 @@ public class RedBag extends Entity {
 
     public void setDisableList(List<String> disableList) {
         this.disableList = disableList;
+    }
+
+    public boolean isExpand() {
+        return isExpand;
+    }
+
+    public void setExpand(boolean expand) {
+        isExpand = expand;
     }
 }

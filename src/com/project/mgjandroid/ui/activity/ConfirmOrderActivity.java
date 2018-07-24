@@ -917,10 +917,6 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
                 ConfirmOrderModel.ValueEntity valueEntity = confirmOrderModel.getValue();
-                if (valueEntity.getPlatformRedBagCount() <= 0){
-                    toast("无可用红包");
-                    return;
-                }
                 Intent intentSelect = new Intent(ConfirmOrderActivity.this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, valueEntity.getItemsPrice().doubleValue());
                 intentSelect.putExtra(SelectRedBagActivity.PROMOINFO_JSON, JSON.toJSONString(valueEntity.getPromoList()));

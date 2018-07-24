@@ -217,10 +217,6 @@ public class JoinGroupActivity extends BaseActivity {
                 submitOrder();
                 break;
             case R.id.platform_redbag_layout:
-                if (redbagsNum <= 0) {
-                    ToastUtils.displayMsg("无可用红包", mActivity);
-                    return;
-                }
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, group.getPrice().doubleValue());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);

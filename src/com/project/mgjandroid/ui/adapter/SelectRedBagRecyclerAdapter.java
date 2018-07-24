@@ -45,7 +45,6 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
     private Context mContext;
     private LayoutInflater inflater;
 
-    private boolean isExpand = false;
     private int platformNum = 0;
     private int platformNumDis = 0;
 
@@ -81,10 +80,18 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 2) {
             RedBagNumViewHolder redBagNumViewHolder = (RedBagNumViewHolder) holder;
-            if (position == 0) {
-                redBagNumViewHolder.redNumTextView.setText("可使用红包(" + platformNum + ")个");
+            if (platformNum > 0 && platformNumDis > 0) {
+                if (position == 0) {
+                    redBagNumViewHolder.redNumTextView.setText("可使用红包(" + platformNum + ")个");
+                } else {
+                    redBagNumViewHolder.redNumTextView.setText("不可使用红包(" + platformNumDis + ")个");
+                }
             } else {
-                redBagNumViewHolder.redNumTextView.setText("不可使用红包(" + platformNumDis + ")个");
+                if (platformNum == 0) {
+                    redBagNumViewHolder.redNumTextView.setText("不可使用红包(" + platformNumDis + ")个");
+                } else if (platformNumDis == 0) {
+                    redBagNumViewHolder.redNumTextView.setText("可使用红包(" + platformNum + ")个");
+                }
             }
         } else {
             final PlatFormViewHolder platFormViewHolder = (PlatFormViewHolder) holder;
@@ -103,47 +110,51 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
                 platFormViewHolder.expirationTextView.setText("");
             }
 
-            if (redBag.getRestrictTime() != null) {
-                platFormViewHolder.restrictTime.setText(redBag.getRestrictTime() + "可用");
+            if (CheckUtils.isEmptyStr(redBag.getRestrictTime())) {
+                platFormViewHolder.restrictTime.setText("限收货人手机号" + redBag.getMobile());
             } else {
-                platFormViewHolder.restrictTime.setText("");
+                platFormViewHolder.restrictTime.setText(redBag.getRestrictTime() + "可用" + "\n限收货人手机号" + redBag.getMobile());
             }
 
-            platFormViewHolder.mobile.setText("限收货人手机号" + redBag.getMobile());
-
+            platFormViewHolder.disTextview.setVisibility(redBag.isExpand() ? View.VISIBLE : View.GONE);
+            if (CheckUtils.isNoEmptyList(redBag.getDisableList())) {
+                String result = "";
+                for (String disString : redBag.getDisableList()) {
+                    result += "·\t" + disString + "\n";
+                }
+                platFormViewHolder.disTextview.setText(result.trim());
+            }
             String str = "¥" + StringUtils.BigDecimal2Str(redBag.getAmt());
             SpannableStringBuilder style = new SpannableStringBuilder(str);
             style.setSpan(new TextAppearanceSpan(null, 0, mContext.getResources().getDimensionPixelSize(R.dimen.title_bar_text_size), null, null), 0, 1, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
             if (redBag.getIsDisable() == 0) {
                 //红包不可用
-                platFormViewHolder.moneyNum.setTextColor(mContext.getResources().getColor(R.color.color_6));
+                platFormViewHolder.moneyNum.setTextColor(mContext.getResources().getColor(R.color.color_7));
+                platFormViewHolder.nameTextView.setTextColor(mContext.getResources().getColor(R.color.color_7));
+                platFormViewHolder.restrictAmt.setTextColor(mContext.getResources().getColor(R.color.color_9));
+                platFormViewHolder.expirationTextView.setTextColor(mContext.getResources().getColor(R.color.color_9));
                 platFormViewHolder.rootView.setBackgroundResource(0);
                 platFormViewHolder.oneLayout.setBackgroundResource(R.drawable.redbag_disable_bg_1);
-                platFormViewHolder.twoLayout.setBackgroundResource(R.drawable.redbag_disable_bg_2);
+                platFormViewHolder.dis_two_imageview.setBackgroundResource(R.drawable.redbag_disable_bg_2);
                 final Drawable drawablePackup = mContext.getResources().getDrawable(R.drawable.icon_packup);
                 final Drawable drawableExpand = mContext.getResources().getDrawable(R.drawable.icon_expand);
                 drawablePackup.setBounds(0, 0, drawablePackup.getMinimumWidth(), drawablePackup.getMinimumHeight());
                 drawableExpand.setBounds(0, 0, drawableExpand.getMinimumWidth(), drawableExpand.getMinimumHeight());
                 platFormViewHolder.businessType.setCompoundDrawables(null, null, drawablePackup, null);
-                platFormViewHolder.businessType.setTextColor(mContext.getResources().getColor(R.color.mine_number_color_red));
+                platFormViewHolder.businessType.setTextColor(mContext.getResources().getColor(R.color.platform_color));
                 platFormViewHolder.businessType.setText("不可用原因");
                 platFormViewHolder.businessType.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (redBag.getDisableList() != null && redBag.getDisableList().size() > 0) {
-                            if (isExpand) {
-                                isExpand = false;
+                            if (redBag.isExpand()) {
                                 platFormViewHolder.disTextview.setVisibility(View.GONE);
                                 platFormViewHolder.businessType.setCompoundDrawables(null, null, drawablePackup, null);
+                                redBag.setExpand(false);
                             } else {
                                 platFormViewHolder.disTextview.setVisibility(View.VISIBLE);
                                 platFormViewHolder.businessType.setCompoundDrawables(null, null, drawableExpand, null);
-                                isExpand = true;
-                                String result = "";
-                                for (String disString : redBag.getDisableList()) {
-                                    result += "" + disString + "\n";
-                                }
-                                platFormViewHolder.disTextview.setText(result.trim());
+                                redBag.setExpand(true);
                             }
                         }
                     }
@@ -154,9 +165,12 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
                 } else {
                     platFormViewHolder.rootView.setBackgroundResource(R.drawable.normal_redbag_bg);
                 }
+                platFormViewHolder.expirationTextView.setTextColor(mContext.getResources().getColor(R.color.color_3));
+                platFormViewHolder.nameTextView.setTextColor(mContext.getResources().getColor(R.color.color_3));
+                platFormViewHolder.restrictAmt.setTextColor(mContext.getResources().getColor(R.color.color_3));
                 platFormViewHolder.oneLayout.setBackgroundResource(0);
-                platFormViewHolder.twoLayout.setBackgroundResource(0);
-                platFormViewHolder.moneyNum.setTextColor(mContext.getResources().getColor(R.color.mine_number_color_red));
+                platFormViewHolder.dis_two_imageview.setBackgroundResource(0);
+                platFormViewHolder.moneyNum.setTextColor(mContext.getResources().getColor(R.color.platform_color));
                 platFormViewHolder.businessType.setCompoundDrawables(null, null, null, null);
                 platFormViewHolder.businessType.setTextColor(mContext.getResources().getColor(R.color.color_3));
                 platFormViewHolder.businessType.setText("限品类：" + redBag.getBusinessTypeName());
@@ -182,8 +196,16 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 || position == platformNum + 1) {
-            return 2;
+        if (platformNum > 0 && platformNumDis > 0) {
+            if (position == 0 || position == platformNum + 1) {
+                return 2;
+            }
+        } else {
+            if (platformNum == 0 || platformNumDis == 0) {
+                if (position == 0) {
+                    return 2;
+                }
+            }
         }
         return 1;
     }
@@ -213,13 +235,14 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
         TextView nameTextView;
         TextView expirationTextView;
         TextView restrictTime;
-        TextView mobile;
+        //        TextView mobile;
         TextView moneyNum;
         TextView restrictAmt;
         TextView businessType;
         TextView disTextview;
         FrameLayout oneLayout;
-        FrameLayout twoLayout;
+        //        FrameLayout twoLayout;
+        private ImageView dis_two_imageview;
 
         public PlatFormViewHolder(View view) {
             super(view);
@@ -227,13 +250,14 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
             nameTextView = (TextView) view.findViewById(R.id.paltform_name_textview);
             expirationTextView = (TextView) view.findViewById(R.id.expiration_time_textview);
             restrictTime = (TextView) view.findViewById(R.id.restrict_time_textview);
-            mobile = (TextView) view.findViewById(R.id.mobile_textview);
+//            mobile = (TextView) view.findViewById(R.id.mobile_textview);
             moneyNum = (TextView) view.findViewById(R.id.redbag_money_textview);
             restrictAmt = (TextView) view.findViewById(R.id.restrict_amt_textview);
             businessType = (TextView) view.findViewById(R.id.business_type_textview);
             disTextview = (TextView) view.findViewById(R.id.dis_textview);
             oneLayout = (FrameLayout) view.findViewById(R.id.dis_one_layout);
-            twoLayout = (FrameLayout) view.findViewById(R.id.dis_two_layout);
+//            twoLayout = (FrameLayout) view.findViewById(R.id.dis_two_layout);
+            dis_two_imageview = (ImageView) view.findViewById(R.id.dis_two_imageview);
 
         }
     }

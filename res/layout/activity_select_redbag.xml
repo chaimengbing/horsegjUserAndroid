@@ -85,16 +85,6 @@
             android:textSize="14sp"
             android:text="@string/has_no_redbag" />
 
-        <TextView
-            android:id="@+id/tv_transaction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/x10"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:textSize="13sp"
-            android:textColor="@color/color_9"
-            android:text="查看历史红包 >>" />
 
     </RelativeLayout>
 

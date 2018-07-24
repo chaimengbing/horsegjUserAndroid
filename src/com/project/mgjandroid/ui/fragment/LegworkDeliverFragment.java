@@ -266,10 +266,6 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                 }
                 break;
             case R.id.platform_redbag_layout:
-                if (serviceChargeModel.getPlatformRedBagCount() <= 0){
-                    ToastUtils.displayMsg("无可用红包",mActivity);
-                    return;
-                }
                 Intent intentSelect = new Intent(getActivity(), SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, serviceChargeModel.getServiceCharge());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, deliverAddress);

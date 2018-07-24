@@ -20,6 +20,7 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.SelectRedBagRecyclerAdapter;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
@@ -52,6 +53,8 @@ public class SelectRedBagActivity extends BaseActivity {
     private RecyclerView recyclerView;
     @InjectView(R.id.use_red_bag_layout)
     private RelativeLayout notUseLayout;
+    @InjectView(R.id.no_data)
+    private RelativeLayout noDataLayout;
     @InjectView(R.id.is_use_red_bag)
     private CheckBox notUse;
 
@@ -131,9 +134,13 @@ public class SelectRedBagActivity extends BaseActivity {
                         return;
                     }
                     RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
-                    mlist.add(new RedBag());
+                    if (!CheckUtils.isEmptyList(redBagListModel.getPlatformRedBagList()) && redBagListModel.getPlatformRedBagList().size() > 0) {
+                        mlist.add(new RedBag());
+                    }
                     mlist.addAll(redBagListModel.getPlatformRedBagList());
-                    mlist.add(new RedBag());
+                    if (!CheckUtils.isEmptyList(redBagListModel.getPlatformRedBagAvailableList()) && redBagListModel.getPlatformRedBagAvailableList().size() > 0) {
+                        mlist.add(new RedBag());
+                    }
                     mlist.addAll(redBagListModel.getPlatformRedBagAvailableList());
                     if (platformRedbagId != -1 && redBagListModel.getPlatformRedBagList() != null) {
                         for (RedBag redBag : redBagListModel.getPlatformRedBagList()) {
@@ -142,9 +149,16 @@ public class SelectRedBagActivity extends BaseActivity {
                             }
                         }
                     }
-                    selectRedBagRecyclerAdapter.setPlatformNum(redBagListModel.getPlatformRedBagCount());
-                    selectRedBagRecyclerAdapter.setPlatformNumDis(redBagListModel.getPlatformRedBagAvailableList().size());
-                    selectRedBagRecyclerAdapter.setList(mlist);
+                    if (CheckUtils.isNoEmptyList(mlist)) {
+                        selectRedBagRecyclerAdapter.setPlatformNum(redBagListModel.getPlatformRedBagCount());
+                        selectRedBagRecyclerAdapter.setPlatformNumDis(redBagListModel.getPlatformRedBagAvailableList().size());
+                        selectRedBagRecyclerAdapter.setList(mlist);
+                        noDataLayout.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    } else {
+                        recyclerView.setVisibility(View.GONE);
+                        noDataLayout.setVisibility(View.VISIBLE);
+                    }
                 } else {
                 }
             }
@@ -164,6 +178,7 @@ public class SelectRedBagActivity extends BaseActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(selectRedBagRecyclerAdapter);
+
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override

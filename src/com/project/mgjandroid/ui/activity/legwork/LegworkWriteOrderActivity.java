@@ -307,10 +307,6 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 }
                 break;
             case R.id.platform_redbag_layout:
-                if (serviceChargeModel.getPlatformRedBagCount() <= 0){
-                    toast("无可用红包");
-                    return;
-                }
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, serviceChargeModel.getServiceCharge());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
