@@ -90,6 +90,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         setContentView(R.layout.activity_discount_buy_ticket);
         Injector.get(this).inject();
         initView();
+        if (!App.isLogin()) {
+            Intent intent = new Intent(mActivity, SmsLoginActivity.class);
+            startActivity(intent);
+            return;
+        }
         payForPreview();
     }
 
@@ -135,10 +140,38 @@ public class DiscountBuyTicketActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                etEvalution.setHint("");
+                tvConfirm.setEnabled(true);
+                tvAmounActuallyPaid.setText(etEvalution.getText().toString().trim());
+                isCanSelect= false;
+                isVoucherChecked= false;
+                tvSelected.setText("");
+                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
+                voucherPrice = "0";
+                if(previewModelValue!=null){
+                    voucherList= null;
+                    list.clear();
+                    if(previewModelValue.getEnableGroupPurchaseOrderCouponCodeCount()>0){
+                        tvVoucher.setText("有" + previewModelValue.getEnableGroupPurchaseOrderCouponCodeCount() + "个抵用券可用");
+                    }else {
+                        tvVoucher.setText("无可用抵用券");
+                    }
+                    redBag=null;
+                    tvRedBag.setText("");
+                    if (CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())&&previewModelValue.getPlatformRedBagCount() > 0) {
+                        tvRedBag.setText("去使用");
+                    }
+                }
                 if(editable.toString().trim().length()>0){
-                    etEvalution.setHint("");
+                    if("0".equals(editable.toString().trim())){
+                        tvConfirm.setEnabled(false);
+                    }else {
+                        etEvalution.setHint("");
+                        tvConfirm.setEnabled(true);
+                    }
                 }else {
                     etEvalution.setHint("询问服务员后输入");
+                    tvConfirm.setEnabled(false);
                 }
             }
         });
@@ -190,9 +223,17 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                             toast("代金券和优惠折扣不可同时选择");
                             return;
                         }else {
-                            isDiscount = 1;
-                            tvSelected.setText("-¥"+previewModelValue.getDiscountAmt());
-                            imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
+                            if(isCanSelect){
+                                isDiscount = 1;
+                                isCanSelect = true;
+                                tvSelected.setText("-¥"+StringUtils.BigDecimal2Str(previewModelValue.getDiscountAmt()));
+                                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
+                            }else {
+                                isDiscount = 0;
+                                isCanSelect = false;
+                                tvSelected.setText("");
+                                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
+                            }
                         }
                     }else {
                         if(isCanSelect){
@@ -252,13 +293,18 @@ public class DiscountBuyTicketActivity extends BaseActivity {
             voucherPrice= "0";
             tvVoucher.setText("无可用抵用券");
             if (previewModelValue.getEnableGroupPurchaseOrderCouponCodeCount() > 0) {
-                tvVoucher.setText("有" + previewModelValue.getEnableGroupPurchaseOrderCouponCodeCount() + "个抵用券可用");
+                if(previewModelValue.getEnableGroupPurchaseOrderCouponCodeCount()>0){
+                    tvVoucher.setText("有" + previewModelValue.getEnableGroupPurchaseOrderCouponCodeCount() + "个抵用券可用");
+                }else {
+                    tvVoucher.setText("无可用抵用券");
+                }
+
             }
         }
         if (redBag != null) {
             tvRedBag.setText("-¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
         } else {
-            tvRedBag.setText("无可用红包");
+            tvRedBag.setText("");
             if (CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())&&previewModelValue.getPlatformRedBagCount() > 0) {
                 tvRedBag.setText("去使用");
             }
@@ -307,7 +353,12 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         if(list.size()>0){
             data.put("groupPurchaseOrderCouponCodeList", list);
         }
-        data.put("totalPrice", previewModelValue.getTotalPrice());
+        if("0".equals(StringUtils.BigDecimal2Str(previewModelValue.getTotalPrice()))){
+            data.put("totalPrice", etEvalution.getText().toString().trim());
+        }else {
+            data.put("totalPrice", previewModelValue.getTotalPrice());
+        }
+
 //        params.put("groupPurchaseOrderCouponCodeList", JSON.toJSONString(data));
         params.put("data", JSON.toJSONString(data));
 
@@ -379,6 +430,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     if (obj instanceof String) {
                         if(isCanSelect){
                             isDiscount = 0;
+                            isCanSelect = false;
                         }
                         ToastUtils.displayMsg(obj.toString(), mActivity);
                         if(isVoucherChecked&&!isCanSelect){
@@ -398,11 +450,13 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     previewModelValue = previewModel.getValue();
                     showPreviewOrder(previewModelValue);
                     if(isCanSelect){
-                        tvSelected.setText("-¥"+previewModelValue.getDiscountAmt());
+                        tvSelected.setText("-¥"+StringUtils.BigDecimal2Str(previewModelValue.getDiscountAmt()));
                         imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
+                        isCanSelect = false;
                     }else {
                         tvSelected.setText("");
                         imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
+                        isCanSelect = true;
                     }
                 }
             }

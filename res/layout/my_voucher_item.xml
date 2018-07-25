@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/item_content_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/x15"
         android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
         android:orientation="horizontal">
 
 
@@ -17,17 +19,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/vouchers_left_bg"
-            android:paddingLeft="@dimen/x15"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/x15">
 
 
             <TextView
                 android:id="@+id/merchant_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:layout_marginTop="@dimen/x10"
                 android:textColor="@color/color_3"
                 android:textSize="19sp"
                 tools:text="代金券" />
@@ -66,38 +68,45 @@
         </LinearLayout>
 
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/layout_amt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:background="@drawable/vouchers_right_bg"
-            android:gravity="center"
-            android:layout_weight="2">
+            android:gravity="center">
 
-            <TextView
-                android:id="@+id/tv_1"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/x2"
-                android:includeFontPadding="false"
-                android:textColor="@color/platform_color"
-                android:layout_alignBottom="@id/discount_amt"
-                android:layout_toLeftOf="@+id/discount_amt"
-                android:textSize="15sp"
-                android:paddingBottom="@dimen/x4"
-                tools:text="¥" />
-            <TextView
-                android:id="@+id/discount_amt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/x2"
-                android:includeFontPadding="false"
-                android:textColor="@color/platform_color"
-                android:textSize="30sp"
-                tools:text="18" />
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/discount_amt"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/x2"
+                    android:layout_toLeftOf="@+id/discount_amt"
+                    android:includeFontPadding="false"
+                    android:paddingBottom="@dimen/x4"
+                    android:textColor="@color/platform_color"
+                    android:textSize="15sp"
+                    tools:text="¥" />
+
+                <TextView
+                    android:id="@+id/discount_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/x2"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/platform_color"
+                    android:textSize="30sp"
+                    tools:text="18" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/iv_redbag"
@@ -108,7 +117,7 @@
                 android:src="@drawable/redbag_invalid"
                 android:visibility="gone"/>
 
-        </RelativeLayout>
+        </FrameLayout>
 
 
     </LinearLayout>

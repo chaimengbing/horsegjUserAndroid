@@ -18,6 +18,7 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.adapter.RefundListAdapter;
 import com.project.mgjandroid.ui.view.NoScrollListView;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
@@ -110,7 +111,11 @@ public class GroupBuyingRefundActivity extends BaseActivity implements AdapterVi
            }
        }
        if(isCheck){
-           map.put("cancelReason", stringBuffer.toString().substring(0,stringBuffer.toString().length()-1)+","+etEvaluation.getText().toString());
+            if(CheckUtils.isNoEmptyStr(etEvaluation.getText().toString().trim())){
+                map.put("cancelReason", stringBuffer.toString().substring(0,stringBuffer.toString().length()-1)+","+etEvaluation.getText().toString());
+            }else {
+                map.put("cancelReason", stringBuffer.substring(0, stringBuffer.lastIndexOf(",")));
+            }
        }else {
             toast("请选择退款原因");
             return;

@@ -148,6 +148,10 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout discountLayout;
     @InjectView(R.id.discount_tuan_layout)
     private LinearLayout discountTuanLayout;
+    @InjectView(R.id.tv_use_mTime)
+    private TextView tvUseMtime;
+    @InjectView(R.id.ll_use_time)
+    private LinearLayout llUseTime;
 
     private PopupWindow mPopupWindow;
     private TextView tvAmt;
@@ -228,10 +232,20 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         tvPrice1.setText(style);
 
         showOption();
-
-        tvLimitDate.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
+        if(groupPurchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
+            tvLimitDate.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getCancelAfterVerificationTime());
+        }else {
+            tvLimitDate.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
+        }
         tvUseRange.setText(groupPurchaseCoupon.getApplyRange());
-        tvUseTime.setText(groupPurchaseCoupon.getConsumeTime() + "\u3000");
+        if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getConsumeTime())){
+            tvUseMtime.setVisibility(View.VISIBLE);
+            llUseTime.setVisibility(View.VISIBLE);
+            tvUseTime.setText(groupPurchaseCoupon.getConsumeTime() + "\u3000");
+        }else {
+            tvUseMtime.setVisibility(View.GONE);
+            llUseTime.setVisibility(View.GONE);
+        }
         showUseRules();
 
         merchant = groupPurchaseCoupon.getGroupPurchaseMerchant();
@@ -372,7 +386,16 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 break;
             case R.id.tv_buy:
             case R.id.tv_buy_1:
-                showPopupWindow();
+                Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
+                intent2.putExtra("ticketName",groupPurchaseCoupon.getGroupPurchaseName());
+                intent2.putExtra("ticketPrice",groupPurchaseCoupon.getPrice().doubleValue());
+                intent2.putExtra("ticketOriginalPrice",groupPurchaseCoupon.getOriginPrice());
+                intent2.putExtra("type",groupPurchaseCoupon.getType());
+                intent2.putExtra("bespeak",groupPurchaseCoupon.getIsBespeak());
+                intent2.putExtra("agentId",groupPurchaseCoupon.getAgentId());
+                intent2.putExtra("bespeakDays",groupPurchaseCoupon.getBespeakDays());
+                intent2.putExtra("groupPurchaseCoupon",groupPurchaseCoupon);
+                mActivity.startActivity(intent2);
                 break;
             case R.id.address_layout:
                 if (merchant != null)

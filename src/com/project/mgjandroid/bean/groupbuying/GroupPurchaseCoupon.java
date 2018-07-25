@@ -108,6 +108,11 @@ public class GroupPurchaseCoupon extends BaseBean {
     private GroupPurchaseMerchant groupPurchaseMerchant;
 
     private String shareUrl;
+    /**
+     * 1 核销 2 不核销
+     */
+    private int isAutomaticallyCancelAfterVerification;
+    private String cancelAfterVerificationTime;
 
     public Long getAgentId() {
         return agentId;
@@ -315,5 +320,21 @@ public class GroupPurchaseCoupon extends BaseBean {
 
     public void setBespeakDays(int bespeakDays) {
         this.bespeakDays = bespeakDays;
+    }
+
+    public int getIsAutomaticallyCancelAfterVerification() {
+        return isAutomaticallyCancelAfterVerification;
+    }
+
+    public void setIsAutomaticallyCancelAfterVerification(int isAutomaticallyCancelAfterVerification) {
+        this.isAutomaticallyCancelAfterVerification = isAutomaticallyCancelAfterVerification;
+    }
+
+    public String getCancelAfterVerificationTime() {
+        return cancelAfterVerificationTime;
+    }
+
+    public void setCancelAfterVerificationTime(String cancelAfterVerificationTime) {
+        this.cancelAfterVerificationTime = cancelAfterVerificationTime;
     }
 }

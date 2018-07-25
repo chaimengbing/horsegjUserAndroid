@@ -61,7 +61,7 @@ public class GroupBuyingPreviewModel extends Entity {
         private String loginToken;
         private int groupPurchaseOrderType;
         private int hasDiscount;
-        private String discountAmt;
+        private BigDecimal discountAmt;
         private int discountRatio;
         private Object groupPurchaseCouponId;
         private Object groupPurchaseOrderCouponCodeList;
@@ -81,11 +81,11 @@ public class GroupBuyingPreviewModel extends Entity {
         private Object redBags;
         private Object targetDate;
 
-        public String getDiscountAmt() {
+        public BigDecimal getDiscountAmt() {
             return discountAmt;
         }
 
-        public void setDiscountAmt(String discountAmt) {
+        public void setDiscountAmt(BigDecimal discountAmt) {
             this.discountAmt = discountAmt;
         }
 

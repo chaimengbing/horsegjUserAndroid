@@ -19,7 +19,6 @@
             android:id="@+id/tv_ticket_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="宏伟8K欢唱券"
             android:textColor="@color/color_3"
             android:textSize="15sp" />
 
@@ -28,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="¥36"
+            android:text="¥0"
             android:textColor="#f95046"
             android:textSize="15sp" />
     </RelativeLayout>
@@ -169,7 +168,7 @@
             android:layout_alignParentRight="true"
             android:drawablePadding="@dimen/x3"
             android:drawableRight="@drawable/right_arrow_gray"
-            android:text="- ¥20"
+            android:text="- ¥0"
             android:textColor="#f95046"
             android:textSize="15sp" />
     </RelativeLayout>
@@ -201,7 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="¥36"
+            android:text="¥0"
             android:textColor="@color/color_3"
             android:textSize="15sp" />
     </RelativeLayout>

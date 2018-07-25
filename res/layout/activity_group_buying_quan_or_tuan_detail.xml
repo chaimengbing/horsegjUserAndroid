@@ -444,6 +444,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_use_mTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x6"
@@ -451,14 +452,17 @@
                     android:paddingRight="@dimen/x15"
                     android:text="使用时间："
                     android:textColor="@color/color_3"
+                    android:visibility="gone"
                     android:textSize="14sp" />
 
                 <LinearLayout
+                    android:id="@+id/ll_use_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x5"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/x15"
+                    android:visibility="gone"
                     android:paddingRight="@dimen/x15">
 
                     <include layout="@layout/group_buying_use_rule_point" />

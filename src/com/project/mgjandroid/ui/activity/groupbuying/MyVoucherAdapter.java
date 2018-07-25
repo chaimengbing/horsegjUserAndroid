@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -29,7 +30,7 @@ public class MyVoucherAdapter extends BaseListAdapter<GroupBuyingVoucherListMode
        TextView name = holder.getView(R.id.merchant_name);
        TextView tv1 = holder.getView(R.id.tv_1);
        ImageView imgRedBag  = holder.getView(R.id.iv_redbag);
-       RelativeLayout bgRight = holder.getView(R.id.layout_amt);
+       FrameLayout bgRight = holder.getView(R.id.layout_amt);
        TextView tvExpirationTime = holder.getView(R.id.expiration_time_textview);
        TextView tvRestrictAmt = holder.getView(R.id.restrict_amt_textview);
        TextView tvVouchersNum = holder.getView(R.id.vouchers_num_textview);
@@ -47,21 +48,26 @@ public class MyVoucherAdapter extends BaseListAdapter<GroupBuyingVoucherListMode
            tvRestrictAmt.setText("可叠加使用");
        }
        tvVouchersNum.setText("券码："+bean.getCouponCode());
-       if(bean.getIsExpire()==0){
-           amt.setTextColor(mActivity.getResources().getColor(R.color.price_red));
-           tv1.setVisibility(View.VISIBLE);
-           imgRedBag.setVisibility(View.GONE);
-           if(bean.isChecked()){
-               bgRight.setBackgroundResource(R.drawable.vouchers_right_sel_bg);
-           }else {
-               bgRight.setBackgroundResource(R.drawable.vouchers_right_bg);
-           }
-       }else {
-           amt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
-           tv1.setVisibility(View.GONE);
-           imgRedBag.setVisibility(View.VISIBLE);
-       }
-
-
+        if(bean.getStatus()==1){
+            amt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            tv1.setVisibility(View.GONE);
+            imgRedBag.setVisibility(View.VISIBLE);
+            imgRedBag.setImageResource(R.drawable.redbag_used);
+        }else {
+            if(bean.getIsExpire()==0){
+                amt.setTextColor(mActivity.getResources().getColor(R.color.price_red));
+                tv1.setVisibility(View.VISIBLE);
+                imgRedBag.setVisibility(View.GONE);
+                if(bean.isChecked()){
+                    bgRight.setBackgroundResource(R.drawable.vouchers_right_sel_bg);
+                }else {
+                    bgRight.setBackgroundResource(R.drawable.vouchers_right_bg);
+                }
+            }else if(bean.getIsExpire()==1){
+                amt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+                tv1.setVisibility(View.GONE);
+                imgRedBag.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

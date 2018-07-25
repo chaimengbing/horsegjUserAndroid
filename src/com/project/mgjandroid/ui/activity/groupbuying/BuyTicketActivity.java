@@ -342,7 +342,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     Intent intent = new Intent(mActivity, OnlinePayActivity.class);
                     intent.putExtra("orderId", submitOrderModel.getValue().getId());
                     intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
-                    intent.putExtra("isGroupPurchaseBuy", true);
+                    intent.putExtra("isGroupPurchase", true);
                     startActivity(intent);
                 }
             }
