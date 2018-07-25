@@ -243,7 +243,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 
     public void showReceiverRedBagDialog() {
         hiddenReceiverRedBagDialog();
-
+//        DisplayMetrics dpMetrics = new DisplayMetrics();
+//        getWindow().getWindowManager().getDefaultDisplay().getMetrics(dpMetrics);
+//        int screenWidth = dpMetrics.widthPixels;
+//        Log.d(HomeActivity.class.getSimpleName(), "initReceiverRedBagDialog:screenWidth：" + screenWidth + ",dpMetrics.height:" + dpMetrics.heightPixels);
         noLoginLayout.setVisibility(View.VISIBLE);
         redBagNoLoginImageView.setVisibility(View.VISIBLE);
         loginLayout.setVisibility(View.GONE);
@@ -270,7 +273,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     Log.d(TAG, "redBagListModel.getStatus():" + redBagListModel.getStatus());
                     if (redBagListModel.getStatus() == 1) {
                         if (App.isLogin()) {
-                            if (redBagListModel.getType() == 1) {//已绑定手机号
+                            if (redBagListModel.getType() == 1 && pager.getCurrentItem() == INDEX_HOME) {//已绑定手机号
                                 if (redBagListModel.getRedBagList() != null && redBagListModel.getRedBagList().size() > 0) {
                                     noLoginLayout.setVisibility(View.GONE);
                                     redBagNoLoginImageView.setVisibility(View.GONE);
