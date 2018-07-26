@@ -271,9 +271,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                     }
                     RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
                     Log.d(TAG, "redBagListModel.getStatus():" + redBagListModel.getStatus());
-                    if (redBagListModel.getStatus() == 1) {
+                    if (redBagListModel.getStatus() == 1 && pager.getCurrentItem() == INDEX_HOME) {
                         if (App.isLogin()) {
-                            if (redBagListModel.getType() == 1 && pager.getCurrentItem() == INDEX_HOME) {//已绑定手机号
+                            if (redBagListModel.getType() == 1) {//已绑定手机号
                                 if (redBagListModel.getRedBagList() != null && redBagListModel.getRedBagList().size() > 0) {
                                     noLoginLayout.setVisibility(View.GONE);
                                     redBagNoLoginImageView.setVisibility(View.GONE);

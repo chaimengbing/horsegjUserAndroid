@@ -52,33 +52,29 @@ public class PlatFormAdapter extends BaseListAdapter<RedBag> {
         ImageView dis_two_imageview = holder.getView(R.id.dis_two_imageview);
 
         if (canUse) {
-            oneLayout.setBackgroundResource(0);
-            dis_two_imageview.setBackgroundResource(0);
             rootView.setBackgroundResource(R.drawable.normal_redbag_bg);
             iv_redbag.setVisibility(View.INVISIBLE);
             expirationTextView.setTextColor(mActivity.getResources().getColor(R.color.color_3));
             businessType.setTextColor(mActivity.getResources().getColor(R.color.color_3));
+            nameTextView.setTextColor(mActivity.getResources().getColor(R.color.color_3));
         } else if (bean.getStatus() == 1) {
-            rootView.setBackgroundResource(0);
-            oneLayout.setBackgroundResource(R.drawable.redbag_disable_bg_1);
-            dis_two_imageview.setBackgroundResource(R.drawable.redbag_disable_bg_2);
-            rootView.setBackgroundResource(R.drawable.invalid_redbag_bg);
             moneyNum.setTextColor(mActivity.getResources().getColor(R.color.color_c));
             iv_redbag.setVisibility(View.VISIBLE);
             iv_redbag.setImageResource(R.drawable.redbag_used);
+            nameTextView.setTextColor(mActivity.getResources().getColor(R.color.color_7));
             restrictAmt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
             expirationTextView.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            restrictTime.setTextColor(mActivity.getResources().getColor(R.color.color_c));
             businessType.setTextColor(mActivity.getResources().getColor(R.color.color_c));
 
         } else {
-            rootView.setBackgroundResource(0);
-            oneLayout.setBackgroundResource(R.drawable.redbag_disable_bg_1);
-            dis_two_imageview.setBackgroundResource(R.drawable.redbag_disable_bg_2);
             moneyNum.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            nameTextView.setTextColor(mActivity.getResources().getColor(R.color.color_7));
             iv_redbag.setVisibility(View.VISIBLE);
             iv_redbag.setImageResource(R.drawable.redbag_invalid);
             restrictAmt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
             expirationTextView.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            restrictTime.setTextColor(mActivity.getResources().getColor(R.color.color_c));
             businessType.setTextColor(mActivity.getResources().getColor(R.color.color_c));
         }
 

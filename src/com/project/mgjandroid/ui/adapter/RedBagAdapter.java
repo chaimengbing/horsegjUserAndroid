@@ -96,17 +96,21 @@ public class RedBagAdapter extends BaseListAdapter<RedBag> {
             }
             iv_redbag.setVisibility(View.INVISIBLE);
         } else if (bean.getStatus() == 1) {
-            rootView.setBackgroundResource(R.drawable.invalid_redbag_bg);
+//            rootView.setBackgroundResource(R.drawable.invalid_redbag_bg);
             tv_type.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            tv_merchant_name.setTextColor(mActivity.getResources().getColor(R.color.color_7));
             iv_redbag.setVisibility(View.VISIBLE);
             iv_redbag.setImageResource(R.drawable.redbag_used);
             tv_discount_amt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            tv_effect_period.setTextColor(mActivity.getResources().getColor(R.color.color_c));
         } else {
-            rootView.setBackgroundResource(R.drawable.invalid_redbag_bg);
+//            rootView.setBackgroundResource(R.drawable.invalid_redbag_bg);
+            tv_merchant_name.setTextColor(mActivity.getResources().getColor(R.color.color_7));
             tv_type.setTextColor(mActivity.getResources().getColor(R.color.color_c));
             iv_redbag.setVisibility(View.VISIBLE);
             iv_redbag.setImageResource(R.drawable.redbag_invalid);
             tv_discount_amt.setTextColor(mActivity.getResources().getColor(R.color.color_c));
+            tv_effect_period.setTextColor(mActivity.getResources().getColor(R.color.color_c));
         }
 
         if (bean.getType() == 3) {
