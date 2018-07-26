@@ -304,11 +304,10 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             tvDishes.setText(merchant.getMerchantRecommend());
         }
         if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())){
-            rlDistancePayBill.setVisibility(View.VISIBLE);
             double discount = Integer.parseInt(merchant.getDiscountRatio()) *0.01*10;
             tvDiscount.setText(discount+"折");
         }else {
-            rlDistancePayBill.setVisibility(View.GONE);
+            tvDiscount.setVisibility(View.GONE);
         }
         showService();
     }

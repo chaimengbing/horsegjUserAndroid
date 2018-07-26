@@ -617,6 +617,8 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
                 addressModel model = gson.fromJson(data, addressModel.class);
                 Intent intent = new Intent(YLBWebViewActivity.this, AddressManageActivity.class);
                 intent.putExtra("group", "group");
+                intent.putExtra("agentId", model.getAgentId());
+                intent.putExtra("merchantId", model.getMerchantId());
                 if (!TextUtils.isEmpty(model.getTitle())) {
                     intent.putExtra("title", model.getTitle());
                 }

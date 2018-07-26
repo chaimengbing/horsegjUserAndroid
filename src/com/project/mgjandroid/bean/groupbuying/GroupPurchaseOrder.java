@@ -200,6 +200,8 @@ public class GroupPurchaseOrder extends Entity {
 
     private GroupPurchaseMerchant groupPurchaseMerchant;
 
+    private GroupPurchaseOrderCoupon groupPurchaseOrderCoupon;
+
     private Agent agent;
 
     private String groupPurchaseMerchantName;
@@ -606,6 +608,14 @@ public class GroupPurchaseOrder extends Entity {
 
     public void setGroupPurchaseOrderCouponGoodsList(List<GroupPurchaseOrderCouponGoods> groupPurchaseOrderCouponGoodsList) {
         this.groupPurchaseOrderCouponGoodsList = groupPurchaseOrderCouponGoodsList;
+    }
+
+    public GroupPurchaseOrderCoupon getGroupPurchaseOrderCoupon() {
+        return groupPurchaseOrderCoupon;
+    }
+
+    public void setGroupPurchaseOrderCoupon(GroupPurchaseOrderCoupon groupPurchaseOrderCoupon) {
+        this.groupPurchaseOrderCoupon = groupPurchaseOrderCoupon;
     }
 
     /**

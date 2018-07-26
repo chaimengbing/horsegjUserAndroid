@@ -413,6 +413,42 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_rule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x6"
+                    android:paddingLeft="@dimen/x15"
+                    android:paddingRight="@dimen/x15"
+                    android:text="规则提醒："
+                    android:textColor="@color/color_3"
+                    android:visibility="gone"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_rule_remind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x5"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/x15"
+                    android:visibility="gone"
+                    android:paddingRight="@dimen/x15">
+
+                    <include layout="@layout/group_buying_use_rule_point" />
+
+                    <TextView
+                        android:id="@+id/tv_rule_remind"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="@dimen/x5"
+                        android:textColor="@color/color_6"
+                        android:textSize="14sp"
+                        tools:text="11:00-22:00" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x6"
@@ -423,6 +459,7 @@
                     android:textSize="14sp" />
 
                 <LinearLayout
+                    android:id="@+id/ll_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x5"
@@ -496,8 +533,6 @@
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/x15"
                     android:paddingRight="@dimen/x15" />
-
-
 
             </LinearLayout>
 

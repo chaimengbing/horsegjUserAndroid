@@ -113,6 +113,10 @@ public class GroupPurchaseCoupon extends BaseBean {
      */
     private int isAutomaticallyCancelAfterVerification;
     private String cancelAfterVerificationTime;
+    /**
+     * 预约日期
+     */
+    private String targetTime;
 
     public Long getAgentId() {
         return agentId;
@@ -336,5 +340,13 @@ public class GroupPurchaseCoupon extends BaseBean {
 
     public void setCancelAfterVerificationTime(String cancelAfterVerificationTime) {
         this.cancelAfterVerificationTime = cancelAfterVerificationTime;
+    }
+
+    public String getTargetTime() {
+        return targetTime;
+    }
+
+    public void setTargetTime(String targetTime) {
+        this.targetTime = targetTime;
     }
 }

@@ -189,7 +189,13 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 break;
             case R.id.rl_platform_redbag_layout:
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
-                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, previewModelValue.getTotalPrice().doubleValue());
+                if("0".equals(StringUtils.BigDecimal2Str(previewModelValue.getTotalPrice()))){
+                    if(CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())){
+                        intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, Double.parseDouble(etEvalution.getText().toString().trim()));
+                    }
+                }else {
+                    intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, previewModelValue.getTotalPrice().doubleValue());
+                }
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 6);
                 if (redBag != null) {
                     intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
@@ -224,16 +230,23 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                             return;
                         }else {
                             if(isCanSelect){
-                                isDiscount = 1;
-                                isCanSelect = true;
-                                tvSelected.setText("-¥"+StringUtils.BigDecimal2Str(previewModelValue.getDiscountAmt()));
-                                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
-                            }else {
                                 isDiscount = 0;
                                 isCanSelect = false;
-                                tvSelected.setText("");
-                                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
+                            }else {
+                                isDiscount = 1;
+                                isCanSelect = true;
                             }
+//                            if(isCanSelect){
+//                                isDiscount = 1;
+//                                isCanSelect = true;
+//                                tvSelected.setText("-¥"+StringUtils.BigDecimal2Str(previewModelValue.getDiscountAmt()));
+//                                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
+//                            }else {
+//                                isDiscount = 0;
+//                                isCanSelect = false;
+//                                tvSelected.setText("");
+//                                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
+//                            }
                         }
                     }else {
                         if(isCanSelect){
@@ -245,11 +258,6 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                         }
                     }
                 }
-//                if(merchant.getIsSharingRelationship()==1){
-//                    isVoucherChecked = false;
-//                }else {
-//                    isVoucherChecked = true;
-//                }
                 payForPreview();
                 break;
 
@@ -278,6 +286,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 isVoucherChecked = true;
             }else {
                 isVoucherChecked = false;
+                voucherPrice ="0";
             }
 
             payForPreview();
@@ -433,17 +442,17 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                             isCanSelect = false;
                         }
                         ToastUtils.displayMsg(obj.toString(), mActivity);
-                        if(isVoucherChecked&&!isCanSelect){
-                            list.clear();
-                            voucherPrice= "0";
-                            isVoucherChecked = false;
-                            if(voucherList!=null){
-                                for(int i=0;i<voucherList.getValue().size();i++){
-                                    voucherList.getValue().get(i).setIsChecked(false);
-                                }
-                            }
-
-                        }
+//                        if(isVoucherChecked&&!isCanSelect){
+//                            list.clear();
+//                            voucherPrice= "0";
+//                            isVoucherChecked = false;
+//                            if(voucherList!=null){
+//                                for(int i=0;i<voucherList.getValue().size();i++){
+//                                    voucherList.getValue().get(i).setIsChecked(false);
+//                                }
+//                            }
+//
+//                        }
                         return;
                     }
                     GroupBuyingPreviewModel previewModel = (GroupBuyingPreviewModel) obj;
@@ -452,11 +461,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     if(isCanSelect){
                         tvSelected.setText("-¥"+StringUtils.BigDecimal2Str(previewModelValue.getDiscountAmt()));
                         imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
-                        isCanSelect = false;
+//                        isCanSelect = false;
                     }else {
                         tvSelected.setText("");
                         imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
-                        isCanSelect = true;
+//                        isCanSelect = true;
                     }
                 }
             }

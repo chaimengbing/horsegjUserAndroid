@@ -144,6 +144,10 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private TextView tv_4;
     @InjectView(R.id.space_view)
     private View spaceView;
+    @InjectView(R.id.tv_date)
+    private TextView tvDate;
+    @InjectView(R.id.ll_date)
+    private LinearLayout llDate;
 
     private StringBuffer buffer = new StringBuffer();
 
@@ -289,7 +293,20 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         }
         scrollView.setVisibility(View.VISIBLE);
         showOption();
-        tvAvailableTime.setText("有效期至：" + order.getGroupPurchaseCouponEndTime());
+        if(order.getGroupPurchaseOrderCoupon().getIsBespeak()==0){
+            llDate.setVisibility(View.GONE);
+            tvAvailableTime.setText("有效期至：" + order.getGroupPurchaseCouponEndTime());
+        }else {
+            if(order.getGroupPurchaseOrderCoupon().getIsAutomaticallyCancelAfterVerification()==1){
+                llDate.setVisibility(View.GONE);
+                tvAvailableTime.setText("有效期至：" +order.getGroupPurchaseOrderCoupon().getTargetTime()+" "+order.getGroupPurchaseOrderCoupon().getCancelAfterVerificationTime());
+            }else {
+                llDate.setVisibility(View.VISIBLE);
+                tvDate.setText(order.getGroupPurchaseOrderCoupon().getTargetTime());
+                tvAvailableTime.setText("有效期至：" + order.getGroupPurchaseCouponEndTime());
+            }
+        }
+
         showCouponCode();
         if (merchant != null) {
             tvShopName.setText(merchant.getName());

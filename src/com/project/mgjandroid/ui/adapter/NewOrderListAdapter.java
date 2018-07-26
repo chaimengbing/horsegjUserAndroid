@@ -386,7 +386,17 @@ public class NewOrderListAdapter extends BaseListAdapter<NewOrderFragmentModel.V
             LinearLayout llItemInfo = holder.getView(R.id.ll_item_order_info); //商品信息
             holder.setText(R.id.tv_item_name1, "团购内容：");
             holder.setText(R.id.tv_item_content1, "共" + order.getQuantity() + "件商品");
-            holder.setText(R.id.tv_item_right1, "有效期至：" + order.getGroupPurchaseCouponEndTime());
+            if(order.getGroupPurchaseOrderCoupon()!=null){
+                if(order.getGroupPurchaseOrderCoupon().getIsBespeak()==0){
+                    holder.setText(R.id.tv_item_right1, "有效期至：" + order.getGroupPurchaseCouponEndTime());
+                }else {
+                    if(order.getGroupPurchaseOrderCoupon().getIsAutomaticallyCancelAfterVerification()==1){
+                        holder.setText(R.id.tv_item_right1, "有效期至：" +order.getGroupPurchaseOrderCoupon().getTargetTime()+" "+order.getGroupPurchaseOrderCoupon().getCancelAfterVerificationTime());
+                    }else {
+                        holder.setText(R.id.tv_item_right1, "有效期至：" + order.getGroupPurchaseCouponEndTime());
+                    }
+                }
+            }
 
             llItemInfo.removeAllViews();
             View inflate = View.inflate(mActivity, R.layout.item_order_list_info, null);

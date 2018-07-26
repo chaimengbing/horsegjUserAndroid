@@ -152,6 +152,16 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private TextView tvUseMtime;
     @InjectView(R.id.ll_use_time)
     private LinearLayout llUseTime;
+    @InjectView(R.id.ll_rule_remind)
+    private LinearLayout llRuleRemind;
+    @InjectView(R.id.tv_rule)
+    private TextView tvRule;
+    @InjectView(R.id.tv_rule_remind)
+    private TextView tvRuleRemind;
+    @InjectView(R.id.ll_data)
+    private LinearLayout llDate;
+    @InjectView(R.id.tv_date)
+    private TextView tvDate;
 
     private PopupWindow mPopupWindow;
     private TextView tvAmt;
@@ -232,10 +242,26 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         tvPrice1.setText(style);
 
         showOption();
-        if(groupPurchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
-            tvLimitDate.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getCancelAfterVerificationTime());
-        }else {
+        if(groupPurchaseCoupon.getIsBespeak()==0){
+            llRuleRemind.setVisibility(View.GONE);
+            tvRule.setVisibility(View.GONE);
+            llDate.setVisibility(View.VISIBLE);
+            tvDate.setVisibility(View.VISIBLE);
             tvLimitDate.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
+        }else {
+            if(groupPurchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
+                llRuleRemind.setVisibility(View.VISIBLE);
+                tvRule.setVisibility(View.VISIBLE);
+                llDate.setVisibility(View.GONE);
+                tvDate.setVisibility(View.GONE);
+                tvRuleRemind.setText("请在"+groupPurchaseCoupon.getCancelAfterVerificationTime()+"之前使用，如超出"+groupPurchaseCoupon.getCancelAfterVerificationTime()+"此券自动使用。");
+            }else {
+                llRuleRemind.setVisibility(View.GONE);
+                tvRule.setVisibility(View.GONE);
+                llDate.setVisibility(View.VISIBLE);
+                tvDate.setVisibility(View.VISIBLE);
+                tvLimitDate.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
+            }
         }
         tvUseRange.setText(groupPurchaseCoupon.getApplyRange());
         if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getConsumeTime())){
@@ -474,7 +500,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private void showGroupBuying(List<GroupPurchaseCoupon> tuanList) {
         discountLayout.setVisibility(View.VISIBLE);
         for (int i = 0, size = tuanList.size(); i < size; i++) {
-            GroupPurchaseCoupon bean = tuanList.get(i);
+            final GroupPurchaseCoupon bean = tuanList.get(i);
             RelativeLayout layout = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.group_buying_item, null);
             RelativeLayout root = (RelativeLayout) layout.findViewById(R.id.group_buying_item_root);
             CornerImageView icon = (CornerImageView) layout.findViewById(R.id.img);
@@ -495,8 +521,21 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             }
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
             root.setOnClickListener(this);
-            tvPayBill.setOnClickListener(this);
             discountLayout.addView(layout);
+            tvPayBill.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
+                    intent2.putExtra("ticketName",bean.getGroupPurchaseName());
+                    intent2.putExtra("ticketPrice",bean.getPrice().doubleValue());
+                    intent2.putExtra("type",bean.getType());
+                    intent2.putExtra("bespeak",bean.getIsBespeak());
+                    intent2.putExtra("agentId",bean.getAgentId());
+                    intent2.putExtra("bespeakDays",bean.getBespeakDays());
+                    intent2.putExtra("groupPurchaseCoupon",bean);
+                    mActivity.startActivity(intent2);
+                }
+            });
             if (i != size - 1) {
                 View view = new View(mActivity);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
@@ -651,7 +690,9 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) return;
                     List<GroupPurchaseCoupon> value = ((GroupPurchaseCouponList) obj).getValue();
-                    showGroupBuying(value);
+                    if(CheckUtils.isNoEmptyList(value)){
+                        showGroupBuying(value);
+                    }
                 }
             }
         }, GroupPurchaseCouponList.class);
