@@ -920,6 +920,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 Intent intentSelect = new Intent(ConfirmOrderActivity.this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, valueEntity.getItemsPrice().doubleValue());
                 intentSelect.putExtra(SelectRedBagActivity.PROMOINFO_JSON, JSON.toJSONString(valueEntity.getPromoList()));
+                intentSelect.putExtra(SelectRedBagActivity.MERCHANT_ID, valueEntity.getMerchantId());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, isFromMarket ? 3 : 1);
                 if (platformRedBag != null) {

@@ -43,6 +43,7 @@ public class SelectRedBagActivity extends BaseActivity {
     public final static String RED_MONEY_BAG = "red_money_bag";
     public final static String PLATFORM_REDBAGS = "platform_redbags";
     public final static String PLATFORM_REDBAG_ID = "platform_redbag_id";
+    public final static String MERCHANT_ID = "merchantId";
     public static final int RED_BAG_MONEY = 10007;
 
     @InjectView(R.id.my_redbag_act_back)
@@ -81,6 +82,7 @@ public class SelectRedBagActivity extends BaseActivity {
     private String promoInfoJson;
     private long platformRedbagId;
     private int quantity = -1;
+    private long merchantId;
 
 
     @Override
@@ -94,6 +96,7 @@ public class SelectRedBagActivity extends BaseActivity {
         itemsPrice = getIntent().getDoubleExtra(ITEMS_PRICE, 0.0);
         promoInfoJson = getIntent().getStringExtra(PROMOINFO_JSON);
         platformRedbagId = getIntent().getLongExtra(PLATFORM_REDBAG_ID, -1l);
+        merchantId = getIntent().getLongExtra(MERCHANT_ID, -1l);
 
         if (platformRedbagId == -1) {
             notUse.setChecked(true);
@@ -113,6 +116,9 @@ public class SelectRedBagActivity extends BaseActivity {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("agentId", agentId);
         map.put("businessType", businessType);
+        if (merchantId != -1) {
+            map.put("merchantId", merchantId);
+        }
         if (userAddress != null) {
             map.put("userAddressId", userAddress.getId());
         }

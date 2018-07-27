@@ -90,6 +90,7 @@ public class HomeRestaurantAdapter extends BaseAdapter {
             holder.promotionLine = convertView.findViewById(R.id.promotion_line);
             holder.img = (CornerImageView) convertView.findViewById(R.id.restaurant_list_item_img);
             holder.imgStatus = (ImageView) convertView.findViewById(R.id.restaurant_list_item_img_status);
+            holder.brantImageView = (ImageView) convertView.findViewById(R.id.brant_imageview);
             holder.imgOffTime = (ImageView) convertView.findViewById(R.id.restaurant_list_item_img_off_time);
             holder.tvPickGoodsCount = (TextView) convertView.findViewById(R.id.pick_goods_count);
             holder.tvName = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_name);
@@ -121,7 +122,7 @@ public class HomeRestaurantAdapter extends BaseAdapter {
 
     static class ViewHolder {
         CornerImageView img;
-        ImageView imgActive, imgStatus, imgOffTime;
+        ImageView imgActive, imgStatus, imgOffTime,brantImageView;
         TextView tvName, tvSendPrice, tvScore, tvInSales, tvShippingFee, tvMianShippingFee, tvTips, tvActiveCount, tvTimeDistance, tvPickGoodsCount, tvShipFeeNew;
         RatingBar scoreBar;
         LinearLayout layoutImgs, layoutActive, layoutActiveHide;
@@ -149,6 +150,12 @@ public class HomeRestaurantAdapter extends BaseAdapter {
                 holder.rootView.setVisibility(View.VISIBLE);
                 holder.listItem.setVisibility(View.VISIBLE);
             }
+            if (merchant.getIsBrandMerchant() == 1){
+                holder.brantImageView.setVisibility(View.VISIBLE);
+            }else {
+                holder.brantImageView.setVisibility(View.GONE);
+            }
+
             if (merchant.getPickGoodsCount() > 0) {
                 holder.tvPickGoodsCount.setVisibility(View.VISIBLE);
                 holder.tvPickGoodsCount.setText(merchant.getPickGoodsCount() + "");

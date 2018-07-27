@@ -34,6 +34,7 @@
         android:paddingTop="@dimen/x15"
         android:paddingBottom="@dimen/x8">
 
+
         <com.project.mgjandroid.ui.view.CornerImageView
             android:id="@+id/restaurant_list_item_img"
             android:layout_width="@dimen/x85"
@@ -44,6 +45,15 @@
             app:borderThickness="1px"
             app:borderColor="#e5e5e5"
             app:type="round" />
+
+        <ImageView
+            android:id="@+id/brant_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/brant_imageview"
+            android:layout_marginTop="@dimen/x5"
+            android:scaleType="centerCrop"/>
+
 
         <ImageView
             android:id="@+id/restaurant_list_item_img_status"

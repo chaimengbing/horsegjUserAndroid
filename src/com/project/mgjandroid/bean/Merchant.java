@@ -157,6 +157,10 @@ public class Merchant extends Entity {
      */
     private Integer status = 0;
     /**
+     * 是否品牌商家0：不是，1是
+     */
+    private Integer isBrandMerchant = 0;
+    /**
      * 商家类型 0：外卖 1：商超
      */
     private int type;
@@ -687,5 +691,13 @@ public class Merchant extends Entity {
 
     public void setContactsArray(String contactsArray) {
         this.contactsArray = contactsArray;
+    }
+
+    public Integer getIsBrandMerchant() {
+        return isBrandMerchant;
+    }
+
+    public void setIsBrandMerchant(Integer isBrandMerchant) {
+        this.isBrandMerchant = isBrandMerchant;
     }
 }
