@@ -132,7 +132,9 @@ public class GroupBuyingUseAdapter extends BaseAdapter {
                 }
             }
         }
-        holder.time.setText(format.format(couponCode.getEndTime()));
+        if (couponCode.getEndTime() != null){
+            holder.time.setText(format.format(couponCode.getEndTime()));
+        }
         holder.id.setText(getCode(couponCode.getCouponCode(), position + 1));
         if (byteArray.get(couponCode.getId().intValue()) == null) {
             MLog.e("---------->EncodingUtils.createQRCode");
