@@ -509,8 +509,10 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill1);
             TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_origin_price);
             TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
+            TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
             root.setTag(bean);
             tvPayBill.setText("购买");
+            tvSold.setText("已售"+bean.getBuyCount());
             if (CheckUtils.isNoEmptyStr(bean.getImages())) {
                 ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
             }

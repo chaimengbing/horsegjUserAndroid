@@ -145,6 +145,42 @@ public class GroupPurchaseOrderCouponCode extends BaseBean {
     private String groupPurchaseName;
 
     private boolean isSelected;
+    /**
+     * 预约日期
+     */
+    private Date targetDate;
+    /**
+     * 是否核销 1核销 2不核销
+     */
+    private int isAutomaticallyCancelAfterVerification;
+    /**
+     * 核销时间
+     */
+    private String cancelAfterVerificationTime;
+
+    public Date getTargetDate() {
+        return targetDate;
+    }
+
+    public void setTargetDate(Date targetDate) {
+        this.targetDate = targetDate;
+    }
+
+    public int getIsAutomaticallyCancelAfterVerification() {
+        return isAutomaticallyCancelAfterVerification;
+    }
+
+    public void setIsAutomaticallyCancelAfterVerification(int isAutomaticallyCancelAfterVerification) {
+        this.isAutomaticallyCancelAfterVerification = isAutomaticallyCancelAfterVerification;
+    }
+
+    public String getCancelAfterVerificationTime() {
+        return cancelAfterVerificationTime;
+    }
+
+    public void setCancelAfterVerificationTime(String cancelAfterVerificationTime) {
+        this.cancelAfterVerificationTime = cancelAfterVerificationTime;
+    }
 
     public boolean isSelected() {
         return isSelected;

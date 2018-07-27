@@ -86,6 +86,7 @@ public class GroupPurchaseOrder extends Entity {
      * 总价格
      */
     private BigDecimal totalPrice = BigDecimal.ZERO;
+    private BigDecimal originalTotalPrice = BigDecimal.ZERO;
     /**
      * 数量
      */
@@ -188,6 +189,7 @@ public class GroupPurchaseOrder extends Entity {
      * 优惠买单 3
      **/
     private int orderType;
+
     private BigDecimal redBagDiscountTotalAmt;
     /** 折扣优惠总金额 **/
     private BigDecimal discountAmt = BigDecimal.ZERO;
@@ -368,6 +370,14 @@ public class GroupPurchaseOrder extends Entity {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public BigDecimal getOriginalTotalPrice() {
+        return originalTotalPrice;
+    }
+
+    public void setOriginalTotalPrice(BigDecimal originalTotalPrice) {
+        this.originalTotalPrice = originalTotalPrice;
     }
 
     public int getQuantity() {

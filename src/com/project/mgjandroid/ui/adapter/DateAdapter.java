@@ -140,7 +140,21 @@ public class DateAdapter extends BaseAdapter {
             viewHolder.date_item.setText("今天");
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
             viewHolder.date_item.getPaint().setFakeBoldText(true);
-        } else if (day == days[i] - 1 && nowadayMonth == month && nowadayYear == year) {
+        }else if(days[i]-1==0){
+            if (nextCount > 0 && month == mMonth){
+                if(days[i] == nextCount){
+                    viewHolder.date_item.setText("明天");
+                    viewHolder.date_item.getPaint().setFakeBoldText(true);
+                }
+            }
+        } else if(days[i]-1==-1){
+            if (nextCount > 0 && month == mMonth){
+                if(days[i] == nextCount){
+                    viewHolder.date_item.setText("后天");
+                    viewHolder.date_item.getPaint().setFakeBoldText(true);
+                }
+            }
+        }else if (day == days[i] - 1 && nowadayMonth == month && nowadayYear == year) {
             viewHolder.date_item.setText("明天");
             viewHolder.date_item.getPaint().setFakeBoldText(true);
         } else if (day == days[i] - 2 && nowadayMonth == month && nowadayYear == year) {

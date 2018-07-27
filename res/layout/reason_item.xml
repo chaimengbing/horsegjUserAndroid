@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:drawablePadding="@dimen/x10"
         android:gravity="center"
-        android:padding="@dimen/x10"
-        android:button="@drawable/refund_select"
+        android:drawableLeft="@drawable/refund_select"
+        android:button="@null"
         android:textColor="@color/color_3"
         android:textSize="12sp" />
 

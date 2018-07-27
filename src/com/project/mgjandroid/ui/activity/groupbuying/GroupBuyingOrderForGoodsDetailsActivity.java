@@ -148,6 +148,14 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private TextView tvDate;
     @InjectView(R.id.ll_date)
     private LinearLayout llDate;
+    @InjectView(R.id.ll_red_bag)
+    private LinearLayout llRedBag;
+    @InjectView(R.id.tv_red_bag)
+    private TextView tvRedBag;
+    @InjectView(R.id.ll_pay_price)
+    private LinearLayout llPayPrice;
+    @InjectView(R.id.tv_pay_price)
+    private TextView tvPayPrice;
 
     private StringBuffer buffer = new StringBuffer();
 
@@ -330,9 +338,27 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             }
         }
         tvOrderNumber.setText(order.getId());
-        tvTimeOfPayment.setText(format.format(order.getPayDoneTime()));
+        if(CheckUtils.isNoEmptyStr(format.format(order.getPayDoneTime()))){
+            layoutPaymentTime.setVisibility(View.VISIBLE);
+            tvTimeOfPayment.setText(format.format(order.getPayDoneTime()));
+        }else {
+            layoutPaymentTime.setVisibility(View.GONE);
+        }
         tvCount.setText(order.getQuantity() + "");
-        tvTotalPrice.setText("¥" + StringUtils.BigDecimal2Str(order.getTotalPrice()));
+        if(CheckUtils.isNoEmptyStr(StringUtils.BigDecimal2Str(order.getOriginalTotalPrice()))&&!"0".equals(StringUtils.BigDecimal2Str(order.getOriginalTotalPrice()))){
+            tvTotalPrice.setText("¥" + StringUtils.BigDecimal2Str(order.getOriginalTotalPrice()));
+        }else {
+            tvTotalPrice.setText("¥" + StringUtils.BigDecimal2Str(order.getTotalPrice()));
+        }
+        if(CheckUtils.isNoEmptyStr(StringUtils.BigDecimal2Str(order.getRedBagDiscountTotalAmt()))&&!"0".equals(StringUtils.BigDecimal2Str(order.getRedBagDiscountTotalAmt()))){
+            llRedBag.setVisibility(View.VISIBLE);
+            llPayPrice.setVisibility(View.VISIBLE);
+            tvPayPrice.setText("¥"+StringUtils.BigDecimal2Str(order.getTotalPrice()));
+            tvRedBag.setText("¥"+StringUtils.BigDecimal2Str(order.getRedBagDiscountTotalAmt()));
+        }else {
+            llRedBag.setVisibility(View.GONE);
+            llPayPrice.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -490,7 +516,15 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
      */
     private void showOption() {
         tv_1.setText("随时退款");
-        tv_2.setText("过期自动退");
+        if(order!=null&&order.getGroupPurchaseCouponType() == 2){
+            if(purchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
+                tv_2.setText("到期自动退");
+            }else {
+                tv_2.setText("过期自动退");
+            }
+        }else {
+            tv_2.setText("过期自动退");
+        }
         if (purchaseCoupon.getIsBespeak() == 0) {
             tv_3.setText("免预约");
         } else {

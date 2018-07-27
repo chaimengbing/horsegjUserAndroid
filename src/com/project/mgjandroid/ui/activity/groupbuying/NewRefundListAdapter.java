@@ -39,7 +39,11 @@ public class NewRefundListAdapter extends BaseListAdapter<GroupPurchaseOrderCoup
     @Override
     protected void getRealView(ViewHolder holder, GroupPurchaseOrderCouponCode bean, int position, View convertView, ViewGroup parent) {
         if (bean.getStatus() == 0 && bean.getIsExpire() == 0) {
-            holder.setText(R.id.tv_coupon_code, "团购券："+ bean.getCouponCode());
+            if(bean.getGroupPurchaseCouponType()==1){
+                holder.setText(R.id.tv_coupon_code, "代金券："+ bean.getCouponCode());
+            }else {
+                holder.setText(R.id.tv_coupon_code, "团购券："+ bean.getCouponCode());
+            }
         }
         ImageView rb = holder.getView(R.id.img_unselected);
         if (bean.isSelected()) {

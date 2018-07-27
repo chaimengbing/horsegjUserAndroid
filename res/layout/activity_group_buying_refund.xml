@@ -115,11 +115,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/refund_list_view"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/x60"
                     android:background="@drawable/bg_black_stroke"
                     android:drawableRight="@drawable/icon_expand_yellow"
                     android:padding="@dimen/x3"
-                    android:text="其他团购券"
                     android:textColor="@color/bg_festival"
                     android:textSize="12sp" />
 
@@ -337,7 +336,7 @@
                 android:layout_marginBottom="@dimen/x20"
                 android:background="@drawable/bg_login_orange_button"
                 android:gravity="center"
-                android:text="提交订单"
+                android:text="提交申请"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
         </LinearLayout>
