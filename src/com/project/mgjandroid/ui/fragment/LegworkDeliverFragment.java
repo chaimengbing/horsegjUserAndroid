@@ -428,6 +428,9 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
      * 计算服务费
      */
     private void computingServicePrice() {
+        if (!App.isLogin()){
+            return;
+        }
         isComputingSuccess = false;
         VolleyOperater<LegworkServiceChargeModel> operater = new VolleyOperater<>(mActivity);
         HashMap<String, Object> map = new HashMap<>();
