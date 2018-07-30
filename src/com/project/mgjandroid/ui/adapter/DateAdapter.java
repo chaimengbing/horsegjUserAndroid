@@ -40,13 +40,13 @@ public class DateAdapter extends BaseAdapter {
         this.bespeakDays = bespeakDays;
     }
 
-    public void setSeclection(int position,int clickMonth) {
+    public void setSeclection(int position, int clickMonth) {
         clickTemp = position;
         this.clickMonth = clickMonth;
         notifyDataSetChanged();
     }
 
-    public void setData(int[][] days, int year, int month, int bespeakDays){
+    public void setData(int[][] days, int year, int month, int bespeakDays) {
         int dayNum = 0;
         //将二维数组转化为一维数组，方便使用
         for (int i = 0; i < days.length; i++) {
@@ -74,6 +74,33 @@ public class DateAdapter extends BaseAdapter {
     @Override
     public long getItemId(int i) {
         return i;
+    }
+
+    private String getDate(int year, int month, int day) {
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+
+
+        Calendar old = Calendar.getInstance();
+        old.set(Calendar.YEAR, year);
+        old.set(Calendar.MONTH, month-1);
+        old.set(Calendar.DAY_OF_MONTH, day);
+        //此处好像是去除0
+
+        old.set(Calendar.HOUR, 0);
+        old.set(Calendar.MINUTE, 0);
+        old.set(Calendar.SECOND, 0);
+        //老的时间减去今天的时间
+        long intervalMilli = old.getTimeInMillis() - today.getTimeInMillis();
+        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
+        // -2:前天 -1：昨天 0：今天 1：明天 2：后天， out：显示日期
+        if (xcts >= -2 && xcts <= 2) {
+            return String.valueOf(xcts);
+        } else {
+            return "out";
+        }
     }
 
     @Override
@@ -114,8 +141,8 @@ public class DateAdapter extends BaseAdapter {
             viewHolder.date_item.setEnabled(false);
             viewHolder.date_item.setClickable(false);
             int max = 0;
-            if (viewHolder.date_item.getVisibility() == View.VISIBLE){
-                if (max < days[i]){
+            if (viewHolder.date_item.getVisibility() == View.VISIBLE) {
+                if (max < days[i]) {
                     max = days[i];
                 }
                 max = days[i];
@@ -124,44 +151,48 @@ public class DateAdapter extends BaseAdapter {
             nextCount = count - max + 1;
         }
         int mMonth = nowadayMonth + 1;
-        if(mMonth==13){
-            mMonth =1;
+        if (mMonth == 13) {
+            mMonth = 1;
         }
-        if (nextCount > 0 && month == mMonth){
-            if (days[i] < nextCount){
+        if (nextCount > 0 && month == mMonth) {
+            if (days[i] < nextCount) {
                 viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.color_f5));
                 viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
                 viewHolder.date_item.setEnabled(false);
                 viewHolder.date_item.setClickable(false);
             }
         }
-        //是否是本年本月显示的今天、明天、后天
-        if (day == days[i] && nowadayMonth == month && nowadayYear == year) {
+
+        if (getDate(year, month, days[i]).equals("0")) {
             viewHolder.date_item.setText("今天");
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
             viewHolder.date_item.getPaint().setFakeBoldText(true);
-        }else if(days[i]-1==0){
-            if (nextCount > 0 && month == mMonth){
-                if(days[i] == nextCount){
-                    viewHolder.date_item.setText("明天");
-                    viewHolder.date_item.getPaint().setFakeBoldText(true);
-                }
-            }
-        } else if(days[i]-1==-1){
-            if (nextCount > 0 && month == mMonth){
-                if(days[i] == nextCount){
-                    viewHolder.date_item.setText("后天");
-                    viewHolder.date_item.getPaint().setFakeBoldText(true);
-                }
-            }
-        }else if (day == days[i] - 1 && nowadayMonth == month && nowadayYear == year) {
+        } else if (getDate(year, month, days[i]).equals("1")) {
             viewHolder.date_item.setText("明天");
             viewHolder.date_item.getPaint().setFakeBoldText(true);
-        } else if (day == days[i] - 2 && nowadayMonth == month && nowadayYear == year) {
+        } else if (getDate(year, month, days[i]).equals("2")) {
             viewHolder.date_item.setText("后天");
             viewHolder.date_item.getPaint().setFakeBoldText(true);
         }
-        if (clickTemp == i && clickMonth == month ) {
+        //是否是本年本月显示的今天、明天、后天
+//        if (day == days[i] && nowadayMonth == month && nowadayYear == year) {
+//            viewHolder.date_item.setText("今天");
+//            viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
+//            viewHolder.date_item.getPaint().setFakeBoldText(true);
+//        } else if (days[i] - day < 0 && nowadayMonth == month + 1 && nowadayYear == year) {
+//            if (days[i] == 1) {
+//
+//            }
+//            viewHolder.date_item.setText("明天");
+//            viewHolder.date_item.getPaint().setFakeBoldText(true);
+//        } else if (day == days[i] - 1 && nowadayMonth == month && nowadayYear == year) {
+//            viewHolder.date_item.setText("明天");
+//            viewHolder.date_item.getPaint().setFakeBoldText(true);
+//        } else if (day == days[i] - 2 && nowadayMonth == month && nowadayYear == year) {
+//            viewHolder.date_item.setText("后天");
+//            viewHolder.date_item.getPaint().setFakeBoldText(true);
+//        }
+        if (clickTemp == i && clickMonth == month) {
             viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.bg_festival));
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.white));
         } else {
