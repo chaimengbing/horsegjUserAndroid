@@ -61,6 +61,7 @@ public class GroupBuyingRefundActivity extends BaseActivity implements AdapterVi
     private List mlist = new ArrayList<GroupPurchaseOrderCouponCode>();
     private RefundDialog dialog;
     private int count;
+    private BigDecimal price;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -201,7 +202,7 @@ public class GroupBuyingRefundActivity extends BaseActivity implements AdapterVi
                                 dialog.dismiss();
                             }
 
-                        }, "是否确认退款" + ableCount + "张价值" + StringUtils.BigDecimal2Str(bigDecimal) + "元的代金券？", "申请退款成功后，使用余额支付部分将退还至余额，使用第三方支付部分,将原路退回。", "确定", "取消");
+                        }, "是否确认退款" + ableCount + "张价值" + StringUtils.BigDecimal2Str(price) + "元的代金券？", "申请退款成功后，使用余额支付部分将退还至余额，使用第三方支付部分,将原路退回。", "确定", "取消");
                         dialog.show();
                     } else {
                         dialog = new RefundDialog(mActivity, new RefundDialog.onBtnClickListener() {
@@ -216,7 +217,7 @@ public class GroupBuyingRefundActivity extends BaseActivity implements AdapterVi
                                 dialog.dismiss();
                             }
 
-                        }, "是否确认退款" + ableCount + "张价值" + StringUtils.BigDecimal2Str(bigDecimal) + "元的团购券？", "申请退款成功后，使用余额支付部分将退还至余额，使用第三方支付部分,将原路退回。", "确定", "取消");
+                        }, "是否确认退款" + ableCount + "张价值" + StringUtils.BigDecimal2Str(price) + "元的团购券？", "申请退款成功后，使用余额支付部分将退还至余额，使用第三方支付部分,将原路退回。", "确定", "取消");
                         dialog.show();
                     }
                 }
@@ -240,7 +241,7 @@ public class GroupBuyingRefundActivity extends BaseActivity implements AdapterVi
         } else {
             ableCount++;
             adapter.getData().get(i).setSelected(true);
-            BigDecimal price = adapter.getData().get(i).getPrice();
+            price = adapter.getData().get(i).getPrice();
             bigDecimal = bigDecimal.add(price);
             Long id = adapter.getData().get(i).getId();
             buffer.append(id + ",");

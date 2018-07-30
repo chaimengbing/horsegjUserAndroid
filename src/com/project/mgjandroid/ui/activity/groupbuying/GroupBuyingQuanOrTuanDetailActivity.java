@@ -52,6 +52,9 @@ import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.MyScrollView;
 import com.project.mgjandroid.ui.view.NoScrollListView;
+import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.CircleIndicator;
+import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner;
+import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.OnBannerItemClickListener;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.MLog;
@@ -88,8 +91,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private MyScrollView scrollView;
     @InjectView(R.id.buy_frame)
     private FrameLayout buyFrame;
-    @InjectView(R.id.img)
-    private ImageView img;
     @InjectView(R.id.tv_price)
     private TextView tvPrice;
     @InjectView(R.id.tv_buy)
@@ -162,6 +163,10 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout llDate;
     @InjectView(R.id.tv_date)
     private TextView tvDate;
+    @InjectView(R.id.my_banner)
+    private MyBanner myBanner;
+    @InjectView(R.id.tv_photo_count)
+    private TextView tvPhotoCount;
 
     private PopupWindow mPopupWindow;
     private TextView tvAmt;
@@ -205,7 +210,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             @Override
             public void onScrollChanged(int t, int oldt) {
                 MLog.e("----> t: " + t + "  , oldt: " + oldt);
-                if (t >= img.getHeight()) {
+                if (t >= myBanner.getHeight()) {
                     buyFrame.setVisibility(View.VISIBLE);
                 } else {
                     buyFrame.setVisibility(View.GONE);
@@ -213,6 +218,43 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             }
         });
         loadingDialog = new MLoadingDialog();
+    }
+
+    private void showBanner() {
+        if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
+            final String[] imageUrl = groupPurchaseCoupon.getImages().split(";");
+            tvPhotoCount.setText("1/" + imageUrl.length);
+            final List<String> stringList = Arrays.asList(imageUrl);
+            for (int i = 0; i < imageUrl.length; i++) {
+                imageUrl[i] += Constants.getEndThumbnail(375, 230);
+            }
+            myBanner.setUrls(Arrays.asList(imageUrl), false, false);
+            myBanner.setOnPageChangeListener(new CircleIndicator.PageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    tvPhotoCount.setText((position + 1) + "/" + imageUrl.length);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            myBanner.setOnBannerItemClickListener(new OnBannerItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    PictureViewActivity.toViewPicture(mActivity, JSONArray.toJSONString(stringList), position);
+                }
+            });
+        } else {
+            myBanner.setBackgroundResource(R.drawable.horsegj_default);
+            tvPhotoCount.setVisibility(View.GONE);
+        }
     }
 
     private void showData() {
@@ -223,10 +265,11 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             comTitle.setText("团购券");
             getGroupPurchaseCouponList(groupPurchaseCoupon.getType());
         }
-        if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
-            ImageUtils.loadBitmap(mActivity, groupPurchaseCoupon.getImages().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(375, 190));
-            img.setOnClickListener(this);
-        }
+        showBanner();
+//        if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
+//            ImageUtils.loadBitmap(mActivity, groupPurchaseCoupon.getImages().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(375, 190));
+//            img.setOnClickListener(this);
+//        }
         String price = StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice());
         String str = "¥ " + price;
         if (groupPurchaseCoupon.getType() == 1) {

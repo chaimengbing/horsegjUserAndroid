@@ -10,6 +10,7 @@ import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.ui.activity.HomeActivity;
+import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
 import com.project.mgjandroid.ui.activity.invitingfriends.InvitingFriendsActivity;
 import com.project.mgjandroid.utils.PreferenceUtils;
 
@@ -46,7 +47,15 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
                     Intent i = new Intent(context, InvitingFriendsActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
-                } else if ("Hitchhiking".equals(type) || "VisualAgriculture".equals(type)) {
+                } else if("refundsSuccess".equals(type)){
+                    String orderId = object.optString("orderId");
+                    String groupPurchaseOrderCouponCodeId = object.optString("groupPurchaseOrderCouponCodeId");
+                    Intent i = new Intent(context, OrderRefundInfoActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra("orderId",orderId);
+                    i.putExtra("groupPurchaseOrderCouponCodeId",groupPurchaseOrderCouponCodeId);
+                    context.startActivity(i);
+                }else if ("Hitchhiking".equals(type) || "VisualAgriculture".equals(type)) {
                     // 顺风车/可视农场
                     String url = object.optString("url");
                     if (url.replace("maguanjia://", "").startsWith("http")) {
@@ -83,6 +92,7 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
                         JPushInterface.clearNotificationById(context, notificationId);
                     }
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
