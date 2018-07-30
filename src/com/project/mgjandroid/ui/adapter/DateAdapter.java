@@ -121,13 +121,7 @@ public class DateAdapter extends BaseAdapter {
             viewHolder.date_item.setTextColor(Color.rgb(204, 204, 204));
             viewHolder.date_item.setVisibility(View.INVISIBLE);
         }
-//        if (viewHolder.date_item.getVisibility() == View.VISIBLE) {
-//            view.setEnabled(false);
-//            view.setClickable(false);
-//        } else {
-//            view.setEnabled(true);
-//            view.setClickable(true);
-//        }
+
         viewHolder.date_item.setText(days[i] + "");
 
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
@@ -162,7 +156,7 @@ public class DateAdapter extends BaseAdapter {
                 viewHolder.date_item.setClickable(false);
             }
         }
-
+        //是否是本年本月显示的今天、明天、后天
         if (getDate(year, month, days[i]).equals("0")) {
             viewHolder.date_item.setText("今天");
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
@@ -174,29 +168,10 @@ public class DateAdapter extends BaseAdapter {
             viewHolder.date_item.setText("后天");
             viewHolder.date_item.getPaint().setFakeBoldText(true);
         }
-        //是否是本年本月显示的今天、明天、后天
-//        if (day == days[i] && nowadayMonth == month && nowadayYear == year) {
-//            viewHolder.date_item.setText("今天");
-//            viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
-//            viewHolder.date_item.getPaint().setFakeBoldText(true);
-//        } else if (days[i] - day < 0 && nowadayMonth == month + 1 && nowadayYear == year) {
-//            if (days[i] == 1) {
-//
-//            }
-//            viewHolder.date_item.setText("明天");
-//            viewHolder.date_item.getPaint().setFakeBoldText(true);
-//        } else if (day == days[i] - 1 && nowadayMonth == month && nowadayYear == year) {
-//            viewHolder.date_item.setText("明天");
-//            viewHolder.date_item.getPaint().setFakeBoldText(true);
-//        } else if (day == days[i] - 2 && nowadayMonth == month && nowadayYear == year) {
-//            viewHolder.date_item.setText("后天");
-//            viewHolder.date_item.getPaint().setFakeBoldText(true);
-//        }
+
         if (clickTemp == i && clickMonth == month) {
             viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.bg_festival));
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.white));
-        } else {
-//            layout.setBackgroundColor(Color.TRANSPARENT);
         }
 
         return view;

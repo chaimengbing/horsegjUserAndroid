@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/action_bar"
         android:scrollbarThumbVertical="@drawable/xg_scrollbar"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="match_parent"
