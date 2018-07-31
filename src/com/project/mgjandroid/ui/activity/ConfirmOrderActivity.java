@@ -832,10 +832,6 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 listAdapter.notifyDataSetChanged();
                 break;
             case R.id.top_address:
-                if (!TextUtils.isEmpty(errorMsg)) {
-                    ToastUtils.displayMsg(errorMsg, mActivity);
-                    return;
-                }
                 if (!App.isLogin()) {
                     startActivity(new Intent(mActivity, SmsLoginActivity.class));
                     break;
