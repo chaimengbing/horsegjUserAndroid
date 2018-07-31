@@ -886,10 +886,6 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 submitOrder();
                 break;
             case R.id.confirm_order_select_time:
-                if (!TextUtils.isEmpty(errorMsg)) {
-                    ToastUtils.displayMsg(errorMsg, mActivity);
-                    return;
-                }
                 if (popupWindow != null && !popupWindow.isShowing()) {
                     for (DayBean dayBean : dayList) {
                         if (dayBean.isChecked()) {
