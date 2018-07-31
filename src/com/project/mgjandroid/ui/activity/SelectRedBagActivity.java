@@ -44,6 +44,7 @@ public class SelectRedBagActivity extends BaseActivity {
     public final static String PLATFORM_REDBAGS = "platform_redbags";
     public final static String PLATFORM_REDBAG_ID = "platform_redbag_id";
     public final static String MERCHANT_ID = "merchantId";
+    public final static String DISCOUNT_GOODS_DISCOUN_TAMT = "discountGoodsDiscountAmt";
     public static final int RED_BAG_MONEY = 10007;
 
     @InjectView(R.id.my_redbag_act_back)
@@ -65,6 +66,7 @@ public class SelectRedBagActivity extends BaseActivity {
     private long agentId = 0l;
     private double itemsPrice = 0;
     private UserAddress userAddress;
+    private double discountGoodsDiscountAmt;
     /**
      * Takeaway(1, "外卖"),
      * Groupbuy(2, "拼团"),
@@ -97,6 +99,7 @@ public class SelectRedBagActivity extends BaseActivity {
         promoInfoJson = getIntent().getStringExtra(PROMOINFO_JSON);
         platformRedbagId = getIntent().getLongExtra(PLATFORM_REDBAG_ID, -1l);
         merchantId = getIntent().getLongExtra(MERCHANT_ID, -1l);
+        discountGoodsDiscountAmt = getIntent().getDoubleExtra(DISCOUNT_GOODS_DISCOUN_TAMT, 0.0);
 
         if (platformRedbagId == -1) {
             notUse.setChecked(true);
@@ -121,6 +124,10 @@ public class SelectRedBagActivity extends BaseActivity {
         }
         if (userAddress != null) {
             map.put("userAddressId", userAddress.getId());
+        }
+        if (discountGoodsDiscountAmt != 0.0) {
+            map.put("discountGoodsDiscountAmt", discountGoodsDiscountAmt);
+
         }
         map.put("itemsPrice", itemsPrice);
         if (quantity != -1) {
