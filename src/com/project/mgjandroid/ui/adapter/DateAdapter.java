@@ -128,7 +128,7 @@ public class DateAdapter extends BaseAdapter {
         int nowadayMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int nowadayYear = Calendar.getInstance().get(Calendar.YEAR);
 
-        int count = day + 20;
+        int count = day + bespeakDays;
         if (days[i] >= day && days[i] < count && nowadayMonth == month) {
             viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.color_f5));
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
