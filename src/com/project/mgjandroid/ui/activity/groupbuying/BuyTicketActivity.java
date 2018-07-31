@@ -145,7 +145,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         ticketOriginalPrice = getIntent().getStringExtra("ticketOriginalPrice");
         type = getIntent().getIntExtra("type", -1);
         bespeak = getIntent().getIntExtra("bespeak", -1);
-        bespeakDays = getIntent().getIntExtra("bespeakDays", -1);
+        bespeakDays = getIntent().getIntExtra("bespeakDayCount", -1);
         groupPurchaseCoupon = (GroupPurchaseCoupon) getIntent().getSerializableExtra("groupPurchaseCoupon");
         if (type == 1) {
             rlCalendar.setVisibility(View.GONE);

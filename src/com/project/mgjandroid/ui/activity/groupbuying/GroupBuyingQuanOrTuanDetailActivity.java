@@ -462,7 +462,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 intent2.putExtra("type",groupPurchaseCoupon.getType());
                 intent2.putExtra("bespeak",groupPurchaseCoupon.getIsBespeak());
                 intent2.putExtra("agentId",groupPurchaseCoupon.getAgentId());
-                intent2.putExtra("bespeakDays",groupPurchaseCoupon.getBespeakDays());
+                intent2.putExtra("bespeakDayCount",groupPurchaseCoupon.getBespeakDayCount());
                 intent2.putExtra("groupPurchaseCoupon",groupPurchaseCoupon);
                 mActivity.startActivity(intent2);
                 break;
@@ -576,7 +576,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     intent2.putExtra("type",bean.getType());
                     intent2.putExtra("bespeak",bean.getIsBespeak());
                     intent2.putExtra("agentId",bean.getAgentId());
-                    intent2.putExtra("bespeakDays",bean.getBespeakDays());
+                    intent2.putExtra("bespeakDayCount",bean.getBespeakDayCount());
                     intent2.putExtra("groupPurchaseCoupon",bean);
                     mActivity.startActivity(intent2);
                 }

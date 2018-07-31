@@ -99,7 +99,7 @@ public class GroupPurchaseCoupon extends BaseBean {
     /**
      * 可预约天数
      **/
-    private int bespeakDays;
+    private int bespeakDayCount;
 
     private BigDecimal sumGroupPurchaseCouponGoodsOriginPrice;
 
@@ -318,14 +318,6 @@ public class GroupPurchaseCoupon extends BaseBean {
         this.buyCount = buyCount;
     }
 
-    public int getBespeakDays() {
-        return bespeakDays;
-    }
-
-    public void setBespeakDays(int bespeakDays) {
-        this.bespeakDays = bespeakDays;
-    }
-
     public int getIsAutomaticallyCancelAfterVerification() {
         return isAutomaticallyCancelAfterVerification;
     }
@@ -348,5 +340,13 @@ public class GroupPurchaseCoupon extends BaseBean {
 
     public void setTargetTime(String targetTime) {
         this.targetTime = targetTime;
+    }
+
+    public int getBespeakDayCount() {
+        return bespeakDayCount;
+    }
+
+    public void setBespeakDayCount(int bespeakDayCount) {
+        this.bespeakDayCount = bespeakDayCount;
     }
 }

@@ -48,6 +48,7 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 } else if("refundsSuccess".equals(type)){
+                    //团购退款
                     String orderId = object.optString("orderId");
                     String groupPurchaseOrderCouponCodeId = object.optString("groupPurchaseOrderCouponCodeId");
                     Intent i = new Intent(context, OrderRefundInfoActivity.class);

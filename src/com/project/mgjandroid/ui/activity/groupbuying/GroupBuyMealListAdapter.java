@@ -72,7 +72,7 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
                 intent2.putExtra("type",bean.getType());
                 intent2.putExtra("bespeak",bean.getIsBespeak());
                 intent2.putExtra("agentId",bean.getAgentId());
-                intent2.putExtra("bespeakDays",bean.getBespeakDays());
+                intent2.putExtra("bespeakDayCount",bean.getBespeakDayCount());
                 intent2.putExtra("groupPurchaseCoupon",bean);
                 mActivity.startActivity(intent2);
             }
