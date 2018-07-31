@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/re_tip_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/x45"
+        android:layout_marginRight="@dimen/x45"
+        android:background="@drawable/call_phone_dialog_bg"
+        android:paddingTop="@dimen/x15">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/big_redbag" />
+
+
+        <TextView
+            android:id="@+id/appTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img"
+            android:textColor="@color/color_3"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/x17"
+            android:layout_centerHorizontal="true"
+            android:text="【送您一个拼手气红包】" />
+
+        <TextView
+            android:id="@+id/tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appTitle"
+            android:layout_marginTop="@dimen/x15"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:includeFontPadding="false"
+            android:textColor="@color/color_3"
+            android:textSize="15sp"
+            android:text="快分享给小伙伴看看谁会撞大运" />
+
+        <View
+            android:id="@+id/divide_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/tips"
+            android:layout_marginTop="@dimen/x17"
+            android:background="#cccccc" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x45"
+            android:layout_below="@id/divide_line"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/color_3"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="#cccccc" />
+
+            <TextView
+                android:id="@+id/sure"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="发红包"
+                android:textColor="#faa761"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

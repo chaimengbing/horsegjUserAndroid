@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -78,6 +80,7 @@ import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.ShareUtil;
 import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
@@ -264,6 +267,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private RelativeLayout rlOrderState;
     @InjectView(R.id.iv_arrow)
     private ImageView ivArrow;
+    @InjectView(R.id.img_send_redbag)
+    private ImageView sendRedBag;
 
     String orderId;
     private boolean refreshFlag = true;
@@ -294,6 +299,10 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private String areaPhone;
     private String mgjPhone;
     private Dialog mStatusDialog;
+    private PopupWindow popupWindow;
+    private ShareUtil shareUtil;
+    private ValueEntity.ShareRedBagInfo shareRedBagInfo;
+    private boolean isCanIn;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -307,6 +316,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
 
     private void init() {
         orderId = getIntent().getStringExtra(ORDER_ID);
+        isCanIn = getIntent().getBooleanExtra("isCanIn", false);
         valueEntity = (NewOrderFragmentModel.ValueEntity) getIntent().getSerializableExtra(ORDER_LIST_ENTITY);
         submitOrderEntity = (ValueEntity) getIntent().getSerializableExtra(SUBMIT_ORDER_ENTITY);
         if (orderId == null) {
@@ -327,6 +337,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         } else {
             getData(true);
         }
+        sendRedBag.setOnClickListener(this);
         imgBack.setOnClickListener(this);
         imgPhone.setOnClickListener(this);
         ivAdIamge.setOnClickListener(this);
@@ -370,6 +381,50 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             }
         }
 
+    }
+
+    private void showRedBag(){
+        View view = LayoutInflater.from(this).inflate(R.layout.send_redbag, null);
+        TextView tvSure = (TextView) view.findViewById(R.id.sure);
+        TextView tvCancel = (TextView) view.findViewById(R.id.cancel);
+        tvSure.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                if (shareUtil == null && shareRedBagInfo != null) {
+                    shareUtil = new ShareUtil(mActivity, shareRedBagInfo.getTitle(),
+                            shareRedBagInfo.getMemo(),
+                            shareRedBagInfo.getUrl(), shareRedBagInfo.getImg());
+                }
+                if (shareUtil != null) shareUtil.showRedBagPopupWindow();
+            }
+        });
+        tvCancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        ColorDrawable cd = new ColorDrawable(0x000000);
+        popupWindow.setBackgroundDrawable(cd);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+                lp.alpha = 1.0f;
+                mActivity.getWindow().setAttributes(lp);
+            }
+        });
+        if (!popupWindow.isShowing()) {
+            WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+            lp.alpha = 0.5f;
+            mActivity.getWindow().setAttributes(lp);
+            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            popupWindow.showAtLocation(mActivity.getWindow().getDecorView(), Gravity.CENTER_VERTICAL, 0, 0);
+        }
     }
 
     private void checkHasRedPackage(String orderId) {
@@ -664,6 +719,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                     }
                 }
                 break;
+            case R.id.img_send_redbag:
+                showRedBag();
+                break;
             default:
                 break;
         }
@@ -877,6 +935,12 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 if (isSucceed && obj != null) {
                     SubmitOrderModel orderDetail = (SubmitOrderModel) obj;
                     submitOrderEntity = orderDetail.getValue();
+                    shareRedBagInfo = submitOrderEntity.getShareRedBagInfo();
+                    if(shareRedBagInfo==null){
+                        sendRedBag.setVisibility(View.GONE);
+                    }else {
+                        sendRedBag.setVisibility(View.VISIBLE);
+                    }
                     int agentType = 0;
                     if (orderDetail.getValue().getType() == 1) {
                         agentType = 1;
@@ -1100,6 +1164,12 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 }
                 break;
             case STATE_WAIT_CONFIRM:
+                if(shareRedBagInfo!=null){
+                    if(isCanIn){
+                        showRedBag();
+                    }
+                }
+
                 tvState.setText("支付成功");
                 //tvStateDes.setText("等待商家接单");
                 tvStateLeft.setText("订单已提交");
@@ -1267,7 +1337,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 tvUnPayCancel.setVisibility(View.GONE);
                 tvShouhuo.setVisibility(View.GONE);
                 break;
-
             default:
                 break;
         }

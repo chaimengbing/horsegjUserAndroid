@@ -230,6 +230,7 @@
         </LinearLayout>
     </RelativeLayout>
 
+
     <com.project.mgjandroid.ui.view.pullableview.PullToRefreshLayout
         android:id="@+id/order_detail_act_pull_layout"
         android:layout_width="match_parent"
@@ -250,8 +251,7 @@
                 android:id="@+id/order_detail_act_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <include layout="@layout/order_detail_order_state" />
 
@@ -276,5 +276,27 @@
         <include layout="@layout/load_more" />
 
     </com.project.mgjandroid.ui.view.pullableview.PullToRefreshLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x200">
+
+            <ImageView
+                android:id="@+id/img_send_redbag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x13"
+                android:layout_marginBottom="@dimen/x200"
+                android:src="@drawable/send_red_bag" />
+        </RelativeLayout>
+    </FrameLayout>
 
 </RelativeLayout>

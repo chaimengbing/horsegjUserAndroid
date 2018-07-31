@@ -122,6 +122,15 @@ public class ShareUtil {
         }
     }
 
+    public void showRedBagPopupWindow() {
+        if (mPopupWindow == null) {
+            initRedBagPopup();
+        }
+        if (!mPopupWindow.isShowing()) {
+            mPopupWindow.showAtLocation(activity.getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+        }
+    }
+
     public void hidePopup() {
         if (mPopupWindow != null && mPopupWindow.isShowing()) {
             mPopupWindow.dismiss();
@@ -144,6 +153,24 @@ public class ShareUtil {
         llQQ.setOnClickListener(listener);
         llWechat.setOnClickListener(listener);
         llFriend.setOnClickListener(listener);
+
+        mPopupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setFocusable(true);
+    }
+
+    private void initRedBagPopup() {
+        View view = LayoutInflater.from(activity).inflate(R.layout.popup_second_hand_share, null);
+        View outside = view.findViewById(R.id.outside);
+        LinearLayout llQQ = (LinearLayout) view.findViewById(R.id.second_hand_qq);
+        LinearLayout llWechat = (LinearLayout) view.findViewById(R.id.second_hand_wechat);
+        LinearLayout llFriend = (LinearLayout) view.findViewById(R.id.second_hand_friend);
+        TextView tvCancel = (TextView) view.findViewById(R.id.second_hand_cancel);
+        outside.setOnClickListener(listener);
+        tvCancel.setOnClickListener(listener);
+        llWechat.setOnClickListener(listener);
+        llFriend.setOnClickListener(listener);
+        llQQ.setVisibility(View.GONE);
 
         mPopupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setOutsideTouchable(true);

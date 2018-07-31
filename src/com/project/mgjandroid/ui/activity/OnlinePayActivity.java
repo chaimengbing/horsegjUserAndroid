@@ -354,6 +354,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             Intent intent = new Intent(OnlinePayActivity.this, OrderDetailActivity.class);
                             intent.putExtra(OrderDetailActivity.ORDER_ID, balancePayModel.getValue().getId());
                             intent.putExtra("hasRedPackage", true);
+                            intent.putExtra("isCanIn", true);
                             startActivity(intent);
                             setResult(RESULT_OK);
                             finish();
@@ -553,6 +554,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
             Intent intent = new Intent(OnlinePayActivity.this, OrderDetailActivity.class);
             intent.putExtra("orderId", orderId);
             intent.putExtra("hasRedPackage", true);
+            intent.putExtra("isCanIn", true);
             startActivity(intent);
             setResult(RESULT_OK);
             finish();
