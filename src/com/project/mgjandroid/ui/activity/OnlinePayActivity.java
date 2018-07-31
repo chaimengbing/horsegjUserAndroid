@@ -20,6 +20,7 @@ import com.project.mgjandroid.model.BalancePayModel;
 import com.project.mgjandroid.model.CheckOrderPayModel;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
 import com.project.mgjandroid.model.GetAlipayInfoModel;
+import com.project.mgjandroid.model.GroupOrderDetailModel;
 import com.project.mgjandroid.model.PayWaysModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.carhailing.CarHailingOrderDetailActivity;
@@ -30,6 +31,7 @@ import com.project.mgjandroid.ui.activity.pintuan.MyGroupPurchaseDetailActivity;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.NoticeDialog;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.MLog;
 import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.ViewFindUtils;
@@ -156,6 +158,9 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                         e.printStackTrace();
                         finish();
                     }
+                }
+                if(isGroupPurchaseBuy){
+                    cancelOrder();
                 }
                 finish();
                 break;
@@ -636,6 +641,21 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    private void cancelOrder() {
+        Map<String, Object> map = new HashMap<>();
+        map.put(OrderDetailActivity.ORDER_ID, orderId);
+        VolleyOperater<GroupOrderDetailModel> operater = new VolleyOperater<>(mActivity);
+        operater.doRequest(Constants.URL_CANCEL_ORDER_BY_ID, map, new VolleyOperater.ResponseListener() {
+
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (isSucceed && obj != null) {
+                    MLog.d("已取消");
+                }
+            }
+        }, GroupOrderDetailModel.class);
+    }
+
     private void getTelNumId(int agentId) {
         final Map<String, Object> map = new HashMap<>();
         map.put("agentId", agentId);
@@ -663,6 +683,9 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     public void onBackPressed() {
         if (isFromThird) {
             setResult(RESULT_CANCELED);
+        }
+        if(isGroupPurchaseBuy){
+            cancelOrder();
         }
         super.onBackPressed();
     }
