@@ -393,7 +393,7 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                 TextView tvPrice = (TextView) layout.findViewById(R.id.price);
                 tvName.setText(goodsList.get(i).getName());
                 tvCount.setText(goodsList.get(i).getQuantity() + "份");
-                tvPrice.setText("¥" + StringUtils.BigDecimal2Str(goodsList.get(i).getOriginPrice().multiply(BigDecimal.valueOf(goodsList.get(i).getQuantity()))));
+                tvPrice.setText("¥" + StringUtils.BigDecimal2Str(goodsList.get(i).getOriginPrice()));
                 goodsLayout.addView(layout, layoutParams);
                 if (i != size - 1) {
                     View v = new View(mActivity);
