@@ -618,7 +618,7 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
                 Intent intent = new Intent(YLBWebViewActivity.this, AddressManageActivity.class);
                 intent.putExtra("group", "group");
                 intent.putExtra("agentId", model.getAgentId());
-                intent.putExtra("merchantId", model.getMerchantId());
+                intent.putExtra("MERCHANT_ID", model.getMerchantId());
                 if (!TextUtils.isEmpty(model.getTitle())) {
                     intent.putExtra("title", model.getTitle());
                 }
