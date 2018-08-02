@@ -3,6 +3,8 @@ package com.project.mgjandroid.ui.activity.groupbuying;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -125,6 +127,38 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 }
             }
         });
+        etEvalution.setFilters(new InputFilter[]{new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence charSequence, int i, int i1, Spanned dest, int i2, int dend) {
+                String lastInputContent = dest.toString();
+                //如果包含.
+                if (lastInputContent.contains(".")) {
+                    int index = lastInputContent.indexOf(".");
+                    //如果光标在.的前面，那么判断.的位置是不是在8以后
+                    if (dend < index) {
+                        if (index >= 8) {
+                            return "";
+                        }
+                    }
+                    //如果光标在.后面大于3，说明小数位要超过2位了
+                    if (dend - index >= 3) {
+                        return "";
+                    }
+
+                } else {
+                    //如果输入的字符不是.并且字符串的长度大于8，说明输入的整数部分已经达到了千万
+                    if (!charSequence.toString().equals(".") && lastInputContent.length() >= 8) {
+                        return "";
+                    }
+                }
+                //如果字符串长度大于11直接返回了
+                if (lastInputContent.length() >= 11) {
+                    return "";
+                }
+                return null;
+            }
+        }});
+
         etEvalution.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -133,27 +167,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (start > 0) {//从一输入就开始判断，
-                    if (min != -1 && max != -1) {
-                        try {
-                            int num = Integer.parseInt(s.toString());
-                            //判断当前edittext中的数字(可能一开始Edittext中有数字)是否大于max
-                            if (num >= max) {
-                                isRun = true;
-//                                s = String.valueOf(max);//如果大于max，则内容为max
-//                                etEvalution.setText(s.toString().trim());
-                                toast("金额不能超过" + max + "元");
-                                return;
-                            } else {
-                                isRun = false;
-                            }
-                        } catch (NumberFormatException e) {
 
-                        }
-                        //edittext中的数字在max和min之间，则不做处理，正常显示即可。
-                        return;
-                    }
-                }
             }
 
             @Override
