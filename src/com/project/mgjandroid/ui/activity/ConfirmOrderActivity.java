@@ -192,6 +192,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_outline;
     private TextView tv_online;
     private MerchantTakeAwayMenu merchantTakeAwayMenu;
+    private int redType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -313,6 +314,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             caution = intent.getStringExtra("caution");
             tv_caution.setText(caution);
         }
+
+        redType = 0;
     }
 
     private void setListener() {
@@ -479,6 +482,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
                         errorMsg = (String) obj;
+                        if (redType == 1){
+                            platformRedBag = null;
+                        } else if (redType == 2) {
+                            redBag = null;
+                        }
                         ToastUtils.displayMsg(errorMsg, mActivity);
                     } else {
                         errorMsg = null;
@@ -624,7 +632,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             String money = StringUtils.BigDecimal2Str(valueEntity.getPlatformRedBags().get(0).getAmt());
             if (CheckUtils.isNoEmptyStr(money)) {
                 platform_num_textview.setText("-￥" + String.valueOf(money));
+            }else {
+                platform_num_textview.setText("");
             }
+        }else {
+            platform_num_textview.setText("");
         }
         if (valueEntity.getPlatformRedBagCount() > 0) {
             platform_num_textview.setHint("有" + valueEntity.getPlatformRedBagCount() + "个红包可用");
@@ -867,10 +879,6 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 pickWindow.dismiss();
                 break;
             case R.id.confirm_order:
-                if (!TextUtils.isEmpty(errorMsg)) {
-                    ToastUtils.displayMsg(errorMsg, mActivity);
-                    return;
-                }
                 if (userAddress == null) {
                     ToastUtils.displayMsg("请选择配送地址", mActivity);
                     break;
@@ -1027,6 +1035,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     if (caution != null) tv_caution.setText(caution);
                     break;
                 case SelectRedBagActivity.RED_BAG_MONEY:
+                    redType = 1;
                     platformRedBag = (RedBag) data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG);
                     getOrderPreview();
                     break;
@@ -1035,6 +1044,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         if (requestCode == REQUEST_CHOOSE_RED_BAG) {
             if (data != null && resultCode == MyRedBagActivity.RESPONSE_CHOOSE_RED_BAG) {
                 RedBag bag = (RedBag) data.getSerializableExtra("red_bag");
+                redType = 2;
                 if (bag == null) {
                     redBag = null;
                     getOrderPreview();
