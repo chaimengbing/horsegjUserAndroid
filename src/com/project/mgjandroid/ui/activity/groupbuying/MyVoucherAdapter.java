@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchant;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingVoucherListModel;
 import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
@@ -20,8 +21,11 @@ import java.util.List;
 
 public class MyVoucherAdapter extends BaseListAdapter<GroupBuyingVoucherListModel.ValueBean> {
 
-    public MyVoucherAdapter(int layoutId, Activity mActivity) {
+    private GroupPurchaseMerchant merchant;
+
+    public MyVoucherAdapter(int layoutId, Activity mActivity,GroupPurchaseMerchant merchant) {
         super(layoutId, mActivity);
+        this.merchant =merchant;
     }
 
     @Override
@@ -34,6 +38,7 @@ public class MyVoucherAdapter extends BaseListAdapter<GroupBuyingVoucherListMode
        TextView tvExpirationTime = holder.getView(R.id.expiration_time_textview);
        TextView tvRestrictAmt = holder.getView(R.id.restrict_amt_textview);
        TextView tvVouchersNum = holder.getView(R.id.vouchers_num_textview);
+        TextView textView = holder.getView(R.id.textview);
        amt.setText(""+bean.getOriginPrice());
         name.setText("代金券");
         tv1.setText("¥");
@@ -47,6 +52,11 @@ public class MyVoucherAdapter extends BaseListAdapter<GroupBuyingVoucherListMode
         }else {
            tvRestrictAmt.setText("可叠加使用");
        }
+        if(merchant.getIsSharingRelationship()==2){
+            textView.setVisibility(View.VISIBLE);
+        }else {
+            textView.setVisibility(View.GONE);
+        }
        tvVouchersNum.setText("券码："+bean.getCouponCode());
         if(bean.getStatus()==1){
             amt.setTextColor(mActivity.getResources().getColor(R.color.color_c));

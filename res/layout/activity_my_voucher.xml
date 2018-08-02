@@ -94,13 +94,17 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <ListView
+    <com.project.mgjandroid.ui.view.NoScrollListView
         android:id="@+id/list_view"
         android:paddingTop="@dimen/x10"
         android:layout_width="match_parent"
@@ -108,7 +112,7 @@
         android:divider="#00000000"
         android:dividerHeight="@dimen/x10"
         android:listSelector="@color/gray_bg_2"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"></com.project.mgjandroid.ui.view.NoScrollListView>
 
     <TextView
         android:id="@+id/tv_history"
@@ -122,7 +126,7 @@
         android:text="查看历史代金券 >>"/>
     </LinearLayout>
 
-
+    </ScrollView>
     <TextView
         android:id="@+id/tv_affirm"
         android:layout_width="match_parent"

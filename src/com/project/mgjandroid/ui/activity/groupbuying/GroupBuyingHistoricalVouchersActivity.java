@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchant;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingVoucherListModel;
 import com.project.mgjandroid.net.VolleyOperater;
@@ -34,6 +35,7 @@ public class GroupBuyingHistoricalVouchersActivity extends BaseActivity{
     private MyVoucherAdapter myVoucherAdapter;
     private long merchantId;
     private int isExpire = 1;
+    private GroupPurchaseMerchant merchant;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -52,8 +54,9 @@ public class GroupBuyingHistoricalVouchersActivity extends BaseActivity{
             }
         });
         tvTitle.setText("历史代金券");
+        merchant = (GroupPurchaseMerchant) getIntent().getSerializableExtra("merchant");
         merchantId = getIntent().getLongExtra("merchantId",-1l);
-        myVoucherAdapter = new MyVoucherAdapter(R.layout.my_voucher_item, mActivity);
+        myVoucherAdapter = new MyVoucherAdapter(R.layout.my_voucher_item, mActivity,merchant);
         listView.setAdapter(myVoucherAdapter);
     }
 

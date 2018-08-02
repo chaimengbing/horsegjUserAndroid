@@ -96,6 +96,7 @@
             android:layout_centerVertical="true"
             android:background="@drawable/buy_bg"
             android:padding="@dimen/x5"
+            android:text="    购买    "
             android:textColor="@color/title_bar_bg"
             android:textSize="13sp" />
 

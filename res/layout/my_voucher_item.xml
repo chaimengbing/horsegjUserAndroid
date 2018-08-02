@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:background="@drawable/vouchers_left_bg"
             android:orientation="vertical"
             android:paddingLeft="@dimen/x15">
@@ -27,18 +28,18 @@
                 android:id="@+id/merchant_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x10"
+
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/color_3"
-                android:textSize="19sp"
+                android:textSize="16sp"
                 tools:text="代金券" />
 
             <TextView
                 android:id="@+id/expiration_time_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x5"
+                android:layout_marginTop="@dimen/x6"
                 android:lines="1"
                 android:textColor="@color/color_6"
                 android:textSize="12sp"
@@ -63,7 +64,16 @@
                 android:textColor="@color/color_9"
                 android:textSize="12sp"
                 tools:text="券码：123456789" />
-
+            <TextView
+                android:id="@+id/textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x3"
+                android:lines="1"
+                android:textColor="#ff7200"
+                android:textSize="12sp"
+                android:text="*此券不可与折扣共享"
+                 />
 
         </LinearLayout>
 
@@ -76,9 +86,10 @@
             android:background="@drawable/vouchers_right_bg"
             android:gravity="center">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_gravity="center">
 
                 <TextView
@@ -90,8 +101,8 @@
                     android:layout_marginLeft="@dimen/x2"
                     android:layout_toLeftOf="@+id/discount_amt"
                     android:includeFontPadding="false"
-                    android:paddingBottom="@dimen/x4"
                     android:textColor="@color/platform_color"
+                    android:layout_marginTop="@dimen/x5"
                     android:textSize="15sp"
                     tools:text="¥" />
 
@@ -100,13 +111,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/x2"
                     android:includeFontPadding="false"
                     android:textColor="@color/platform_color"
                     android:textSize="30sp"
                     tools:text="18" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/iv_redbag"

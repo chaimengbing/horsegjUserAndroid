@@ -49,6 +49,8 @@
 
     </RelativeLayout>
 
+
+
     <LinearLayout
         android:id="@+id/pay_cancel_layout"
         android:layout_width="match_parent"
@@ -600,5 +602,28 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x200">
+
+            <ImageView
+                android:id="@+id/img_send_redbag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x13"
+                android:layout_marginBottom="@dimen/x200"
+                android:visibility="gone"
+                android:src="@drawable/send_red_bag" />
+        </RelativeLayout>
+    </FrameLayout>
 
 </RelativeLayout>

@@ -37,6 +37,7 @@ import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.ShareUtil;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
@@ -134,6 +135,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private TextView redbagsMoneyTextView;
     @InjectView(R.id.pay_money_textview)
     private TextView payMoneyTextView;
+    @InjectView(R.id.img_send_redbag)
+    private ImageView sendRedBag;
 
     private String orderId;
     private LegworkOrderDetailsModel.ValueBean valueBean;
@@ -147,6 +150,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private LegworkServiceChargeModel.ValueBean value;
     private Dialog mStatusDialog;
     ArrayList<LegworkStatusModel> legworkStatusModels = new ArrayList<>();
+    private ShareUtil shareUtil;
+    private LegworkOrderDetailsModel.ValueBean.ShareRedBagInfo shareRedBagInfo;
+    private boolean isCanIn;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -160,6 +166,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
 
     private void initView() {
         orderId = getIntent().getStringExtra("orderId");
+        isCanIn = getIntent().getBooleanExtra("isCanIn", false);
         ivBack.setOnClickListener(this);
         imgServiceCharge.setOnClickListener(this);
         tvCancelOrder.setOnClickListener(this);
@@ -172,6 +179,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         tvStatus3.setOnClickListener(this);
         imgPhone.setOnClickListener(this);
         tvRefundDesc.setOnClickListener(this);
+        sendRedBag.setOnClickListener(this);
         tvTitle.setText("订单详情");
         tvText.setText("客服");
         tvPrePaymentTime.setOnTimerStopListener(new TimeView.OnTimerStopListener() {
@@ -188,6 +196,56 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         getData();
     }
 
+    private void showRedBag(){
+        sendRedBag.setVisibility(View.GONE);
+        View view = LayoutInflater.from(this).inflate(R.layout.send_redbag, null);
+        TextView tvSure = (TextView) view.findViewById(R.id.sure);
+        TextView tvCancel = (TextView) view.findViewById(R.id.cancel);
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                sendRedBag.setVisibility(View.VISIBLE);
+                if (shareUtil == null && shareRedBagInfo != null) {
+                    shareUtil = new ShareUtil(mActivity, shareRedBagInfo.getTitle(),
+                            shareRedBagInfo.getMemo(),
+                            shareRedBagInfo.getUrl(), shareRedBagInfo.getImg());
+                }
+                if (shareUtil != null) shareUtil.showRedBagPopupWindow();
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendRedBag.setVisibility(View.VISIBLE);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        ColorDrawable cd = new ColorDrawable(0x000000);
+        popupWindow.setBackgroundDrawable(cd);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if(!popupWindow.isShowing()){
+                    sendRedBag.setVisibility(View.VISIBLE);
+                }
+                WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+                lp.alpha = 1.0f;
+                mActivity.getWindow().setAttributes(lp);
+            }
+        });
+        if (!popupWindow.isShowing()) {
+            WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+            lp.alpha = 0.5f;
+            mActivity.getWindow().setAttributes(lp);
+            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            popupWindow.showAtLocation(mActivity.getWindow().getDecorView(), Gravity.CENTER_VERTICAL, 0, 0);
+        }
+    }
+
     private void getData() {
         VolleyOperater<LegworkOrderDetailsModel> operater = new VolleyOperater<>(mActivity);
         HashMap<String, Object> map = new HashMap<>();
@@ -202,6 +260,12 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                     }
                     model = (LegworkOrderDetailsModel) obj;
                     valueBean = model.getValue();
+                    shareRedBagInfo = valueBean.getShareRedBagInfo();
+                    if(shareRedBagInfo==null){
+                        sendRedBag.setVisibility(View.GONE);
+                    }else {
+                        sendRedBag.setVisibility(View.VISIBLE);
+                    }
                     showDetail(valueBean);
 //                    getServiceCharge();
                     initStatusDialog(valueBean);
@@ -246,6 +310,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         }
                         break;
                     case 2:
+                        if(shareRedBagInfo!=null){
+                            if(isCanIn){
+                                showRedBag();
+                            }
+                        }
                         layoutComplete.setVisibility(View.GONE);
                         layoutNoPayment.setVisibility(View.GONE);
                         layoutNoPickUp.setVisibility(View.GONE);
@@ -321,6 +390,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         }
                         break;
                     case 2:
+                        if(shareRedBagInfo!=null){
+                            if(isCanIn){
+                                showRedBag();
+                            }
+                        }
                         layoutComplete.setVisibility(View.GONE);
                         layoutNoPayment.setVisibility(View.GONE);
                         layoutNoPickUp.setVisibility(View.GONE);
@@ -559,6 +633,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
                 intent2.putExtra("orderId", valueBean.getId());
                 startActivity(intent2);
+                break;
+            case R.id.img_send_redbag:
+                showRedBag();
                 break;
         }
     }

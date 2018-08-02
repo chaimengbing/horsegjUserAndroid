@@ -517,10 +517,14 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private void showOption() {
         tv_1.setText("随时退款");
         if(order!=null&&order.getGroupPurchaseCouponType() == 2){
-            if(purchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
-                tv_2.setText("到期自动退");
-            }else {
+            if(purchaseCoupon.getIsBespeak()==0){
                 tv_2.setText("过期自动退");
+            }else {
+                if(purchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
+                    tv_2.setText("到期自动使用");
+                }else {
+                    tv_2.setText("过期自动退");
+                }
             }
         }else {
             tv_2.setText("过期自动退");

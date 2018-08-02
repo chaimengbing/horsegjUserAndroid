@@ -2,10 +2,15 @@ package com.project.mgjandroid.ui.activity.groupbuying;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
@@ -24,6 +29,7 @@ import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.ShareUtil;
 import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
@@ -66,6 +72,8 @@ public class PayBillDetailActivity extends BaseActivity {
     private ImageView imgAcatar;
     @InjectView(R.id.merchant_name)
     private TextView titleMerchantName;
+    @InjectView(R.id.img_send_redbag)
+    private ImageView sendRedBag;
 
     private MLoadingDialog loadingDialog;
     private String orderId;
@@ -73,6 +81,10 @@ public class PayBillDetailActivity extends BaseActivity {
     public static final int REFRESH = 2000;
     private Dialog callNumDialog;
     private CallPhoneDialog dialog;
+    private GroupBuyingOrderModel.ValueBean.ShareRedBagInfo shareRedBagInfo;
+    private PopupWindow popupWindow;
+    private ShareUtil shareUtil;
+    private boolean isCanIn;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -87,9 +99,61 @@ public class PayBillDetailActivity extends BaseActivity {
         tvBack.setOnClickListener(this);
         tvEvaluate.setOnClickListener(this);
         imgPhone.setOnClickListener(this);
+        sendRedBag.setOnClickListener(this);
         orderId = getIntent().getStringExtra("orderId");
+        isCanIn = getIntent().getBooleanExtra("isCanIn", false);
         loadingDialog = new MLoadingDialog();
         callNumDialog = new Dialog(this, R.style.fullDialog);
+    }
+
+    private void showRedBag(){
+        sendRedBag.setVisibility(View.GONE);
+        View view = LayoutInflater.from(this).inflate(R.layout.send_redbag, null);
+        TextView tvSure = (TextView) view.findViewById(R.id.sure);
+        TextView tvCancel = (TextView) view.findViewById(R.id.cancel);
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                sendRedBag.setVisibility(View.VISIBLE);
+                if (shareUtil == null && shareRedBagInfo != null) {
+                    shareUtil = new ShareUtil(mActivity, shareRedBagInfo.getTitle(),
+                            shareRedBagInfo.getMemo(),
+                            shareRedBagInfo.getUrl(), shareRedBagInfo.getImg());
+                }
+                if (shareUtil != null) shareUtil.showRedBagPopupWindow();
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendRedBag.setVisibility(View.VISIBLE);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        ColorDrawable cd = new ColorDrawable(0x000000);
+        popupWindow.setBackgroundDrawable(cd);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if(!popupWindow.isShowing()){
+                    sendRedBag.setVisibility(View.VISIBLE);
+                }
+                WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+                lp.alpha = 1.0f;
+                mActivity.getWindow().setAttributes(lp);
+            }
+        });
+        if (!popupWindow.isShowing()) {
+            WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+            lp.alpha = 0.5f;
+            mActivity.getWindow().setAttributes(lp);
+            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            popupWindow.showAtLocation(mActivity.getWindow().getDecorView(), Gravity.CENTER_VERTICAL, 0, 0);
+        }
     }
 
     private void getOrderData() {
@@ -103,6 +167,12 @@ public class PayBillDetailActivity extends BaseActivity {
                 loadingDialog.dismiss();
                 if (isSucceed && obj != null) {
                     order = ((GroupBuyingOrderModel) obj).getValue().getGroupPurchaseOrder();
+                    shareRedBagInfo = ((GroupBuyingOrderModel) obj).getValue().getShareRedBagInfo();
+                    if(shareRedBagInfo==null){
+                        sendRedBag.setVisibility(View.GONE);
+                    }else {
+                        sendRedBag.setVisibility(View.VISIBLE);
+                    }
                     showDetail();
                 }
             }
@@ -131,7 +201,13 @@ public class PayBillDetailActivity extends BaseActivity {
         }else {
             tvRedBag.setText("无");
         }
-
+        if(order.getStatus()==2){
+            if(shareRedBagInfo!=null){
+                if(isCanIn){
+                    showRedBag();
+                }
+            }
+        }
 //        tvNowStatus.setText();
         titleMerchantName.setText(order.getGroupPurchaseMerchantName());
         tvPayTime.setText(order.getPaymentExpireTime());
@@ -165,6 +241,9 @@ public class PayBillDetailActivity extends BaseActivity {
                 break;
             case R.id.img_phone:
                 showCallDialog(order.getGroupPurchaseMerchantContacts());
+                break;
+            case R.id.img_send_redbag:
+                showRedBag();
                 break;
         }
     }

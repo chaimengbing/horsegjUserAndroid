@@ -123,7 +123,16 @@ public class GroupBuyingOrderModel {
         private boolean canReturnOrChange;
         private Object carRedBagActivity;
         private GroupPurchaseOrder groupPurchaseOrder;
+        private ShareRedBagInfo shareRedBagInfo;
         private List<?> orderItems;
+
+        public ShareRedBagInfo getShareRedBagInfo() {
+            return shareRedBagInfo;
+        }
+
+        public void setShareRedBagInfo(ShareRedBagInfo shareRedBagInfo) {
+            this.shareRedBagInfo = shareRedBagInfo;
+        }
 
         public String getCreateTime() {
             return createTime;
@@ -668,6 +677,51 @@ public class GroupBuyingOrderModel {
         public void setOrderItems(List<?> orderItems) {
             this.orderItems = orderItems;
         }
+        public static class ShareRedBagInfo extends Entity{
 
+            /**
+             * title : 马管家拼手气红包
+             * memo : 一大波红包等你来撩，手快有，手慢无~
+             * img : http://7xu5hi.com1.z0.glb.clouddn.com/201807301450489509848.png
+             * url : http://120.24.16.64//horsegj/dist/html/shareredbag/redbag.html?shareRedBagRulesId=181
+             */
+
+            private String title;
+            private String memo;
+            private String img;
+            private String url;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getMemo() {
+                return memo;
+            }
+
+            public void setMemo(String memo) {
+                this.memo = memo;
+            }
+
+            public String getImg() {
+                return img;
+            }
+
+            public void setImg(String img) {
+                this.img = img;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
     }
 }

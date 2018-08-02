@@ -3,12 +3,17 @@ package com.project.mgjandroid.ui.activity.pintuan;
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -127,6 +132,8 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
     private TextView pintuanRedbagsPrice;
     @InjectView(R.id.my_group_detail_layout)
     private ScrollView svDetail;
+    @InjectView(R.id.img_send_redbag)
+    private ImageView sendRedBag;
 
     private String orderId;
     private GroupOrderDetailModel model;
@@ -135,6 +142,9 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
     private CallPhoneDialog stickyDialog;
     private CallPhoneDialog dialog;
     private String constomer;
+    private PopupWindow popupWindow;
+    private GroupOrderDetailModel.ValueEntity.ShareRedBagInfo shareRedBagInfo;
+    private boolean isCanIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +164,8 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
         tvPay.setOnClickListener(this);
         llStatus.setOnClickListener(this);
         tvGroupRefund.setOnClickListener(this);
+        sendRedBag.setOnClickListener(this);
+        isCanIn = getIntent().getBooleanExtra("isCanIn", false);
     }
 
     private void initView() {
@@ -167,6 +179,56 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
         }
     }
 
+    private void showRedBag(){
+        sendRedBag.setVisibility(View.GONE);
+        View view = LayoutInflater.from(this).inflate(R.layout.send_redbag, null);
+        TextView tvSure = (TextView) view.findViewById(R.id.sure);
+        TextView tvCancel = (TextView) view.findViewById(R.id.cancel);
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                sendRedBag.setVisibility(View.VISIBLE);
+                if (shareUtil == null && shareRedBagInfo != null) {
+                    shareUtil = new ShareUtil(mActivity, shareRedBagInfo.getTitle(),
+                            shareRedBagInfo.getMemo(),
+                            shareRedBagInfo.getUrl(), shareRedBagInfo.getImg());
+                }
+                if (shareUtil != null) shareUtil.showRedBagPopupWindow();
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendRedBag.setVisibility(View.VISIBLE);
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        ColorDrawable cd = new ColorDrawable(0x000000);
+        popupWindow.setBackgroundDrawable(cd);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if(!popupWindow.isShowing()){
+                    sendRedBag.setVisibility(View.VISIBLE);
+                }
+                WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+                lp.alpha = 1.0f;
+                mActivity.getWindow().setAttributes(lp);
+            }
+        });
+        if (!popupWindow.isShowing()) {
+            WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
+            lp.alpha = 0.5f;
+            mActivity.getWindow().setAttributes(lp);
+            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            popupWindow.showAtLocation(mActivity.getWindow().getDecorView(), Gravity.CENTER_VERTICAL, 0, 0);
+        }
+    }
+
     private void getData() {
         Map<String, Object> map = new HashMap<>();
         map.put(OrderDetailActivity.ORDER_ID, orderId);
@@ -177,6 +239,12 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
             public void onRsp(boolean isSucceed, Object obj) {
                 if (isSucceed && obj != null) {
                     model = (GroupOrderDetailModel) obj;
+                    shareRedBagInfo = model.getValue().getShareRedBagInfo();
+                    if(shareRedBagInfo==null){
+                        sendRedBag.setVisibility(View.GONE);
+                    }else {
+                        sendRedBag.setVisibility(View.VISIBLE);
+                    }
                     getTelNumXY(model.getValue().getAgentId(), AgentRequestType.Groupbuy.getValue());
                     setView(model);
                 } else {
@@ -279,6 +347,11 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                     break;
                 case 2:
                     tvGroupStatus.setText("已支付，未成团");
+                    if(shareRedBagInfo!=null){
+                        if(isCanIn){
+                            showRedBag();
+                        }
+                    }
 //                    groupHolder.tvPay.setVisibility(View.GONE);
                     break;
                 case 3:
@@ -409,6 +482,9 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                     intent2.putExtra("orderId", model.getValue().getGroupbuyOrder().getId());
                     startActivity(intent2);
                 }
+                break;
+            case R.id.img_send_redbag:
+                showRedBag();
                 break;
         }
     }

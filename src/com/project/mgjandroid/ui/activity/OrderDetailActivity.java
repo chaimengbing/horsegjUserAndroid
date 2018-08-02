@@ -384,6 +384,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     }
 
     private void showRedBag(){
+        sendRedBag.setVisibility(View.GONE);
         View view = LayoutInflater.from(this).inflate(R.layout.send_redbag, null);
         TextView tvSure = (TextView) view.findViewById(R.id.sure);
         TextView tvCancel = (TextView) view.findViewById(R.id.cancel);
@@ -391,6 +392,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
+                sendRedBag.setVisibility(View.VISIBLE);
                 if (shareUtil == null && shareRedBagInfo != null) {
                     shareUtil = new ShareUtil(mActivity, shareRedBagInfo.getTitle(),
                             shareRedBagInfo.getMemo(),
@@ -402,6 +404,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         tvCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                sendRedBag.setVisibility(View.VISIBLE);
                 popupWindow.dismiss();
             }
         });
@@ -413,6 +416,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+                if(!popupWindow.isShowing()){
+                    sendRedBag.setVisibility(View.VISIBLE);
+                }
                 WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
                 lp.alpha = 1.0f;
                 mActivity.getWindow().setAttributes(lp);
@@ -1166,6 +1172,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             case STATE_WAIT_CONFIRM:
                 if(shareRedBagInfo!=null){
                     if(isCanIn){
+                        isCanIn = false;
                         showRedBag();
                     }
                 }

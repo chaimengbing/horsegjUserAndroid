@@ -83,6 +83,9 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private boolean isVoucherChecked;
     private double discount;
     private GroupBuyingVoucherListModel voucherList;
+    private  int max=100000000;
+    private  int min;
+    private  boolean isRun;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -90,11 +93,6 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         setContentView(R.layout.activity_discount_buy_ticket);
         Injector.get(this).inject();
         initView();
-        if (!App.isLogin()) {
-            Intent intent = new Intent(mActivity, SmsLoginActivity.class);
-            startActivity(intent);
-            return;
-        }
         payForPreview();
     }
 
@@ -134,8 +132,28 @@ public class DiscountBuyTicketActivity extends BaseActivity {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (start > 0) {//从一输入就开始判断，
+                    if (min != -1 && max != -1) {
+                        try {
+                            int num = Integer.parseInt(s.toString());
+                            //判断当前edittext中的数字(可能一开始Edittext中有数字)是否大于max
+                            if (num >= max) {
+                                isRun = true;
+//                                s = String.valueOf(max);//如果大于max，则内容为max
+//                                etEvalution.setText(s.toString().trim());
+                                toast("金额不能超过" + max + "元");
+                                return;
+                            } else {
+                                isRun = false;
+                            }
+                        } catch (NumberFormatException e) {
 
+                        }
+                        //edittext中的数字在max和min之间，则不做处理，正常显示即可。
+                        return;
+                    }
+                }
             }
 
             @Override
@@ -162,6 +180,13 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                         tvRedBag.setText("去使用");
                     }
                 }
+//                if(CheckUtils.isNoEmptyStr(editable.toString().trim())){
+//                    int integer = Integer.parseInt(editable.toString().trim());
+//                    if(integer<100000000){
+//                        etEvalution.setText(editable.toString().trim());
+//                    }
+//                }
+
                 if(editable.toString().trim().length()>0){
                     if("0".equals(editable.toString().trim())){
                         tvConfirm.setEnabled(false);
@@ -173,6 +198,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     etEvalution.setHint("询问服务员后输入");
                     tvConfirm.setEnabled(false);
                 }
+
             }
         });
     }
@@ -205,17 +231,12 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 startActivityForResult(intentSelect, 1111);
                 break;
             case R.id.rl_voucher:
-                if(isCanSelect){
-                    if(merchant.getIsSharingRelationship()==2){
-                        isDiscount = 0;
-                        toast("代金券和优惠折扣不可同时选择");
-                        return;
-                    }
-                }
                 Intent intent = new Intent(this, GroupBuyingMyVoucher.class);
                 intent.putExtra("merchantId", merchant.getId());
                 intent.putExtra("totalPrice", etEvalution.getText().toString().trim());
                 intent.putExtra("voucherList", voucherList);
+                intent.putExtra("merchant", merchant);
+                intent.putExtra("isCanSelect", isCanSelect);
                 startActivityForResult(intent,2018);
                 break;
             case R.id.tv_confirm:

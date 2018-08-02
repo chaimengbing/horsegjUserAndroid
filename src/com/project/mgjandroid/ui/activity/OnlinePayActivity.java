@@ -294,6 +294,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             if (isGroup) {
                                 Intent intent = new Intent(OnlinePayActivity.this, MyGroupPurchaseDetailActivity.class);
                                 intent.putExtra(OrderDetailActivity.ORDER_ID, id);
+                                intent.putExtra("isCanIn", true);
                                 startActivity(intent);
                                 setResult(RESULT_OK);
                                 finish();
@@ -320,6 +321,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                                     Intent intent = new Intent(OnlinePayActivity.this, PayBillDetailActivity.class);
                                     intent.putExtra("orderId", id);
                                     intent.putExtra("paySuccess", "onLinePay");
+                                    intent.putExtra("isCanIn", true);
                                     startActivity(intent);
                                 }
                                 setResult(RESULT_OK);
@@ -333,6 +335,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             } else if (isLegwork) {
                                 if (!getIntent().hasExtra("isFromDetail")) {
                                     Intent intent = new Intent(OnlinePayActivity.this, LegworkOrderdetailsActivity.class);
+                                    intent.putExtra("isCanIn", true);
                                     intent.putExtra("orderId", id);
                                     startActivity(intent);
                                 }
@@ -519,6 +522,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         } else if (isGroup) {
             Intent intent = new Intent(OnlinePayActivity.this, MyGroupPurchaseDetailActivity.class);
             intent.putExtra(OrderDetailActivity.ORDER_ID, orderId);
+            intent.putExtra("isCanIn", true);
             startActivity(intent);
             setResult(RESULT_OK);
             finish();
@@ -540,6 +544,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
             Intent intent = new Intent(OnlinePayActivity.this, PayBillDetailActivity.class);
             intent.putExtra("orderId", orderId);
             intent.putExtra("paySuccess", "onLinePay");
+            intent.putExtra("isCanIn", true);
             startActivity(intent);
             setResult(RESULT_OK);
             finish();
@@ -552,6 +557,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         } else if (isLegwork) {
             Intent intent = new Intent(OnlinePayActivity.this, LegworkOrderdetailsActivity.class);
             intent.putExtra("orderId", orderId);
+            intent.putExtra("isCanIn", true);
             startActivity(intent);
             setResult(RESULT_OK);
             finish();

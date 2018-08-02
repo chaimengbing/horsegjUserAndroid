@@ -52,7 +52,6 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         TextView tvName = holder.getView(R.id.tv_name);
         TextView tvSold =holder.getView(R.id.tv_sold);
         TextView tvPrice =holder.getView(R.id.tv_price);
-        tvPayBill.setText("购买");
         tvSold.setText("已售"+bean.getBuyCount());
         if (CheckUtils.isNoEmptyStr(bean.getImages())) {
             ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));

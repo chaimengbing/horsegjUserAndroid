@@ -393,6 +393,19 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
      */
     private void showOption() {
         tv_1.setText("随时退款");
+        if(groupPurchaseCoupon!=null&&groupPurchaseCoupon.getType() == 2){
+            if(groupPurchaseCoupon.getIsBespeak()==0){
+                tv_2.setText("过期自动退");
+            }else {
+                if(groupPurchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
+                    tv_2.setText("到期自动使用");
+                }else {
+                    tv_2.setText("过期自动退");
+                }
+            }
+        }else {
+            tv_2.setText("过期自动退");
+        }
         tv_2.setText("过期自动退");
         if (groupPurchaseCoupon.getIsBespeak() == 0) {
             tv_3.setText("免预约");
@@ -554,7 +567,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
             TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
             root.setTag(bean);
-            tvPayBill.setText("购买");
             tvSold.setText("已售"+bean.getBuyCount());
             if (CheckUtils.isNoEmptyStr(bean.getImages())) {
                 ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));

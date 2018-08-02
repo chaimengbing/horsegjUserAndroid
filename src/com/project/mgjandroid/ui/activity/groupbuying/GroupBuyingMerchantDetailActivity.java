@@ -425,7 +425,6 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
             root.setTag(bean);
             tvPayBill.setTag(bean);
-            tvPayBill.setText("购买");
             tvSold.setText("已售"+bean.getBuyCount());
             tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
             tvOriginPrice.setText("代¥" + StringUtils.BigDecimal2Str(bean.getOriginPrice()));
@@ -512,6 +511,11 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 startActivity(intent2);
                 break;
             case R.id.tv_discount_pay_bill:
+                if (!App.isLogin()) {
+                    Intent intent = new Intent(mActivity, SmsLoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
                 Intent intent1 = new Intent(this, DiscountBuyTicketActivity.class);
                 intent1.putExtra("Name",merchant.getName());
                 intent1.putExtra("merchant",merchant);
