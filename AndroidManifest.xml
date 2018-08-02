@@ -71,6 +71,10 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppTheme">
 
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+
         <!--Glide配置文件-->
         <meta-data
             android:name="com.project.mgjandroid.utils.GlideConfiguration"
