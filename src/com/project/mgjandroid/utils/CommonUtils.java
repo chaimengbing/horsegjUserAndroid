@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
@@ -141,6 +142,15 @@ public class CommonUtils {
         } catch (Exception e) {
         }
         return 1;
+    }
+
+    public static int getStatusBarHeight() {
+        Resources res = Resources.getSystem();
+        int resId = res.getIdentifier("status_bar_height", "dimen", "android");
+        if (resId > 0) {
+            return res.getDimensionPixelSize(resId);
+        }
+        return 0;
     }
 
     /**

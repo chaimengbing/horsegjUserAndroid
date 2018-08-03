@@ -357,9 +357,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             previewJsonData.put("expectedArrivalTime", selectTime.getId());//送达时间
             previewJsonData.put("orderItems", orderItems);
 
-            if ((redBag == null && platformRedBag == null) && previewJsonData.containsKey("redBags")) {
+            if (previewJsonData.containsKey("redBags")) {
                 previewJsonData.remove("redBags");
             }
+            previewJsonData.put("redBags", addRedBags());
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -418,6 +421,29 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         }, SubmitOrderModel.class);
     }
 
+    private ArrayList<Map<String, Object>> addRedBags() {
+        ArrayList<Map<String, Object>> redBagRequestDTOs = new ArrayList<>();
+        if (redBag != null) {
+            HashMap<String, Object> m = new HashMap<>();
+            m.put("id", redBag.getId());
+            m.put("name", redBag.getName());
+            m.put("amt", redBag.getAmt());
+            m.put("promotionType", redBag.getPromotionType());
+            redBagRequestDTOs.add(m);
+        }
+
+        if (platformRedBag != null) {
+            HashMap<String, Object> m = new HashMap<>();
+            m.put("id", platformRedBag.getId());
+            m.put("name", platformRedBag.getName());
+            m.put("amt", platformRedBag.getAmt());
+            m.put("promotionType", platformRedBag.getPromotionType());
+            redBagRequestDTOs.add(m);
+        }
+        return redBagRequestDTOs;
+
+    }
+
     /**
      * 订单预览刷新
      */
@@ -444,27 +470,9 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         if (selectTime == null) {
             selectTime = dayList.get(0).getTimeList().get(0);
         }
-        ArrayList<Map<String, Object>> redBagRequestDTOs = new ArrayList<>();
-        if (redBag != null) {
-            HashMap<String, Object> m = new HashMap<>();
-            m.put("id", redBag.getId());
-            m.put("name", redBag.getName());
-            m.put("amt", redBag.getAmt());
-            m.put("promotionType", redBag.getPromotionType());
-            redBagRequestDTOs.add(m);
-        }
-
-        if (platformRedBag != null) {
-            HashMap<String, Object> m = new HashMap<>();
-            m.put("id", platformRedBag.getId());
-            m.put("name", platformRedBag.getName());
-            m.put("amt", platformRedBag.getAmt());
-            m.put("promotionType", platformRedBag.getPromotionType());
-            redBagRequestDTOs.add(m);
-        }
 
 
-        previewJsonData.put("redBags", redBagRequestDTOs);
+        previewJsonData.put("redBags", addRedBags());
         previewJsonData.put("expectedArrivalTime", selectTime.getId());
         Map<String, Object> params = new HashMap<>();
         params.put("data", previewJsonData.toString());
@@ -482,7 +490,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
                         errorMsg = (String) obj;
-                        if (redType == 1){
+                        if (redType == 1) {
                             platformRedBag = null;
                         } else if (redType == 2) {
                             redBag = null;
@@ -632,10 +640,10 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             String money = StringUtils.BigDecimal2Str(valueEntity.getPlatformRedBags().get(0).getAmt());
             if (CheckUtils.isNoEmptyStr(money)) {
                 platform_num_textview.setText("-￥" + String.valueOf(money));
-            }else {
+            } else {
                 platform_num_textview.setText("");
             }
-        }else {
+        } else {
             platform_num_textview.setText("");
         }
         if (valueEntity.getPlatformRedBagCount() > 0) {
