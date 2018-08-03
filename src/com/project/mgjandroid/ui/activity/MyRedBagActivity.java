@@ -126,7 +126,7 @@ public class MyRedBagActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        handRedBagTabView(redBagType, 0, 0);
+//        handRedBagTabView(redBagType, 0, 0);
     }
 
     private void initView() {
@@ -160,7 +160,7 @@ public class MyRedBagActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 redBagType = 2;
-                handRedBagTabView(redBagType, 0, 0);
+//                handRedBagTabView(redBagType, 0, 0);
                 updateData();
             }
         });
@@ -169,7 +169,7 @@ public class MyRedBagActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 redBagType = 1;
-                handRedBagTabView(redBagType, 0, 0);
+//                handRedBagTabView(redBagType, 0, 0);
                 updateData();
             }
         });
@@ -195,26 +195,28 @@ public class MyRedBagActivity extends BaseActivity {
      * @param redBagType leixign
      */
     public void handRedBagTabView(int redBagType, int platFormCount, int vouchersCount) {
-        if (canUse){
+        if (canUse) {
             titleTextView.setText("历史红包");
-        }else {
+        } else {
             titleTextView.setText("平台红包");
         }
         if (platFormCount > 0) {
             platformTextView.setText("红包" + platFormCount + "个");
+        } else {
+            platformTextView.setText("红包");
         }
+
         if (vouchersCount > 0) {
             vouchersTextView.setText("代金券" + vouchersCount + "张");
+        } else {
+            vouchersTextView.setText("代金券");
         }
         ViewGroup.LayoutParams params = vouchersView.getLayoutParams();
         params.width = vouchersTextView.getWidth();
         vouchersView.setLayoutParams(params);
-
         ViewGroup.LayoutParams paramsl = platformView.getLayoutParams();
         paramsl.width = platformTextView.getWidth();
         platformView.setLayoutParams(paramsl);
-        platformView.invalidate();
-
         if (redBagType == 1) {
             platformView.setBackgroundColor(getResources().getColor(R.color.white));
             platformTextView.setTextColor(getResources().getColor(R.color.white));

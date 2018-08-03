@@ -120,7 +120,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
     }
 
 
-    private void setAdapter(){
+    private void setAdapter() {
         if (redBagType == 1) {
             listView.setAdapter(platFormAdapter);
         } else {
@@ -212,7 +212,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
 
     public void getData(final boolean isLoadMore) {
         setAdapter();
-        if (!isLoadMore){
+        if (!isLoadMore) {
             start = 0;
         }
         Map<String, Object> map = new HashMap<String, Object>();
@@ -231,21 +231,26 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                 listView.onRefreshComplete();
                 loadingDialog.dismiss();
                 List<RedBag> mlist = new ArrayList<>();
+                int redCount = 0;
+                int vouchersCount = 0;
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
                         return;
                     }
                     RedBagListModel redBagListModel = ((RedBagsModel) obj).getValue();
-                    if (redBagType == 1){
+                    if (redBagType == 1) {
                         mlist.addAll(redBagListModel.getPlatformRedBagList());
-                    }else {
+                    } else {
                         mlist.addAll(redBagListModel.getVouchersList());
                     }
-                    setData(mlist,isLoadMore);
-                    ((MyRedBagActivity)getActivity()).handRedBagTabView(redBagType,redBagListModel.getPlatformRedBagCount(),redBagListModel.getVouchersCount());
-                }else {
-                    setData(mlist,isLoadMore);
+                    redCount = redBagListModel.getPlatformRedBagCount();
+                    vouchersCount = redBagListModel.getVouchersCount();
+                    setData(mlist, isLoadMore);
+
+                } else {
+                    setData(mlist, isLoadMore);
                 }
+                ((MyRedBagActivity) getActivity()).handRedBagTabView(redBagType, redCount, vouchersCount);
             }
         }, RedBagsModel.class);
     }
