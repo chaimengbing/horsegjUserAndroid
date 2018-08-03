@@ -74,7 +74,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         mActivity = this;
         mInflater = LayoutInflater.from(mActivity);
         mResource = mActivity.getResources();
-        setStatusBarTranslucent();
+//        setStatusBarTranslucent();
 //		mBack = (ImageView) findViewById(R.id.common_back);
 //		mBack.setOnClickListener(this);
 //		mTitle = (TextView) findViewById(R.id.common_title);

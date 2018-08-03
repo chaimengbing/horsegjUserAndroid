@@ -194,12 +194,6 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                         tvRedBag.setText("去使用");
                     }
                 }
-//                if(CheckUtils.isNoEmptyStr(editable.toString().trim())){
-//                    int integer = Integer.parseInt(editable.toString().trim());
-//                    if(integer<100000000){
-//                        etEvalution.setText(editable.toString().trim());
-//                    }
-//                }
 
                 if(editable.toString().trim().length()>0){
                     if("0".equals(editable.toString().trim())){
@@ -212,8 +206,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     etEvalution.setHint("询问服务员后输入");
                     tvConfirm.setEnabled(false);
                 }
-
-            }
+                String text = editable.toString();
+                int len = editable.toString().length();
+                if (len == 1 && text.equals("0")) {
+                    editable.clear();
+                }}
         });
     }
 
@@ -392,7 +389,12 @@ public class DiscountBuyTicketActivity extends BaseActivity {
             data.put("redBags", redBagList);
         }
         data.put("hasDiscount", isDiscount);
-        data.put("discountRatio", Integer.parseInt(merchant.getDiscountRatio()));
+        if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())){
+            data.put("discountRatio", Integer.parseInt(merchant.getDiscountRatio()));
+        }else {
+            data.put("discountRatio", 0);
+        }
+
         data.put("cashDeductionPrice", voucherPrice);
         if(list.size()>0){
             data.put("groupPurchaseOrderCouponCodeList", list);
@@ -461,7 +463,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
             data.put("redBags", redBagList);
         }
         data.put("hasDiscount", isDiscount);
-        data.put("discountRatio", Integer.parseInt(merchant.getDiscountRatio()));
+        if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())){
+            data.put("discountRatio", Integer.parseInt(merchant.getDiscountRatio()));
+        }else {
+            data.put("discountRatio", 0);
+        }
         data.put("cashDeductionPrice", voucherPrice);
 //        params.put("groupPurchaseOrderCouponCodeList", JSON.toJSONString(data));
         params.put("data", JSON.toJSONString(data));

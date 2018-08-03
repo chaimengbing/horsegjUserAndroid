@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import com.github.mzule.activityrouter.router.Routers;
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCoupon;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchant;
 import com.project.mgjandroid.constants.ActivitySchemeManager;
 import com.project.mgjandroid.constants.Constants;
+import com.project.mgjandroid.ui.activity.SmsLoginActivity;
 import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
 import com.project.mgjandroid.ui.view.CornerImageView;
@@ -65,6 +67,11 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         tvPayBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!App.isLogin()) {
+                    Intent intent = new Intent(mActivity, SmsLoginActivity.class);
+                    mActivity.startActivity(intent);
+                    return;
+                }
                 Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
                 intent2.putExtra("ticketName",bean.getGroupPurchaseName());
                 intent2.putExtra("ticketPrice",bean.getPrice().doubleValue());

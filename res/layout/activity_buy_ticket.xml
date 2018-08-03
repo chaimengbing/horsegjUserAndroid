@@ -127,6 +127,15 @@
             android:text="请选择日期"
             android:textColor="@color/color_9"
             android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_a_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_appointment_date"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
 
         <RelativeLayout
             android:id="@+id/img_calendar"

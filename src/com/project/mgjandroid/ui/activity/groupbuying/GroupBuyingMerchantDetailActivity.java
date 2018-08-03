@@ -501,6 +501,11 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 Routers.open(mActivity, ActivitySchemeManager.SCHEME + "groupPurchaseCoupon/" + ((GroupPurchaseCoupon) v.getTag()).getId());
                 break;
             case R.id.tv_pay_bill:
+                if (!App.isLogin()) {
+                    Intent intent = new Intent(mActivity, SmsLoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
                 Intent intent2 = new Intent(this, BuyTicketActivity.class);
                 intent2.putExtra("ticketPrice",((GroupPurchaseCoupon) v.getTag()).getPrice().doubleValue());
                 intent2.putExtra("ticketOriginalPrice",StringUtils.BigDecimal2Str(((GroupPurchaseCoupon) v.getTag()).getOriginPrice()));

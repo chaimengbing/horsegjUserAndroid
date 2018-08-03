@@ -406,7 +406,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         }else {
             tv_2.setText("过期自动退");
         }
-        tv_2.setText("过期自动退");
         if (groupPurchaseCoupon.getIsBespeak() == 0) {
             tv_3.setText("免预约");
         } else {
@@ -468,6 +467,11 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 break;
             case R.id.tv_buy:
             case R.id.tv_buy_1:
+                if (!App.isLogin()) {
+                    Intent intent = new Intent(mActivity, SmsLoginActivity.class);
+                    startActivity(intent);
+                    return;
+                }
                 Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
                 intent2.putExtra("ticketName",groupPurchaseCoupon.getGroupPurchaseName());
                 intent2.putExtra("ticketPrice",groupPurchaseCoupon.getPrice().doubleValue());
@@ -582,6 +586,11 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             tvPayBill.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!App.isLogin()) {
+                        Intent intent = new Intent(mActivity, SmsLoginActivity.class);
+                        startActivity(intent);
+                        return;
+                    }
                     Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
                     intent2.putExtra("ticketName",bean.getGroupPurchaseName());
                     intent2.putExtra("ticketPrice",bean.getPrice().doubleValue());

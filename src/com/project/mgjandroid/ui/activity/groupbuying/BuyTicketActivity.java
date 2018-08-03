@@ -79,6 +79,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private RelativeLayout rlCalendar;
     @InjectView(R.id.tv_submit_order)
     private TextView tvSubmitOrder;
+    @InjectView(R.id.tv_a_date)
+    private TextView tvADate;
 
     private GridView record_gridView;//定义gridView
     private DateAdapter dateAdapter;//定义adapter
@@ -219,6 +221,10 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     }
                 }
                 tvDate.setText(title + days1[position]);
+                if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getTargetTime())){
+                    tvADate.setText(groupPurchaseCoupon.getTargetTime()+"自动使用");
+                }
+
                 record_gridView.setItemChecked(position, true);
                 dateAdapter.setSeclection(position, month);
             }
