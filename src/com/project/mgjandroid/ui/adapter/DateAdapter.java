@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.CommonUtils;
+import com.project.mgjandroid.utils.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -128,28 +131,27 @@ public class DateAdapter extends BaseAdapter {
         int nowadayMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int nowadayYear = Calendar.getInstance().get(Calendar.YEAR);
 
+
         int count = day + bespeakDays;
         if (days[i] >= day && days[i] < count && nowadayMonth == month) {
             viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.color_f5));
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
             viewHolder.date_item.setEnabled(false);
             viewHolder.date_item.setClickable(false);
-            int max = 0;
-            if (viewHolder.date_item.getVisibility() == View.VISIBLE) {
-                if (max < days[i]) {
-                    max = days[i];
-                }
-                max = days[i];
 
+            String lastDay = DateUtils.getDateLastDay(year,month);
+            int visibleCount = 0;
+            if (CheckUtils.isNoEmptyStr(lastDay)){
+                 visibleCount = Integer.parseInt(lastDay.toString().trim()) - day + 1;
             }
-            nextCount = count - max + 1;
+            nextCount = bespeakDays - visibleCount;
         }
         int mMonth = nowadayMonth + 1;
         if (mMonth == 13) {
             mMonth = 1;
         }
         if (nextCount > 0 && month == mMonth) {
-            if (days[i] < nextCount) {
+            if (days[i] <= nextCount) {
                 viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.color_f5));
                 viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
                 viewHolder.date_item.setEnabled(false);

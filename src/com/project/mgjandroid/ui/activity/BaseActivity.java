@@ -3,12 +3,15 @@ package com.project.mgjandroid.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.pingplusplus.android.PaymentActivity;
@@ -71,6 +74,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         mActivity = this;
         mInflater = LayoutInflater.from(mActivity);
         mResource = mActivity.getResources();
+        setStatusBarTranslucent();
 //		mBack = (ImageView) findViewById(R.id.common_back);
 //		mBack.setOnClickListener(this);
 //		mTitle = (TextView) findViewById(R.id.common_title);
@@ -216,6 +220,13 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
             }
         }, InformationOrderModel.class);
     }
+
+    public void setStatusBarTranslucent() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
 
     protected void showList(final ArrayList<InformationFreeStandard> value) {
 

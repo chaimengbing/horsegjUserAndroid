@@ -52,7 +52,7 @@ import java.util.Map;
 public class BuyTicketActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.img_calendar)
-    private ImageView imgCalendar;
+    private RelativeLayout imgCalendar;
     @InjectView(R.id.tv_appointment_date)
     private TextView tvDate;
     @InjectView(R.id.common_back)
@@ -124,6 +124,15 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initData() {
+        ticketName = getIntent().getStringExtra("ticketName");
+        agentId = getIntent().getLongExtra("agentId", -1);
+        ticketPrice = getIntent().getDoubleExtra("ticketPrice", 0);
+        ticketOriginalPrice = getIntent().getStringExtra("ticketOriginalPrice");
+        type = getIntent().getIntExtra("type", -1);
+        bespeak = getIntent().getIntExtra("bespeak", -1);
+        bespeakDays = getIntent().getIntExtra("bespeakDayCount", -1);
+        groupPurchaseCoupon = (GroupPurchaseCoupon) getIntent().getSerializableExtra("groupPurchaseCoupon");
+
         year = CalendarUtils.getYear();
         month = CalendarUtils.getMonth();
     }
@@ -139,14 +148,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         tvSubmitOrder.setOnClickListener(this);
         tvTitle.setText("支付订单");
         mLoadingDialog = new MLoadingDialog();
-        ticketName = getIntent().getStringExtra("ticketName");
-        agentId = getIntent().getLongExtra("agentId", -1);
-        ticketPrice = getIntent().getDoubleExtra("ticketPrice", 0);
-        ticketOriginalPrice = getIntent().getStringExtra("ticketOriginalPrice");
-        type = getIntent().getIntExtra("type", -1);
-        bespeak = getIntent().getIntExtra("bespeak", -1);
-        bespeakDays = getIntent().getIntExtra("bespeakDayCount", -1);
-        groupPurchaseCoupon = (GroupPurchaseCoupon) getIntent().getSerializableExtra("groupPurchaseCoupon");
+
         if (type == 1) {
             rlCalendar.setVisibility(View.GONE);
             tvTicketName.setText(ticketOriginalPrice + "元代金券");
@@ -184,7 +186,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
          * 以下是初始化GridView
          */
         record_gridView = (GridView) view.findViewById(R.id.record_gridView);
-        days = CalendarUtils.getDayOfMonthFormat(2018, 7);
+        days = CalendarUtils.getDayOfMonthFormat(year, month);
         if (dateAdapter != null) {
             dateAdapter.setData(days, year, month, bespeakDays);
         } else {
@@ -195,6 +197,15 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         record_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (bespeakDays == 0) {
+                    return;
+                }
+
+                TextView dataTime = (TextView) view.findViewById(R.id.date_item);
+                if (dataTime != null && dataTime.getCurrentTextColor() == getResources().getColor(R.color.color_f5)) {
+                    return;
+                }
+
                 if (mPopWindow != null) {
                     mPopWindow.dismiss();
                 }

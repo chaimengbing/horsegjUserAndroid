@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -223,7 +225,7 @@ public class DateUtils {
      * @return
      */
     public static boolean isBusinessTime(String currentTime, String workTime) {
-        if (TextUtils.isEmpty(workTime) || TextUtils.isEmpty(currentTime)){
+        if (TextUtils.isEmpty(workTime) || TextUtils.isEmpty(currentTime)) {
             return false;
         }
         String works[] = workTime.split(",");
@@ -498,5 +500,22 @@ public class DateUtils {
             e.printStackTrace();
         }
         return tempTime;
+    }
+
+
+    public static String getDateLastDay(int year, int month) {
+
+        //year="2018" month="2"
+        Calendar calendar = Calendar.getInstance();
+        // 设置时间,当前时间不用设置
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+
+        // System.out.println(calendar.getTime());
+
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE));
+        DateFormat format = new SimpleDateFormat("dd");
+        return format.format(calendar.getTime());
     }
 }
