@@ -75,34 +75,10 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
                     } else {
                         goHome(context);
                     }
-                } else if ("CancelTOrder".equals(type) || "OrderDone".equals(type)) {
-                    //取消订单  订单完成
+                } else if ("CancelTOrder".equals(type) || "OrderDone".equals(type) || "CancelOrder".equals(type)) {
                     String orderId = object.optString("orderId");
                     String orderType = object.optString("orderType");
-                    if (CheckUtils.isNoEmptyStr(orderType)) {
-                        Intent i = null;
-                        int typeOrder = Integer.parseInt(orderType);
-                        if (typeOrder == AgentRequestType.LegWork.getValue()) {
-                            i = new Intent(context, LegworkOrderdetailsActivity.class);
-                        } else if (typeOrder == AgentRequestType.Default.getValue() || typeOrder == AgentRequestType.Takeaway.getValue() || typeOrder == AgentRequestType.Shop.getValue()) {//外卖商超
-                            i = new Intent(context, OrderDetailActivity.class);
-                        } else if (typeOrder == AgentRequestType.Groupbuy.getValue()) {//拼团
-                            i = new Intent(context, MyGroupPurchaseDetailActivity.class);
-                        } else if (typeOrder == AgentRequestType.GroupPurchase.getValue()) {//团购
-                            i = new Intent(context, GroupBuyingOrderForGoodsDetailsActivity.class);
-                        } else if (typeOrder == AgentRequestType.Car.getValue()) {//约车
-                            i = new Intent(context, CarHailingOrderDetailActivity.class);
-                        }
-                        if (i != null) {
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            i.putExtra("orderId", orderId);
-                            context.startActivity(i);
-                        } else {
-                            goHome(context);
-                        }
-                    } else {
-                        goHome(context);
-                    }
+                    goDetail(context, orderId, orderType);
                 } else {
                     goHome(context);
                 }
@@ -115,14 +91,16 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
                 org.json.JSONObject jsonObject = new org.json.JSONObject(extra);
                 String type = jsonObject.optString("type");
                 String userId = jsonObject.optString("userId");
-                if (type != null && "Cashback".equals(type)) {
-                    //人人分利
-                    if (App.isLogin() && PreferenceUtils.getPushSwitch(context) && userId != null && userId.equals(App.getUserInfo().getId() + "")) {
-                        //开启声音
-                        voiceService = new Intent(context, VoiceService.class);
-                        context.startService(voiceService);
-                    } else {
-                        JPushInterface.clearNotificationById(context, notificationId);
+                if (CheckUtils.isNoEmptyStr(type)) {
+                    if ("Cashback".equals(type)) {
+                        //人人分利
+                        if (App.isLogin() && PreferenceUtils.getPushSwitch(context) && userId != null && userId.equals(App.getUserInfo().getId() + "")) {
+                            //开启声音
+                            voiceService = new Intent(context, VoiceService.class);
+                            context.startService(voiceService);
+                        } else {
+                            JPushInterface.clearNotificationById(context, notificationId);
+                        }
                     }
                 }
 
@@ -132,6 +110,34 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
         }
     }
 
+
+    private void goDetail(Context context, String orderId, String orderType) {
+        //取消订单  订单完成
+        if (CheckUtils.isNoEmptyStr(orderType)) {
+            Intent i = null;
+            int typeOrder = Integer.parseInt(orderType);
+            if (typeOrder == AgentRequestType.LegWork.getValue()) {
+                i = new Intent(context, LegworkOrderdetailsActivity.class);
+            } else if (typeOrder == AgentRequestType.Default.getValue() || typeOrder == AgentRequestType.Takeaway.getValue() || typeOrder == AgentRequestType.Shop.getValue()) {//外卖商超
+                i = new Intent(context, OrderDetailActivity.class);
+            } else if (typeOrder == AgentRequestType.Groupbuy.getValue()) {//拼团
+                i = new Intent(context, MyGroupPurchaseDetailActivity.class);
+            } else if (typeOrder == AgentRequestType.GroupPurchase.getValue()) {//团购
+                i = new Intent(context, GroupBuyingOrderForGoodsDetailsActivity.class);
+            } else if (typeOrder == AgentRequestType.Car.getValue()) {//约车
+                i = new Intent(context, CarHailingOrderDetailActivity.class);
+            }
+            if (i != null) {
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("orderId", orderId);
+                context.startActivity(i);
+            } else {
+                goHome(context);
+            }
+        } else {
+            goHome(context);
+        }
+    }
 
     private void goHome(Context context) {
         Intent i = new Intent(context, HomeActivity.class);
