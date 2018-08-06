@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -145,6 +146,7 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
     private PopupWindow popupWindow;
     private GroupOrderDetailModel.ValueEntity.ShareRedBagInfo shareRedBagInfo;
     private boolean isCanIn;
+    private long currentMS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,9 +179,79 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
         } else {
             finish();
         }
+        sendRedBag.setOnTouchListener(new View.OnTouchListener() {
+            int maxwidth;
+            int maxheight;
+            int preX;// 上一次操作的x的坐标
+            int preY;// 上一次操作的Y坐标
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // 获取当前坐标
+                int rawX = (int) event.getRawX();
+                int rawY = (int) event.getRawY();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        long moveTime = System.currentTimeMillis() - currentMS;//移动时间
+                        //判断是否继续传递信号
+                        if (moveTime > 200 && (preX > 20 || preY > 20)) {
+                            return true;
+                        }
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        if (maxwidth == 0) {
+                            RelativeLayout ivparent = (RelativeLayout) sendRedBag
+                                    .getParent();
+                            maxwidth = ivparent.getWidth();
+                            maxheight = ivparent.getHeight();
+
+                        }
+                        preX = rawX;
+                        preY = rawY;
+                        currentMS = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        // 获取当前x,y轴移动的距离
+                        int dx = rawX - preX;
+                        int dy = rawY - preY;
+                        // 获取当前图片的四个值
+                        int left = sendRedBag.getLeft() + dx;
+                        int top = sendRedBag.getTop() + dy;
+                        int right = sendRedBag.getRight() + dx;
+                        int bottm = sendRedBag.getBottom() + dy;
+                        if (left < 0) {
+                            right = right - left;
+                            left = 0;
+
+                        }
+                        //限制right
+                        if (right > maxwidth) {
+                            left = left - (right - maxwidth);
+                            right = maxwidth;
+                        }
+                        if (top < 0) {
+                            bottm = bottm - top;
+                            top = 0;
+                        }
+                        if (bottm > maxheight) {
+                            top = top - (bottm - maxheight);
+                            bottm = maxheight;
+                        }
+                        sendRedBag.layout(left, top, right, bottm);
+                        // 从新给初始值赋值
+                        preX = rawX;
+                        preY = rawY;
+
+                        break;
+
+                }
+
+                return false;
+            }
+        });
     }
 
-    private void showRedBag(){
+    private void showRedBag() {
         sendRedBag.setVisibility(View.GONE);
         View view = LayoutInflater.from(this).inflate(R.layout.send_redbag, null);
         TextView tvSure = (TextView) view.findViewById(R.id.sure);
@@ -212,7 +284,7 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(!popupWindow.isShowing()){
+                if (!popupWindow.isShowing()) {
                     sendRedBag.setVisibility(View.VISIBLE);
                 }
                 WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
@@ -240,7 +312,7 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                 if (isSucceed && obj != null) {
                     model = (GroupOrderDetailModel) obj;
                     shareRedBagInfo = model.getValue().getShareRedBagInfo();
-                    if(shareRedBagInfo==null){
+                    if(shareRedBagInfo == null){
                         sendRedBag.setVisibility(View.GONE);
                     }else {
                         sendRedBag.setVisibility(View.VISIBLE);
@@ -288,10 +360,10 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
             ImageUtils.loadBitmap(mActivity, order.getGroupbuyOrder().getGroupBuy().getImgs().split(";")[0], ivImage2, R.drawable.horsegj_default, Constants.getEndThumbnail(75, 75));
         }
         List<RedBag> redBags = JSON.parseArray(order.getRedBagJson(), RedBag.class);
-        if (redBags != null && redBags.size() > 0){
+        if (redBags != null && redBags.size() > 0) {
             pintuanRedbagsPrice.setText("红包抵扣" + redBags.get(0).getAmt() + "元");
             pintuanRedbagsPrice.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             pintuanRedbagsPrice.setVisibility(View.INVISIBLE);
         }
         tvTitle1.setText(order.getGroupbuyOrder().getGroupBuy().getGoodsName());
@@ -318,9 +390,9 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                     llStatus.setVisibility(View.VISIBLE);
                     if (order.getGroupbuyOrder().getPaymentState() == 1 && DateUtils.compareTimeBefore(order.getGroupbuyOrder().getCreateTime())) {
                         //已付款
-                        if(StringUtils.BigDecimal2Str(order.getGroupbuyOrder().getTotalPrice()).equals("0")){
+                        if (StringUtils.BigDecimal2Str(order.getGroupbuyOrder().getTotalPrice()).equals("0")) {
                             tvGroupRefund.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             tvGroupRefund.setVisibility(View.VISIBLE);
                         }
                         tvGroupState.setText("申请退款成功");
@@ -347,8 +419,9 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                     break;
                 case 2:
                     tvGroupStatus.setText("已支付，未成团");
-                    if(shareRedBagInfo!=null){
-                        if(isCanIn){
+                    if (shareRedBagInfo != null) {
+                        if (isCanIn) {
+                            isCanIn = false;
                             showRedBag();
                         }
                     }
@@ -484,7 +557,13 @@ public class MyGroupPurchaseDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.img_send_redbag:
-                showRedBag();
+                sendRedBag.setVisibility(View.VISIBLE);
+                if (shareUtil == null && shareRedBagInfo != null) {
+                    shareUtil = new ShareUtil(mActivity, shareRedBagInfo.getTitle(),
+                            shareRedBagInfo.getMemo(),
+                            shareRedBagInfo.getUrl(), shareRedBagInfo.getImg());
+                }
+                if (shareUtil != null) shareUtil.showRedBagPopupWindow();
                 break;
         }
     }

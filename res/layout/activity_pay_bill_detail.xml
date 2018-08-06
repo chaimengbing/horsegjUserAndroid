@@ -281,7 +281,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="支付成功"
                     android:textColor="@color/color_3"
                     android:textSize="13sp" />
             </RelativeLayout>

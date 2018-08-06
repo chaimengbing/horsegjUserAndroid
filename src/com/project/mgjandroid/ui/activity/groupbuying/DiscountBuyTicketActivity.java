@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -179,7 +180,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 isVoucherChecked= false;
                 tvSelected.setText("");
                 imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
+                isDiscount = 0;
                 voucherPrice = "0";
+                if(previewModelValue!=null){
+                    previewModelValue.setTotalPrice(new BigDecimal(0));
+                }
                 if(previewModelValue!=null){
                     voucherList= null;
                     list.clear();
@@ -194,6 +199,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                         tvRedBag.setText("去使用");
                     }
                 }
+
 
                 if(editable.toString().trim().length()>0){
                     if("0".equals(editable.toString().trim())){
@@ -213,6 +219,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 }}
         });
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -234,6 +242,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, previewModelValue.getTotalPrice().doubleValue());
                 }
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 6);
+                intentSelect.putExtra("isAgentId", previewModelValue.getAgentId());
                 if (redBag != null) {
                     intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
                 } else {
@@ -482,7 +491,18 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                             isDiscount = 0;
                             isCanSelect = false;
                         }
-                        ToastUtils.displayMsg(obj.toString(), mActivity);
+                        if(redBag!=null&&"支付金额不能小于红包金额".equals(obj.toString().trim())){
+                            isDiscount = 1;
+                            isCanSelect = true;
+                            redBag=null;
+                            tvRedBag.setText("");
+                            if (CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())&&previewModelValue.getPlatformRedBagCount() > 0) {
+                                tvRedBag.setText("去使用");
+                            }
+                            payForPreview();
+                        }else {
+                            ToastUtils.displayMsg(obj.toString(), mActivity);
+                        }
 //                        if(isVoucherChecked&&!isCanSelect){
 //                            list.clear();
 //                            voucherPrice= "0";

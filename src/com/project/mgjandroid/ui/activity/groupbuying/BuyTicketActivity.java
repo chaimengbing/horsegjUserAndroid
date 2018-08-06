@@ -471,6 +471,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, ticketPrice);
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 6);
+                intentSelect.putExtra("isAgentId", groupPurchaseCoupon.getAgentId());
                 if (redBag != null) {
                     intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, redBag.getId());
                 } else {

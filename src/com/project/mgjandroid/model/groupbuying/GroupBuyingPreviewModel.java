@@ -56,7 +56,7 @@ public class GroupBuyingPreviewModel extends Entity {
 
         private int merchantId;
         private int userId;
-        private int agentId;
+        private long agentId;
         private String userMobile;
         private String loginToken;
         private int groupPurchaseOrderType;
@@ -105,11 +105,11 @@ public class GroupBuyingPreviewModel extends Entity {
             this.userId = userId;
         }
 
-        public int getAgentId() {
+        public long getAgentId() {
             return agentId;
         }
 
-        public void setAgentId(int agentId) {
+        public void setAgentId(long agentId) {
             this.agentId = agentId;
         }
 

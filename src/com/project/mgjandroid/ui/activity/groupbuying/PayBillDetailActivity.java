@@ -7,10 +7,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
@@ -85,6 +87,7 @@ public class PayBillDetailActivity extends BaseActivity {
     private PopupWindow popupWindow;
     private ShareUtil shareUtil;
     private boolean isCanIn;
+    private long currentMS;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -104,6 +107,76 @@ public class PayBillDetailActivity extends BaseActivity {
         isCanIn = getIntent().getBooleanExtra("isCanIn", false);
         loadingDialog = new MLoadingDialog();
         callNumDialog = new Dialog(this, R.style.fullDialog);
+        sendRedBag.setOnTouchListener(new View.OnTouchListener() {
+            int maxwidth;
+            int maxheight;
+            int preX;// 上一次操作的x的坐标
+            int preY;// 上一次操作的Y坐标
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // 获取当前坐标
+                int rawX = (int) event.getRawX();
+                int rawY = (int) event.getRawY();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        long moveTime = System.currentTimeMillis() - currentMS;//移动时间
+                        //判断是否继续传递信号
+                        if (moveTime > 200 && (preX > 20 || preY > 20)) {
+                            return true;
+                        }
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        if (maxwidth == 0) {
+                            RelativeLayout ivparent = (RelativeLayout) sendRedBag
+                                    .getParent();
+                            maxwidth = ivparent.getWidth();
+                            maxheight = ivparent.getHeight();
+
+                        }
+                        preX = rawX;
+                        preY = rawY;
+                        currentMS = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        // 获取当前x,y轴移动的距离
+                        int dx = rawX - preX;
+                        int dy = rawY - preY;
+                        // 获取当前图片的四个值
+                        int left = sendRedBag.getLeft() + dx;
+                        int top = sendRedBag.getTop() + dy;
+                        int right = sendRedBag.getRight() + dx;
+                        int bottm = sendRedBag.getBottom() + dy;
+                        if (left < 0) {
+                            right = right - left;
+                            left = 0;
+
+                        }
+                        //限制right
+                        if (right > maxwidth) {
+                            left = left - (right - maxwidth);
+                            right = maxwidth;
+                        }
+                        if (top < 0) {
+                            bottm = bottm - top;
+                            top = 0;
+                        }
+                        if (bottm > maxheight) {
+                            top = top - (bottm - maxheight);
+                            bottm = maxheight;
+                        }
+                        sendRedBag.layout(left, top, right, bottm);
+                        // 从新给初始值赋值
+                        preX = rawX;
+                        preY = rawY;
+
+                        break;
+
+                }
+
+                return false;
+            }
+        });
     }
 
     private void showRedBag(){
@@ -168,7 +241,7 @@ public class PayBillDetailActivity extends BaseActivity {
                 if (isSucceed && obj != null) {
                     order = ((GroupBuyingOrderModel) obj).getValue().getGroupPurchaseOrder();
                     shareRedBagInfo = ((GroupBuyingOrderModel) obj).getValue().getShareRedBagInfo();
-                    if(shareRedBagInfo==null){
+                    if(shareRedBagInfo == null){
                         sendRedBag.setVisibility(View.GONE);
                     }else {
                         sendRedBag.setVisibility(View.VISIBLE);
@@ -201,9 +274,15 @@ public class PayBillDetailActivity extends BaseActivity {
         }else {
             tvRedBag.setText("无");
         }
-        if(order.getStatus()==2){
+        if(order.getStatus()== -1){
+            tvNowStatus.setText("超时已取消");
+        }else if(order.getStatus()== 1){
+            tvNowStatus.setText("未付款");
+        }else if(order.getStatus()==2){
+            tvNowStatus.setText("支付完成");
             if(shareRedBagInfo!=null){
                 if(isCanIn){
+                    isCanIn = false;
                     showRedBag();
                 }
             }
@@ -243,7 +322,13 @@ public class PayBillDetailActivity extends BaseActivity {
                 showCallDialog(order.getGroupPurchaseMerchantContacts());
                 break;
             case R.id.img_send_redbag:
-                showRedBag();
+                sendRedBag.setVisibility(View.VISIBLE);
+                if (shareUtil == null && shareRedBagInfo != null) {
+                    shareUtil = new ShareUtil(mActivity, shareRedBagInfo.getTitle(),
+                            shareRedBagInfo.getMemo(),
+                            shareRedBagInfo.getUrl(), shareRedBagInfo.getImg());
+                }
+                if (shareUtil != null) shareUtil.showRedBagPopupWindow();
                 break;
         }
     }

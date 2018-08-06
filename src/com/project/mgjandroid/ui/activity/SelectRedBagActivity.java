@@ -85,6 +85,7 @@ public class SelectRedBagActivity extends BaseActivity {
     private long platformRedbagId;
     private int quantity = -1;
     private long merchantId;
+    private long isAgentId;
 
 
     @Override
@@ -100,6 +101,7 @@ public class SelectRedBagActivity extends BaseActivity {
         platformRedbagId = getIntent().getLongExtra(PLATFORM_REDBAG_ID, -1l);
         merchantId = getIntent().getLongExtra(MERCHANT_ID, -1l);
         discountGoodsDiscountAmt = getIntent().getDoubleExtra(DISCOUNT_GOODS_DISCOUN_TAMT, 0.0);
+        isAgentId = getIntent().getLongExtra("isAgentId", -1l);
 
         if (platformRedbagId == -1) {
             notUse.setChecked(true);
@@ -117,7 +119,11 @@ public class SelectRedBagActivity extends BaseActivity {
     private void initData() {
         loadingDialog.show(getFragmentManager(), "");
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("agentId", agentId);
+        if(isAgentId==-1){
+            map.put("agentId", agentId);
+        }else {
+            map.put("agentId", isAgentId);
+        }
         map.put("businessType", businessType);
         if (merchantId != -1) {
             map.put("merchantId", merchantId);
