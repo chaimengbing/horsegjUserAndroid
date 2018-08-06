@@ -7,11 +7,20 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.project.mgjandroid.base.App;
+import com.project.mgjandroid.constants.AgentRequestType;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
+import com.project.mgjandroid.ui.activity.ConfirmOrderActivity;
 import com.project.mgjandroid.ui.activity.HomeActivity;
+import com.project.mgjandroid.ui.activity.OrderDetailActivity;
 import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
+import com.project.mgjandroid.ui.activity.carhailing.CarHailingOrderDetailActivity;
+import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingOrderForGoodsDetailsActivity;
 import com.project.mgjandroid.ui.activity.invitingfriends.InvitingFriendsActivity;
+import com.project.mgjandroid.ui.activity.legwork.LegworkOrderdetailsActivity;
+import com.project.mgjandroid.ui.activity.pintuan.MyGroupPurchaseDetailActivity;
+import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 
 import org.json.JSONException;
@@ -37,42 +46,65 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
                 org.json.JSONObject object = new org.json.JSONObject(extra);
                 String type = object.optString("type");
                 if (TextUtils.isEmpty(type)) {
-                    Intent i = new Intent(context, HomeActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(i);
+                    goHome(context);
                     JPushInterface.clearNotificationById(context, notificationId);
                     return;
                 }
+                // 顺风车/可视农场
+                String url = object.optString("url");
                 if ("Cashback".equals(type)) {
                     Intent i = new Intent(context, InvitingFriendsActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
-                } else if("refundsSuccess".equals(type)){
+                } else if ("refundsSuccess".equals(type)) {
                     //团购退款
                     String orderId = object.optString("orderId");
                     String groupPurchaseOrderCouponCodeId = object.optString("groupPurchaseOrderCouponCodeId");
                     Intent i = new Intent(context, OrderRefundInfoActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("orderId",orderId);
-                    i.putExtra("groupPurchaseOrderCouponCodeId",groupPurchaseOrderCouponCodeId);
+                    i.putExtra("orderId", orderId);
+                    i.putExtra("groupPurchaseOrderCouponCodeId", groupPurchaseOrderCouponCodeId);
                     context.startActivity(i);
-                }else if ("Hitchhiking".equals(type) || "VisualAgriculture".equals(type)) {
-                    // 顺风车/可视农场
-                    String url = object.optString("url");
+                } else if (CheckUtils.isNoEmptyStr(url)) {
+                    //"Hitchhiking".equals(type) || "VisualAgriculture".equals(type)LegWork(9,"跑腿"),Express(10,"快递"),Laundry(11,"洗衣")
                     if (url.replace("maguanjia://", "").startsWith("http")) {
                         Intent i = new Intent(context, YLBWebViewActivity.class);
                         i.putExtra(YLBSdkConstants.EXTRA_H5_URL, url.replace("maguanjia://", ""));
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                         context.startActivity(i);
                     } else {
-                        Intent i = new Intent(context, HomeActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(i);
+                        goHome(context);
+                    }
+                } else if ("CancelTOrder".equals(type) || "OrderDone".equals(type)) {
+                    //取消订单  订单完成
+                    String orderId = object.optString("orderId");
+                    String orderType = object.optString("orderType");
+                    if (CheckUtils.isNoEmptyStr(orderType)) {
+                        Intent i = null;
+                        int typeOrder = Integer.parseInt(orderType);
+                        if (typeOrder == AgentRequestType.LegWork.getValue()) {
+                            i = new Intent(context, LegworkOrderdetailsActivity.class);
+                        } else if (typeOrder == AgentRequestType.Default.getValue() || typeOrder == AgentRequestType.Takeaway.getValue() || typeOrder == AgentRequestType.Shop.getValue()) {//外卖商超
+                            i = new Intent(context, OrderDetailActivity.class);
+                        } else if (typeOrder == AgentRequestType.Groupbuy.getValue()) {//拼团
+                            i = new Intent(context, MyGroupPurchaseDetailActivity.class);
+                        } else if (typeOrder == AgentRequestType.GroupPurchase.getValue()) {//团购
+                            i = new Intent(context, GroupBuyingOrderForGoodsDetailsActivity.class);
+                        } else if (typeOrder == AgentRequestType.Car.getValue()) {//约车
+                            i = new Intent(context, CarHailingOrderDetailActivity.class);
+                        }
+                        if (i != null) {
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra("orderId", orderId);
+                            context.startActivity(i);
+                        } else {
+                            goHome(context);
+                        }
+                    } else {
+                        goHome(context);
                     }
                 } else {
-                    Intent i = new Intent(context, HomeActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(i);
+                    goHome(context);
                 }
                 JPushInterface.clearNotificationById(context, notificationId);
             } catch (JSONException e) {
@@ -98,6 +130,13 @@ public class SystemPushInfoReceiver extends BroadcastReceiver {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    private void goHome(Context context) {
+        Intent i = new Intent(context, HomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(i);
     }
 }
 

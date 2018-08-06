@@ -5,35 +5,31 @@ package com.project.mgjandroid.constants;
  */
 
 public enum AgentRequestType {
+
+
+    Default(0, "默认"),
+
     Takeaway(1, "外卖"),
 
     Groupbuy(2, "拼团"),
 
     Shop(3, "商超"),
 
-    Car(4, "约车拼车"),
+    Car(4, "约车"),
 
-    PositionRecruit(5, "求职招聘"),
+    Information(5, "信息发布"),
 
     GroupPurchase(6, "团购"),
 
-    Secondhand(7, "二手信息"),
+    Hitchhiking(7,"顺风车"),
 
-    Lease(8, "房屋租售"),
+    VisualAgriculture(8,"可视认养"),
 
-    Education(9, "教育培训"),
+    LegWork(9,"跑腿"),
 
-    Homemaking(10, "家政服务"),
+    Express(10,"快递"),
 
-    Repair(11, "维修服务"),
-
-    WasteRecovery(12, "废品回收"),
-
-    Law(13, "法律咨询"),
-
-    Health(14, "健康咨询"),
-
-    Divination(15, "风水咨询");
+    Laundry(11,"洗衣");
 
     private int value;
 
