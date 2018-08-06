@@ -79,10 +79,10 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private RelativeLayout rlCalendar;
     @InjectView(R.id.tv_submit_order)
     private TextView tvSubmitOrder;
-    @InjectView(R.id.tv_a_date)
-    private TextView tvADate;
 
-    private GridView record_gridView;//定义gridView
+
+    private GridView record_gridView;
+
     private DateAdapter dateAdapter;//定义adapter
     private ImageView record_left;//左箭头
     private ImageView record_right;//右箭头
@@ -169,7 +169,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
 
 
     private void initPopWindow() {
-        View view = LayoutInflater.from(this).inflate(R.layout.layout_bottom_calendar, null);
+        View view = mInflater.inflate(R.layout.layout_bottom_calendar, null);
         mPopWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ColorDrawable cd = new ColorDrawable(0x000000);
         mPopWindow.setBackgroundDrawable(cd);
@@ -184,9 +184,6 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        /**
-         * 以下是初始化GridView
-         */
         record_gridView = (GridView) view.findViewById(R.id.record_gridView);
         days = CalendarUtils.getDayOfMonthFormat(year, month);
         if (dateAdapter != null) {
@@ -195,38 +192,32 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
             dateAdapter = new DateAdapter(this, days, year, month, bespeakDays);
         }//传入当前月的年
         record_gridView.setAdapter(dateAdapter);
-        record_gridView.setEnabled(true);
         record_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (bespeakDays == 0) {
-                    return;
-                }
-
                 TextView dataTime = (TextView) view.findViewById(R.id.date_item);
-                if (dataTime != null && dataTime.getCurrentTextColor() == getResources().getColor(R.color.color_f5)) {
-                    return;
-                }
-
-                if (mPopWindow != null) {
-                    mPopWindow.dismiss();
-                }
-                title = year + "-" + month + "-";
-                int dayNum = 0;
-                //将二维数组转化为一维数组，方便使用
-                for (int i = 0; i < days.length; i++) {
-                    for (int j = 0; j < days[i].length; j++) {
-                        days1[dayNum] = days[i][j];
-                        dayNum++;
+                if (dataTime.getVisibility() == View.VISIBLE && (dataTime.getCurrentTextColor() == getResources().getColor(R.color.color_3) || dataTime.getCurrentTextColor() == getResources().getColor(R.color.bg_festival)|| dataTime.getCurrentTextColor() == getResources().getColor(R.color.white))) {
+                    if (mPopWindow != null) {
+                        mPopWindow.dismiss();
+                    }
+                    title = year + "-" + month + "-";
+                    int dayNum = 0;
+                    //将二维数组转化为一维数组，方便使用
+                    for (int i = 0; i < days.length; i++) {
+                        for (int j = 0; j < days[i].length; j++) {
+                            days1[dayNum] = days[i][j];
+                            dayNum++;
+                        }
+                    }
+                    int currrentDay = days1[position];
+                    tvDate.setText(title + currrentDay);
+                    record_gridView.setItemChecked(position, true);
+                    dateAdapter.setSeclection(position, month);
+                } else {
+                    if (dataTime.getVisibility() == View.VISIBLE){
+                        toast("不可预约");
                     }
                 }
-                tvDate.setText(title + days1[position]);
-                if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getTargetTime())){
-                    tvADate.setText(groupPurchaseCoupon.getTargetTime()+"自动使用");
-                }
-
-                record_gridView.setItemChecked(position, true);
-                dateAdapter.setSeclection(position, month);
             }
         });
         /**

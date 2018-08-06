@@ -136,8 +136,8 @@ public class DateAdapter extends BaseAdapter {
         if (days[i] >= day && days[i] < count && nowadayMonth == month) {
             viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.color_f5));
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
-            viewHolder.date_item.setEnabled(false);
-            viewHolder.date_item.setClickable(false);
+//            viewHolder.date_item.setEnabled(false);
+//            viewHolder.date_item.setClickable(false);
 
             String lastDay = DateUtils.getDateLastDay(year,month);
             int visibleCount = 0;
@@ -154,8 +154,8 @@ public class DateAdapter extends BaseAdapter {
             if (days[i] <= nextCount) {
                 viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.color_f5));
                 viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
-                viewHolder.date_item.setEnabled(false);
-                viewHolder.date_item.setClickable(false);
+//                viewHolder.date_item.setEnabled(false);
+//                viewHolder.date_item.setClickable(false);
             }
         }
         //是否是本年本月显示的今天、明天、后天
