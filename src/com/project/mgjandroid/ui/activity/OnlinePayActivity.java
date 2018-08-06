@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -58,7 +60,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     @InjectView(R.id.account_extra_money)
     private TextView tvAccountExtraMoney;
     @InjectView(R.id.pay_extra_check)
-    private ImageView ivExtra;
+    private CheckBox ivExtra;
     @InjectView(R.id.online_pay_confirm)
     private TextView tvConfirm;
     @InjectView(R.id.pay_extra)
@@ -132,6 +134,21 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         if (intent.hasExtra("isLegwork")) {
             isLegwork = true;
         }
+
+        ivExtra.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                BigDecimal userBalance = payWaysModel.getValue().getUserBalance();
+
+                if (userBalance != null && userBalance.doubleValue() > 0) {
+                    if (b) {
+                        thirdPanel.setVisibility(View.GONE);
+                    } else {
+                        thirdPanel.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
 //        if (intent.hasExtra("agentId")) {
 //            int agentId = intent.getIntExtra("agentId", 0);
 //            getTelNumId(agentId);
@@ -159,7 +176,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                         finish();
                     }
                 }
-                if(isGroupPurchaseBuy){
+                if (isGroupPurchaseBuy) {
                     cancelOrder();
                 }
                 finish();
@@ -170,8 +187,8 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
 //                    ToastUtils.displayMsg("您的余额不足", mActivity);
 //                    return;
 //                }
-                ivExtra.setSelected(!ivExtra.isSelected());
-                if (ivExtra.isSelected()) {
+                ivExtra.setChecked(!ivExtra.isChecked());
+                if (ivExtra.isChecked()) {
                     BigDecimal userBalance = payWaysModel.getValue().getUserBalance();
                     BigDecimal totalPrice = payWaysModel.getValue().getTotalPrice();
                     if (userBalance != null) {
@@ -181,10 +198,12 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             payChannel = "extra";
                             preTag = -1;
                         } else {
+                            thirdPanel.setVisibility(View.VISIBLE);
                             tvThirdMoney.setText("¥" + StringUtils.BigDecimal2Str(totalPrice.subtract(userBalance)));
                         }
                     }
                 } else {
+                    payChannel = null;
                     tvThirdMoney.setText("¥" + StringUtils.BigDecimal2Str(payWaysModel.getValue().getTotalPrice()));
                     if (thirdPanel.getVisibility() == View.GONE) {
                         thirdPanel.setVisibility(View.VISIBLE);
@@ -206,7 +225,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             break;
                         }
                     }
-                    if (ivExtra.isSelected()) {
+                    if (ivExtra.isChecked()) {
                         getPayInfo(orderId, payWaysModel.getValue().getUserBalance(), payChannel);
                     } else {
                         getPayInfo(orderId, BigDecimal.ZERO, payChannel);
@@ -316,7 +335,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                                 }
                                 setResult(RESULT_OK);
                                 finish();
-                            }  else if (isGroupPurchaseBuy) {
+                            } else if (isGroupPurchaseBuy) {
                                 if (!getIntent().hasExtra("isFromDetail")) {
                                     Intent intent = new Intent(OnlinePayActivity.this, PayBillDetailActivity.class);
                                     intent.putExtra("orderId", id);
@@ -326,7 +345,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                                 }
                                 setResult(RESULT_OK);
                                 finish();
-                            }else if (isThirdparty) {
+                            } else if (isThirdparty) {
                                 Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
                                 intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, thirdUrl);
                                 startActivity(intent);
@@ -548,7 +567,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
             startActivity(intent);
             setResult(RESULT_OK);
             finish();
-        }else if (isThirdparty) {
+        } else if (isThirdparty) {
             Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
             intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, thirdUrl);
             startActivity(intent);
@@ -690,7 +709,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         if (isFromThird) {
             setResult(RESULT_CANCELED);
         }
-        if(isGroupPurchaseBuy){
+        if (isGroupPurchaseBuy) {
             cancelOrder();
         }
         super.onBackPressed();

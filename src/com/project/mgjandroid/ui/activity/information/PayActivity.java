@@ -145,6 +145,7 @@ public class PayActivity extends BaseActivity {
                     if (thirdPanel.getVisibility() == View.GONE) {
                         thirdPanel.setVisibility(View.VISIBLE);
                     }
+                    payChannel = null;
                 }
                 break;
             case R.id.online_pay_confirm:

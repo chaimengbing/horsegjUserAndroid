@@ -112,14 +112,15 @@
 
         </LinearLayout>
 
-        <ImageView
+        <CheckBox
             android:id="@+id/pay_extra_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:button="@null"
             android:layout_marginRight="@dimen/x15"
-            android:background="@drawable/bg_check_or_uncheck" />
+            android:drawableLeft="@drawable/bg_check_or_uncheck" />
 
         <TextView
             android:id="@+id/balance_pay_money"
