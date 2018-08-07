@@ -138,15 +138,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         ivExtra.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                BigDecimal userBalance = payWaysModel.getValue().getUserBalance();
-
-                if (userBalance != null && userBalance.doubleValue() > 0) {
-                    if (b) {
-                        thirdPanel.setVisibility(View.GONE);
-                    } else {
-                        thirdPanel.setVisibility(View.VISIBLE);
-                    }
-                }
+                selectPayExtra();
             }
         });
 //        if (intent.hasExtra("agentId")) {
@@ -188,27 +180,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
 //                    return;
 //                }
                 ivExtra.setChecked(!ivExtra.isChecked());
-                if (ivExtra.isChecked()) {
-                    BigDecimal userBalance = payWaysModel.getValue().getUserBalance();
-                    BigDecimal totalPrice = payWaysModel.getValue().getTotalPrice();
-                    if (userBalance != null) {
-                        if (userBalance.compareTo(totalPrice) >= 0) {
-                            thirdPanel.setVisibility(View.GONE);
-                            clearThirdCheck();
-                            payChannel = "extra";
-                            preTag = -1;
-                        } else {
-                            thirdPanel.setVisibility(View.VISIBLE);
-                            tvThirdMoney.setText("¥" + StringUtils.BigDecimal2Str(totalPrice.subtract(userBalance)));
-                        }
-                    }
-                } else {
-                    payChannel = null;
-                    tvThirdMoney.setText("¥" + StringUtils.BigDecimal2Str(payWaysModel.getValue().getTotalPrice()));
-                    if (thirdPanel.getVisibility() == View.GONE) {
-                        thirdPanel.setVisibility(View.VISIBLE);
-                    }
-                }
+                selectPayExtra();
                 break;
             case R.id.online_pay_confirm:
                 //提交订单
@@ -242,6 +214,30 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                 payChannel = chargeTypes.get(tag).getChannel();
                 preTag = tag;
                 break;
+        }
+    }
+
+    private void selectPayExtra() {
+        if (ivExtra.isChecked()) {
+            BigDecimal userBalance = payWaysModel.getValue().getUserBalance();
+            BigDecimal totalPrice = payWaysModel.getValue().getTotalPrice();
+            if (userBalance != null) {
+                if (userBalance.compareTo(totalPrice) >= 0) {
+                    thirdPanel.setVisibility(View.GONE);
+                    clearThirdCheck();
+                    payChannel = "extra";
+                    preTag = -1;
+                } else {
+                    thirdPanel.setVisibility(View.VISIBLE);
+                    tvThirdMoney.setText("¥" + StringUtils.BigDecimal2Str(totalPrice.subtract(userBalance)));
+                }
+            }
+        } else {
+            payChannel = null;
+            tvThirdMoney.setText("¥" + StringUtils.BigDecimal2Str(payWaysModel.getValue().getTotalPrice()));
+            if (thirdPanel.getVisibility() == View.GONE) {
+                thirdPanel.setVisibility(View.VISIBLE);
+            }
         }
     }
 
