@@ -124,6 +124,8 @@ public class DateAdapter extends BaseAdapter {
             viewHolder.date_item.setVisibility(View.INVISIBLE);
         }
 
+        viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_c));
+        viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.transparent));
         viewHolder.date_item.setText(days[i] + "");
 
         int day = CalendarUtils.getCurrentDayOfMonth();
@@ -156,8 +158,8 @@ public class DateAdapter extends BaseAdapter {
 //                viewHolder.date_item.setClickable(false);
             }
         }
-        //是否是本年本月显示的今天、明天、后天
-        if (days[i] == day) {
+        //是否是本年本月显示的今天、明天、后天 days[i] == day && month == nowadayMonth
+        if (getDate(year, month, days[i]).equals("0")) {
             viewHolder.date_item.setText("今天");
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
             viewHolder.date_item.getPaint().setFakeBoldText(true);
