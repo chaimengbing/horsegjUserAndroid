@@ -145,6 +145,10 @@ public class UploadPhotoActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.common_back:
+                if (isUploading) {
+                    toast("正在上传照片，请稍后再进行操作");
+                    return;
+                }
                 back();
                 break;
             case R.id.tv_confirm:
@@ -266,16 +270,20 @@ public class UploadPhotoActivity extends BaseActivity {
     }
 
     protected void uploadPicture(String token, String path, int position) {
-        if (position == -1) {
-            for (int i = 0, size = uploadPhotos.size(); i < size; i++) {
-                if (TextUtils.isEmpty(uploadPhotos.get(i).getUrl())) {
-                    startUpload(token, uploadPhotos.get(i).getPath(), path, i);
-                } else {
-                    hasUploadCount++;
+        try {
+            if (position == -1) {
+                for (int i = 0, size = uploadPhotos.size(); i < size; i++) {
+                    if (TextUtils.isEmpty(uploadPhotos.get(i).getUrl())) {
+                        startUpload(token, uploadPhotos.get(i).getPath(), path, i);
+                    } else {
+                        hasUploadCount++;
+                    }
                 }
+            } else {
+                startUpload(token, uploadPhotos.get(position).getPath(), path, position);
             }
-        } else {
-            startUpload(token, uploadPhotos.get(position).getPath(), path, position);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -367,7 +375,7 @@ public class UploadPhotoActivity extends BaseActivity {
     }
 
     private boolean checkUploading() {
-        if(CheckUtils.isNoEmptyStr(tvUplaod.getText().toString())&&tvUplaod.getText().toString().equals("确认上传")) {
+        if (CheckUtils.isNoEmptyStr(tvUplaod.getText().toString()) && tvUplaod.getText().toString().equals("确认上传")) {
             tvUplaod.setText("正在上传...");
         }
         if (isUploading) {

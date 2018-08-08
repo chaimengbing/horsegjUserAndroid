@@ -169,7 +169,7 @@ public class PublishFengShuiInformationActivity extends BaseActivity {
     }
 
     private void initView() {
-        tvTitle.setText("发布风水信息");
+        tvTitle.setText("发布个人信息");
         SmsLoginModel.ValueEntity.AppUserEntity userInfo = App.getInstance().getUserInfo();
         if (userInfo != null) {
             mPhone = userInfo.getMobile();

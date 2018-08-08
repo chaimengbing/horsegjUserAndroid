@@ -28,7 +28,7 @@ public enum InformationType {
 
     buy(12, "二手求购", "http://7xu5hi.com1.z0.glb.clouddn.com/1607141136297502608.png"),
 
-    Divination(7, "风水咨询", "http://7xu5hi.com1.z0.glb.clouddn.com/1607141142419748227.png"),
+    Divination(7, "共享大师", "http://7xu5hi.com1.z0.glb.clouddn.com/1607141142419748227.png"),
 
     Law(8, "法律咨询", "http://7xu5hi.com1.z0.glb.clouddn.com/1607141142417176015.png"),
 

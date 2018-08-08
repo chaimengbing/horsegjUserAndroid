@@ -16,7 +16,7 @@ public enum InformationType {
 
     Secondhand(6, "二手市场"),
 
-    Divination(7, "风水"),
+    Divination(7, "共享大师"),
 
     Law(8, "法律咨询"),
 

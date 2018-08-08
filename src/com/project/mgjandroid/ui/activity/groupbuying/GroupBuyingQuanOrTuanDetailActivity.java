@@ -475,7 +475,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
                 intent2.putExtra("ticketName",groupPurchaseCoupon.getGroupPurchaseName());
                 intent2.putExtra("ticketPrice",groupPurchaseCoupon.getPrice().doubleValue());
-                intent2.putExtra("ticketOriginalPrice",groupPurchaseCoupon.getOriginPrice());
+                intent2.putExtra("ticketOriginalPrice",StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()));
                 intent2.putExtra("type",groupPurchaseCoupon.getType());
                 intent2.putExtra("bespeak",groupPurchaseCoupon.getIsBespeak());
                 intent2.putExtra("agentId",groupPurchaseCoupon.getAgentId());

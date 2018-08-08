@@ -141,7 +141,7 @@ public class MyPublishInformationActivity extends BaseActivity {
                 fragment = new MyPublishHealthyFragment();
             }
         } else if (informationType == InformationType.Divination.getValue()) {
-            tvTitle.setText("风水");
+            tvTitle.setText("共享大师");
             if (fragment == null) {
                 fragment = new MyPublishFengShuiFragment();
             }
