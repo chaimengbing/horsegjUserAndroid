@@ -43,7 +43,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x50"
         android:background="@color/white"
-        android:gravity="center_vertical"
         android:paddingLeft="@dimen/x15"
         android:paddingRight="@dimen/x15">
 
@@ -51,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="数量"
+            android:layout_centerVertical="true"
             android:textColor="@color/color_3"
             android:textSize="15sp" />
 
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_gravity="center_vertical|right"
+            android:layout_centerVertical="true"
             android:orientation="horizontal">
 
             <ImageView
