@@ -188,17 +188,17 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         });
         record_gridView = (GridView) view.findViewById(R.id.record_gridView);
         days = CalendarUtils.getDayOfMonthFormat(year, month);
-        if (dateAdapter != null) {
-            dateAdapter.setData(days, year, month, bespeakDays);
-        } else {
-            dateAdapter = new DateAdapter(this, days, year, month, bespeakDays);
-        }//传入当前月的年
+        dateAdapter = new DateAdapter(this, days, year, month, bespeakDays);
         record_gridView.setAdapter(dateAdapter);
         record_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (bespeakDays == 0) {
+                    toast("不可预约");
+                    return;
+                }
                 TextView dataTime = (TextView) view.findViewById(R.id.date_item);
-                if (dataTime.getVisibility() == View.VISIBLE && (dataTime.getCurrentTextColor() == getResources().getColor(R.color.color_3) || dataTime.getCurrentTextColor() == getResources().getColor(R.color.bg_festival)|| dataTime.getCurrentTextColor() == getResources().getColor(R.color.white))) {
+                if (dataTime.getVisibility() == View.VISIBLE && (dataTime.getCurrentTextColor() == getResources().getColor(R.color.color_3) || dataTime.getCurrentTextColor() == getResources().getColor(R.color.bg_festival) || dataTime.getCurrentTextColor() == getResources().getColor(R.color.white))) {
                     if (mPopWindow != null) {
                         mPopWindow.dismiss();
                     }
@@ -213,13 +213,13 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     }
                     int currrentDay = days1[position];
                     tvDate.setText(title + currrentDay);
-                    if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getTargetTime())){
-                        tvADate.setText(groupPurchaseCoupon.getTargetTime()+"自动使用");
+                    if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getTargetTime())) {
+                        tvADate.setText(groupPurchaseCoupon.getTargetTime() + "自动使用");
                     }
                     record_gridView.setItemChecked(position, true);
                     dateAdapter.setSeclection(position, month);
                 } else {
-                    if (dataTime.getVisibility() == View.VISIBLE){
+                    if (dataTime.getVisibility() == View.VISIBLE) {
                         toast("不可预约");
                     }
                 }
@@ -440,9 +440,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     dateAdapter.setData(days, year, month, bespeakDays);
                 } else {
                     dateAdapter = new DateAdapter(this, days, year, month, bespeakDays);
+                    dateAdapter.notifyDataSetChanged();
                 }
-                record_gridView.setAdapter(dateAdapter);
-                dateAdapter.notifyDataSetChanged();
                 setTile();
                 break;
             case R.id.record_right:
@@ -458,10 +457,9 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     dateAdapter.setData(days, year, month, bespeakDays);
                 } else {
                     dateAdapter = new DateAdapter(this, days, year, month, bespeakDays);
+                    dateAdapter.notifyDataSetChanged();
                 }
 
-                record_gridView.setAdapter(dateAdapter);
-                dateAdapter.notifyDataSetChanged();
                 setTile();
                 break;
             case R.id.common_back:

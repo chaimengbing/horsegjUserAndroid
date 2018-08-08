@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.utils.CalendarUtils;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DateUtils;
@@ -24,7 +25,6 @@ public class DateAdapter extends BaseAdapter {
     private int bespeakDays;
 
     private int nextCount = -1;
-    Date today = new Date();
     private int clickTemp = -1;
     private int clickMonth = -1;
 
@@ -88,9 +88,8 @@ public class DateAdapter extends BaseAdapter {
 
         Calendar old = Calendar.getInstance();
         old.set(Calendar.YEAR, year);
-        old.set(Calendar.MONTH, month-1);
+        old.set(Calendar.MONTH, month - 1);
         old.set(Calendar.DAY_OF_MONTH, day);
-        //此处好像是去除0
 
         old.set(Calendar.HOUR, 0);
         old.set(Calendar.MINUTE, 0);
@@ -127,9 +126,8 @@ public class DateAdapter extends BaseAdapter {
 
         viewHolder.date_item.setText(days[i] + "");
 
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        int nowadayMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-        int nowadayYear = Calendar.getInstance().get(Calendar.YEAR);
+        int day = CalendarUtils.getCurrentDayOfMonth();
+        int nowadayMonth = CalendarUtils.getMonth();
 
 
         int count = day + bespeakDays;
@@ -139,10 +137,10 @@ public class DateAdapter extends BaseAdapter {
 //            viewHolder.date_item.setEnabled(false);
 //            viewHolder.date_item.setClickable(false);
 
-            String lastDay = DateUtils.getDateLastDay(year,month);
+            String lastDay = DateUtils.getDateLastDay(year, month);
             int visibleCount = 0;
-            if (CheckUtils.isNoEmptyStr(lastDay)){
-                 visibleCount = Integer.parseInt(lastDay.toString().trim()) - day + 1;
+            if (CheckUtils.isNoEmptyStr(lastDay)) {
+                visibleCount = Integer.parseInt(lastDay.toString().trim()) - day + 1;
             }
             nextCount = bespeakDays - visibleCount;
         }
@@ -159,7 +157,7 @@ public class DateAdapter extends BaseAdapter {
             }
         }
         //是否是本年本月显示的今天、明天、后天
-        if (getDate(year, month, days[i]).equals("0")) {
+        if (days[i] == day) {
             viewHolder.date_item.setText("今天");
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
             viewHolder.date_item.getPaint().setFakeBoldText(true);
