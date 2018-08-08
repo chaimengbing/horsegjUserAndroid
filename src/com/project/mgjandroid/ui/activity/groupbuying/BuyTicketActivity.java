@@ -213,8 +213,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     }
                     int currrentDay = days1[position];
                     tvDate.setText(title + currrentDay);
-                    if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getTargetTime())) {
-                        tvADate.setText(groupPurchaseCoupon.getTargetTime() + "自动使用");
+                    if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getCancelAfterVerificationTime())) {
+                        tvADate.setText(groupPurchaseCoupon.getCancelAfterVerificationTime() + "自动使用");
                     }
                     record_gridView.setItemChecked(position, true);
                     dateAdapter.setSeclection(position, month);
