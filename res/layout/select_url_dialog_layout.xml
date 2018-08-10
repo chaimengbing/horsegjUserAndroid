@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="@dimen/x15"
+    android:background="@drawable/call_phone_dialog_bg">
+
+
+    <ListView
+        android:id="@+id/select_url_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/gray_bg"
+        android:dividerHeight="@dimen/x1"
+        android:listSelector="@color/transparent"
+        android:scrollbars="none">
+
+    </ListView>
+
+
+</RelativeLayout>

@@ -6,6 +6,7 @@ import com.project.mgjandroid.BuildConfig;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.utils.DipToPx;
+import com.project.mgjandroid.utils.PreferenceUtils;
 
 import java.io.File;
 
@@ -13,24 +14,27 @@ public class Constants {
     public static final String WE_CHAT_APP_ID = App.getInstance().getString(R.string.wechat_appid);
     //	public static final String WE_CHAT_APP_SECRET = App.getInstance().getString(R.string.wechat_appsecret);
     //	private static boolean isTest = true;
+    public static int TEST_IP_TYPE = 0;
 
-    //            public static final String ONLINE_IP = "123.56.15.86";
+    public static final String TEST_IP_123 = "123.56.15.86";
+    public static final String TEST_IP_101 = "101.200.34.156";
+    public static final String TEST_IP_47 = "47.94.93.98";
+    public static final String TEST_IP_60 = "60.205.120.0";
+    public static final String TEST_IP_120 = "120.24.16.64";
+    //    public static final String TEST_IP = "120.24.16.64";
+    //    public static final String TEST_IP = "192.168.199.217:8080";
     public static final String ONLINE_IP = "60.205.120.0";
-    //            public static final String ONLINE_IP = "101.200.34.156";
-//        public static final String ONLINE_IP = "47.94.93.98";
-    public static final String TEST_IP = "120.24.16.64";
-//    public static final String TEST_IP = "192.168.199.217:8080";
-    //        public static final String TEST_IP = "60.205.120.0";
-//        public static final String TEST_IP = "112.74.18.147";
-    public static final String URL_NEW_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/newUserClient?m="; //120.24.16.64正式123.56.15.86
-    public static final String URL_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/userClient?m="; //120.24.16.64正式123.56.15.86
-    public static final String URL_SECOND_HAND_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/secondhand/userClient?m="; //120.24.16.64正式123.56.15.86
-    public static final String URL_RENT_HOUSE_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/houselease/userClient?m="; //120.24.16.64正式123.56.15.86
-    public static final String URL_EDUCATION_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/education/userClient?m="; //120.24.16.64正式123.56.15.86
-    public static final String URL_HOME_MAKING_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/homemaking/userClient?m="; //120.24.16.64正式123.56.15.86
-    public static final String URL_REPAIR_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/repair/userClient?m="; //120.24.16.64正式123.56.15.86
-    public static final String URL_LOTTERY = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : "118.31.2.132") + "/lottery/user/"; //120.24.16.64正式123.56.15.86
-    public static final String URL_BBS_MAIN = BuildConfig.IS_DEBUG ? "http://" + TEST_IP + "/bbs/userClient?m=" : "http://" + ONLINE_IP + "/bbs/userClient?m=";
+    //    public static final String TEST_IP = "120.24.16.64";
+    //        public static final String TEST_IP = "112.74.18.147";
+    public static final String URL_NEW_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : ONLINE_IP) + "/merchant/newUserClient?m="; //120.24.16.64正式123.56.15.86
+    public static final String URL_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : ONLINE_IP) + "/merchant/userClient?m="; //120.24.16.64正式123.56.15.86
+    public static final String URL_SECOND_HAND_MAIN = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : ONLINE_IP) + "/secondhand/userClient?m="; //120.24.16.64正式123.56.15.86
+    public static final String URL_RENT_HOUSE_MAIN = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : ONLINE_IP) + "/houselease/userClient?m="; //120.24.16.64正式123.56.15.86
+    public static final String URL_EDUCATION_MAIN = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : ONLINE_IP) + "/education/userClient?m="; //120.24.16.64正式123.56.15.86
+    public static final String URL_HOME_MAKING_MAIN = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : ONLINE_IP) + "/homemaking/userClient?m="; //120.24.16.64正式123.56.15.86
+    public static final String URL_REPAIR_MAIN = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : ONLINE_IP) + "/repair/userClient?m="; //120.24.16.64正式123.56.15.86
+    public static final String URL_LOTTERY = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : "118.31.2.132") + "/lottery/user/"; //120.24.16.64正式123.56.15.86
+    public static final String URL_BBS_MAIN = BuildConfig.IS_DEBUG ? "http://" + PreferenceUtils.getSelectUrl(App.getInstance()) + "/bbs/userClient?m=" : "http://" + ONLINE_IP + "/bbs/userClient?m=";
     //    public static final String URL_HOME_MAIN = "http://" + (BuildConfig.IS_DEBUG?TEST_IP:ONLINE_IP) + "/merchant/userClient?m="; //192.168.199.50正式123.56.15.86
     public static final String URL_IMAGE_FRONT = "http://7xpvkm.com1.z0.glb.clouddn.com/";
 
@@ -708,7 +712,7 @@ public class Constants {
      * ----------------------------------------新信息发布--------------------------------------------
      */
 
-    public static final String URL_INFORMATION_MAIN = "http://" + (BuildConfig.IS_DEBUG ? TEST_IP : ONLINE_IP) + "/merchant/informationClient?m="; //120.24.16.64正式123.56.15.86
+    public static final String URL_INFORMATION_MAIN = "http://" + (BuildConfig.IS_DEBUG ? PreferenceUtils.getSelectUrl(App.getInstance()) : ONLINE_IP) + "/merchant/informationClient?m="; //120.24.16.64正式123.56.15.86
     // 查询信息发布基础信息
     public static final String URL_FIND_IN_BASIC_INFORMATION = URL_INFORMATION_MAIN + "findInBasicInformation";
     // 查询信息发布分类信息

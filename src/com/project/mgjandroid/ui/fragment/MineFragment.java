@@ -1,20 +1,27 @@
 package com.project.mgjandroid.ui.fragment;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,6 +36,7 @@ import com.project.mgjandroid.h5container.H5TestActivity;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
+import com.project.mgjandroid.model.GetAlipayInfoModel;
 import com.project.mgjandroid.model.MyGroupModel;
 import com.project.mgjandroid.model.SmsLoginModel.ValueEntity.AppUserEntity;
 import com.project.mgjandroid.model.UserAccountModel;
@@ -45,7 +53,10 @@ import com.project.mgjandroid.ui.activity.SmsLoginActivity;
 import com.project.mgjandroid.ui.activity.UserInfoActivity;
 import com.project.mgjandroid.ui.activity.invitingfriends.InvitingFriendsActivity;
 import com.project.mgjandroid.ui.activity.pintuan.MyGroupPurchaseActivity;
+import com.project.mgjandroid.ui.adapter.HomePlatFormRecyclerAdapter;
+import com.project.mgjandroid.ui.adapter.SelUrlAdapter;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
+import com.project.mgjandroid.ui.view.CommonDialog;
 import com.project.mgjandroid.ui.view.RoundImageView;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
@@ -99,6 +110,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private RelativeLayout contentView;
     private String balance;
     private RelativeLayout rlInvite;
+
+    private CommonDialog selUrlDialog;
 
     public static MineFragment newInstance() {
         if (fragment == null) {
@@ -161,6 +174,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         vPintuan = ViewFindUtils.find(view, R.id.mine_fragment_pintuan_line);
         rlInvite = ViewFindUtils.find(view, R.id.mine_fragment_my_invite);
         TextView tvTestWeb = ViewFindUtils.find(view, R.id.tv_test_web);
+        TextView tvSwitchUrl = ViewFindUtils.find(view, R.id.tv_switch_url);
         //新增投诉
         RelativeLayout telNum = ViewFindUtils.find(view, R.id.mine_fragment_tel_num);
         contentView = (RelativeLayout) View.inflate(mActivity, R.layout.pick_or_take_photo_dialog, null);
@@ -183,6 +197,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         rlFeedBack.setOnClickListener(this);
         rlAgentJoin.setOnClickListener(this);
         rlMerchantJoin.setOnClickListener(this);
+        tvSwitchUrl.setOnClickListener(this);
         rlPublish.setOnClickListener(this);
         rlPintuan.setOnClickListener(this);
         rlInvite.setOnClickListener(this);
@@ -190,11 +205,65 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         if (BuildConfig.IS_DEBUG) {
             tvTestWeb.setVisibility(View.VISIBLE);
+            tvSwitchUrl.setVisibility(View.VISIBLE);
+            initSelUrlsDialog();
         } else {
             tvTestWeb.setVisibility(View.GONE);
+            tvSwitchUrl.setVisibility(View.GONE);
+        }
+
+
+    }
+
+
+    private void initSelUrlsDialog() {
+        View view = mInflater.inflate(R.layout.select_url_dialog_layout, null);
+        ListView listView = (ListView) view.findViewById(R.id.select_url_listview);
+        final SelUrlAdapter selUrlAdapter = new SelUrlAdapter(getActivity(), getResources().getStringArray(R.array.sel_urls));
+
+        listView.setAdapter(selUrlAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                PreferenceUtils.saveStringPreference(PreferenceUtils.SELECT_TEST_URL, (String) selUrlAdapter.getItem(i), getActivity());
+                dismiss();
+                restartApp();
+            }
+        });
+        selUrlDialog = new CommonDialog(mActivity, view, this);
+        selUrlDialog.setCancelable(true);
+    }
+
+    private void restartApp() {
+        Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
+        PendingIntent restartIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent); // 1秒钟后重启应用
+        System.exit(0);
+
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent LaunchIntent = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
+//                LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(LaunchIntent);
+//            }
+//        }, 1000);// 1秒钟后重启应用
+
+    }
+
+    private void showSelUrlsDialog() {
+        if (selUrlDialog != null) {
+            selUrlDialog.show();
         }
     }
 
+    private void dismiss() {
+        if (selUrlDialog != null && selUrlDialog.isShowing()) {
+            selUrlDialog.dismiss();
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -339,6 +408,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_test_web:
                 Intent it = new Intent(mActivity, H5TestActivity.class);
                 startActivity(it);
+                break;
+            case R.id.tv_switch_url:
+                showSelUrlsDialog();
                 break;
             default:
                 break;

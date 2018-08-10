@@ -5,12 +5,14 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.project.mgjandroid.base.App;
+import com.project.mgjandroid.constants.Constants;
 
 public class PreferenceUtils {
 
     public static final String CONFIG_FILE_NAME = "config";// config.xml
 
     public static final String THEME_SETTING = "theme_setting";// 主题设置
+    public static final String SELECT_TEST_URL = "select_test_url";// 选择url
 
     // 系统内存
     public static final String SYSTEM_MAX_MEMORY = "system_max_memory";
@@ -141,6 +143,14 @@ public class PreferenceUtils {
         saveIntPreference(LAST_IN_VESION_CODE, code);
     }
 
+    public static String getSelectUrl(Context context) {
+        return getStringPreference(SELECT_TEST_URL, Constants.TEST_IP_120, context);
+    }
+
+    public static void saveSelectUrl(String url, Context context) {
+        saveStringPreference(SELECT_TEST_URL, url, context);
+    }
+
     public static String getSuperMarketCartData(Context context) {
         return getStringPreference(SUPER_MARKET_CART_DATA, "{}", context);
     }
@@ -204,7 +214,7 @@ public class PreferenceUtils {
 
     // 获取布尔类型，自定义默认值
     public static boolean getBoolPreference(String keyName, boolean defaultValue, Context context) {
-        if (context == null){
+        if (context == null) {
             return false;
         }
         return context.getSharedPreferences(CONFIG_FILE_NAME, Context.MODE_PRIVATE).getBoolean(keyName, defaultValue);

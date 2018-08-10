@@ -452,4 +452,22 @@
     <string name="platform_redbag">平台红包</string>
     <string name="select_redbag">红包</string>
     <string name="expant">点击展开</string>
+
+
+    <!--public static final String ONLINE_IP = "123.56.15.86";-->
+    <!--//    public static final String ONLINE_IP = "60.205.120.0";-->
+    <!--//                public static final String ONLINE_IP = "101.200.34.156";-->
+    <!--//        public static final String ONLINE_IP = "47.94.93.98";-->
+    <!--//    public static final String TEST_IP = "120.24.16.64";-->
+    <!--//    public static final String TEST_IP = "192.168.199.217:8080";-->
+    <!--public static final String TEST_IP = "60.205.120.0";-->
+
+    <array name="sel_urls">
+        <item>120.24.16.64</item>
+        <item>123.56.15.86</item>
+        <item>47.94.93.98</item>
+        <item>101.200.34.156</item>
+        <item>60.205.120.0</item>
+    </array>
+
 </resources>
