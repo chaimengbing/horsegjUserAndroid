@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.github.mzule.activityrouter.router.RouterCallback;
 import com.github.mzule.activityrouter.router.Routers;
@@ -24,6 +25,7 @@ import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.Broadcast;
 import com.project.mgjandroid.bean.H5Banner;
 import com.project.mgjandroid.bean.PrimaryCategory;
+import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.ActivitySchemeManager;
 import com.project.mgjandroid.constants.Constants;
@@ -40,6 +42,7 @@ import com.project.mgjandroid.h5container.models.ErrorModel;
 import com.project.mgjandroid.h5container.models.Native2H5Model;
 import com.project.mgjandroid.h5container.models.NativeH5Model;
 import com.project.mgjandroid.h5container.models.PayModel;
+import com.project.mgjandroid.h5container.models.RedBagModel;
 import com.project.mgjandroid.h5container.models.ScanModel;
 import com.project.mgjandroid.h5container.models.ShareModel;
 import com.project.mgjandroid.h5container.models.ShowRightItemModel;
@@ -55,6 +58,7 @@ import com.project.mgjandroid.ui.activity.HomeActivity;
 import com.project.mgjandroid.ui.activity.OldHomeActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.PrimaryCategoryActivity;
+import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
 import com.project.mgjandroid.ui.activity.SmsLoginActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingCategoryActivity;
 import com.project.mgjandroid.ui.view.NoticeDialog;
@@ -99,6 +103,7 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
     private long agentId = 0L;
     private String tag;//头条进入展示分享按钮
     private ImageView ivShare;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -626,6 +631,24 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
             }
         });
 
+        //获取可选择的红包列表
+        registerHandler("selectRedBagAction", new JsBridgeHandler() {
+            @Override
+            public void handler(String data, JsBridgeCallBack function) {
+                callbacks.put("selectRedBagAction", function);
+                Gson gson = new Gson();
+                RedBagModel model = gson.fromJson(data, RedBagModel.class);
+                Intent intentSelect = new Intent(YLBWebViewActivity.this, SelectRedBagActivity.class);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, model.getItemsPrice());
+                intentSelect.putExtra(SelectRedBagActivity.MERCHANT_ID, model.getMerchantId());
+                intentSelect.putExtra(SelectRedBagActivity.ADDRESS_ID, model.getAddressId());
+                intentSelect.putExtra(SelectRedBagActivity.DISCOUNT_GOODS_DISCOUN_TAMT, model.getDiscountGoodsDiscountAmt());
+                intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, model.getBusinessType());
+                intentSelect.putExtra(SelectRedBagActivity.PLATFORM_REDBAG_ID, model.getPlatformRedbagId());
+                startActivityForResult(intentSelect, YLBSdkConstants.YLBSDK_SELECT_REDBAG);
+            }
+        });
+
         //获取当前位置信息
         registerHandler("getCurrentLocation", new JsBridgeHandler() {
             @Override
@@ -1119,6 +1142,20 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
                 Native2H5Model native2H5Model = new Native2H5Model(1, "扫码失败");
                 if (callbacks.get("scanCode") != null)
                     callbacks.get("scanCode").onCallBack(new Gson().toJson(native2H5Model));
+            }
+        } else if (requestCode == YLBSdkConstants.YLBSDK_SELECT_REDBAG) {
+            if (data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG) != null) {
+                if (callbacks.get("selectRedBagAction") != null) {
+                    RedBag redBag = (RedBag) data.getSerializableExtra("address");
+                    Native2H5Model native2H5Model = new Native2H5Model(0, new Gson().toJson(redBag));
+                    callbacks.get("selectRedBagAction").onCallBack(new Gson().toJson(native2H5Model));
+                } else {
+                    Native2H5Model native2H5Model = new Native2H5Model(1, "红包获取失败");
+                    callbacks.get("selectRedBagAction").onCallBack(new Gson().toJson(native2H5Model));
+                }
+            } else {
+                Native2H5Model native2H5Model = new Native2H5Model(1, "红包获取失败");
+                callbacks.get("selectRedBagAction").onCallBack(new Gson().toJson(native2H5Model));
             }
         }
         if (shareUtil != null) {

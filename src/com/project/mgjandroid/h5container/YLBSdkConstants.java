@@ -1,10 +1,7 @@
 package com.project.mgjandroid.h5container;
 
 
-public class
-
-YLBSdkConstants {
-
+public class YLBSdkConstants {
 
     public static final int YLBSDK_PAY_REQUEST_CODE = 666;
 
@@ -13,6 +10,8 @@ YLBSdkConstants {
     public static final int YLBSDK_SELECT_ADDRESS = 888;
 
     public static final int YLBSDK_SCAN_CODE = 999;
+
+    public static final int YLBSDK_SELECT_REDBAG = 1111;
 
     public static final String EXTRA_H5_URL = "extra_h5_url";
 

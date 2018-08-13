@@ -38,6 +38,7 @@ public class SelectRedBagActivity extends BaseActivity {
     public final static String BUSINESS_TYPE = "businessType";
     public final static String QUANTITY = "quantity";
     public final static String ADDRESS = "address";
+    public final static String ADDRESS_ID = "address_id";
     public final static String ITEMS_PRICE = "itemsPrice";
     public final static String PROMOINFO_JSON = "promoInfoJson";
     public final static String RED_MONEY_BAG = "red_money_bag";
@@ -86,6 +87,7 @@ public class SelectRedBagActivity extends BaseActivity {
     private int quantity = -1;
     private long merchantId;
     private long isAgentId;
+    private long userAddressId;
 
 
     @Override
@@ -102,6 +104,7 @@ public class SelectRedBagActivity extends BaseActivity {
         merchantId = getIntent().getLongExtra(MERCHANT_ID, -1l);
         discountGoodsDiscountAmt = getIntent().getDoubleExtra(DISCOUNT_GOODS_DISCOUN_TAMT, 0.0);
         isAgentId = getIntent().getLongExtra("isAgentId", -1l);
+        userAddressId = getIntent().getLongExtra(ADDRESS_ID, -1l);
 
         if (platformRedbagId == -1) {
             notUse.setChecked(true);
@@ -127,6 +130,9 @@ public class SelectRedBagActivity extends BaseActivity {
         map.put("businessType", businessType);
         if (merchantId != -1) {
             map.put("merchantId", merchantId);
+        }
+        if (userAddressId != -1) {
+            map.put("userAddressId", userAddressId);
         }
         if (userAddress != null) {
             map.put("userAddressId", userAddress.getId());

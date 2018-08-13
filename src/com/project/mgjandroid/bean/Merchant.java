@@ -38,7 +38,9 @@ public class Merchant extends Entity {
      * 商家联系方式
      */
     private String contacts;
-    /** 商家联系方式 */
+    /**
+     * 商家联系方式
+     */
     private String contactsArray;
     /**
      * 开户行
@@ -198,6 +200,10 @@ public class Merchant extends Entity {
      * 商家红包
      **/
     private List<MerchantRedBag> merchantRedBagList;
+    /**
+     * 可视餐厅列表数据
+     */
+    private List<VisibleLive> visibleLiveList;
     /**
      * 活动共享关系
      **/
@@ -699,5 +705,13 @@ public class Merchant extends Entity {
 
     public void setIsBrandMerchant(Integer isBrandMerchant) {
         this.isBrandMerchant = isBrandMerchant;
+    }
+
+    public List<VisibleLive> getVisibleLiveList() {
+        return visibleLiveList;
+    }
+
+    public void setVisibleLiveList(List<VisibleLive> visibleLiveList) {
+        this.visibleLiveList = visibleLiveList;
     }
 }
