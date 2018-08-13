@@ -507,7 +507,7 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
         map.put("longitude", longitude);
         if (merchantId != -1)
             map.put("merchantId", merchantId);
-        if (agentId != -1)
+        if (agentId > 0)
             map.put("agentId", agentId);
         VolleyOperater<EditAddressModel> operater = new VolleyOperater<>(this);
         operater.doRequest(Constants.URL_EDIT_ADDRESS, map, new VolleyOperater.ResponseListener() {
