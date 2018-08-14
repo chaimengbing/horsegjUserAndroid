@@ -249,7 +249,7 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.add_address_act_tv_save:
                 MLog.d("merchantId = " + merchantId + ",agentId = " + agentId);
-                if (merchantId != -1 || agentId != -1) {
+                if (merchantId > 0 || agentId > 0) {
                     CheckUpdate();
                     break;
                 }
