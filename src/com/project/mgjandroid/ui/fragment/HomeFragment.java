@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
@@ -25,6 +28,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -84,6 +89,8 @@ import com.project.mgjandroid.ui.activity.PrimaryCategoryActivity;
 import com.project.mgjandroid.ui.activity.SearchActivity;
 import com.project.mgjandroid.ui.activity.SmsLoginActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingCategoryActivity;
+import com.project.mgjandroid.ui.adapter.HomeFragmentDiscountAdapter;
+import com.project.mgjandroid.ui.adapter.HomeFragmentFiltrateAdapter;
 import com.project.mgjandroid.ui.adapter.HomeRestaurantAdapter;
 import com.project.mgjandroid.ui.adapter.HomeSortAdapter;
 import com.project.mgjandroid.ui.adapter.LeftMenuPopChildAdapter;
@@ -110,6 +117,7 @@ import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.MLog;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.SpaceItemDecoration;
 import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.ta.utdid2.android.utils.NetworkUtils;
@@ -1665,9 +1673,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 tvLVMenu3.setCompoundDrawables(null, null, rightDrawableOrange, null);
             case R.id.button_layout_3:
                 checkListCount();
-                if (filterValue != null) {
-                    setFilterState();
-                }
+//                if (filterValue != null) {
+//                    setFilterState();
+//                }
                 tvMenu3.setTextColor(getResources().getColor(R.color.title_bar_bg));
                 tvMenu3.setCompoundDrawables(null, null, rightDrawableOrange, null);
                 if (rightMenuWindow != null) {
@@ -1720,7 +1728,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 if (menuBar.getVisibility() == View.VISIBLE) {
                     menuBar.setVisibility(View.INVISIBLE);
                 }
-                clearFilter();
+                clearNewFilter();
                 currentResultPage = 0;
                 getDate(true, false);
                 break;
@@ -1798,6 +1806,20 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 promotion.setIsConfirm(false);
             }
         }
+    }
+
+    private void clearNewFilter(){
+        List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
+        for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
+            merchantFeatureProperty.setCheck(false);
+            merchantFeatureProperty.setConfirm(false);
+        }
+        List<PromotionListEntity> promotionList = filterValue.getPromotionList();
+        for (PromotionListEntity promotion : promotionList) {
+            promotion.setIsCheck(false);
+            promotion.setIsConfirm(false);
+        }
+
     }
 
     private void clearFilter() {
@@ -3070,6 +3092,58 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         });
     }
 
+    private void showFiltratePop(final List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList, final List<PromotionListEntity> promotionList){
+        LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.home_fragment_menu_filtrate, null);
+        GridView gridView = (GridView) linearLayout.findViewById(R.id.grid_view);
+        GridView gridView1 = (GridView) linearLayout.findViewById(R.id.grid_view1);
+        View coverView = linearLayout.findViewById(R.id.home_fragment_menu_right_cover_view);
+        TextView confirm = (TextView) linearLayout.findViewById(R.id.home_fragment_menu_right_confirm);
+        TextView clear = (TextView) linearLayout.findViewById(R.id.home_fragment_menu_right_clear);
+        final HomeFragmentFiltrateAdapter filtrateAdapter = new HomeFragmentFiltrateAdapter(mActivity,merchantFeaturePropertyList);
+        final HomeFragmentDiscountAdapter discountAdapter = new HomeFragmentDiscountAdapter(mActivity, promotionList);
+        gridView.setAdapter(filtrateAdapter);
+        gridView1.setAdapter(discountAdapter);
+        coverView.setOnClickListener(this);
+        confirm.setOnClickListener(this);
+        clear.setOnClickListener(this);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(merchantFeaturePropertyList.get(i).isCheck()){
+                    merchantFeaturePropertyList.get(i).setCheck(false);
+                }else {
+                    merchantFeaturePropertyList.get(i).setCheck(true);
+                }
+                filtrateAdapter.notifyDataSetChanged();
+            }
+        });
+        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(promotionList.get(i).isCheck()){
+                    promotionList.get(i).setIsCheck(false);
+                }else {
+                    promotionList.get(i).setIsCheck(true);
+                }
+                discountAdapter.notifyDataSetChanged();
+            }
+        });
+        rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        rightMenuWindow.setOutsideTouchable(true);
+//        rightMenuWindow.showAsDropDown(menuBar, 0, 0);
+
+        rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                tvMenu3.setTextColor(getResources().getColor(R.color.color_3));
+                tvMenu3.setCompoundDrawables(null, null, rightDrawableGray, null);
+                tvLVMenu3.setTextColor(getResources().getColor(R.color.color_3));
+                tvLVMenu3.setCompoundDrawables(null, null, rightDrawableGray, null);
+                resetListView();
+            }
+        });
+    }
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         for (int i = 0; i < group.getChildCount(); i++) {
@@ -3136,7 +3210,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     filterValue = merchantFilterModel.getValue();
                     if (filterValue != null) {
 //                        menuBar.setVisibility(View.VISIBLE);
-                        showRightMenuPop(filterValue.getShipmentList(), filterValue.getMerchantPropertyList(), filterValue.getPromotionList());
+//                        showRightMenuPop(filterValue.getShipmentList(), filterValue.getMerchantPropertyList(), filterValue.getPromotionList());
+                        showFiltratePop(filterValue.getMerchantFeaturePropertyList(),filterValue.getPromotionList());
                     }
                 }
             }

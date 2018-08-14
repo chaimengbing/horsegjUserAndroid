@@ -77,6 +77,7 @@ public class MerchantFilterModel extends Entity {
          */
 
         private List<PromotionListEntity> promotionList;
+        private List<MerchantFeaturePropertyListEntity> merchantFeaturePropertyList;
 
         public List<ShipmentListEntity> getShipmentList() {
             return shipmentList;
@@ -100,6 +101,61 @@ public class MerchantFilterModel extends Entity {
 
         public void setPromotionList(List<PromotionListEntity> promotionList) {
             this.promotionList = promotionList;
+        }
+
+        public List<MerchantFeaturePropertyListEntity> getMerchantFeaturePropertyList() {
+            return merchantFeaturePropertyList;
+        }
+
+        public void setMerchantFeaturePropertyList(List<MerchantFeaturePropertyListEntity> merchantFeaturePropertyList) {
+            this.merchantFeaturePropertyList = merchantFeaturePropertyList;
+        }
+        public static class MerchantFeaturePropertyListEntity{
+            private int id;
+            private String name;
+            private String icon;
+            private boolean isCheck;
+            private boolean isConfirm;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getIcon() {
+                return icon;
+            }
+
+            public void setIcon(String icon) {
+                this.icon = icon;
+            }
+
+            public boolean isCheck() {
+                return isCheck;
+            }
+
+            public void setCheck(boolean check) {
+                isCheck = check;
+            }
+
+            public boolean isConfirm() {
+                return isConfirm;
+            }
+
+            public void setConfirm(boolean confirm) {
+                isConfirm = confirm;
+            }
         }
 
         public static class ShipmentListEntity {

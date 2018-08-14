@@ -188,6 +188,8 @@ public class PublishResumeActivity extends ImageUploadActivity {
             changeGetCodeLabel(null);
         }
 
+
+
         ChoosePhotoModel.getInstance().setMaxCount(12);
         ChoosePhotoModel.getInstance().setCurrentActivity(this.getClass());
 
