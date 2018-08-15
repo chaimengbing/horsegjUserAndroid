@@ -18,6 +18,7 @@ import com.pili.pldroid.player.PLOnImageCapturedListener;
 import com.pili.pldroid.player.PLOnInfoListener;
 import com.pili.pldroid.player.PLOnVideoFrameListener;
 import com.pili.pldroid.player.PLOnVideoSizeChangedListener;
+import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.pili.pldroid.player.widget.PLVideoView;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.utils.inject.InjectView;
@@ -34,7 +35,7 @@ public class PLLivePlayerActivity extends BaseActivity {
 
 
     @InjectView(R.id.video_view)
-    private PLVideoView mVideoView;
+    private PLVideoTextureView mVideoView;
     @InjectView(R.id.StatInfoTextView)
     private TextView mStatInfoTextView;
     @InjectView(R.id.loading_view)
@@ -169,7 +170,7 @@ public class PLLivePlayerActivity extends BaseActivity {
                 case PLOnInfoListener.MEDIA_INFO_BUFFERING_END:
                     break;
                 case PLOnInfoListener.MEDIA_INFO_VIDEO_RENDERING_START:
-                    mVideoView.captureImage(extra);
+//                    mVideoView.captureImage(extra);
 //                    Utils.showToastTips(PLVideoViewActivity.this, "first video render time: " + extra + "ms");
                     break;
                 case PLOnInfoListener.MEDIA_INFO_AUDIO_RENDERING_START:

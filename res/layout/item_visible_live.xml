@@ -6,12 +6,12 @@
     android:background="@color/white">
 
 
-    <com.pili.pldroid.player.widget.PLVideoView
+    <com.pili.pldroid.player.widget.PLVideoTextureView
         android:id="@+id/live_video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.pili.pldroid.player.widget.PLVideoView>
+    </com.pili.pldroid.player.widget.PLVideoTextureView>
 
     <ImageView
         android:id="@+id/cover_imageview"
@@ -19,7 +19,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-        android:src="@drawable/surface_view_bg" />
+        android:background="@drawable/surface_view_bg"
+        android:src="@drawable/horsegj_default" />
 
 
     <RelativeLayout
