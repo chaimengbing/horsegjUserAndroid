@@ -3,6 +3,7 @@ package com.project.mgjandroid.bean;
 import com.project.mgjandroid.model.Entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -203,7 +204,7 @@ public class Merchant extends Entity {
     /**
      * 可视餐厅列表数据
      */
-    private List<VisibleLive> visibleLiveList;
+    private List<VisibleLive> visualRestaurantList;
     /**
      * 活动共享关系
      **/
@@ -220,6 +221,10 @@ public class Merchant extends Entity {
      * 卫生许可证
      **/
     private String hygieneLicenseImg;
+    /**
+     * 是否可视餐厅 1 是  0 否
+     */
+    private int hasVisualRestaurant;
 
     public Long getId() {
         return id;
@@ -707,11 +712,20 @@ public class Merchant extends Entity {
         this.isBrandMerchant = isBrandMerchant;
     }
 
-    public List<VisibleLive> getVisibleLiveList() {
-        return visibleLiveList;
+
+    public int getHasVisualRestaurant() {
+        return hasVisualRestaurant;
     }
 
-    public void setVisibleLiveList(List<VisibleLive> visibleLiveList) {
-        this.visibleLiveList = visibleLiveList;
+    public void setHasVisualRestaurant(int hasVisualRestaurant) {
+        this.hasVisualRestaurant = hasVisualRestaurant;
+    }
+
+    public List<VisibleLive> getVisualRestaurantList() {
+        return visualRestaurantList;
+    }
+
+    public void setVisualRestaurantList(List<VisibleLive> visualRestaurantList) {
+        this.visualRestaurantList = visualRestaurantList;
     }
 }

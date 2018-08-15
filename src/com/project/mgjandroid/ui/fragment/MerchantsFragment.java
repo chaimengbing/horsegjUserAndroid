@@ -3,6 +3,8 @@ package com.project.mgjandroid.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +19,15 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.base.BaseRecyclerAdapter;
 import com.project.mgjandroid.bean.Merchant;
 import com.project.mgjandroid.bean.PromotionActivity;
+import com.project.mgjandroid.bean.VisibleLive;
 import com.project.mgjandroid.constants.ShipmentMode;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.LocationMapActivity;
+import com.project.mgjandroid.ui.activity.PLLivePlayerActivity;
+import com.project.mgjandroid.ui.adapter.VisibleLiveAdapter;
 import com.project.mgjandroid.ui.pictureviewer.PictureViewActivity;
 import com.project.mgjandroid.ui.view.HeaderViewPagerFragment;
 import com.project.mgjandroid.utils.CheckUtils;
@@ -49,6 +55,11 @@ public class MerchantsFragment extends HeaderViewPagerFragment implements View.O
     private ImageView imgRight;
     private LinearLayout qualificationLayout;
     private List<String> urls = new ArrayList<>();
+
+    //可视餐厅
+    private LinearLayout visibleLayout;
+    private RecyclerView visibleRecylerView;
+    private VisibleLiveAdapter visibleLiveAdapter;
 
     @Override
     public void onAttach(Activity activity) {
@@ -88,9 +99,42 @@ public class MerchantsFragment extends HeaderViewPagerFragment implements View.O
         imgLeft = (ImageView) view.findViewById(R.id.img_left);
         imgRight = (ImageView) view.findViewById(R.id.img_right);
         qualificationLayout = (LinearLayout) view.findViewById(R.id.layout_qualification);
+        visibleLayout = (LinearLayout) view.findViewById(R.id.visible_layout);
+        visibleRecylerView = (RecyclerView) view.findViewById(R.id.visible_recyleview);
         relativeLocation.setOnClickListener(this);
         imgRight.setOnClickListener(this);
         imgLeft.setOnClickListener(this);
+        initVisibleLive();
+    }
+
+    private void initVisibleLive() {
+//        List<VisibleLive> visibleLives = new ArrayList<>();
+//
+//        for (int i = 0; i < 10; i++) {
+//            VisibleLive visibleLive = new VisibleLive();
+//            visibleLive.setPositionName("视频" + i);
+//            if (i % 2 == 0) {
+//                visibleLive.setVideoUrl("http://vshare.ys7.com/hcnp/C26624865_1_2_4_0_cas.ys7.com_6500.m3u8?C26624865_8b5116640273474abc92880df8f27a02_1_fa2d6d0ce4104f6c");
+//            } else {
+//                visibleLive.setVideoUrl("http://ivi.bupt.edu.cn/hls/cctv5hd.m3u8");
+//            }
+//            visibleLives.add(visibleLive);
+//        }
+
+
+        visibleRecylerView.setLayoutManager(new LinearLayoutManager(visibleRecylerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        visibleLiveAdapter = new VisibleLiveAdapter(getActivity(), R.layout.item_visible_live);
+
+        visibleRecylerView.setAdapter(visibleLiveAdapter);
+//        visibleLiveAdapter.setData(visibleLives);
+        visibleLiveAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), PLLivePlayerActivity.class);
+                intent.putExtra(PLLivePlayerActivity.VIDEO_PATH, visibleLiveAdapter.getData().get(position).getVideoSrc());
+                startActivity(intent);
+            }
+        });
     }
 
     public void getData(Merchant merchant) {
@@ -157,6 +201,14 @@ public class MerchantsFragment extends HeaderViewPagerFragment implements View.O
 
             } else {
                 activesLayout.setVisibility(View.GONE);
+            }
+            if (merchant.getHasVisualRestaurant() == 1) {
+                visibleLayout.setVisibility(View.VISIBLE);
+                if (CheckUtils.isNoEmptyList(merchant.getVisualRestaurantList()) && visibleLiveAdapter != null) {
+                    visibleLiveAdapter.setData(merchant.getVisualRestaurantList());
+                }
+            } else {
+                visibleLayout.setVisibility(View.GONE);
             }
         }
     }

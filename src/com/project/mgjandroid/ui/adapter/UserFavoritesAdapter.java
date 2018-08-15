@@ -112,6 +112,7 @@ public class UserFavoritesAdapter extends BaseAdapter {
             holder.layoutActiveHide = (LinearLayout) convertView.findViewById(R.id.restaurant_list_item_layout_active_hide);
             holder.tvActiveCount = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_active_count);
             holder.imgActive = (ImageView) convertView.findViewById(R.id.restaurant_list_item_iv_active);
+            holder.visibleLiveImageView = (ImageView) convertView.findViewById(R.id.visible_live_imageview);
             holder.tvTimeDistance = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_time_distance);
             holder.tvShipFeeNew = (TextView) convertView.findViewById(R.id.restaurant_list_item_ship_fee);
             holder.verticalLine = convertView.findViewById(R.id.restaurant_list_item_line);
@@ -125,6 +126,12 @@ public class UserFavoritesAdapter extends BaseAdapter {
             } else if (list.get(position).getMerchantType() == 0) {
                 showItem(convertView, list.get(position).getMerchant(), holder, position, list.get(position).getHasDel());
             }
+        }
+
+        if (list.get(position).getMerchant().getHasVisualRestaurant() == 1){
+            holder.visibleLiveImageView.setVisibility(View.VISIBLE);
+        }else {
+            holder.visibleLiveImageView.setVisibility(View.INVISIBLE);
         }
 
         if (showEditStatus) {
@@ -155,7 +162,7 @@ public class UserFavoritesAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView img, imgActive, imgStatus, imgEditStatus;
+        ImageView img, imgActive, imgStatus, imgEditStatus,visibleLiveImageView;
         TextView tvName, tvSendPrice, tvScore, tvInSales, tvShippingFee, tvMianShippingFee, tvTips, tvActiveCount, tvTimeDistance, tvPickGoodsCount, tvShipFeeNew;
         RatingBar scoreBar;
         LinearLayout layoutImgs, layoutActive, layoutActiveHide;
@@ -202,8 +209,8 @@ public class UserFavoritesAdapter extends BaseAdapter {
             holder.tvTips.setVisibility(View.GONE);
             holder.tvTimeDistance.setVisibility(View.VISIBLE);
 
-            holder.layoutImgs.removeAllViews();
-            holder.layoutImgs.setVisibility(View.VISIBLE);
+//            holder.layoutImgs.removeAllViews();
+//            holder.layoutImgs.setVisibility(View.VISIBLE);
             TextView textView = new TextView(context);
             textView.setTextColor(ContextCompat.getColor(context, R.color.color_6));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
@@ -216,7 +223,7 @@ public class UserFavoritesAdapter extends BaseAdapter {
                 }
             }
             LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            holder.layoutImgs.addView(textView, layoutParams);
+//            holder.layoutImgs.addView(textView, layoutParams);
 
             holder.promotionLine.setVisibility(View.GONE);
             holder.tvActiveCount.setVisibility(View.GONE);
@@ -280,23 +287,23 @@ public class UserFavoritesAdapter extends BaseAdapter {
             holder.tvTips.setVisibility(View.GONE);
             holder.tvTimeDistance.setVisibility(View.VISIBLE);
 
-            if (CheckUtils.isNoEmptyStr(merchant.getPayments())) {
-                String[] payments = merchant.getPayments().split(",");
-                holder.layoutImgs.removeAllViews();
-                holder.layoutImgs.setVisibility(View.VISIBLE);
-                for (int i = 0; i < payments.length; i++) {
-                    if (Integer.parseInt(payments[i]) == 1) {
-                        ImageView icon = new ImageView(context);
-                        int resId = chooseIcon(3);
-                        icon.setBackgroundResource(resId);
-                        LayoutParams params = new LayoutParams(DipToPx.dip2px(context, 11f), DipToPx.dip2px(context, 11f));
-                        params.leftMargin = DipToPx.dip2px(context, 2);
-                        holder.layoutImgs.addView(icon, params);
-                    }
-                }
-            } else {
-                holder.layoutImgs.setVisibility(View.GONE);
-            }
+//            if (CheckUtils.isNoEmptyStr(merchant.getPayments())) {
+//                String[] payments = merchant.getPayments().split(",");
+//                holder.layoutImgs.removeAllViews();
+//                holder.layoutImgs.setVisibility(View.VISIBLE);
+//                for (int i = 0; i < payments.length; i++) {
+//                    if (Integer.parseInt(payments[i]) == 1) {
+//                        ImageView icon = new ImageView(context);
+//                        int resId = chooseIcon(3);
+//                        icon.setBackgroundResource(resId);
+//                        LayoutParams params = new LayoutParams(DipToPx.dip2px(context, 11f), DipToPx.dip2px(context, 11f));
+//                        params.leftMargin = DipToPx.dip2px(context, 2);
+//                        holder.layoutImgs.addView(icon, params);
+//                    }
+//                }
+//            } else {
+//                holder.layoutImgs.setVisibility(View.GONE);
+//            }
 
             holder.promotionLine.setVisibility(View.GONE);
             holder.tvActiveCount.setVisibility(View.GONE);

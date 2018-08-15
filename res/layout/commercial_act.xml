@@ -184,15 +184,21 @@
                     android:textColor="@color/color_6"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/commercial_act_tab_merchants"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/merchants1"
-                    android:textColor="@color/color_6"
-                    android:textSize="15sp" />
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/commercial_act_tab_merchants"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/merchants1"
+                        android:textColor="@color/color_6"
+                        android:textSize="15sp" />
+                </RelativeLayout>
             </LinearLayout>
 
             <View
@@ -426,7 +432,7 @@
         android:text="满1元减50;满2元减200"
         android:textColor="@color/color_6"
         android:textSize="12sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/ll_layout_full_subtract"
@@ -437,8 +443,8 @@
         android:background="#fdf9db"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
+
         <TextView
             android:id="@+id/tv_has_been_reduced"
             android:layout_width="wrap_content"
@@ -503,8 +509,9 @@
             android:text="【去凑单】"
             android:textColor="#d17034"
             android:textSize="12sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
+
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
@@ -522,7 +529,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/x15"
         android:paddingBottom="@dimen/x10">
-        
+
 
         <ImageView
             android:id="@+id/commercial_act_cart"

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -399,6 +400,15 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         } else {
             tvBroadcast.setText("商家暂无公告");
         }
+
+        if (merchant.getHasVisualRestaurant() == 1) {
+            Drawable drawable = getResources().getDrawable(R.drawable.visible_live_icon);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvMerchants.setCompoundDrawables(null, null, drawable, null);
+            tvMerchants.setCompoundDrawablePadding((int) getResources().getDimension(R.dimen.x5));
+        } else {
+            tvMerchants.setCompoundDrawables(null, null, null, null);
+        }
     }
 
     /**
@@ -461,8 +471,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 tvPromotion.setOnClickListener(CommercialActivity.this);
                             }
                         }
-                    }else {
-                        if (obj instanceof String){
+                    } else {
+                        if (obj instanceof String) {
                             toast(obj.toString());
                         }
                         finish();
@@ -599,11 +609,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     if (min.getFull() != null && min.getSub() != null) {
                         tvHas.setVisibility(View.VISIBLE);
                         tvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
-                        if (couDanPopupWindow != null ) {
+                        if (couDanPopupWindow != null) {
                             pTvHas.setVisibility(View.VISIBLE);
                             pTvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
                         }
-                        if(mPopWindow != null){
+                        if (mPopWindow != null) {
                             bTvHas.setVisibility(View.VISIBLE);
                             bTvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
                         }
@@ -615,7 +625,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
                         tvAddOnItems.setVisibility(View.GONE);
                         llFullSubtract.setClickable(false);
-                        if (couDanPopupWindow != null ) {
+                        if (couDanPopupWindow != null) {
                             pTvHas.setVisibility(View.GONE);
                             pTvText1.setText("已满");
                             pTvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
@@ -623,7 +633,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                             tvAddOnItems.setVisibility(View.GONE);
                             llFullSubtract.setClickable(false);
                         }
-                        if(mPopWindow != null){
+                        if (mPopWindow != null) {
                             pLayoutFullSub.setClickable(false);
                             bTvHas.setVisibility(View.GONE);
                             bTvText1.setText("已满");
@@ -639,22 +649,22 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     subtract = full.subtract(num);
                     if (max.getFull() == null && max.getSub() == null) {
                         tvHas.setVisibility(View.GONE);
-                        if (couDanPopupWindow != null ) {
+                        if (couDanPopupWindow != null) {
                             pTvHas.setVisibility(View.GONE);
                         }
-                        if(mPopWindow != null){
+                        if (mPopWindow != null) {
                             bTvHas.setVisibility(View.GONE);
                         }
                     }
                     tvText1.setText("再买");
                     tvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                     tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
-                    if (couDanPopupWindow != null ) {
+                    if (couDanPopupWindow != null) {
                         pTvText1.setText("再买");
                         pTvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                         pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
                     }
-                    if(mPopWindow != null){
+                    if (mPopWindow != null) {
                         bTvText1.setText("再买");
                         bTvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                         bTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
@@ -663,14 +673,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     if (num.compareTo(multiply) >= 0) {
                         tvAddOnItems.setVisibility(View.VISIBLE);
                         llFullSubtract.setClickable(true);
-                        if(mPopWindow != null){
+                        if (mPopWindow != null) {
                             bTvAdd.setVisibility(View.VISIBLE);
                             pLayoutFullSub.setClickable(true);
                         }
                     } else {
                         tvAddOnItems.setVisibility(View.GONE);
                         llFullSubtract.setClickable(false);
-                        if(mPopWindow != null){
+                        if (mPopWindow != null) {
                             bTvAdd.setVisibility(View.GONE);
                             pLayoutFullSub.setClickable(false);
                         }
@@ -759,11 +769,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (min.getFull() != null && min.getSub() != null) {
                             tvHas.setVisibility(View.VISIBLE);
                             tvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
-                            if (couDanPopupWindow != null ) {
+                            if (couDanPopupWindow != null) {
                                 pTvHas.setVisibility(View.VISIBLE);
                                 pTvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
                             }
-                            if(mPopWindow != null){
+                            if (mPopWindow != null) {
                                 bTvHas.setVisibility(View.VISIBLE);
                                 bTvHas.setText("下单减" + StringUtils.BigDecimal2Str(sub) + "元，");
                             }
@@ -775,7 +785,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                             tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
                             tvAddOnItems.setVisibility(View.GONE);
                             llFullSubtract.setClickable(false);
-                            if (couDanPopupWindow != null ) {
+                            if (couDanPopupWindow != null) {
                                 pTvHas.setVisibility(View.GONE);
                                 pTvText1.setText("已满");
                                 pTvPriceSpread.setText(StringUtils.BigDecimal2Str(full) + "元");
@@ -783,7 +793,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 tvAddOnItems.setVisibility(View.GONE);
                                 llFullSubtract.setClickable(false);
                             }
-                            if(mPopWindow != null){
+                            if (mPopWindow != null) {
                                 pLayoutFullSub.setClickable(false);
                                 bTvHas.setVisibility(View.GONE);
                                 bTvText1.setText("已满");
@@ -799,22 +809,22 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         subtract = full.subtract(num);
                         if (max.getFull() == null && max.getSub() == null) {
                             tvHas.setVisibility(View.GONE);
-                            if (couDanPopupWindow != null ) {
+                            if (couDanPopupWindow != null) {
                                 pTvHas.setVisibility(View.GONE);
                             }
-                            if(mPopWindow != null){
+                            if (mPopWindow != null) {
                                 bTvHas.setVisibility(View.GONE);
                             }
                         }
                         tvText1.setText("再买");
                         tvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                         tvDimPrice.setText(StringUtils.BigDecimal2Str(sub) + "元");
-                        if (couDanPopupWindow != null ) {
+                        if (couDanPopupWindow != null) {
                             pTvText1.setText("再买");
                             pTvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                             pTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
                         }
-                        if(mPopWindow != null){
+                        if (mPopWindow != null) {
                             bTvText1.setText("再买");
                             bTvPriceSpread.setText(StringUtils.BigDecimal2Str(subtract) + "元");
                             bTvdimin.setText(StringUtils.BigDecimal2Str(sub) + "元");
@@ -823,14 +833,14 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (num.compareTo(multiply) >= 0) {
                             tvAddOnItems.setVisibility(View.VISIBLE);
                             llFullSubtract.setClickable(true);
-                            if(mPopWindow != null){
+                            if (mPopWindow != null) {
                                 bTvAdd.setVisibility(View.VISIBLE);
                                 pLayoutFullSub.setClickable(true);
                             }
                         } else {
                             tvAddOnItems.setVisibility(View.GONE);
                             llFullSubtract.setClickable(false);
-                            if(mPopWindow != null){
+                            if (mPopWindow != null) {
                                 bTvAdd.setVisibility(View.GONE);
                                 pLayoutFullSub.setClickable(false);
                             }
@@ -864,8 +874,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 }
             }
         }
-        if (goodsFragment != null){
-            goodsFragment.calculateBottom(llFullSubtract,tvFullSubtract);
+        if (goodsFragment != null) {
+            goodsFragment.calculateBottom(llFullSubtract, tvFullSubtract);
         }
     }
 
@@ -892,7 +902,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     }
                 }
                 if (!hasDis1 && isFullSub) {
-                    MyToast.displayMsg("满减活动与折扣商品不同享",mActivity);
+                    MyToast.displayMsg("满减活动与折扣商品不同享", mActivity);
                 }
             }
         }
@@ -1370,8 +1380,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 llFullSubtract.setVisibility(View.GONE);
                 overlay.setVisibility(View.GONE);
                 visible = true;
-                if (goodsFragment != null){
-                    goodsFragment.calculateBottom(llFullSubtract,tvFullSubtract);
+                if (goodsFragment != null) {
+                    goodsFragment.calculateBottom(llFullSubtract, tvFullSubtract);
                 }
                 getCouDanData();
                 break;
@@ -1612,8 +1622,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                             } else {
                                 scrollableLayout.setIsScroller(true);
                             }
-                            if (goodsFragment != null){
-                                goodsFragment.calculateBottom(llFullSubtract,tvFullSubtract);
+                            if (goodsFragment != null) {
+                                goodsFragment.calculateBottom(llFullSubtract, tvFullSubtract);
                             }
                         }
                     }
@@ -1667,7 +1677,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         //刷新PopWindow
         mAdapter.setData(mCartProducts);
         if (mCartProducts.size() >= 4) {
-            mListView.setPadding(0, 0, 0, (int)getResources().getDimension(R.dimen.x60));
+            mListView.setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.x60));
         } else {
             mListView.setPadding(0, 0, 0, 0);
         }
@@ -1723,7 +1733,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         //刷新PopWindow
         mAdapter.setData(mCartProducts);
         if (mCartProducts.size() >= 4) {
-            mListView.setPadding(0, 0, 0, (int)getResources().getDimension(R.dimen.x60));
+            mListView.setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.x60));
         } else {
             mListView.setPadding(0, 0, 0, 0);
         }
@@ -1791,16 +1801,16 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                                 }
                             } else {
                                 if (pro.getPickCount() >= everyGoodsEveryOrderBuyCount) {
-                                    if(everyGoodsEveryOrderBuyCount>0){
+                                    if (everyGoodsEveryOrderBuyCount > 0) {
                                         multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getEveryGoodsEveryOrderBuyCount()));
                                         decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - everyGoodsEveryOrderBuyCount));
                                         num = num.add(multiply.add(decimal));
-                                    }else {
-                                        if(pro.getPickCount()>=surplusDiscountStock){
+                                    } else {
+                                        if (pro.getPickCount() >= surplusDiscountStock) {
                                             multiply = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
                                             decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
                                             num = num.add(multiply.add(decimal));
-                                        }else {
+                                        } else {
                                             multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getPickCount()));
                                             num = num.add(multiply);
                                         }

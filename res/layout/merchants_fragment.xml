@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
@@ -224,6 +225,44 @@
                     </LinearLayout>
 
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/visible_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x10"
+                android:visibility="gone"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:background="@color/white"
+                    android:paddingBottom="@dimen/x10"
+                    android:paddingLeft="@dimen/x24"
+                    android:paddingRight="0dp"
+                    android:paddingTop="@dimen/x10"
+                    android:text="可视餐厅"
+                    android:textColor="@color/color_6"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/visible_recyleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="@dimen/x10"
+                    android:paddingLeft="@dimen/x24"
+                    android:paddingRight="0dp"
+                    android:paddingTop="@dimen/x5">
+
+                </android.support.v7.widget.RecyclerView>
+
+
             </LinearLayout>
 
             <LinearLayout

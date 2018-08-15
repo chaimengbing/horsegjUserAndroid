@@ -164,8 +164,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.CommercialActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".ui.activity.PLLivePlayerActivity"
+            android:theme="@style/AppThemeFullscreen" />
         <activity
             android:name=".ui.activity.GoodsDetailActivity"
             android:screenOrientation="portrait"
@@ -222,8 +225,8 @@
         <!-- 分类页面 -->
         <activity
             android:name=".ui.activity.PrimaryCategoryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 用户协议 -->
         <activity
             android:name=".ui.activity.UserServiceActivity"
@@ -801,8 +804,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.groupbuying.GroupBuyingMerchantDetailActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ui.activity.groupbuying.GroupBuyingMapActivity"
             android:screenOrientation="portrait" />
@@ -902,8 +905,8 @@
         <!--老版首页-->
         <activity
             android:name=".ui.activity.OldHomeActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!--跑腿代购-->
         <activity

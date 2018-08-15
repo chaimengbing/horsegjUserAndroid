@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x160"
+    android:layout_height="@dimen/x120"
+    android:layout_marginRight="@dimen/x15"
+    android:background="@color/white">
+
+
+    <com.pili.pldroid.player.widget.PLVideoView
+        android:id="@+id/live_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.pili.pldroid.player.widget.PLVideoView>
+
+    <ImageView
+        android:id="@+id/cover_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/surface_view_bg" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:src="@drawable/play_bg" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/transparent"
+        android:padding="@dimen/x10">
+
+        <TextView
+            android:id="@+id/name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/visible_live_icon"
+            android:drawablePadding="@dimen/x5"
+            android:text="大厅"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
