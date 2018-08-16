@@ -91,11 +91,19 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private MyScrollView scrollView;
     @InjectView(R.id.buy_frame)
     private FrameLayout buyFrame;
+    @InjectView(R.id.tv_vip)
+    private TextView tvVip;
+    @InjectView(R.id.tv_vip1)
+    private TextView tvVip1;
     @InjectView(R.id.tv_price)
     private TextView tvPrice;
+    @InjectView(R.id.tv_price_left)
+    private TextView tvPriceLeft;
     @InjectView(R.id.tv_buy)
     private TextView tvBuy;
-    @InjectView(R.id.tv_price_1)
+    @InjectView(R.id.tv_price_left1)
+    private TextView tvPriceLeft1;
+    @InjectView(R.id.tv_price1)
     private TextView tvPrice1;
     @InjectView(R.id.tv_buy_1)
     private TextView tvBuy1;
@@ -271,18 +279,21 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
 //            img.setOnClickListener(this);
 //        }
         String price = StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice());
-        String str = "¥ " + price;
+        String str = "";
         if (groupPurchaseCoupon.getType() == 1) {
-            str += "\u3000代" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()) + "元";
+            tvVip.setVisibility(View.GONE);
+            tvVip1.setVisibility(View.GONE);
+            str += "代" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()) + "元";
         } else if (groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice() != null && groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
-            str += "\u3000门市价: ¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice());
+            str = "门市价: ¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice());
+            tvVip.setVisibility(View.VISIBLE);
+            tvVip1.setVisibility(View.VISIBLE);
         }
-        SpannableStringBuilder style = new SpannableStringBuilder(str);
-        style.setSpan(new ForegroundColorSpan(Color.parseColor("#f95046")), 0, price.length() + 2, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-        style.setSpan(new TextAppearanceSpan(null, 0, getResources().getDimensionPixelSize(R.dimen.x15), null, null), 0, 2, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        style.setSpan(new TextAppearanceSpan(null, 0, getResources().getDimensionPixelSize(R.dimen.x30), null, null), 2, price.length() + 2, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-        tvPrice.setText(style);
-        tvPrice1.setText(style);
+        tvPriceLeft.setText(price);
+        tvPriceLeft1.setText(price);
+        tvPrice.setText(str);
+        tvPrice1.setText(str);
+
 
         showOption();
         if(groupPurchaseCoupon.getIsBespeak()==0){

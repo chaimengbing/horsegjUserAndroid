@@ -59,15 +59,57 @@
                 android:background="@color/white"
                 android:paddingTop="@dimen/x5">
 
-                <TextView
-                    android:id="@+id/tv_price"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/x15"
-                    android:textColor="@color/color_9"
-                    android:textSize="@dimen/x14"
-                    tools:text="￥88 代100元" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x15"
+                        android:layout_gravity="bottom"
+                        android:textColor="#f95046"
+                        android:textSize="@dimen/x14"
+                        android:text="￥" />
+
+                    <TextView
+                        android:id="@+id/tv_price_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:textColor="#f95046"
+                        android:textSize="@dimen/x30"
+                        tools:text="88" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="@dimen/x15"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_vip"
+                            android:layout_width="@dimen/x60"
+                            android:layout_height="@dimen/x13"
+                            android:text="新用户专享"
+                            android:gravity="center"
+                            android:background="#eec214"
+                            android:textColor="#181818"
+                            android:textSize="10sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/color_9"
+                            android:textSize="@dimen/x14"
+                            tools:text="￥88 代100元" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_buy"
@@ -444,8 +486,8 @@
                     android:paddingRight="@dimen/x15"
                     android:text="规则提醒："
                     android:textColor="@color/color_3"
-                    android:visibility="gone"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/ll_rule_remind"
@@ -454,8 +496,8 @@
                     android:layout_marginTop="@dimen/x5"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/x15"
-                    android:visibility="gone"
-                    android:paddingRight="@dimen/x15">
+                    android:paddingRight="@dimen/x15"
+                    android:visibility="gone">
 
                     <include layout="@layout/group_buying_use_rule_point" />
 
@@ -512,8 +554,8 @@
                     android:paddingRight="@dimen/x15"
                     android:text="使用时间："
                     android:textColor="@color/color_3"
-                    android:visibility="gone"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/ll_use_time"
@@ -522,8 +564,8 @@
                     android:layout_marginTop="@dimen/x5"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/x15"
-                    android:visibility="gone"
-                    android:paddingRight="@dimen/x15">
+                    android:paddingRight="@dimen/x15"
+                    android:visibility="gone">
 
                     <include layout="@layout/group_buying_use_rule_point" />
 
@@ -657,15 +699,56 @@
         android:paddingTop="@dimen/x5"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tv_price_1"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/x15"
-            android:textColor="@color/color_9"
-            android:textSize="@dimen/x14"
-            tools:text="￥88 代100元" />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_gravity="bottom"
+                android:textColor="#f95046"
+                android:textSize="@dimen/x14"
+                android:text="￥" />
+
+            <TextView
+                android:id="@+id/tv_price_left1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:textColor="#f95046"
+                android:textSize="@dimen/x30"
+                tools:text="88" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/x15"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_vip1"
+                    android:layout_width="@dimen/x60"
+                    android:layout_height="@dimen/x13"
+                    android:text="新用户专享"
+                    android:gravity="center"
+                    android:background="#eec214"
+                    android:textColor="#181818"
+                    android:textSize="10sp"/>
+
+                <TextView
+                    android:id="@+id/tv_price1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/color_9"
+                    android:textSize="@dimen/x14"
+                    tools:text="￥88 代100元" />
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_buy_1"

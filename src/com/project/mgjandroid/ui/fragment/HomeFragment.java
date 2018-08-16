@@ -226,6 +226,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     private PopupWindow popupWindow;
     private Handler handler;
     private static HomeFragment fragment;
+    private String substring = "";
 
     public Handler getHandler() {
         return handler;
@@ -1738,7 +1739,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 if (menuBar.getVisibility() == View.VISIBLE) {
                     menuBar.setVisibility(View.INVISIBLE);
                 }
-                confirmFilter();
+                confirmNewFilter();
                 currentResultPage = 0;
                 getDate(true, false);
                 break;
@@ -1779,6 +1780,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         listView.scrollTo(0, 0);
     }
 
+
+
     private void confirmFilter() {
         List<ShipmentListEntity> shipmentList = filterValue.getShipmentList();
         for (ShipmentListEntity ship : shipmentList) {
@@ -1806,6 +1809,25 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 promotion.setIsConfirm(false);
             }
         }
+    }
+    private void confirmNewFilter(){
+        List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
+        for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
+            if(merchantFeatureProperty.isCheck()){
+                merchantFeatureProperty.setConfirm(true);
+            }else {
+                merchantFeatureProperty.setConfirm(false);
+            }
+        }
+        List<PromotionListEntity> promotionList = filterValue.getPromotionList();
+        for (PromotionListEntity promotion : promotionList) {
+            if(promotion.isCheck()){
+                promotion.setIsConfirm(true);
+            }else {
+                promotion.setIsConfirm(false);
+            }
+        }
+
     }
 
     private void clearNewFilter(){
@@ -2657,17 +2679,21 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             map.put("latitude", "");
             map.put("longitude", "");
         }
-        String shipParams = getShipParams();
-        if (shipParams.length() > 0) {
-            map.put("shipFilter", shipParams);
-        }
-        String propertyParams = getPropertyParams();
-        if (propertyParams.length() > 0) {
-            map.put("propertyFilter", propertyParams);
-        }
-        String promotionParams = getPromotionParams();
-        if (promotionParams.length() > 0) {
-            map.put("promotionFilter", promotionParams);
+//        String shipParams = getShipParams();
+//        if (shipParams.length() > 0) {
+//            map.put("shipFilter", shipParams);
+//        }
+//        String propertyParams = getPropertyParams();
+//        if (propertyParams.length() > 0) {
+//            map.put("propertyFilter", propertyParams);
+//        }
+//        String promotionParams = getPromotionParams();
+//        if (promotionParams.length() > 0) {
+//            map.put("promotionFilter", promotionParams);
+//        }
+        String screeningCondition = getScreeningCondition();
+        if(screeningCondition.length()>0){
+            map.put("merchantTags", screeningCondition);
         }
         VolleyOperater<CommercialListModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_fIND_TAKE_AWAY_MERCHANT, map, new ResponseListener() {
@@ -2792,6 +2818,34 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             }
         }
         return 1;
+    }
+    private String getScreeningCondition() {
+        if (filterValue != null) {
+            StringBuilder sb = new StringBuilder();
+            List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
+            List<PromotionListEntity> promotionList = filterValue.getPromotionList();
+            if(CheckUtils.isNoEmptyList(merchantFeaturePropertyList)){
+                for (int i = 0; i < merchantFeaturePropertyList.size(); i++) {
+                    MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity propertyListEntity = merchantFeaturePropertyList.get(i);
+                    if (propertyListEntity.isConfirm()) {
+                        sb.append(propertyListEntity.getName()+" ");
+                    }
+                }
+            }
+            if(CheckUtils.isNoEmptyList(promotionList)){
+                for (int i = 0; i < promotionList.size(); i++) {
+                    PromotionListEntity pList = promotionList.get(i);
+                    if (pList.isConfirm()) {
+                        sb.append(pList.getName()+" ");
+                    }
+                }
+            }
+            if(CheckUtils.isNoEmptyStr(sb.toString())){
+                substring = sb.substring(0, sb.lastIndexOf(" "));
+            }
+            return substring;
+        }
+        return "";
     }
 
     private String getShipParams() {

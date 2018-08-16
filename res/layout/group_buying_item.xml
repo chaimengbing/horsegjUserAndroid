@@ -45,6 +45,19 @@
         android:layout_marginRight="@dimen/x15" />
 
     <TextView
+        android:id="@+id/tv_vip"
+        android:layout_width="@dimen/x60"
+        android:layout_height="@dimen/x13"
+        android:text="新用户专享"
+        android:gravity="center"
+        android:background="#eec214"
+        android:textColor="#181818"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="@dimen/x5"
+        android:layout_toRightOf="@+id/tv_option"
+        android:textSize="10sp"/>
+
+    <TextView
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
