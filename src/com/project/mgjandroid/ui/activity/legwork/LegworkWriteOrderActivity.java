@@ -239,6 +239,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                     intent.putExtra("group", "group");
                     int id = (int) agentId;
                     intent.putExtra("agentId", id);
+                    intent.putExtra("type", 18);
                     startActivityForResult(intent, SELECT_DELIVER_ADDRESS);
                 }
                 break;

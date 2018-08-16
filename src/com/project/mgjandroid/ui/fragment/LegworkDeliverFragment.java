@@ -208,6 +208,7 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                     intent2.putExtra("group", "group");
                     int id = (int) agentId;
                     intent2.putExtra("agentId", id);
+                    intent2.putExtra("type", 18);
                     startActivityForResult(intent2, SELECT_DELIVER_ADDRESS);
                 }
                 break;

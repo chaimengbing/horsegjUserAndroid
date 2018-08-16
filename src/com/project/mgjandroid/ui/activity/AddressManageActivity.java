@@ -60,6 +60,7 @@ public class AddressManageActivity extends BaseActivity implements View.OnClickL
     private UserAddress selectAddress;
     private MLoadingDialog loadingDialog;
     public static AddressManageActivity instance;
+    private int type;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -69,6 +70,7 @@ public class AddressManageActivity extends BaseActivity implements View.OnClickL
         merchantId = getIntent().getLongExtra("MERCHANT_ID", -1);
         userAddressId = getIntent().getLongExtra("USER_ADDRESS_ID", -1);
         agentId = getIntent().getIntExtra("agentId", -1);
+        type = getIntent().getIntExtra("type", -1);
         String title = getIntent().getStringExtra("title");
         if (!TextUtils.isEmpty(title)) {
             tvTitle.setText(title);
@@ -164,6 +166,9 @@ public class AddressManageActivity extends BaseActivity implements View.OnClickL
         }
         if (agentId != -1) {
             map.put("agentId", agentId);
+            if(agentId!=-1){
+                map.put("type", type);
+            }
         }
         VolleyOperater<AddressManageModel> operater = new VolleyOperater<>(AddressManageActivity.this);
         operater.doRequest(Constants.URL_GET_ADDRESS, map, new VolleyOperater.ResponseListener() {
