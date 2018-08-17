@@ -170,6 +170,10 @@
             android:name=".ui.activity.PLLivePlayerActivity"
             android:theme="@style/AppThemeFullscreen" />
         <activity
+            android:name=".ui.activity.PLVideoListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor" />
+        <activity
             android:name=".ui.activity.GoodsDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

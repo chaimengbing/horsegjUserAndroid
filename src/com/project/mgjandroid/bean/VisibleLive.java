@@ -30,6 +30,10 @@ public class VisibleLive extends Entity {
      * 填写视频地址
      */
     private String videoUrl;
+    /**
+     * 填写视频封面
+     */
+    private String videoPic;
 
     /**
      * 视频播放地址
@@ -74,5 +78,13 @@ public class VisibleLive extends Entity {
 
     public void setVideoSrc(String videoSrc) {
         this.videoSrc = videoSrc;
+    }
+
+    public String getVideoPic() {
+        return videoPic;
+    }
+
+    public void setVideoPic(String videoPic) {
+        this.videoPic = videoPic;
     }
 }
