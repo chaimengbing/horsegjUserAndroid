@@ -59,6 +59,14 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
 //            }
 //            holder.setText(R.id.search_distance, distance);
 //        }
+
+        ImageView visibleLiveImageView = holder.getView(R.id.visible_live_imageview);
+        if (bean.getHasVisualRestaurant() == 1){
+            visibleLiveImageView.setVisibility(View.VISIBLE);
+        }else {
+            visibleLiveImageView.setVisibility(View.INVISIBLE);
+        }
+
         if (bean != null) {
             ImageView imgStatus = holder.getView(R.id.search_list_item_img_status);
             CornerImageView img = holder.getView(R.id.search_list_item_img);
@@ -107,24 +115,24 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
                 holder.setText(R.id.restaurant_list_item_ship_fee, "配送费" + " ¥" + StringUtils.BigDecimal2Str(bean.getShipFee()));
             }
             holder.setText(R.id.search_list_item_tv_shipping_time, bean.getAvgDeliveryTime() + "分钟");
-            LinearLayout layoutImgs = holder.getView(R.id.restaurant_list_item_layout_img);
-            if (CheckUtils.isNoEmptyStr(bean.getPayments())) {
-                String[] payments = bean.getPayments().split(",");
-                layoutImgs.removeAllViews();
-                layoutImgs.setVisibility(View.VISIBLE);
-                for (int i = 0; i < payments.length; i++) {
-                    if (Integer.parseInt(payments[i]) == 1) {
-                        ImageView icon = new ImageView(mActivity);
-                        int resId = chooseIcon(3);
-                        icon.setBackgroundResource(resId);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DipToPx.dip2px(mActivity, 11f), DipToPx.dip2px(mActivity, 11f));
-                        params.leftMargin = DipToPx.dip2px(mActivity, 2);
-                        layoutImgs.addView(icon, params);
-                    }
-                }
-            } else {
-                layoutImgs.setVisibility(View.GONE);
-            }
+//            LinearLayout layoutImgs = holder.getView(R.id.restaurant_list_item_layout_img);
+//            if (CheckUtils.isNoEmptyStr(bean.getPayments())) {
+//                String[] payments = bean.getPayments().split(",");
+//                layoutImgs.removeAllViews();
+//                layoutImgs.setVisibility(View.VISIBLE);
+//                for (int i = 0; i < payments.length; i++) {
+//                    if (Integer.parseInt(payments[i]) == 1) {
+//                        ImageView icon = new ImageView(mActivity);
+//                        int resId = chooseIcon(3);
+//                        icon.setBackgroundResource(resId);
+//                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DipToPx.dip2px(mActivity, 11f), DipToPx.dip2px(mActivity, 11f));
+//                        params.leftMargin = DipToPx.dip2px(mActivity, 2);
+//                        layoutImgs.addView(icon, params);
+//                    }
+//                }
+//            } else {
+//                layoutImgs.setVisibility(View.GONE);
+//            }
             TextView tvActiveCount = holder.getView(R.id.restaurant_list_item_tv_active_count);
             final LinearLayout layoutActiveHide = holder.getView(R.id.restaurant_list_item_layout_active_hide);
             final ImageView imgActive = holder.getView(R.id.restaurant_list_item_iv_active);
