@@ -1,6 +1,5 @@
 package com.project.mgjandroid.ui.activity;
 
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSON;
+import com.pili.pldroid.player.AVOptions;
+import com.pili.pldroid.player.PLOnErrorListener;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.VisibleLive;
@@ -31,12 +33,23 @@ public class PLVideoListActivity extends BaseActivity {
     private RecyclerView mVideoListView;
     @InjectView(R.id.full_screen)
     private RelativeLayout fullScreen;
+    @InjectView(R.id.visible_list_layout)
+    private LinearLayout visibleListLayout;
     @InjectView(R.id.iv_back)
     private ImageView backImageView;
 
     private View playerView;
     private VideoListAdapter mAdapter;
     private List<VisibleLive> mPlayList = new ArrayList<>();
+
+    /**
+     * 全屏的view
+     */
+    private FrameLayout videoFrameLayout;
+    PLVideoTextureView plVideoTextureView;
+    RelativeLayout controlLayout;
+    RelativeLayout control;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,38 +95,79 @@ public class PLVideoListActivity extends BaseActivity {
         super.onDestroy();
         mAdapter.stopAll();
         mVideoListView.setAdapter(null);
+        if (plVideoTextureView != null) {
+            plVideoTextureView.stopPlayback();
+        }
     }
 
+
+    private void showScreen() {
+        //全屏
+        ViewGroup viewGroup = (ViewGroup) playerView.getParent();
+        if (viewGroup != null) {
+            viewGroup.removeAllViews();
+        }
+        fullScreen.addView(playerView);
+        videoFrameLayout = (FrameLayout) playerView.findViewById(R.id.video_framelayout);
+        plVideoTextureView = (PLVideoTextureView) playerView.findViewById(R.id.video_view);
+        ImageView playImageView = (ImageView) playerView.findViewById(R.id.play_imageview);
+        ImageView coverImageView = (ImageView) playerView.findViewById(R.id.cover_view);
+        LinearLayout loadingLayout = (LinearLayout) playerView.findViewById(R.id.loading_view);
+        ImageView screenImageView = (ImageView) playerView.findViewById(R.id.screen_imageview);
+        controlLayout = (RelativeLayout) playerView.findViewById(R.id.control_layout);
+        control = (RelativeLayout) playerView.findViewById(R.id.control);
+        plVideoTextureView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_PAVED_PARENT);
+        AVOptions options = new AVOptions();
+        // the unit of timeout is ms
+        options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
+        options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
+        // 1 -> hw codec enable, 0 -> disable [recommended]
+        options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE);
+        options.setInteger(AVOptions.KEY_LOG_LEVEL, 5);
+        plVideoTextureView.setAVOptions(options);
+        plVideoTextureView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_FIT_PARENT);
+        fullScreen.setVisibility(View.VISIBLE);
+        visibleListLayout.setVisibility(View.GONE);
+
+        ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
+        params.height = LinearLayout.LayoutParams.MATCH_PARENT;
+        videoFrameLayout.setLayoutParams(params);
+
+        control.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (plVideoTextureView.isPlaying()) {
+                    controlLayout.setVisibility(controlLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                }
+            }
+        });
+    }
+
+
+    private void hideScreen() {
+        //全屏
+        fullScreen.setVisibility(View.GONE);
+        fullScreen.removeAllViews();
+        visibleListLayout.setVisibility(View.VISIBLE);
+        if (playerView != null) {
+            playerView = null;
+        }
+    }
 
 //    @Override
 //    public void onConfigurationChanged(Configuration newConfig) {
 //        super.onConfigurationChanged(newConfig);
-//        // 切换为小屏
-//        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            fullScreen.setVisibility(View.GONE);
-//            fullScreen.removeAllViews();
-//            int mShowFlags =
-//                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//            fullScreen.setSystemUiVisibility(mShowFlags);
-//        } else {
-//            ViewGroup viewGroup = (ViewGroup) playerView.getParent();
-//            if (viewGroup == null)
-//                return;
-//            viewGroup.removeAllViews();
-//            fullScreen.addView(playerView);
-//            PLVideoTextureView plVideoTextureView = (PLVideoTextureView) playerView.findViewById(R.id.video_view);
-//            plVideoTextureView.setDisplayOrientation(90 % 360);
-//            fullScreen.setVisibility(View.VISIBLE);
-//            int mHideFlags =
-//                    View.SYSTEM_UI_FLAG_LOW_PROFILE
-//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-//                            | View.SYSTEM_UI_FLAG_IMMERSIVE
-//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-//            fullScreen.setSystemUiVisibility(mHideFlags);
+//        if (plVideoTextureView != null && videoFrameLayout != null) {
+//            ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
+//            if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {//竖屏
+//                params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x200);
+//                videoFrameLayout.setLayoutParams(params);
+//                plVideoTextureView.setDisplayOrientation(0);
+//            } else {//横屏
+//                params.height = LinearLayout.LayoutParams.MATCH_PARENT;
+//                videoFrameLayout.setLayoutParams(params);
+//                plVideoTextureView.setDisplayOrientation(90);
+//            }
 //        }
 //    }
 
@@ -140,6 +194,15 @@ public class PLVideoListActivity extends BaseActivity {
                 screenImageView = (ImageView) view.findViewById(R.id.screen_imageview);
                 controlLayout = (RelativeLayout) view.findViewById(R.id.control_layout);
                 control = (RelativeLayout) view.findViewById(R.id.control);
+
+                AVOptions options = new AVOptions();
+                // the unit of timeout is ms
+                options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
+                options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
+                // 1 -> hw codec enable, 0 -> disable [recommended]
+                options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE);
+                options.setInteger(AVOptions.KEY_LOG_LEVEL, 5);
+                mVideoView.setAVOptions(options);
             }
         }
 
@@ -176,37 +239,64 @@ public class PLVideoListActivity extends BaseActivity {
                 ImageUtils.loadBitmap(mActivity, visibleLive.getVideoPic(), holder.coverImageView, R.drawable.horsegj_default, "");
             }
 
+            holder.coverImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if ((int) holder.coverImageView.getTag() == R.drawable.play_fail) {
+                        holder.mVideoView.setVideoPath(mVideoPathList.get(pos).getVideoSrc());
+                        holder.mVideoView.start();
+                        holder.loadingLayout.setVisibility(View.VISIBLE);
+                        holder.control.setVisibility(View.VISIBLE);
+                        holder.playImageView.setVisibility(View.GONE);
+                        holder.coverImageView.setImageResource(R.drawable.horsegj_default);
+                        holder.coverImageView.setBackgroundResource(R.drawable.surface_view_bg);
+                    }
+                }
+            });
+
             holder.playImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    playerView = holder.itemView;
                     holder.mVideoView.setVideoPath(mVideoPathList.get(pos).getVideoSrc());
                     holder.mVideoView.start();
                     holder.loadingLayout.setVisibility(View.VISIBLE);
+                    holder.control.setVisibility(View.VISIBLE);
                     holder.playImageView.setVisibility(View.GONE);
                     holder.coverImageView.setBackgroundResource(0);
+                }
+            });
+
+            holder.mVideoView.setOnErrorListener(new PLOnErrorListener() {
+                @Override
+                public boolean onError(int errorCode) {
+                    switch (errorCode) {
+                        case PLOnErrorListener.ERROR_CODE_IO_ERROR:
+                            return false;
+                        case PLOnErrorListener.ERROR_CODE_OPEN_FAILED:
+                            holder.loadingLayout.setVisibility(View.GONE);
+                            holder.control.setVisibility(View.GONE);
+                            holder.coverImageView.setBackgroundResource(0);
+                            holder.coverImageView.setImageResource(R.drawable.play_fail);
+                            holder.coverImageView.setTag(R.drawable.play_fail);
+                            break;
+                        case PLOnErrorListener.ERROR_CODE_SEEK_FAILED:
+                            break;
+                        default:
+                            break;
+                    }
+                    return true;
                 }
             });
 
             holder.screenImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //全屏
-                    holder.mVideoView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_PAVED_PARENT);
-//                    switch (holder.mVideoView.getDisplayAspectRatio()) {
-//                        case PLVideoTextureView.ASPECT_RATIO_ORIGIN:
-//                            break;
-//                        case PLVideoTextureView.ASPECT_RATIO_FIT_PARENT:
-//                            break;
-//                        case PLVideoTextureView.ASPECT_RATIO_PAVED_PARENT:
-//                            break;
-//                        case PLVideoTextureView.ASPECT_RATIO_16_9:
-//                            break;
-//                        case PLVideoTextureView.ASPECT_RATIO_4_3:
-//                            break;
-//                        default:
-//                            break;
-//                    }
+                    playerView = holder.itemView;
+                    if (fullScreen.getVisibility() == View.GONE) {
+                        showScreen();
+                    } else {
+                        hideScreen();
+                    }
                 }
             });
             holder.control.setOnClickListener(new View.OnClickListener() {
