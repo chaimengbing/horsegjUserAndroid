@@ -1144,7 +1144,7 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
                     callbacks.get("scanCode").onCallBack(new Gson().toJson(native2H5Model));
             }
         } else if (requestCode == YLBSdkConstants.YLBSDK_SELECT_REDBAG) {
-            if (data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG) != null) {
+            if (data != null && data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG) != null) {
                 if (callbacks.get("selectRedBagAction") != null) {
                     RedBag redBag = (RedBag) data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG);
                     Native2H5Model native2H5Model = new Native2H5Model(0, new Gson().toJson(redBag));

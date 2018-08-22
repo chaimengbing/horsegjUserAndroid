@@ -125,8 +125,12 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/title_bar_bg">
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x56"
+                            android:background="@color/title_bar_bg" />
 
                         <include layout="@layout/item_top_address_layout" />
                     </RelativeLayout>
