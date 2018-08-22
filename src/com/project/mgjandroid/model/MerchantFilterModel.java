@@ -76,7 +76,9 @@ public class MerchantFilterModel extends Entity {
          * hasDel : 0
          */
 
+
         private List<PromotionListEntity> promotionList;
+        private List<PromotionNewListEntity> promotionNewList;
         private List<MerchantFeaturePropertyListEntity> merchantFeaturePropertyList;
 
         public List<ShipmentListEntity> getShipmentList() {
@@ -93,6 +95,14 @@ public class MerchantFilterModel extends Entity {
 
         public void setMerchantPropertyList(List<MerchantPropertyListEntity> merchantPropertyList) {
             this.merchantPropertyList = merchantPropertyList;
+        }
+
+        public List<PromotionNewListEntity> getPromotionNewList() {
+            return promotionNewList;
+        }
+
+        public void setPromotionNewList(List<PromotionNewListEntity> promotionNewList) {
+            this.promotionNewList = promotionNewList;
         }
 
         public List<PromotionListEntity> getPromotionList() {
@@ -242,6 +252,117 @@ public class MerchantFilterModel extends Entity {
 
             public void setIsConfirm(boolean isConfirm) {
                 this.isConfirm = isConfirm;
+            }
+        }
+
+        public static class PromotionNewListEntity {
+            private int id;
+            private String createTime;
+            private String modifyTime;
+            private String name;
+            private String icon;
+            private int sortNo;
+            private int type;
+            private int hasDel;
+            private int promotionGenre;
+            private int promotionActivityType;
+            private boolean isCheck;
+            private boolean isConfirm;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
+            }
+
+            public String getModifyTime() {
+                return modifyTime;
+            }
+
+            public void setModifyTime(String modifyTime) {
+                this.modifyTime = modifyTime;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getIcon() {
+                return icon;
+            }
+
+            public void setIcon(String icon) {
+                this.icon = icon;
+            }
+
+            public int getSortNo() {
+                return sortNo;
+            }
+
+            public void setSortNo(int sortNo) {
+                this.sortNo = sortNo;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+
+            public int getHasDel() {
+                return hasDel;
+            }
+
+            public void setHasDel(int hasDel) {
+                this.hasDel = hasDel;
+            }
+
+            public boolean isCheck() {
+                return isCheck;
+            }
+
+            public void setIsCheck(boolean isCheck) {
+                this.isCheck = isCheck;
+            }
+
+            public boolean isConfirm() {
+                return isConfirm;
+            }
+
+            public void setIsConfirm(boolean isConfirm) {
+                this.isConfirm = isConfirm;
+            }
+
+            public int getPromotionGenre() {
+                return promotionGenre;
+            }
+
+            public void setPromotionGenre(int promotionGenre) {
+                this.promotionGenre = promotionGenre;
+            }
+
+            public int getPromotionActivityType() {
+                return promotionActivityType;
+            }
+
+            public void setPromotionActivityType(int promotionActivityType) {
+                this.promotionActivityType = promotionActivityType;
             }
         }
 

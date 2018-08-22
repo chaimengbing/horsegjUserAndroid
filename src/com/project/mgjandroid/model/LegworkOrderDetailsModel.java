@@ -1,5 +1,10 @@
 package com.project.mgjandroid.model;
 
+import com.project.mgjandroid.bean.Distance;
+import com.project.mgjandroid.bean.SpecificTime;
+
+import java.util.ArrayList;
+
 /**
  * Created by SunXueLiang on 2018-03-26.
  */
@@ -119,6 +124,24 @@ public class LegworkOrderDetailsModel extends Entity {
         private AgentBean agent;
         private DeliveryTaskBean deliveryTask;
         private ShareRedBagInfo shareRedBagInfo;
+        private ArrayList<Distance> stairServiceChargeRuleList;
+        private ArrayList<SpecificTime> timeFrameServiceChargeList;
+
+        public ArrayList<Distance> getStairServiceChargeRuleList() {
+            return stairServiceChargeRuleList;
+        }
+
+        public void setStairServiceChargeRuleList(ArrayList<Distance> stairServiceChargeRuleList) {
+            this.stairServiceChargeRuleList = stairServiceChargeRuleList;
+        }
+
+        public ArrayList<SpecificTime> getTimeFrameServiceChargeList() {
+            return timeFrameServiceChargeList;
+        }
+
+        public void setTimeFrameServiceChargeList(ArrayList<SpecificTime> timeFrameServiceChargeList) {
+            this.timeFrameServiceChargeList = timeFrameServiceChargeList;
+        }
 
         public ShareRedBagInfo getShareRedBagInfo() {
             return shareRedBagInfo;

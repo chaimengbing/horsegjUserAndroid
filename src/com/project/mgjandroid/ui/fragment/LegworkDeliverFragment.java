@@ -43,6 +43,7 @@ import com.project.mgjandroid.ui.activity.AddressManageActivity;
 import com.project.mgjandroid.ui.activity.BindMobileActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
+import com.project.mgjandroid.ui.activity.legwork.LegworkbilingRulesActivity;
 import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
@@ -221,10 +222,10 @@ public class LegworkDeliverFragment extends BaseFragment implements View.OnClick
                 startActivity(intent3);
                 break;
             case R.id.tv_service_charge:
-                // 服务费介绍
-                if (serviceChargeModel != null) {
-                    mPopupWindow(serviceChargeModel);
-                }
+                // 计费规则
+                Intent intent = new Intent(mActivity, LegworkbilingRulesActivity.class);
+                intent.putExtra("serviceChargeModel",serviceChargeModel);
+                startActivity(intent);
                 break;
             case R.id.tv_legwork_go_pay:
                 // 去支付

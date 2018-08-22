@@ -906,6 +906,9 @@
         <activity
             android:name=".ui.activity.legwork.LegworkFeedbackActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.legwork.LegworkbilingRulesActivity"
+            android:screenOrientation="portrait" />
         <!--老版首页-->
         <activity
             android:name=".ui.activity.OldHomeActivity"

@@ -20,23 +20,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragmentDiscountAdapter extends BaseAdapter{
-    private List<MerchantFilterModel.ValueEntity.PromotionListEntity> mPromotionList = new ArrayList<>();
+    private List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> mPromotionNewList = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context mContext;
     LinearLayout.LayoutParams params;
 
-    public HomeFragmentDiscountAdapter(Context context, List<MerchantFilterModel.ValueEntity.PromotionListEntity> promotionList) {
-        mPromotionList = promotionList;
+    public HomeFragmentDiscountAdapter(Context context, List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList) {
+        mPromotionNewList = promotionNewList;
         mContext = context;
         mInflater = LayoutInflater.from(context);
     }
 
     public int getCount() {
-        return mPromotionList.size();
+        return mPromotionNewList.size();
     }
 
     public Object getItem(int position) {
-        return mPromotionList.get(position);
+        return mPromotionNewList.get(position);
     }
 
     public long getItemId(int position) {
@@ -57,11 +57,11 @@ public class HomeFragmentDiscountAdapter extends BaseAdapter{
         }
 
         // set name
-        viewTag.mName.setText(mPromotionList.get(position).getName());
+        viewTag.mName.setText(mPromotionNewList.get(position).getName());
 
         // set icon
         viewTag.mIcon.setVisibility(View.GONE);
-        if(mPromotionList.get(position).isCheck()){
+        if(mPromotionNewList.get(position).isCheck()){
             viewTag.mLayout.setBackgroundColor(mContext.getResources().getColor(R.color.filtrate_select));
             viewTag.mName.setTextColor(mContext.getResources().getColor(R.color.bg_festival));
         }else {

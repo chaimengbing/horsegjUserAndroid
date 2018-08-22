@@ -630,9 +630,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.img_service_charge:
-                if (valueBean != null) {
-                    mPopupWindow(valueBean);
-                }
+                // 计费规则
+                Intent mIntent = new Intent(mActivity, LegworkbilingRulesActivity.class);
+                mIntent.putExtra("mValueBean",valueBean);
+                startActivity(mIntent);
                 break;
             case R.id.tv_cancel_order:
                 Cancel();

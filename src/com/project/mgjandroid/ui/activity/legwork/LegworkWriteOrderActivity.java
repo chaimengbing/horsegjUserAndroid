@@ -253,10 +253,10 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 startActivity(intent2);
                 break;
             case R.id.tv_service_charge:
-                // 服务费介绍
-                if (serviceChargeModel != null) {
-                    mPopupWindow(serviceChargeModel);
-                }
+                // 计费规则
+                Intent intent = new Intent(mActivity, LegworkbilingRulesActivity.class);
+                intent.putExtra("serviceChargeModel",serviceChargeModel);
+                startActivity(intent);
                 break;
             case R.id.tv_legwork_go_pay:
                 // 去支付

@@ -1,6 +1,8 @@
 package com.project.mgjandroid.model;
 
 import com.project.mgjandroid.bean.RedBag;
+import com.project.mgjandroid.bean.Distance;
+import com.project.mgjandroid.bean.SpecificTime;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class LegworkServiceChargeModel extends Entity{
 
         private double serviceCharge;
         private double defDistance;
-        private double baseCharge;
+        private BigDecimal baseCharge;
         private double addCharge;
         /**
          * platformRedBags：使用的红包（集合）
@@ -74,7 +76,24 @@ public class LegworkServiceChargeModel extends Entity{
         private ArrayList<RedBag> platformRedBags;
         private BigDecimal totalPrice;
         private BigDecimal redBagsTotalAmt;
+        private ArrayList<Distance> stairServiceChargeRuleList;
+        private ArrayList<SpecificTime> timeFrameServiceChargeList;
 
+        public ArrayList<Distance> getStairServiceChargeRuleList() {
+            return stairServiceChargeRuleList;
+        }
+
+        public void setStairServiceChargeRuleList(ArrayList<Distance> stairServiceChargeRuleList) {
+            this.stairServiceChargeRuleList = stairServiceChargeRuleList;
+        }
+
+        public ArrayList<SpecificTime> getTimeFrameServiceChargeList() {
+            return timeFrameServiceChargeList;
+        }
+
+        public void setTimeFrameServiceChargeList(ArrayList<SpecificTime> timeFrameServiceChargeList) {
+            this.timeFrameServiceChargeList = timeFrameServiceChargeList;
+        }
 
         public ArrayList<RedBag> getPlatformRedBagList() {
             return platformRedBags;
@@ -125,11 +144,11 @@ public class LegworkServiceChargeModel extends Entity{
             this.defDistance = defDistance;
         }
 
-        public double getBaseCharge() {
+        public BigDecimal getBaseCharge() {
             return baseCharge;
         }
 
-        public void setBaseCharge(double baseCharge) {
+        public void setBaseCharge(BigDecimal baseCharge) {
             this.baseCharge = baseCharge;
         }
 
