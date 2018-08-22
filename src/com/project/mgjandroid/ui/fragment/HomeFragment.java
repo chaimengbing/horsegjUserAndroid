@@ -1783,7 +1783,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     }
 
 
-
     private void confirmFilter() {
         List<ShipmentListEntity> shipmentList = filterValue.getShipmentList();
         for (ShipmentListEntity ship : shipmentList) {
@@ -1812,38 +1811,44 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             }
         }
     }
-    private void confirmNewFilter(){
+
+    private void confirmNewFilter() {
         List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
         for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
-            if(merchantFeatureProperty.isCheck()){
+            if (merchantFeatureProperty.isCheck()) {
                 merchantFeatureProperty.setConfirm(true);
-            }else {
+            } else {
                 merchantFeatureProperty.setConfirm(false);
             }
         }
         List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList = filterValue.getPromotionNewList();
         for (MerchantFilterModel.ValueEntity.PromotionNewListEntity promotion : promotionNewList) {
-            if(promotion.isCheck()){
+            if (promotion.isCheck()) {
                 promotion.setIsConfirm(true);
-            }else {
+            } else {
                 promotion.setIsConfirm(false);
             }
         }
 
     }
 
-    private void clearNewFilter(){
+    private void clearNewFilter() {
         List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
-        for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
-            merchantFeatureProperty.setCheck(false);
-            merchantFeatureProperty.setConfirm(false);
+        if (merchantFeaturePropertyList != null) {
+            for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
+                merchantFeatureProperty.setCheck(false);
+                merchantFeatureProperty.setConfirm(false);
+            }
         }
+
         List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList = filterValue.getPromotionNewList();
-        for (MerchantFilterModel.ValueEntity.PromotionNewListEntity promotion : promotionNewList) {
-            promotion.setIsCheck(false);
-            promotion.setIsConfirm(false);
+        if (promotionNewList != null) {
+            for (MerchantFilterModel.ValueEntity.PromotionNewListEntity promotion : promotionNewList) {
+                promotion.setIsCheck(false);
+                promotion.setIsConfirm(false);
+            }
         }
-        substring ="";
+        substring = "";
 
     }
 
@@ -1872,15 +1877,20 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             return true;
         }
         List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
-        for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
-            if(merchantFeatureProperty.isConfirm()){
-                return false;
+        if (merchantFeaturePropertyList != null) {
+            for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
+                if (merchantFeatureProperty.isConfirm()) {
+                    return false;
+                }
             }
         }
+
         List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList = filterValue.getPromotionNewList();
-        for (MerchantFilterModel.ValueEntity.PromotionNewListEntity promotion : promotionNewList) {
-            if(promotion.isConfirm()){
-                return false;
+        if (promotionNewList != null) {
+            for (MerchantFilterModel.ValueEntity.PromotionNewListEntity promotion : promotionNewList) {
+                if (promotion.isConfirm()) {
+                    return false;
+                }
             }
         }
         return true;
@@ -2715,7 +2725,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 //            map.put("promotionFilter", promotionParams);
 //        }
         String screeningCondition = getScreeningCondition();
-        if(screeningCondition.length()>0){
+        if (screeningCondition.length() > 0) {
             map.put("merchantTags", screeningCondition);
         }
         VolleyOperater<CommercialListModel> operater = new VolleyOperater<>(mActivity);
@@ -2842,28 +2852,29 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         }
         return 1;
     }
+
     private String getScreeningCondition() {
         if (filterValue != null) {
             StringBuilder sb = new StringBuilder();
             List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
             List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList = filterValue.getPromotionNewList();
-            if(CheckUtils.isNoEmptyList(merchantFeaturePropertyList)){
+            if (CheckUtils.isNoEmptyList(merchantFeaturePropertyList)) {
                 for (int i = 0; i < merchantFeaturePropertyList.size(); i++) {
                     MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity propertyListEntity = merchantFeaturePropertyList.get(i);
                     if (propertyListEntity.isConfirm()) {
-                        sb.append(propertyListEntity.getName()+" ");
+                        sb.append(propertyListEntity.getName() + " ");
                     }
                 }
             }
-            if(CheckUtils.isNoEmptyList(promotionNewList)){
+            if (CheckUtils.isNoEmptyList(promotionNewList)) {
                 for (int i = 0; i < promotionNewList.size(); i++) {
                     MerchantFilterModel.ValueEntity.PromotionNewListEntity promotionNewListEntity = promotionNewList.get(i);
                     if (promotionNewListEntity.isConfirm()) {
-                        sb.append(promotionNewListEntity.getName()+" ");
+                        sb.append(promotionNewListEntity.getName() + " ");
                     }
                 }
             }
-            if(CheckUtils.isNoEmptyStr(sb.toString())){
+            if (CheckUtils.isNoEmptyStr(sb.toString())) {
                 substring = sb.substring(0, sb.lastIndexOf(" "));
             }
             return substring;
@@ -3169,14 +3180,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         });
     }
 
-    private void showFiltratePop(final List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList, final List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList){
+    private void showFiltratePop(final List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList, final List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList) {
         LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.home_fragment_menu_filtrate, null);
         GridView gridView = (GridView) linearLayout.findViewById(R.id.grid_view);
         GridView gridView1 = (GridView) linearLayout.findViewById(R.id.grid_view1);
         View coverView = linearLayout.findViewById(R.id.home_fragment_menu_right_cover_view);
         TextView confirm = (TextView) linearLayout.findViewById(R.id.home_fragment_menu_right_confirm);
         TextView clear = (TextView) linearLayout.findViewById(R.id.home_fragment_menu_right_clear);
-        filtrateAdapter = new HomeFragmentFiltrateAdapter(mActivity,merchantFeaturePropertyList);
+        filtrateAdapter = new HomeFragmentFiltrateAdapter(mActivity, merchantFeaturePropertyList);
         discountAdapter = new HomeFragmentDiscountAdapter(mActivity, promotionNewList);
         gridView.setAdapter(filtrateAdapter);
         gridView1.setAdapter(discountAdapter);
@@ -3186,9 +3197,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(merchantFeaturePropertyList.get(i).isCheck()){
+                if (merchantFeaturePropertyList.get(i).isCheck()) {
                     merchantFeaturePropertyList.get(i).setCheck(false);
-                }else {
+                } else {
                     merchantFeaturePropertyList.get(i).setCheck(true);
                 }
                 filtrateAdapter.notifyDataSetChanged();
@@ -3197,9 +3208,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(promotionNewList.get(i).isCheck()){
+                if (promotionNewList.get(i).isCheck()) {
                     promotionNewList.get(i).setIsCheck(false);
-                }else {
+                } else {
                     promotionNewList.get(i).setIsCheck(true);
                 }
                 discountAdapter.notifyDataSetChanged();
@@ -3288,7 +3299,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     if (filterValue != null) {
 //                        menuBar.setVisibility(View.VISIBLE);
 //                        showRightMenuPop(filterValue.getShipmentList(), filterValue.getMerchantPropertyList(), filterValue.getPromotionList());
-                        showFiltratePop(filterValue.getMerchantFeaturePropertyList(),filterValue.getPromotionNewList());
+                        showFiltratePop(filterValue.getMerchantFeaturePropertyList(), filterValue.getPromotionNewList());
                     }
                 }
             }
