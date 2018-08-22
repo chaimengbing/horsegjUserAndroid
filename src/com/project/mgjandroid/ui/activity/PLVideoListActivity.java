@@ -73,9 +73,6 @@ public class PLVideoListActivity extends BaseActivity {
         String result = getIntent().getStringExtra("videoPath");
         if (CheckUtils.isNoEmptyStr(result)) {
             mPlayList = JSON.parseArray(result, VisibleLive.class);
-            for (int i = 0; i < 6; i++) {
-                mPlayList.add(mPlayList.get(0));
-            }
         }
         mAdapter = new VideoListAdapter(mPlayList);
         mVideoListView.setHasFixedSize(true);
