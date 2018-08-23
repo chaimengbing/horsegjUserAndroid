@@ -237,7 +237,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private void restartApp() {
         Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
         PendingIntent restartIntent = PendingIntent.getActivity(getActivity(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager mgr = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        AlarmManager mgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent); // 1秒钟后重启应用
         System.exit(0);
 
@@ -639,32 +639,28 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         operater.doRequest(Constants.URL_FIND_USER_TELNUM_XY, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
-                if (obj instanceof String) {
-                    if (mActivity != null)
-                        ToastUtils.displayMsg(obj.toString(), mActivity);
-                    return;
-                }
-
-                constomer = "";
-                agentMobile = "";
-                CustomerAndComplainPhoneDTOModel model = (CustomerAndComplainPhoneDTOModel) obj;
-                for (int i = 0; i < model.getValue().size(); i++) {
-                    if (model.getValue() != null && 2 == model.getValue().get(i).getType()) {
-                        // 2：投诉电话 (区域负责人)
-                        agentMobile = model.getValue().get(i).getPhone();
-                    } else if (model.getValue() != null && 3 == model.getValue().get(i).getType()) {
-                        //总部热线
-                        mgjPhone = model.getValue().get(i).getPhone();
-                        PreferenceUtils.saveStringPreference("mgjPhone", mgjPhone, mActivity);
-                    } else if (model.getValue() != null && 1 == model.getValue().get(i).getType()) {
-                        // 代理商客服电话
-                        constomer = model.getValue().get(i).getPhone();
-                        PreferenceUtils.saveStringPreference("agentPhone", constomer, mActivity);
-                    }
-                    if (CheckUtils.isTelNum(constomer)) {
-                        rlServerCenter.setVisibility(View.GONE);
-                    } else {
-                        rlServerCenter.setVisibility(View.VISIBLE);
+                if (isSucceed) {
+                    constomer = "";
+                    agentMobile = "";
+                    CustomerAndComplainPhoneDTOModel model = (CustomerAndComplainPhoneDTOModel) obj;
+                    for (int i = 0; i < model.getValue().size(); i++) {
+                        if (model.getValue() != null && 2 == model.getValue().get(i).getType()) {
+                            // 2：投诉电话 (区域负责人)
+                            agentMobile = model.getValue().get(i).getPhone();
+                        } else if (model.getValue() != null && 3 == model.getValue().get(i).getType()) {
+                            //总部热线
+                            mgjPhone = model.getValue().get(i).getPhone();
+                            PreferenceUtils.saveStringPreference("mgjPhone", mgjPhone, mActivity);
+                        } else if (model.getValue() != null && 1 == model.getValue().get(i).getType()) {
+                            // 代理商客服电话
+                            constomer = model.getValue().get(i).getPhone();
+                            PreferenceUtils.saveStringPreference("agentPhone", constomer, mActivity);
+                        }
+                        if (CheckUtils.isTelNum(constomer)) {
+                            rlServerCenter.setVisibility(View.GONE);
+                        } else {
+                            rlServerCenter.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
 
