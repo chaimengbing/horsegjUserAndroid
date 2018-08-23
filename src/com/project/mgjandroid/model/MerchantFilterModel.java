@@ -78,8 +78,7 @@ public class MerchantFilterModel extends Entity {
 
 
         private List<PromotionListEntity> promotionList;
-        private List<PromotionNewListEntity> promotionNewList;
-        private List<MerchantFeaturePropertyListEntity> merchantFeaturePropertyList;
+        private List<Filtrate> filtrateList;
 
         public List<ShipmentListEntity> getShipmentList() {
             return shipmentList;
@@ -97,13 +96,6 @@ public class MerchantFilterModel extends Entity {
             this.merchantPropertyList = merchantPropertyList;
         }
 
-        public List<PromotionNewListEntity> getPromotionNewList() {
-            return promotionNewList;
-        }
-
-        public void setPromotionNewList(List<PromotionNewListEntity> promotionNewList) {
-            this.promotionNewList = promotionNewList;
-        }
 
         public List<PromotionListEntity> getPromotionList() {
             return promotionList;
@@ -113,14 +105,37 @@ public class MerchantFilterModel extends Entity {
             this.promotionList = promotionList;
         }
 
-        public List<MerchantFeaturePropertyListEntity> getMerchantFeaturePropertyList() {
-            return merchantFeaturePropertyList;
+        public List<Filtrate> getFiltrateList() {
+            return filtrateList;
         }
 
-        public void setMerchantFeaturePropertyList(List<MerchantFeaturePropertyListEntity> merchantFeaturePropertyList) {
-            this.merchantFeaturePropertyList = merchantFeaturePropertyList;
+        public void setFiltrateList(List<Filtrate> filtrateList) {
+            this.filtrateList = filtrateList;
         }
-        public static class MerchantFeaturePropertyListEntity{
+
+
+        public static class Filtrate {
+            private String name;
+            private List<MerchantFeaturePropertyListEntity> list;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public List<MerchantFeaturePropertyListEntity> getList() {
+                return list;
+            }
+
+            public void setList(List<MerchantFeaturePropertyListEntity> list) {
+                this.list = list;
+            }
+        }
+
+        public static class MerchantFeaturePropertyListEntity {
             private int id;
             private String name;
             private String icon;

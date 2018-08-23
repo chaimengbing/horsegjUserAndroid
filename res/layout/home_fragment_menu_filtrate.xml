@@ -6,51 +6,19 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/filtrate_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x15"
-            android:layout_marginTop="@dimen/x30"
-            android:text="商家特色"
-            android:textColor="@color/color_6"
-            android:textSize="12sp" />
-
-        <GridView
-            android:id="@+id/grid_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x15"
-            android:listSelector="@color/white"
-            android:numColumns="3"
-            android:paddingLeft="@dimen/x10"
-            android:paddingRight="@dimen/x10"
-            android:verticalSpacing="@dimen/x15" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x15"
-            android:layout_marginTop="@dimen/x30"
-            android:text="优惠活动"
-            android:textColor="@color/color_6"
-            android:textSize="12sp" />
-
-        <GridView
-            android:id="@+id/grid_view1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x15"
-            android:listSelector="@color/white"
-            android:numColumns="3"
-            android:paddingLeft="@dimen/x10"
-            android:paddingRight="@dimen/x10"
-            android:verticalSpacing="@dimen/x15" />
-
 
         <LinearLayout
             android:layout_width="match_parent"

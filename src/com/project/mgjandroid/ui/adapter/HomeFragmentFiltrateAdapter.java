@@ -24,12 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragmentFiltrateAdapter extends BaseAdapter {
-    private List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> mMerchantFeaturePropertyList = new ArrayList<>();
+    private List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> mMerchantFeaturePropertyList;
     private LayoutInflater mInflater;
     private Context mContext;
-    LinearLayout.LayoutParams params;
 
-    public HomeFragmentFiltrateAdapter(Context context, List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList ) {
+    private boolean isSingleSelect;
+    private boolean isShowIcon;
+
+
+    public HomeFragmentFiltrateAdapter(Context context, List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList) {
         mMerchantFeaturePropertyList = merchantFeaturePropertyList;
         mContext = context;
         mInflater = LayoutInflater.from(context);
@@ -47,14 +50,14 @@ public class HomeFragmentFiltrateAdapter extends BaseAdapter {
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ItemViewTag viewTag;
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.filtrate_item, null);
 
             // construct an item tag
-            viewTag = new ItemViewTag((ImageView) convertView.findViewById(R.id.image), (TextView) convertView.findViewById(R.id.text_view),(LinearLayout)convertView.findViewById(R.id.layout));
+            viewTag = new ItemViewTag((ImageView) convertView.findViewById(R.id.image), (TextView) convertView.findViewById(R.id.text_view), (LinearLayout) convertView.findViewById(R.id.layout));
             convertView.setTag(viewTag);
         } else {
             viewTag = (ItemViewTag) convertView.getTag();
@@ -63,17 +66,51 @@ public class HomeFragmentFiltrateAdapter extends BaseAdapter {
         // set name
         viewTag.mName.setText(mMerchantFeaturePropertyList.get(position).getName());
 
-        // set icon
-        ImageUtils.loadBitmap(mContext, mMerchantFeaturePropertyList.get(position).getIcon(), viewTag.mIcon, 0, Constants.getEndThumbnail(10, 10));
-        viewTag.mIcon.setVisibility(View.VISIBLE);
-        if(mMerchantFeaturePropertyList.get(position).isCheck()){
+        if (isShowIcon) {
+            // set icon
+            ImageUtils.loadBitmap(mContext, mMerchantFeaturePropertyList.get(position).getIcon(), viewTag.mIcon, 0, Constants.getEndThumbnail(10, 10));
+            viewTag.mIcon.setVisibility(View.VISIBLE);
+        } else {
+            viewTag.mIcon.setVisibility(View.GONE);
+        }
+        if (mMerchantFeaturePropertyList.get(position).isCheck()) {
             viewTag.mLayout.setBackgroundColor(mContext.getResources().getColor(R.color.filtrate_select));
             viewTag.mName.setTextColor(mContext.getResources().getColor(R.color.bg_festival));
-        }else {
+        } else {
             viewTag.mLayout.setBackgroundColor(mContext.getResources().getColor(R.color.filtrate_unselect));
             viewTag.mName.setTextColor(mContext.getResources().getColor(R.color.filtrate_text));
         }
+
+        viewTag.mLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity = mMerchantFeaturePropertyList.get(position);
+                if (isSingleSelect) {
+                    if (merchantFeaturePropertyListEntity.isCheck()) {
+                        merchantFeaturePropertyListEntity.setCheck(false);
+                    } else {
+                        merchantFeaturePropertyListEntity.setCheck(true);
+                    }
+                } else {
+                    for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity list : mMerchantFeaturePropertyList) {
+                        list.setCheck(false);
+                    }
+                    merchantFeaturePropertyListEntity.setCheck(true);
+                }
+
+                notifyDataSetChanged();
+            }
+        });
+
         return convertView;
+    }
+
+    public void setShowIcon(boolean showIcon) {
+        isShowIcon = showIcon;
+    }
+
+    public void setSingleSelect(boolean singleSelect) {
+        isSingleSelect = singleSelect;
     }
 
     class ItemViewTag {
@@ -81,7 +118,7 @@ public class HomeFragmentFiltrateAdapter extends BaseAdapter {
         protected TextView mName;
         protected LinearLayout mLayout;
 
-        public ItemViewTag(ImageView icon, TextView name,LinearLayout layout) {
+        public ItemViewTag(ImageView icon, TextView name, LinearLayout layout) {
             this.mName = name;
             this.mIcon = icon;
             this.mLayout = layout;

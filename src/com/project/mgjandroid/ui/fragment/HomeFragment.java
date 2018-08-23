@@ -1813,43 +1813,35 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     }
 
     private void confirmNewFilter() {
-        List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
-        for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
-            if (merchantFeatureProperty.isCheck()) {
-                merchantFeatureProperty.setConfirm(true);
-            } else {
-                merchantFeatureProperty.setConfirm(false);
+        List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();
+        if (CheckUtils.isNoEmptyList(filtrateList)) {
+            for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+                if (CheckUtils.isNoEmptyList(filtrate.getList())) {
+                    for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity : filtrate.getList()) {
+                        if (merchantFeaturePropertyListEntity.isCheck()) {
+                            merchantFeaturePropertyListEntity.setConfirm(true);
+                        } else {
+                            merchantFeaturePropertyListEntity.setConfirm(false);
+                        }
+                    }
+                }
             }
         }
-        List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList = filterValue.getPromotionNewList();
-        for (MerchantFilterModel.ValueEntity.PromotionNewListEntity promotion : promotionNewList) {
-            if (promotion.isCheck()) {
-                promotion.setIsConfirm(true);
-            } else {
-                promotion.setIsConfirm(false);
-            }
-        }
-
     }
 
     private void clearNewFilter() {
-        List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
-        if (merchantFeaturePropertyList != null) {
-            for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
-                merchantFeatureProperty.setCheck(false);
-                merchantFeatureProperty.setConfirm(false);
-            }
-        }
-
-        List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList = filterValue.getPromotionNewList();
-        if (promotionNewList != null) {
-            for (MerchantFilterModel.ValueEntity.PromotionNewListEntity promotion : promotionNewList) {
-                promotion.setIsCheck(false);
-                promotion.setIsConfirm(false);
+        List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();
+        if (CheckUtils.isNoEmptyList(filtrateList)) {
+            for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+                if (CheckUtils.isNoEmptyList(filtrate.getList())) {
+                    for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity : filtrate.getList()) {
+                        merchantFeaturePropertyListEntity.setCheck(false);
+                        merchantFeaturePropertyListEntity.setConfirm(false);
+                    }
+                }
             }
         }
         substring = "";
-
     }
 
     private void clearFilter() {
@@ -1873,23 +1865,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     }
 
     private boolean isClearNewFilter() {
-        if (filterValue == null) {
+        if (filterValue == null || filterValue.getFiltrateList() == null) {
             return true;
         }
-        List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
-        if (merchantFeaturePropertyList != null) {
-            for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeatureProperty : merchantFeaturePropertyList) {
-                if (merchantFeatureProperty.isConfirm()) {
-                    return false;
-                }
-            }
-        }
-
-        List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList = filterValue.getPromotionNewList();
-        if (promotionNewList != null) {
-            for (MerchantFilterModel.ValueEntity.PromotionNewListEntity promotion : promotionNewList) {
-                if (promotion.isConfirm()) {
-                    return false;
+        List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();
+        for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+            if (CheckUtils.isNoEmptyList(filtrate.getList())) {
+                for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity : filtrate.getList()) {
+                    if (merchantFeaturePropertyListEntity.isConfirm()) {
+                        return false;
+                    }
                 }
             }
         }
@@ -2856,21 +2841,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
     private String getScreeningCondition() {
         if (filterValue != null) {
             StringBuilder sb = new StringBuilder();
-            List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList = filterValue.getMerchantFeaturePropertyList();
-            List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList = filterValue.getPromotionNewList();
-            if (CheckUtils.isNoEmptyList(merchantFeaturePropertyList)) {
-                for (int i = 0; i < merchantFeaturePropertyList.size(); i++) {
-                    MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity propertyListEntity = merchantFeaturePropertyList.get(i);
-                    if (propertyListEntity.isConfirm()) {
-                        sb.append(propertyListEntity.getName() + " ");
-                    }
-                }
-            }
-            if (CheckUtils.isNoEmptyList(promotionNewList)) {
-                for (int i = 0; i < promotionNewList.size(); i++) {
-                    MerchantFilterModel.ValueEntity.PromotionNewListEntity promotionNewListEntity = promotionNewList.get(i);
-                    if (promotionNewListEntity.isConfirm()) {
-                        sb.append(promotionNewListEntity.getName() + " ");
+
+            List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();
+            if (CheckUtils.isNoEmptyList(filtrateList)) {
+                for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+                    if (CheckUtils.isNoEmptyList(filtrate.getList())) {
+                        for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity : filtrate.getList()) {
+                            if (merchantFeaturePropertyListEntity.isConfirm()) {
+                                sb.append(merchantFeaturePropertyListEntity.getName() + " ");
+                            }
+                        }
                     }
                 }
             }
@@ -3180,45 +3160,36 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
         });
     }
 
-    private void showFiltratePop(final List<MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity> merchantFeaturePropertyList, final List<MerchantFilterModel.ValueEntity.PromotionNewListEntity> promotionNewList) {
+    private void showFiltratePop(final List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList) {
         LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.home_fragment_menu_filtrate, null);
-        GridView gridView = (GridView) linearLayout.findViewById(R.id.grid_view);
-        GridView gridView1 = (GridView) linearLayout.findViewById(R.id.grid_view1);
         View coverView = linearLayout.findViewById(R.id.home_fragment_menu_right_cover_view);
         TextView confirm = (TextView) linearLayout.findViewById(R.id.home_fragment_menu_right_confirm);
+        LinearLayout filtrateLayout = (LinearLayout) linearLayout.findViewById(R.id.filtrate_layout);
         TextView clear = (TextView) linearLayout.findViewById(R.id.home_fragment_menu_right_clear);
-        filtrateAdapter = new HomeFragmentFiltrateAdapter(mActivity, merchantFeaturePropertyList);
-        discountAdapter = new HomeFragmentDiscountAdapter(mActivity, promotionNewList);
-        gridView.setAdapter(filtrateAdapter);
-        gridView1.setAdapter(discountAdapter);
-        coverView.setOnClickListener(this);
+
         confirm.setOnClickListener(this);
         clear.setOnClickListener(this);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (merchantFeaturePropertyList.get(i).isCheck()) {
-                    merchantFeaturePropertyList.get(i).setCheck(false);
-                } else {
-                    merchantFeaturePropertyList.get(i).setCheck(true);
+        coverView.setOnClickListener(this);
+        if (CheckUtils.isNoEmptyList(filtrateList)) {
+            filtrateLayout.removeAllViews();
+            for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+                View view = mActivity.getLayoutInflater().inflate(R.layout.item_filtrate_layout, null);
+                TextView textView = (TextView) view.findViewById(R.id.name_textview);
+                GridView gridView = (GridView) view.findViewById(R.id.grid_view);
+                textView.setText(filtrate.getName());
+                HomeFragmentFiltrateAdapter filtrateAdapter = new HomeFragmentFiltrateAdapter(mActivity, filtrate.getList());
+                filtrateAdapter.setShowIcon(false);
+                filtrateAdapter.setSingleSelect(false);
+                if ("商家特色".equals(filtrate.getName())) {
+                    filtrateAdapter.setShowIcon(true);
+                    filtrateAdapter.setSingleSelect(true);
                 }
-                filtrateAdapter.notifyDataSetChanged();
+                gridView.setAdapter(filtrateAdapter);
+                filtrateLayout.addView(view);
             }
-        });
-        gridView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (promotionNewList.get(i).isCheck()) {
-                    promotionNewList.get(i).setIsCheck(false);
-                } else {
-                    promotionNewList.get(i).setIsCheck(true);
-                }
-                discountAdapter.notifyDataSetChanged();
-            }
-        });
+        }
         rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         rightMenuWindow.setOutsideTouchable(true);
-//        rightMenuWindow.showAsDropDown(menuBar, 0, 0);
 
         rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -3297,9 +3268,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     MerchantFilterModel merchantFilterModel = (MerchantFilterModel) obj;
                     filterValue = merchantFilterModel.getValue();
                     if (filterValue != null) {
-//                        menuBar.setVisibility(View.VISIBLE);
-//                        showRightMenuPop(filterValue.getShipmentList(), filterValue.getMerchantPropertyList(), filterValue.getPromotionList());
-                        showFiltratePop(filterValue.getMerchantFeaturePropertyList(), filterValue.getPromotionNewList());
+                        showFiltratePop(filterValue.getFiltrateList());
                     }
                 }
             }
