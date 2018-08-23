@@ -2840,6 +2840,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 
     private String getScreeningCondition() {
         if (filterValue != null) {
+            substring = "";
             StringBuilder sb = new StringBuilder();
 
             List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.MerchantFilterModel;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class HomeFragmentFiltrateAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private Context mContext;
 
+    private String name = "-1";
     private boolean isSingleSelect;
     private boolean isShowIcon;
 
@@ -93,11 +95,23 @@ public class HomeFragmentFiltrateAdapter extends BaseAdapter {
                     }
                 } else {
                     for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity list : mMerchantFeaturePropertyList) {
-                        list.setCheck(false);
+                        if (!(CheckUtils.isNoEmptyStr(merchantFeaturePropertyListEntity.getName()) && name.equals(merchantFeaturePropertyListEntity.getName()))) {
+                            list.setCheck(false);
+                        }
                     }
-                    merchantFeaturePropertyListEntity.setCheck(true);
-                }
 
+                    if (CheckUtils.isNoEmptyStr(merchantFeaturePropertyListEntity.getName()) && name.equals(merchantFeaturePropertyListEntity.getName())) {
+                        if (merchantFeaturePropertyListEntity.isCheck()) {
+                            merchantFeaturePropertyListEntity.setCheck(false);
+                        } else {
+                            merchantFeaturePropertyListEntity.setCheck(true);
+                        }
+                    } else {
+                        merchantFeaturePropertyListEntity.setCheck(true);
+                    }
+                    name = merchantFeaturePropertyListEntity.getName();
+
+                }
                 notifyDataSetChanged();
             }
         });
