@@ -431,8 +431,10 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     Intent intent = new Intent(mActivity, OnlinePayActivity.class);
                     intent.putExtra("orderId", submitOrderModel.getValue().getId());
                     intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
+                    intent.putExtra("merchantId", submitOrderModel.getValue().getMerchantId());
                     intent.putExtra("isGroupPurchaseBuy", true);
                     startActivity(intent);
+                    finish();
                 }
             }
         }, SubmitOrderModel.class);

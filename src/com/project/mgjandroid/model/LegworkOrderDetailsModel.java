@@ -124,22 +124,22 @@ public class LegworkOrderDetailsModel extends Entity {
         private AgentBean agent;
         private DeliveryTaskBean deliveryTask;
         private ShareRedBagInfo shareRedBagInfo;
-        private ArrayList<Distance> stairServiceChargeRuleList;
-        private ArrayList<SpecificTime> timeFrameServiceChargeList;
+        private String stairServiceChargeRuleList;
+        private String timeFrameServiceChargeList;
 
-        public ArrayList<Distance> getStairServiceChargeRuleList() {
+        public String getStairServiceChargeRuleList() {
             return stairServiceChargeRuleList;
         }
 
-        public void setStairServiceChargeRuleList(ArrayList<Distance> stairServiceChargeRuleList) {
+        public void setStairServiceChargeRuleList(String stairServiceChargeRuleList) {
             this.stairServiceChargeRuleList = stairServiceChargeRuleList;
         }
 
-        public ArrayList<SpecificTime> getTimeFrameServiceChargeList() {
+        public String getTimeFrameServiceChargeList() {
             return timeFrameServiceChargeList;
         }
 
-        public void setTimeFrameServiceChargeList(ArrayList<SpecificTime> timeFrameServiceChargeList) {
+        public void setTimeFrameServiceChargeList(String timeFrameServiceChargeList) {
             this.timeFrameServiceChargeList = timeFrameServiceChargeList;
         }
 
@@ -663,7 +663,7 @@ public class LegworkOrderDetailsModel extends Entity {
             this.redBagJson = redBagJson;
         }
 
-        public static class AgentBean {
+        public static class AgentBean extends Entity{
             /**
              * id : 3
              * createTime : 2016-03-21 15:43:33

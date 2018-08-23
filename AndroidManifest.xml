@@ -411,6 +411,9 @@
         <activity
             android:name=".ui.activity.OnlinePayActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AfterPaymentCompletionActivity"
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".alipay.AppRegister">
             <intent-filter>

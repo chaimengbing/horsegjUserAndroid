@@ -28,6 +28,7 @@ import com.project.mgjandroid.utils.inject.Injector;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LegworkbilingRulesActivity extends BaseActivity {
@@ -68,14 +69,15 @@ public class LegworkbilingRulesActivity extends BaseActivity {
             }
         }
         if(mValueBean!=null){
-            stairServiceChargeRuleList = mValueBean.getStairServiceChargeRuleList();
-            timeFrameServiceChargeList = mValueBean.getTimeFrameServiceChargeList();
-            tvBasePrice.setText(StringUtils.BigDecimal2Str(serviceChargeModel.getBaseCharge())+"元");
-            if(CheckUtils.isNoEmptyList(stairServiceChargeRuleList)){
-                showDistanceAdditional(stairServiceChargeRuleList);
+            String timeFrameServiceChargeList = mValueBean.getTimeFrameServiceChargeList();
+            ArrayList<Distance> distances = (ArrayList)JSONArray.parseArray(timeFrameServiceChargeList, Distance.class);
+            ArrayList<SpecificTime> specificTimes = (ArrayList)JSONArray.parseArray(timeFrameServiceChargeList, SpecificTime.class);
+            tvBasePrice.setText(mValueBean.getBaseCharge()+"元");
+            if(CheckUtils.isNoEmptyList(distances)){
+                showDistanceAdditional(distances);
             }
-            if(CheckUtils.isNoEmptyList(timeFrameServiceChargeList)){
-                showSpecificTime(timeFrameServiceChargeList);
+            if(CheckUtils.isNoEmptyList(specificTimes)){
+                showSpecificTime(specificTimes);
             }
         }
         commonBack.setOnClickListener(new View.OnClickListener() {

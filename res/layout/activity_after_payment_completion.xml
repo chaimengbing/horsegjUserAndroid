@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_bg"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -58,8 +59,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray_bg">
+        android:layout_height="wrap_content">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -68,10 +68,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/x25"
+                android:drawableLeft="@drawable/ic_payment_success"
                 android:drawablePadding="@dimen/x4"
                 android:text="支付成功"
                 android:textColor="@color/color_3"
@@ -85,11 +87,13 @@
             android:layout_marginLeft="@dimen/x30"
             android:layout_marginRight="@dimen/x30"
             android:layout_marginTop="@dimen/x67"
+            android:background="@drawable/bg_shadow"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/x15"
-            android:paddingRight="@dimen/x15">
+            android:paddingLeft="@dimen/x20"
+            android:paddingRight="@dimen/x20">
 
             <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/x22"
@@ -114,31 +118,33 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_payment_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x16"
-                        android:text="123"
                         android:textColor="@color/color_6"
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/tv_order_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/x19"
                         android:layout_marginTop="@dimen/x16"
-                        android:text="123"
                         android:textColor="@color/color_6"
                         android:textSize="13sp" />
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_button"
+                    android:layout_width="@dimen/x83"
+                    android:layout_height="@dimen/x30"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="@dimen/x19"
                     android:layout_marginTop="@dimen/x16"
-                    android:text="123"
+                    android:background="@drawable/bg_square5"
+                    android:gravity="center"
                     android:textColor="@color/color_3"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -147,4 +153,38 @@
 
     </FrameLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x45"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/x15"
+                android:paddingRight="@dimen/x15"
+                android:text="更多商家"
+                android:textColor="@color/color_3"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
+            <com.project.mgjandroid.ui.view.NoScrollListView
+                android:id="@+id/merchant_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/color_e5"
+                android:dividerHeight="1px" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -87,6 +87,8 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     private boolean isThirdparty = false;
     private String thirdUrl;
     private boolean isLegwork = false;
+    private int merchantId;
+    private String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +116,9 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         if (CheckUtils.isEmptyStr(orderId)) {
             ToastUtils.displayMsg("订单信息为空", mActivity);
             finish();
+        }
+        if(intent != null && intent.hasExtra("merchantId")){
+            merchantId = intent.getIntExtra("merchantId", -1);
         }
         if (intent.hasExtra("isGroup")) {
             isGroup = true;
@@ -324,19 +329,21 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                                 finish();
                             } else if (isGroupPurchase) {
                                 if (!getIntent().hasExtra("isFromDetail")) {
-                                    Intent intent = new Intent(OnlinePayActivity.this, GroupBuyingOrderForGoodsDetailsActivity.class);
-                                    intent.putExtra("orderId", id);
-                                    intent.putExtra("paySuccess", "onLinePay");
+                                    Intent intent = new Intent(OnlinePayActivity.this, AfterPaymentCompletionActivity.class);
+                                    intent.putExtra("mResult",result);
+                                    intent.putExtra("orderId",orderId);
+                                    intent.putExtra("merchantId",merchantId);
                                     startActivity(intent);
                                 }
                                 setResult(RESULT_OK);
                                 finish();
                             } else if (isGroupPurchaseBuy) {
                                 if (!getIntent().hasExtra("isFromDetail")) {
-                                    Intent intent = new Intent(OnlinePayActivity.this, PayBillDetailActivity.class);
-                                    intent.putExtra("orderId", id);
-                                    intent.putExtra("paySuccess", "onLinePay");
-                                    intent.putExtra("isCanIn", true);
+                                    Intent intent = new Intent(OnlinePayActivity.this, AfterPaymentCompletionActivity.class);
+                                    intent.putExtra("merchantId",merchantId);
+                                    intent.putExtra("mResult",result);
+                                    intent.putExtra("orderId",orderId);
+                                    intent.putExtra("isGroupPurchaseBuy",isGroupPurchaseBuy);
                                     startActivity(intent);
                                 }
                                 setResult(RESULT_OK);
@@ -426,7 +433,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         //支付页面返回处理
         if (requestCode == REQUEST_CODE_PAYMENT) {
             if (resultCode == Activity.RESULT_OK) {
-                String result = data.getExtras().getString("pay_result");
+                result = data.getExtras().getString("pay_result");
                 /* 处理返回值
                  * "success" - payment succeed
                  * "fail"    - payment failed
@@ -455,7 +462,13 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                         intent.putExtra(OrderDetailActivity.ORDER_ID, orderId);
                         startActivity(intent);
                         finish();
-                    } else {
+                    }else if (isGroupPurchaseBuy) {
+                        Intent intent = new Intent(OnlinePayActivity.this, AfterPaymentCompletionActivity.class);
+                        intent.putExtra("merchantId",merchantId);
+                        intent.putExtra("mResult",result);
+                        intent.putExtra("orderId",orderId);
+                        intent.putExtra("isGroupPurchaseBuy",isGroupPurchaseBuy);
+                        startActivity(intent);} else {
                         ToastUtils.displayMsg("支付失败", mActivity);
                     }
                 } else if ("cancel".equals(result)) {
@@ -549,17 +562,19 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
             setResult(RESULT_OK);
             finish();
         } else if (isGroupPurchase) {
-            Intent intent = new Intent(OnlinePayActivity.this, GroupBuyingOrderForGoodsDetailsActivity.class);
-            intent.putExtra("orderId", orderId);
-            intent.putExtra("paySuccess", "onLinePay");
+            Intent intent = new Intent(OnlinePayActivity.this, AfterPaymentCompletionActivity.class);
+            intent.putExtra("mResult",result);
+            intent.putExtra("orderId",orderId);
+            intent.putExtra("merchantId",merchantId);
             startActivity(intent);
             setResult(RESULT_OK);
             finish();
         } else if (isGroupPurchaseBuy) {
-            Intent intent = new Intent(OnlinePayActivity.this, PayBillDetailActivity.class);
-            intent.putExtra("orderId", orderId);
-            intent.putExtra("paySuccess", "onLinePay");
-            intent.putExtra("isCanIn", true);
+            Intent intent = new Intent(OnlinePayActivity.this, AfterPaymentCompletionActivity.class);
+            intent.putExtra("merchantId",merchantId);
+            intent.putExtra("mResult",result);
+            intent.putExtra("orderId",orderId);
+            intent.putExtra("isGroupPurchaseBuy",isGroupPurchaseBuy);
             startActivity(intent);
             setResult(RESULT_OK);
             finish();

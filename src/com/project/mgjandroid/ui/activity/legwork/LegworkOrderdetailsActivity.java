@@ -20,7 +20,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.Distance;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
 import com.project.mgjandroid.model.LegworkOrderDetailsModel;
