@@ -210,15 +210,15 @@ public class PLVideoListActivity extends BaseActivity {
             ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
             if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {//竖屏
                 WindowManager.LayoutParams attrs = getWindow().getAttributes();
-                attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-                getWindow().setAttributes(attrs);
-                getWindow().addFlags(
-                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-            } else {//横屏
-                WindowManager.LayoutParams attrs = getWindow().getAttributes();
                 attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 getWindow().setAttributes(attrs);
                 getWindow().clearFlags(
+                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            } else {//横屏
+                WindowManager.LayoutParams attrs = getWindow().getAttributes();
+                attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                getWindow().setAttributes(attrs);
+                getWindow().addFlags(
                         WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
                 params.height = LinearLayout.LayoutParams.MATCH_PARENT;
                 videoFrameLayout.setLayoutParams(params);
