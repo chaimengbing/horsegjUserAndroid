@@ -143,9 +143,6 @@ public class MerchantsFragment extends HeaderViewPagerFragment implements View.O
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (visibleLiveAdapter != null) {
-            visibleLiveAdapter.stopAll();
-        }
     }
 
     public void getData(Merchant merchant) {

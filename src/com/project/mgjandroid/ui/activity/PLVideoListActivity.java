@@ -190,7 +190,7 @@ public class PLVideoListActivity extends BaseActivity {
         visibleListLayout.setVisibility(View.VISIBLE);
 
         ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
-        params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x200);
+        params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x220);
         if (videoFrameLayout != null) {
             videoFrameLayout.setPadding(padding, padding, padding, padding);
             videoFrameLayout.setLayoutParams(params);
@@ -308,10 +308,6 @@ public class PLVideoListActivity extends BaseActivity {
                 holder.coverImageView.setBackgroundResource(0);
                 ImageUtils.loadBitmap(mActivity, visibleLive.getVideoPic(), holder.coverImageView, R.drawable.horsegj_default, "");
             }
-
-            ViewGroup.LayoutParams params = holder.videoLayout.getLayoutParams();
-            params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x220);
-            holder.videoLayout.setLayoutParams(params);
 
             holder.mVideoView.setVideoPath(mVideoPathList.get(pos).getVideoSrc());
             if (currentPos == pos && currentPos != -1) {

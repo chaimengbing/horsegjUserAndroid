@@ -38,7 +38,4 @@ public class VisibleLiveAdapter extends BaseRecyclerAdapter<VisibleLive> {
             ImageUtils.loadBitmap(mContext, bean.getVideoPic(), convreView, R.drawable.horsegj_default, "");
         }
     }
-
-    public void stopAll() {
-    }
 }
