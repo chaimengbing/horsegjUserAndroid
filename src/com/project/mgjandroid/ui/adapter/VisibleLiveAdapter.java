@@ -35,7 +35,6 @@ public class VisibleLiveAdapter extends BaseRecyclerAdapter<VisibleLive> {
         holder.setText(R.id.name_textview, bean.getPositionName());
         ImageView convreView = holder.get(R.id.cover_imageview);
         if (CheckUtils.isNoEmptyStr(bean.getVideoPic())) {
-            convreView.setBackgroundResource(0);
             ImageUtils.loadBitmap(mContext, bean.getVideoPic(), convreView, R.drawable.horsegj_default, "");
         }
     }

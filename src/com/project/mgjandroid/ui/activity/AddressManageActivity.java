@@ -166,7 +166,7 @@ public class AddressManageActivity extends BaseActivity implements View.OnClickL
         }
         if (agentId != -1) {
             map.put("agentId", agentId);
-            if(agentId!=-1){
+            if(type!=-1){
                 map.put("type", type);
             }
         }

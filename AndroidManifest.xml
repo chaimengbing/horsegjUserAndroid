@@ -171,8 +171,7 @@
             android:theme="@style/AppThemeFullscreen" />
         <activity
             android:name=".ui.activity.PLVideoListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait" />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".ui.activity.GoodsDetailActivity"
             android:screenOrientation="portrait"

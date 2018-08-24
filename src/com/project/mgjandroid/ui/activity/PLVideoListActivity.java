@@ -1,9 +1,12 @@
 package com.project.mgjandroid.ui.activity;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.alibaba.fastjson.JSON;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLOnErrorListener;
+import com.pili.pldroid.player.PLOnInfoListener;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.VisibleLive;
@@ -49,22 +53,20 @@ public class PLVideoListActivity extends BaseActivity {
     PLVideoTextureView plVideoTextureView;
     RelativeLayout controlLayout;
     RelativeLayout control;
-
+    ImageView playImageView;
+    ImageView playImage;
+    int padding;
+    private int currentPos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
         Injector.get(this).inject();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         initView();
+
+        padding = (int) getResources().getDimension(R.dimen.x10);
 
     }
 
@@ -107,10 +109,11 @@ public class PLVideoListActivity extends BaseActivity {
         fullScreen.addView(playerView);
         videoFrameLayout = (FrameLayout) playerView.findViewById(R.id.video_framelayout);
         plVideoTextureView = (PLVideoTextureView) playerView.findViewById(R.id.video_view);
-        ImageView playImageView = (ImageView) playerView.findViewById(R.id.play_imageview);
+        playImageView = (ImageView) playerView.findViewById(R.id.play_imageview);
         ImageView coverImageView = (ImageView) playerView.findViewById(R.id.cover_view);
         LinearLayout loadingLayout = (LinearLayout) playerView.findViewById(R.id.loading_view);
         ImageView screenImageView = (ImageView) playerView.findViewById(R.id.screen_imageview);
+        playImage = (ImageView) playerView.findViewById(R.id.small_play_imageview);
         controlLayout = (RelativeLayout) playerView.findViewById(R.id.control_layout);
         control = (RelativeLayout) playerView.findViewById(R.id.control);
         plVideoTextureView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_PAVED_PARENT);
@@ -123,12 +126,9 @@ public class PLVideoListActivity extends BaseActivity {
         options.setInteger(AVOptions.KEY_LOG_LEVEL, 5);
         plVideoTextureView.setAVOptions(options);
         plVideoTextureView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_FIT_PARENT);
+
         fullScreen.setVisibility(View.VISIBLE);
         visibleListLayout.setVisibility(View.GONE);
-
-        ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
-        params.height = LinearLayout.LayoutParams.MATCH_PARENT;
-        videoFrameLayout.setLayoutParams(params);
 
         control.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,49 +138,109 @@ public class PLVideoListActivity extends BaseActivity {
                 }
             }
         });
+
+        plVideoTextureView.setOnInfoListener(new PLOnInfoListener() {
+            @Override
+            public void onInfo(int what, int extra) {
+                switch (what) {
+                    case PLOnInfoListener.MEDIA_INFO_BUFFERING_END:
+                        playImage.setImageResource(R.drawable.player_stop);
+                        break;
+                    case PLOnInfoListener.MEDIA_INFO_BUFFERING_START:
+                        playImage.setImageResource(R.drawable.small_play_bg);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        playImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (plVideoTextureView.isPlaying()) {
+                    plVideoTextureView.pause();
+                    playImageView.setVisibility(View.VISIBLE);
+                    playImage.setImageResource(R.drawable.small_play_bg);
+                } else {
+                    playImageView.setVisibility(View.GONE);
+                    plVideoTextureView.start();
+                    playImage.setImageResource(R.drawable.player_stop);
+                }
+            }
+        });
+
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (fullScreen.getVisibility() == View.GONE) {
+            finish();
+        } else {
+            hideScreen();
+        }
+    }
 
     private void hideScreen() {
         //全屏
         fullScreen.setVisibility(View.GONE);
         fullScreen.removeAllViews();
         visibleListLayout.setVisibility(View.VISIBLE);
+
+        ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
+        params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x200);
+        if (videoFrameLayout != null) {
+            videoFrameLayout.setPadding(padding, padding, padding, padding);
+            videoFrameLayout.setLayoutParams(params);
+        }
+        if (plVideoTextureView != null) {
+            plVideoTextureView.setDisplayOrientation(0);
+        }
         if (playerView != null) {
             playerView = null;
         }
     }
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        if (plVideoTextureView != null && videoFrameLayout != null) {
-//            ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
-//            if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {//竖屏
-//                params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x200);
-//                videoFrameLayout.setLayoutParams(params);
-//                plVideoTextureView.setDisplayOrientation(0);
-//            } else {//横屏
-//                params.height = LinearLayout.LayoutParams.MATCH_PARENT;
-//                videoFrameLayout.setLayoutParams(params);
-//                plVideoTextureView.setDisplayOrientation(90);
-//            }
-//        }
-//    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (plVideoTextureView != null && videoFrameLayout != null) {
+            ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
+            if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {//竖屏
+                WindowManager.LayoutParams attrs = getWindow().getAttributes();
+                attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+                getWindow().setAttributes(attrs);
+                getWindow().addFlags(
+                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            } else {//横屏
+                WindowManager.LayoutParams attrs = getWindow().getAttributes();
+                attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                getWindow().setAttributes(attrs);
+                getWindow().clearFlags(
+                        WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                params.height = LinearLayout.LayoutParams.MATCH_PARENT;
+                videoFrameLayout.setLayoutParams(params);
+                videoFrameLayout.setPadding(0, 0, 0, 0);
+            }
+        }
+    }
 
     class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.ViewHolder> {
         List<VisibleLive> mVideoPathList;
         List<ViewHolder> mViewHolderList;
-        private int mDisplayAspectRatio = PLVideoTextureView.ASPECT_RATIO_FIT_PARENT;
 
         class ViewHolder extends RecyclerView.ViewHolder {
             PLVideoTextureView mVideoView;
             ImageView playImageView;
             ImageView coverImageView;
             ImageView screenImageView;
+            ImageView playImage;
             LinearLayout loadingLayout;
             RelativeLayout controlLayout;
             RelativeLayout control;
+            private FrameLayout videoLayout;
 
             ViewHolder(View view) {
                 super(view);
@@ -189,8 +249,10 @@ public class PLVideoListActivity extends BaseActivity {
                 coverImageView = (ImageView) view.findViewById(R.id.cover_view);
                 loadingLayout = (LinearLayout) view.findViewById(R.id.loading_view);
                 screenImageView = (ImageView) view.findViewById(R.id.screen_imageview);
+                playImage = (ImageView) view.findViewById(R.id.small_play_imageview);
                 controlLayout = (RelativeLayout) view.findViewById(R.id.control_layout);
                 control = (RelativeLayout) view.findViewById(R.id.control);
+                videoLayout = (FrameLayout) view.findViewById(R.id.video_framelayout);
 
                 AVOptions options = new AVOptions();
                 // the unit of timeout is ms
@@ -221,6 +283,17 @@ public class PLVideoListActivity extends BaseActivity {
             return holder;
         }
 
+
+        private void play(ViewHolder holder) {
+            holder.mVideoView.start();
+            holder.loadingLayout.setVisibility(View.VISIBLE);
+            holder.control.setVisibility(View.VISIBLE);
+            holder.playImageView.setVisibility(View.GONE);
+            holder.playImage.setImageResource(R.drawable.player_stop);
+            holder.coverImageView.setImageResource(R.drawable.horsegj_default);
+            holder.coverImageView.setBackgroundResource(R.drawable.surface_view_bg);
+        }
+
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int pos) {
             VisibleLive visibleLive = mVideoPathList.get(pos);
@@ -236,30 +309,60 @@ public class PLVideoListActivity extends BaseActivity {
                 ImageUtils.loadBitmap(mActivity, visibleLive.getVideoPic(), holder.coverImageView, R.drawable.horsegj_default, "");
             }
 
+            ViewGroup.LayoutParams params = holder.videoLayout.getLayoutParams();
+            params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x220);
+            holder.videoLayout.setLayoutParams(params);
+
+            holder.mVideoView.setVideoPath(mVideoPathList.get(pos).getVideoSrc());
+            if (currentPos == pos && currentPos != -1) {
+                play(holder);
+            }
+
             holder.coverImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if ((int) holder.coverImageView.getTag() == R.drawable.play_fail) {
-                        holder.mVideoView.setVideoPath(mVideoPathList.get(pos).getVideoSrc());
-                        holder.mVideoView.start();
-                        holder.loadingLayout.setVisibility(View.VISIBLE);
-                        holder.control.setVisibility(View.VISIBLE);
-                        holder.playImageView.setVisibility(View.GONE);
-                        holder.coverImageView.setImageResource(R.drawable.horsegj_default);
-                        holder.coverImageView.setBackgroundResource(R.drawable.surface_view_bg);
+                        play(holder);
                     }
                 }
             });
 
+            holder.mVideoView.setOnInfoListener(new PLOnInfoListener() {
+                @Override
+                public void onInfo(int what, int extra) {
+                    Log.i("onBindViewHolder::", "onBindViewHolder::what:" + what);
+                    switch (what) {
+                        case PLOnInfoListener.MEDIA_INFO_BUFFERING_END:
+                            holder.playImage.setImageResource(R.drawable.player_stop);
+                            break;
+                        case PLOnInfoListener.MEDIA_INFO_BUFFERING_START:
+                            holder.playImage.setImageResource(R.drawable.small_play_bg);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+
+
             holder.playImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    holder.mVideoView.setVideoPath(mVideoPathList.get(pos).getVideoSrc());
-                    holder.mVideoView.start();
-                    holder.loadingLayout.setVisibility(View.VISIBLE);
-                    holder.control.setVisibility(View.VISIBLE);
-                    holder.playImageView.setVisibility(View.GONE);
-                    holder.coverImageView.setBackgroundResource(0);
+                    play(holder);
+                }
+            });
+            holder.playImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (holder.mVideoView.isPlaying()) {
+                        holder.mVideoView.pause();
+                        holder.playImage.setImageResource(R.drawable.small_play_bg);
+                        holder.playImageView.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.mVideoView.start();
+                        holder.playImageView.setVisibility(View.GONE);
+                        holder.playImage.setImageResource(R.drawable.player_stop);
+                    }
                 }
             });
 
@@ -290,9 +393,12 @@ public class PLVideoListActivity extends BaseActivity {
                 public void onClick(View view) {
                     playerView = holder.itemView;
                     if (fullScreen.getVisibility() == View.GONE) {
+                        currentPos = pos;
                         showScreen();
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     } else {
                         hideScreen();
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     }
                 }
             });
@@ -314,7 +420,6 @@ public class PLVideoListActivity extends BaseActivity {
         @Override
         public void onViewDetachedFromWindow(ViewHolder holder) {
             holder.mVideoView.pause();
-            holder.mVideoView.stopPlayback();
             mViewHolderList.remove(holder);
         }
 
