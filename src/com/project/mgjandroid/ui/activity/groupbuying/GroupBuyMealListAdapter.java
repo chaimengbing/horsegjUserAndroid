@@ -64,7 +64,13 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         if (bean.getSumGroupPurchaseCouponGoodsOriginPrice() != null && bean.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
             tvOriginPrice.setText("门市价¥" + StringUtils.BigDecimal2Str(bean.getSumGroupPurchaseCouponGoodsOriginPrice()));
         }
-        tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
+        if(bean.getIsPurchaseRestriction()==4){
+            tvVip.setVisibility(View.VISIBLE);
+            tvOption.setText(bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ");
+        }else {
+            tvVip.setVisibility(View.GONE);
+            tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
+        }
         tvPayBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

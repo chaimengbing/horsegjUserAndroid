@@ -55,7 +55,8 @@
         android:layout_below="@+id/tv_name"
         android:layout_marginTop="@dimen/x5"
         android:layout_toRightOf="@+id/tv_option"
-        android:textSize="10sp"/>
+        android:textSize="10sp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tv_price"

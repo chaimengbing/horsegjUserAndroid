@@ -214,6 +214,7 @@ public class PLVideoListActivity extends BaseActivity {
                 getWindow().setAttributes(attrs);
                 getWindow().clearFlags(
                         WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
             } else {//横屏
                 WindowManager.LayoutParams attrs = getWindow().getAttributes();
                 attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -292,6 +293,8 @@ public class PLVideoListActivity extends BaseActivity {
             holder.playImage.setImageResource(R.drawable.player_stop);
             holder.coverImageView.setImageResource(R.drawable.horsegj_default);
             holder.coverImageView.setBackgroundResource(R.drawable.surface_view_bg);
+            ViewGroup.LayoutParams params = holder.videoLayout.getLayoutParams();
+
         }
 
         @Override

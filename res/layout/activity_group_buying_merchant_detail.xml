@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarThumbVertical="@drawable/xg_scrollbar"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -422,7 +422,7 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:visibility="gone">
+               >
 
                 <View
                     android:layout_width="match_parent"
@@ -466,6 +466,17 @@
                     android:layout_marginTop="@dimen/x8"
                     android:background="@drawable/shape_dashed"
                     android:layerType="software" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x45"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/x15"
+                    android:paddingRight="@dimen/x15"
+                    android:text="商家简介"
+                    android:textColor="@color/color_3"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_service"

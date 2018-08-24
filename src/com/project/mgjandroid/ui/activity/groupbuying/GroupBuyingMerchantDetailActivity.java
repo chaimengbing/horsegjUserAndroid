@@ -424,6 +424,9 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill);
             TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
             root.setTag(bean);
+
+
+
             tvPayBill.setTag(bean);
             tvSold.setText("已售"+bean.getBuyCount());
             tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));

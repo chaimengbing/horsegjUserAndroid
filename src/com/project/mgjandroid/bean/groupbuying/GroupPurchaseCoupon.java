@@ -117,6 +117,18 @@ public class GroupPurchaseCoupon extends BaseBean {
      * 预约日期
      */
     private String targetTime;
+    /**
+     * 新用户专享
+     */
+    private int isPurchaseRestriction;
+
+    public int getIsPurchaseRestriction() {
+        return isPurchaseRestriction;
+    }
+
+    public void setIsPurchaseRestriction(int isPurchaseRestriction) {
+        this.isPurchaseRestriction = isPurchaseRestriction;
+    }
 
     public Long getAgentId() {
         return agentId;

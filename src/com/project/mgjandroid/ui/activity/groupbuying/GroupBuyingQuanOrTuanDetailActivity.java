@@ -286,6 +286,13 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             str += "代" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()) + "元";
         } else if (groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice() != null && groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
             str = "门市价: ¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice());
+            if(groupPurchaseCoupon.getIsPurchaseRestriction()==4){
+                tvVip.setVisibility(View.VISIBLE);
+                tvVip1.setVisibility(View.VISIBLE);
+            }else {
+                tvVip.setVisibility(View.GONE);
+                tvVip1.setVisibility(View.GONE);
+            }
             tvVip.setVisibility(View.VISIBLE);
             tvVip1.setVisibility(View.VISIBLE);
         }
