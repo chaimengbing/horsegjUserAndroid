@@ -106,7 +106,7 @@ public class SelectRedBagActivity extends BaseActivity {
         isAgentId = getIntent().getLongExtra("isAgentId", -1l);
         userAddressId = getIntent().getLongExtra(ADDRESS_ID, -1l);
 
-        if (platformRedbagId == -1) {
+        if (platformRedbagId <= 0) {
             notUse.setChecked(true);
         } else {
             notUse.setChecked(false);
