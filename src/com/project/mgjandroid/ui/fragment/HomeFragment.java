@@ -2008,6 +2008,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 getBroadcast();
                 getPrimaryPublicity();
                 getRecommendCategory();
+                showReceiverRedBagDialog();
             }
         }, FindAgentModel.class);
     }
@@ -2800,7 +2801,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                     adapter.setList(mlist);
                 }
                 openLocationDialog();
-                showReceiverRedBagDialog();
             }
         }, CommercialListModel.class);
 

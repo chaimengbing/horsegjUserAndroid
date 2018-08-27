@@ -439,6 +439,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 if (pager.getCurrentItem() != INDEX_HOME) {
                     pager.setCurrentItem(INDEX_HOME, false);
                 }
+                if (App.isLogin()){
+                    showReceiverRedBagDialog();
+                }
                 break;
             case R.id.home_act_layout_super_market:
                 if (pager.getCurrentItem() != INDEX_SUPERMARKET) {
@@ -479,9 +482,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
             case R.id.login_textview:
                 hiddenReceiverRedBagDialog();
                 if (App.isLogin()) {
-                    startActivityForResult(new Intent(mActivity, BindMobileActivity.class), 0);
+                    startActivityForResult(new Intent(mActivity, BindMobileActivity.class), LOGIN_RECEIVER_REDBAG);
                 } else {
-                    startActivityForResult(new Intent(mActivity, SmsLoginActivity.class), 0);
+                    startActivityForResult(new Intent(mActivity, SmsLoginActivity.class), LOGIN_RECEIVER_REDBAG);
                 }
                 break;
             default:
@@ -544,11 +547,12 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 pager.setCurrentItem(INDEX_SUPERMARKET, false);
                 break;
             case MineFragment.LOGIN_IN_SUCCESS:
-            case LOGIN_RECEIVER_REDBAG:
-                showReceiverRedBagDialog();
                 break;
             default:
                 break;
+        }
+        if (requestCode == LOGIN_RECEIVER_REDBAG) {
+            showReceiverRedBagDialog();
         }
     }
 

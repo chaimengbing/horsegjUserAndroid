@@ -2135,6 +2135,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
 
                 }
                 getDate(false, false);
+                showReceiverRedBagDialog();
             }
         }, FindAgentModel.class);
     }
@@ -2540,7 +2541,6 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                     adapter.setList(mlist);
                 }
                 openLocationDialog();
-                showReceiverRedBagDialog();
 
             }
         }, CommercialListModel.class);
