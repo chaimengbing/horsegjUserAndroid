@@ -47,6 +47,8 @@
             android:layout_alignParentBottom="true"
             android:drawableLeft="@drawable/visible_live_icon"
             android:drawablePadding="@dimen/x5"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:text="大厅"
             android:textColor="@color/white" />
 

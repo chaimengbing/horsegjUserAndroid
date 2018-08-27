@@ -49,7 +49,7 @@ public class PLVideoListActivity extends BaseActivity {
     /**
      * 全屏的view
      */
-    private FrameLayout videoFrameLayout;
+    private RelativeLayout videoFrameLayout;
     PLVideoTextureView plVideoTextureView;
     RelativeLayout controlLayout;
     RelativeLayout control;
@@ -107,7 +107,7 @@ public class PLVideoListActivity extends BaseActivity {
             viewGroup.removeAllViews();
         }
         fullScreen.addView(playerView);
-        videoFrameLayout = (FrameLayout) playerView.findViewById(R.id.video_framelayout);
+        videoFrameLayout = (RelativeLayout) playerView.findViewById(R.id.video_framelayout);
         plVideoTextureView = (PLVideoTextureView) playerView.findViewById(R.id.video_view);
         playImageView = (ImageView) playerView.findViewById(R.id.play_imageview);
         ImageView coverImageView = (ImageView) playerView.findViewById(R.id.cover_view);
@@ -179,6 +179,7 @@ public class PLVideoListActivity extends BaseActivity {
         if (fullScreen.getVisibility() == View.GONE) {
             finish();
         } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             hideScreen();
         }
     }
@@ -241,7 +242,6 @@ public class PLVideoListActivity extends BaseActivity {
             LinearLayout loadingLayout;
             RelativeLayout controlLayout;
             RelativeLayout control;
-            private FrameLayout videoLayout;
 
             ViewHolder(View view) {
                 super(view);
@@ -253,7 +253,6 @@ public class PLVideoListActivity extends BaseActivity {
                 playImage = (ImageView) view.findViewById(R.id.small_play_imageview);
                 controlLayout = (RelativeLayout) view.findViewById(R.id.control_layout);
                 control = (RelativeLayout) view.findViewById(R.id.control);
-                videoLayout = (FrameLayout) view.findViewById(R.id.video_framelayout);
 
                 AVOptions options = new AVOptions();
                 // the unit of timeout is ms
@@ -285,7 +284,8 @@ public class PLVideoListActivity extends BaseActivity {
         }
 
 
-        private void play(ViewHolder holder) {
+        private void play(ViewHolder holder, String videoPath) {
+            holder.mVideoView.setVideoPath(videoPath);
             holder.mVideoView.start();
             holder.loadingLayout.setVisibility(View.VISIBLE);
             holder.control.setVisibility(View.VISIBLE);
@@ -293,13 +293,11 @@ public class PLVideoListActivity extends BaseActivity {
             holder.playImage.setImageResource(R.drawable.player_stop);
             holder.coverImageView.setImageResource(R.drawable.horsegj_default);
             holder.coverImageView.setBackgroundResource(R.drawable.surface_view_bg);
-            ViewGroup.LayoutParams params = holder.videoLayout.getLayoutParams();
-
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int pos) {
-            VisibleLive visibleLive = mVideoPathList.get(pos);
+            final VisibleLive visibleLive = mVideoPathList.get(pos);
             holder.mVideoView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_PAVED_PARENT);
             holder.mVideoView.setBufferingIndicator(holder.loadingLayout);
             holder.mVideoView.setCoverView(holder.coverImageView);
@@ -311,17 +309,16 @@ public class PLVideoListActivity extends BaseActivity {
                 holder.coverImageView.setBackgroundResource(0);
                 ImageUtils.loadBitmap(mActivity, visibleLive.getVideoPic(), holder.coverImageView, R.drawable.horsegj_default, "");
             }
-
-            holder.mVideoView.setVideoPath(mVideoPathList.get(pos).getVideoSrc());
+            holder.controlLayout.setVisibility(View.GONE);
             if (currentPos == pos && currentPos != -1) {
-                play(holder);
+                play(holder, visibleLive.getVideoSrc());
             }
 
             holder.coverImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if ((int) holder.coverImageView.getTag() == R.drawable.play_fail) {
-                        play(holder);
+                        play(holder, visibleLive.getVideoSrc());
                     }
                 }
             });
@@ -329,7 +326,7 @@ public class PLVideoListActivity extends BaseActivity {
             holder.mVideoView.setOnInfoListener(new PLOnInfoListener() {
                 @Override
                 public void onInfo(int what, int extra) {
-                    Log.i("onBindViewHolder::", "onBindViewHolder::what:" + what);
+//                    Log.i("onBindViewHolder::", "onBindViewHolder::what:" + what);
                     switch (what) {
                         case PLOnInfoListener.MEDIA_INFO_BUFFERING_END:
                             holder.playImage.setImageResource(R.drawable.player_stop);
@@ -347,7 +344,29 @@ public class PLVideoListActivity extends BaseActivity {
             holder.playImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    play(holder);
+
+                    if (currentPos != -1 && currentPos != pos) {
+                        View viewVideo = mVideoListView.getChildAt(currentPos);
+                        if (viewVideo != null) {
+                            ViewHolder viewHolder = (ViewHolder) mVideoListView.getChildViewHolder(viewVideo);
+                            if (viewHolder != null) {
+                                viewHolder.mVideoView.stopPlayback();
+                                viewHolder.playImageView.setVisibility(View.VISIBLE);
+                                viewHolder.loadingLayout.setVisibility(View.GONE);
+                                if (CheckUtils.isNoEmptyStr(visibleLive.getVideoPic())) {
+                                    viewHolder.coverImageView.setBackgroundResource(0);
+                                    ImageUtils.loadBitmap(mActivity, visibleLive.getVideoPic(), viewHolder.coverImageView, R.drawable.horsegj_default, "");
+                                } else {
+                                    viewHolder.coverImageView.setVisibility(View.VISIBLE);
+                                    viewHolder.coverImageView.setBackgroundResource(R.drawable.surface_view_bg);
+                                    viewHolder.coverImageView.setImageResource(R.drawable.horsegj_default);
+                                }
+                            }
+                        }
+                    }
+
+                    currentPos = pos;
+                    play(holder, visibleLive.getVideoSrc());
                 }
             });
             holder.playImage.setOnClickListener(new View.OnClickListener() {
