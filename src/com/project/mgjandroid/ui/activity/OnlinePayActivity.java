@@ -293,6 +293,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             }
                         } else {
                             ToastUtils.displayMsg(obj.toString(), mActivity);
+                            result = "fail";
                             gotoDetail();
                             setResult(RESULT_OK);
                             finish();
@@ -333,9 +334,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             } else if (isGroupPurchase) {
                                 if (!getIntent().hasExtra("isFromDetail")) {
                                     Intent intent = new Intent(OnlinePayActivity.this, AfterPaymentCompletionActivity.class);
-                                    if(model!=null){
-                                        intent.putExtra("code",model.getCode());
-                                    }
+                                    intent.putExtra("mResult",result);
                                     intent.putExtra("orderId",orderId);
                                     intent.putExtra("merchantId",merchantId);
                                     startActivity(intent);
