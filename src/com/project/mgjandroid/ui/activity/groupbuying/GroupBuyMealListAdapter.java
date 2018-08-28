@@ -87,6 +87,7 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
                     tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvPayBill.setEnabled(false);
                     tvSold.setText("已售罄");
+                    return;
                 }else {
                     tvPayBill.setBackgroundResource(R.drawable.buy_bg);
                     tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));

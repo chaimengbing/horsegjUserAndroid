@@ -21,6 +21,7 @@ import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.BalancePayModel;
 import com.project.mgjandroid.model.CheckOrderPayModel;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
+import com.project.mgjandroid.model.FindCategoryModel;
 import com.project.mgjandroid.model.GetAlipayInfoModel;
 import com.project.mgjandroid.model.GroupOrderDetailModel;
 import com.project.mgjandroid.model.PayWaysModel;
@@ -89,6 +90,8 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     private boolean isLegwork = false;
     private int merchantId;
     private String result;
+    private BalancePayModel model;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,7 +333,9 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             } else if (isGroupPurchase) {
                                 if (!getIntent().hasExtra("isFromDetail")) {
                                     Intent intent = new Intent(OnlinePayActivity.this, AfterPaymentCompletionActivity.class);
-                                    intent.putExtra("mResult",result);
+                                    if(model!=null){
+                                        intent.putExtra("code",model.getCode());
+                                    }
                                     intent.putExtra("orderId",orderId);
                                     intent.putExtra("merchantId",merchantId);
                                     startActivity(intent);

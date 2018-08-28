@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ import com.project.mgjandroid.model.FindCategoryModel;
 import com.project.mgjandroid.model.MerchantFilterModel;
 import com.project.mgjandroid.model.PickGoodsModel;
 import com.project.mgjandroid.net.VolleyOperater;
+import com.project.mgjandroid.ui.adapter.HomeFragmentFiltrateAdapter;
 import com.project.mgjandroid.ui.adapter.HomeRestaurantAdapter;
 import com.project.mgjandroid.ui.adapter.HomeSortAdapter;
 import com.project.mgjandroid.ui.adapter.LeftMenuPopChildAdapter;
@@ -75,7 +77,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
     private PullToRefreshListView listView;
 
     protected boolean refreshFlag = true;
-    private static final int maxResults = 20;
+    private static final int maxResults = 10;
     private int currentResultPage = 0;
     private HomeRestaurantAdapter adapter;
     private PopupWindow leftMenuWindow;
@@ -109,6 +111,8 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
     private int mSelectPosition;
     private int mSelectChildPosition = -1;
     private View listEmptyView;
+    private String substring;
+    private long agentId;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -125,6 +129,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
         tagCategorySecondId = getIntent().getLongExtra("tagCategorySecondId", -1);
         tagCategoryType = getIntent().getIntExtra("tagCategoryType", 1);
         title = getIntent().getExtras().getString("categoryName");
+        agentId = PreferenceUtils.getLongPreference("issueAgentId", 0, mActivity);
         tvTitle.setText(title);
 
         ivBack.setOnClickListener(this);
@@ -187,19 +192,28 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
         if (tagParentId != -1) {
             map.put("tagParentId", tagParentId);
         }
+        if (agentId != 0) {
+            map.put("agentId", agentId);
+        }else {
+            return;
+        }
         map.put("latitude", PreferenceUtils.getLocation(mActivity)[0]);
         map.put("longitude", PreferenceUtils.getLocation(mActivity)[1]);
-        String shipParams = getShipParams();
-        if (shipParams.length() > 0) {
-            map.put("shipFilter", shipParams);
-        }
-        String propertyParams = getPropertyParams();
-        if (propertyParams.length() > 0) {
-            map.put("propertyFilter", propertyParams);
-        }
-        String promotionParams = getPromotionParams();
-        if (promotionParams.length() > 0) {
-            map.put("promotionFilter", promotionParams);
+//        String shipParams = getShipParams();
+//        if (shipParams.length() > 0) {
+//            map.put("shipFilter", shipParams);
+//        }
+//        String propertyParams = getPropertyParams();
+//        if (propertyParams.length() > 0) {
+//            map.put("propertyFilter", propertyParams);
+//        }
+//        String promotionParams = getPromotionParams();
+//        if (promotionParams.length() > 0) {
+//            map.put("promotionFilter", promotionParams);
+//        }
+        String screeningCondition = getScreeningCondition();
+        if (screeningCondition.length() > 0) {
+            map.put("merchantTags", screeningCondition);
         }
         VolleyOperater<CommercialListModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_fIND_TAKE_AWAY_MERCHANT, map, new VolleyOperater.ResponseListener() {
@@ -267,6 +281,31 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
             }
         }
         return 1;
+    }
+
+    private String getScreeningCondition() {
+        if (filterValue != null) {
+            substring = "";
+            StringBuilder sb = new StringBuilder();
+
+            List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();
+            if (CheckUtils.isNoEmptyList(filtrateList)) {
+                for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+                    if (CheckUtils.isNoEmptyList(filtrate.getList())) {
+                        for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity : filtrate.getList()) {
+                            if (merchantFeaturePropertyListEntity.isConfirm()) {
+                                sb.append(merchantFeaturePropertyListEntity.getName() + " ");
+                            }
+                        }
+                    }
+                }
+            }
+            if (CheckUtils.isNoEmptyStr(sb.toString())) {
+                substring = sb.substring(0, sb.lastIndexOf(" "));
+            }
+            return substring;
+        }
+        return "";
     }
 
     private String getShipParams() {
@@ -379,9 +418,9 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
                 }
                 break;
             case R.id.primary_category_act_menu_layout_3:
-                if (filterValue != null) {
-                    setFilterState();
-                }
+//                if (filterValue != null) {
+//                    setFilterState();
+//                }
                 tvMenu3.setTextColor(getResources().getColor(R.color.title_bar_bg));
                 tvMenu3.setCompoundDrawables(null, null, rightDrawableOrange, null);
                 if (rightMenuWindow != null) {
@@ -411,13 +450,13 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.home_fragment_menu_right_clear:
                 rightMenuWindow.dismiss();
-                clearFilter();
+                clearNewFilter();
                 currentResultPage = 0;
                 getDate(true, false);
                 break;
             case R.id.home_fragment_menu_right_confirm:
                 rightMenuWindow.dismiss();
-                confirmFilter();
+                confirmNewFilter();
                 currentResultPage = 0;
                 getDate(true, false);
                 break;
@@ -433,8 +472,8 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
 
     private void initPopupMenu() {
         midPrePosition = -1;
-        if (filterValue != null && !isClearFilter())
-            clearFilter();
+        if (filterValue != null && !isClearNewFilter())
+            clearNewFilter();
         leftMenuWindow = null;
         midMenuWindow = null;
         rightMenuWindow = null;
@@ -443,6 +482,23 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
         tagId = -1;
         tagParentId = -1;
         leftPopMenuChild = new ArrayList<>();
+    }
+
+    private boolean isClearNewFilter() {
+        if (filterValue == null || filterValue.getFiltrateList() == null) {
+            return true;
+        }
+        List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();
+        for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+            if (CheckUtils.isNoEmptyList(filtrate.getList())) {
+                for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity : filtrate.getList()) {
+                    if (merchantFeaturePropertyListEntity.isConfirm()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     private boolean isClearFilter() {
@@ -472,6 +528,23 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
         return true;
     }
 
+    private void confirmNewFilter() {
+        List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();
+        if (CheckUtils.isNoEmptyList(filtrateList)) {
+            for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+                if (CheckUtils.isNoEmptyList(filtrate.getList())) {
+                    for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity : filtrate.getList()) {
+                        if (merchantFeaturePropertyListEntity.isCheck()) {
+                            merchantFeaturePropertyListEntity.setConfirm(true);
+                        } else {
+                            merchantFeaturePropertyListEntity.setConfirm(false);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private void confirmFilter() {
         List<MerchantFilterModel.ValueEntity.ShipmentListEntity> shipmentList = filterValue.getShipmentList();
         for (MerchantFilterModel.ValueEntity.ShipmentListEntity ship : shipmentList) {
@@ -499,6 +572,21 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
                 promotion.setIsConfirm(false);
             }
         }
+    }
+
+    private void clearNewFilter() {
+        List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList = filterValue.getFiltrateList();
+        if (CheckUtils.isNoEmptyList(filtrateList)) {
+            for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+                if (CheckUtils.isNoEmptyList(filtrate.getList())) {
+                    for (MerchantFilterModel.ValueEntity.MerchantFeaturePropertyListEntity merchantFeaturePropertyListEntity : filtrate.getList()) {
+                        merchantFeaturePropertyListEntity.setCheck(false);
+                        merchantFeaturePropertyListEntity.setConfirm(false);
+                    }
+                }
+            }
+        }
+        substring = "";
     }
 
     private void clearFilter() {
@@ -782,6 +870,47 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
         });
     }
 
+    private void showFiltratePop(final List<MerchantFilterModel.ValueEntity.Filtrate> filtrateList) {
+        LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.home_fragment_menu_filtrate, null);
+        View coverView = linearLayout.findViewById(R.id.home_fragment_menu_right_cover_view);
+        TextView confirm = (TextView) linearLayout.findViewById(R.id.home_fragment_menu_right_confirm);
+        LinearLayout filtrateLayout = (LinearLayout) linearLayout.findViewById(R.id.filtrate_layout);
+        TextView clear = (TextView) linearLayout.findViewById(R.id.home_fragment_menu_right_clear);
+
+        confirm.setOnClickListener(this);
+        clear.setOnClickListener(this);
+        coverView.setOnClickListener(this);
+        if (CheckUtils.isNoEmptyList(filtrateList)) {
+            filtrateLayout.removeAllViews();
+            for (MerchantFilterModel.ValueEntity.Filtrate filtrate : filtrateList) {
+                View view = mActivity.getLayoutInflater().inflate(R.layout.item_filtrate_layout, null);
+                TextView textView = (TextView) view.findViewById(R.id.name_textview);
+                GridView gridView = (GridView) view.findViewById(R.id.grid_view);
+                textView.setText(filtrate.getName());
+                HomeFragmentFiltrateAdapter filtrateAdapter = new HomeFragmentFiltrateAdapter(mActivity, filtrate.getList());
+                filtrateAdapter.setShowIcon(false);
+                filtrateAdapter.setSingleSelect(false);
+                if ("商家特色".equals(filtrate.getName())) {
+                    filtrateAdapter.setShowIcon(true);
+                    filtrateAdapter.setSingleSelect(true);
+                }
+                gridView.setAdapter(filtrateAdapter);
+                filtrateLayout.addView(view);
+            }
+        }
+        rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        rightMenuWindow.setOutsideTouchable(true);
+        rightMenuWindow.showAsDropDown(menuBar, 0, 0);
+
+        rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                tvMenu3.setTextColor(getResources().getColor(R.color.gray_text_0));
+                tvMenu3.setCompoundDrawables(null, null, rightDrawableGray, null);
+            }
+        });
+    }
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         for (int i = 0; i < group.getChildCount(); i++) {
@@ -875,7 +1004,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
                     MerchantFilterModel merchantFilterModel = (MerchantFilterModel) obj;
                     filterValue = merchantFilterModel.getValue();
                     if (filterValue != null) {
-                        showRightMenuPop(filterValue.getShipmentList(), filterValue.getMerchantPropertyList(), filterValue.getPromotionList());
+                        showFiltratePop(filterValue.getFiltrateList());
                     }
                 }
             }

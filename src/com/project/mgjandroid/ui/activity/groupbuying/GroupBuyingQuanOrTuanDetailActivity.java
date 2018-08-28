@@ -310,6 +310,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     tvBuy1.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvBuy1.setEnabled(false);
                     tvBuy1.setText("已售罄");
+                    return;
                 }else {
                     tvBuy.setBackgroundResource(R.drawable.buy_bg);
                     tvBuy.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));

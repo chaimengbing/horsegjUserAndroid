@@ -22,6 +22,7 @@ import com.project.mgjandroid.model.groupbuying.GroupBuyingOrderModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingAddEvaluationActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingMerchantAdapter;
+import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingOrderForGoodsDetailsActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingUseActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.PayBillDetailActivity;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
@@ -66,6 +67,8 @@ public class AfterPaymentCompletionActivity extends BaseActivity{
     private String orderId;
     private GroupPurchaseOrder order;
     private boolean isGroupPurchaseBuy;
+    private int code;
+    private boolean isSucceed;
 
 
     @Override
@@ -81,6 +84,7 @@ public class AfterPaymentCompletionActivity extends BaseActivity{
         merchantId = getIntent().getIntExtra("merchantId", -1);
         mResult = getIntent().getStringExtra("mResult");
         orderId = getIntent().getStringExtra("orderId");
+        isSucceed = getIntent().getBooleanExtra("isSucceed",false);
         isGroupPurchaseBuy = getIntent().getBooleanExtra("isGroupPurchaseBuy", false);
         if(merchantId==-1){
             finish();
@@ -92,25 +96,48 @@ public class AfterPaymentCompletionActivity extends BaseActivity{
     }
 
     private void showInformation(){
-        if("success".equals(mResult)){
-            tvHint.setText("支付成功");
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_payment_success);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            tvHint.setCompoundDrawables(drawable,null,null,null);
-            if(isGroupPurchaseBuy){
-                tvButton.setText("评价");
-            }else {
-                if(order.getGroupPurchaseOrderCoupon().getType()==2&&order.getStatus()==4){
-                    tvButton.setText("查看详情");
-                }else if(order.getStatus()==2){
-                    tvButton.setText("立即使用");
+        if(CheckUtils.isNoEmptyStr(mResult)){
+            if("success".equals(mResult)){
+                tvHint.setText("支付成功");
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_payment_success);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvHint.setCompoundDrawables(drawable,null,null,null);
+                if(isGroupPurchaseBuy){
+                    tvButton.setText("评价");
+                }else {
+                    if(order.getGroupPurchaseOrderCoupon().getType()==2&&order.getStatus()==4){
+                        tvButton.setText("查看详情");
+                    }else if(order.getStatus()==2){
+                        tvButton.setText("立即使用");
+                    }
                 }
+            }else if("fail".equals(mResult)){
+                tvHint.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_payment_unsuccess),null,null,null);
+                tvHint.setText("支付失败");
+                tvButton.setText("重新支付");
             }
-        }else if("fail".equals(mResult)){
-            tvHint.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_payment_unsuccess),null,null,null);
-            tvHint.setText("支付失败");
-            tvButton.setText("重新支付");
+        }else if(code!=-1){
+            if(code==0){
+                tvHint.setText("支付成功");
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_payment_success);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvHint.setCompoundDrawables(drawable,null,null,null);
+                if(isGroupPurchaseBuy){
+                    tvButton.setText("评价");
+                }else {
+                    if(order.getGroupPurchaseOrderCoupon().getType()==2&&order.getStatus()==4){
+                        tvButton.setText("查看详情");
+                    }else if(order.getStatus()==2){
+                        tvButton.setText("立即使用");
+                    }
+                }
+            }else if(code==1){
+                tvHint.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_payment_unsuccess),null,null,null);
+                tvHint.setText("支付失败");
+                tvButton.setText("重新支付");
+            }
         }
+
         if(order!=null){
             tvName.setText(order.getGroupPurchaseMerchantName());
             tvPaymentAmount.setText("实付金额："+ StringUtils.BigDecimal2Str(order.getTotalPrice())+"元");
@@ -125,12 +152,14 @@ public class AfterPaymentCompletionActivity extends BaseActivity{
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(order.getGroupPurchaseOrderCoupon().getType()==2){
+                if(order.getGroupPurchaseOrderCoupon().getType()==3){
                     Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
                     intentDetail.putExtra("orderId", orderId);
                     startActivityForResult(intentDetail, REFRESH);
                 }else {
-                    GroupBuyingUseActivity.toGroupBuyingUseActivity(mActivity, JSONArray.toJSONString(order.getGroupPurchaseOrderCouponCodeList()),orderId,JSONArray.toJSONString(order.getGroupPurchaseOrderCouponGoodsList()),order.getGroupPurchaseMerchantName(),order.getRefreshTime(),REFRESH);
+                    Intent intentDetail = new Intent(mActivity, GroupBuyingOrderForGoodsDetailsActivity.class);
+                    intentDetail.putExtra("orderId", order.getId());
+                    startActivityForResult(intentDetail, REFRESH);
                 }
             }
         });
@@ -150,8 +179,8 @@ public class AfterPaymentCompletionActivity extends BaseActivity{
                 startActivityForResult(carEvaluate, REFRESH);
             }else {
                 if(order.getGroupPurchaseOrderCoupon().getType()==2&&order.getStatus()==4){
-                    Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
-                    intentDetail.putExtra("orderId", orderId);
+                    Intent intentDetail = new Intent(mActivity, GroupBuyingOrderForGoodsDetailsActivity.class);
+                    intentDetail.putExtra("orderId", order.getId());
                     startActivityForResult(intentDetail, REFRESH);
                 }else if(order.getStatus()==2){
                     GroupBuyingUseActivity.toGroupBuyingUseActivity(mActivity, JSONArray.toJSONString(order.getGroupPurchaseOrderCouponCodeList()),orderId,JSONArray.toJSONString(order.getGroupPurchaseOrderCouponGoodsList()),order.getGroupPurchaseMerchantName(),order.getRefreshTime(),REFRESH);
