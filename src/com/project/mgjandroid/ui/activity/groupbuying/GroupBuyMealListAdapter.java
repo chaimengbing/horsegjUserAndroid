@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.github.mzule.activityrouter.router.Routers;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
@@ -22,7 +23,12 @@ import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.StringUtils;
 
+import org.json.JSONArray;
+
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon>{
 
@@ -55,7 +61,6 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         TextView tvSold =holder.getView(R.id.tv_sold);
         TextView tvPrice =holder.getView(R.id.tv_price);
         TextView tvVip =holder.getView(R.id.tv_vip);
-        tvSold.setText("已售"+bean.getBuyCount());
         if (CheckUtils.isNoEmptyStr(bean.getImages())) {
             ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
         }
@@ -64,13 +69,33 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         if (bean.getSumGroupPurchaseCouponGoodsOriginPrice() != null && bean.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
             tvOriginPrice.setText("门市价¥" + StringUtils.BigDecimal2Str(bean.getSumGroupPurchaseCouponGoodsOriginPrice()));
         }
-        if(bean.getIsPurchaseRestriction()==4){
+        if(bean.getIsPurchaseRestriction()==3){
             tvVip.setVisibility(View.VISIBLE);
-            tvOption.setText(bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ");
+            tvOption.setText(bean.getIsBespeak() == 0 ? "免预约" : "需预约 ");
         }else {
             tvVip.setVisibility(View.GONE);
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
         }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        String format = simpleDateFormat.format(date);
+        if(CheckUtils.isNoEmptyStr(bean.getSellOutDates())){
+            List<String> stringList = com.alibaba.fastjson.JSONArray.parseArray(bean.getSellOutDates(), String.class);
+            for(String str : stringList){
+                if(format.equals(str)){
+                    tvPayBill.setBackgroundResource(R.drawable.buy_gary_bg);
+                    tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.white));
+                    tvPayBill.setEnabled(false);
+                    tvSold.setText("已售罄");
+                }else {
+                    tvPayBill.setBackgroundResource(R.drawable.buy_bg);
+                    tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));
+                    tvPayBill.setEnabled(true);
+                    tvSold.setText("已售"+bean.getBuyCount());
+                }
+            }
+        }
+
         tvPayBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -45,8 +45,11 @@ import com.project.mgjandroid.utils.inject.Injector;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BuyTicketActivity extends BaseActivity implements View.OnClickListener {
@@ -112,6 +115,10 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private int bespeakDays;
     private GroupPurchaseCoupon groupPurchaseCoupon;
     private ConfirmGroupOrModel confirmGroupOrModel;
+    String stringTime ="";
+    String sMonth = "";
+    private int currrentDay;
+
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -188,7 +195,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         });
         record_gridView = (GridView) view.findViewById(R.id.record_gridView);
         days = CalendarUtils.getDayOfMonthFormat(year, month);
-        dateAdapter = new DateAdapter(this, days, year, month, bespeakDays);
+        dateAdapter = new DateAdapter(this, days, year, month, bespeakDays,groupPurchaseCoupon);
         record_gridView.setAdapter(dateAdapter);
         record_gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -199,9 +206,6 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 }
                 TextView dataTime = (TextView) view.findViewById(R.id.date_item);
                 if (dataTime.getVisibility() == View.VISIBLE && (dataTime.getCurrentTextColor() == getResources().getColor(R.color.color_3) || dataTime.getCurrentTextColor() == getResources().getColor(R.color.bg_festival) || dataTime.getCurrentTextColor() == getResources().getColor(R.color.white))) {
-                    if (mPopWindow != null) {
-                        mPopWindow.dismiss();
-                    }
                     title = year + "-" + month + "-";
                     int dayNum = 0;
                     //将二维数组转化为一维数组，方便使用
@@ -211,7 +215,23 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                             dayNum++;
                         }
                     }
-                    int currrentDay = days1[position];
+                    currrentDay = days1[position];
+                    if(month<10){
+                        sMonth ="0"+month;
+                    }
+                    stringTime =year + "-" + sMonth + "-" + currrentDay;
+                    if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getSellOutDates())){
+                        List<String> stringList = com.alibaba.fastjson.JSONArray.parseArray(groupPurchaseCoupon.getSellOutDates(), String.class);
+                        for(String sList : stringList){
+                            if(stringTime.equals(sList)){
+                                toast("已售罄，不可预约");
+                                return;
+                            }
+                        }
+                    }
+                    if (mPopWindow != null) {
+                        mPopWindow.dismiss();
+                    }
                     tvDate.setText(title + currrentDay);
                     if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getCancelAfterVerificationTime())) {
                         tvADate.setText(groupPurchaseCoupon.getCancelAfterVerificationTime() + "自动使用");
@@ -441,7 +461,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 if (dateAdapter != null) {
                     dateAdapter.setData(days, year, month, bespeakDays);
                 } else {
-                    dateAdapter = new DateAdapter(this, days, year, month, bespeakDays);
+                    dateAdapter = new DateAdapter(this, days, year, month, bespeakDays,groupPurchaseCoupon);
                     dateAdapter.notifyDataSetChanged();
                 }
                 setTile();
@@ -458,7 +478,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 if (dateAdapter != null) {
                     dateAdapter.setData(days, year, month, bespeakDays);
                 } else {
-                    dateAdapter = new DateAdapter(this, days, year, month, bespeakDays);
+                    dateAdapter = new DateAdapter(this, days, year, month, bespeakDays,groupPurchaseCoupon);
                     dateAdapter.notifyDataSetChanged();
                 }
 

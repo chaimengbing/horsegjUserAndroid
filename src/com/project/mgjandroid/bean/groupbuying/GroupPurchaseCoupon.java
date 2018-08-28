@@ -121,6 +121,18 @@ public class GroupPurchaseCoupon extends BaseBean {
      * 新用户专享
      */
     private int isPurchaseRestriction;
+    /**
+     * 设置售罄日期
+     */
+    private String sellOutDates;
+
+    public String getSellOutDates() {
+        return sellOutDates;
+    }
+
+    public void setSellOutDates(String sellOutDates) {
+        this.sellOutDates = sellOutDates;
+    }
 
     public int getIsPurchaseRestriction() {
         return isPurchaseRestriction;

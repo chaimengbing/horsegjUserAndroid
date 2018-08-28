@@ -70,6 +70,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -286,15 +287,40 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             str += "代" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()) + "元";
         } else if (groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice() != null && groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
             str = "门市价: ¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice());
-            if(groupPurchaseCoupon.getIsPurchaseRestriction()==4){
+            if(groupPurchaseCoupon.getIsPurchaseRestriction()==3){
                 tvVip.setVisibility(View.VISIBLE);
                 tvVip1.setVisibility(View.VISIBLE);
             }else {
                 tvVip.setVisibility(View.GONE);
                 tvVip1.setVisibility(View.GONE);
             }
-            tvVip.setVisibility(View.VISIBLE);
-            tvVip1.setVisibility(View.VISIBLE);
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");// HH:mm:ss
+        Date date = new Date(System.currentTimeMillis());
+        String format = simpleDateFormat.format(date);
+        if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getSellOutDates())){
+            List<String> stringList = com.alibaba.fastjson.JSONArray.parseArray(groupPurchaseCoupon.getSellOutDates(), String.class);
+            for(String sList : stringList){
+                if(format.equals(sList)){
+                    tvBuy.setBackgroundResource(R.drawable.buy_gary_bg);
+                    tvBuy.setTextColor(mActivity.getResources().getColor(R.color.white));
+                    tvBuy.setEnabled(false);
+                    tvBuy.setText("已售罄");
+                    tvBuy1.setBackgroundResource(R.drawable.buy_gary_bg);
+                    tvBuy1.setTextColor(mActivity.getResources().getColor(R.color.white));
+                    tvBuy1.setEnabled(false);
+                    tvBuy1.setText("已售罄");
+                }else {
+                    tvBuy.setBackgroundResource(R.drawable.buy_bg);
+                    tvBuy.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));
+                    tvBuy.setEnabled(true);
+                    tvBuy.setText("立即购买");
+                    tvBuy1.setBackgroundResource(R.drawable.buy_bg);
+                    tvBuy1.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));
+                    tvBuy1.setEnabled(true);
+                    tvBuy1.setText("立即购买");
+                }
+            }
         }
         tvPriceLeft.setText(price);
         tvPriceLeft1.setText(price);

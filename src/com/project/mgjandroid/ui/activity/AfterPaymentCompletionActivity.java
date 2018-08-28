@@ -125,9 +125,13 @@ public class AfterPaymentCompletionActivity extends BaseActivity{
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
-                intentDetail.putExtra("orderId", orderId);
-                startActivityForResult(intentDetail, REFRESH);
+                if(order.getGroupPurchaseOrderCoupon().getType()==2){
+                    Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
+                    intentDetail.putExtra("orderId", orderId);
+                    startActivityForResult(intentDetail, REFRESH);
+                }else {
+                    GroupBuyingUseActivity.toGroupBuyingUseActivity(mActivity, JSONArray.toJSONString(order.getGroupPurchaseOrderCouponCodeList()),orderId,JSONArray.toJSONString(order.getGroupPurchaseOrderCouponGoodsList()),order.getGroupPurchaseMerchantName(),order.getRefreshTime(),REFRESH);
+                }
             }
         });
         tvBack.setOnClickListener(new View.OnClickListener() {

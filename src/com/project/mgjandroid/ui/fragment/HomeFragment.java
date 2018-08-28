@@ -1318,7 +1318,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 checkRefresh(refreshView);
                 if (refreshFlag) {
-                    currentResultPage = adapter.getCount();
+                    currentResultPage +=10;
                     getDate(false, true);
                 }
             }
@@ -2777,7 +2777,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
 //                            AnimatorUtils.fadeFadeIn(listView, mActivity);
                             }
                         } else {
-
                             if (isLoadMore) {
                                 ToastUtils.displayMsg("到底了", mActivity);
                             } else {

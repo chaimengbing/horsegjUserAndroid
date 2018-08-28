@@ -9,13 +9,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCoupon;
 import com.project.mgjandroid.utils.CalendarUtils;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DateUtils;
+import com.project.mgjandroid.utils.ToastUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DateAdapter extends BaseAdapter {
     private int[] days = new int[42];
@@ -23,12 +27,13 @@ public class DateAdapter extends BaseAdapter {
     private int year;
     private int month;
     private int bespeakDays;
+    private GroupPurchaseCoupon groupPurchaseCoupon;
 
     private int nextCount = -1;
     private int clickTemp = -1;
     private int clickMonth = -1;
 
-    public DateAdapter(Context context, int[][] days, int year, int month, int bespeakDays) {
+    public DateAdapter(Context context, int[][] days, int year, int month, int bespeakDays, GroupPurchaseCoupon groupPurchaseCoupon) {
         this.context = context;
         int dayNum = 0;
         //将二维数组转化为一维数组，方便使用
@@ -41,6 +46,7 @@ public class DateAdapter extends BaseAdapter {
         this.year = year;
         this.month = month;
         this.bespeakDays = bespeakDays;
+        this.groupPurchaseCoupon = groupPurchaseCoupon;
     }
 
     public void setSeclection(int position, int clickMonth) {
