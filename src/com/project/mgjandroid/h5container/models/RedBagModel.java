@@ -79,11 +79,11 @@ public class RedBagModel implements Serializable {
     }
 
     public long getPlatformRedbagId() {
-        return platformredbagid;
+        return platformRedbagId;
     }
 
     public void setPlatformRedbagId(long platformRedbagId) {
-        this.platformredbagid = platformRedbagId;
+        this.platformRedbagId = platformRedbagId;
     }
 
     public int getQuantity() {
@@ -103,9 +103,10 @@ public class RedBagModel implements Serializable {
     }
 
     /**
+     * {"agentId":"3","platformRedbagId":16491,"businessType":11,"addressId":1630,"itemsPrice":30}
      * 选择红包ID
      */
-    private long platformredbagid = -1;
+    private long platformRedbagId = -1;
     /**
      * 购买数量
      */
