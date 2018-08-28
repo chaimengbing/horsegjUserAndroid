@@ -33,6 +33,9 @@ import java.util.List;
 
 public class PLVideoListActivity extends BaseActivity {
 
+
+    private int display = PLVideoTextureView.ASPECT_RATIO_PAVED_PARENT;
+
     @InjectView(R.id.video_list)
     private RecyclerView mVideoListView;
     @InjectView(R.id.full_screen)
@@ -49,7 +52,7 @@ public class PLVideoListActivity extends BaseActivity {
     /**
      * 全屏的view
      */
-    private RelativeLayout videoFrameLayout;
+    private FrameLayout videoFrameLayout;
     PLVideoTextureView plVideoTextureView;
     RelativeLayout controlLayout;
     RelativeLayout control;
@@ -77,7 +80,7 @@ public class PLVideoListActivity extends BaseActivity {
             mPlayList = JSON.parseArray(result, VisibleLive.class);
         }
         mAdapter = new VideoListAdapter(mPlayList);
-        mVideoListView.setHasFixedSize(true);
+//        mVideoListView.setHasFixedSize(true);
         mVideoListView.setLayoutManager(new LinearLayoutManager(this));
         mVideoListView.setAdapter(mAdapter);
 
@@ -107,16 +110,15 @@ public class PLVideoListActivity extends BaseActivity {
             viewGroup.removeAllViews();
         }
         fullScreen.addView(playerView);
-        videoFrameLayout = (RelativeLayout) playerView.findViewById(R.id.video_framelayout);
+        videoFrameLayout = (FrameLayout) playerView.findViewById(R.id.video_framelayout);
         plVideoTextureView = (PLVideoTextureView) playerView.findViewById(R.id.video_view);
         playImageView = (ImageView) playerView.findViewById(R.id.play_imageview);
-        ImageView coverImageView = (ImageView) playerView.findViewById(R.id.cover_view);
-        LinearLayout loadingLayout = (LinearLayout) playerView.findViewById(R.id.loading_view);
-        ImageView screenImageView = (ImageView) playerView.findViewById(R.id.screen_imageview);
+//        ImageView coverImageView = (ImageView) playerView.findViewById(R.id.cover_view);
+//        RelativeLayout loadingLayout = (RelativeLayout) playerView.findViewById(R.id.loading_view);
+//        ImageView screenImageView = (ImageView) playerView.findViewById(R.id.screen_imageview);
         playImage = (ImageView) playerView.findViewById(R.id.small_play_imageview);
         controlLayout = (RelativeLayout) playerView.findViewById(R.id.control_layout);
         control = (RelativeLayout) playerView.findViewById(R.id.control);
-        plVideoTextureView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_PAVED_PARENT);
         AVOptions options = new AVOptions();
         // the unit of timeout is ms
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
@@ -125,7 +127,7 @@ public class PLVideoListActivity extends BaseActivity {
         options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE);
         options.setInteger(AVOptions.KEY_LOG_LEVEL, 5);
         plVideoTextureView.setAVOptions(options);
-        plVideoTextureView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_FIT_PARENT);
+        plVideoTextureView.setDisplayAspectRatio(display);
 
         fullScreen.setVisibility(View.VISIBLE);
         visibleListLayout.setVisibility(View.GONE);
@@ -190,14 +192,20 @@ public class PLVideoListActivity extends BaseActivity {
         fullScreen.removeAllViews();
         visibleListLayout.setVisibility(View.VISIBLE);
 
-        ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
-        params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x220);
-        if (videoFrameLayout != null) {
-            videoFrameLayout.setPadding(padding, padding, padding, padding);
-            videoFrameLayout.setLayoutParams(params);
-        }
+
+        videoFrameLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
+                params.height = (int) getApplicationContext().getResources().getDimension(R.dimen.x220);
+                videoFrameLayout.setLayoutParams(params);
+                videoFrameLayout.setPadding(padding, padding, padding, padding);
+            }
+        });
+
         if (plVideoTextureView != null) {
             plVideoTextureView.setDisplayOrientation(0);
+
         }
         if (playerView != null) {
             playerView = null;
@@ -208,7 +216,6 @@ public class PLVideoListActivity extends BaseActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (plVideoTextureView != null && videoFrameLayout != null) {
-            ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
             if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {//竖屏
                 WindowManager.LayoutParams attrs = getWindow().getAttributes();
                 attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -222,6 +229,7 @@ public class PLVideoListActivity extends BaseActivity {
                 getWindow().setAttributes(attrs);
                 getWindow().addFlags(
                         WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+                ViewGroup.LayoutParams params = videoFrameLayout.getLayoutParams();
                 params.height = LinearLayout.LayoutParams.MATCH_PARENT;
                 videoFrameLayout.setLayoutParams(params);
                 videoFrameLayout.setPadding(0, 0, 0, 0);
@@ -239,7 +247,7 @@ public class PLVideoListActivity extends BaseActivity {
             ImageView coverImageView;
             ImageView screenImageView;
             ImageView playImage;
-            LinearLayout loadingLayout;
+            RelativeLayout loadingLayout;
             RelativeLayout controlLayout;
             RelativeLayout control;
 
@@ -248,7 +256,7 @@ public class PLVideoListActivity extends BaseActivity {
                 mVideoView = (PLVideoTextureView) view.findViewById(R.id.video_view);
                 playImageView = (ImageView) view.findViewById(R.id.play_imageview);
                 coverImageView = (ImageView) view.findViewById(R.id.cover_view);
-                loadingLayout = (LinearLayout) view.findViewById(R.id.loading_view);
+                loadingLayout = (RelativeLayout) view.findViewById(R.id.loading_view);
                 screenImageView = (ImageView) view.findViewById(R.id.screen_imageview);
                 playImage = (ImageView) view.findViewById(R.id.small_play_imageview);
                 controlLayout = (RelativeLayout) view.findViewById(R.id.control_layout);
@@ -298,7 +306,7 @@ public class PLVideoListActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int pos) {
             final VisibleLive visibleLive = mVideoPathList.get(pos);
-            holder.mVideoView.setDisplayAspectRatio(PLVideoTextureView.ASPECT_RATIO_PAVED_PARENT);
+            holder.mVideoView.setDisplayAspectRatio(display);
             holder.mVideoView.setBufferingIndicator(holder.loadingLayout);
             holder.mVideoView.setCoverView(holder.coverImageView);
             holder.playImageView.setVisibility(View.VISIBLE);

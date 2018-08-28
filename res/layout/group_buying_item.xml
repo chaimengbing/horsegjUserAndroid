@@ -3,96 +3,96 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/group_buying_item_root"
-    android:paddingBottom="@dimen/x10"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/x10">
 
     <com.project.mgjandroid.ui.view.CornerImageView
         android:id="@+id/img"
         android:layout_width="@dimen/x65"
         android:layout_height="@dimen/x55"
-        android:scaleType="centerCrop"
-        android:layout_marginTop="@dimen/x14"
         android:layout_marginLeft="@dimen/x36"
+        android:layout_marginTop="@dimen/x14"
+        android:scaleType="centerCrop"
         android:src="@drawable/horsegj_default"
+        app:borderColor="#e5e5e5"
         app:borderRadius="@dimen/x4"
         app:borderThickness="1px"
-        app:borderColor="#e5e5e5"
         app:type="round" />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginTop="@dimen/x12"
+        android:layout_toRightOf="@+id/img"
+        android:maxLines="1"
         android:textColor="@color/color_3"
         android:textSize="15sp"
-        tools:text="秘制龙虾饭双人套餐"
-        android:layout_toRightOf="@+id/img"
-        android:layout_marginTop="@dimen/x12"
-        android:layout_marginLeft="@dimen/x10"
-        android:maxLines="1" />
+        tools:text="秘制龙虾饭双人套餐" />
 
     <TextView
         android:id="@+id/tv_option"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@color/color_9"
-        tools:text="免预约 | 可叠加"
-        android:layout_below="@+id/tv_name"
         android:layout_alignLeft="@+id/tv_name"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginRight="@dimen/x15"
         android:layout_marginTop="@dimen/x5"
-        android:layout_marginRight="@dimen/x15" />
+        android:textColor="@color/color_9"
+        android:textSize="12sp"
+        tools:text="免预约 | 可叠加" />
 
     <TextView
         android:id="@+id/tv_vip"
         android:layout_width="@dimen/x60"
         android:layout_height="@dimen/x13"
-        android:text="新用户专享"
-        android:gravity="center"
-        android:background="#eec214"
-        android:textColor="#181818"
         android:layout_below="@+id/tv_name"
         android:layout_marginTop="@dimen/x5"
         android:layout_toRightOf="@+id/tv_option"
+        android:background="#eec214"
+        android:gravity="center"
+        android:text="新用户专享"
+        android:textColor="#181818"
         android:textSize="10sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="#fb4e44"
-        tools:text="￥59"
-        android:layout_below="@+id/tv_option"
         android:layout_alignLeft="@+id/tv_name"
-        android:layout_marginTop="@dimen/x5" />
+        android:layout_below="@+id/tv_option"
+        android:layout_marginTop="@dimen/x5"
+        android:textColor="#fb4e44"
+        android:textSize="14sp"
+        tools:text="￥59" />
 
     <TextView
         android:id="@+id/tv_origin_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@color/color_3"
-        tools:text="门市价:￥100"
         android:layout_alignBottom="@+id/tv_price"
-        android:layout_toRightOf="@+id/tv_price"
         android:layout_marginLeft="@dimen/x10"
-        android:paddingBottom="@dimen/x1" />
+        android:layout_toRightOf="@+id/tv_price"
+        android:paddingBottom="@dimen/x1"
+        android:textColor="@color/color_3"
+        android:textSize="12sp"
+        tools:text="门市价:￥100" />
 
     <!--<TextView-->
-        <!--android:id="@+id/tv_discount_pay_bill"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="13sp"-->
-        <!--android:textColor="@color/title_bar_bg"-->
-        <!--tools:text="优惠买单"-->
-        <!--android:padding="@dimen/x5"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:background="@drawable/buy_bg"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_marginRight="@dimen/x15" />-->
+    <!--android:id="@+id/tv_discount_pay_bill"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textSize="13sp"-->
+    <!--android:textColor="@color/title_bar_bg"-->
+    <!--tools:text="优惠买单"-->
+    <!--android:padding="@dimen/x5"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:background="@drawable/buy_bg"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginRight="@dimen/x15" />-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,13 +104,11 @@
 
         <TextView
             android:id="@+id/tv_pay_bill1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_width="@dimen/x60"
+            android:layout_height="@dimen/x30"
             android:background="@drawable/buy_bg"
-            android:padding="@dimen/x5"
-            android:text="    购买    "
+            android:gravity="center"
+            android:text="购买"
             android:textColor="@color/title_bar_bg"
             android:textSize="13sp" />
 

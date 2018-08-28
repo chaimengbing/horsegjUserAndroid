@@ -651,6 +651,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
         } /*else {
             showReceiverRedBagDialog(1);
         }*/
+
+        if (App.isLogin()){
+            showReceiverRedBagDialog();
+        }
     }
 
     /**
