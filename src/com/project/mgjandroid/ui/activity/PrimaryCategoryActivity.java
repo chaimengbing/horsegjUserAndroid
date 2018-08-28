@@ -195,6 +195,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
         if (agentId != 0) {
             map.put("agentId", agentId);
         }else {
+
             return;
         }
         map.put("latitude", PreferenceUtils.getLocation(mActivity)[0]);
