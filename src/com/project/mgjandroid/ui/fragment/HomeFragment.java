@@ -1280,7 +1280,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 checkRefresh(refreshView);
                 if (refreshFlag) {
                     currentResultPage = 0;
-                    getDate(false, false);
+                    if (agentId > 0){
+                        getDate(false, false);
+                    }
                     if (imageIdList == null || imageIdList.size() == 0) {
                         getBanner();
                     } else {
@@ -1318,7 +1320,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 checkRefresh(refreshView);
                 if (refreshFlag) {
-                    currentResultPage +=10;
+                    currentResultPage += 10;
                     getDate(false, true);
                 }
             }
@@ -2000,7 +2002,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 } else {
                     agentId = 0L;
                 }
-                getDate(false, false);
+                if (agentId <= 0) {
+                    ArrayList<Merchant> data = new ArrayList<>();
+                    data.add(new Merchant());
+                    adapter.setSystemTime(null);
+                    adapter.setList(data);
+                    handler.sendEmptyMessage(Constants.LOCATION_NO_MERCHANT);
+                } else {
+                    getDate(false, false);
+                }
+
                 getCategory();
                 getFilter();
                 getBanner();
