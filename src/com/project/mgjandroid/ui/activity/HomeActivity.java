@@ -159,6 +159,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
     private TextView loginTextView;
     private RecyclerView redBagRecylerView;
     private HomePlatFormRecyclerAdapter homePlatFormRecyclerAdapter;
+    private boolean isSwitchLocation = false;
 
 
     private Handler handler = new Handler();
@@ -528,6 +529,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 }
                 break;
             case LOCATION_RESPOND_CODE:
+                isSwitchLocation = true;
                 getNewHomePage();
 //                if (pager != null && homeFragment != null && homeFragment.getView() != null && pager.getCurrentItem() == INDEX_HOME) {
 //                    homeFragment.showAddress();
@@ -547,6 +549,7 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
                 pager.setCurrentItem(INDEX_SUPERMARKET, false);
                 break;
             case MineFragment.LOGIN_IN_SUCCESS:
+                isSwitchLocation = true;
                 break;
             default:
                 break;
@@ -652,9 +655,10 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
             showReceiverRedBagDialog(1);
         }*/
 
-        if (App.isLogin()){
+        if (App.isLogin() && !isSwitchLocation){
             showReceiverRedBagDialog();
         }
+        isSwitchLocation = false;
     }
 
     /**
