@@ -313,6 +313,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                                 finish();
                             }
                         } else {
+                            result = "success";
                             JSONObject object = (JSONObject) obj;
                             String id = (String) object.get("id");
                             if (isGroup) {

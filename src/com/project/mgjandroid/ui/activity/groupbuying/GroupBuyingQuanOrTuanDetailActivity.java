@@ -310,18 +310,25 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     tvBuy1.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvBuy1.setEnabled(false);
                     tvBuy1.setText("已售罄");
-                    return;
+                    break;
                 }else {
-                    tvBuy.setBackgroundResource(R.drawable.buy_bg);
-                    tvBuy.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));
+                    tvBuy.setBackgroundResource(R.drawable.bg_login_orange_button);
+                    tvBuy.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvBuy.setEnabled(true);
                     tvBuy.setText("立即购买");
-                    tvBuy1.setBackgroundResource(R.drawable.buy_bg);
-                    tvBuy1.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));
+                    tvBuy1.setBackgroundResource(R.drawable.bg_login_orange_button);
+                    tvBuy1.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvBuy1.setEnabled(true);
                     tvBuy1.setText("立即购买");
                 }
             }
+        }
+        if(price.length()>=7){
+            tvPriceLeft.setTextSize(30);
+            tvPriceLeft1.setTextSize(30);
+        }else {
+            tvPriceLeft.setTextSize(40);
+            tvPriceLeft1.setTextSize(40);
         }
         tvPriceLeft.setText(price);
         tvPriceLeft1.setText(price);
@@ -611,6 +618,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             CornerImageView icon = (CornerImageView) layout.findViewById(R.id.img);
             TextView tvName = (TextView) layout.findViewById(R.id.tv_name);
             TextView tvPrice = (TextView) layout.findViewById(R.id.tv_price);
+            TextView tvVip = (TextView) layout.findViewById(R.id.tv_vip);
             TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill1);
             TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_origin_price);
             TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
@@ -625,9 +633,30 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             if (bean.getSumGroupPurchaseCouponGoodsOriginPrice() != null && bean.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
                 tvOriginPrice.setText("门市价¥" + StringUtils.BigDecimal2Str(bean.getSumGroupPurchaseCouponGoodsOriginPrice()));
             }
-            tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
+            if(bean.getIsPurchaseRestriction()==3){
+                tvVip.setVisibility(View.VISIBLE);
+                tvOption.setText(bean.getIsBespeak() == 0 ? "免预约" : "需预约 ");
+            }else {
+                tvVip.setVisibility(View.GONE);
+                tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
+            }
             root.setOnClickListener(this);
             discountLayout.addView(layout);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date(System.currentTimeMillis());
+            String format = simpleDateFormat.format(date);
+            if(CheckUtils.isNoEmptyStr(bean.getSellOutDates())){
+                List<String> stringList = com.alibaba.fastjson.JSONArray.parseArray(bean.getSellOutDates(), String.class);
+                for(String str : stringList){
+                    if(format.equals(str)){
+                        tvPayBill.setBackgroundResource(R.drawable.buy_gary_bg);
+                        tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.white));
+                        tvPayBill.setEnabled(false);
+                        tvSold.setText("已售罄");
+                        break;
+                    }
+                }
+            }
             tvPayBill.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

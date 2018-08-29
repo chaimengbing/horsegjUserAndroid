@@ -2764,8 +2764,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                                     }
                                 }
                             if (isLoadMore) {
-                                if (mlist.size() < maxResults) {
+                                if (mlist.size() <= 0) {
                                     ToastUtils.displayMsg("到底了", mActivity);
+                                    refreshFlag = false;
 //                                listView.setMode(PullToRefreshBase.Mode.);
                                 }
                                 ArrayList<Merchant> mlistOrg = adapter.getList();

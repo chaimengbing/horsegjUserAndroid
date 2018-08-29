@@ -165,8 +165,10 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                currentResultPage += maxResults;
-                getDate(false, true);
+                if (refreshFlag) {
+                    currentResultPage += maxResults;
+                    getDate(false, true);
+                }
             }
         });
     }
@@ -195,7 +197,6 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
         if (agentId != 0) {
             map.put("agentId", agentId);
         }else {
-
             return;
         }
         map.put("latitude", PreferenceUtils.getLocation(mActivity)[0]);
@@ -239,8 +240,9 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
                                 }
                             }
                         if (isLoadMore) {
-                            if (mlist.size() < maxResults) {
+                            if (mlist.size() <= 0) {
                                 ToastUtils.displayMsg("到底了", mActivity);
+                                refreshFlag = false;
                             }
                             ArrayList<Merchant> mlistOrg = adapter.getList();
                             if (mlistOrg != null) {
@@ -702,7 +704,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
                 tvMenu1.setText(list.get(i).getName());
                 tagId = list.get(i).getId();
                 tagParentId = list.get(i).getParentId();
-                getDate(true, false);
+                getDate(false, false);
                 leftMenuWindow.dismiss();
                 leftPopMenuChild = new ArrayList<>();
                 mCategoryRightAdapter.setList(leftPopMenuChild);
@@ -738,7 +740,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
             tagId = leftPopMenuChild.get(i).getId();
             tagParentId = leftPopMenuChild.get(i).getParentId();
             currentResultPage = 0;
-            getDate(true, false);
+            getDate(false, false);
             leftMenuWindow.dismiss();
 
             mSelectPosition = mPrePosition;

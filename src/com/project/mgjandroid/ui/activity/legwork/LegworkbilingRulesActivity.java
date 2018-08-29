@@ -60,7 +60,9 @@ public class LegworkbilingRulesActivity extends BaseActivity {
         if(serviceChargeModel!=null){
             stairServiceChargeRuleList = serviceChargeModel.getStairServiceChargeRuleList();
             timeFrameServiceChargeList = serviceChargeModel.getTimeFrameServiceChargeList();
-            tvBasePrice.setText(StringUtils.BigDecimal2Str(serviceChargeModel.getBaseCharge())+"元");
+            if(CheckUtils.isNoEmptyList(stairServiceChargeRuleList)){
+                tvBasePrice.setText(StringUtils.BigDecimal2Str(stairServiceChargeRuleList.get(0).getCharge())+"元");
+            }
             if(CheckUtils.isNoEmptyList(stairServiceChargeRuleList)){
                 showDistanceAdditional(stairServiceChargeRuleList);
             }
@@ -70,9 +72,12 @@ public class LegworkbilingRulesActivity extends BaseActivity {
         }
         if(mValueBean!=null){
             String timeFrameServiceChargeList = mValueBean.getTimeFrameServiceChargeList();
-            ArrayList<Distance> distances = (ArrayList)JSONArray.parseArray(timeFrameServiceChargeList, Distance.class);
+            String stairServiceChargeRuleList = mValueBean.getStairServiceChargeRuleList();
+            ArrayList<Distance> distances = (ArrayList)JSONArray.parseArray(stairServiceChargeRuleList, Distance.class);
             ArrayList<SpecificTime> specificTimes = (ArrayList)JSONArray.parseArray(timeFrameServiceChargeList, SpecificTime.class);
-            tvBasePrice.setText(mValueBean.getBaseCharge()+"元");
+            if(CheckUtils.isNoEmptyList(distances)){
+                tvBasePrice.setText(StringUtils.BigDecimal2Str(distances.get(0).getCharge())+"元");
+            }
             if(CheckUtils.isNoEmptyList(distances)){
                 showDistanceAdditional(distances);
             }

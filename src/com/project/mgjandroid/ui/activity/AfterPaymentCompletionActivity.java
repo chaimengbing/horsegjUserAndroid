@@ -125,7 +125,7 @@ public class AfterPaymentCompletionActivity extends BaseActivity {
         tvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (order.getGroupPurchaseOrderCoupon().getType() == 3) {
+                if (order.getOrderType()== 3) {
                     Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
                     intentDetail.putExtra("orderId", orderId);
                     startActivityForResult(intentDetail, REFRESH);
@@ -264,7 +264,11 @@ public class AfterPaymentCompletionActivity extends BaseActivity {
     }
 
     private void showMoreMerchant(ArrayList<GroupPurchaseMerchant> mlist) {
-        moreLayout.setVisibility(View.VISIBLE);
+        if(CheckUtils.isNoEmptyList(mlist)){
+            moreLayout.setVisibility(View.VISIBLE);
+        }else {
+            moreLayout.setVisibility(View.GONE);
+        }
         GroupBuyingMerchantAdapter adapter = new GroupBuyingMerchantAdapter(mActivity, false);
         merchantListView.setAdapter(adapter);
         adapter.setList(mlist);

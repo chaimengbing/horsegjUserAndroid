@@ -64,6 +64,7 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         if (CheckUtils.isNoEmptyStr(bean.getImages())) {
             ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
         }
+        String groupPurchaseName = bean.getGroupPurchaseName();
         tvName.setText(bean.getGroupPurchaseName());
         tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
         if (bean.getSumGroupPurchaseCouponGoodsOriginPrice() != null && bean.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
@@ -76,6 +77,10 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
             tvVip.setVisibility(View.GONE);
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
         }
+        tvSold.setText("已售"+bean.getBuyCount());
+        tvPayBill.setBackgroundResource(R.drawable.buy_bg);
+        tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));
+        tvPayBill.setEnabled(true);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
         String format = simpleDateFormat.format(date);
@@ -87,12 +92,7 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
                     tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvPayBill.setEnabled(false);
                     tvSold.setText("已售罄");
-                    return;
-                }else {
-                    tvPayBill.setBackgroundResource(R.drawable.buy_bg);
-                    tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));
-                    tvPayBill.setEnabled(true);
-                    tvSold.setText("已售"+bean.getBuyCount());
+                    break;
                 }
             }
         }

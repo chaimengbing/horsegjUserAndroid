@@ -1516,7 +1516,7 @@ public class LegworkOrderDetailsModel extends Entity {
                 this.expectArrivalTime = expectArrivalTime;
             }
 
-            public static class DeliverymanBean {
+            public static class DeliverymanBean extends Entity{
                 /**
                  * id : 55
                  * createTime : null

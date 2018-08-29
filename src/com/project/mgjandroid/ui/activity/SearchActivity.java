@@ -73,6 +73,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     private LinearLayout mHistoryLabel;
     private RelativeLayout mHotLabel;
     private FlowLayout mFlowLayout;
+    private long agentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +197,8 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         mSearchText.setOnEditorActionListener(this);
         mSearchText.addTextChangedListener(this);
 
+        agentId = PreferenceUtils.getLongPreference("issueAgentId", 0, mActivity);
+
         back.setOnClickListener(this);
         tvReload.setOnClickListener(this);
     }
@@ -257,6 +260,7 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
     @Override
     public void afterTextChanged(Editable s) {
         if (s.length() > 0) {
+            mCurrentPosition = 0;
             goSearchMerchant(s.toString().trim(), false, true);
         }
     }
@@ -276,6 +280,11 @@ public class SearchActivity extends BaseActivity implements TextView.OnEditorAct
         String lat = PreferenceUtils.getStringPreference(PreferenceUtils.LATITUDE, "", mActivity);
         if (lat != null && !"".equals(lat)) {
             params.put("latitude", Double.parseDouble(lat));
+        }
+        if (agentId != 0) {
+            params.put("agentId", agentId);
+        }else {
+            return;
         }
         params.put("searchParam", param);
         VolleyOperater<SearchModel> operater = new VolleyOperater<>(SearchActivity.this);
