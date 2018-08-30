@@ -61,9 +61,9 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
 //        }
 
         ImageView visibleLiveImageView = holder.getView(R.id.visible_live_imageview);
-        if (bean.getHasVisualRestaurant() == 1){
+        if (bean.getHasVisualRestaurant() == 1) {
             visibleLiveImageView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             visibleLiveImageView.setVisibility(View.INVISIBLE);
         }
 
@@ -75,8 +75,11 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
             } else {
                 imgStatus.setVisibility(View.GONE);
             }
-            if (!TextUtils.isEmpty(bean.getLogo()))
+            if (CheckUtils.isNoEmptyStr(bean.getLogo())) {
                 ImageUtils.loadBitmap(mActivity, bean.getLogo(), img, R.drawable.horsegj_default, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_USER);
+            } else {
+                img.setImageResource(R.drawable.horsegj_default);
+            }
             TextView merchantName = holder.getView(R.id.restaurant_list_item_tv_name);
             if (!TextUtils.isEmpty(bean.getHighLights())) {
                 String color = bean.getHighLights();
