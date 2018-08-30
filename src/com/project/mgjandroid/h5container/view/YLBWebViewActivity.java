@@ -62,6 +62,7 @@ import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
 import com.project.mgjandroid.ui.activity.SmsLoginActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingCategoryActivity;
 import com.project.mgjandroid.ui.view.NoticeDialog;
+import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.MLog;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ShareUtil;
@@ -544,6 +545,21 @@ public class YLBWebViewActivity extends YLH5CBaseActivity implements View.OnClic
                 }
                 try {
                     object.put("value", token);
+                    object.put("code", 0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                function.onCallBack(object.toString());
+            }
+        });
+        // 返回版本号
+        registerHandler("getAppVersion", new JsBridgeHandler() {//返回版本号
+            @Override
+            public void handler(String data, JsBridgeCallBack function) {
+                JSONObject object = new JSONObject();
+                String versionCode = CommonUtils.getCurrentVersionName();
+                try {
+                    object.put("value", versionCode);
                     object.put("code", 0);
                 } catch (JSONException e) {
                     e.printStackTrace();
