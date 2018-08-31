@@ -70,10 +70,16 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
         if (bean != null) {
             ImageView imgStatus = holder.getView(R.id.search_list_item_img_status);
             CornerImageView img = holder.getView(R.id.search_list_item_img);
+            ImageView brantImageView = holder.getView(R.id.brant_imageview);
             if (bean.getStatus() == 0) {
                 imgStatus.setVisibility(View.VISIBLE);
             } else {
                 imgStatus.setVisibility(View.GONE);
+            }
+            if (bean.getIsBrandMerchant() == 1){
+                brantImageView.setVisibility(View.VISIBLE);
+            }else {
+                brantImageView.setVisibility(View.GONE);
             }
             if (CheckUtils.isNoEmptyStr(bean.getLogo())) {
                 ImageUtils.loadBitmap(mActivity, bean.getLogo(), img, R.drawable.horsegj_default, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_USER);

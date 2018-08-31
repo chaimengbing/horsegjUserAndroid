@@ -28,6 +28,14 @@
             app:type="round" />
 
         <ImageView
+            android:id="@+id/brant_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x5"
+            android:scaleType="centerCrop"
+            android:src="@drawable/brant_imageview" />
+
+        <ImageView
             android:id="@+id/search_list_item_img_status"
             android:layout_width="@dimen/x85"
             android:layout_height="@dimen/x65"

@@ -126,32 +126,45 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true">
 
-                <ImageView
+                <RelativeLayout
                     android:id="@+id/goods_item_img_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/x5">
+                <ImageView
                     android:layout_width="@dimen/x20"
                     android:layout_height="@dimen/x20"
-                    android:layout_alignParentRight="true"
                     android:background="@drawable/icon_reduce"
                     android:padding="@dimen/x3"
                     android:scaleType="centerCrop" />
+                </RelativeLayout>
+
 
                 <TextView
                     android:id="@+id/goods_item_tv_buy_count"
                     android:layout_width="@dimen/x26"
                     android:layout_height="@dimen/x20"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="0"
                     android:textColor="@color/color_6"
                     android:textSize="12sp" />
 
-                <ImageView
+                <RelativeLayout
                     android:id="@+id/goods_item_img_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/x5">
+
+                <ImageView
                     android:layout_width="@dimen/x20"
                     android:layout_height="@dimen/x20"
-                    android:layout_alignParentRight="true"
                     android:padding="@dimen/x3"
                     android:background="@drawable/icon_add" />
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -162,20 +175,28 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true">
 
-                <ImageView
+                <RelativeLayout
                     android:id="@+id/goods_item_img_minus_spec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:padding="@dimen/x5">
+
+                <ImageView
                     android:layout_width="@dimen/x20"
                     android:layout_height="@dimen/x20"
-                    android:layout_alignParentRight="true"
                     android:background="@drawable/icon_reduce"
                     android:scaleType="centerCrop"
-                    android:visibility="gone" />
-
+                     />
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/goods_item_tv_buy_count_spec"
                     android:layout_width="@dimen/x26"
                     android:layout_height="@dimen/x20"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="0"
                     android:textColor="@color/color_6"
@@ -188,6 +209,7 @@
                     android:layout_height="@dimen/x20"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/bg_spec_circle"
+                    android:layout_centerVertical="true"
                     android:text="@string/standard_select"
                     android:gravity="center"
                     android:textColor="@color/white"

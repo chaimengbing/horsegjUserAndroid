@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -13,6 +14,7 @@ import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchant;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseOrder;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseOrderCouponCode;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingMerchantListModel;
 import com.project.mgjandroid.model.groupbuying.GroupBuyingMerchantModel;
@@ -22,9 +24,11 @@ import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingAddEvaluationAc
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingMerchantAdapter;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingOrderForGoodsDetailsActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingUseActivity;
+import com.project.mgjandroid.ui.activity.groupbuying.NewRefundListAdapter;
 import com.project.mgjandroid.ui.activity.groupbuying.PayBillDetailActivity;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollListView;
+import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.StringUtils;
@@ -33,9 +37,10 @@ import com.project.mgjandroid.utils.inject.Injector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class AfterPaymentCompletionActivity extends BaseActivity {
+public class AfterPaymentCompletionActivity extends BaseActivity implements PullToRefreshBase.OnRefreshListener2<ListView> {
 
     @InjectView(R.id.tv_right)
     private TextView tvRight;
@@ -63,6 +68,8 @@ public class AfterPaymentCompletionActivity extends BaseActivity {
     private String orderId;
     private GroupPurchaseOrder order;
     private boolean isGroupPurchaseBuy;
+    private List<GroupPurchaseOrderCouponCode> couponCodeList;
+    private List mlist = new ArrayList<GroupPurchaseOrderCouponCode>();
 
 
     @Override
@@ -96,16 +103,34 @@ public class AfterPaymentCompletionActivity extends BaseActivity {
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tvHint.setCompoundDrawables(drawable, null, null, null);
                 if (isGroupPurchaseBuy) {
-                    tvButton.setText("评价");
+                    if(order.getHasComments()>0){
+                        tvButton.setText("订单详情");
+                    }else {
+                        tvButton.setText("评价");
+                    }
                 } else {
                     if (order.getGroupPurchaseOrderCoupon().getType() == 2 && order.getStatus() == 4) {
-                        tvButton.setText("查看详情");
+                        tvButton.setText("订单详情");
                     } else if (order.getStatus() == 2) {
-                        tvButton.setText("立即使用");
+                        if(CheckUtils.isNoEmptyList(order.getGroupPurchaseOrderCouponCodeList())){
+                            couponCodeList = order.getGroupPurchaseOrderCouponCodeList();
+                            for (int i = 0; i < couponCodeList.size(); i++) {
+                                if (couponCodeList.get(i).getStatus() == 0 && couponCodeList.get(i).getIsExpire() == 0) {
+                                    mlist.add(couponCodeList.get(i));
+                                }
+                            }
+                        }
+                        if(mlist.size()>0){
+                            tvButton.setText("立即使用");
+                        }else {
+                            tvButton.setVisibility(View.GONE);
+                        }
                     }
                 }
             } else if ("fail".equals(mResult)) {
-                tvHint.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_payment_unsuccess), null, null, null);
+                Drawable drawable = getResources().getDrawable(R.drawable.ic_payment_unsuccess);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tvHint.setCompoundDrawables(drawable, null, null, null);
                 tvHint.setText("支付失败");
                 tvButton.setText("重新支付");
             }
@@ -144,12 +169,24 @@ public class AfterPaymentCompletionActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getOrderData();
+    }
+
     private void goToPlace() {
         if ("success".equals(mResult)) {
             if (isGroupPurchaseBuy) {
-                Intent carEvaluate = new Intent(mActivity, GroupBuyingAddEvaluationActivity.class);
-                carEvaluate.putExtra("groupPurchaseOrder", order);
-                startActivityForResult(carEvaluate, REFRESH);
+                if(order.getHasComments()>0){
+                    Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
+                    intentDetail.putExtra("orderId", orderId);
+                    startActivityForResult(intentDetail, REFRESH);
+                }else {
+                    Intent carEvaluate = new Intent(mActivity, GroupBuyingAddEvaluationActivity.class);
+                    carEvaluate.putExtra("groupPurchaseOrder", order);
+                    startActivityForResult(carEvaluate, REFRESH);
+                }
             } else {
                 if (order.getGroupPurchaseOrderCoupon().getType() == 2 && order.getStatus() == 4) {
                     Intent intentDetail = new Intent(mActivity, GroupBuyingOrderForGoodsDetailsActivity.class);
@@ -221,7 +258,7 @@ public class AfterPaymentCompletionActivity extends BaseActivity {
     private void getMoreMerchant() {
         Map<String, Object> map = new HashMap<>();
         map.put("start", 0);
-        map.put("size", 3);
+        map.put("size", 20);
         if (mActivity != null && PreferenceUtils.getLocation(mActivity)[0] != null && PreferenceUtils.getLocation(mActivity)[1] != null) {
             map.put("latitude", PreferenceUtils.getLocation(mActivity)[0]);
             map.put("longitude", PreferenceUtils.getLocation(mActivity)[1]);
@@ -247,16 +284,7 @@ public class AfterPaymentCompletionActivity extends BaseActivity {
                     GroupBuyingMerchantListModel model = (GroupBuyingMerchantListModel) obj;
                     ArrayList<GroupPurchaseMerchant> mlist = model.getValue();
                     if (CheckUtils.isNoEmptyList(mlist)) {
-                        for (int i = mlist.size() - 1; i >= 0; i--) {
-                            if (mlist.get(i).getId().equals(merchant.getId())) {
-                                mlist.remove(i);
-                                break;
-                            }
-                        }
-                        if (mlist.size() == 4) {
-                            mlist.remove(3);
-                        }
-                        if (mlist.size() > 0) showMoreMerchant(mlist);
+                        showMoreMerchant(mlist);
                     }
                 }
             }
@@ -274,4 +302,18 @@ public class AfterPaymentCompletionActivity extends BaseActivity {
         adapter.setList(mlist);
     }
 
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+        getOrderData();
+    }
+
+    @Override
+    public void onPullDownValue(PullToRefreshBase<ListView> refreshView, int value) {
+
+    }
+
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+    }
 }

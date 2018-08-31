@@ -473,8 +473,15 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                         intent.putExtra("mResult",result);
                         intent.putExtra("orderId",orderId);
                         intent.putExtra("isGroupPurchaseBuy",isGroupPurchaseBuy);
-                        startActivity(intent);} else {
+                        startActivity(intent);
+                    } else {
                         ToastUtils.displayMsg("支付失败", mActivity);
+                        Intent intent = new Intent(OnlinePayActivity.this, AfterPaymentCompletionActivity.class);
+                        intent.putExtra("merchantId",merchantId);
+                        intent.putExtra("mResult",result);
+                        intent.putExtra("orderId",orderId);
+                        intent.putExtra("isGroupPurchaseBuy",isGroupPurchaseBuy);
+                        startActivity(intent);
                     }
                 } else if ("cancel".equals(result)) {
                     ToastUtils.displayMsg("取消支付", mActivity);

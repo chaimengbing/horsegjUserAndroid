@@ -73,9 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/x25"
-                android:drawableLeft="@drawable/ic_payment_success"
                 android:drawablePadding="@dimen/x4"
-                android:text="支付成功"
                 android:textColor="@color/color_3"
                 android:textSize="15sp" />
 
@@ -97,14 +95,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/x22"
-                android:text="老坛酸菜牛肉面"
                 android:textColor="@color/color_3"
                 android:textSize="17sp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/x2"
                 android:layout_marginTop="@dimen/x22"
+                android:layerType="software"
                 android:background="@drawable/shap_xu_line_gray" />
 
             <RelativeLayout

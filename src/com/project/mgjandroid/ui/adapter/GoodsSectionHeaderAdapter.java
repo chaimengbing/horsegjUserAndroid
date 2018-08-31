@@ -160,10 +160,10 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
             holder.tvLimit = (TextView) convertView.findViewById(R.id.goods_item_tv_limit);
             holder.tvMin = (TextView) convertView.findViewById(R.id.goods_item_tv_min);
             holder.tvStock = (TextView) convertView.findViewById(R.id.goods_item_tv_stock);
-            holder.imgAdd = (ImageView) convertView.findViewById(R.id.goods_item_img_add);
+            holder.imgAdd = (RelativeLayout) convertView.findViewById(R.id.goods_item_img_add);
             holder.tvBuyCount = (TextView) convertView.findViewById(R.id.goods_item_tv_buy_count);
-            holder.imgMinus = (ImageView) convertView.findViewById(R.id.goods_item_img_minus);
-            holder.specMinus = (ImageView) convertView.findViewById(R.id.goods_item_img_minus_spec);
+            holder.imgMinus = (RelativeLayout) convertView.findViewById(R.id.goods_item_img_minus);
+            holder.specMinus = (RelativeLayout) convertView.findViewById(R.id.goods_item_img_minus_spec);
             holder.rlHideBuyCount = (RelativeLayout) convertView.findViewById(R.id.buy_count_hide);
             holder.tvChooseSpec = (TextView) convertView.findViewById(R.id.goods_item_choose_spec);
             holder.specCount = (TextView) convertView.findViewById(R.id.goods_item_tv_buy_count_spec);
@@ -216,9 +216,9 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
         TextView tvOriginPrice;
         TextView tvStock;
         TextView tvLimit, tvMin;
-        ImageView imgAdd;
+        RelativeLayout imgAdd;
         TextView tvBuyCount, specCount;
-        ImageView imgMinus, specMinus;
+        RelativeLayout imgMinus, specMinus;
         RelativeLayout rlHideBuyCount;
         TextView tvChooseSpec, tvSleep;
         View divideLine;
