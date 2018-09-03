@@ -666,7 +666,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                 holder.tvBuyCount.setText(goodsSpec.getBuyCount() + "");
                 if (goodsSpec.getBuyCount() > 0) {
                     holder.imgMinus.setTranslationX(PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-                    holder.tvBuyCount.setTranslationX(PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
+                    holder.tvBuyCount.setTranslationX(-DipToPx.dip2px(context, 25));
                 } else {
                     holder.imgMinus.setTranslationX(0f);
                     holder.tvBuyCount.setTranslationX(0f);
@@ -866,7 +866,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                             goodsSpec.setBuyCount(count);
                             holder.tvBuyCount.setText(count + "");
                             AnimatorUtils.leftTranslationRotating(holder.imgMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-                            AnimatorUtils.leftTranslationRotating(holder.tvBuyCount, PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
+                            AnimatorUtils.leftTranslationRotating(holder.tvBuyCount, -DipToPx.dip2px(context, 25));
                         } else {
                             count++;
                             if (goods.getHasDiscount() == 1) {
@@ -1023,7 +1023,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                             goodsSpec.setBuyCount(count);
                             holder.tvBuyCount.setText(count + "");
                             AnimatorUtils.rightTranslationRotating(holder.imgMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-                            AnimatorUtils.rightTranslationRotating(holder.tvBuyCount, PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
+                            AnimatorUtils.rightTranslationRotating(holder.tvBuyCount, -DipToPx.dip2px(context, 25));
                             //只要点击了就去更新购物车
 
                             listener.productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), true, false);
