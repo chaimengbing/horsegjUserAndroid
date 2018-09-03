@@ -169,7 +169,6 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.activity_group_buying_merchant_detail);
         Injector.get(this).inject();
-
         initView();
         initData();
     }

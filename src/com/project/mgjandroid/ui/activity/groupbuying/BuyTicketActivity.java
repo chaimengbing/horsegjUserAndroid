@@ -118,6 +118,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     String stringTime ="";
     String sMonth = "";
     private int currrentDay;
+    private String sDay ="";
 
 
     @Override
@@ -206,7 +207,6 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 }
                 TextView dataTime = (TextView) view.findViewById(R.id.date_item);
                 if (dataTime.getVisibility() == View.VISIBLE && (dataTime.getCurrentTextColor() == getResources().getColor(R.color.color_3) || dataTime.getCurrentTextColor() == getResources().getColor(R.color.bg_festival) || dataTime.getCurrentTextColor() == getResources().getColor(R.color.white))) {
-                    title = year + "-" + month + "-";
                     int dayNum = 0;
                     //将二维数组转化为一维数组，方便使用
                     for (int i = 0; i < days.length; i++) {
@@ -219,7 +219,10 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     if(month<10){
                         sMonth ="0"+month;
                     }
-                    stringTime =year + "-" + sMonth + "-" + currrentDay;
+                    if(currrentDay<10){
+                        sDay ="0"+currrentDay;
+                    }
+                    stringTime =year + "-" + sMonth + "-" + sDay;
                     if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getSellOutDates())){
                         List<String> stringList = com.alibaba.fastjson.JSONArray.parseArray(groupPurchaseCoupon.getSellOutDates(), String.class);
                         for(String sList : stringList){
@@ -232,7 +235,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     if (mPopWindow != null) {
                         mPopWindow.dismiss();
                     }
-                    tvDate.setText(title + currrentDay);
+                    tvDate.setText(stringTime);
                     if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getCancelAfterVerificationTime())) {
                         tvADate.setText(groupPurchaseCoupon.getCancelAfterVerificationTime() + "自动使用");
                     }
