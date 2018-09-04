@@ -5,7 +5,7 @@ android:shape="line">
     android:dashGap="3dp"
     android:dashWidth="6dp"
     android:width="1dp"
-    android:color="@color/gray_txt" />
+    android:color="@color/menu_section_header" />
 <!-- 虚线的高度 -->
 <size android:height="0.5dp" />
 </shape>

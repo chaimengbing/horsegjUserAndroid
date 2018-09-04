@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarThumbVertical="@drawable/xg_scrollbar"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/x15"
-                    android:layout_marginTop="@dimen/x12"
+                    android:layout_marginTop="@dimen/x17"
                     android:paddingRight="@dimen/x9"
                     android:src="@drawable/group_buying_icon_location" />
 
@@ -422,7 +422,7 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:visibility="gone">
+                >
 
                 <View
                     android:layout_width="match_parent"
@@ -482,8 +482,9 @@
                     android:id="@+id/tv_service"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/x5"
-                    android:layout_marginRight="@dimen/x5"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_marginRight="@dimen/x15"
+                    android:layout_marginBottom="@dimen/x15"
                     tools:text="本店提供优质服务" />
 
                 <View
