@@ -14,9 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:gravity="center"
-
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/confirm_order_position"
@@ -55,7 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:paddingBottom="@dimen/x15"
-        android:paddingTop="@dimen/x15">
+        android:paddingTop="@dimen/x15"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/address_description"

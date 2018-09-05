@@ -431,8 +431,10 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
                 etHouseNum.requestFocus();
 //                Editable spannable = etHouseNum.getText();
 //                Selection.setSelection(spannable, spannable.length());
-                longitude = poiInfo.pt.longitude;
-                latitude = poiInfo.pt.latitude;
+                if (poiInfo != null && poiInfo.pt != null) {
+                    longitude = poiInfo.pt.longitude;
+                    latitude = poiInfo.pt.latitude;
+                }
             }
         }
     }
