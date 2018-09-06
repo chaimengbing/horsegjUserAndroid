@@ -177,10 +177,10 @@ public class GoodsCapacityAdapter extends BaseAdapter {
             holder.tvLimit = (TextView) convertView.findViewById(R.id.goods_item_tv_limit);
             holder.tvMin = (TextView) convertView.findViewById(R.id.goods_item_tv_min);
             holder.tvStock = (TextView) convertView.findViewById(R.id.goods_item_tv_stock);
-            holder.imgAdd = (ImageView) convertView.findViewById(R.id.goods_item_img_add);
+            holder.imgAdd = (RelativeLayout) convertView.findViewById(R.id.goods_item_img_add);
             holder.tvBuyCount = (TextView) convertView.findViewById(R.id.goods_item_tv_buy_count);
-            holder.imgMinus = (ImageView) convertView.findViewById(R.id.goods_item_img_minus);
-            holder.specMinus = (ImageView) convertView.findViewById(R.id.goods_item_img_minus_spec);
+            holder.imgMinus = (RelativeLayout) convertView.findViewById(R.id.goods_item_img_minus);
+            holder.specMinus = (RelativeLayout) convertView.findViewById(R.id.goods_item_img_minus_spec);
             holder.rlHideBuyCount = (RelativeLayout) convertView.findViewById(R.id.buy_count_hide);
             holder.tvChooseSpec = (TextView) convertView.findViewById(R.id.goods_item_choose_spec);
             holder.specCount = (TextView) convertView.findViewById(R.id.goods_item_tv_buy_count_spec);
@@ -217,9 +217,8 @@ public class GoodsCapacityAdapter extends BaseAdapter {
         TextView tvOriginPrice;
         TextView tvStock;
         TextView tvLimit, tvMin;
-        ImageView imgAdd;
         TextView tvBuyCount, specCount;
-        ImageView imgMinus, specMinus;
+        RelativeLayout imgMinus, imgAdd, specMinus;
         RelativeLayout rlHideBuyCount;
         TextView tvChooseSpec, tvSleep;
         View divideLine;
@@ -555,7 +554,7 @@ public class GoodsCapacityAdapter extends BaseAdapter {
                 holder.tvBuyCount.setText(goodsSpec.getBuyCount() + "");
                 if (goodsSpec.getBuyCount() > 0) {
                     holder.imgMinus.setTranslationX(PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-                    holder.tvBuyCount.setTranslationX(PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
+                    holder.tvBuyCount.setTranslationX(-DipToPx.dip2px(context, 25));
                 } else {
                     holder.imgMinus.setTranslationX(0f);
                     holder.tvBuyCount.setTranslationX(0f);
@@ -589,7 +588,7 @@ public class GoodsCapacityAdapter extends BaseAdapter {
                             goodsSpec.setBuyCount(count);
                             holder.tvBuyCount.setText(count + "");
                             AnimatorUtils.leftTranslationRotating(holder.imgMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-                            AnimatorUtils.leftTranslationRotating(holder.tvBuyCount, PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
+                            AnimatorUtils.leftTranslationRotating(holder.tvBuyCount, -DipToPx.dip2px(context, 25));
                         } else {
                             count++;
                             holder.tvBuyCount.setText(count + "");
@@ -625,7 +624,7 @@ public class GoodsCapacityAdapter extends BaseAdapter {
                             goodsSpec.setBuyCount(count);
                             holder.tvBuyCount.setText(count + "");
                             AnimatorUtils.rightTranslationRotating(holder.imgMinus, PreferenceUtils.getFloatPreference(PreferenceUtils.MINUS_TRANSLATION_X, 0, context));
-                            AnimatorUtils.rightTranslationRotating(holder.tvBuyCount, PreferenceUtils.getFloatPreference(PreferenceUtils.COUNT_TRANSLATION_X, 0, context));
+                            AnimatorUtils.rightTranslationRotating(holder.tvBuyCount, -DipToPx.dip2px(context, 25));
                             //只要点击了就去更新购物车
 
                             listener.productHasChange(goods, goods.getCategoryId(), goods.getId(), goodsSpec.getId(), goodsSpec.getBuyCount(), true, false);
