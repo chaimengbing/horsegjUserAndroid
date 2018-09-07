@@ -427,6 +427,9 @@
             android:name=".ui.activity.EvaluateActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.NewEvaluateActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
         <activity
