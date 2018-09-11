@@ -93,6 +93,7 @@ public class ConfirmOrderModel extends Entity {
     public static class ValueEntity extends Entity {
         private Object userId;
         private long merchantId;
+        private long agentId;
         private String merchantName;
         private BigDecimal itemsPrice;
         private BigDecimal boxPrice;
@@ -438,6 +439,14 @@ public class ConfirmOrderModel extends Entity {
 
         public void setRedBagSharedRelation(int redBagSharedRelation) {
             this.redBagSharedRelation = redBagSharedRelation;
+        }
+
+        public long getAgentId() {
+            return agentId;
+        }
+
+        public void setAgentId(long agentId) {
+            this.agentId = agentId;
         }
 
         public static class ExpectedArrivalEntity extends Entity {
