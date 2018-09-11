@@ -227,6 +227,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 PreferenceUtils.saveStringPreference(PreferenceUtils.SELECT_TEST_URL, (String) selUrlAdapter.getItem(i), getActivity());
+                App.setIsLogin(false);
+                App.setUserInfo(null);
+                PreferenceUtils.saveStringPreference("token", "", mActivity);
+                String latitude = PreferenceUtils.getFixedLocation(getActivity())[0];
+                String longitude = PreferenceUtils.getFixedLocation(getActivity())[1];
+                if (!(CheckUtils.isNoEmptyStr(latitude) && CheckUtils.isNoEmptyStr(longitude) && !"4.9E-324".equals(latitude) && !"4.9E-324".equals(longitude) && !"0.0".equals(latitude) && !"0.0".equals(longitude))) {
+                    //定位失败清空地址
+                    PreferenceUtils.saveAddressName("", getActivity());
+                }
                 dismiss();
                 restartApp();
             }
