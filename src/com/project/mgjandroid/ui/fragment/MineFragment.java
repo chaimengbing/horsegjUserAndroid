@@ -50,6 +50,7 @@ import com.project.mgjandroid.ui.activity.MyPublishCategoryActivity;
 import com.project.mgjandroid.ui.activity.MyRedBagActivity;
 import com.project.mgjandroid.ui.activity.NewEvaluateActivity;
 import com.project.mgjandroid.ui.activity.NoticeActivity;
+import com.project.mgjandroid.ui.activity.RiderActivity;
 import com.project.mgjandroid.ui.activity.SmsLoginActivity;
 import com.project.mgjandroid.ui.activity.UserInfoActivity;
 import com.project.mgjandroid.ui.activity.invitingfriends.InvitingFriendsActivity;
@@ -290,7 +291,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //                if (CommonUtils.checkLogin(mActivity)) {
 //                    startActivity(new Intent(mActivity, UserInfoActivity.class).putExtra("balance", balance));
 //                }
-                startActivity(new Intent(mActivity,NewEvaluateActivity.class));
+                startActivity(new Intent(mActivity,RiderActivity.class));
                 break;
             case R.id.mine_fragment_setting:
                 startActivityForResult(new Intent(mActivity, MoreSettingActivity.class), TO_MORE_SETTING);

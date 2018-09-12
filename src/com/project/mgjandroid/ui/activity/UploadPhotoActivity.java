@@ -117,7 +117,10 @@ public class UploadPhotoActivity extends BaseActivity {
         if (GroupBuyingAddEvaluationActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())) {
             ChoosePhotoModel.getInstance().setFrom("");
             ChoosePhotoModel.getInstance().setMaxCount(9);
-        } else {
+        } else if(NewEvaluateActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())){
+            ChoosePhotoModel.getInstance().setFrom("");
+            ChoosePhotoModel.getInstance().setMaxCount(9);
+        }else {
             ChoosePhotoModel.getInstance().setMaxCount(12);
         }
 

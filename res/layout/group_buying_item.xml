@@ -27,7 +27,9 @@
         android:layout_marginLeft="@dimen/x10"
         android:layout_marginTop="@dimen/x12"
         android:layout_toRightOf="@+id/img"
+        android:layout_toLeftOf="@+id/layout"
         android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/color_3"
         android:textSize="15sp"
         tools:text="秘制龙虾饭双人套餐" />
@@ -94,6 +96,7 @@
     <!--android:layout_alignParentRight="true"-->
     <!--android:layout_marginRight="@dimen/x15" />-->
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
