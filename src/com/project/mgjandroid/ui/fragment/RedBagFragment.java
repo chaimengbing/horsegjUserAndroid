@@ -37,6 +37,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
     private PullToRefreshListView listView;
     private RelativeLayout noDataLayout;
     private TextView tvLvTransaction;
+    private TextView tvTransaction;
 
     private RedBagAdapter vouchersAdapter;
     private PlatFormAdapter platFormAdapter;
@@ -94,19 +95,13 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
     private void initView(View view) {
         listView = (PullToRefreshListView) view.findViewById(R.id.red_bag_list);
         noDataLayout = (RelativeLayout) view.findViewById(R.id.no_data);
-        TextView tvTransaction = (TextView) view.findViewById(R.id.tv_transaction);
+        tvTransaction = (TextView) view.findViewById(R.id.tv_transaction);
         View lvTransaction = mInflater.inflate(R.layout.red_bag_footer_view, null);
         tvLvTransaction = (TextView) lvTransaction.findViewById(R.id.tv_transaction);
         tvTransaction.setOnClickListener(this);
         tvLvTransaction.setOnClickListener(this);
         loadingDialog = new MLoadingDialog();
 
-        if (!canUse) {
-            tvLvTransaction.setTextColor(0xffff9900);
-            tvTransaction.setTextColor(0xffff9900);
-            tvLvTransaction.setText("<< 查看可用红包");
-            tvTransaction.setText("<< 查看可用红包");
-        }
 
         if (merchantId != -1 || agentId != -1) {
             vouchersAdapter = new RedBagAdapter(R.layout.item_red_vouchers, mActivity, true, canUse);
@@ -117,6 +112,35 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
             listView.getRefreshableView().addFooterView(lvTransaction);
         }
         setAdapter();
+    }
+
+
+    public void updateHistory() {
+        if (!canUse) {
+            tvLvTransaction.setTextColor(0xffff9900);
+            tvTransaction.setTextColor(0xffff9900);
+
+            if (redBagType == 1) {
+                tvLvTransaction.setText("<< 查看可用红包");
+                tvTransaction.setText("<< 查看可用红包");
+            } else {
+                tvLvTransaction.setText("<< 查看可用代金券");
+                tvTransaction.setText("<< 查看可用代金券");
+            }
+
+        } else {
+
+            tvLvTransaction.setTextColor(0xff999999);
+            tvTransaction.setTextColor(0xff999999);
+
+            if (redBagType == 1) {
+                tvLvTransaction.setText("<< 查看历史用红包");
+                tvTransaction.setText("<< 查看历史红包");
+            } else {
+                tvLvTransaction.setText("<< 查看历史代金券");
+                tvTransaction.setText("<< 查看历史代金券");
+            }
+        }
     }
 
 
@@ -250,6 +274,7 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                 } else {
                     setData(mlist, isLoadMore);
                 }
+                updateHistory();
                 ((MyRedBagActivity) getActivity()).handRedBagTabView(redBagType, redCount, vouchersCount);
             }
         }, RedBagsModel.class);
