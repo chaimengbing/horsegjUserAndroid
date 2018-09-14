@@ -433,6 +433,9 @@
             android:name=".ui.activity.RiderActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.EvaluateListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" />
         <activity

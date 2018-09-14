@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_evaluate"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_bg" />
+
+    <RadioGroup
+        android:id="@+id/select_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="@dimen/x15"
+        >
+
+        <RadioButton
+            android:id="@+id/evaluate_fragment_all"
+            android:layout_width="@dimen/x75"
+            android:layout_height="@dimen/x28"
+            android:background="@drawable/bg_orange_selector_gray"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:padding="@dimen/x3"
+            android:text="@string/commercial_evaluate_all_count"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/evaluate_fragment_satisfy"
+            android:layout_width="@dimen/x75"
+            android:layout_height="@dimen/x28"
+            android:layout_marginLeft="@dimen/x10"
+            android:background="@drawable/bg_orange_selector_gray"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/x3"
+            android:text="好评"
+            android:textColor="#B97F27"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/evaluate_fragment_yawp"
+            android:layout_width="@dimen/x75"
+            android:layout_height="@dimen/x28"
+            android:layout_marginLeft="@dimen/x10"
+            android:background="@drawable/bg_selector_gray"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/x3"
+            android:text="差评"
+            android:textColor="#BFBFBF"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/evaluate_fragment_yawp1"
+            android:layout_width="@dimen/x75"
+            android:layout_height="@dimen/x28"
+            android:layout_marginLeft="@dimen/x10"
+            android:background="@drawable/bg_orange_selector_gray"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/x3"
+            android:text="有图"
+            android:textColor="#B97F27"
+            android:textSize="12sp" />
+
+    </RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/x15"
+        android:paddingRight="@dimen/x15"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/evaluate_fragment_show_un_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:checked="true"
+            android:drawableLeft="@drawable/bg_new_check_or_uncheck"
+            android:drawablePadding="@dimen/x5"
+            android:gravity="center"
+            android:text="@string/commercial_evaluate_show_content_only"
+            android:textColor="@color/common_black_text"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</LinearLayout>

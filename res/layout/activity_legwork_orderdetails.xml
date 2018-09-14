@@ -61,6 +61,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x74">
 
+                    <RelativeLayout
+                        android:id="@+id/layout_rider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingRight="@dimen/x50"
+                        >
+
                     <com.project.mgjandroid.ui.view.RoundImageView
                         android:id="@+id/rider_user_avatar"
                         android:layout_width="@dimen/x40"
@@ -81,6 +88,7 @@
                         android:text="高玉婷"
                         android:textColor="@color/color_3"
                         android:textSize="15sp" />
+                    </RelativeLayout>
 
                     <ImageView
                         android:id="@+id/img_phone"
