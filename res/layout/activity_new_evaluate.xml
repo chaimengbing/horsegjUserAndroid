@@ -279,6 +279,7 @@
                     bao:starImageSize="30dp" />
 
                 <TextView
+                    android:id="@+id/tv_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -386,7 +387,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="@dimen/x8"
                         android:layout_marginRight="@dimen/x10"
-                        android:text="0/800字"
+                        android:text="0/300字"
                         android:textColor="@color/grey_white_pressed"
                         android:textSize="11sp" />
 

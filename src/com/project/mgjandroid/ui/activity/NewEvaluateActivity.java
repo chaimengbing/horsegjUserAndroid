@@ -69,6 +69,8 @@ public class NewEvaluateActivity extends BaseActivity {
     private LinearLayout layoutPicture;
     @InjectView(R.id.layout_bottom)
     private LinearLayout layoutBottom;
+    @InjectView(R.id.tv_score)
+    private TextView tvScore;
 
     private ArrayList<String> badList = new ArrayList<>();
     private ArrayList<String> goodList = new ArrayList<>();
@@ -132,6 +134,19 @@ public class NewEvaluateActivity extends BaseActivity {
             public void onRating(Object bindObject, int RatingScore, String content) {
                 if (RatingScore > 0 && layoutScore.getVisibility() != View.VISIBLE) {
                     layoutScore.setVisibility(View.VISIBLE);
+                }
+                if(RatingScore==1){
+                    tvScore.setText("极差");
+                }else if(RatingScore==2){
+                    tvScore.setText("失望");
+                }else if(RatingScore==3){
+                    tvScore.setText("一般");
+                }else if(RatingScore==4){
+                    tvScore.setText("满意");
+                }else if(RatingScore==5){
+                    tvScore.setText("超赞");
+                }else {
+                    tvScore.setText("");
                 }
             }
         });
