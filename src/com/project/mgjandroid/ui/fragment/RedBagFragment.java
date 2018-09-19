@@ -275,7 +275,10 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
                     setData(mlist, isLoadMore);
                 }
                 updateHistory();
-                ((MyRedBagActivity) getActivity()).handRedBagTabView(redBagType, redCount, vouchersCount);
+                try {
+                    ((MyRedBagActivity) getActivity()).handRedBagTabView(redBagType, redCount, vouchersCount);
+                } catch (Exception e) {
+                }
             }
         }, RedBagsModel.class);
     }
