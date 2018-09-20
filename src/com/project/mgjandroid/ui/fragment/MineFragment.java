@@ -288,10 +288,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivityForResult(new Intent(mActivity, SmsLoginActivity.class), LOGIN_IN);
                 break;
             case R.id.mine_fragment_layout_to_user_info:
-//                if (CommonUtils.checkLogin(mActivity)) {
-//                    startActivity(new Intent(mActivity, UserInfoActivity.class).putExtra("balance", balance));
-//                }
-                startActivity(new Intent(mActivity,NewEvaluateActivity.class));
+                if (CommonUtils.checkLogin(mActivity)) {
+                    startActivity(new Intent(mActivity, UserInfoActivity.class).putExtra("balance", balance));
+                }
                 break;
             case R.id.mine_fragment_setting:
                 startActivityForResult(new Intent(mActivity, MoreSettingActivity.class), TO_MORE_SETTING);
