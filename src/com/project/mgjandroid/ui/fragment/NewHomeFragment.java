@@ -402,7 +402,6 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
                 lp.alpha = 0.5f;
                 mActivity.getWindow().setAttributes(lp);
-                mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                 popupWindow.showAtLocation(mActivity.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
             }
         }
