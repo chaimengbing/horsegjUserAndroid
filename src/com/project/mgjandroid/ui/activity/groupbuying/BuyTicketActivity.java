@@ -216,10 +216,11 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                         }
                     }
                     currrentDay = days1[position];
+                    sMonth = ""+month;
                     if(month<10){
                         sMonth ="0"+month;
                     }
-
+                    sDay = ""+currrentDay;
                     if(currrentDay<10){
                         sDay ="0"+currrentDay;
                     }
