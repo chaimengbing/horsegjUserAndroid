@@ -88,11 +88,11 @@ public class CalendarUtils {
         for (int i = 0; i < days.length; i++) {
             for (int j = 0; j < days[i].length; j++) {
                 if (i == 0 && j < daysOfFirstWeek - 1) {
-                    days[i][j] = daysOfLastMonth - daysOfFirstWeek + 2 + j;
+                    days[i][j] = -1;
                 } else if (dayNum <= daysOfMonth) {
                     days[i][j] = dayNum++;
                 } else {
-                    days[i][j] = nextDayNum++;
+                    days[i][j] = -1;
                 }
             }
         }

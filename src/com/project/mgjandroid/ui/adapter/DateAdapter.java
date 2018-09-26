@@ -122,13 +122,19 @@ public class DateAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        if (i < 7 && days[i] > 20) {
-            viewHolder.date_item.setTextColor(Color.rgb(204, 204, 204));//将上个月的和下个月的设置为灰色
+
+        if (days[i] < 0) {
             viewHolder.date_item.setVisibility(View.INVISIBLE);
-        } else if (i > 20 && days[i] < 15) {
-            viewHolder.date_item.setTextColor(Color.rgb(204, 204, 204));
-            viewHolder.date_item.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.date_item.setVisibility(View.VISIBLE);
         }
+//        if (i < 7 && days[i] > 20) {
+//            viewHolder.date_item.setTextColor(Color.rgb(204, 204, 204));//将上个月的和下个月的设置为灰色
+//            viewHolder.date_item.setVisibility(View.INVISIBLE);
+//        } else if (i > 20 && days[i] < 15) {
+//            viewHolder.date_item.setTextColor(Color.rgb(204, 204, 204));
+//            viewHolder.date_item.setVisibility(View.INVISIBLE);
+//        }
 
         viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_c));
         viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.transparent));
