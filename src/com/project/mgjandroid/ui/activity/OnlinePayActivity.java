@@ -681,6 +681,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
             RelativeLayout rlPayLabel = ViewFindUtils.find(item, R.id.pay_alipay);
             rlPayLabel.setTag(i);
             rlPayLabel.setOnClickListener(this);
+
             ImageView payIcon = ViewFindUtils.find(item, R.id.pay_icon);
             TextView tvName = ViewFindUtils.find(item, R.id.pay_name);
             payIcon.setImageResource(ChargeType.findChargeTypeByValue(chargeTypesEntity.getChannel()).getIcon());
@@ -688,6 +689,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
             payLabelContainer.addView(item);
         }
     }
+
 
     private void cancelOrder() {
         Map<String, Object> map = new HashMap<>();
