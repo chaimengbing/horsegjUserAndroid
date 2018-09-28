@@ -41,6 +41,7 @@ public class SelUrlAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         TextView textView = new TextView(context);
         textView.setText(urls[i]);
+        textView.setTextColor(context.getResources().getColor(R.color.color_6));
         int paddLeft = (int) context.getResources().getDimension(R.dimen.x10);
         int paddTop = (int) context.getResources().getDimension(R.dimen.x15);
         textView.setPadding(paddLeft, paddTop, paddLeft, paddTop);
