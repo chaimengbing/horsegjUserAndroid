@@ -239,9 +239,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private Goods goods;
     private BigDecimal multiply;
     private BigDecimal decimal;
-    private BigDecimal multiply1;
-    private BigDecimal decimal1;
-    private BigDecimal bigDecimal;
     private PopupWindow couDanPopupWindow;
     private ListView cListView;
     private CouDanListAdapter couDanListAdapter;
@@ -253,8 +250,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private TextView pTvPriceSpread;
     private TextView pTvdimin;
     private boolean visible = false;
-    private boolean isHint = false;
-    private boolean hasFullSub;
     private BigDecimal subtract;
     private boolean isFullSub;
     private String str;
@@ -692,9 +687,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         if (goodsSpec.getId() == pro.getGoodsSpecId()) {
                             if (pro.getGoods().getHasDiscount() == 1) {
                                 hasDis = true;
-                            }
-                            if (pro.getGoods().getHasDiscount() == 0) {
-                                hasFullSub = true;
                             }
                         }
                     }
