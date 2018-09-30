@@ -200,7 +200,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private TextView tvText1;
 
 
-    //    private CommercialPagerAdapter commercialAdapter;
     private ArrayList<HeaderViewPagerFragment> fragments;
     private GoodsFragment goodsFragment;
     private EvaluateFragment evaluateFragment;
@@ -267,10 +266,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         super.onCreate(arg0);
         setContentView(R.layout.commercial_act);
         Injector.get(this).inject();
-//        commercialAdapter = new CommercialPagerAdapter(this.getSupportFragmentManager());
-//
-//        fragments = commercialAdapter.getFragments();
-//        pager.setAdapter(commercialAdapter);
         getWindow().getDecorView().setBackgroundColor(Color.WHITE);
         allRoot.setVisibility(View.INVISIBLE);
         Intent intent = getIntent();
@@ -286,14 +281,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         }
         if (isAgainOrder) {
             object = new JSONObject((Map<String, Object>) intent.getSerializableExtra("onceMoreOrder"));
-//            Log.i("merchantId1", object.toString());
-//            JSONArray a = object.getJSONArray("goodsJson");
-//            for(int i = 0;i<a.size();i++){
-//                int id = a.getJSONObject(i).getInteger("id");
-//                int specId = a.getJSONObject(i).getInteger("specId");
-//                int quantity = a.getJSONObject(i).getInteger("quantity");
-//                int categoryId = a.getJSONObject(i).getInteger("categoryId");
-//            }
         }
         mLoadingDialog = new LoadingDialog(this);
         mLoadingDialog.show();
