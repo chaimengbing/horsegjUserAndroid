@@ -1,159 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bao="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x75"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x20"
-                android:text="4.8"
-                android:textColor="@color/bg_festival"
-                android:textSize="30sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x15"
-                android:layout_toRightOf="@+id/tv_number"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="1263"
-                    android:textColor="@color/color_3"
-                    android:textSize="12sp" />
-
-                <com.project.mgjandroid.ui.view.RatingBarView
-                    android:id="@+id/pack_score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/x5"
-                    android:layout_toRightOf="@id/all_evaluate_text"
-                    bao:starCount="5"
-                    bao:starEmpty="@drawable/evaluate_small_star_unselected"
-                    bao:starFill="@drawable/evaluate_small_star_selected"
-                    bao:starImageSize="12dp" />
-
-            </LinearLayout>
-        </RelativeLayout>
+        android:orientation="horizontal"
+        android:background="@color/white">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/evaluate_fragment_tv_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:text="4.6"
+                android:textColor="@color/orange_text"
+                android:textSize="20sp"
+                android:includeFontPadding="false" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="味道"
-                    android:textColor="@color/color_6"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/x10"
-                    android:text="4.5"
-                    android:textColor="@color/color_6"
-                    android:textSize="17sp" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/x25"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:text="@string/commercial_evaluate_complex_score"
+                android:textColor="@color/color_3"
+                android:textSize="10sp"
+                android:includeFontPadding="false"
+                android:layout_marginTop="@dimen/x4" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="包装"
-                    android:textColor="@color/color_6"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/x10"
-                    android:text="4.5"
-                    android:textColor="@color/color_6"
-                    android:textSize="17sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="1px"
-                android:layout_height="@dimen/x33"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/x25"
-                android:layout_marginRight="@dimen/x25"
-                android:background="@color/color_e9" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/evaluate_tv_higher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/x25"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_punctuality"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="配送"
-                    android:textColor="@color/color_6"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/x10"
-                    android:text="4.5"
-                    android:textColor="@color/color_6"
-                    android:textSize="17sp" />
-            </LinearLayout>
+                android:text="@string/commercial_evaluate_result"
+                android:layout_marginTop="@dimen/x4"
+                android:textSize="10sp"
+                android:visibility="gone" />
         </LinearLayout>
 
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/common_gray_line"
+            android:layout_marginTop="@dimen/x20"
+            android:layout_marginBottom="@dimen/x20" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/commercial_evaluate_service_attitude"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/color_3"
+                    android:layout_marginLeft="@dimen/x15" />
+
+                <RatingBar
+                    android:id="@+id/evaluate_fragment_rat_service_score"
+                    style="@style/RatingBar.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.1"
+                    android:layout_marginTop="@dimen/x8"
+                    android:layout_centerInParent="true" />
+
+                <TextView
+                    android:id="@+id/evaluate_fragment_tv_service_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/orange_text"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_toRightOf="@id/evaluate_fragment_rat_service_score" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/commercial_evaluate_good_score"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/color_3"
+                    android:layout_marginLeft="@dimen/x15" />
+
+                <RatingBar
+                    android:id="@+id/evaluate_fragment_rat_evaluate_score"
+                    style="@style/RatingBar.Grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.1"
+                    android:layout_marginTop="@dimen/x8"
+                    android:layout_centerInParent="true" />
+
+                <TextView
+                    android:id="@+id/evaluate_fragment_tv_evaluate_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/orange_text"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_toRightOf="@id/evaluate_fragment_rat_evaluate_score" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <View
@@ -165,84 +142,66 @@
         android:id="@+id/select_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="horizontal"
-        android:padding="@dimen/x15"
+        android:padding="@dimen/x10"
+        android:background="@color/white"
         android:visibility="gone">
 
         <RadioButton
             android:id="@+id/evaluate_fragment_all"
-            android:layout_width="@dimen/x75"
-            android:layout_height="@dimen/x28"
-            android:background="@drawable/bg_orange_selector_gray"
-            android:button="@null"
-            android:checked="true"
-            android:gravity="center"
-            android:padding="@dimen/x3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/commercial_evaluate_all_count"
+            android:button="@null"
+            android:textSize="12sp"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:checked="true"
+            android:background="@drawable/bg_orange_selector_gray"
+            android:padding="@dimen/x3" />
 
         <RadioButton
             android:id="@+id/evaluate_fragment_satisfy"
-            android:layout_width="@dimen/x75"
-            android:layout_height="@dimen/x28"
-            android:layout_marginLeft="@dimen/x10"
-            android:background="@drawable/bg_orange_selector_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="满意(0)"
             android:button="@null"
-            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_orange_selector_gray"
             android:padding="@dimen/x3"
-            android:text="好评"
-            android:textColor="#B97F27"
-            android:textSize="12sp" />
+            android:layout_marginLeft="@dimen/x10" />
 
         <RadioButton
             android:id="@+id/evaluate_fragment_yawp"
-            android:layout_width="@dimen/x75"
-            android:layout_height="@dimen/x28"
-            android:layout_marginLeft="@dimen/x10"
-            android:background="@drawable/bg_selector_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不满意(0)"
             android:button="@null"
-            android:gravity="center"
-            android:padding="@dimen/x3"
-            android:text="差评"
-            android:textColor="#BFBFBF"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:id="@+id/evaluate_fragment_yawp1"
-            android:layout_width="@dimen/x75"
-            android:layout_height="@dimen/x28"
-            android:layout_marginLeft="@dimen/x10"
+            android:textSize="12sp"
+            android:textColor="@color/white"
             android:background="@drawable/bg_orange_selector_gray"
-            android:button="@null"
-            android:gravity="center"
             android:padding="@dimen/x3"
-            android:text="有图"
-            android:textColor="#B97F27"
-            android:textSize="12sp" />
-
+            android:layout_marginLeft="@dimen/x10" />
     </RadioGroup>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/x10"
         android:background="@color/white"
-        android:paddingBottom="@dimen/x15"
-        android:paddingRight="@dimen/x15"
         android:visibility="gone">
 
         <TextView
             android:id="@+id/evaluate_fragment_show_un_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x15"
-            android:checked="true"
-            android:drawableLeft="@drawable/bg_new_check_or_uncheck"
-            android:drawablePadding="@dimen/x5"
-            android:gravity="center"
             android:text="@string/commercial_evaluate_show_content_only"
+            android:textSize="12sp"
+            android:checked="true"
+            android:drawableLeft="@drawable/bg_check_or_uncheck"
+            android:drawablePadding="@dimen/x10"
+            android:gravity="center"
             android:textColor="@color/common_black_text"
-            android:textSize="12sp" />
+            android:layout_marginLeft="@dimen/x30" />
     </RelativeLayout>
 </LinearLayout>

@@ -33,7 +33,6 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
-import com.project.mgjandroid.ui.activity.RiderActivity;
 import com.project.mgjandroid.ui.adapter.LegworkStatusAdapter;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.RoundImageView;
@@ -142,8 +141,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private TextView payMoneyTextView;
     @InjectView(R.id.img_send_redbag)
     private ImageView sendRedBag;
-    @InjectView(R.id.layout_rider)
-    private RelativeLayout layoutRider;
 
     private String orderId;
     private LegworkOrderDetailsModel.ValueBean valueBean;
@@ -180,7 +177,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         tvCancelOrder.setOnClickListener(this);
         tvPayment.setOnClickListener(this);
         tvToEvaluate.setOnClickListener(this);
-        layoutRider.setOnClickListener(this);
         tvText.setOnClickListener(this);
         tvContent.setOnClickListener(this);
         tvStatus1.setOnClickListener(this);
@@ -724,10 +720,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                             shareRedBagInfo.getUrl(), shareRedBagInfo.getImg());
                 }
                 if (shareUtil != null) shareUtil.showRedBagPopupWindow();
-                break;
-            case R.id.layout_rider:
-                Intent intent3 = new Intent(mActivity, RiderActivity.class);
-                startActivity(intent3);
                 break;
         }
     }

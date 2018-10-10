@@ -1,11 +1,17 @@
 package com.project.mgjandroid.ui.activity;
 
+import com.project.mgjandroid.BuildConfig;
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.h5container.YLBSdkConstants;
+import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +37,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tv_register.setOnClickListener(this);
         img_back.setOnClickListener(this);
         tv_smsLogin.setOnClickListener(this);
+
     }
 
     @Override

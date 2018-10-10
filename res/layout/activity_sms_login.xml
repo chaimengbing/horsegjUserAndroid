@@ -144,12 +144,13 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/agreement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/x15"
-            android:text="@string/login_by_sms_notice"
-            android:textColor="@color/color_9"
-            android:textSize="12sp" />
+            android:text=""
+            android:textSize="11sp"
+            android:layout_margin="@dimen/x10"
+            android:textColor="@color/color_9"/>
 
         <Button
             android:id="@+id/sms_login_in"

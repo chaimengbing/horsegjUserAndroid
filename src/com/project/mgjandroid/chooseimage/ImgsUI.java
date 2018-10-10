@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.ui.activity.BaseActivity;
-import com.project.mgjandroid.ui.activity.NewEvaluateActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingAddEvaluationActivity;
 import com.project.mgjandroid.ui.activity.healthy.PublishHealthConsultationInformationActivity;
 import com.project.mgjandroid.ui.activity.education.PublishEducationInfoActivity;
@@ -156,8 +155,7 @@ public class ImgsUI extends BaseActivity implements OnClickListener {
                 || PublishRentActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())
                 || PublishSecondHandInfoActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())
                 || PublishBuyInfoActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())
-                || GroupBuyingAddEvaluationActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())
-                || NewEvaluateActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())) {
+                || GroupBuyingAddEvaluationActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())) {
             if (!GroupBuyingAddEvaluationActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())) {
                 ChoosePhotoModel.getInstance().setFrom("");
             }

@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bao="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <View
-        android:id="@+id/commercial_comment_item_line"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/gray_bg" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:paddingBottom="@dimen/x15">
 
         <RatingBar
@@ -97,87 +89,4 @@
             android:textSize="14sp"
             android:visibility="gone" />
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.project.mgjandroid.ui.view.CornerImageView
-            android:id="@+id/user_avatar"
-            android:layout_width="@dimen/x24"
-            android:layout_height="@dimen/x24"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x15"
-            android:scaleType="centerCrop"
-            android:src="@drawable/user_avatar"
-            bao:type="circle" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x15"
-            android:layout_toRightOf="@+id/user_avatar"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="1263"
-                android:textColor="@color/color_6"
-                android:textSize="13sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/x6"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textview"
-                    android:text="超赞"
-                    android:textColor="@color/color_3"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/x15"
-            android:text="2018-9-10"
-            android:textColor="@color/color_9"
-            android:textSize="11sp" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/color_3"
-        android:layout_marginLeft="@dimen/x54"
-        android:layout_marginRight="@dimen/x15"
-        android:textSize="12sp"/>
-
-    <com.project.mgjandroid.ui.view.NoScrollGridView
-        android:id="@+id/grid_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/evaluation"
-        android:layout_marginLeft="@dimen/x54"
-        android:layout_marginRight="@dimen/x15"
-        android:horizontalSpacing="@dimen/x16"
-        android:verticalSpacing="@dimen/x16"
-        android:listSelector="@null"
-        android:numColumns="3" />
-
 </LinearLayout>

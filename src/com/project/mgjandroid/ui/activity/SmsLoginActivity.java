@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,10 +17,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.project.mgjandroid.BuildConfig;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
+import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.PushSetModel;
 import com.project.mgjandroid.model.SendSmsModel;
 import com.project.mgjandroid.model.SmsLoginModel;
@@ -67,6 +72,8 @@ public class SmsLoginActivity extends BaseActivity implements View.OnClickListen
     private LinearLayout loginByWeichat;
     @InjectView(R.id.login_by_qq)
     private LinearLayout loginByQQ;
+    @InjectView(R.id.agreement)
+    private TextView tvAgreement;
 
     private Context mContext;
 
@@ -99,6 +106,19 @@ public class SmsLoginActivity extends BaseActivity implements View.OnClickListen
         loginByQQ.setOnClickListener(this);
         ivPhoneDel.setOnClickListener(this);
         ivCodeDel.setOnClickListener(this);
+        tvAgreement.setOnClickListener(this);
+        //部分文字改变颜色
+        //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+        ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.color_9));
+        ForegroundColorSpan graySpan = new ForegroundColorSpan(getResources().getColor(R.color.bg_festival));
+        tvAgreement.setText("温馨提示：未登录过的手机号码将自动创建为马管家账户，且代表您同意《用户服务协议》");
+        //这里注意一定要先给textview赋值
+        SpannableStringBuilder builder = new SpannableStringBuilder(tvAgreement.getText().toString());
+        //为不同位置字符串设置不同颜色
+        builder.setSpan(redSpan, 0, 32, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(graySpan, 32, 40, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //最后为textview赋值
+        tvAgreement.setText(builder);
         et_mobile.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -221,7 +241,19 @@ public class SmsLoginActivity extends BaseActivity implements View.OnClickListen
             case R.id.login_by_qq:
                 loginByQQ();
                 break;
+            case R.id.agreement:
+                if (BuildConfig.IS_DEBUG) {
+                    toWebView(getString(R.string.yonghu_fuwu_xieyi), "http://120.24.16.64/maguanjia/ItemAndhttp.html");
+                } else {
+                    toWebView(getString(R.string.yonghu_fuwu_xieyi), "http://123.56.15.86/maguanjia/ItemAndhttp.html");
+                }
+                break;
         }
+    }
+    private void toWebView(String name, String url) {
+        Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
+        intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, url);
+        startActivity(intent);
     }
 
     public void loginByQQ() {
