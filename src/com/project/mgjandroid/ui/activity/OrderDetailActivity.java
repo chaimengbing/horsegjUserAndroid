@@ -662,6 +662,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                                             intent.putExtra("caution", caution);
                                         }
                                         startActivityForResult(intent, ActRequestCode.GOODS_DETAIL);
+                                        finish();
                                     }
                                 } else {
                                     ToastUtils.displayMsg("商户加载失败", mActivity);
