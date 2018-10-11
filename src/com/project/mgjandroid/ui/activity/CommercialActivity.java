@@ -1451,7 +1451,11 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
      * 订单预览
      */
     private void getOrderPreview() {
-        final List<Menu> goodsList = new ArrayList<>();
+
+        if (isRelationClassify()) {
+            return;
+        }
+
         loadingDialog.show(getFragmentManager(), "");
         List<MerchantPickGoods> merchantPickGoodses = PickGoodsModel.getInstance().getMerchantPickGoodsList();
         Map<String, Object> map = new HashMap<>();
@@ -1496,54 +1500,15 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         confirmOrderModel = (ConfirmOrderModel) obj;
                         if (confirmOrderModel.isSuccess()) {
                             loadingDialog.dismiss();
-                            if (goodsList.size() == 0) {
-                                for (int i = 0; i < merchantTakeAwayMenu.getMenu().size(); i++) {
-                                    if (merchantTakeAwayMenu.getMenu().get(i).getIsMandatory() == 1) {
-                                        //处理大容量商品
-                                        goodsList.add(merchantTakeAwayMenu.getMenu().get(i));
-                                    }
-                                }
-                            }
-                            List<MerchantPickGoods> merchantPickGoodsList = PickGoodsModel.getInstance().getMerchantPickGoodsList();
-                            for (MerchantPickGoods merchantPickGoods : merchantPickGoodsList) {
-                                if (merchantPickGoods.getMerchantId() != merchantId) {
-                                    continue;
-                                }
-                                List<PickGoods> pickGoods = merchantPickGoods.getPickGoods();
-                                HashMap<Object, Object> hashMap = new HashMap<>();
-                                for (PickGoods pickGood : pickGoods) {
-                                    for (int j = 0; j < goodsList.size(); j++) {
-                                        if (pickGood.getMenuId() == goodsList.get(j).getId()) {
-                                            hashMap.put(pickGood.getMenuId(), pickGood.getMenuId());
-                                        }
-                                    }
-                                }
-                                if (hashMap.size() == goodsList.size()) {
-                                    Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
-                                    intent.putExtra("confirmOrderModel", confirmOrderModel);
-                                    intent.putExtra("onceMoreOrder", previewJsonData);
-                                    Log.d("---", previewJsonData.toString());
-                                    startActivityForResult(intent, ActRequestCode.GOODS_DETAIL);
-                                    return;
-                                } else {
-                                    for (Menu a : goodsList) {
-                                        if (!hashMap.containsKey(a.getId())) {
-                                            for (int i = 0; i < merchantTakeAwayMenu.getMenu().size(); i++) {
-                                                if (merchantTakeAwayMenu.getMenu().get(i).getId() == a.getId()) {
-                                                    showMandatoryDialog(i, a);
-                                                    break;
-                                                }
-                                            }
-                                            return;
-                                        }
-                                    }
-
-                                }
-                            }
+                            Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
+                            intent.putExtra("confirmOrderModel", confirmOrderModel);
+                            intent.putExtra("onceMoreOrder", previewJsonData);
+                            Log.d("---", previewJsonData.toString());
+                            startActivityForResult(intent, ActRequestCode.GOODS_DETAIL);
                         } else {
                             ToastUtils.displayMsg("结算失败", mActivity);
                         }
-//                        finish();
+                        finish();
                     }
                 }
                 loadingDialog.dismiss();
@@ -1551,14 +1516,83 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         }, ConfirmOrderModel.class);
     }
 
-    private void showMandatoryDialog(final int position, Menu menu) {
+    /**
+     * 分类必选关联判断
+     *
+     * @return
+     */
+    private boolean isRelationClassify() {
+        boolean isShow = false;
+        List<Menu> goodsList = new ArrayList<>();
+        List<Menu> menuList = merchantTakeAwayMenu.getMenu();
+        if (CheckUtils.isNoEmptyList(menuList)) {
+            for (Menu menu : menuList) {
+                if (menu != null && menu.getRelationCategoryId() > 0) {
+                    goodsList.add(menu);
+                }
+            }
+        }
+        List<MerchantPickGoods> merchantPickGoodsList = PickGoodsModel.getInstance().getMerchantPickGoodsList();
+        for (MerchantPickGoods merchantPickGoods : merchantPickGoodsList) {
+            if (merchantPickGoods.getMerchantId() != merchantId) {
+                continue;
+            }
+            List<PickGoods> pickGoods = merchantPickGoods.getPickGoods();
+            HashMap<Object, Object> hashMap = new HashMap<>();
+            for (PickGoods pickGood : pickGoods) {
+                for (Menu menu : goodsList) {
+                    if (pickGood.getMenuId() == menu.getId()) {
+                        hashMap.put(pickGood.getMenuId(), menu);
+                    }
+                }
+            }
+
+            if (hashMap.size() > 0) {
+                for (Object menu : hashMap.values()) {
+                    Menu relationMenu = (Menu) menu;
+                    if (relationMenu != null) {
+                        if (!isHaveRelation(relationMenu.getRelationCategoryId(), pickGoods)) {
+                            for (int i = 0; i < menuList.size(); i++) {
+                                Menu menu1 = menuList.get(i);
+                                if (menu1 != null) {
+                                    if (menu1.getId() != null && relationMenu.getRelationCategoryId() == menu1.getId()) {
+                                        isShow = true;
+                                        showMandatoryDialog(i, relationMenu.getAssociatedName());
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return isShow;
+    }
+
+
+    private boolean isHaveRelation(long id, List<PickGoods> pickGoodsList) {
+        boolean isHave = false;
+        if (CheckUtils.isNoEmptyList(pickGoodsList)) {
+            for (PickGoods pickGood : pickGoodsList) {
+                if (id == pickGood.getMenuId()) {
+                    isHave = true;
+                    break;
+                }
+            }
+        }
+        return isHave;
+
+    }
+
+    private void showMandatoryDialog(final int position, String mandatoryName) {
         noticeDialog = new NoticeDialog(mActivity, new NoticeDialog.onBtnClickListener() {
             @Override
             public void onSure() {
                 noticeDialog.dismiss();
                 goodsFragment.getClickMethod(position);
             }
-        }, "", "请选择[" + menu.getName() + "（必选）]下的商品才\n可以下单哦~", "好的");
+        }, "", "请选择[" + mandatoryName + "（必选）]下的商品才\n可以下单哦~", "好的");
         noticeDialog.show();
     }
 

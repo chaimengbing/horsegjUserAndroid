@@ -41,6 +41,14 @@ public class Menu extends Entity {
     private String createTime;
 
     private String modifyTime;
+    /**
+     * 关联分类名称
+     */
+    private String associatedName;
+    /**
+     * 关联分类名ID
+     */
+    private long relationCategoryId = -1;
 
     private Long parentId;
 
@@ -180,5 +188,21 @@ public class Menu extends Entity {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getAssociatedName() {
+        return associatedName;
+    }
+
+    public void setAssociatedName(String associatedName) {
+        this.associatedName = associatedName;
+    }
+
+    public long getRelationCategoryId() {
+        return relationCategoryId;
+    }
+
+    public void setRelationCategoryId(long relationCategoryId) {
+        this.relationCategoryId = relationCategoryId;
     }
 }

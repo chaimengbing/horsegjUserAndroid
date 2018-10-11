@@ -537,7 +537,9 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 }
                             } else {
                                 if (goods.getHasDiscount() == 0) {
-                                    num = num == goodsSpec1.getMinOrderNum() ? 1 : num;
+                                    if (goodsSpec1 != null) {
+                                        num = num == goodsSpec1.getMinOrderNum() ? 1 : num;
+                                    }
                                 }
                                 if (num == 1) {
                                     if (goods.getHasDiscount() == 1) {
@@ -653,7 +655,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                         if (goodsSpec.getOrderLimit() != 0 && pickGoods.getPickCount() > goodsSpec.getOrderLimit()) {
                             if (goods.getHasDiscount() == 0) {
                                 goodsSpec.setBuyCount(goodsSpec.getOrderLimit());
-                            }else {
+                            } else {
                                 goodsSpec.setBuyCount(pickGoods.getPickCount());
                             }
                         } else {
@@ -699,7 +701,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                     }
                                 }
                             } else {
-                                if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                     if (count == goods.getEveryGoodsEveryOrderBuyCount()) {
                                         if (goodsSpec.getMinOrderNum() > 0) {
                                             if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
@@ -716,7 +718,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                             }
                                         }
                                     }
-                                }else {
+                                } else {
                                     if (count == goods.getSurplusDiscountStock()) {
                                         if (goodsSpec.getMinOrderNum() > 0) {
                                             if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null) {
@@ -1005,11 +1007,11 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                         }
                         if (count == 1) {
                             if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                     if (count <= goods.getEveryGoodsEveryOrderBuyCount()) {
                                         goods.setFirst(true);
                                     }
-                                }else {
+                                } else {
                                     if (count <= goods.getSurplusDiscountStock()) {
                                         goods.setFirst(true);
                                     }
@@ -1030,11 +1032,11 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                         } else {
                             if (count > 0) {
                                 if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                    if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                    if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                         if (count <= goods.getEveryGoodsEveryOrderBuyCount()) {
                                             goods.setFirst(true);
                                         }
-                                    }else {
+                                    } else {
                                         if (count <= goods.getSurplusDiscountStock()) {
                                             goods.setFirst(true);
                                         }
@@ -1209,11 +1211,11 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 }
                                 if (num == 1) {
                                     if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                        if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                        if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                             if (num <= goods.getEveryGoodsEveryOrderBuyCount()) {
                                                 goods.setFirst(true);
                                             }
-                                        }else {
+                                        } else {
                                             if (num <= goods.getSurplusDiscountStock()) {
                                                 goods.setFirst(true);
                                             }
@@ -1233,11 +1235,11 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 } else {
                                     if (num > 0) {
                                         if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                            if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                            if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                                 if (num <= goods.getEveryGoodsEveryOrderBuyCount()) {
                                                     goods.setFirst(true);
                                                 }
-                                            }else {
+                                            } else {
                                                 if (num <= goods.getSurplusDiscountStock()) {
                                                     goods.setFirst(true);
                                                 }
@@ -1293,11 +1295,11 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 }
                                 if (num == 1) {
                                     if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                        if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                        if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                             if (num <= goods.getEveryGoodsEveryOrderBuyCount()) {
                                                 goods.setFirst(true);
                                             }
-                                        }else {
+                                        } else {
                                             if (num <= goods.getSurplusDiscountStock()) {
                                                 goods.setFirst(true);
                                             }
@@ -1317,11 +1319,11 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                 } else {
                                     if (num > 0) {
                                         if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                                            if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                            if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                                 if (num <= goods.getEveryGoodsEveryOrderBuyCount()) {
                                                     goods.setFirst(true);
                                                 }
-                                            }else {
+                                            } else {
                                                 if (num <= goods.getSurplusDiscountStock()) {
                                                     goods.setFirst(true);
                                                 }
@@ -1883,7 +1885,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                             }
                                         }
                                     } else {
-                                        if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                                        if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                             if (count == goods.getEveryGoodsEveryOrderBuyCount()) {
                                                 if (mGoodsSpec.getMinOrderNum() > 0) {
                                                     if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null) {
@@ -1897,7 +1899,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                                     }
                                                 }
                                             }
-                                        }else {
+                                        } else {
                                             if (count == goods.getSurplusDiscountStock()) {
                                                 if (mGoodsSpec.getMinOrderNum() > 0) {
                                                     if (mGoodsSpec.getStockType() == 1 && mGoodsSpec.getStock() != null) {
@@ -2087,11 +2089,11 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
 //                    }
                     if (count > 0) {
                         if (goods.getEveryGoodsEveryOrderBuyCount() <= goods.getSurplusDiscountStock()) {
-                            if(goods.getEveryGoodsEveryOrderBuyCount()>0){
+                            if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                 if (count <= goods.getEveryGoodsEveryOrderBuyCount()) {
                                     goods.setFirst(true);
                                 }
-                            }else {
+                            } else {
                                 if (count <= goods.getSurplusDiscountStock()) {
                                     goods.setFirst(true);
                                 }
