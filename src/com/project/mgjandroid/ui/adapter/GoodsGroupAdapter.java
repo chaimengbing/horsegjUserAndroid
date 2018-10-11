@@ -77,7 +77,8 @@ public class GoodsGroupAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if (CheckUtils.isNoEmptyStr(list.get(position).getName())) {
+        String name = list.get(position).getName();
+        if (CheckUtils.isNoEmptyStr(name)) {
             holder.menuCount.setVisibility(View.INVISIBLE);
 //			if (list.get(position).getName().equals("热销榜") && position <= 1) {
 //				Drawable drawable = context.getResources().getDrawable(R.drawable.icon_hot);
@@ -92,19 +93,32 @@ public class GoodsGroupAdapter extends BaseAdapter {
 //			} else {
 //				holder.name.setCompoundDrawables(null, null, null, null);
 //				holder.name.setCompoundDrawablePadding(DipToPx.dip2px(context, 0));
+
+            Long id = idList.get(position);
+            int count = 0;
             List<PickGoods> pickGoodsList = ((CommercialActivity) context).getCartProducts();
             if (CheckUtils.isNoEmptyList(pickGoodsList)) {
-                int count = 0;
                 for (PickGoods pickGoods : pickGoodsList) {
-                    if (idList.get(position) != null && pickGoods.getMenuId() == idList.get(position) && pickGoods.getPickCount() > 0) {
-                        count += pickGoods.getPickCount();
+                    if (id != null) {
+                        if (id == -100) {
+                            if (pickGoods.getGoods() != null && pickGoods.getGoods().getHasDiscount() == 1) {
+                                count += pickGoods.getPickCount();
+                            }
+                        } else {
+                            if (pickGoods.getGoods() != null && pickGoods.getGoods().getHasDiscount() == 0 && pickGoods.getMenuId() == id && pickGoods.getPickCount() > 0) {
+                                count += pickGoods.getPickCount();
+                            }
+                        }
                     }
                 }
-                if (count > 0) {
-                    holder.menuCount.setVisibility(View.VISIBLE);
-                    holder.menuCount.setText(String.valueOf(count));
-                }
             }
+
+            if (count > 0) {
+                holder.menuCount.setVisibility(View.VISIBLE);
+                holder.menuCount.setText(String.valueOf(count));
+            }
+
+
 //			}
             holder.name.setText(list.get(position).getName());
             holder.menuIcon.setVisibility(View.VISIBLE);
@@ -124,6 +138,21 @@ public class GoodsGroupAdapter extends BaseAdapter {
             holder.leftLine.setVisibility(View.INVISIBLE);
         }
         return convertView;
+    }
+
+
+    private int getCount(Long id) {
+        int count = 0;
+        if (id != null) {
+            if (id == -100) {
+
+            } else {
+
+            }
+        }
+
+
+        return count;
     }
 
     static class ViewHolder {
