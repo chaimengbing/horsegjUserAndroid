@@ -1586,6 +1586,9 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     }
 
     private void showMandatoryDialog(final int position, String mandatoryName) {
+        if (noticeDialog != null && noticeDialog.isShowing()){
+            noticeDialog.dismiss();
+        }
         noticeDialog = new NoticeDialog(mActivity, new NoticeDialog.onBtnClickListener() {
             @Override
             public void onSure() {
