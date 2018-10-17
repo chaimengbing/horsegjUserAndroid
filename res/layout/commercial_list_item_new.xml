@@ -337,37 +337,56 @@
                     android:paddingTop="@dimen/x5"
                     android:src="@drawable/nabla_black" />
 
-                <TextView
-                    android:id="@+id/restaurant_list_item_tv_active_count"
-                    android:layout_width="wrap_content"
+                <!--<TextView-->
+                    <!--android:id="@+id/restaurant_list_item_tv_active_count"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginRight="@dimen/x6"-->
+                    <!--android:layout_toLeftOf="@id/restaurant_list_item_iv_active"-->
+                    <!--android:includeFontPadding="false"-->
+                    <!--android:paddingBottom="@dimen/x10"-->
+                    <!--android:paddingTop="@dimen/x2"-->
+                    <!--android:textColor="@color/gray_text_3"-->
+                    <!--android:textSize="10sp" />-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/restaurant_list_item_layout_active"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_toLeftOf="@id/restaurant_list_item_tv_active_count"-->
+                    <!--android:orientation="vertical">-->
+
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/restaurant_list_item_layout_active_hide"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@id/restaurant_list_item_layout_active"-->
+                    <!--android:layout_toLeftOf="@id/restaurant_list_item_tv_active_count"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:visibility="gone">-->
+
+                <!--</LinearLayout>-->
+
+                <com.jet.flowtaglayout.FlowTagLayout
+                    android:id="@+id/flow_tagLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/x6"
+                    android:layout_marginRight="@dimen/x20"
+                    app:item_background="@drawable/bg_rectangle_red"
                     android:layout_toLeftOf="@id/restaurant_list_item_iv_active"
-                    android:includeFontPadding="false"
-                    android:paddingBottom="@dimen/x10"
-                    android:paddingTop="@dimen/x2"
-                    android:textColor="@color/gray_text_3"
-                    android:textSize="10sp" />
+                    app:item_bottomMargin="@dimen/x5"
+                    app:item_bottomPadding="@dimen/x5"
+                    app:item_leftMargin="@dimen/x5"
+                    app:item_leftPadding="@dimen/x5"
+                    app:item_rightMargin="@dimen/x5"
+                    app:item_rightPadding="@dimen/x5"
+                    app:item_textColor="#c75850"
+                    app:item_textSize="11sp"
+                    app:item_topMargin="@dimen/x5"
+                    app:item_topPadding="@dimen/x5" />
 
-                <LinearLayout
-                    android:id="@+id/restaurant_list_item_layout_active"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/restaurant_list_item_tv_active_count"
-                    android:orientation="vertical">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/restaurant_list_item_layout_active_hide"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/restaurant_list_item_layout_active"
-                    android:layout_toLeftOf="@id/restaurant_list_item_tv_active_count"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

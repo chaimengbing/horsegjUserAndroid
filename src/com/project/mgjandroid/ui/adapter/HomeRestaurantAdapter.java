@@ -17,6 +17,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jet.flowtaglayout.FlowTagLayout;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.Merchant;
 import com.project.mgjandroid.bean.PromotionActivity;
@@ -35,6 +36,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 
 public class HomeRestaurantAdapter extends BaseAdapter {
     private ArrayList<Merchant> list;
@@ -42,11 +45,18 @@ public class HomeRestaurantAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private DecimalFormat df = new DecimalFormat("0.00");
     private Date serviceTime;
+    private List<String> badList = new ArrayList<>();
 
     public HomeRestaurantAdapter(Context context) {
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.list = new ArrayList<Merchant>();
+        badList.add("提前点送达");
+        badList.add("服务态度差");
+        badList.add("餐品翻撒");
+        badList.add("送餐慢");
+        badList.add("着装脏乱");
+        badList.add("沟通困难");
     }
 
     public ArrayList<Merchant> getList() {
@@ -102,9 +112,10 @@ public class HomeRestaurantAdapter extends BaseAdapter {
             holder.tvMianShippingFee = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_mian_shipping_fee);
             holder.tvTips = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_tips);
             holder.layoutImgs = (LinearLayout) convertView.findViewById(R.id.restaurant_list_item_layout_img);
-            holder.layoutActive = (LinearLayout) convertView.findViewById(R.id.restaurant_list_item_layout_active);
-            holder.layoutActiveHide = (LinearLayout) convertView.findViewById(R.id.restaurant_list_item_layout_active_hide);
-            holder.tvActiveCount = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_active_count);
+//            holder.layoutActive = (LinearLayout) convertView.findViewById(R.id.restaurant_list_item_layout_active);
+//            holder.layoutActiveHide = (LinearLayout) convertView.findViewById(R.id.restaurant_list_item_layout_active_hide);
+//            holder.tvActiveCount = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_active_count);
+            holder.flowTaglayout = (FlowTagLayout) convertView.findViewById(R.id.flow_tagLayout);
             holder.imgActive = (ImageView) convertView.findViewById(R.id.restaurant_list_item_iv_active);
             holder.visibleLiveImageView = (ImageView) convertView.findViewById(R.id.visible_live_imageview);
             holder.tvTimeDistance = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_time_distance);
@@ -124,9 +135,11 @@ public class HomeRestaurantAdapter extends BaseAdapter {
     static class ViewHolder {
         CornerImageView img;
         ImageView imgActive, imgStatus, imgOffTime,brantImageView;
-        TextView tvName, tvSendPrice, tvScore, tvInSales, tvShippingFee, tvMianShippingFee, tvTips, tvActiveCount, tvTimeDistance, tvPickGoodsCount, tvShipFeeNew;
+        TextView tvName, tvSendPrice, tvScore, tvInSales, tvShippingFee, tvMianShippingFee, tvTips,  tvTimeDistance, tvPickGoodsCount, tvShipFeeNew;
         RatingBar scoreBar;
-        LinearLayout layoutImgs, layoutActive, layoutActiveHide;
+        LinearLayout layoutImgs;
+        FlowTagLayout flowTaglayout;
+//        layoutActive, layoutActiveHide;tvActiveCount,
         View promotionLine, rootView;
         RelativeLayout listItem;
         ImageView visibleLiveImageView;
@@ -185,7 +198,9 @@ public class HomeRestaurantAdapter extends BaseAdapter {
 //			else{
 //				holder.tvSendPrice.setText("0");
 //			}
-
+            final ViewGroup.LayoutParams layoutParams = holder.flowTaglayout.getLayoutParams();
+            layoutParams.height =100;
+            holder.flowTaglayout.setLayoutParams(layoutParams);
             if (merchant.getHasVisualRestaurant() == 1){
                 holder.visibleLiveImageView.setVisibility(View.VISIBLE);
             }else {
@@ -194,6 +209,7 @@ public class HomeRestaurantAdapter extends BaseAdapter {
 
             if (merchant.getDistance() != null) {
                 if (merchant.getDistance() > 1000) {
+
                     Double d = merchant.getDistance() / 1000;
                     holder.tvSendPrice.setText(df.format(d) + "km");
                 } else {
@@ -262,28 +278,31 @@ public class HomeRestaurantAdapter extends BaseAdapter {
 //            } else {
 //                holder.layoutImgs.setVisibility(View.GONE);
 //            }
-            holder.tvActiveCount.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    if (holder.layoutActiveHide.getVisibility() == View.VISIBLE) {
-                        holder.layoutActiveHide.setVisibility(View.GONE);
-                        AnimatorUtils.rotating(holder.imgActive, 180, 360);
-                    } else {
-                        holder.layoutActiveHide.setVisibility(View.VISIBLE);
-                        AnimatorUtils.rotating(holder.imgActive, 0, 180);
-                    }
-                }
-            });
+//            holder.tvActiveCount.setOnClickListener(new OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    if (holder.layoutActiveHide.getVisibility() == View.VISIBLE) {
+//                        holder.layoutActiveHide.setVisibility(View.GONE);
+//                        AnimatorUtils.rotating(holder.imgActive, 180, 360);
+//                    } else {
+//                        holder.layoutActiveHide.setVisibility(View.VISIBLE);
+//                        AnimatorUtils.rotating(holder.imgActive, 0, 180);
+//                    }
+//                }
+//            });
             holder.imgActive.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    if (holder.layoutActiveHide.getVisibility() == View.VISIBLE) {
-                        holder.layoutActiveHide.setVisibility(View.GONE);
+
+                    if (holder.flowTaglayout.getHeight() == 100) {
+                        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        holder.flowTaglayout.setLayoutParams(layoutParams);
                         AnimatorUtils.rotating(holder.imgActive, 180, 360);
                     } else {
-                        holder.layoutActiveHide.setVisibility(View.VISIBLE);
+                        layoutParams.height =100;
+                        holder.flowTaglayout.setLayoutParams(layoutParams);
                         AnimatorUtils.rotating(holder.imgActive, 0, 180);
                     }
                 }
@@ -317,29 +336,31 @@ public class HomeRestaurantAdapter extends BaseAdapter {
             if (CheckUtils.isNoEmptyList(merchant.getPromotionActivityList())) {
                 holder.promotionLine.setVisibility(View.VISIBLE);
                 if (merchant.getPromotionActivityList().size() > 2) {
-                    holder.tvActiveCount.setVisibility(View.VISIBLE);
-                    holder.tvActiveCount.setText(merchant.getPromotionActivityList().size() + "个活动");
+//                    holder.tvActiveCount.setVisibility(View.VISIBLE);
+//                    holder.tvActiveCount.setText(merchant.getPromotionActivityList().size() + "个活动");
                     holder.imgActive.setVisibility(View.VISIBLE);
                 } else {
-                    holder.tvActiveCount.setVisibility(View.GONE);
+//                    holder.tvActiveCount.setVisibility(View.GONE);
                     holder.imgActive.setVisibility(View.GONE);
                 }
-                holder.layoutActive.setVisibility(View.VISIBLE);
-                holder.layoutActive.removeAllViews();
-                holder.layoutActiveHide.removeAllViews();
+//                holder.layoutActive.setVisibility(View.VISIBLE);
+//                holder.layoutActive.removeAllViews();
+//                holder.layoutActiveHide.removeAllViews();
                 for (int i = 0; i < merchant.getPromotionActivityList().size(); i++) {
                     PromotionActivity promotion = merchant.getPromotionActivityList().get(i);
                     if (i > 1) {
-                        addPromotion(holder.layoutActiveHide, promotion);
+                        holder.flowTaglayout.addTags(badList);
+//                        addPromotion(holder.layoutActiveHide, promotion);
                     } else {
-                        addPromotion(holder.layoutActive, promotion);
+                        holder.flowTaglayout.addTags(badList);
+//                        addPromotion(holder.layoutActive, promotion);
                     }
                 }
             } else {
                 holder.promotionLine.setVisibility(View.GONE);
-                holder.tvActiveCount.setVisibility(View.GONE);
+//                holder.tvActiveCount.setVisibility(View.GONE);
                 holder.imgActive.setVisibility(View.GONE);
-                holder.layoutActive.setVisibility(View.GONE);
+//                holder.layoutActive.setVisibility(View.GONE);
             }
             view.setOnClickListener(new OnClickListener() {
 

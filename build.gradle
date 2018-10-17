@@ -41,6 +41,7 @@ dependencies {
     compile 'cn.jiguang.sdk:jcore:1.1.7'  // 此处以JCore 1.1.7 版本为例。
     compile 'com.android.support:multidex:1.0.3'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.10'//加载gif图
+    compile 'com.jetlee:FlowTagLayout:1.0.1'
 }
 
 tasks.withType(JavaCompile) {
@@ -67,7 +68,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 21
         versionCode appVersionCode
         versionName appVersionName
