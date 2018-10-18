@@ -25,7 +25,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="@dimen/x5"
         android:paddingRight="@dimen/x15"
-        android:src="@drawable/arrow_right_gray" />
+        android:src="@drawable/right_arrow_gray" />
 
     <TextView
         android:id="@+id/platform_num_textview"
@@ -40,7 +40,7 @@
         android:hint="无可用红包"
         android:singleLine="true"
         android:textColor="@color/platform_color"
-        android:textColorHint="@color/color_6"
+        android:textColorHint="@color/color_c9"
         android:textSize="12sp" />
 
 

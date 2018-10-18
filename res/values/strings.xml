@@ -452,6 +452,7 @@
     <string name="platform_redbag">平台红包</string>
     <string name="select_redbag">红包</string>
     <string name="expant">点击展开</string>
+    <string name="plaese_select_address">请选择收货地址</string>
 
 
     <!--public static final String ONLINE_IP = "123.56.15.86";-->

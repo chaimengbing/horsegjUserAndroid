@@ -308,6 +308,16 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 }
                 break;
             case R.id.platform_redbag_layout:
+                if(userAddress == null){
+                    ToastUtils.displayMsg(R.string.plaese_select_address,mActivity);
+                    return;
+                }
+                if (isSpecifyAddress) {
+                    if (TextUtils.isEmpty(longitude) || TextUtils.isEmpty(latitude)) {
+                        toast("请选择购买地址");
+                        return;
+                    }
+                }
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
                 intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, serviceChargeModel.getServiceCharge());
                 intentSelect.putExtra(SelectRedBagActivity.ADDRESS, userAddress);

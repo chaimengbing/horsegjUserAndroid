@@ -293,7 +293,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="物品送到哪里去"
-                        android:textColor="@color/color_9"
+                        android:textColor="@color/color_c9"
                         android:textSize="13sp"
                         android:visibility="visible" />
 
