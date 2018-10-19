@@ -34,6 +34,7 @@ import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
+import com.project.mgjandroid.model.AddressManageModel;
 import com.project.mgjandroid.model.BaiduGeocoderModel;
 import com.project.mgjandroid.model.ConfirmGroupOrModel;
 import com.project.mgjandroid.model.ConfirmGroupOrderModel;
@@ -51,6 +52,7 @@ import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.FlowLayout;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.PreferenceUtils;
@@ -148,6 +150,8 @@ public class LegworkWriteOrderActivity extends BaseActivity {
     private LegworkServiceChargeModel.ValueBean serviceChargeModel;
     private Dialog mServiceaDialog;
     private CallPhoneDialog dialog;
+    private List<UserAddress> userAddressList;
+    private static final double EARTH_RADIUS = 6378137.0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -157,7 +161,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         agentId = PreferenceUtils.getLongPreference("issueAgentId", 0, mActivity);
         initData();
         inListener();
-
+        getAddressList();
         //获取服务费
         computingServicePrice();
     }
@@ -255,7 +259,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
             case R.id.tv_service_charge:
                 // 计费规则
                 Intent intent = new Intent(mActivity, LegworkbilingRulesActivity.class);
-                intent.putExtra("serviceChargeModel",serviceChargeModel);
+                intent.putExtra("serviceChargeModel", serviceChargeModel);
                 startActivity(intent);
                 break;
             case R.id.tv_legwork_go_pay:
@@ -309,7 +313,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 break;
             case R.id.platform_redbag_layout:
                 if(userAddress == null){
-                    ToastUtils.displayMsg(R.string.plaese_select_address,mActivity);
+                    ToastUtils.displayMsg(R.string.plaese_s elect_address,mActivity);
                     return;
                 }
                 if (isSpecifyAddress) {
@@ -389,7 +393,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
             // 计算服务费
             computingServicePrice();
         }
-        if (resultCode == SelectRedBagActivity.RED_BAG_MONEY){
+        if (resultCode == SelectRedBagActivity.RED_BAG_MONEY) {
             redBag = (RedBag) data.getSerializableExtra(SelectRedBagActivity.RED_MONEY_BAG);
             computingServicePrice();
         }
@@ -453,7 +457,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         map.put("shipperType", isSpecifyAddress ? 2 : 1); // 1：代购时就近购买；2：代购时指定地址，0：取送件的用户地址
         map.put("servePrice", serviceChargeModel.getServiceCharge()); //服务费
         map.put("totalPrice", price); //总金额
-        if (redBag != null){
+        if (redBag != null) {
             ArrayList<Map<String, Object>> redBagList = new ArrayList<>();
             if (redBag != null) {
                 Map<String, Object> redmap = new HashMap<>();
@@ -511,7 +515,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
      * 计算服务费
      */
     private void computingServicePrice() {
-        if (!App.isLogin()){
+        if (!App.isLogin()) {
             return;
         }
         isComputingSuccess = false;
@@ -596,6 +600,57 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 }
             }
         }, LegworkServiceChargeModel.class);
+    }
+
+    private void getAddressList() {
+        Map<String, Object> map = new HashMap<>();
+        if (agentId != -1) {
+            map.put("agentId", agentId);
+            map.put("type", 18);
+
+        }
+        VolleyOperater<AddressManageModel> operater = new VolleyOperater<>(LegworkWriteOrderActivity.this);
+        operater.doRequest(Constants.URL_GET_ADDRESS, map, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (isSucceed && obj != null) {
+                    userAddressList = ((AddressManageModel) obj).getValue();
+                    if (!CheckUtils.isNoEmptyList(userAddressList)) {
+                        userAddressList = new ArrayList<>();
+                    }
+                    double number =0;
+                    for(int i=0;i<userAddressList.size();i++){
+                        double distance = getDistance(Double.parseDouble(PreferenceUtils.getLocation(mActivity)[1]), Double.parseDouble(PreferenceUtils.getLocation(mActivity)[0]), userAddressList.get(i).getLongitude(), userAddressList.get(i).getLatitude());
+                        if(userAddressList.get(i).getOverShipping()==0){
+                            if(number>=distance){
+                                tvDeliverAddress.setText(userAddressList.get(i).getAddress());
+                                tvDeliverAddress.setTextColor(getResources().getColor(R.color.color_3));
+                                tvDeliverName.setVisibility(View.VISIBLE);
+                                tvDeliverName.setText(userAddressList.get(i).getName() + "  " + userAddressList.get(i).getGender() + "  " + userAddressList.get(i).getMobile());
+                            }
+                            number = distance;
+                        }
+                    }
+
+                }
+            }
+        }, AddressManageModel.class);
+    }
+
+
+    private double getDistance(double longitude, double latitue, double longitude2, double latitue2) {
+        double lat1 = rad(latitue);
+        double lat2 = rad(latitue2);
+        double a = lat1 - lat2;
+        double b = rad(longitude) - rad(longitude2);
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(b / 2), 2)));
+        s = s * EARTH_RADIUS;
+        s = Math.round(s * 10000) / 10000;
+        return s;
+    }
+
+    private static double rad(double d) {
+        return d * Math.PI / 180.0;
     }
 
 
