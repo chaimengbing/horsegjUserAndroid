@@ -313,7 +313,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 break;
             case R.id.platform_redbag_layout:
                 if(userAddress == null){
-                    ToastUtils.displayMsg(R.string.plaese_s elect_address,mActivity);
+                    ToastUtils.displayMsg(R.string.plaese_select_address,mActivity);
                     return;
                 }
                 if (isSpecifyAddress) {
@@ -587,7 +587,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                             platform_num_textview.setHintTextColor(getResources().getColor(R.color.platform_color));
                             platform_num_textview.setHint("有" + serviceChargeModel.getPlatformRedBagCount() + "个红包可用");
                         } else {
-                            platform_num_textview.setHintTextColor(getResources().getColor(R.color.color_6));
+                            platform_num_textview.setHintTextColor(getResources().getColor(R.color.color_c9));
                             platform_num_textview.setHint("无可用红包");
                         }
                     }
@@ -627,6 +627,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                                 tvDeliverAddress.setTextColor(getResources().getColor(R.color.color_3));
                                 tvDeliverName.setVisibility(View.VISIBLE);
                                 tvDeliverName.setText(userAddressList.get(i).getName() + "  " + userAddressList.get(i).getGender() + "  " + userAddressList.get(i).getMobile());
+                                userAddress = userAddressList.get(i);
                             }
                             number = distance;
                         }
