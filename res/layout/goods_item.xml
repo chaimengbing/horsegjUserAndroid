@@ -229,6 +229,15 @@
                 android:visibility="gone" />
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/goods_tv_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x9"
+            android:layout_marginBottom="@dimen/x9"
+            android:textSize="10sp"
+            android:textColor="pintuan_red"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -244,7 +253,8 @@
                 android:textSize="10sp"
                 android:background="@drawable/limit_count_bg"
                 android:layout_marginRight="@dimen/x5"
-                android:visibility="gone" />
+                android:text="每单限购3份"
+                />
 
             <TextView
                 android:id="@+id/goods_item_tv_stock"
@@ -254,7 +264,8 @@
                 android:textSize="10sp"
                 android:background="@drawable/store_count_bg"
                 android:layout_marginRight="@dimen/x5"
-                android:visibility="gone" />
+                android:text="每单限购3份"
+                 />
 
             <TextView
                 android:id="@+id/goods_item_tv_min"
@@ -263,7 +274,8 @@
                 android:textColor="@color/title_bar_bg"
                 android:textSize="10sp"
                 android:background="@drawable/min_count_bg"
-                android:visibility="gone" />
+                android:text="每单限购3份"
+                 />
 
         </LinearLayout>
 

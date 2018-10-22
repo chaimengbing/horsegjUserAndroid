@@ -1537,6 +1537,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             if (merchantPickGoods.getMerchantId() != merchantId) {
                 continue;
             }
+
             List<PickGoods> pickGoods = merchantPickGoods.getPickGoods();
             HashMap<Object, Object> hashMap = new HashMap<>();
             for (PickGoods pickGood : pickGoods) {

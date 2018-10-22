@@ -1,5 +1,7 @@
 package com.project.mgjandroid.model;
 
+import com.project.mgjandroid.bean.UserAddress;
+
 import java.util.List;
 import java.util.Map;
 
@@ -76,10 +78,19 @@ public class LegworkEntityModel extends Entity {
         private String agencyPurchasingServiceProtocolUrl;
         private String takeDeliveryServiceProtocolUrl;
         private String serviceIntroduceUrl;
+        private UserAddress userAddress;
         private boolean business;
         private List<LegWorkGoodsCategoryListBean> legWorkGoodsCategoryList;
         private List<LegWorkBannersBean> legWorkBanners;
         private List<LegWorkBroadcastsBean> legWorkBroadcasts;
+
+        public UserAddress getUserAddress() {
+            return userAddress;
+        }
+
+        public void setUserAddress(UserAddress userAddress) {
+            this.userAddress = userAddress;
+        }
 
         public List<DeliveryTimesResponseDTOListBean> getDeliveryTimesResponseDTOList() {
             return deliveryTimesResponseDTOList;

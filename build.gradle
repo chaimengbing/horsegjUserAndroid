@@ -24,7 +24,7 @@ allprojects {
 }
 
 ext.appVersionCode = 51
-ext.appVersionName = "3.2.1"
+ext.appVersionName = "3.2.2"
 
 dependencies {
     compile fileTree(include: '*.jar', dir: 'libs')

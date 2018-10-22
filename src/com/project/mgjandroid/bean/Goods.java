@@ -120,7 +120,16 @@ public class Goods extends Entity {
     private int hasDiscount;
     private int everyGoodsEveryOrderBuyCount;
     private int surplusDiscountStock;
+    private DiscountedGoods discountedGoods;
     private boolean isFirst = true;
+
+    public DiscountedGoods getDiscountedGoods() {
+        return discountedGoods;
+    }
+
+    public void setDiscountedGoods(DiscountedGoods discountedGoods) {
+        this.discountedGoods = discountedGoods;
+    }
 
     public List<String> getSpecName() {
         return specName;
