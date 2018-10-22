@@ -168,19 +168,6 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase refreshView) {
-        if(redBagType == 1){
-            if (start > platFormAdapter.getCount()){
-                listView.onRefreshComplete();
-                ToastUtils.displayMsg("到底了", mActivity);
-                return;
-            }
-        }else {
-            if (start > vouchersAdapter.getCount()){
-                listView.onRefreshComplete();
-                ToastUtils.displayMsg("到底了", mActivity);
-                return;
-            }
-        }
         start += maxResults;
         getData(true);
     }
@@ -188,8 +175,14 @@ public class RedBagFragment extends BaseFragment implements PullToRefreshListVie
     private void setData(List<RedBag> mlist, boolean isLoadMore) {
         if (CheckUtils.isNoEmptyList(mlist)) {
             if (isLoadMore) {
-                if (mlist.size() < maxResults) {
-                    ToastUtils.displayMsg("到底了", mActivity);
+                if(redBagType == 1){
+                    if (start > platFormAdapter.getCount()){
+                        ToastUtils.displayMsg("到底了", mActivity);
+                    }
+                }else {
+                    if (start > vouchersAdapter.getCount()){
+                        ToastUtils.displayMsg("到底了", mActivity);
+                    }
                 }
                 List<RedBag> mlistOrg;
                 if (redBagType == 1) {

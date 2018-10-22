@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
@@ -34,10 +33,7 @@ import com.project.mgjandroid.bean.UserAddress;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
-import com.project.mgjandroid.model.AddressManageModel;
 import com.project.mgjandroid.model.BaiduGeocoderModel;
-import com.project.mgjandroid.model.ConfirmGroupOrModel;
-import com.project.mgjandroid.model.ConfirmGroupOrderModel;
 import com.project.mgjandroid.model.LegworkEntityModel;
 import com.project.mgjandroid.model.LegworkOrderModel;
 import com.project.mgjandroid.model.LegworkServiceChargeModel;
@@ -52,7 +48,6 @@ import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.FlowLayout;
-import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.PreferenceUtils;
@@ -61,7 +56,6 @@ import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -150,8 +144,6 @@ public class LegworkWriteOrderActivity extends BaseActivity {
     private LegworkServiceChargeModel.ValueBean serviceChargeModel;
     private Dialog mServiceaDialog;
     private CallPhoneDialog dialog;
-    private List<UserAddress> userAddressList;
-    private static final double EARTH_RADIUS = 6378137.0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -161,7 +153,6 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         agentId = PreferenceUtils.getLongPreference("issueAgentId", 0, mActivity);
         initData();
         inListener();
-//        getAddressList();
         //获取服务费
         computingServicePrice();
     }
@@ -413,8 +404,6 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         if (!TextUtils.isEmpty(parentId)) {
             map.put("parentId", parentId);
         }
-        map.put("longitude",PreferenceUtils.getLocation(mActivity)[1]);
-        map.put("latitude",PreferenceUtils.getLocation(mActivity)[0]);
         operater.doRequest(Constants.URL_GET_LEGWORK_DATA, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
@@ -428,13 +417,6 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                     if (value.getLegWorkGoodsCategoryList() != null && value.getLegWorkGoodsCategoryList().size() > 0) {
                         addTab(value.getLegWorkGoodsCategoryList());
                         flLegwork.setVisibility(View.VISIBLE);
-                    }
-                    if(value.getUserAddress()!=null){
-                        tvDeliverAddress.setText(value.getUserAddress().getAddress());
-                        tvDeliverAddress.setTextColor(getResources().getColor(R.color.color_3));
-                        tvDeliverName.setVisibility(View.VISIBLE);
-                        tvDeliverName.setText(value.getUserAddress().getName() + "  " + value.getUserAddress().getGender() + "  " + value.getUserAddress().getMobile());
-                        userAddress = value.getUserAddress();
                     }
                     //是否营业
                     business = value.isBusiness();
@@ -577,6 +559,8 @@ public class LegworkWriteOrderActivity extends BaseActivity {
             }
             map.put("shipperType", 1); //1：代购时就近购买；2：代购时指定地址，0：取送件的用户地址
         }
+        map.put("longitude",PreferenceUtils.getLocation(mActivity)[1]);
+        map.put("latitude",PreferenceUtils.getLocation(mActivity)[0]);
         operater.doRequest(Constants.URL_CALCULATE_SERVICE_CHARGE, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
@@ -587,6 +571,15 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                     }
                     LegworkServiceChargeModel model = (LegworkServiceChargeModel) obj;
                     serviceChargeModel = model.getValue();
+
+                    if(serviceChargeModel.getUserAddress()!=null){
+                        tvDeliverAddress.setText(serviceChargeModel.getUserAddress().getAddress());
+                        tvDeliverAddress.setTextColor(getResources().getColor(R.color.color_3));
+                        tvDeliverName.setVisibility(View.VISIBLE);
+                        tvDeliverName.setText(serviceChargeModel.getUserAddress().getName() + "  " + serviceChargeModel.getUserAddress().getGender() + "  " + serviceChargeModel.getUserAddress().getMobile());
+                        userAddress = serviceChargeModel.getUserAddress();
+                    }
+
                     if (redBag != null) {
                         platform_redbag_layout.setVisibility(View.VISIBLE);
                         platform_num_textview.setText("-￥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
@@ -611,57 +604,6 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         }, LegworkServiceChargeModel.class);
     }
 
-    private void getAddressList() {
-        Map<String, Object> map = new HashMap<>();
-        if (agentId != -1) {
-            map.put("agentId", agentId);
-            map.put("type", 18);
-
-        }
-        VolleyOperater<AddressManageModel> operater = new VolleyOperater<>(LegworkWriteOrderActivity.this);
-        operater.doRequest(Constants.URL_GET_ADDRESS, map, new VolleyOperater.ResponseListener() {
-            @Override
-            public void onRsp(boolean isSucceed, Object obj) {
-                if (isSucceed && obj != null) {
-                    userAddressList = ((AddressManageModel) obj).getValue();
-                    if (!CheckUtils.isNoEmptyList(userAddressList)) {
-                        userAddressList = new ArrayList<>();
-                    }
-                    double number =0;
-                    for(int i=0;i<userAddressList.size();i++){
-                        double distance = getDistance(Double.parseDouble(PreferenceUtils.getLocation(mActivity)[1]), Double.parseDouble(PreferenceUtils.getLocation(mActivity)[0]), userAddressList.get(i).getLongitude(), userAddressList.get(i).getLatitude());
-                        if(userAddressList.get(i).getOverShipping()==0){
-                            if(number>=distance){
-                                tvDeliverAddress.setText(userAddressList.get(i).getAddress());
-                                tvDeliverAddress.setTextColor(getResources().getColor(R.color.color_3));
-                                tvDeliverName.setVisibility(View.VISIBLE);
-                                tvDeliverName.setText(userAddressList.get(i).getName() + "  " + userAddressList.get(i).getGender() + "  " + userAddressList.get(i).getMobile());
-                                userAddress = userAddressList.get(i);
-                            }
-                            number = distance;
-                        }
-                    }
-
-                }
-            }
-        }, AddressManageModel.class);
-    }
-
-
-    private double getDistance(double longitude, double latitue, double longitude2, double latitue2) {
-        double lat1 = rad(latitue);
-        double lat2 = rad(latitue2);
-        double a = lat1 - lat2;
-        double b = rad(longitude) - rad(longitude2);
-        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(b / 2), 2)));
-        s = s * EARTH_RADIUS;
-        s = Math.round(s * 10000) / 10000;
-        return s;
-    }
-
-    private static double rad(double d) {
-        return d * Math.PI / 180.0;
-    }
 
 
     private void addTab(final List<LegworkEntityModel.ValueBean.LegWorkGoodsCategoryListBean> legWorkGoodsCategoryList) {

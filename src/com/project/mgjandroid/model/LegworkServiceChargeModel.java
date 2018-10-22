@@ -3,6 +3,7 @@ package com.project.mgjandroid.model;
 import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.bean.Distance;
 import com.project.mgjandroid.bean.SpecificTime;
+import com.project.mgjandroid.bean.UserAddress;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -78,6 +79,7 @@ public class LegworkServiceChargeModel extends Entity{
         private BigDecimal redBagsTotalAmt;
         private ArrayList<Distance> stairServiceChargeRuleList;
         private ArrayList<SpecificTime> timeFrameServiceChargeList;
+        private UserAddress userAddress;
 
         public ArrayList<Distance> getStairServiceChargeRuleList() {
             return stairServiceChargeRuleList;
@@ -158,6 +160,14 @@ public class LegworkServiceChargeModel extends Entity{
 
         public void setAddCharge(double addCharge) {
             this.addCharge = addCharge;
+        }
+
+        public UserAddress getUserAddress() {
+            return userAddress;
+        }
+
+        public void setUserAddress(UserAddress userAddress) {
+            this.userAddress = userAddress;
         }
     }
 }
