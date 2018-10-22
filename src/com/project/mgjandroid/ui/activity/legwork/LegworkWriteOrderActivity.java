@@ -161,7 +161,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         agentId = PreferenceUtils.getLongPreference("issueAgentId", 0, mActivity);
         initData();
         inListener();
-        getAddressList();
+//        getAddressList();
         //获取服务费
         computingServicePrice();
     }
@@ -413,6 +413,8 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         if (!TextUtils.isEmpty(parentId)) {
             map.put("parentId", parentId);
         }
+        map.put("longitude",PreferenceUtils.getLocation(mActivity)[1]);
+        map.put("latitude",PreferenceUtils.getLocation(mActivity)[0]);
         operater.doRequest(Constants.URL_GET_LEGWORK_DATA, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
@@ -426,6 +428,13 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                     if (value.getLegWorkGoodsCategoryList() != null && value.getLegWorkGoodsCategoryList().size() > 0) {
                         addTab(value.getLegWorkGoodsCategoryList());
                         flLegwork.setVisibility(View.VISIBLE);
+                    }
+                    if(value.getUserAddress()!=null){
+                        tvDeliverAddress.setText(value.getUserAddress().getAddress());
+                        tvDeliverAddress.setTextColor(getResources().getColor(R.color.color_3));
+                        tvDeliverName.setVisibility(View.VISIBLE);
+                        tvDeliverName.setText(value.getUserAddress().getName() + "  " + value.getUserAddress().getGender() + "  " + value.getUserAddress().getMobile());
+                        userAddress = value.getUserAddress();
                     }
                     //是否营业
                     business = value.isBusiness();
