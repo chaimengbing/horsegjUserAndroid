@@ -158,6 +158,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
             holder.tvPrice = (TextView) convertView.findViewById(R.id.goods_item_tv_price);
             holder.tvOriginPrice = (TextView) convertView.findViewById(R.id.goods_item_tv_original_price);
             holder.tvLimit = (TextView) convertView.findViewById(R.id.goods_item_tv_limit);
+            holder.tvDiscount = (TextView) convertView.findViewById(R.id.goods_item_tv_discount);
             holder.tvMin = (TextView) convertView.findViewById(R.id.goods_item_tv_min);
             holder.tvStock = (TextView) convertView.findViewById(R.id.goods_item_tv_stock);
             holder.imgAdd = (RelativeLayout) convertView.findViewById(R.id.goods_item_img_add);
@@ -215,7 +216,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
         TextView tvPrice;
         TextView tvOriginPrice;
         TextView tvStock;
-        TextView tvLimit, tvMin;
+        TextView tvLimit, tvMin,tvDiscount;
         RelativeLayout imgAdd;
         TextView tvBuyCount, specCount;
         RelativeLayout imgMinus, specMinus;
@@ -430,8 +431,16 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                 holder.tvOriginPrice.setVisibility(View.GONE);
                 holder.tvStock.setVisibility(View.GONE);
                 if (goods.getHasDiscount() == 1 && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
-                    holder.tvLimit.setVisibility(View.VISIBLE);
-                    holder.tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    if(goods.getDiscountedGoods()!=null){
+                        holder.tvLimit.setVisibility(View.GONE);
+                        holder.tvDiscount.setVisibility(View.VISIBLE);
+                        double discount = Integer.parseInt(goods.getDiscountedGoods().getDiscountProportion()) *0.01*10;
+                        holder.tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    }else {
+                        holder.tvDiscount.setVisibility(View.GONE);
+                        holder.tvLimit.setVisibility(View.VISIBLE);
+                        holder.tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    }
                 } else {
                     holder.tvLimit.setVisibility(View.GONE);
                 }
@@ -629,14 +638,30 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                     holder.tvStock.setVisibility(View.GONE);
                 }
                 if (goods.getHasDiscount() == 1 && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
-                    holder.tvLimit.setVisibility(View.VISIBLE);
-                    holder.tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    if(goods.getDiscountedGoods()!=null){
+                        holder.tvLimit.setVisibility(View.GONE);
+                        holder.tvDiscount.setVisibility(View.VISIBLE);
+                        double discount = Integer.parseInt(goods.getDiscountedGoods().getDiscountProportion()) *0.01*10;
+                        holder.tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    }else {
+                        holder.tvDiscount.setVisibility(View.GONE);
+                        holder.tvLimit.setVisibility(View.VISIBLE);
+                        holder.tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    }
                 } else {
                     holder.tvLimit.setVisibility(View.GONE);
                 }
                 if (goods.getHasDiscount() == 0 && goodsSpec.getOrderLimit() != null && goodsSpec.getOrderLimit() > 0) {
-                    holder.tvLimit.setVisibility(View.VISIBLE);
-                    holder.tvLimit.setText("每单限购" + goodsSpec.getOrderLimit() + "份");
+                    if(goods.getDiscountedGoods()!=null){
+                        holder.tvLimit.setVisibility(View.GONE);
+                        holder.tvDiscount.setVisibility(View.VISIBLE);
+                        double discount = Integer.parseInt(goods.getDiscountedGoods().getDiscountProportion()) *0.01*10;
+                        holder.tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    }else {
+                        holder.tvDiscount.setVisibility(View.GONE);
+                        holder.tvLimit.setVisibility(View.VISIBLE);
+                        holder.tvLimit.setText("每单限购" + goodsSpec.getOrderLimit() + "份");
+                    }
                 }
                 if (goodsSpec.getMinOrderNum() != null && goodsSpec.getMinOrderNum() > 1) {
                     if (goods.getHasDiscount() == 1) {
