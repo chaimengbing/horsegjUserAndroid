@@ -60,6 +60,7 @@ import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.BroadcastNewModel;
 import com.project.mgjandroid.model.CommercialListModel;
+import com.project.mgjandroid.model.ErrorModel;
 import com.project.mgjandroid.model.FindAgentModel;
 import com.project.mgjandroid.model.FindCategoryModel;
 import com.project.mgjandroid.model.LotteryStatusModel;
@@ -68,6 +69,7 @@ import com.project.mgjandroid.model.MerchantFilterModel.ValueEntity.MerchantProp
 import com.project.mgjandroid.model.MerchantFilterModel.ValueEntity.PromotionListEntity;
 import com.project.mgjandroid.model.MerchantFilterModel.ValueEntity.ShipmentListEntity;
 import com.project.mgjandroid.model.NewHomeBannerModel;
+import com.project.mgjandroid.model.NewHomeMenuIcon;
 import com.project.mgjandroid.model.NewHomeNavigationModel;
 import com.project.mgjandroid.model.NewInformation;
 import com.project.mgjandroid.model.NewPromotionBitMapModel;
@@ -151,6 +153,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     private static final int maxResults = 10;
     private int currentResultPage = 0;
     private List<View> viewList = new ArrayList<>();
+    private List<LinearLayout> viewAppIconList = new ArrayList<>();
     private List<View> newViewList = new ArrayList<>();
     private MyBanner myBanner;
     private PopupWindow leftMenuWindow;
@@ -1124,6 +1127,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
             ((LinearLayout) view).removeAllViews();
         }
         viewList.clear();
+        viewAppIconList.clear();
 
         //多少页
         int count = primaryCategoryList.size() % 10 == 0 ? primaryCategoryList.size() / 10 : (primaryCategoryList.size() / 10) + 1;
@@ -1149,6 +1153,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 for (int j = 0; j < itemCount; j++) {
                     LinearLayout mLayout = createNavigator(j + i * 10);
                     row.addView(mLayout);
+                    viewAppIconList.add(mLayout);
                 }
                 linearLayout.addView(row);
             } else {
@@ -1162,6 +1167,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 for (int j = 0; j < 5; j++) {
                     LinearLayout mLayout = createNavigator(j + i * 10);
                     row.addView(mLayout);
+                    viewAppIconList.add(mLayout);
                 }
                 linearLayout.addView(row);
 
@@ -1175,6 +1181,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 for (int j = 5; j < itemCount; j++) {
                     LinearLayout mLayout = createNavigator(j + i * 10);
                     row2.addView(mLayout);
+                    viewAppIconList.add(mLayout);
                 }
 
                 linearLayout.addView(row2);
@@ -1185,7 +1192,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
         }
 
         mPageAdapter.setViews(viewList);
-
+//        getAppMenuSysImg();
 //        navigatorViewPager.setAdapter(mPageAdapter);
 
     }
@@ -1275,10 +1282,12 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
     //添加分类导航单项视图
     private LinearLayout createNavigator(int index) {
         final NewHomeNavigationModel.ValueBean primaryCategory = primaryCategoryList.get(index);
-        final LinearLayout mLayout = new LinearLayout(mActivity);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_app_menu_icon, null);
+        final LinearLayout mLayout = (LinearLayout) view.findViewById(R.id.icon_layout);
         mLayout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(SCREEN_WIDTH / 5,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+        llp.setMargins(0, 0, 0, DipToPx.dip2px(mActivity, 15f));
         llp.setMargins(0, 0, 0, DipToPx.dip2px(mActivity, 15f));
         mLayout.setLayoutParams(llp);
         mLayout.setGravity(Gravity.CENTER);
@@ -1384,14 +1393,12 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
             }
         });
 
-        ImageView iv = new ImageView(mActivity);
-        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        TextView tv = new TextView(mActivity);
+        TextView tv = (TextView) view.findViewById(R.id.icon_name_textview);
         tv.setText(primaryCategory.getName());
         tv.setTextSize(12);
-        tv.setGravity(Gravity.CENTER);
         tv.setIncludeFontPadding(false);
+        ImageView iv = (ImageView) view.findViewById(R.id.icon_imageview);
         float width = 46f;
         if (PreferenceUtils.getBoolPreference("festivalStatus", false, mActivity)) {
             //节日气氛
@@ -1408,15 +1415,13 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 ImageUtils.loadBitmap(mActivity, primaryCategory.getGrayUrl() + Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL, iv, R.drawable.category_default, "");
             }
         }
-        LinearLayout.LayoutParams ivlp = new LinearLayout.LayoutParams(DipToPx.dip2px(mActivity, width),
-                DipToPx.dip2px(mActivity, 46f));
-        iv.setLayoutParams(ivlp);
-        LinearLayout.LayoutParams tvlp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+//        LinearLayout.LayoutParams ivlp = (LinearLayout.LayoutParams) iv.getLayoutParams();
+//        ivlp.width = DipToPx.dip2px(mActivity, width);
+//        ivlp.height = DipToPx.dip2px(mActivity, 46f);
+//        iv.setLayoutParams(ivlp);
+        LinearLayout.LayoutParams tvlp = (LinearLayout.LayoutParams) tv.getLayoutParams();
         tvlp.setMargins(0, getResources().getDimensionPixelSize(R.dimen.x10), 0, 0);
         tv.setLayoutParams(tvlp);
-        mLayout.addView(iv);
-        mLayout.addView(tv);
         return mLayout;
     }
 
@@ -1610,6 +1615,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                     showRecommendGood();
                     getInformationData();
                     getQualityMerchants();
+
                 }
             }
 
@@ -1633,6 +1639,48 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                 }
             }
         });
+    }
+
+
+    private void getAppMenuSysImg() {
+        VolleyOperater<NewHomeMenuIcon> operater = new VolleyOperater<>(mActivity);
+        Map<String, Object> map = new HashMap<>();
+        operater.doRequest(Constants.URL_FIND_APP_MENU_IMG, map, new ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (isSucceed && obj != null) {
+                    NewHomeMenuIcon newHomeMenuIcon = (NewHomeMenuIcon) obj;
+                    if (newHomeMenuIcon != null) {
+                        NewHomeMenuIcon.ValueBean valueBean = newHomeMenuIcon.getValue();
+                        if (valueBean != null) {
+                            String images = valueBean.getImgs();
+                            String[] imageArray = images.split(";");
+                            if (imageArray != null && imageArray.length > 0) {
+                                showAppMenuIcon(imageArray);
+                            }
+                        }
+                    }
+                }
+            }
+        }, NewHomeMenuIcon.class);
+
+    }
+
+    private void showAppMenuIcon(String[] imageArray) {
+        if (viewAppIconList != null && viewAppIconList.size() > 0) {
+            for (int i = 0; i < imageArray.length; i++) {
+                if (i > viewAppIconList.size()) {
+                    break;
+                }
+                LinearLayout view = viewAppIconList.get(i);
+                if (view != null) {
+                    ImageView imageView = (ImageView) view.findViewById(R.id.icon_imageview);
+                    if (imageView != null) {
+                        ImageUtils.loadBitmap(mActivity, imageArray[i] + Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL, imageView, R.drawable.category_default, "");
+                    }
+                }
+            }
+        }
     }
 
     private void checkRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -3188,6 +3236,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                         navigatorLayout.setVisibility(View.GONE);
                     }
                     navigatorLayout.setBackgroundColor(getResources().getColor(R.color.white));
+                    getAppMenuSysImg();
                 }
             }
         }, NewHomeNavigationModel.class);

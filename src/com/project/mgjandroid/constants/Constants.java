@@ -135,6 +135,8 @@ public class Constants {
     public static final String URL_FIND_TBANNER = URL_HOME_MAIN + "findTBanner";
     //首页分类导航
     public static final String URL_FIND_PRIMARY_CATEGORY_LIST = URL_HOME_MAIN + "findPrimaryCategoryList";
+    //首页 菜单图标自定义
+    public static final String URL_FIND_APP_MENU_IMG = URL_NEW_HOME_MAIN + "findAppMenuSysImgByState";
     //更多分类导航
     public static final String URL_FIND_MORE_PRIMARY_CATEGORY_LIST = URL_HOME_MAIN + "findMorePrimaryCategoryList";
     //筛选按钮
