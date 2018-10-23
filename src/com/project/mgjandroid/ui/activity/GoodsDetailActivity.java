@@ -968,12 +968,13 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     tvSleep.setText("商品已售罄");
                 }
                 if (goods.getHasDiscount() == 1 && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
-                    if(goods.getDiscountedGoods()!=null){
+                    if (goods.getDiscountedGoods() != null) {
                         tvLimit.setVisibility(View.GONE);
                         tvDiscount.setVisibility(View.VISIBLE);
-                        double discount = Integer.parseInt(goods.getDiscountedGoods().getDiscountProportion()) *0.01*10;
-                        tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
-                    }else {
+                        BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
+                        BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+                        tvDiscount.setText(discount + "折  限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    } else {
                         tvDiscount.setVisibility(View.GONE);
                         tvLimit.setVisibility(View.VISIBLE);
                         tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
@@ -1239,16 +1240,8 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     tvStock.setVisibility(View.GONE);
                 }
                 if (goods.getHasDiscount() == 1 && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
-                    if(goods.getDiscountedGoods()!=null){
-                        tvLimit.setVisibility(View.GONE);
-                        tvDiscount.setVisibility(View.VISIBLE);
-                        double discount = Integer.parseInt(goods.getDiscountedGoods().getDiscountProportion()) *0.01*10;
-                        tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
-                    }else {
-                        tvDiscount.setVisibility(View.GONE);
-                        tvLimit.setVisibility(View.VISIBLE);
-                        tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
-                    }
+                    tvLimit.setVisibility(View.VISIBLE);
+                    tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
                 } else {
                     tvLimit.setVisibility(View.GONE);
                 }
@@ -2262,12 +2255,13 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     tvOriPri.setVisibility(View.GONE);
                 }
                 if (goods.getHasDiscount() == 1 && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
-                    if(goods.getDiscountedGoods()!=null){
+                    if (goods.getDiscountedGoods() != null) {
                         tvLimit.setVisibility(View.GONE);
                         tvDiscount.setVisibility(View.VISIBLE);
-                        double discount = Integer.parseInt(goods.getDiscountedGoods().getDiscountProportion()) *0.01*10;
-                        tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
-                    }else {
+                        BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
+                        BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+                        tvDiscount.setText(discount + "折  限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    } else {
                         tvDiscount.setVisibility(View.GONE);
                         tvLimit.setVisibility(View.VISIBLE);
                         tvLimit.setText("每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");

@@ -37,7 +37,7 @@ public class DiscountedGoods extends Entity{
     private int goodsCategoryId;
     private int goodsId;
     private int specId;
-    private String discountProportion;
+    private int discountProportion;
     private int discountStock;
     private int surplusDiscountStock;
     private int saleStatus;
@@ -114,11 +114,11 @@ public class DiscountedGoods extends Entity{
         this.specId = specId;
     }
 
-    public String getDiscountProportion() {
+    public int getDiscountProportion() {
         return discountProportion;
     }
 
-    public void setDiscountProportion(String discountProportion) {
+    public void setDiscountProportion(int discountProportion) {
         this.discountProportion = discountProportion;
     }
 

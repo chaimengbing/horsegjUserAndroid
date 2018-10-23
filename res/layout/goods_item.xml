@@ -93,7 +93,6 @@
                     android:id="@+id/goods_item_tv_rmb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/x4"
                     android:text="@string/yuan_symbol"
                     android:textColor="#f95046"
                     android:textSize="18sp" />
@@ -131,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:padding="@dimen/x5">
+                    android:padding="@dimen/x3">
                 <ImageView
                     android:layout_width="@dimen/x20"
                     android:layout_height="@dimen/x20"
@@ -157,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:padding="@dimen/x5">
+                    android:padding="@dimen/x3">
 
                 <ImageView
                     android:layout_width="@dimen/x20"
@@ -182,7 +181,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:visibility="gone"
-                    android:padding="@dimen/x5">
+                    android:padding="@dimen/x3">
 
                 <ImageView
                     android:layout_width="@dimen/x20"
@@ -237,7 +236,7 @@
             android:textColor="@color/pintuan_red"
             android:drawablePadding="@dimen/x4"
             android:drawableLeft="@drawable/ic_dis"
-            />
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"
