@@ -1603,9 +1603,7 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                     } else {
                         myBanner.setUrls(imageIdList, true, true);
                     }
-                    if (viewList == null || viewList.size() == 0) {
-                        getNewHomeNavigation();
-                    }
+                    getNewHomeNavigation();
                     if (newViewList == null || newViewList.size() == 0) {
                         getConvenientLife();
                     }
@@ -1615,7 +1613,6 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                     showRecommendGood();
                     getInformationData();
                     getQualityMerchants();
-
                 }
             }
 
