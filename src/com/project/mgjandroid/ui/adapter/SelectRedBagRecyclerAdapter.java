@@ -142,6 +142,7 @@ public class SelectRedBagRecyclerAdapter extends RecyclerView.Adapter implements
                 drawableExpand.setBounds(0, 0, drawableExpand.getMinimumWidth(), drawableExpand.getMinimumHeight());
                 platFormViewHolder.businessType.setCompoundDrawables(null, null, drawablePackup, null);
                 platFormViewHolder.businessType.setTextColor(mContext.getResources().getColor(R.color.platform_color));
+                platFormViewHolder.businessType.setCompoundDrawablePadding((int) mContext.getResources().getDimension(R.dimen.x3));
                 platFormViewHolder.businessType.setText("不可用原因");
                 platFormViewHolder.businessType.setOnClickListener(new View.OnClickListener() {
                     @Override

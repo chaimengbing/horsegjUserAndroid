@@ -440,7 +440,7 @@
                     android:minWidth="@dimen/x20"
                     android:paddingLeft="@dimen/x15"
                     android:paddingRight="@dimen/x15"
-                    android:textColor="@color/color_9"
+                    android:textColor="@color/color_3"
                     android:textSize="12sp" />
 
             </RelativeLayout>
