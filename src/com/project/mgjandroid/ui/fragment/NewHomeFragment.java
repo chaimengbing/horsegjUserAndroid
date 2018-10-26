@@ -60,7 +60,6 @@ import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.BroadcastNewModel;
 import com.project.mgjandroid.model.CommercialListModel;
-import com.project.mgjandroid.model.ErrorModel;
 import com.project.mgjandroid.model.FindAgentModel;
 import com.project.mgjandroid.model.FindCategoryModel;
 import com.project.mgjandroid.model.LotteryStatusModel;
