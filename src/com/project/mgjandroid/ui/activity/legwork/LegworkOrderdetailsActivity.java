@@ -794,6 +794,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         int height = getWindow().getWindowManager().getDefaultDisplay().getHeight();
         lp.height = height / 5 * 3;
         lp.width = getWindow().getWindowManager().getDefaultDisplay().getWidth();
+        lp.alpha = 0.8f;
         dialogWindow.setAttributes(lp);
     }
 
