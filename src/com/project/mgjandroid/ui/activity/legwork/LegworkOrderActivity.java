@@ -97,6 +97,7 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intentDetail = new Intent(LegworkOrderActivity.this, LegworkOrderdetailsActivity.class);
+//                Intent intentDetail = new Intent(LegworkOrderActivity.this, LegWorkMapDetailActivity.class);
                 List<NewOrderFragmentModel.ValueEntity> mlistOrg = adapter.getData();
                 intentDetail.putExtra("orderId", mlistOrg.get(i - 1).getLegWorkOrder().getId());
                 startActivityForResult(intentDetail, 2000);
