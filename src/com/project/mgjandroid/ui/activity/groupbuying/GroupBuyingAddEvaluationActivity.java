@@ -149,6 +149,7 @@ public class GroupBuyingAddEvaluationActivity extends ImageUploadActivity {
             @Override
             public void onClickImage(int currentItem) {
                 Intent dealPhoto = new Intent(mActivity, UploadPhotoActivity.class);
+                ChoosePhotoModel.getInstance().setFrom(mActivity.getClass().getName());
                 dealPhoto.putExtra("from", mActivity.getClass().toString());
                 startActivity(dealPhoto);
             }
