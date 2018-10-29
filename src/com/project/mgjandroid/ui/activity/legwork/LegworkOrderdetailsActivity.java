@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -20,10 +21,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import com.baidu.mapapi.map.MapView;
 import com.project.mgjandroid.R;
-import com.project.mgjandroid.bean.Distance;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
 import com.project.mgjandroid.model.LegworkOrderDetailsModel;
@@ -45,6 +44,7 @@ import com.project.mgjandroid.utils.ShareUtil;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
+import com.yinglan.scrolllayout.ScrollLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,6 +59,9 @@ import java.util.Map;
 
 public class LegworkOrderdetailsActivity extends BaseActivity {
 
+
+    @InjectView(R.id.include)
+    private RelativeLayout commonTopBar;
     @InjectView(R.id.common_back)
     private ImageView ivBack;
     @InjectView(R.id.common_title)
@@ -91,6 +94,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private TextView tvOrderTime;
     @InjectView(R.id.rider_user_avatar)
     private RoundImageView imgRider;
+    @InjectView(R.id.expand_imageview)
+    private ImageView expandImageView;
     @InjectView(R.id.tv_rider_name)
     private TextView tvRiderName;
     @InjectView(R.id.img_phone)
@@ -121,6 +126,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private RelativeLayout redbagsLayout;
     @InjectView(R.id.layout_public)
     private LinearLayout layoutPublic;
+    @InjectView(R.id.delivery_man_mapview)
+    private MapView deliveryManMapView;
+    @InjectView(R.id.delivery_man_status_layout)
+    private LinearLayout deliveryManStatusLayout;
     @InjectView(R.id.tv_content)
     private TextView tvContent;
     @InjectView(R.id.tv_legwork_status_1)
@@ -142,6 +151,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     @InjectView(R.id.img_send_redbag)
     private ImageView sendRedBag;
 
+    @InjectView(R.id.legwork_details_layout)
+    ScrollLayout legWorkDetailsLayout;
+
     private String orderId;
     private LegworkOrderDetailsModel.ValueBean valueBean;
     public static final int REFRESH = 2000;
@@ -158,6 +170,37 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private LegworkOrderDetailsModel.ValueBean.ShareRedBagInfo shareRedBagInfo;
     private boolean isCanIn;
     private long currentMS;
+    private ScrollLayout.OnScrollChangedListener mScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
+        @Override
+        public void onScrollProgressChanged(float currentProgress) {
+            if (currentProgress >= 0) {
+                float precent = 255 * currentProgress;
+                if (precent > 255) {
+                    precent = 255;
+                } else if (precent < 0) {
+                    precent = 0;
+                }
+                legWorkDetailsLayout.getBackground().setAlpha(255 - (int) precent);
+            }
+
+        }
+
+        @Override
+        public void onScrollFinished(ScrollLayout.Status currentStatus) {
+            if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
+                //退出操作
+            } else if (currentStatus.equals(ScrollLayout.Status.CLOSED)) {
+                showMap();
+            } else if (currentStatus.equals(ScrollLayout.Status.OPENED)) {
+                hideMap();
+            }
+        }
+
+        @Override
+        public void onChildScroll(int top) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -185,8 +228,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         imgPhone.setOnClickListener(this);
         tvRefundDesc.setOnClickListener(this);
         sendRedBag.setOnClickListener(this);
-        tvTitle.setText("订单详情");
-        tvText.setText("客服");
+        tvTitle.setText("");
+        tvText.setText("");
+        tvText.setBackgroundResource(R.drawable.call_icon);
+        ivBack.setImageResource(R.drawable.legwork_back);
+
         tvPrePaymentTime.setOnTimerStopListener(new TimeView.OnTimerStopListener() {
             @Override
             public void onStopListener() {
@@ -271,7 +317,34 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         getData();
     }
 
-    private void showRedBag(){
+
+    /**
+     * 隐藏地图
+     */
+    private void hideMap() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) legWorkDetailsLayout.getLayoutParams();
+        params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+        params.bottomMargin = params.rightMargin = params.leftMargin = (int) getResources().getDimension(R.dimen.x10);
+        legWorkDetailsLayout.setLayoutParams(params);
+
+        commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
+        expandImageView.setVisibility(View.VISIBLE);
+    }
+
+
+    /**
+     * 显示地图
+     */
+    private void showMap() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) legWorkDetailsLayout.getLayoutParams();
+        params.bottomMargin = params.rightMargin = params.leftMargin = 0;
+        legWorkDetailsLayout.setLayoutParams(params);
+
+        commonTopBar.setBackgroundColor(getResources().getColor(R.color.white));
+        expandImageView.setVisibility(View.GONE);
+    }
+
+    private void showRedBag() {
         sendRedBag.setVisibility(View.GONE);
         View view = LayoutInflater.from(this).inflate(R.layout.send_redbag, null);
         TextView tvSure = (TextView) view.findViewById(R.id.sure);
@@ -304,7 +377,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(!popupWindow.isShowing()){
+                if (!popupWindow.isShowing()) {
                     sendRedBag.setVisibility(View.VISIBLE);
                 }
                 WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
@@ -336,9 +409,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                     model = (LegworkOrderDetailsModel) obj;
                     valueBean = model.getValue();
                     shareRedBagInfo = valueBean.getShareRedBagInfo();
-                    if(shareRedBagInfo == null){
+                    if (shareRedBagInfo == null) {
                         sendRedBag.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         sendRedBag.setVisibility(View.VISIBLE);
                     }
                     showDetail(valueBean);
@@ -351,6 +424,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
 
     private void showDetail(LegworkOrderDetailsModel.ValueBean valueBean) {
         if (valueBean != null) {
+            legWorkDetailsLayout.setOnScrollChangedListener(null);
+            deliveryManMapView.setVisibility(View.GONE);
+            legWorkDetailsLayout.setToClosed();
+            commonTopBar.setBackgroundColor(getResources().getColor(R.color.white));
             if (valueBean.getChildType() == 1) {
                 tvSubtitle.setVisibility(View.GONE);
                 layoutGoodsInformation.setVisibility(View.GONE);
@@ -385,8 +462,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         }
                         break;
                     case 2:
-                        if(shareRedBagInfo!=null){
-                            if(isCanIn){
+                        if (shareRedBagInfo != null) {
+                            if (isCanIn) {
                                 isCanIn = false;
                                 showRedBag();
                             }
@@ -399,20 +476,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         tvprompt.setText("等待骑手接单");
                         break;
                     case 4:
-                        layoutComplete.setVisibility(View.GONE);
-                        layoutNoPayment.setVisibility(View.GONE);
-                        layoutNoPickUp.setVisibility(View.VISIBLE);
-                        layoutPublic.setVisibility(View.GONE);
-                        tvStatus1.setText("取货中");
-                        tvPickUp.setText("等待骑手取货");
+                        takeGoos();
                         break;
                     case 5:
-                        layoutComplete.setVisibility(View.GONE);
-                        layoutNoPayment.setVisibility(View.GONE);
-                        layoutNoPickUp.setVisibility(View.VISIBLE);
-                        layoutPublic.setVisibility(View.GONE);
-                        tvPickUp.setText("骑手正在配送中");
-                        tvStatus1.setText("配送中");
+                        delivery();
                         break;
                     case 7:
                         layoutComplete.setVisibility(View.VISIBLE);
@@ -466,8 +533,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         }
                         break;
                     case 2:
-                        if(shareRedBagInfo!=null){
-                            if(isCanIn){
+                        if (shareRedBagInfo != null) {
+                            if (isCanIn) {
                                 isCanIn = false;
                                 showRedBag();
                             }
@@ -480,20 +547,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         tvprompt.setText("等待骑手接单");
                         break;
                     case 4:
-                        layoutComplete.setVisibility(View.GONE);
-                        layoutNoPayment.setVisibility(View.GONE);
-                        layoutNoPickUp.setVisibility(View.VISIBLE);
-                        layoutPublic.setVisibility(View.GONE);
-                        tvStatus1.setText("取货中");
-                        tvPickUp.setText("等待骑手取货");
+                        takeGoos();
                         break;
                     case 5:
-                        layoutComplete.setVisibility(View.GONE);
-                        layoutNoPayment.setVisibility(View.GONE);
-                        layoutNoPickUp.setVisibility(View.VISIBLE);
-                        layoutPublic.setVisibility(View.GONE);
-                        tvPickUp.setText("骑手正在配送中");
-                        tvStatus1.setText("配送中");
+                        delivery();
                         break;
                     case 7:
                         layoutComplete.setVisibility(View.VISIBLE);
@@ -543,17 +600,49 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             } else {
                 tvRemarks.setText("无");
             }
-            if (CheckUtils.isNoEmptyStr(valueBean.getRedBagDiscountTotalAmt()) && !"0".equals(valueBean.getRedBagDiscountTotalAmt()) && !"0.0".endsWith(valueBean.getRedBagDiscountTotalAmt())){
+            if (CheckUtils.isNoEmptyStr(valueBean.getRedBagDiscountTotalAmt()) && !"0".equals(valueBean.getRedBagDiscountTotalAmt()) && !"0.0".endsWith(valueBean.getRedBagDiscountTotalAmt())) {
                 redbagsLayout.setVisibility(View.VISIBLE);
                 redbagsMoneyTextView.setText("(红包抵扣" + valueBean.getRedBagDiscountTotalAmt() + "元)");
                 payMoneyTextView.setText("￥" + valueBean.getTotalPrice());
-            }else {
+            } else {
                 redbagsLayout.setVisibility(View.GONE);
             }
             tvServiceCharge.setText("¥" + valueBean.getServePrice());
             tvOrderNumber.setText(valueBean.getId());
             tvOrderTime.setText(valueBean.getCreateTime());
+
+            if (legWorkDetailsLayout != null){
+                expandImageView.setVisibility(legWorkDetailsLayout.getCurrentStatus() == ScrollLayout.Status.OPENED ? View.VISIBLE : View.GONE);
+            }
         }
+    }
+
+    private void takeGoos() {
+        legWorkDetailsLayout.setOnScrollChangedListener(mScrollChangedListener);
+        deliveryManMapView.setVisibility(View.VISIBLE);
+        deliveryManStatusLayout.setVisibility(View.GONE);
+        legWorkDetailsLayout.setToOpen();
+        commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
+        layoutComplete.setVisibility(View.GONE);
+        layoutNoPayment.setVisibility(View.GONE);
+        layoutNoPickUp.setVisibility(View.VISIBLE);
+        layoutPublic.setVisibility(View.GONE);
+        tvStatus1.setText("取货中");
+        tvPickUp.setText("等待骑手取货");
+    }
+
+    private void delivery() {
+        legWorkDetailsLayout.setOnScrollChangedListener(mScrollChangedListener);
+        deliveryManMapView.setVisibility(View.VISIBLE);
+        deliveryManStatusLayout.setVisibility(View.GONE);
+        legWorkDetailsLayout.setToOpen();
+        commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
+        layoutComplete.setVisibility(View.GONE);
+        layoutNoPayment.setVisibility(View.GONE);
+        layoutNoPickUp.setVisibility(View.VISIBLE);
+        layoutPublic.setVisibility(View.GONE);
+        tvPickUp.setText("骑手正在配送中");
+        tvStatus1.setText("配送中");
     }
 
     private void Cancel() {
@@ -635,7 +724,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             case R.id.img_service_charge:
                 // 计费规则
                 Intent mIntent = new Intent(mActivity, LegworkbilingRulesActivity.class);
-                mIntent.putExtra("mValueBean",valueBean);
+                mIntent.putExtra("mValueBean", valueBean);
                 startActivity(mIntent);
                 break;
             case R.id.tv_cancel_order:

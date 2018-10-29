@@ -6,33 +6,34 @@
     android:background="@color/gray_bg"
     android:orientation="vertical">
 
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/delivery_man_mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+    </com.baidu.mapapi.map.MapView>
+
     <include
         android:id="@+id/include"
         layout="@layout/activity_legwork_headlayout" />
 
-    <com.baidu.mapapi.map.MapView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.baidu.mapapi.map.MapView>
-
     <com.yinglan.scrolllayout.ScrollLayout
+        android:id="@+id/legwork_details_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/include"
-        android:layout_marginLeft="@dimen/x10"
-        android:layout_marginRight="@dimen/x10"
-        android:background="@color/transparent"
-        app:allowHorizontalScroll="true"
+        android:background="@color/white"
+        android:layout_below="@id/include"
+        app:allowHorizontalScroll="false"
         app:exitOffset="0dp"
         app:isSupportExit="true"
-        app:maxOffset="@dimen/x200"
-        app:minOffset="@dimen/x80"
-        app:mode="open">
+        app:maxOffset="@dimen/x250"
+        app:minOffset="0dp"
+        app:mode="close">
 
         <com.yinglan.scrolllayout.content.ContentScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <include layout="@layout/item_legwork_details" />
         </com.yinglan.scrolllayout.content.ContentScrollView>
