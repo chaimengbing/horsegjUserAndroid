@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg"
+    android:background="@color/color_f5"
     android:orientation="vertical">
 
     <com.baidu.mapapi.map.MapView
@@ -22,7 +22,7 @@
         android:id="@+id/legwork_details_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/color_f5"
         android:layout_below="@id/include"
         app:allowHorizontalScroll="false"
         app:exitOffset="0dp"
