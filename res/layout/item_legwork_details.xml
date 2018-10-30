@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_f5"
+    android:background="@color/transparent"
     android:orientation="vertical">
 
 
@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:paddingLeft="@dimen/x20"
+            android:paddingTop="@dimen/x5"
             android:paddingRight="@dimen/x20"
             android:paddingBottom="@dimen/x20"
             android:src="@drawable/icon_dropdown" />
@@ -59,6 +60,8 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/rider_user_avatar"
             android:text="高玉婷"
+            android:drawableRight="@drawable/right_arrow_gray"
+            android:drawablePadding="@dimen/x7"
             android:textColor="@color/color_3"
             android:textSize="15sp" />
 
@@ -225,38 +228,43 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/x30"
-        android:layout_marginTop="@dimen/x12"
-        android:layout_marginBottom="@dimen/x12"
-        android:text="商品信息"
-        android:textColor="@color/color_6"
-        android:textSize="12sp"
-        android:visibility="gone" />
-
     <LinearLayout
         android:id="@+id/layout_goods_information"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/x10"
-        android:layout_marginRight="@dimen/x10"
-        android:background="@drawable/bg_legwork_details"
-        android:padding="@dimen/x15"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/tv_goods_information"
+            android:id="@+id/tv_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x25"
+            android:layout_marginTop="@dimen/x12"
+            android:layout_marginBottom="@dimen/x12"
+            android:text="商品信息"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/tv_goods_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:background="@drawable/bg_legwork_details"
+            android:paddingLeft="@dimen/x15"
+            android:paddingTop="@dimen/x10"
+            android:paddingBottom="@dimen/x10"
+            android:text="aaaaaaaaaa"
             android:textColor="@color/color_3"
             android:textSize="15sp" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/address_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/x10"
@@ -308,10 +316,84 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/delivery_man_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/x42">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x25"
+                android:layout_marginTop="@dimen/x12"
+                android:layout_marginBottom="@dimen/x12"
+                android:text="骑手信息"
+                android:textColor="@color/color_6"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/delivery_man_phone_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/x15"
+                android:drawableRight="@drawable/ic_legwork_phone"
+                android:drawablePadding="@dimen/x5"
+                android:paddingTop="@dimen/x5"
+                android:paddingBottom="@dimen/x5"
+                android:text="联系骑手"
+                android:textColor="@color/color_9"
+                android:textSize="11sp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:background="@drawable/bg_legwork_details"
+            android:minHeight="@dimen/x42">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x15"
+                android:text="配送员"
+                android:textColor="@color/color_9"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/delivery_name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x15"
+                android:drawableRight="@drawable/right_arrow_gray"
+                android:drawablePadding="@dimen/x7"
+                android:paddingTop="@dimen/x5"
+                android:paddingBottom="@dimen/x5"
+                android:text="林夕"
+                android:textColor="@color/color_3"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginLeft="@dimen/x25"
         android:layout_marginTop="@dimen/x12"
         android:layout_marginBottom="@dimen/x12"
         android:text="费用信息"
@@ -439,7 +521,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginLeft="@dimen/x25"
         android:layout_marginTop="@dimen/x12"
         android:layout_marginBottom="@dimen/x12"
         android:text="订单信息"

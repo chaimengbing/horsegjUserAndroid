@@ -20,7 +20,18 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.UiSettings;
+import com.baidu.mapapi.model.LatLng;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.CustomerAndComplainPhoneDTOModel;
@@ -36,6 +47,7 @@ import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.RoundImageView;
 import com.project.mgjandroid.ui.view.TimeView;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
@@ -113,8 +125,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private LinearLayout layoutNoPayment;
     @InjectView(R.id.layout_goods_information)
     private LinearLayout layoutGoodsInformation;
-    @InjectView(R.id.tv_subtitle)
-    private TextView tvSubtitle;
     @InjectView(R.id.layout_good_price)
     private LinearLayout layoutGoodPrice;
     @InjectView(R.id.layout_remarks)
@@ -127,8 +137,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private MapView deliveryManMapView;
     @InjectView(R.id.tv_legwork_status)
     private TextView tvLegworkStatus;
-    @InjectView(R.id.tv_prompt)
-    private TextView tvprompt;
     @InjectView(R.id.tv_refund_desc)
     private TextView tvRefundDesc;
     @InjectView(R.id.redbags_money_textview)
@@ -138,8 +146,21 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     @InjectView(R.id.img_send_redbag)
     private ImageView sendRedBag;
 
+    @InjectView(R.id.delivery_man_layout)
+    LinearLayout deliveryMan;
+    @InjectView(R.id.delivery_man_phone_textview)
+    TextView manPhoneTv;
+    @InjectView(R.id.delivery_name_textview)
+    TextView manNameTv;
     @InjectView(R.id.legwork_details_layout)
     ScrollLayout legWorkDetailsLayout;
+    @InjectView(R.id.address_layout)
+    LinearLayout addressLayout;
+    @InjectView(R.id.delivery_man_info_layout)
+    RelativeLayout deliveryManInfoLayout;
+
+    private BaiduMap baiduMap;
+    private BitmapDescriptor deliveryManIcon, deliveryGoodsIcon, takeGoodsIcon;
 
     private String orderId;
     private LegworkOrderDetailsModel.ValueBean valueBean;
@@ -150,7 +171,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private String regionalHeadPhone;
     private long agentId = 0;
     private PopupWindow popupWindow;
-    private LegworkServiceChargeModel.ValueBean value;
     private Dialog mStatusDialog;
     ArrayList<LegworkStatusModel> legworkStatusModels = new ArrayList<>();
     private ShareUtil shareUtil;
@@ -212,6 +232,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         imgPhone.setOnClickListener(this);
         tvRefundDesc.setOnClickListener(this);
         sendRedBag.setOnClickListener(this);
+        manPhoneTv.setOnClickListener(this);
         tvTitle.setText("");
         tvText.setText("");
         tvText.setBackgroundResource(R.drawable.call_icon);
@@ -224,6 +245,16 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 getData();
             }
         });
+
+
+        baiduMap = deliveryManMapView.getMap();
+        hideBaiduMapChildView();
+        baiduMap.setMyLocationEnabled(true);
+        takeGoodsIcon = BitmapDescriptorFactory.fromResource(R.drawable.take_goods);
+        deliveryGoodsIcon = BitmapDescriptorFactory.fromResource(R.drawable.delivery_goods);
+        deliveryManIcon = BitmapDescriptorFactory.fromResource(R.drawable.delivery_man_icon);
+
+
         sendRedBag.setOnTouchListener(new View.OnTouchListener() {
             int maxwidth;
             int maxheight;
@@ -300,6 +331,24 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         getData();
+        deliveryManMapView.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        baiduMap.setMyLocationEnabled(false);
+        baiduMap.clear();
+        baiduMap = null;
+        deliveryManMapView.onDestroy();
+        deliveryManMapView = null;
+        super.onDestroy();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        deliveryManMapView.onPause();
     }
 
 
@@ -312,9 +361,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         params.bottomMargin = params.rightMargin = params.leftMargin = (int) getResources().getDimension(R.dimen.x10);
         legWorkDetailsLayout.setLayoutParams(params);
 
+        legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
         commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
         expandImageView.setVisibility(View.VISIBLE);
         tvLegworkStatus.setVisibility(View.GONE);
+        layoutGoodsInformation.setVisibility(View.GONE);
     }
 
 
@@ -326,9 +377,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         params.bottomMargin = params.rightMargin = params.leftMargin = 0;
         legWorkDetailsLayout.setLayoutParams(params);
 
+        legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.color_f5));
         commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
         expandImageView.setVisibility(View.GONE);
         tvLegworkStatus.setVisibility(View.VISIBLE);
+        layoutGoodsInformation.setVisibility(View.VISIBLE);
     }
 
     private void showRedBag() {
@@ -413,10 +466,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         if (valueBean != null) {
             legWorkDetailsLayout.setOnScrollChangedListener(null);
             deliveryManMapView.setVisibility(View.GONE);
+            deliveryManInfoLayout.setVisibility(View.GONE);
+            deliveryMan.setVisibility(View.GONE);
             legWorkDetailsLayout.setToClosed();
             commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
             if (valueBean.getChildType() == 1) {
-                tvSubtitle.setVisibility(View.GONE);
                 layoutGoodsInformation.setVisibility(View.GONE);
                 layoutGoodPrice.setVisibility(View.GONE);
                 layoutRemarks.setVisibility(View.VISIBLE);
@@ -433,7 +487,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                             }
                         }
                         tvLegworkStatus.setText("已取消");
-                        tvprompt.setText("感谢使用马管家跑腿");
                         break;
                     case 1:
                         layoutComplete.setVisibility(View.GONE);
@@ -457,17 +510,18 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutNoPayment.setVisibility(View.GONE);
                         refundLayout.setVisibility(View.GONE);
                         tvLegworkStatus.setText("待确认");
-                        tvprompt.setText("等待骑手接单");
                         break;
                     case 4:
-                        takeGoos();
+                        takeGoods();
                         break;
                     case 5:
                         delivery();
                         break;
                     case 7:
                         layoutComplete.setVisibility(View.VISIBLE);
+                        deliveryMan.setVisibility(View.VISIBLE);
                         tvLegworkStatus.setText("已完成");
+                        manNameTv.setText(valueBean.getDeliveryTask().getDeliveryman().getName());
                         layoutNoPayment.setVisibility(View.GONE);
                         refundLayout.setVisibility(View.GONE);
                         if (valueBean.getHasComments() == 1) {
@@ -484,7 +538,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 TvBuyPersonalInformation.setVisibility(View.VISIBLE);
                 TvBuyPersonalInformation.setText(valueBean.getShipperName() + " " + valueBean.getShipperGender() + " " + valueBean.getShipperMobile());
             } else if (valueBean.getChildType() == 0) {
-                tvSubtitle.setVisibility(View.VISIBLE);
                 layoutGoodsInformation.setVisibility(View.VISIBLE);
                 layoutGoodPrice.setVisibility(View.VISIBLE);
                 layoutRemarks.setVisibility(View.GONE);
@@ -493,7 +546,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutComplete.setVisibility(View.GONE);
                         layoutNoPayment.setVisibility(View.GONE);
                         tvLegworkStatus.setText("已取消");
-                        tvprompt.setText("期待下次为您服务");
                         if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
                             if (valueBean.getServePrice().equals("0.0") || valueBean.getServePrice().equals("0.00") || valueBean.getServePrice().equals("0")) {
@@ -523,18 +575,19 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         }
                         layoutComplete.setVisibility(View.GONE);
                         layoutNoPayment.setVisibility(View.GONE);
-                        refundLayout.setVisibility(View.VISIBLE);
+                        refundLayout.setVisibility(View.GONE);
                         tvLegworkStatus.setText("待确认");
-                        tvprompt.setText("等待骑手接单");
                         break;
                     case 4:
-                        takeGoos();
+                        takeGoods();
                         break;
                     case 5:
                         delivery();
                         break;
                     case 7:
                         layoutComplete.setVisibility(View.VISIBLE);
+                        deliveryMan.setVisibility(View.VISIBLE);
+                        manNameTv.setText(valueBean.getDeliveryTask().getDeliveryman().getName());
                         tvLegworkStatus.setText("已完成");
                         layoutNoPayment.setVisibility(View.GONE);
                         redbagsLayout.setVisibility(View.GONE);
@@ -592,15 +645,22 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             tvOrderNumber.setText(valueBean.getId());
             tvOrderTime.setText(valueBean.getCreateTime());
 
-            if (legWorkDetailsLayout != null){
+            if (legWorkDetailsLayout != null) {
                 expandImageView.setVisibility(legWorkDetailsLayout.getCurrentStatus() == ScrollLayout.Status.OPENED ? View.VISIBLE : View.GONE);
             }
+
+//            int heightLayout = deliveryManInfoLayout.getHeight() + addressLayout.getHeight();
+//            if (heightLayout > 0) {
+//                legWorkDetailsLayout.setMaxOffset((int) (heightLayout + getResources().getDimension(R.dimen.x30)));
+//            }
+//            legWorkDetailsLayout.invalidate();
         }
     }
 
-    private void takeGoos() {
+    private void takeGoods() {
         legWorkDetailsLayout.setOnScrollChangedListener(mScrollChangedListener);
         deliveryManMapView.setVisibility(View.VISIBLE);
+        deliveryManInfoLayout.setVisibility(View.VISIBLE);
         tvLegworkStatus.setVisibility(View.GONE);
         legWorkDetailsLayout.setToOpen();
         commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
@@ -609,11 +669,16 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         refundLayout.setVisibility(View.GONE);
         tvLegworkStatus.setText("取货中");
 //        tvPickUp.setText("等待骑手取货");
+
+
+        setDetailsLocation();
+
     }
 
     private void delivery() {
         legWorkDetailsLayout.setOnScrollChangedListener(mScrollChangedListener);
         deliveryManMapView.setVisibility(View.VISIBLE);
+        deliveryManInfoLayout.setVisibility(View.VISIBLE);
         tvLegworkStatus.setVisibility(View.GONE);
         legWorkDetailsLayout.setToOpen();
         commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
@@ -622,7 +687,29 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         refundLayout.setVisibility(View.GONE);
 //        tvPickUp.setText("骑手正在配送中");
         tvLegworkStatus.setText("配送中");
+
+        setDetailsLocation();
+
     }
+
+    private void setDetailsLocation() {
+        if (valueBean != null) {
+            //取货地址
+            putLocationToMarkerOptions(takeGoodsIcon, valueBean.getShipperLatitude(), valueBean.getShipperLongitude(), false);
+            //送货地址
+            putLocationToMarkerOptions(deliveryGoodsIcon, valueBean.getUserLatitude(), valueBean.getUserLongitude(), false);
+
+            //骑手信息
+            LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean deliveryTaskBean = valueBean.getDeliveryTask();
+            if (deliveryTaskBean != null) {
+                LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean.DeliverymanBean deliverymanBean = deliveryTaskBean.getDeliveryman();
+                if (deliverymanBean != null) {
+                    putLocationToMarkerOptions(deliveryManIcon, deliverymanBean.getLatitude(), deliverymanBean.getLongitude(), true);
+                }
+            }
+        }
+    }
+
 
     private void Cancel() {
         VolleyOperater<LegworkOrderDetailsModel> operater = new VolleyOperater<>(mActivity);
@@ -753,6 +840,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 }
                 break;
             case R.id.img_phone:
+            case R.id.delivery_man_phone_textview:
                 dialog = new CallPhoneDialog(mActivity, new CallPhoneDialog.onBtnClickListener() {
                     @Override
                     public void onSure() {
@@ -904,5 +992,64 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             popupWindow.dismiss();
         }
     }
+
+
+    private void hideBaiduMapChildView() {
+        deliveryManMapView.showScaleControl(false);
+        deliveryManMapView.showZoomControls(false);
+        // 隐藏指南针
+        UiSettings mUiSettings = baiduMap.getUiSettings();
+        mUiSettings.setCompassEnabled(false);
+        // 删除百度地图logo
+        deliveryManMapView.removeViewAt(1);
+
+
+    }
+
+
+    //在地图上进行标记
+    private void putLocationToMarkerOptions(BitmapDescriptor pic, double latitude, double longitude, boolean isDeliveryMan) {
+        if (baiduMap != null) {
+            if (isDeliveryMan) {
+                MyLocationData locData = new MyLocationData.Builder()
+                        .latitude(latitude)
+                        .longitude(longitude)
+                        .build();
+                baiduMap.setMyLocationData(locData);
+                baiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(18).build()));
+                MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, pic);
+                baiduMap.setMyLocationConfigeration(config);
+                baiduMap.setOnMyLocationClickListener(new BaiduMap.OnMyLocationClickListener() {
+                    @Override
+                    public boolean onMyLocationClick() {
+                        ToastUtils.displayMsg("点击了图标", getApplicationContext());
+                        return false;
+                    }
+                });
+            } else {
+                LatLng point = new LatLng(latitude, longitude);
+                MarkerOptions overlayOptions = new MarkerOptions()
+                        .position(point)
+                        .icon(pic)
+                        .zIndex(15)
+                        .draggable(true)
+                        .animateType(MarkerOptions.MarkerAnimateType.grow);//设置marker从地上生长出来的动画
+                Marker marker = (Marker) baiduMap.addOverlay(overlayOptions);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("nearFriend", nearByFriend);
+//        marker.setExtraInfo(bundle);//marker点击事件监听时，可以获取到此时设置的数据
+                marker.setToTop();
+            }
+//            baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+//                @Override
+//                public boolean onMarkerClick(Marker marker) {
+//
+//                    return false;
+//                }
+//            });
+
+        }
+    }
+
 
 }

@@ -27,7 +27,7 @@
         app:allowHorizontalScroll="false"
         app:exitOffset="0dp"
         app:isSupportExit="true"
-        app:maxOffset="@dimen/x250"
+        app:maxOffset="@dimen/x280"
         app:minOffset="0dp"
         app:mode="close">
 
