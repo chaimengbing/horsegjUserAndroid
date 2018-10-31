@@ -6,6 +6,7 @@
     android:background="@color/color_f5"
     android:orientation="vertical">
 
+
     <com.baidu.mapapi.map.MapView
         android:id="@+id/delivery_man_mapview"
         android:layout_width="match_parent"
@@ -14,6 +15,7 @@
 
     </com.baidu.mapapi.map.MapView>
 
+
     <include
         android:id="@+id/include"
         layout="@layout/activity_legwork_headlayout" />
@@ -21,15 +23,15 @@
     <com.yinglan.scrolllayout.ScrollLayout
         android:id="@+id/legwork_details_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_f5"
+        android:layout_height="match_parent"
         android:layout_below="@id/include"
+        android:background="@color/color_f5"
         app:allowHorizontalScroll="false"
-        app:exitOffset="0dp"
-        app:isSupportExit="true"
-        app:maxOffset="@dimen/x280"
+        app:exitOffset="@dimen/x310"
+        app:isSupportExit="false"
+        app:maxOffset="@dimen/x310"
         app:minOffset="0dp"
-        app:mode="close">
+        app:mode="open">
 
         <com.yinglan.scrolllayout.content.ContentScrollView
             android:layout_width="match_parent"
@@ -40,6 +42,7 @@
 
 
     </com.yinglan.scrolllayout.ScrollLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"

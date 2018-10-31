@@ -872,6 +872,10 @@ public class Constants {
      */
     public static final String URL_FIND_LEG_WORK_ORDER_BY_ORDER_ID = URL_HOME_MAIN + "findLegWorkOrderByOrderId";
     /**
+     * 查询跑腿骑手实时位置
+     */
+    public static final String URL_FIND_DELIVERY_MAN_INFO = URL_HOME_MAIN + "findDeliveryman";
+    /**
      * 创建跑腿订单
      */
     public static final String URL_CREATE_LEG_WORK_ORDER = URL_HOME_MAIN + "createLegWorkOrder";

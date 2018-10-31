@@ -43,6 +43,7 @@ import java.net.SocketException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -740,5 +741,51 @@ public class CommonUtils {
         int[] location = new int[2];
         view.getLocationInWindow(location);
         return view.getLocalVisibleRect(rect);
+    }
+
+
+    /**
+     * 计算两点之间真实距离
+     *
+     * @return 千米(km)
+     */
+    public static double getDistance(double longitude1, double latitude1, double longitude2, double latitude2) {
+        // 纬度
+        double lat1 = (Math.PI / 180) * latitude1;
+        double lat2 = (Math.PI / 180) * latitude2;
+        // 经度
+        double lon1 = (Math.PI / 180) * longitude1;
+        double lon2 = (Math.PI / 180) * longitude2;
+        // 地球半径
+        double R = 6371;
+        // 两点间距离 km,如果想要米的话,结果*1000
+        double d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1)) * R;
+        return d;
+    }
+
+
+    public static String getLatLngDistance(double longitude1, double latitude1, double longitude2, double latitude2) {
+        //地球半径
+        double R = 6371.004;
+
+        Double x = (longitude2 - longitude1) * Math.PI * R * Math.cos(((latitude1 + latitude2) / 2) * Math.PI / 180) / 180;
+        Double y = (latitude2 - latitude1) * Math.PI * R / 180;
+
+
+        Double distance = Math.hypot(x, y);   //得到两点之间的直线距离
+
+
+        //两点间距离 m，如果想要米的话，结果*1000就可以了
+//        double dis = Math.acos(Math.sin(latitude1) * Math.sin(latitude2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(longitude2 - longitude1)) * R;
+        NumberFormat nFormat = NumberFormat.getNumberInstance();  //数字格式化对象
+        if (distance < 1) {               //当小于1千米的时候用,用米做单位保留一位小数
+            nFormat.setMaximumFractionDigits(1);    //已可以设置为0，这样跟百度地图APP中计算的一样
+            distance *= 1000;
+            return nFormat.format(distance) + "m";
+        } else {
+            nFormat.setMaximumFractionDigits(2);
+            return nFormat.format(distance) + "km";
+        }
+
     }
 }
