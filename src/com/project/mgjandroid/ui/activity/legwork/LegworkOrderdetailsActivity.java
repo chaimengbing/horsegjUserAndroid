@@ -6,8 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -79,7 +82,7 @@ import java.util.TimerTask;
 public class LegworkOrderdetailsActivity extends BaseActivity {
 
 
-    private static final String TAG = LegWorkMapDetailActivity.class.getSimpleName();
+    private static final String TAG = LegworkOrderdetailsActivity.class.getSimpleName();
     @InjectView(R.id.include)
     private RelativeLayout commonTopBar;
     @InjectView(R.id.common_back)
@@ -203,19 +206,31 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private LegworkOrderDetailsModel.ValueBean.ShareRedBagInfo shareRedBagInfo;
     private boolean isCanIn;
     private long currentMS;
-    //    private String takeDisatance = "", deliveryDisatance = "";
-    private Timer timer = new Timer();
+    private Timer timer;
+    private TimerTask timerTask;
     private ScrollLayout.OnScrollChangedListener mScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
         @Override
         public void onScrollProgressChanged(float currentProgress) {
             if (currentProgress >= 0) {
+//                Log.e(TAG, "onScrollProgressChanged::currentProgress:" + currentProgress);
                 float precent = 255 * currentProgress;
                 if (precent > 255) {
                     precent = 255;
                 } else if (precent < 0) {
                     precent = 0;
                 }
+
+
+                String ss = "&bsp";
+
+                String result = Html.fromHtml(ss).toString();
+
                 legWorkDetailsLayout.getBackground().setAlpha(255 - (int) precent);
+                if (currentProgress < 1) {
+                    hideMaps();
+                } else {
+                    showMaps();
+                }
             }
 
         }
@@ -225,9 +240,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
                 //退出操作
             } else if (currentStatus.equals(ScrollLayout.Status.CLOSED)) {
-                hideMaps();
+                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.color_f5));
+                commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
             } else if (currentStatus.equals(ScrollLayout.Status.OPENED)) {
-                showMaps();
+                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
+                commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
         }
 
@@ -241,23 +258,51 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //6 秒更新一次
-        timer.schedule(timerTask, 3000, 6000);
+        initTimer();
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        timer.cancel();
-        timer.purge();
+        destroyTimer();
     }
 
-    private TimerTask timerTask = new TimerTask() {
+
+    private Handler handler = new Handler() {
         @Override
-        public void run() {
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             updateDeliveryManLocation();
         }
     };
+
+
+    public void destroyTimer() {
+        if (timerTask != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (timerTask != null) {
+            timerTask.cancel();
+            timerTask = null;
+        }
+    }
+
+
+    private void initTimer() {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.sendEmptyMessage(0);
+            }
+        };
+        if (timer == null) {
+            timer = new Timer();
+        }
+        timer.schedule(timerTask, 3000, 6000);
+    }
+
 
     /**
      * 更新骑手位置
@@ -299,7 +344,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     }
 
     private void updateMapLocation(DeliveryManInfo deliveryManInfo) {
-        Log.e(TAG, "updateMapLocation::");
         double oldLatiTude = 0.0, oldLongiTude = 0.0;
         LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean deliveryTaskBean = valueBean.getDeliveryTask();
         if (deliveryTaskBean != null) {
@@ -324,7 +368,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
      * 更新地图距离
      */
     private void upadteLocationView(String imageUrl, final double latitude, final double longtude) {
-        Log.e(TAG, "upadteLocationView::");
         if (distanceView != null) {
             if (valueBean != null) {
                 double shipperLatitude = valueBean.getShipperLatitude();
@@ -538,6 +581,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         baiduMap = null;
         deliveryManMapView.onDestroy();
         deliveryManMapView = null;
+        destroyTimer();
         super.onDestroy();
     }
 
@@ -558,8 +602,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         params.bottomMargin = params.rightMargin = params.leftMargin = (int) getResources().getDimension(R.dimen.x10);
         legWorkDetailsLayout.setLayoutParams(params);
 
-        legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
-        commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
         expandImageView.setVisibility(View.VISIBLE);
         refreshImageView.setVisibility(View.VISIBLE);
         moneyLayout.setVisibility(View.GONE);
@@ -577,8 +619,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         params.bottomMargin = params.rightMargin = params.leftMargin = 0;
         legWorkDetailsLayout.setLayoutParams(params);
 
-        legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.color_f5));
-        commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
         expandImageView.setVisibility(View.GONE);
         refreshImageView.setVisibility(View.GONE);
         moneyLayout.setVisibility(View.VISIBLE);
@@ -912,11 +952,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             //取货地址
             double shipperLatitude = valueBean.getShipperLatitude();
             double shipperLongitude = valueBean.getShipperLongitude();
-            putLocationToMarkerOptions(takeGoodsIcon, shipperLatitude, shipperLongitude);
 
             //送货地址
             double userLatitude = valueBean.getUserLatitude();
             double userLongitude = valueBean.getUserLongitude();
+            putLocationToMarkerOptions(deliveryGoodsIcon, userLatitude, userLongitude);
 
             //骑手信息
             LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean deliveryTaskBean = valueBean.getDeliveryTask();
@@ -933,10 +973,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             }
             if (deliveryLatitude > 0 && deliveryLongitude > 0) {
                 if (isDelivery) {
+                    putLocationToMarkerOptions(takeGoodsIcon, shipperLatitude, shipperLongitude);
                     //在配送
 //                    takeDisatance = CommonUtils.getLatLngDistance(deliveryLongitude, deliveryLatitude, userLongitude, userLatitude);
+
                 } else {
-                    putLocationToMarkerOptions(deliveryGoodsIcon, userLatitude, userLongitude);
                     //取货中
 //                    deliveryDisatance = CommonUtils.getLatLngDistance(deliveryLongitude, deliveryLatitude, shipperLongitude, shipperLatitude);
                 }
