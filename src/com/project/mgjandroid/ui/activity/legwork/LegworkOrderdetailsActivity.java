@@ -171,6 +171,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     LinearLayout moneyLayout;
     @InjectView(R.id.order_info_layout)
     LinearLayout orderLayout;
+    @InjectView(R.id.details)
+    LinearLayout details;
     @InjectView(R.id.delivery_man_info_layout)
     RelativeLayout deliveryManInfoLayout;
 
@@ -416,6 +418,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         legWorkDetailsLayout.setOnClickListener(this);
         addressLayout.setOnClickListener(this);
         deliveryManInfoLayout.setOnClickListener(this);
+        details.setOnClickListener(this);
         tvTitle.setText("");
         tvText.setText("");
         tvText.setBackgroundResource(R.drawable.call_icon);
@@ -1022,12 +1025,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 updateDeliveryManLocation();
                 break;
             case R.id.expand_imageview:
-                if (legWorkDetailsLayout != null) {
-                    legWorkDetailsLayout.setToOpen();
-                }
-                break;
             case R.id.delivery_man_info_layout:
             case R.id.address_layout:
+            case R.id.details:
                 if (legWorkDetailsLayout != null) {
                     legWorkDetailsLayout.setToOpen();
                 }
