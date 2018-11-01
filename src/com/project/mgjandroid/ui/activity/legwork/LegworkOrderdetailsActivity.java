@@ -413,6 +413,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         manPhoneTv.setOnClickListener(this);
         expandImageView.setOnClickListener(this);
         refreshImageView.setOnClickListener(this);
+        legWorkDetailsLayout.setOnClickListener(this);
+        addressLayout.setOnClickListener(this);
+        deliveryManInfoLayout.setOnClickListener(this);
         tvTitle.setText("");
         tvText.setText("");
         tvText.setBackgroundResource(R.drawable.call_icon);
@@ -1019,6 +1022,12 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 updateDeliveryManLocation();
                 break;
             case R.id.expand_imageview:
+                if (legWorkDetailsLayout != null) {
+                    legWorkDetailsLayout.setToOpen();
+                }
+                break;
+            case R.id.delivery_man_info_layout:
+            case R.id.address_layout:
                 if (legWorkDetailsLayout != null) {
                     legWorkDetailsLayout.setToOpen();
                 }
