@@ -212,19 +212,18 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         @Override
         public void onScrollProgressChanged(float currentProgress) {
             if (currentProgress >= 0) {
-//                Log.e(TAG, "onScrollProgressChanged::currentProgress:" + currentProgress);
                 float precent = 255 * currentProgress;
-                if (precent > 255) {
+                if (precent >= 255) {
                     precent = 255;
                 } else if (precent < 0) {
                     precent = 0;
                 }
-                legWorkDetailsLayout.getBackground().setAlpha(255 - (int) precent);
                 if (currentProgress < 1) {
                     hideMaps();
                 } else {
                     showMaps();
                 }
+                legWorkDetailsLayout.getBackground().mutate().setAlpha(255 - (int) precent);
             }
 
         }
@@ -234,10 +233,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
                 //退出操作
             } else if (currentStatus.equals(ScrollLayout.Status.CLOSED)) {
-                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.color_f5));
+//                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.color_f5));
                 commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
             } else if (currentStatus.equals(ScrollLayout.Status.OPENED)) {
-                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
+//                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
                 commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
         }
@@ -586,14 +585,13 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         deliveryManMapView.onPause();
     }
 
-
     /**
      * 显示地图
      */
     private void showMaps() {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) legWorkDetailsLayout.getLayoutParams();
         params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-        params.bottomMargin = params.rightMargin = params.leftMargin = (int) getResources().getDimension(R.dimen.x10);
+        params.bottomMargin = (int) getResources().getDimension(R.dimen.x10);
         legWorkDetailsLayout.setLayoutParams(params);
 
         expandImageView.setVisibility(View.VISIBLE);
@@ -603,6 +601,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         tvLegworkStatus.setVisibility(View.GONE);
         layoutGoodsInformation.setVisibility(View.GONE);
     }
+
 
 
     /**
