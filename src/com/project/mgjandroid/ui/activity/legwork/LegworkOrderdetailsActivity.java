@@ -219,12 +219,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 } else if (precent < 0) {
                     precent = 0;
                 }
-
-
-                String ss = "&bsp";
-
-                String result = Html.fromHtml(ss).toString();
-
                 legWorkDetailsLayout.getBackground().setAlpha(255 - (int) precent);
                 if (currentProgress < 1) {
                     hideMaps();
