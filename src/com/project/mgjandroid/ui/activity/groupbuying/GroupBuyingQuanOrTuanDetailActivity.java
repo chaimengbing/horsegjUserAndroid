@@ -526,7 +526,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 }
                 Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
                 intent2.putExtra("ticketName",groupPurchaseCoupon.getGroupPurchaseName());
-                intent2.putExtra("ticketPrice",groupPurchaseCoupon.getPrice().doubleValue());
+                intent2.putExtra("ticketPrice",StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice()));
                 intent2.putExtra("ticketOriginalPrice",StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()));
                 intent2.putExtra("type",groupPurchaseCoupon.getType());
                 intent2.putExtra("bespeak",groupPurchaseCoupon.getIsBespeak());
@@ -667,7 +667,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     }
                     Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
                     intent2.putExtra("ticketName",bean.getGroupPurchaseName());
-                    intent2.putExtra("ticketPrice",bean.getPrice().doubleValue());
+                    intent2.putExtra("ticketPrice",StringUtils.BigDecimal2Str(bean.getPrice()));
                     intent2.putExtra("type",bean.getType());
                     intent2.putExtra("bespeak",bean.getIsBespeak());
                     intent2.putExtra("agentId",bean.getAgentId());

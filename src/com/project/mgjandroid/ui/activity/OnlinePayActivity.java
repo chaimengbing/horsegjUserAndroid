@@ -54,6 +54,8 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     private ImageView onlineBack;
     @InjectView(R.id.pay_money)
     private TextView tvPayMoney;
+    @InjectView(R.id.tv_name)
+    private TextView tvName;
     @InjectView(R.id.balance_pay_money)
     private TextView tvBalancePayMoney;
     @InjectView(R.id.third_money)

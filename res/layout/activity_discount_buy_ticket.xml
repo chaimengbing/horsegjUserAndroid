@@ -5,21 +5,66 @@
     android:background="@color/gray_bg_2"
     android:orientation="vertical">
 
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/title_bar_height"-->
+        <!--android:background="@drawable/title_bar_bg"-->
+        <!--android:paddingLeft="@dimen/x10"-->
+        <!--android:paddingRight="@dimen/x15">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/common_back1"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:contentDescription="@string/back"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:src="@drawable/icon_back" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/common_title"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_marginLeft="@dimen/x10"-->
+            <!--android:layout_marginRight="@dimen/x10"-->
+            <!--android:ellipsize="end"-->
+            <!--android:gravity="start"-->
+            <!--android:maxLength="13"-->
+            <!--android:singleLine="true"-->
+            <!--android:textColor="@color/title_tv_festival"-->
+            <!--android:textSize="@dimen/title_bar_text_size" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_explain"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="优惠说明"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:textSize="12sp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:textColor="@color/white"-->
+            <!--/>-->
+
+
+    <!--</RelativeLayout>-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
-        android:background="@drawable/title_bar_bg"
-        android:paddingLeft="@dimen/x10"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/x8"
         android:paddingRight="@dimen/x15">
 
         <ImageView
-            android:id="@+id/common_back1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/common_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:contentDescription="@string/back"
-            android:paddingRight="10dp"
-            android:src="@drawable/icon_back" />
+            android:scaleType="centerInside"
+            android:src="@drawable/iv_back_black" />
 
         <TextView
             android:id="@+id/common_title"
@@ -32,32 +77,20 @@
             android:gravity="start"
             android:maxLength="13"
             android:singleLine="true"
-            android:textColor="@color/title_tv_festival"
+            android:text="支付订单"
+            android:textColor="@color/color_3"
             android:textSize="@dimen/title_bar_text_size" />
-
-        <TextView
-            android:id="@+id/tv_explain"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="优惠说明"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textSize="12sp"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            />
-
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x44"
+        android:layout_height="@dimen/x50"
         android:layout_marginLeft="@dimen/x15"
         android:layout_marginRight="@dimen/x15"
-        android:layout_marginTop="@dimen/x21"
-        android:layout_marginBottom="@dimen/x15"
-        android:background="@drawable/et_bg_publish_info"
+        android:layout_marginTop="@dimen/x15"
+        android:layout_marginBottom="@dimen/x10"
+        android:background="@drawable/bg_gray_edge_2"
         android:paddingLeft="@dimen/x13"
         android:paddingRight="@dimen/x13">
 
@@ -68,7 +101,7 @@
             android:layout_centerVertical="true"
             android:text="消费总额"
             android:textColor="@color/color_3"
-            android:textSize="15sp" />
+            android:textSize="17sp" />
 
         <EditText
             android:id="@+id/et_evaluation"
@@ -80,18 +113,70 @@
             android:hint="询问服务员后输入"
             android:inputType="number|numberDecimal"
             android:maxLength="11"
-            android:textColor="@color/color_3"
+            android:textColor="@color/price_red"
             android:textColorHint="@color/color_c"
-            android:textSize="15sp" />
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/cb_unselected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginBottom="@dimen/x10"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/color_3"
+        android:textSize="12sp"
+        android:button="@null"
+        android:drawablePadding="@dimen/x9"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/pay_the_bill_select"
+        android:text="输入不参与优惠金额（如酒水、主食）"/>
+
+    <RelativeLayout
+        android:id="@+id/rllayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50"
+        android:layout_marginLeft="@dimen/x15"
+        android:layout_marginRight="@dimen/x15"
+        android:layout_marginBottom="@dimen/x15"
+        android:background="@drawable/bg_gray_edge_2"
+        android:paddingLeft="@dimen/x13"
+        android:paddingRight="@dimen/x13"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="不参与优惠金额"
+            android:textColor="@color/color_3"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/et_evaluation1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:inputType="number|numberDecimal"
+            android:maxLength="11"
+            android:textColor="@color/price_red"
+            android:textColorHint="@color/color_c"
+            android:textSize="17sp" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_discount"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x44"
+        android:layout_height="@dimen/x50"
         android:background="@color/white"
         android:gravity="center_vertical"
+        android:layout_marginBottom="@dimen/x10"
+        android:layout_gravity="center_vertical"
         android:paddingLeft="@dimen/x15"
         android:paddingRight="@dimen/x15">
 
@@ -101,7 +186,8 @@
             android:layout_height="wrap_content"
             android:text="9.5折"
             android:textColor="@color/color_3"
-            android:textSize="15sp" />
+            android:textStyle="bold"
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/tv_selected"
             android:layout_width="wrap_content"
@@ -115,21 +201,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/group_buy_unselected"/>
+            android:background="@drawable/group_buy_unselected_new"
+            android:src="@null"/>
 
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="@dimen/x15"
-        android:layout_marginRight="@dimen/x15"
-        android:background="@color/color_e5" />
 
     <RelativeLayout
         android:id="@+id/rl_voucher"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x44"
+        android:layout_height="@dimen/x50"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/x15"
@@ -139,8 +219,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="抵用券"
-            android:textColor="@color/color_3"
-            android:textSize="15sp" />
+            android:textColor="@color/color_6"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_voucher"
@@ -163,7 +243,7 @@
     <RelativeLayout
         android:id="@+id/rl_platform_redbag_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x44"
+        android:layout_height="@dimen/x50"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/x15"
@@ -173,8 +253,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="红包"
-            android:textColor="@color/color_3"
-            android:textSize="15sp" />
+            android:textColor="@color/color_6"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_red_bag"
@@ -196,7 +276,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x44"
+        android:layout_height="@dimen/x50"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/x15"
@@ -207,25 +287,25 @@
             android:layout_height="wrap_content"
             android:text="实付金额"
             android:textColor="@color/color_3"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_amoun_actually_paid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textColor="@color/bg_festival"
-            android:textSize="17sp" />
+            android:textColor="@color/price_red"
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_confirm"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x42"
+        android:layout_height="@dimen/x44"
         android:layout_marginLeft="@dimen/x15"
         android:layout_marginRight="@dimen/x15"
-        android:layout_marginTop="@dimen/x25"
-        android:background="@drawable/bg_login_orange_button"
+        android:layout_marginTop="@dimen/x15"
+        android:background="@drawable/bg_login_orange_button_new"
         android:gravity="center"
         android:text="确认买单"
         android:textColor="@color/white"
@@ -235,7 +315,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x10"
+        android:layout_marginTop="@dimen/x15"
         android:gravity="center"
         android:layout_gravity="center"
         android:text="仅限于到店支付，请确认金额后提交"

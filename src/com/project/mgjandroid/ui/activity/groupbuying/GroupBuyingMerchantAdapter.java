@@ -90,7 +90,6 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.group_buying_merchant_item, null);
             holder.rootView = convertView.findViewById(R.id.view_root);
-            holder.promotionLine = convertView.findViewById(R.id.promotion_line);
             holder.img = (CornerImageView) convertView.findViewById(R.id.marchant_img);
             holder.tvName = (TextView) convertView.findViewById(R.id.tv_merchant_name);
             holder.scoreBar = (RatingBar) convertView.findViewById(R.id.rb_score);
@@ -124,7 +123,6 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
 
         if (fromMainPage) {
             holder.scoreBar.setVisibility(View.GONE);
-            holder.promotionLine.setVisibility(View.GONE);
             holder.layoutActive.setVisibility(View.GONE);
             holder.icTakeAway.setVisibility(View.GONE);
             if (CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())) {
@@ -218,10 +216,8 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
                 }
             }
             if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())||CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())){
-                holder.promotionLine.setVisibility(View.VISIBLE);
                 holder.layoutActive.setVisibility(View.VISIBLE);
             }else {
-                holder.promotionLine.setVisibility(View.GONE);
                 holder.layoutActive.setVisibility(View.GONE);
             }
             holder.rootView.setOnClickListener(new View.OnClickListener() {
