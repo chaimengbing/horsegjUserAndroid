@@ -66,6 +66,7 @@ import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 import com.yinglan.scrolllayout.ScrollLayout;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -220,10 +221,13 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 }
                 if (currentProgress < 1) {
                     hideMaps();
+                    commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
                 } else {
                     showMaps();
+                    commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
                 }
                 legWorkDetailsLayout.getBackground().mutate().setAlpha(255 - (int) precent);
+                commonTopBar.getBackground().mutate().setAlpha(255 - (int) precent);
             }
 
         }
@@ -234,10 +238,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 //退出操作
             } else if (currentStatus.equals(ScrollLayout.Status.CLOSED)) {
 //                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.color_f5));
-                commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
+//                commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
             } else if (currentStatus.equals(ScrollLayout.Status.OPENED)) {
 //                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
-                commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
+//                commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
         }
 
@@ -372,12 +376,12 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
 
                 String deliveryState = "";
                 String deliveryState1 = "";
-                String distance = "";
+                double distance = 0.0;
                 if (valueBean.getStatus() == 4) {
                     //取货中
 //                    ToastUtils.displayMsg("距离取货地" + deliveryDisatance, getApplicationContext());
-                    distance = CommonUtils.getLatLngDistance(shipperLongitude, shipperLatitude, longtude, latitude);
-                    if ("0m".equals(distance) || "0.0m".equals(distance) || "0.00m".equals(distance)) {
+                    distance = CommonUtils.getDistance(shipperLongitude, shipperLatitude, longtude, latitude);
+                    if (distance <= 50) {
                         deliveryState = "骑手到达取货地";
                         deliveryState1 = "0";
                     } else {
@@ -389,11 +393,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                     //送货中
                     deliveryState = "骑手前往送货";
                     deliveryState1 = "距离送货地";
-                    distance = CommonUtils.getLatLngDistance(userLongitude, userLatitude, longtude, latitude);
+                    distance = CommonUtils.getDistance(userLongitude, userLatitude, longtude, latitude);
                 }
-                if (CheckUtils.isNoEmptyStr(deliveryState) && CheckUtils.isNoEmptyStr(distance)) {
+                if (CheckUtils.isNoEmptyStr(deliveryState)) {
                     deliveryStateTextView.setText(deliveryState);
-                    if (shipperLatitude <= 0.0 || "0".equals(deliveryState1)) {
+                    if ("0".equals(deliveryState1)) {
                         deliveryStateTv.setVisibility(View.GONE);
                         distanceTextView.setVisibility(View.GONE);
                     } else {
@@ -401,7 +405,17 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         distanceTextView.setVisibility(View.VISIBLE);
                     }
                     deliveryStateTv.setText(deliveryState1);
-                    distanceTextView.setText(distance);
+                    NumberFormat nFormat = NumberFormat.getNumberInstance();
+                    String result;
+                    if (distance < 1) {               //当小于1千米的时候用,用米做单位保留一位小数
+                        nFormat.setMaximumFractionDigits(1);    //已可以设置为0，这样跟百度地图APP中计算的一样
+                        distance *= 1000;
+                        result = nFormat.format(distance) + "m";
+                    } else {
+                        nFormat.setMaximumFractionDigits(2);
+                        result = nFormat.format(distance) + "km";
+                    }
+                    distanceTextView.setText(result);
                     if (CheckUtils.isNoEmptyStr(imageUrl)) {
                         Glide.with(this)
                                 .load(imageUrl)
@@ -416,7 +430,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                                 });
 //                        ImageUtils.loadBitmap(mActivity, imageUrl, roundImageView, R.drawable.horsegj_default, Constants.getEndThumbnail(40, 40));
                     } else {
-                        roundImageView.setImageDrawable(getResources().getDrawable(R.drawable.default_group_user_avatar));
+                        roundImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_default_avator));
                     }
                     putDeliveryLocationToMap(BitmapDescriptorFactory.fromView(distanceView), latitude, longtude);
                 }
@@ -451,7 +465,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         manPhoneTv.setOnClickListener(this);
         expandImageView.setOnClickListener(this);
         refreshImageView.setOnClickListener(this);
-        legWorkDetailsLayout.setOnClickListener(this);
         addressLayout.setOnClickListener(this);
         deliveryManInfoLayout.setOnClickListener(this);
         details.setOnClickListener(this);
@@ -472,8 +485,16 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         baiduMap = deliveryManMapView.getMap();
         hideBaiduMapChildView();
         baiduMap.setMyLocationEnabled(true);
-        takeGoodsIcon = BitmapDescriptorFactory.fromResource(R.drawable.take_goods);
-        deliveryGoodsIcon = BitmapDescriptorFactory.fromResource(R.drawable.delivery_goods);
+        View takeView = mInflater.inflate(R.layout.item_legouwork_location, null);
+        ImageView takeImg = (ImageView) takeView.findViewById(R.id.icon_type_legwork);
+        takeImg.setImageResource(R.drawable.take_goods);
+        takeGoodsIcon = BitmapDescriptorFactory.fromView(takeView);
+
+        View deliveryView = mInflater.inflate(R.layout.item_legouwork_location, null);
+        ImageView deliveryImg = (ImageView) deliveryView.findViewById(R.id.icon_type_legwork);
+        deliveryImg.setImageResource(R.drawable.delivery_goods);
+        deliveryGoodsIcon = BitmapDescriptorFactory.fromView(deliveryView);
+
         setDistanceView();
 
 
@@ -603,7 +624,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     }
 
 
-
     /**
      * 隐藏地图
      */
@@ -707,8 +727,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             refreshImageView.setVisibility(View.GONE);
             moneyLayout.setVisibility(View.VISIBLE);
             orderLayout.setVisibility(View.VISIBLE);
-            legWorkDetailsLayout.setToClosed();
             legWorkDetailsLayout.setEnable(false);
+            legWorkDetailsLayout.setActivated(false);
             commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
             if (valueBean.getChildType() == 1) {
                 layoutGoodsInformation.setVisibility(View.GONE);
@@ -864,7 +884,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 if (CheckUtils.isNoEmptyStr(valueBean.getDeliveryTask().getDeliveryman().getHeaderImg())) {
                     ImageUtils.loadBitmap(mActivity, valueBean.getDeliveryTask().getDeliveryman().getHeaderImg(), imgRider, R.drawable.horsegj_default, Constants.getEndThumbnail(40, 40));
                 } else {
-                    imgRider.setImageDrawable(getResources().getDrawable(R.drawable.default_group_user_avatar));
+                    imgRider.setImageDrawable(getResources().getDrawable(R.drawable.icon_default_avator));
                 }
             }
             tvGive.setText(valueBean.getUserAddress());
@@ -1059,12 +1079,13 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 updateDeliveryManLocation();
                 break;
             case R.id.expand_imageview:
-            case R.id.delivery_man_info_layout:
-            case R.id.address_layout:
-            case R.id.details:
                 if (legWorkDetailsLayout != null) {
                     legWorkDetailsLayout.setToOpen();
                 }
+                break;
+            case R.id.delivery_man_info_layout:
+            case R.id.address_layout:
+            case R.id.details:
                 break;
             case R.id.img_service_charge:
                 // 计费规则

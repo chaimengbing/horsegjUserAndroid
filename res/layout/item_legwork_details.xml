@@ -67,7 +67,7 @@
                 android:layout_marginLeft="@dimen/x15"
                 android:layout_marginRight="@dimen/x10"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sir_default_icon"
+                android:src="@drawable/icon_default_avator"
                 android:visibility="visible" />
 
             <TextView

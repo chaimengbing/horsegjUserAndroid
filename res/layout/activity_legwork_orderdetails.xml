@@ -28,10 +28,9 @@
         android:background="@color/color_f5"
         app:allowHorizontalScroll="false"
         app:exitOffset="@dimen/x310"
-        app:isSupportExit="false"
+        app:isSupportExit="true"
         app:maxOffset="@dimen/x310"
-        app:minOffset="0dp"
-        app:mode="open">
+        app:minOffset="0dp">
 
         <com.yinglan.scrolllayout.content.ContentScrollView
             android:layout_width="match_parent"

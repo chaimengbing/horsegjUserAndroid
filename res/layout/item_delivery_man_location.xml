@@ -33,7 +33,6 @@
             android:id="@+id/delivery_man_avatar"
             android:layout_width="@dimen/x40"
             android:layout_height="@dimen/x40"
-            android:layout_marginLeft="@dimen/x10"
             android:layout_marginTop="@dimen/x8"
             android:scaleType="centerCrop"
             android:src="@drawable/sir_default_icon"
