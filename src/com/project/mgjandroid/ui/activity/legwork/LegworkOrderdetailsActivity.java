@@ -965,7 +965,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 }
             }
             if (deliveryLatitude > 0 && deliveryLongitude > 0) {
-                if (isDelivery) {
+                if (!isDelivery) {
                     putLocationToMarkerOptions(takeGoodsIcon, shipperLatitude, shipperLongitude);
                     //在配送
 //                    takeDisatance = CommonUtils.getLatLngDistance(deliveryLongitude, deliveryLatitude, userLongitude, userLatitude);
