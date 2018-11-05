@@ -2,12 +2,14 @@ package com.project.mgjandroid.ui.activity.groupbuying;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -31,6 +33,7 @@ import com.project.mgjandroid.model.groupbuying.GroupPurchasePrimaryCategoryList
 import com.project.mgjandroid.model.groupbuying.GroupPurchasePrimaryPublicityListModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
+import com.project.mgjandroid.ui.adapter.RecommendGridAdapter;
 import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.LoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollGridView;
@@ -60,22 +63,24 @@ import java.util.Map;
 @Router("groupCoupon")
 public class GroupBuyingMainActivity extends BaseActivity {
 
+    private final static int NUMBER_OF_NAVIGATOR = 5;
+
     @InjectView(R.id.common_back)
     private ImageView ivBack;
     @InjectView(R.id.list_view)
     private PullToRefreshListView listView;
 
-    private LinearLayout publicityContainer;
-    private ImageView publicityImg;
+    private NoScrollGridView recommendGridView;
+
     private MyBanner myBanner;
     private RelativeLayout navigatorLayout;
     private CirclePageIndicator navigatorIndicator;
     private GroupBuyingMerchantAdapter adapter;
     private MyPageAdapter mPageAdapter = new MyPageAdapter();
-    private List<ImageView> publicityViews = new ArrayList<>();
     private List<View> viewList = new ArrayList<>();
 
     private ArrayList<GroupPurchaseBanner> bannerList;
+    private RecommendGridAdapter recommendGridAdapter;
 
     private static final int maxResults = 10;
     private int start = 0;
@@ -210,11 +215,9 @@ public class GroupBuyingMainActivity extends BaseActivity {
         navigatorViewPager.setCycle(false);
         navigatorViewPager.setBorderAnimation(true);
 
-        publicityContainer = (LinearLayout) listHeaderView.findViewById(R.id.three_pics_layout);
-        publicityImg = (ImageView) listHeaderView.findViewById(R.id.publicity_img_4);
-        publicityViews.add((CornerImageView) publicityContainer.findViewById(R.id.publicity_img_1));
-        publicityViews.add((CornerImageView) publicityContainer.findViewById(R.id.publicity_img_2));
-        publicityViews.add((CornerImageView) publicityContainer.findViewById(R.id.publicity_img_3));
+        recommendGridView = (NoScrollGridView) listHeaderView.findViewById(R.id.recommend_gridview);
+        recommendGridAdapter = new RecommendGridAdapter(R.layout.item_recommend, mActivity);
+        recommendGridView.setAdapter(recommendGridAdapter);
     }
 
     private void getBanner() {
@@ -367,31 +370,34 @@ public class GroupBuyingMainActivity extends BaseActivity {
      * @param publicityList List
      */
     private void showPublicity(List<GroupPurchasePrimaryPublicity> publicityList) {
-        int i = 0;
-        for (final GroupPurchasePrimaryPublicity publicity : publicityList) {
-            if (publicity.getPublicityType() == 1) {
-                publicityImg.setVisibility(View.VISIBLE);
-                publicityImg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onClickPublicity(publicity);
-                    }
-                });
-                ImageUtils.loadBitmap(mActivity, publicity.getImg(), publicityImg, R.drawable.horsegj_default, Constants.getEndThumbnail(355, 105));
-            } else if (publicity.getPublicityType() == 2) {
-                publicityContainer.setVisibility(View.VISIBLE);
-                if (i < publicityViews.size()) {
-                    publicityViews.get(i).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onClickPublicity(publicity);
-                        }
-                    });
-                    ImageUtils.loadBitmap(mActivity, publicity.getImg(), publicityViews.get(i), R.drawable.horsegj_default, Constants.getEndThumbnail(115, 150));
-                    i++;
+
+        for (int i = 0; i < publicityList.size(); i++) {
+            int r = i % 4;
+            GroupPurchasePrimaryPublicity publicity = publicityList.get(i);
+            Drawable drawable = null;
+            if (publicity != null) {
+                if (r == 0) {
+                    drawable = getResources().getDrawable(R.drawable.bg_discount);
+                } else if (r == 1) {
+                    drawable = getResources().getDrawable(R.drawable.bg_life);
+                } else if (r == 2) {
+                    drawable = getResources().getDrawable(R.drawable.bg_recommend);
+                } else {
+                    drawable = getResources().getDrawable(R.drawable.bg_calculate);
                 }
+                publicity.setResSource(drawable);
             }
         }
+        recommendGridAdapter.setData(publicityList);
+        recommendGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                GroupPurchasePrimaryPublicity publicity = recommendGridAdapter.getItem(i);
+                if (publicity != null) {
+                    onClickPublicity(publicity);
+                }
+            }
+        });
     }
 
     private void onClickPublicity(GroupPurchasePrimaryPublicity publicity) {
@@ -469,21 +475,21 @@ public class GroupBuyingMainActivity extends BaseActivity {
         navigatorLayout.setVisibility(View.VISIBLE);
         viewList.clear();
 
-        for (int i = 0; i <= (primaryCategoryList.size() - 1) / 8; i++) {
+        for (int i = 0; i <= (primaryCategoryList.size() - 1) / NUMBER_OF_NAVIGATOR; i++) {
             NoScrollGridView gridView = new NoScrollGridView(mActivity);
-            gridView.setNumColumns(4);
+            gridView.setNumColumns(NUMBER_OF_NAVIGATOR);
             gridView.setHorizontalSpacing(0);
             gridView.setVerticalSpacing(0);
             AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
             gridView.setLayoutParams(layoutParams);
-            if (primaryCategoryList.size() > 8) {
+            if (primaryCategoryList.size() > NUMBER_OF_NAVIGATOR) {
                 gridView.setPadding(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.x20));
             } else {
                 gridView.setPadding(0, 0, 0, getResources().getDimensionPixelOffset(R.dimen.x14));
             }
             GroupBuyingPrimaryCategoryAdapter adapter = new GroupBuyingPrimaryCategoryAdapter(mActivity);
             gridView.setAdapter(adapter);
-            adapter.setData(primaryCategoryList.subList(i * 8, Math.min(primaryCategoryList.size(), i * 8 + 8)));
+            adapter.setData(primaryCategoryList.subList(i * NUMBER_OF_NAVIGATOR, Math.min(primaryCategoryList.size(), i * NUMBER_OF_NAVIGATOR + NUMBER_OF_NAVIGATOR)));
             viewList.add(gridView);
         }
 

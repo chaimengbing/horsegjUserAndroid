@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x165"
+    android:layout_height="@dimen/x90"
+    android:background="@color/transparent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="@dimen/x165"
+        android:layout_height="@dimen/x90">
+
+        <ImageView
+            android:id="@+id/recommend_imageview"
+            android:layout_width="@dimen/x90"
+            android:layout_height="@dimen/x60"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/navigation_bg" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="@dimen/x165"
+        android:layout_height="@dimen/x90">
+
+
+        <ImageView
+            android:id="@+id/local_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_recommend" />
+
+
+        <TextView
+            android:id="@+id/recommend_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginTop="@dimen/x30"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="name"
+            android:textColor="@color/color_3"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>
