@@ -248,41 +248,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_goods_information"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tv_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x25"
-            android:layout_marginTop="@dimen/x12"
-            android:layout_marginBottom="@dimen/x12"
-            android:text="商品信息"
-            android:textColor="@color/color_6"
-            android:textSize="12sp" />
-
-
-        <TextView
-            android:id="@+id/tv_goods_information"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x10"
-            android:layout_marginRight="@dimen/x10"
-            android:background="@drawable/bg_legwork_details"
-            android:paddingLeft="@dimen/x15"
-            android:paddingTop="@dimen/x10"
-            android:paddingBottom="@dimen/x10"
-            android:text="aaaaaaaaaa"
-            android:textColor="@color/color_3"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/address_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -298,6 +263,7 @@
             android:id="@+id/layout_remarks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x15"
             android:orientation="vertical">
 
             <View style="@style/horizontal_divider_line" />
@@ -332,6 +298,41 @@
                     android:textSize="13sp" />
             </RelativeLayout>
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_goods_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x25"
+            android:layout_marginTop="@dimen/x12"
+            android:layout_marginBottom="@dimen/x12"
+            android:text="商品信息"
+            android:textColor="@color/color_6"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/tv_goods_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginRight="@dimen/x10"
+            android:background="@drawable/bg_legwork_details"
+            android:paddingLeft="@dimen/x15"
+            android:paddingTop="@dimen/x10"
+            android:paddingBottom="@dimen/x10"
+            android:text="aaaaaaaaaa"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
 
     </LinearLayout>
 

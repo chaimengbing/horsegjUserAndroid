@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:padding="@dimen/x15">
+    android:paddingLeft="@dimen/x15"
+    android:paddingTop="@dimen/x15"
+    android:paddingRight="@dimen/x15">
 
     <ImageView
         android:id="@+id/legwork_iv_buy"

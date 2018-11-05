@@ -610,10 +610,10 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
      * 显示地图
      */
     private void showMaps() {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) legWorkDetailsLayout.getLayoutParams();
-        params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-        params.bottomMargin = (int) getResources().getDimension(R.dimen.x10);
-        legWorkDetailsLayout.setLayoutParams(params);
+//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) legWorkDetailsLayout.getLayoutParams();
+//        params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+//        params.bottomMargin = (int) getResources().getDimension(R.dimen.x10);
+//        legWorkDetailsLayout.setLayoutParams(params);
 
         expandImageView.setVisibility(View.VISIBLE);
         refreshImageView.setVisibility(View.VISIBLE);
@@ -628,9 +628,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
      * 隐藏地图
      */
     private void hideMaps() {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) legWorkDetailsLayout.getLayoutParams();
-        params.bottomMargin = params.rightMargin = params.leftMargin = 0;
-        legWorkDetailsLayout.setLayoutParams(params);
+//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) legWorkDetailsLayout.getLayoutParams();
+//        params.bottomMargin = params.rightMargin = params.leftMargin = 0;
+//        legWorkDetailsLayout.setLayoutParams(params);
 
         expandImageView.setVisibility(View.GONE);
         refreshImageView.setVisibility(View.GONE);
