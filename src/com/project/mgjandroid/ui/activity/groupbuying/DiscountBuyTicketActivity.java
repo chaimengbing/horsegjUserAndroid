@@ -48,8 +48,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private ImageView tvBack;
     @InjectView(R.id.common_title)
     private TextView tvTitle;
-//    @InjectView(R.id.tv_explain)
-//    private TextView tvRight;
+    @InjectView(R.id.tv_explain)
+    private TextView tvRight;
     @InjectView(R.id.et_evaluation)
     private EditText etEvalution;
     @InjectView(R.id.img_unselected)
@@ -108,7 +108,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         merchant = (GroupPurchaseMerchant) getIntent().getSerializableExtra("merchant");
         tvTitle.setText(merchant.getName());
         tvBack.setOnClickListener(this);
-//        tvRight.setOnClickListener(this);
+        tvRight.setOnClickListener(this);
         rlRedBagLayout.setOnClickListener(this);
         rlVoucher.setOnClickListener(this);
         tvConfirm.setOnClickListener(this);
@@ -241,9 +241,9 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     rlLayout.setVisibility(View.GONE);
                 }
                 break;
-//            case R.id.tv_explain:
-//                startActivity(new Intent(mActivity, GroupBuyingPrivilegeActivity.class));
-//                break;
+            case R.id.tv_explain:
+                startActivity(new Intent(mActivity, GroupBuyingPrivilegeActivity.class));
+                break;
             case R.id.rl_platform_redbag_layout:
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
                 if("0".equals(StringUtils.BigDecimal2Str(previewModelValue.getTotalPrice()))){
