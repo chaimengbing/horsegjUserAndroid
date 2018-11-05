@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/iv_back_black" />
+            />
 
         <TextView
             android:id="@+id/login_register"
@@ -49,16 +49,49 @@
             android:textSize="@dimen/title_bar_text_size" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/x20"
+        android:paddingTop="@dimen/x20"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x20"
+            android:text="@string/online_pay_order_total_price"
+            android:textColor="@color/color_3"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/pay_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x20"
+            android:textColor="@color/orange_text"
+            android:textSize="15sp"
+            tools:text="@string/online_pay_price_standard" />
+    </RelativeLayout>
+
+
     <LinearLayout
+        android:id="@+id/layout_group_buying"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x85"
         android:background="@color/white"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="@dimen/x15">
+        android:padding="@dimen/x15"
+        android:visibility="gone">
 
         <TextView
-            android:id="@+id/pay_money"
+            android:id="@+id/group_buying_pay_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FD5952"
@@ -71,7 +104,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/x10"
-            android:text="@string/online_pay_order_total_price"
             android:textColor="@color/color_6"
             android:textSize="11sp" />
 

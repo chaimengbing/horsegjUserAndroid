@@ -411,6 +411,9 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra("orderId", submitOrderModel.getValue().getId());
                     intent.putExtra("merchantId", submitOrderModel.getValue().getMerchantId());
                     intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
+                    intent.putExtra("grouponName", groupPurchaseCoupon.getGroupPurchaseName());
+                    intent.putExtra("voucherName", "¥" + ticketPrice+"元 代金券");
+                    intent.putExtra("type", type);
                     intent.putExtra("isGroupPurchase", true);
                     startActivity(intent);
                     finish();

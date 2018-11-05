@@ -444,6 +444,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     intent.putExtra("orderId", submitOrderModel.getValue().getId());
                     intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
                     intent.putExtra("merchantId", submitOrderModel.getValue().getMerchantId());
+                    intent.putExtra("merchantName", merchant.getName());
                     intent.putExtra("isGroupPurchaseBuy", true);
                     startActivity(intent);
                     finish();

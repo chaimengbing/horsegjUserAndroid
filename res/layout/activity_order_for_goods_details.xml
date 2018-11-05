@@ -59,12 +59,80 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/layout_group_buying_details"
+                    android:id="@+id/layout_group_buying_voucher_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/x15"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/voucher_bg"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingTop="@dimen/x15"
+                        android:paddingRight="@dimen/x20"
+                        android:paddingBottom="@dimen/x20"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_merchant_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="商家名称"
+                            android:textColor="@color/color_3"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tv_voucher_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_ticket_name"
+                            android:layout_marginTop="@dimen/x8"
+                            android:textColor="@color/color_3"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_voucher_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x8"
+                            android:text="¥0"
+                            android:textColor="#fd5952"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_voucher_immediate_use"
+                        android:layout_width="@dimen/x75"
+                        android:layout_height="@dimen/x35"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/x20"
+                        android:background="@drawable/bg_login_orange_button_2"
+                        android:gravity="center"
+                        android:text="立即使用"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_group_buying_groupon_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:focusableInTouchMode="true"
-                    android:paddingBottom="@dimen/x10">
+                    android:paddingBottom="@dimen/x10"
+                    android:visibility="gone">
 
                     <com.project.mgjandroid.ui.view.CornerImageView
                         android:id="@+id/food_user_avatar"
@@ -87,6 +155,7 @@
                         android:layout_marginTop="@dimen/x15"
                         android:layout_toRightOf="@+id/food_user_avatar"
                         android:drawablePadding="@dimen/x8"
+                        android:layout_marginRight="@dimen/x20"
                         android:drawableRight="@drawable/right_arrow_gray"
                         android:ellipsize="end"
                         android:maxLines="1"
@@ -412,11 +481,17 @@
                                 android:textColor="@color/color_3"
                                 android:textSize="11sp" />
 
+                            <View
+                                android:layout_width="2px"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/x10"
+                                android:layout_marginRight="@dimen/x10"
+                                android:background="@color/color_e"/>
+
                             <TextView
                                 android:id="@+id/tv_shop_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="123"
                                 android:textColor="@color/color_3"
                                 android:textSize="11sp" />
                         </LinearLayout>
