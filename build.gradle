@@ -113,7 +113,17 @@ android {
         }
 
         //解决Gradle插件 升级3.0.1后无法打包的问题
-//
+//        android.applicationVariants.all { variant ->
+//            variant.outputs.all {
+//                def fileName
+//                if (isInJenkins()) {
+//                    fileName = "mgjclient-${variant.buildType.name}-${variant.versionName}-" + getJenkinsBuildCode() + ".apk"
+//                } else {
+//                    fileName = "mgjclient-${variant.buildType.name}-${variant.versionName}-" + buildTime() + ".apk"
+//                }
+//                outputFileName = fileName
+//            }
+//        }
 
     }
 

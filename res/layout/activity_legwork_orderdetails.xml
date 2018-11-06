@@ -27,9 +27,7 @@
         android:layout_below="@id/include"
         android:background="@color/color_f5"
         app:allowHorizontalScroll="false"
-        app:exitOffset="@dimen/x310"
-        app:isSupportExit="true"
-        app:maxOffset="@dimen/x310"
+        app:isSupportExit="false"
         app:minOffset="0dp">
 
         <com.yinglan.scrolllayout.content.ContentScrollView

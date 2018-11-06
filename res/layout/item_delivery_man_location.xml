@@ -26,14 +26,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content">
 
         <com.project.mgjandroid.ui.view.RoundImageView
             android:id="@+id/delivery_man_avatar"
             android:layout_width="@dimen/x40"
             android:layout_height="@dimen/x40"
             android:layout_marginTop="@dimen/x8"
+            android:layout_marginLeft="@dimen/x15"
             android:scaleType="centerCrop"
             android:src="@drawable/sir_default_icon"
             android:visibility="visible" />
@@ -44,7 +44,6 @@
             android:layout_marginLeft="@dimen/x5"
             android:layout_marginTop="@dimen/x5"
             android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
             android:layout_marginRight="@dimen/x5"
             android:orientation="vertical">
 
@@ -54,8 +53,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:drawableRight="@drawable/right_arrow_gray"
-                android:drawablePadding="@dimen/x1"
+                android:drawablePadding="@dimen/x3"
                 android:text="骑手前往取货地"
                 android:textColor="@color/color_3"
                 android:textSize="14sp" />

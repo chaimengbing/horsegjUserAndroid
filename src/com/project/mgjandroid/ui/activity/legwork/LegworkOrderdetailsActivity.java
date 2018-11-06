@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -237,11 +236,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
                 //退出操作
             } else if (currentStatus.equals(ScrollLayout.Status.CLOSED)) {
-//                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.color_f5));
-//                commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
             } else if (currentStatus.equals(ScrollLayout.Status.OPENED)) {
-//                legWorkDetailsLayout.setBackgroundColor(getResources().getColor(R.color.transparent));
-//                commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
         }
 
@@ -728,7 +723,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             moneyLayout.setVisibility(View.VISIBLE);
             orderLayout.setVisibility(View.VISIBLE);
             legWorkDetailsLayout.setEnable(false);
-            legWorkDetailsLayout.setActivated(false);
+            legWorkDetailsLayout.setToClosed();
             commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
             if (valueBean.getChildType() == 1) {
                 layoutGoodsInformation.setVisibility(View.GONE);
@@ -909,15 +904,32 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 expandImageView.setVisibility(legWorkDetailsLayout.getCurrentStatus() == ScrollLayout.Status.OPENED ? View.VISIBLE : View.GONE);
             }
 
-//            int heightLayout = deliveryManInfoLayout.getHeight() + addressLayout.getHeight();
-//            if (heightLayout > 0) {
-//                legWorkDetailsLayout.setMaxOffset((int) (heightLayout + getResources().getDimension(R.dimen.x30)));
-//            }
-//            legWorkDetailsLayout.invalidate();
+            int status = valueBean.getStatus();
+            if (status == 4 || status == 5) {
+                if (layoutRemarks.getVisibility() == View.GONE) {
+                    if (CommonUtils.getScreenWidth(getWindowManager()) < 1080) {
+                        legWorkDetailsLayout.setMaxOffset(540);
+                    } else {
+                        legWorkDetailsLayout.setMaxOffset(600);
+                    }
+//                    legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 280));
+                } else {
+                    if (CommonUtils.getScreenWidth(getWindowManager()) < 1080) {
+                        legWorkDetailsLayout.setMaxOffset(695);
+                    } else {
+                        legWorkDetailsLayout.setMaxOffset(760);
+                    }
+//                    legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 350));
+                }
+                legWorkDetailsLayout.setToOpen();
+                legWorkDetailsLayout.invalidate();
+            }
+
         }
     }
 
     private void takeGoods() {
+        Log.e(TAG, "takeGoods::");
         legWorkDetailsLayout.setOnScrollChangedListener(mScrollChangedListener);
         deliveryManMapView.setVisibility(View.VISIBLE);
         deliveryManInfoLayout.setVisibility(View.VISIBLE);
@@ -925,7 +937,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         moneyLayout.setVisibility(View.GONE);
         orderLayout.setVisibility(View.GONE);
         tvLegworkStatus.setVisibility(View.GONE);
-        legWorkDetailsLayout.setToOpen();
         commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
         layoutComplete.setVisibility(View.GONE);
         layoutNoPayment.setVisibility(View.GONE);
@@ -947,7 +958,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         moneyLayout.setVisibility(View.GONE);
         orderLayout.setVisibility(View.GONE);
         tvLegworkStatus.setVisibility(View.GONE);
-        legWorkDetailsLayout.setToOpen();
         commonTopBar.setBackgroundColor(getResources().getColor(R.color.transparent));
         layoutComplete.setVisibility(View.GONE);
         layoutNoPayment.setVisibility(View.GONE);
