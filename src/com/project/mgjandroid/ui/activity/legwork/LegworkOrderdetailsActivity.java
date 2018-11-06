@@ -57,6 +57,7 @@ import com.project.mgjandroid.ui.view.TimeView;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DateUtils;
+import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ShareUtil;
@@ -375,7 +376,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 if (valueBean.getStatus() == 4) {
                     //取货中
 //                    ToastUtils.displayMsg("距离取货地" + deliveryDisatance, getApplicationContext());
-                    distance = CommonUtils.getDistance(shipperLongitude, shipperLatitude, longtude, latitude);
+                    if (shipperLatitude != 0.0 || shipperLongitude != 0.0){
+                        distance = CommonUtils.getDistance(shipperLongitude, shipperLatitude, longtude, latitude);
+                    }
                     if (distance <= 50) {
                         deliveryState = "骑手到达取货地";
                         deliveryState1 = "0";
@@ -568,7 +571,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
 
     private void setDistanceView() {
         if (distanceView == null) {
-            distanceView = mInflater.inflate(R.layout.item_delivery_man_location, null);
+            distanceView = mInflater.inflate(R.layout.item_delivery_man_location, deliveryManMapView,false);
             roundImageView = (RoundImageView) distanceView.findViewById(R.id.delivery_man_avatar);
             deliveryStateTextView = (TextView) distanceView.findViewById(R.id.tv_deliveryman_state);
             deliveryStateTv = (TextView) distanceView.findViewById(R.id.deliveryman_state);
@@ -908,16 +911,18 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             if (status == 4 || status == 5) {
                 if (layoutRemarks.getVisibility() == View.GONE) {
                     if (CommonUtils.getScreenWidth(getWindowManager()) < 1080) {
-                        legWorkDetailsLayout.setMaxOffset(540);
+                        legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 280));
                     } else {
-                        legWorkDetailsLayout.setMaxOffset(600);
+                        legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 240));
+//                        legWorkDetailsLayout.setMaxOffset(600);
                     }
 //                    legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 280));
                 } else {
                     if (CommonUtils.getScreenWidth(getWindowManager()) < 1080) {
-                        legWorkDetailsLayout.setMaxOffset(695);
+//                        legWorkDetailsLayout.setMaxOffset(695);
+                        legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 280));
                     } else {
-                        legWorkDetailsLayout.setMaxOffset(760);
+                        legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 310));
                     }
 //                    legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 350));
                 }
