@@ -57,18 +57,15 @@
     </RelativeLayout>
 
 
-    <com.project.mgjandroid.ui.view.NoScrollGridView
-        android:id="@+id/recommend_gridview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recommend_recyclerview"
         android:layout_width="match_parent"
-        android:numColumns="2"
         android:listSelector="@color/transparent"
         android:scrollbars="none"
         android:layout_margin="@dimen/x15"
-        android:horizontalSpacing="@dimen/x5"
-        android:verticalSpacing="@dimen/x5"
         android:layout_height="wrap_content">
 
-    </com.project.mgjandroid.ui.view.NoScrollGridView>
+    </android.support.v7.widget.RecyclerView>
 
     <FrameLayout
         android:id="@+id/merchant_divider_layout"

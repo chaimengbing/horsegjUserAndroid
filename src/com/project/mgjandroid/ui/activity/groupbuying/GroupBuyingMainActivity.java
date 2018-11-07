@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -34,7 +36,6 @@ import com.project.mgjandroid.model.groupbuying.GroupPurchasePrimaryPublicityLis
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.adapter.RecommendGridAdapter;
-import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.LoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollGridView;
 import com.project.mgjandroid.ui.view.NoticeDialog;
@@ -45,7 +46,6 @@ import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
 import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner;
 import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.OnBannerItemClickListener;
 import com.project.mgjandroid.utils.CheckUtils;
-import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
@@ -70,12 +70,14 @@ public class GroupBuyingMainActivity extends BaseActivity {
     @InjectView(R.id.list_view)
     private PullToRefreshListView listView;
 
-    private NoScrollGridView recommendGridView;
+    private RecyclerView recommendRecyclerView;
+    private GridLayoutManager gridLayoutManager;
+    private GroupBuyingMerchantAdapter adapter;
+    private int lineCount = 2;
 
     private MyBanner myBanner;
     private RelativeLayout navigatorLayout;
     private CirclePageIndicator navigatorIndicator;
-    private GroupBuyingMerchantAdapter adapter;
     private MyPageAdapter mPageAdapter = new MyPageAdapter();
     private List<View> viewList = new ArrayList<>();
 
@@ -215,9 +217,11 @@ public class GroupBuyingMainActivity extends BaseActivity {
         navigatorViewPager.setCycle(false);
         navigatorViewPager.setBorderAnimation(true);
 
-        recommendGridView = (NoScrollGridView) listHeaderView.findViewById(R.id.recommend_gridview);
-        recommendGridAdapter = new RecommendGridAdapter(R.layout.item_recommend, mActivity);
-        recommendGridView.setAdapter(recommendGridAdapter);
+        recommendRecyclerView = (RecyclerView) listHeaderView.findViewById(R.id.recommend_recyclerview);
+        recommendGridAdapter = new RecommendGridAdapter(this);
+        gridLayoutManager = new GridLayoutManager(this, lineCount);
+        recommendRecyclerView.setLayoutManager(gridLayoutManager);
+        recommendRecyclerView.setAdapter(recommendGridAdapter);
     }
 
     private void getBanner() {
@@ -369,15 +373,28 @@ public class GroupBuyingMainActivity extends BaseActivity {
      *
      * @param publicityList List
      */
-    private void showPublicity(List<GroupPurchasePrimaryPublicity> publicityList) {
-
+    private void showPublicity(final List<GroupPurchasePrimaryPublicity> publicityList) {
+        boolean isSet = false;
+        if (publicityList.size() == 1 || publicityList.size() == 3) {
+            isSet = true;
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return position == 0 ? 2 : 1;
+                }
+            });
+        }
         for (int i = 0; i < publicityList.size(); i++) {
             int r = i % 4;
             GroupPurchasePrimaryPublicity publicity = publicityList.get(i);
             Drawable drawable = null;
             if (publicity != null) {
                 if (r == 0) {
-                    drawable = getResources().getDrawable(R.drawable.bg_discount);
+                    if (isSet) {
+                        drawable = getResources().getDrawable(R.drawable.bg_chang_discount);
+                    } else {
+                        drawable = getResources().getDrawable(R.drawable.bg_discount);
+                    }
                 } else if (r == 1) {
                     drawable = getResources().getDrawable(R.drawable.bg_life);
                 } else if (r == 2) {
@@ -389,12 +406,11 @@ public class GroupBuyingMainActivity extends BaseActivity {
             }
         }
         recommendGridAdapter.setData(publicityList);
-        recommendGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        recommendGridAdapter.setOnItemClickListener(new RecommendGridAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                GroupPurchasePrimaryPublicity publicity = recommendGridAdapter.getItem(i);
-                if (publicity != null) {
-                    onClickPublicity(publicity);
+            public void onItemClick(GroupPurchasePrimaryPublicity purchasePrimaryPublicity) {
+                if (publicityList != null) {
+                    onClickPublicity(purchasePrimaryPublicity);
                 }
             }
         });
