@@ -91,6 +91,7 @@ public class DeliveryManInfo extends Entity {
     private int isPaoTuiDeliveryman;
     private int type;
     private Object deliveryTaskList;
+    private int orderStatus;
 
     public int getId() {
         return id;
@@ -418,5 +419,13 @@ public class DeliveryManInfo extends Entity {
 
     public void setDeliveryTaskList(Object deliveryTaskList) {
         this.deliveryTaskList = deliveryTaskList;
+    }
+
+    public int getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(int orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -304,25 +306,16 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         if (valueBean == null) {
             return;
         }
-        int deliverymanId = -1;
-        LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean deliveryTaskBean = valueBean.getDeliveryTask();
-        if (deliveryTaskBean != null) {
-            LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean.DeliverymanBean deliverymanBean = deliveryTaskBean.getDeliveryman();
-            if (deliverymanBean != null) {
-                deliverymanId = deliverymanBean.getId();
-            }
-        }
 
-        if (deliverymanId > 0) {
+        if (!TextUtils.isEmpty(orderId)) {
             VolleyOperater<DeliveryManModel> operater = new VolleyOperater<>(mActivity);
             HashMap<String, Object> map = new HashMap<>();
-            map.put("deliverymanId", deliverymanId);
-            operater.doRequest(Constants.URL_FIND_DELIVERY_MAN_INFO, map, new VolleyOperater.ResponseListener() {
+            map.put("orderId", orderId);
+            operater.doRequest(Constants.URL_FIND_DELIVERY_MAN_BY_ORDER_ID, map, new VolleyOperater.ResponseListener() {
                 @Override
                 public void onRsp(boolean isSucceed, Object obj) {
                     if (isSucceed && obj != null) {
                         if (obj instanceof String) {
-                            toast(obj.toString());
                             return;
                         }
                         DeliveryManModel deliveryManModel = (DeliveryManModel) obj;
@@ -337,21 +330,26 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     }
 
     private void updateMapLocation(DeliveryManInfo deliveryManInfo) {
-        double oldLatiTude = 0.0, oldLongiTude = 0.0;
-        LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean deliveryTaskBean = valueBean.getDeliveryTask();
-        if (deliveryTaskBean != null) {
-            LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean.DeliverymanBean deliverymanBean = deliveryTaskBean.getDeliveryman();
-            if (deliverymanBean != null) {
-                oldLatiTude = deliveryManInfo.getLatitude();
-                oldLongiTude = deliveryManInfo.getLongitude();
+
+        if (valueBean.getStatus() != deliveryManInfo.getOrderStatus()) {
+            getData();
+        } else {
+            double oldLatiTude = 0.0, oldLongiTude = 0.0;
+            LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean deliveryTaskBean = valueBean.getDeliveryTask();
+            if (deliveryTaskBean != null) {
+                LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean.DeliverymanBean deliverymanBean = deliveryTaskBean.getDeliveryman();
+                if (deliverymanBean != null) {
+                    oldLatiTude = deliveryManInfo.getLatitude();
+                    oldLongiTude = deliveryManInfo.getLongitude();
+                }
             }
-        }
-        double currentLatiTude = deliveryManInfo.getLatitude();
-        double currentLongiTude = deliveryManInfo.getLongitude();
-        //新位置变化后在刷新
-        if (oldLatiTude != 0.0 && oldLatiTude != 0.0) {
-            if (currentLatiTude != oldLatiTude && currentLongiTude != oldLongiTude) {
-                upadteLocationView(deliveryManInfo.getHeaderImg(), currentLatiTude, currentLongiTude);
+            double currentLatiTude = deliveryManInfo.getLatitude();
+            double currentLongiTude = deliveryManInfo.getLongitude();
+            //新位置变化后在刷新
+            if (oldLatiTude != 0.0 && oldLatiTude != 0.0) {
+                if (currentLatiTude != oldLatiTude && currentLongiTude != oldLongiTude) {
+                    upadteLocationView(deliveryManInfo.getHeaderImg(), currentLatiTude, currentLongiTude);
+                }
             }
         }
     }
@@ -376,7 +374,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 if (valueBean.getStatus() == 4) {
                     //取货中
 //                    ToastUtils.displayMsg("距离取货地" + deliveryDisatance, getApplicationContext());
-                    if (shipperLatitude != 0.0 || shipperLongitude != 0.0){
+                    if (shipperLatitude != 0.0 || shipperLongitude != 0.0) {
                         distance = CommonUtils.getDistance(shipperLongitude, shipperLatitude, longtude, latitude);
                     }
                     if (distance <= 50) {
@@ -571,11 +569,37 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
 
     private void setDistanceView() {
         if (distanceView == null) {
-            distanceView = mInflater.inflate(R.layout.item_delivery_man_location, deliveryManMapView,false);
+            distanceView = mInflater.inflate(R.layout.item_delivery_man_location, deliveryManMapView, false);
             roundImageView = (RoundImageView) distanceView.findViewById(R.id.delivery_man_avatar);
             deliveryStateTextView = (TextView) distanceView.findViewById(R.id.tv_deliveryman_state);
             deliveryStateTv = (TextView) distanceView.findViewById(R.id.deliveryman_state);
             distanceTextView = (TextView) distanceView.findViewById(R.id.tv_deliveryman_distance);
+            LinearLayout linearLayout = (LinearLayout) distanceView.findViewById(R.id.ccccc);
+            RelativeLayout.LayoutParams paramsLayout = (RelativeLayout.LayoutParams) linearLayout.getLayoutParams();
+
+            Drawable drawable = getResources().getDrawable(R.drawable.right_arrow_gray);
+            drawable.setBounds(0, 0, 10, 20);
+            deliveryStateTextView.setCompoundDrawables(null, null, drawable, null);
+            if (CommonUtils.getScreenWidth(getWindowManager()) >= 1080) {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) roundImageView.getLayoutParams();
+                params.width = 70;
+                params.height = 70;
+                roundImageView.setLayoutParams(params);
+//
+
+                paramsLayout.topMargin = (int) getResources().getDimension(R.dimen.x5);
+                linearLayout.setLayoutParams(paramsLayout);
+//                RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+//                params1.width = 350;
+//                imageView.setLayoutParams(params1);
+//
+                deliveryStateTextView.setTextSize(10);
+                deliveryStateTv.setTextSize(8);
+                distanceTextView.setTextSize(8);
+            }else {
+                paramsLayout.topMargin = (int) getResources().getDimension(R.dimen.x8);
+                linearLayout.setLayoutParams(paramsLayout);
+            }
         }
     }
 
@@ -725,6 +749,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             refreshImageView.setVisibility(View.GONE);
             moneyLayout.setVisibility(View.VISIBLE);
             orderLayout.setVisibility(View.VISIBLE);
+            tvLegworkStatus.setVisibility(View.VISIBLE);
             legWorkDetailsLayout.setEnable(false);
             legWorkDetailsLayout.setToClosed();
             commonTopBar.setBackgroundColor(getResources().getColor(R.color.color_f5));
@@ -920,7 +945,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 } else {
                     if (CommonUtils.getScreenWidth(getWindowManager()) < 1080) {
 //                        legWorkDetailsLayout.setMaxOffset(695);
-                        legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 280));
+                        legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 340));
                     } else {
                         legWorkDetailsLayout.setMaxOffset(DipToPx.dip2px(getApplicationContext(), 310));
                     }
