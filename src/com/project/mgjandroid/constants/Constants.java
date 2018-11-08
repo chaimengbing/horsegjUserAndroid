@@ -195,8 +195,14 @@ public class Constants {
     public static final String URL_FIND_DEFAULT_ADDRESS_LIST = URL_HOME_MAIN + "findDefaultAddressList";
     //搜索
     public static final String URL_SEARCH = URL_HOME_MAIN + "searchTakeAwayMerchant2";
+    //团购商家搜索
+    public static final String URL_GROUP_SEARCH = URL_HOME_MAIN + "findGroupPurchaseMerchantBySearch";
     //热搜
     public static final String URL_HOT_SEARCH = URL_HOME_MAIN + "findHotSearch";
+    /**
+     * 团购商家热搜
+     */
+    public static final String URL_GROUP_HOT_SEARCH = URL_HOME_MAIN + "findGroupPurchaseHotSearch";
     //用户反馈
     public static final String URL_FEED_BACK = URL_HOME_MAIN + "userFeedback";
     /**

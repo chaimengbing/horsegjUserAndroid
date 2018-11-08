@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.github.mzule.activityrouter.router.RouterCallback;
 import com.github.mzule.activityrouter.router.Routers;
@@ -51,6 +52,8 @@ import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +70,8 @@ public class GroupBuyingMainActivity extends BaseActivity {
 
     @InjectView(R.id.common_back)
     private ImageView ivBack;
+    @InjectView(R.id.search_imageview)
+    private ImageView search;
     @InjectView(R.id.list_view)
     private PullToRefreshListView listView;
 
@@ -106,6 +111,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
 
     private void initView() {
         ivBack.setOnClickListener(this);
+        search.setOnClickListener(this);
         initHeaderView();
         adapter = new GroupBuyingMerchantAdapter(mActivity, false);
         listView.setAdapter(adapter);
@@ -135,6 +141,12 @@ public class GroupBuyingMainActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.common_back:
                 back();
+                break;
+            case R.id.search_imageview:
+                Intent intent = new Intent(this, SearchGroupActivity.class);
+                startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

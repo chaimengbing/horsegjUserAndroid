@@ -39,6 +39,7 @@
     <string name="collect">收藏</string>
     <string name="add_more_tips_text">显示下%1$d条</string>
     <string name="no_data">未获取到信息</string>
+    <string name="no_search_data">没有搜索到商家信息</string>
     <string name="step_over">跳 过</string>
 
     <string name="pull_to_refresh_pull_label">Pull to refresh…</string>
