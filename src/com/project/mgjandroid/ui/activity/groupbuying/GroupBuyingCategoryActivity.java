@@ -50,7 +50,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
     private ImageView ivBack;
     @InjectView(R.id.common_title)
     private TextView tvTitle;
-    @InjectView(R.id.menu_bar)
+    @InjectView(R.id.group_menu_bar)
     private LinearLayout menuBar;
     @InjectView(R.id.menu_layout_1)
     private LinearLayout layoutMenu1;
