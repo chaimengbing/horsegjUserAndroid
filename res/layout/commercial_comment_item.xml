@@ -92,38 +92,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/color_3"
+        android:layout_marginTop="@dimen/x15"
         android:layout_marginLeft="@dimen/x54"
         android:layout_marginRight="@dimen/x15"
         android:textSize="12sp"/>
-
-    <TextView
-        android:id="@+id/tv_merchant_reply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/x10"
-        android:background="@drawable/bg_gray_radius"
-        android:padding="@dimen/x10"
-        android:text="商家回复："
-        android:textColor="@color/color_3"
-        android:textSize="14sp"
-        android:visibility="gone" />
 
     <com.project.mgjandroid.ui.view.NoScrollGridView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/evaluation"
+        android:layout_marginTop="@dimen/x15"
         android:layout_marginLeft="@dimen/x54"
         android:layout_marginRight="@dimen/x15"
         android:horizontalSpacing="@dimen/x16"
         android:verticalSpacing="@dimen/x16"
         android:listSelector="@null"
-        android:numColumns="3" />
-    <LinearLayout
+        android:numColumns="3"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_merchant_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x10"
         android:layout_marginLeft="@dimen/x54"
-        android:layout_marginRight="@dimen/x15">
+        android:text="商家回复："
+        android:textColor="@color/color_3"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/layout_praise_trample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/x10"
+        android:paddingBottom="@dimen/x15"
+        android:layout_marginLeft="@dimen/x54"
+        android:layout_marginRight="@dimen/x15"
+        android:orientation="vertical">
 
     </LinearLayout>
 

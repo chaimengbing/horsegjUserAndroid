@@ -3,6 +3,7 @@ package com.project.mgjandroid.ui.fragment;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,10 +13,12 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.Merchant;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCoupon;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.MerchantEvaluateModel;
 import com.project.mgjandroid.model.NewMerchantEvaluateModel;
@@ -39,7 +42,7 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
     protected View view;
     private PullToRefreshListView listView;
     private CommercialCommentAdapter adapter;
-    private static final int maxResults = 5;
+    private static final int maxResults = 20;
     private LinearLayout headerView;
     private TextView tvScore, tvServiceScore, tvEvaluateScore, tvHigher, tvUnEmpty;
     private RadioButton tvAll, tvSatisfy, tvYawp;
@@ -65,13 +68,14 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
     private ListView refreshableView;
     private int currentState = -1;
     private int queryType=0;
-    private int isHaveContent=0;
+    private int isHaveContent=1;
     private RadioButton tvHavePicturess;
     private RatingBar merchantScore;
     private TextView tvNumber;
     private TextView tvScoreTaste;
     private TextView tvScorePack;
     private TextView tvScoreDis;
+    private NewMerchantEvaluateModel model;
 
     @Override
     public void onAttach(Activity activity) {
@@ -123,12 +127,6 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
         tvScoreDis = (TextView) headerView.findViewById(R.id.tv_score_dispatching);
 
 
-        tvScore = (TextView) headerView.findViewById(R.id.evaluate_fragment_tv_score);
-        tvServiceScore = (TextView) headerView.findViewById(R.id.evaluate_fragment_tv_service_score);
-        tvHigher = (TextView) headerView.findViewById(R.id.evaluate_tv_higher);
-        tvEvaluateScore = (TextView) headerView.findViewById(R.id.evaluate_fragment_tv_evaluate_score);
-        serviceScoreBar = (RatingBar) headerView.findViewById(R.id.evaluate_fragment_rat_service_score);
-        evaluateScoreBar = (RatingBar) headerView.findViewById(R.id.evaluate_fragment_rat_evaluate_score);
         RadioGroup rgLabel = (RadioGroup) headerView.findViewById(R.id.select_bar);
         rgLabel.setOnCheckedChangeListener(this);
         tvAll = (RadioButton) headerView.findViewById(R.id.evaluate_fragment_all);
@@ -167,6 +165,7 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
             }
         });
         getNewMerchantEvaluate();
+
     }
 
     public void setData(Merchant merchant) {
@@ -219,7 +218,7 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
                 listView.onRefreshComplete();
 
                 if (isSucceed && obj != null) {
-                    NewMerchantEvaluateModel model = (NewMerchantEvaluateModel) obj;
+                    model = (NewMerchantEvaluateModel) obj;
                     List<NewMerchantEvaluateModel.ValueBean.ListBean> mlist = model.getValue().getList();
 
                     if (CheckUtils.isNoEmptyList(mlist)) {
@@ -237,16 +236,20 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
                             refreshFlag = false;
                             adapter.setList(mlist);
                         }
-                        setRadioGroup();
+                        setRadioGroup(model);
                     }
                 }
             }
         },NewMerchantEvaluateModel.class);
     }
 
-    private void setRadioGroup() {
-        List<NewMerchantEvaluateModel.ValueBean.ListBean> mListOrg = adapter.getList();
-        tvAll.setText("全部(" + mListOrg.size() + ")");
+    private void setRadioGroup(NewMerchantEvaluateModel model) {
+        if(model!=null){
+            tvAll.setText("全部 "+model.getValue().getAllCount());
+            tvSatisfy.setText("好评 "+model.getValue().getGoodCount());
+            tvYawp.setText("差评 "+model.getValue().getPoorCount());
+            tvHavePicturess.setText("有图 "+model.getValue().getImgCount());
+        }
     }
 
     public void setMerchant(int merchantId) {
@@ -261,29 +264,37 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
                 changeTextColor(tvAll, tvSatisfy, tvYawp,tvHavePicturess);
                 tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
                 if(!tvAll.isSelected()){
+                    start = 0;
+                    refreshFlag = false;
                     getNewMerchantEvaluate();
                 }
                 break;
             case R.id.evaluate_fragment_satisfy:
-                queryType = 0;
+                queryType = 1;
                 changeTextColor(tvSatisfy, tvAll,tvYawp, tvHavePicturess);
                 tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
                 if(!tvSatisfy.isSelected()){
+                    start = 0;
+                    refreshFlag = false;
                     getNewMerchantEvaluate();
                 }
                 break;
             case R.id.evaluate_fragment_yawp:
-                queryType = 0;
+                queryType = 2;
                 changeTextColor(tvYawp, tvSatisfy, tvAll,tvHavePicturess);
                 if(!tvYawp.isSelected()){
+                    start = 0;
+                    refreshFlag = false;
                     getNewMerchantEvaluate();
                 }
                 break;
             case R.id.evaluate_fragment_have_pictures:
-                queryType = 0;
+                queryType = 3;
                 changeTextColor(tvHavePicturess, tvSatisfy,tvYawp,tvAll);
                 tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
                 if(!tvHavePicturess.isSelected()){
+                    start = 0;
+                    refreshFlag = false;
                     getNewMerchantEvaluate();
                 }
                 break;

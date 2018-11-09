@@ -153,7 +153,7 @@ public class NewMerchantEvaluateModel extends Entity {
             private double deliverymanScore;
             private String deliverymanComments;
             private String replyContent;
-            private Object imgUrl;
+            private String imgUrl;
             private int isImg;
             private int isAnonymous;
             private AppUserBean appUser;
@@ -274,11 +274,11 @@ public class NewMerchantEvaluateModel extends Entity {
                 this.replyContent = replyContent;
             }
 
-            public Object getImgUrl() {
+            public String getImgUrl() {
                 return imgUrl;
             }
 
-            public void setImgUrl(Object imgUrl) {
+            public void setImgUrl(String imgUrl) {
                 this.imgUrl = imgUrl;
             }
 
@@ -610,9 +610,9 @@ public class NewMerchantEvaluateModel extends Entity {
                 private int goodsId;
                 private int userId;
                 private int orderCommentsId;
-                private double goodsScore;
+                private int goodsScore;
                 private String goodsScoreComments;
-                private Object imgUrl;
+                private String imgUrl;
                 private int isImg;
                 private int isAnonymous;
                 private Object appUser;
@@ -675,11 +675,11 @@ public class NewMerchantEvaluateModel extends Entity {
                     this.orderCommentsId = orderCommentsId;
                 }
 
-                public double getGoodsScore() {
+                public int getGoodsScore() {
                     return goodsScore;
                 }
 
-                public void setGoodsScore(double goodsScore) {
+                public void setGoodsScore(int goodsScore) {
                     this.goodsScore = goodsScore;
                 }
 
@@ -691,11 +691,11 @@ public class NewMerchantEvaluateModel extends Entity {
                     this.goodsScoreComments = goodsScoreComments;
                 }
 
-                public Object getImgUrl() {
+                public String getImgUrl() {
                     return imgUrl;
                 }
 
-                public void setImgUrl(Object imgUrl) {
+                public void setImgUrl(String imgUrl) {
                     this.imgUrl = imgUrl;
                 }
 

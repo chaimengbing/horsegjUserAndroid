@@ -2,6 +2,7 @@ package com.project.mgjandroid.ui.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,26 +11,33 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jet.flowtaglayout.FlowTagLayout;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.LeafComment;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.MerchantEvaluateModel;
 import com.project.mgjandroid.model.NewMerchantEvaluateModel;
 import com.project.mgjandroid.ui.view.CornerImageView;
+import com.project.mgjandroid.ui.view.NoScrollGridView;
 import com.project.mgjandroid.ui.view.RatingBarView;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
+import com.project.mgjandroid.utils.StringUtils;
+import com.project.mgjandroid.model.NewMerchantEvaluateModel.ValueBean.ListBean.GoodsCommentsListBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CommercialCommentAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<NewMerchantEvaluateModel.ValueBean.ListBean> list;
+    private ArrayList strList = new ArrayList<String>();
 
     public CommercialCommentAdapter(Context context) {
         this.context = context;
@@ -75,6 +83,8 @@ public class CommercialCommentAdapter extends BaseAdapter {
             holder.tvDate = (TextView) convertView.findViewById(R.id.tv_time);
             holder.tvContent= (TextView) convertView.findViewById(R.id.tv_content);
             holder.tvReply= (TextView) convertView.findViewById(R.id.tv_merchant_reply);
+            holder.gridView= (NoScrollGridView) convertView.findViewById(R.id.grid_view);
+            holder.layoutPraiseTrample = (LinearLayout) convertView.findViewById(R.id.layout_praise_trample);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -85,7 +95,46 @@ public class CommercialCommentAdapter extends BaseAdapter {
                 showItem(holder, comment);
             }
         }
+        List<NewMerchantEvaluateModel.ValueBean.ListBean.GoodsCommentsListBean> goodsCommentsList = list.get(position).getGoodsCommentsList();
+        if(CheckUtils.isNoEmptyList(goodsCommentsList)){
+            showPraiseTrample(holder,goodsCommentsList);
+        }else {
+            holder.layoutPraiseTrample.setVisibility(View.GONE);
+        }
+
         return convertView;
+    }
+
+    private void showPraiseTrample(ViewHolder holder,List<GoodsCommentsListBean> goodsCommentsList) {
+        holder.layoutPraiseTrample.removeAllViews();
+        holder.layoutPraiseTrample.setVisibility(View.VISIBLE);
+        List<String> goodStr = new ArrayList<>();
+        List<String> badStr = new ArrayList<>();
+        for (GoodsCommentsListBean bean:goodsCommentsList) {
+            if (bean.getGoodsScore() < 3){
+                badStr.add(bean.getGoodsName());
+            }else {
+                goodStr.add(bean.getGoodsName());
+            }
+        }
+        if (CheckUtils.isNoEmptyList(goodStr)){
+            LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.praise_trample_item, null);
+            ImageView img = (ImageView) layout.findViewById(R.id.img);
+            FlowTagLayout flowTagLayout = (FlowTagLayout) layout.findViewById(R.id.flow_tagLayout);
+            flowTagLayout.addTags(goodStr);
+            img.setBackgroundResource(R.drawable.ic_praise_unchecked);
+            holder.layoutPraiseTrample.addView(layout);
+        }
+
+        if (CheckUtils.isNoEmptyList(badStr)){
+            LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.praise_trample_item, null);
+            ImageView img = (ImageView) layout.findViewById(R.id.img);
+            FlowTagLayout flowTagLayout = (FlowTagLayout) layout.findViewById(R.id.flow_tagLayout);
+            flowTagLayout.addTags(badStr);
+            img.setBackgroundResource(R.drawable.ic_trample_unchecked);
+            holder.layoutPraiseTrample.addView(layout);
+        }
+
     }
 
     private void showItem(final ViewHolder holder, final NewMerchantEvaluateModel.ValueBean.ListBean comment) {
@@ -137,6 +186,15 @@ public class CommercialCommentAdapter extends BaseAdapter {
         } else {
             holder.tvReply.setVisibility(View.GONE);
         }
+        if(CheckUtils.isNoEmptyStr(comment.getImgUrl())){
+            holder.gridView.setVisibility(View.VISIBLE);
+            MerchantEvaluationGridImageAdapter adapter = new MerchantEvaluationGridImageAdapter(context);
+            holder.gridView.setAdapter(adapter);
+            adapter.setUrls(comment.getImgUrl(),",");
+        }else {
+            holder.gridView.setVisibility(View.GONE);
+        }
+
 
     }
 
@@ -144,6 +202,8 @@ public class CommercialCommentAdapter extends BaseAdapter {
         RatingBar score;
         TextView tvContent,tvName,tvScore,tvDate,tvReply;
         CornerImageView userAvatar;
+        NoScrollGridView gridView;
+        LinearLayout layoutPraiseTrample;
     }
 
 }
