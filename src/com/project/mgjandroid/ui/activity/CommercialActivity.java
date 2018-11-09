@@ -16,8 +16,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -374,7 +378,24 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         if (avgDeliveryTime != null && avgDeliveryTime > 0) {
             sb.append(" | ").append(avgDeliveryTime).append("分钟送达");
         }
-        tvShopDesc.setText("起送价 ¥" + StringUtils.BigDecimal2Str(minPrice) + " | 配送费 ¥" + StringUtils.BigDecimal2Str(shipFee) + sb.toString());
+        SpannableStringBuilder infoValue = new SpannableStringBuilder();
+        String content = "起送价 ¥" + StringUtils.BigDecimal2Str(minPrice) + " | 配送费 ¥";
+        infoValue.append(content);
+        if (merchant.getMerchantAssumeAmt().compareTo(BigDecimal.ZERO) == 0) {
+            infoValue.append(StringUtils.BigDecimal2Str(shipFee));
+            infoValue.append(sb.toString());
+        } else {
+            infoValue.append(StringUtils.BigDecimal2Str(shipFee.subtract(merchant.getMerchantAssumeAmt())) + " ");
+            String price = "¥" + StringUtils.BigDecimal2Str(merchant.getShipFee());
+            infoValue.append(price);
+            infoValue.append(sb.toString());
+            StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
+            infoValue.setSpan(strikethroughSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            infoValue.setSpan(colorSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        }
+
+        tvShopDesc.setText(infoValue);
 
         String broadcast = merchant.getBroadcast();
         if (broadcast != null && !"".equals(broadcast)) {
