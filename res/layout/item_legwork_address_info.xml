@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/x15">
+
+    <ImageView
+        android:id="@+id/legwork_iv_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:src="@drawable/ic_legwork_buy" />
+
+    <LinearLayout
+        android:id="@+id/ll_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_toRightOf="@+id/iv_deliver"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/legwork_tv_buy_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_3"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/legwork_tv_buy_personal_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x5"
+            android:textColor="@color/color_9"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_deliver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_1"
+        android:layout_marginTop="@dimen/x14"
+        android:padding="2dp"
+        android:src="@drawable/icon_deliver" />
+
+    <TextView
+        android:id="@+id/legwork_tv_deliver_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_1"
+        android:layout_marginLeft="@dimen/x10"
+        android:layout_marginTop="@dimen/x14"
+        android:layout_toRightOf="@+id/iv_deliver"
+        android:textColor="@color/color_3"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/legwork_tv_deliver_personal_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/legwork_tv_deliver_address"
+        android:layout_below="@+id/legwork_tv_deliver_address"
+        android:layout_marginTop="@dimen/x5"
+        android:textColor="@color/color_9"
+        android:textSize="12sp" />
+
+</RelativeLayout>
