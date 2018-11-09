@@ -158,7 +158,7 @@ public class LegworkEvaluateActivity extends BaseActivity {
                 tvBad.setTextColor(mActivity.getResources().getColor(R.color.bg_festival));
                 tvOrdinary.setTextColor(mActivity.getResources().getColor(R.color.color_6));
                 tvGood.setTextColor(mActivity.getResources().getColor(R.color.color_6));
-                riderEvaluationAdapter.setList(badList);
+//                riderEvaluationAdapter.setList(badList);
                 break;
             case R.id.layout_ordinary:
                 imgBad.setSelected(false);
@@ -167,7 +167,7 @@ public class LegworkEvaluateActivity extends BaseActivity {
                 tvBad.setTextColor(mActivity.getResources().getColor(R.color.color_6));
                 tvOrdinary.setTextColor(mActivity.getResources().getColor(R.color.bg_festival));
                 tvGood.setTextColor(mActivity.getResources().getColor(R.color.color_6));
-                riderEvaluationAdapter.setList(goodList);
+//                riderEvaluationAdapter.setList(goodList);
                 break;
             case R.id.layout_good:
                 imgBad.setSelected(false);
@@ -176,7 +176,7 @@ public class LegworkEvaluateActivity extends BaseActivity {
                 tvBad.setTextColor(mActivity.getResources().getColor(R.color.color_6));
                 tvOrdinary.setTextColor(mActivity.getResources().getColor(R.color.color_6));
                 tvGood.setTextColor(mActivity.getResources().getColor(R.color.bg_festival));
-                riderEvaluationAdapter.setList(goodList);
+//                riderEvaluationAdapter.setList(goodList);
                 break;
             case R.id.common_back:
                 onBackPressed();

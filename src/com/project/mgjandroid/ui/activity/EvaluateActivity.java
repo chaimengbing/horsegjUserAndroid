@@ -144,6 +144,7 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
             evaluateMerchantName.setText(submitOrderEntity.getMerchant().getName());
         if (hasDriverEvaluate)
             evaluateDriverLayout.setVisibility(View.VISIBLE);
+
         else {
             evaluateDriverLayout.setVisibility(View.GONE);
         }

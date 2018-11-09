@@ -18,6 +18,7 @@ import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.Merchant;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.MerchantEvaluateModel;
+import com.project.mgjandroid.model.NewMerchantEvaluateModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.adapter.CommercialCommentAdapter;
@@ -30,6 +31,7 @@ import com.project.mgjandroid.utils.CommonUtils;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EvaluateFragment extends HeaderViewPagerFragment implements OnClickListener, RadioGroup.OnCheckedChangeListener {
@@ -42,7 +44,7 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
     private TextView tvScore, tvServiceScore, tvEvaluateScore, tvHigher, tvUnEmpty;
     private RadioButton tvAll, tvSatisfy, tvYawp;
     private RatingBar serviceScoreBar, evaluateScoreBar;
-    protected boolean refreshFlag = true;
+    protected boolean refreshFlag = false;
     /**
      * 全部
      */
@@ -62,6 +64,14 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
     private int start = 0;
     private ListView refreshableView;
     private int currentState = -1;
+    private int queryType=0;
+    private int isHaveContent=0;
+    private RadioButton tvHavePicturess;
+    private RatingBar merchantScore;
+    private TextView tvNumber;
+    private TextView tvScoreTaste;
+    private TextView tvScorePack;
+    private TextView tvScoreDis;
 
     @Override
     public void onAttach(Activity activity) {
@@ -106,6 +116,13 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
         adapter = new CommercialCommentAdapter(mActivity);
 //        refreshableView = listView.getRefreshableView();
         headerView = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.layout_shop_evaluate_header_view, null);
+        tvNumber = (TextView) headerView.findViewById(R.id.tv_number);
+        merchantScore = (RatingBar)headerView.findViewById(R.id.merchant_score);
+        tvScoreTaste = (TextView) headerView.findViewById(R.id.tv_score_taste);
+        tvScorePack = (TextView) headerView.findViewById(R.id.tv_score_pack);
+        tvScoreDis = (TextView) headerView.findViewById(R.id.tv_score_dispatching);
+
+
         tvScore = (TextView) headerView.findViewById(R.id.evaluate_fragment_tv_score);
         tvServiceScore = (TextView) headerView.findViewById(R.id.evaluate_fragment_tv_service_score);
         tvHigher = (TextView) headerView.findViewById(R.id.evaluate_tv_higher);
@@ -119,10 +136,12 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
         tvSatisfy = (RadioButton) headerView.findViewById(R.id.evaluate_fragment_satisfy);
         tvSatisfy.setTextColor(Color.parseColor("#ffdc550f"));
         tvYawp = (RadioButton) headerView.findViewById(R.id.evaluate_fragment_yawp);
-        tvYawp.setTextColor(Color.parseColor("#ffdc550f"));
-
+        tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+        tvHavePicturess = (RadioButton) headerView.findViewById(R.id.evaluate_fragment_have_pictures);
+        tvHavePicturess.setTextColor(Color.parseColor("#ffdc550f"));
         tvUnEmpty = (TextView) headerView.findViewById(R.id.evaluate_fragment_show_un_empty);
         tvUnEmpty.setOnClickListener(this);
+        tvUnEmpty.setSelected(true);
         listView.getRefreshableView().addHeaderView(headerView);
         listView.setAdapter(adapter);
 //        View noDataView = LayoutInflater.from(mActivity).inflate(R.layout.layout_order_list_no_data, null);
@@ -140,30 +159,35 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                refreshFlag = true;
                 if (refreshFlag) {
                     start += maxResults;
-                    getMerchantEvaluate();
+                    getNewMerchantEvaluate();
                 }
             }
         });
-        getMerchantEvaluate();
+        getNewMerchantEvaluate();
     }
 
     public void setData(Merchant merchant) {
-        BigDecimal averageScore = merchant.getMerchantScore();
-        evaluateScoreBar.setRating(averageScore.floatValue());
-        BigDecimal shipScore = merchant.getShipScore();
-        serviceScoreBar.setRating(shipScore.floatValue());
-        tvEvaluateScore.setText(CommonUtils.BigDecimal2Str(merchant.getMerchantScore()));
-        tvServiceScore.setText(CommonUtils.BigDecimal2Str(merchant.getShipScore()));
-        tvScore.setText(CommonUtils.BigDecimal2Str(merchant.getAverageScore()));
+        tvNumber.setText(CommonUtils.BigDecimal2Str(merchant.getAverageScore()));
+        merchantScore.setRating(merchant.getMerchantScore().floatValue());
+        tvScoreTaste.setText(CommonUtils.BigDecimal2Str(merchant.getTasteScore()));
+        tvScorePack.setText(CommonUtils.BigDecimal2Str(merchant.getPackagingScore()));
+        tvScoreDis.setText(CommonUtils.BigDecimal2Str(merchant.getShipScore()));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.evaluate_fragment_show_un_empty:
+                if(tvUnEmpty.isSelected()){
+                    isHaveContent=0;
+                }else {
+                    isHaveContent=1;
+                }
                 tvUnEmpty.setSelected(!tvUnEmpty.isSelected());
+                getNewMerchantEvaluate();
                 //TODO 刷新列表
                 break;
 
@@ -180,41 +204,48 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
     /**
      * 获取商家评价
      */
-    private void getMerchantEvaluate() {
-        refreshFlag = false;
+    private void getNewMerchantEvaluate() {
+
         Map<String, Object> map = new HashMap<>();
         map.put("merchantId", merchantId);
         map.put("start", start);
         map.put("size", maxResults);
-        VolleyOperater<MerchantEvaluateModel> operater = new VolleyOperater<MerchantEvaluateModel>(mActivity);
-        operater.doRequest(Constants.URL_MERCHANT_EVALUATE, map, new VolleyOperater.ResponseListener() {
-
+        map.put("queryType", queryType);
+        map.put("isHaveContent", isHaveContent);
+        VolleyOperater<NewMerchantEvaluateModel> operater = new VolleyOperater<NewMerchantEvaluateModel>(mActivity);
+        operater.doRequest(Constants.URL_MERCHANT_COMMENTS, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
                 listView.onRefreshComplete();
-                refreshFlag = true;
+
                 if (isSucceed && obj != null) {
-                    MerchantEvaluateModel evaluateModel = (MerchantEvaluateModel) obj;
-                    ArrayList<MerchantEvaluateModel.ValueEntity> mlist = evaluateModel.getValue();
+                    NewMerchantEvaluateModel model = (NewMerchantEvaluateModel) obj;
+                    List<NewMerchantEvaluateModel.ValueBean.ListBean> mlist = model.getValue().getList();
 
                     if (CheckUtils.isNoEmptyList(mlist)) {
 //                        if (mlist.size() < maxResults) {
 //                            ToastUtils.displayMsg("到底了", mActivity);
 //                        }
-                        ArrayList<MerchantEvaluateModel.ValueEntity> mListOrg = adapter.getList();
-                        if (mListOrg != null) {
-                            mListOrg.addAll(mlist);
-                            adapter.setList(mListOrg);
-                            setRadioGroup();
+                        if(refreshFlag){
+                            List<NewMerchantEvaluateModel.ValueBean.ListBean> mListOrg = adapter.getList();
+                            if (mListOrg != null) {
+                                mListOrg.addAll(mlist);
+                                adapter.setList(mListOrg);
+                                refreshFlag = true;
+                            }
+                        }else {
+                            refreshFlag = false;
+                            adapter.setList(mlist);
                         }
+                        setRadioGroup();
                     }
                 }
             }
-        }, MerchantEvaluateModel.class);
+        },NewMerchantEvaluateModel.class);
     }
 
     private void setRadioGroup() {
-        ArrayList<MerchantEvaluateModel.ValueEntity> mListOrg = adapter.getList();
+        List<NewMerchantEvaluateModel.ValueBean.ListBean> mListOrg = adapter.getList();
         tvAll.setText("全部(" + mListOrg.size() + ")");
     }
 
@@ -226,20 +257,43 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.evaluate_fragment_all:
-                changeTextColor(tvAll, tvSatisfy, tvYawp);
+                queryType = 0;
+                changeTextColor(tvAll, tvSatisfy, tvYawp,tvHavePicturess);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                if(!tvAll.isSelected()){
+                    getNewMerchantEvaluate();
+                }
                 break;
             case R.id.evaluate_fragment_satisfy:
-                changeTextColor(tvSatisfy, tvAll, tvYawp);
+                queryType = 0;
+                changeTextColor(tvSatisfy, tvAll,tvYawp, tvHavePicturess);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                if(!tvSatisfy.isSelected()){
+                    getNewMerchantEvaluate();
+                }
                 break;
             case R.id.evaluate_fragment_yawp:
-                changeTextColor(tvYawp, tvSatisfy, tvAll);
+                queryType = 0;
+                changeTextColor(tvYawp, tvSatisfy, tvAll,tvHavePicturess);
+                if(!tvYawp.isSelected()){
+                    getNewMerchantEvaluate();
+                }
+                break;
+            case R.id.evaluate_fragment_have_pictures:
+                queryType = 0;
+                changeTextColor(tvHavePicturess, tvSatisfy,tvYawp,tvAll);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                if(!tvHavePicturess.isSelected()){
+                    getNewMerchantEvaluate();
+                }
                 break;
         }
     }
 
-    private void changeTextColor(RadioButton tvAll, RadioButton tvSatisfy, RadioButton tvYawp) {
+    private void changeTextColor(RadioButton tvAll, RadioButton tvSatisfy, RadioButton tvYawp,RadioButton tvHavePicturess) {
         tvAll.setTextColor(getResources().getColor(R.color.white));
         tvSatisfy.setTextColor(Color.parseColor("#ffdc550f"));
         tvYawp.setTextColor(Color.parseColor("#ffdc550f"));
+        tvHavePicturess.setTextColor(Color.parseColor("#ffdc550f"));
     }
 }

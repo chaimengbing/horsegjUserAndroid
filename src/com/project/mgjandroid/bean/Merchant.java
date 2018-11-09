@@ -148,6 +148,11 @@ public class Merchant extends Entity {
      * 平均分
      */
     private BigDecimal averageScore;
+    /** 商家包装分数 */
+    private BigDecimal packagingScore = new BigDecimal(5.0);
+    /** 口味分数 */
+    private BigDecimal tasteScore = new BigDecimal(5.0);
+
     private int merchantCommentNum;
     private BigDecimal merchantScore;
     private int shipCommentNum;
@@ -727,5 +732,21 @@ public class Merchant extends Entity {
 
     public void setVisualRestaurantList(List<VisibleLive> visualRestaurantList) {
         this.visualRestaurantList = visualRestaurantList;
+    }
+
+    public BigDecimal getPackagingScore() {
+        return packagingScore;
+    }
+
+    public void setPackagingScore(BigDecimal packagingScore) {
+        this.packagingScore = packagingScore;
+    }
+
+    public BigDecimal getTasteScore() {
+        return tasteScore;
+    }
+
+    public void setTasteScore(BigDecimal tasteScore) {
+        this.tasteScore = tasteScore;
     }
 }

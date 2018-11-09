@@ -54,6 +54,8 @@ public class Constants {
 //	public static final String URL_GOODS_DETAIL = URL_HOME_MAIN + "getProductDetail";
     //发送登录验证码
     public static final String URL_GET_MSG_CODE = URL_HOME_MAIN + "sendLoginSms";
+    //骑手详情
+    public static final String URL_FIND_DELIVERYMAN_INFO = URL_HOME_MAIN + "findDeliverymanInfo";
     //验证码登录
     public static final String URL_SMS_LOGIN = URL_HOME_MAIN + "checkLoginCode";
     //发送手机绑定验证码
@@ -157,6 +159,8 @@ public class Constants {
     public static final String URL_EVALUATE_ORDER = URL_HOME_MAIN + "createOrderComments";
     //商家评价
     public static final String URL_MERCHANT_EVALUATE = URL_HOME_MAIN + "findMerchantComments";
+    //新商家评价
+    public static final String URL_MERCHANT_COMMENTS = URL_HOME_MAIN + "queryMerchantComments";
     //查询商品评价
     public static final String URL_GOODS_EVALUATE = URL_HOME_MAIN + "findGoodsComments";
     //展示商家评价

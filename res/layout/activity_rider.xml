@@ -65,7 +65,7 @@
             android:orientation="horizontal">
 
             <com.project.mgjandroid.ui.view.CornerImageView
-                android:id="@+id/user_avatar"
+                android:id="@+id/rider_avatar"
                 android:layout_width="@dimen/x28"
                 android:layout_height="@dimen/x28"
                 android:layout_centerVertical="true"
@@ -78,10 +78,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/x10"
-                android:layout_toRightOf="@+id/user_avatar"
+                android:layout_toRightOf="@+id/rider_avatar"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -89,22 +90,38 @@
                     android:textColor="@color/color_3"
                     android:textSize="15sp" />
 
-                <com.project.mgjandroid.ui.view.RatingBarView
-                    android:id="@+id/pack_score"
+                <!--<com.project.mgjandroid.ui.view.RatingBarView-->
+                    <!--android:id="@+id/rider_score1"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_marginTop="@dimen/x8"-->
+                    <!--android:layout_toRightOf="@id/all_evaluate_text"-->
+                    <!--bao:starCount="5"-->
+                    <!--bao:starEmpty="@drawable/evaluate_small_star_unselected"-->
+                    <!--bao:starFill="@drawable/evaluate_small_star_selected"-->
+                    <!--bao:starImageSize="18dp" />-->
+
+                <com.project.mgjandroid.ui.view.RatingBar
+                    android:id="@+id/rider_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/x8"
+                    app:starCount="5"
+                    app:mStarEmpty="@drawable/evaluate_small_star_unselected"
+                    app:mStarFill="@drawable/evaluate_small_star_selected"
+                    app:starHalf="@drawable/evaluate_small_half_star"
+                    app:mStarImageSize="18dp"
                     android:layout_toRightOf="@id/all_evaluate_text"
-                    bao:starCount="5"
-                    bao:starEmpty="@drawable/evaluate_small_star_unselected"
-                    bao:starFill="@drawable/evaluate_small_star_selected"
-                    bao:starImageSize="18dp" />
+                    />
 
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/phone"
                 android:layout_width="@dimen/x90"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -217,14 +234,20 @@
             android:layout_height="wrap_content"
             android:text="骑手印象"
             android:layout_marginLeft="@dimen/x15"
-            android:layout_marginBottom="@dimen/x15"
             android:textColor="@color/color_6"
             android:textSize="12sp"/>
-        <GridView
+
+        <com.project.mgjandroid.ui.view.NoScrollGridView
+            android:id="@+id/grid_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/x15"
             android:layout_marginLeft="@dimen/x15"
-            android:layout_marginRight="@dimen/x15"></GridView>
+            android:layout_marginRight="@dimen/x15"
+            android:clickable="false"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            ></com.project.mgjandroid.ui.view.NoScrollGridView>
 
     </LinearLayout>
 </LinearLayout>

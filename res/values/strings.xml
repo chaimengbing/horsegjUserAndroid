@@ -473,4 +473,23 @@
         <item>192.168.199.153:8080</item>
     </array>
 
+
+    <array name="badList">
+        <item>提前点送达</item>
+        <item>服务态度差</item>
+        <item>餐品翻撒</item>
+        <item>送餐慢</item>
+        <item>着装脏乱</item>
+        <item>沟通困难</item>
+    </array>
+
+    <array name="goodList">
+        <item>穿戴工服</item>
+        <item>风雨无阻</item>
+        <item>快速准时</item>
+        <item>仪容整洁</item>
+        <item>货品完好</item>
+        <item>礼貌热情</item>
+    </array>
+
 </resources>

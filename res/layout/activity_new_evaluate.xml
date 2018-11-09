@@ -56,165 +56,173 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/tv_submit">
+        android:layout_above="@+id/tv_submit"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x59"
-                android:orientation="horizontal">
-
-                <com.project.mgjandroid.ui.view.CornerImageView
-                    android:id="@+id/user_avatar"
-                    android:layout_width="@dimen/x28"
-                    android:layout_height="@dimen/x28"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/x15"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_avatar"
-                    app:type="circle" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/x10"
-                    android:layout_toRightOf="@+id/user_avatar"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1263"
-                        android:textColor="@color/color_3"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/x5"
-                        android:text="1263"
-                        android:textColor="@color/color_6"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/x15"
-                    android:text="评价对骑手匿名"
-                    android:textColor="@color/color_9"
-                    android:textSize="12sp" />
-
-            </RelativeLayout>
-
             <LinearLayout
+                android:id="@+id/layout_rider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/x20"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x59"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/layout_bad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/img_bad"
-                            android:layout_width="@dimen/x35"
-                            android:layout_height="@dimen/x35"
-                            android:src="@drawable/bg_select_mood" />
-
-                        <TextView
-                            android:id="@+id/tv_bad"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/x10"
-                            android:text="非常差"
-                            android:textColor="@color/color_6"
-                            android:textSize="13sp" />
-                    </LinearLayout>
+                    <com.project.mgjandroid.ui.view.CornerImageView
+                        android:id="@+id/rider_avatar"
+                        android:layout_width="@dimen/x28"
+                        android:layout_height="@dimen/x28"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/x15"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/user_avatar"
+                        app:type="circle" />
 
                     <LinearLayout
-                        android:id="@+id/layout_ordinary"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/x39"
-                        android:layout_marginRight="@dimen/x39"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/x10"
+                        android:layout_toRightOf="@+id/rider_avatar"
+                        android:gravity="center_vertical"
                         android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/img_ordinary"
-                            android:layout_width="@dimen/x35"
-                            android:layout_height="@dimen/x35"
-                            android:src="@drawable/bg_select_mood1" />
-
                         <TextView
-                            android:id="@+id/tv_ordinary"
+                            android:id="@+id/tv_rider_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/x10"
-                            android:text="一般"
+                            android:textColor="@color/color_3"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_delivery_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/x5"
                             android:textColor="@color/color_6"
-                            android:textSize="13sp" />
+                            android:textSize="12sp" />
+
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/layout_good"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/x15"
+                        android:text="评价对骑手匿名"
+                        android:textColor="@color/color_9"
+                        android:textSize="12sp" />
 
-                        <ImageView
-                            android:id="@+id/img_good"
-                            android:layout_width="@dimen/x35"
-                            android:layout_height="@dimen/x35"
-                            android:src="@drawable/bg_select_mood2" />
+                </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/tv_good"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/x10"
-                            android:text="超赞"
-                            android:textColor="@color/color_6"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <com.project.mgjandroid.ui.view.NoScrollGridView
-                    android:id="@+id/grid_view"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/x30"
-                    android:horizontalSpacing="@dimen/x10"
-                    android:listSelector="@color/white"
-                    android:numColumns="3"
-                    android:paddingBottom="@dimen/x20"
-                    android:paddingLeft="@dimen/x40"
-                    android:paddingRight="@dimen/x40"
-                    android:scrollbars="none"
-                    android:verticalSpacing="@dimen/x10" />
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/x20"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/layout_bad"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_bad"
+                                android:layout_width="@dimen/x35"
+                                android:layout_height="@dimen/x35"
+                                android:src="@drawable/bg_select_mood" />
+
+                            <TextView
+                                android:id="@+id/tv_bad"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/x10"
+                                android:text="非常差"
+                                android:textColor="@color/color_6"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_ordinary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x39"
+                            android:layout_marginRight="@dimen/x39"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_ordinary"
+                                android:layout_width="@dimen/x35"
+                                android:layout_height="@dimen/x35"
+                                android:src="@drawable/bg_select_mood1" />
+
+                            <TextView
+                                android:id="@+id/tv_ordinary"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/x10"
+                                android:text="一般"
+                                android:textColor="@color/color_6"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_good"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_good"
+                                android:layout_width="@dimen/x35"
+                                android:layout_height="@dimen/x35"
+                                android:src="@drawable/bg_select_mood2" />
+
+                            <TextView
+                                android:id="@+id/tv_good"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/x10"
+                                android:text="超赞"
+                                android:textColor="@color/color_6"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <com.project.mgjandroid.ui.view.NoScrollGridView
+                        android:id="@+id/grid_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x30"
+                        android:horizontalSpacing="@dimen/x10"
+                        android:listSelector="@color/white"
+                        android:numColumns="3"
+                        android:paddingBottom="@dimen/x20"
+                        android:paddingLeft="@dimen/x40"
+                        android:paddingRight="@dimen/x40"
+                        android:scrollbars="none"
+                        android:verticalSpacing="@dimen/x10" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <RelativeLayout
@@ -223,7 +231,7 @@
                 android:orientation="horizontal">
 
                 <com.project.mgjandroid.ui.view.CornerImageView
-                    android:id="@+id/user_avatar1"
+                    android:id="@+id/merchant_avatar"
                     android:layout_width="@dimen/x28"
                     android:layout_height="@dimen/x28"
                     android:layout_centerVertical="true"
@@ -233,12 +241,12 @@
                     app:type="circle" />
 
                 <TextView
+                    android:id="@+id/tv_merchant_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/x10"
-                    android:layout_toRightOf="@+id/user_avatar1"
-                    android:text="1263"
+                    android:layout_toRightOf="@+id/merchant_avatar"
                     android:textColor="@color/color_3"
                     android:textSize="15sp" />
 
@@ -292,8 +300,8 @@
                     android:id="@+id/layout_small_score"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/x30"
                     android:layout_marginBottom="@dimen/x30"
+                    android:layout_marginTop="@dimen/x30"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -387,7 +395,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="@dimen/x8"
                         android:layout_marginRight="@dimen/x10"
-                        android:text="0/300字"
+                        android:text="0/800字"
                         android:textColor="@color/grey_white_pressed"
                         android:textSize="11sp" />
 
@@ -420,7 +428,7 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:paddingBottom="@dimen/x20">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -431,11 +439,16 @@
                     android:textColor="@color/color_3"
                     android:textSize="15sp" />
 
-                <ListView
+                <com.project.mgjandroid.ui.view.NoScrollListView
+                    android:id="@+id/no_scroll_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/x20"
-                    android:layout_marginTop="@dimen/x30"></ListView>
+                    android:layout_marginTop="@dimen/x30"
+                    android:background="@color/white"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:listSelector="@android:color/transparent"
+                    android:scrollbars="none" />
 
 
             </LinearLayout>
