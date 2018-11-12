@@ -41,7 +41,7 @@
             android:button="@null"
             android:gravity="center"
             android:padding="@dimen/x3"
-            android:text="好评"
+            android:drawableLeft="@drawable/ic_label_praise_unchecked"
             android:textColor="#B97F27"
             android:textSize="12sp" />
 
@@ -54,12 +54,12 @@
             android:button="@null"
             android:gravity="center"
             android:padding="@dimen/x3"
-            android:text="差评"
+            android:drawableLeft="@drawable/ic_trample_unchecked"
             android:textColor="#BFBFBF"
             android:textSize="12sp" />
 
         <RadioButton
-            android:id="@+id/evaluate_fragment_yawp1"
+            android:id="@+id/evaluate_fragment_have_pictures"
             android:layout_width="@dimen/x75"
             android:layout_height="@dimen/x28"
             android:layout_marginLeft="@dimen/x10"
@@ -78,8 +78,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="@dimen/x15"
-        android:paddingRight="@dimen/x15"
-        android:visibility="gone">
+        android:paddingRight="@dimen/x15">
 
         <TextView
             android:id="@+id/evaluate_fragment_show_un_empty"

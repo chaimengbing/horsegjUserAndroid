@@ -227,6 +227,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/evaluate_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -242,6 +243,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/goods_evalute_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -251,7 +253,6 @@
                 android:paddingBottom="@dimen/x10"
                 android:paddingLeft="@dimen/x15"
                 android:paddingTop="@dimen/x15"
-                android:text="@string/gool_detail_header_good_evaluate"
                 android:textColor="@color/color_3"
                 android:textSize="12sp" />
 
@@ -269,8 +270,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:padding="@dimen/x15"
-            android:visibility="gone">
+            android:padding="@dimen/x15">
 
             <RadioButton
                 android:id="@+id/evaluate_fragment_all"
@@ -312,7 +312,7 @@
                 android:textSize="12sp" />
 
             <RadioButton
-                android:id="@+id/evaluate_fragment_yawp1"
+                android:id="@+id/evaluate_fragment_have_pictures"
                 android:layout_width="@dimen/x75"
                 android:layout_height="@dimen/x28"
                 android:layout_marginLeft="@dimen/x10"
@@ -332,7 +332,7 @@
             android:background="@color/white"
             android:paddingBottom="@dimen/x15"
             android:paddingRight="@dimen/x15"
-            android:visibility="gone">
+            >
 
             <TextView
                 android:id="@+id/evaluate_fragment_show_un_empty"

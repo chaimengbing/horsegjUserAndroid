@@ -161,6 +161,8 @@ public class Constants {
     public static final String URL_MERCHANT_EVALUATE = URL_HOME_MAIN + "findMerchantComments";
     //新商家评价
     public static final String URL_MERCHANT_COMMENTS = URL_HOME_MAIN + "queryMerchantComments";
+    //新查询商品评价
+    public static final String URL_QUERY_GOODS_EVALUATE = URL_HOME_MAIN + "queryGoodsComments";
     //查询商品评价
     public static final String URL_GOODS_EVALUATE = URL_HOME_MAIN + "findGoodsComments";
     //展示商家评价
