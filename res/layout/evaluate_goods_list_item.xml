@@ -2,26 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     android:paddingLeft="@dimen/x15"
-    android:paddingRight="@dimen/x15"
     android:paddingTop="@dimen/x25"
-    android:orientation="vertical">
+    android:paddingRight="@dimen/x15">
 
     <TextView
         android:id="@+id/tv_good_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/rg_good"
+        android:paddingRight="@dimen/x11"
         android:text="牛肉套餐"
         android:textColor="@color/color_6"
         android:textSize="13sp" />
 
     <RadioGroup
+        android:id="@+id/rg_good"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:orientation="horizontal">
 
-        <RadioButton
+        <com.project.mgjandroid.ui.view.CustomRadioButton
             android:id="@+id/rb_trample"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +33,7 @@
             android:background="@drawable/trample_select"
             android:button="@null" />
 
-        <RadioButton
+        <com.project.mgjandroid.ui.view.CustomRadioButton
             android:id="@+id/rb_praise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
