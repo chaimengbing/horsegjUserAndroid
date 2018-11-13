@@ -798,6 +798,7 @@ public class SubmitOrderModel extends Entity {
                 private Object token;
                 private String mobile;
                 private String name;
+                private String headerImg;
                 private Object pwd;
                 private Object ip;
                 private Object client;
@@ -817,6 +818,14 @@ public class SubmitOrderModel extends Entity {
                 private int deliveringNum;
                 private int doneNum;
                 private int cancelNum;
+
+                public String getHeaderImg() {
+                    return headerImg;
+                }
+
+                public void setHeaderImg(String headerImg) {
+                    this.headerImg = headerImg;
+                }
 
                 public int getId() {
                     return id;

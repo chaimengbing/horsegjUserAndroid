@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/x15">
+
+    <com.project.mgjandroid.ui.view.CornerImageView
+        android:id="@+id/image_view"
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/x101"
+        android:layout_gravity="top"
+        android:scaleType="centerCrop"
+        android:src="@drawable/horsegj_default"
+        app:borderColor="#e5e5e5"
+        app:borderRadius="@dimen/x10"
+        app:borderThickness="1px"
+        app:type="round" />
+
+    <TextView
+        android:id="@+id/tv_photo_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/x5"
+        android:layout_marginRight="@dimen/x5"
+        android:background="@drawable/bg_img_count"
+        android:drawableLeft="@drawable/small_photo"
+        android:drawablePadding="@dimen/x5"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_gravity="right|bottom"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+</FrameLayout>

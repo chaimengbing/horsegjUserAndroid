@@ -479,6 +479,11 @@
             android:name=".ui.activity.SearchActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activity.groupbuying.SearchGroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.activity.FindDefaultAddressActivity"
             android:screenOrientation="portrait" />

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/x15"
+    android:paddingRight="@dimen/x15"
+    android:paddingTop="@dimen/x25"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_good_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="牛肉套餐"
+        android:textColor="@color/color_6"
+        android:textSize="13sp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_trample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x50"
+            android:background="@drawable/trample_select"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/rb_praise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/praise_select"
+            android:button="@null" />
+
+    </RadioGroup>
+
+</RelativeLayout>

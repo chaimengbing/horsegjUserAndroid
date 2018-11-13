@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.project.mgjandroid.R;
@@ -54,7 +55,7 @@ public class GroupBuyingGridImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (maxCount3) return Math.min(urls.size(), 3);
+        if (maxCount3) return Math.min(urls.size(), 4);
         return urls.size();
     }
 
@@ -75,12 +76,19 @@ public class GroupBuyingGridImageAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.group_buying_grid_image_item, null);
             holder.img = (CornerImageView) convertView.findViewById(R.id.img);
+            holder.tvPhotoCount = (TextView) convertView.findViewById(R.id.tv_photo_count);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        if(position==3){
+            holder.tvPhotoCount.setVisibility(View.VISIBLE);
+            holder.tvPhotoCount.setText(urls.size()+"");
+        }else {
+            holder.tvPhotoCount.setVisibility(View.GONE);
+        }
 
-        ImageUtils.loadBitmap(context, urls.get(position), holder.img, R.drawable.horsegj_default, Constants.getEndThumbnail(100, 100));
+        ImageUtils.loadBitmap(context, urls.get(position), holder.img, R.drawable.horsegj_default, Constants.getEndThumbnail(128, 108));
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,5 +102,6 @@ public class GroupBuyingGridImageAdapter extends BaseAdapter {
 
     static class ViewHolder {
         CornerImageView img;
+        TextView tvPhotoCount;
     }
 }

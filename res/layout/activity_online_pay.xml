@@ -11,7 +11,7 @@
         android:id="@+id/login_top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_height"
-        android:background="@drawable/title_bar_bg"
+        android:background="@color/white"
         android:paddingLeft="@dimen/x12"
         android:paddingRight="@dimen/x10">
 
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_back" />
+            />
 
         <TextView
             android:id="@+id/login_register"
@@ -32,7 +32,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="@string/register"
-            android:textColor="@color/title_tv_festival"
+            android:textColor="@color/color_3"
             android:textSize="14sp"
             android:visibility="gone" />
 
@@ -45,22 +45,24 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/online_pay"
-            android:textColor="@color/title_tv_festival"
+            android:textColor="@color/color_3"
             android:textSize="@dimen/title_bar_text_size" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="@dimen/x20"
-        android:paddingTop="@dimen/x20">
+        android:paddingTop="@dimen/x20"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginLeft="@dimen/x20"
             android:text="@string/online_pay_order_total_price"
             android:textColor="@color/color_3"
             android:textSize="15sp" />
@@ -71,16 +73,47 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/x15"
+            android:layout_marginRight="@dimen/x20"
             android:textColor="@color/orange_text"
             android:textSize="15sp"
             tools:text="@string/online_pay_price_standard" />
     </RelativeLayout>
 
+
+    <LinearLayout
+        android:id="@+id/layout_group_buying"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x85"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="@dimen/x15"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/group_buying_pay_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FD5952"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            tools:text="@string/online_pay_price_standard" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x10"
+            android:textColor="@color/color_6"
+            android:textSize="11sp" />
+
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/pay_extra"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/x50"
         android:layout_marginBottom="@dimen/x10"
         android:layout_marginTop="@dimen/x10"
         android:background="@color/white">
@@ -95,19 +128,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/x15"
-                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginLeft="@dimen/x20"
                 android:layout_marginTop="@dimen/x15"
                 android:text="@string/online_pay_by_balance"
                 android:textColor="@color/color_3"
-                android:textSize="13sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/account_extra_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/x2"
-                android:textColor="@color/color_9"
-                android:textSize="10sp"
+                android:layout_marginLeft="@dimen/x10"
+                android:textColor="@color/color_6"
+                android:textSize="12sp"
                 tools:text="@string/online_pay_balance_msg" />
 
         </LinearLayout>
@@ -119,7 +152,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:button="@null"
-            android:layout_marginRight="@dimen/x15"
+            android:layout_marginRight="@dimen/x20"
             android:drawableLeft="@drawable/bg_check_or_uncheck" />
 
         <TextView
@@ -152,10 +185,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginLeft="@dimen/x20"
                 android:text="@string/online_pay_by_third_platform"
-                android:textColor="@color/color_3"
-                android:textSize="13sp" />
+                android:textColor="@color/color_9"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/third_money"
@@ -163,9 +196,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/x15"
-                android:textColor="@color/color_3"
-                android:textSize="13sp"
+                android:layout_marginRight="@dimen/x20"
+                android:textColor="@color/color_9"
+                android:textSize="15sp"
                 tools:text="@string/online_pay_price_standard" />
         </RelativeLayout>
 
@@ -186,7 +219,7 @@
             android:gravity="center"
             android:padding="@dimen/x10"
             android:text="@string/await_more_pay_method"
-            android:textColor="@color/color_c"
+            android:textColor="@color/color_b"
             android:textSize="11sp" />
     </LinearLayout>
 

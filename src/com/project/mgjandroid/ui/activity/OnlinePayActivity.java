@@ -54,6 +54,12 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     private ImageView onlineBack;
     @InjectView(R.id.pay_money)
     private TextView tvPayMoney;
+    @InjectView(R.id.login_title)
+    private TextView tvTitle;
+    @InjectView(R.id.group_buying_pay_money)
+    private TextView tvGroupBuyingPayMoney;
+    @InjectView(R.id.tv_name)
+    private TextView tvName;
     @InjectView(R.id.balance_pay_money)
     private TextView tvBalancePayMoney;
     @InjectView(R.id.third_money)
@@ -70,8 +76,15 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     private LinearLayout thirdPanel;
     @InjectView(R.id.pay_container)
     private LinearLayout payLabelContainer;
+    @InjectView(R.id.layout_other)
+    private RelativeLayout layoutOther;
+    @InjectView(R.id.layout_group_buying)
+    private LinearLayout layoutGroupBuying;
     @InjectView(R.id.constomer_nbr)
     private TextView constomerNbr;
+    @InjectView(R.id.login_top_bar)
+    private RelativeLayout topBar;
+
     private MLoadingDialog loadingDialog;
     private String orderId;
     private PayWaysModel payWaysModel;
@@ -91,6 +104,10 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     private int merchantId;
     private String result;
     private BalancePayModel model;
+    private int type;
+    private String voucherName;
+    private String grouponName;
+    private String merchantName;
 
 
     @Override
@@ -131,6 +148,18 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         }
         if (intent.hasExtra("isGroupPurchase")) {
             isGroupPurchase = true;
+        }
+        if (intent.hasExtra("grouponName")) {
+            grouponName = intent.getStringExtra("grouponName");
+        }
+        if (intent.hasExtra("voucherName")) {
+            voucherName = intent.getStringExtra("voucherName");
+        }
+        if (intent.hasExtra("merchantName")) {
+            merchantName = intent.getStringExtra("merchantName");
+        }
+        if (intent.hasExtra("type")) {
+            type = intent.getIntExtra("type", -1);
         }
         if (intent.hasExtra("isGroupPurchaseBuy")) {
             isGroupPurchaseBuy = true;
@@ -648,11 +677,43 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                     payWaysModel = (PayWaysModel) obj;
                     String price = StringUtils.BigDecimal2Str(payWaysModel.getValue().getTotalPrice());
                     tvPayMoney.setText("¥" + price);
+                    tvGroupBuyingPayMoney.setText("¥" + price);
                     tvThirdMoney.setText("¥" + price);
+                    if(isGroupPurchase||isGroupPurchaseBuy){
+                        layoutOther.setVisibility(View.GONE);
+                        layoutGroupBuying.setVisibility(View.VISIBLE);
+                        onlineBack.setBackgroundResource(R.drawable.iv_back_black);
+                        topBar.setBackgroundResource(R.color.white);
+                        tvTitle.setTextColor(getResources().getColor(R.color.color_3));
+                        if(type==1){
+                            tvName.setText(voucherName);
+                        }else if(type==2){
+                            tvName.setText(grouponName);
+                        }else {
+                            tvName.setText(merchantName);
+                        }
+                    }else {
+                        layoutOther.setVisibility(View.VISIBLE);
+                        layoutGroupBuying.setVisibility(View.GONE);
+                        onlineBack.setBackgroundResource(R.drawable.icon_back);
+                        topBar.setBackgroundResource(R.drawable.title_bar_bg);
+                        tvTitle.setTextColor(getResources().getColor(R.color.title_tv_festival));
+                    }
                     BigDecimal userBalance = payWaysModel.getValue().getUserBalance();
                     tvAccountExtraMoney.setText("(账户余额：¥" + (userBalance == null ? 0 : StringUtils.BigDecimal2Str(userBalance)) + ")");
                     tvBalancePayMoney.setText(userBalance == null ? "" : (userBalance.compareTo(payWaysModel.getValue().getTotalPrice()) > 0 ?
                             ("¥" + price) : ("¥" + StringUtils.BigDecimal2Str(userBalance))));
+                    if(userBalance!=null){
+                        if(userBalance.compareTo(payWaysModel.getValue().getTotalPrice())>0){
+                            ivExtra.setChecked(!ivExtra.isChecked());
+                        }else {
+                            ivExtra.setChecked(!ivExtra.isChecked());
+                            changeLabel(0);
+                        }
+                    }else {
+                        changeLabel(0);
+                    }
+
                     creatPayContainer();
 
 //                    try {

@@ -98,6 +98,8 @@ public class ConfirmOrderModel extends Entity {
         private BigDecimal itemsPrice;
         private BigDecimal boxPrice;
         private BigDecimal shippingFee;
+        /** 配送费优惠金额 */
+        private BigDecimal shippingPreferentialFee = BigDecimal.ZERO;
         private BigDecimal originalTotalPrice;
         private BigDecimal totalPrice;
         private BigDecimal discountAmt;
@@ -447,6 +449,14 @@ public class ConfirmOrderModel extends Entity {
 
         public void setAgentId(long agentId) {
             this.agentId = agentId;
+        }
+
+        public BigDecimal getShippingPreferentialFee() {
+            return shippingPreferentialFee;
+        }
+
+        public void setShippingPreferentialFee(BigDecimal shippingPreferentialFee) {
+            this.shippingPreferentialFee = shippingPreferentialFee;
         }
 
         public static class ExpectedArrivalEntity extends Entity {

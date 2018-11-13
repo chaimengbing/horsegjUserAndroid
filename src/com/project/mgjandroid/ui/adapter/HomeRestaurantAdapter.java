@@ -3,7 +3,12 @@ package com.project.mgjandroid.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,9 +157,9 @@ public class HomeRestaurantAdapter extends BaseAdapter {
                 holder.rootView.setVisibility(View.VISIBLE);
                 holder.listItem.setVisibility(View.VISIBLE);
             }
-            if (merchant.getIsBrandMerchant() == 1){
+            if (merchant.getIsBrandMerchant() == 1) {
                 holder.brantImageView.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.brantImageView.setVisibility(View.GONE);
             }
 
@@ -185,15 +190,15 @@ public class HomeRestaurantAdapter extends BaseAdapter {
 //			else{
 //				holder.tvSendPrice.setText("0");
 //			}
-
-            if (merchant.getHasVisualRestaurant() == 1){
+            if (merchant.getHasVisualRestaurant() == 1) {
                 holder.visibleLiveImageView.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.visibleLiveImageView.setVisibility(View.INVISIBLE);
             }
 
             if (merchant.getDistance() != null) {
                 if (merchant.getDistance() > 1000) {
+
                     Double d = merchant.getDistance() / 1000;
                     holder.tvSendPrice.setText(df.format(d) + "km");
                 } else {
@@ -218,10 +223,19 @@ public class HomeRestaurantAdapter extends BaseAdapter {
 //				holder.tvMianShippingFee.setVisibility(View.VISIBLE);
                 holder.tvShipFeeNew.setText("免配送费");
             } else {
-//				holder.tvShippingFee.setText("¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
-//				holder.tvShippingFee.setVisibility(View.VISIBLE);
-//				holder.tvMianShippingFee.setVisibility(View.GONE);
-                holder.tvShipFeeNew.setText("配送费" + " ¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
+                SpannableStringBuilder infoValue = new SpannableStringBuilder();
+                if (merchant.getMerchantAssumeAmt().compareTo(BigDecimal.ZERO) == 0) {
+                    infoValue.append("配送费 ¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
+                } else {
+                    infoValue.append("配送费 ¥" + StringUtils.BigDecimal2Str(merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt())) + " ");
+                    String price = "¥" + StringUtils.BigDecimal2Str(merchant.getShipFee());
+                    infoValue.append(price);
+                    StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+                    ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
+                    infoValue.setSpan(strikethroughSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    infoValue.setSpan(colorSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                }
+                holder.tvShipFeeNew.setText(infoValue);
             }
             holder.tvShippingFee.setText(merchant.getAvgDeliveryTime() + "分钟");
 //			if (CheckUtils.isNoEmptyStr(merchant.getBroadcast())) {

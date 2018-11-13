@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,40 +74,28 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
 
     @InjectView(R.id.scroll_view)
     private MyScrollView scrollView;
-    @InjectView(R.id.iv_back)
-    private ImageView ivBack;
-    @InjectView(R.id.iv_collect)
-    private ImageView ivCollect;
-    @InjectView(R.id.iv_share)
-    private ImageView ivShare;
-    @InjectView(R.id.common_top_bar)
-    private RelativeLayout topBar;
     @InjectView(R.id.common_back)
     private ImageView commonBack;
-    @InjectView(R.id.common_title)
-    private TextView commonTitle;
     @InjectView(R.id.common_share)
     private ImageView commonShare;
     @InjectView(R.id.common_collect)
     private ImageView commonCollect;
-    @InjectView(R.id.my_banner)
-    private MyBanner myBanner;
-    @InjectView(R.id.tv_photo_count)
-    private TextView tvPhotoCount;
+    @InjectView(R.id.img)
+    private ImageView img;
     @InjectView(R.id.tv_merchant_name)
     private TextView tvName;
     @InjectView(R.id.rb_score)
     private RatingBar rbScore;
     @InjectView(R.id.tv_average_price)
     private TextView tvAveragePrice;
-    @InjectView(R.id.tv_buy_take_away)
-    private TextView tvBuyTakeAway;
     @InjectView(R.id.icon_address)
     private ImageView iconAddr;
     @InjectView(R.id.tv_address)
     private TextView tvAddress;
     @InjectView(R.id.tv_time)
     private TextView tvTime;
+    @InjectView(R.id.tv_time1)
+    private TextView tvTime1;
     @InjectView(R.id.iv_call)
     private ImageView ivCall;
     @InjectView(R.id.quan_layout)
@@ -126,8 +116,6 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private LinearLayout serviceLayout;
     @InjectView(R.id.grid_view)
     private NoScrollGridView gridView;
-    @InjectView(R.id.dash_line)
-    private View line;
     @InjectView(R.id.tv_service)
     private TextView tvService;
     @InjectView(R.id.more_merchant_layout)
@@ -150,10 +138,12 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private NoScrollListView tuanListView;
     @InjectView(R.id.expand_textview)
     private TextView expandTextView;
+    @InjectView(R.id.recycler_view)
+    private RecyclerView recyclerView;
+    @InjectView(R.id.layout_picture_upload)
+    private LinearLayout layoutPictureUpload;
 
     private List<String> urls = new ArrayList<>();
-    private int topBarAlphaMinH;
-    private int topBarAlphaMaxH;
 
     private GroupPurchaseMerchant merchant;
     private long merchantId;
@@ -163,6 +153,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private ShareUtil shareUtil;
     private GroupBuyMealListAdapter listAdapter;
     private boolean isExpand;
+    private GroupBuyingImageRecyclerAdapter groupBuyingImageRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -174,13 +165,9 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     }
 
     private void initView() {
-        ivBack.setOnClickListener(this);
-        ivCollect.setOnClickListener(this);
-        ivShare.setOnClickListener(this);
         commonBack.setOnClickListener(this);
         commonCollect.setOnClickListener(this);
         commonShare.setOnClickListener(this);
-        tvBuyTakeAway.setOnClickListener(this);
         iconAddr.setOnClickListener(this);
         tvAddress.setOnClickListener(this);
         ivCall.setOnClickListener(this);
@@ -191,51 +178,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         expandTextView.setOnClickListener(this);
         listAdapter = new GroupBuyMealListAdapter(R.layout.group_buying_item,this);
         tuanListView.setAdapter(listAdapter);
-        topBarAlphaMinH = getResources().getDimensionPixelOffset(R.dimen.x70);
-        topBarAlphaMaxH = getResources().getDimensionPixelOffset(R.dimen.x140);
-        scrollView.setOnScrollChangeListener(new MyScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChanged(int t, int oldt) {
-                MLog.e("----> t: " + t + "  , oldt: " + oldt);
-                // topBar 透明度渐变
-                if (t >= topBarAlphaMaxH && oldt < topBarAlphaMaxH) {
-                    topBar.setVisibility(View.VISIBLE);
-                    topBar.setAlpha(1);
-                    ivBack.setVisibility(View.INVISIBLE);
-                    ivCollect.setVisibility(View.INVISIBLE);
-                    ivShare.setVisibility(View.INVISIBLE);
-                } else if (topBarAlphaMinH <= t && t < topBarAlphaMaxH) {
-                    topBar.setVisibility(View.VISIBLE);
-                    topBar.setAlpha((t - topBarAlphaMinH) * 1.0f / (topBarAlphaMaxH - topBarAlphaMinH));
-                    ivBack.setVisibility(View.VISIBLE);
-                    ivCollect.setVisibility(View.VISIBLE);
-                    ivShare.setVisibility(View.VISIBLE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        ivBack.setImageAlpha((int) ((1.0 - Math.min(1, (t - topBarAlphaMinH) * 1.0f / (topBarAlphaMaxH - topBarAlphaMinH * 1.5))) * 0xFF));
-                        ivCollect.setImageAlpha((int) ((1.0 - Math.min(1, (t - topBarAlphaMinH) * 1.0f / (topBarAlphaMaxH - topBarAlphaMinH * 1.5))) * 0xFF));
-                        ivShare.setImageAlpha((int) ((1.0 - Math.min(1, (t - topBarAlphaMinH) * 1.0f / (topBarAlphaMaxH - topBarAlphaMinH * 1.5))) * 0xFF));
-                    } else {
-                        ivBack.setAlpha((int) ((1.0 - Math.min(1, (t - topBarAlphaMinH) * 1.0f / (topBarAlphaMaxH - topBarAlphaMinH * 1.5))) * 0xFF));
-                        ivCollect.setAlpha((int) ((1.0 - Math.min(1, (t - topBarAlphaMinH) * 1.0f / (topBarAlphaMaxH - topBarAlphaMinH * 1.5))) * 0xFF));
-                        ivShare.setAlpha((int) ((1.0 - Math.min(1, (t - topBarAlphaMinH) * 1.0f / (topBarAlphaMaxH - topBarAlphaMinH * 1.5))) * 0xFF));
-                    }
-                } else if (t < topBarAlphaMinH && oldt >= topBarAlphaMinH) {
-                    topBar.setVisibility(View.INVISIBLE);
-                    ivBack.setVisibility(View.VISIBLE);
-                    ivCollect.setVisibility(View.VISIBLE);
-                    ivShare.setVisibility(View.VISIBLE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        ivBack.setImageAlpha(0xFF);
-                        ivCollect.setImageAlpha(0xFF);
-                        ivShare.setImageAlpha(0xFF);
-                    } else {
-                        ivBack.setAlpha(0xFF);
-                        ivCollect.setAlpha(0xFF);
-                        ivShare.setAlpha(0xFF);
-                    }
-                }
-            }
-        });
+        
         loadingDialog = new MLoadingDialog();
     }
 
@@ -252,10 +195,29 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private void showData() {
         scrollView.setVisibility(View.VISIBLE);
         if (merchant.getIsUserFavorites() == 1) {
-            commonCollect.setImageResource(R.drawable.gc_collected_icon);
-            ivCollect.setImageResource(R.drawable.group_buying_collected);
+            commonCollect.setImageResource(R.drawable.gc_collected_icon_new);
         }
-        showBanner();
+        LinearLayoutManager manager = new LinearLayoutManager(mActivity);
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(manager);
+        groupBuyingImageRecyclerAdapter = new GroupBuyingImageRecyclerAdapter(mActivity);
+        recyclerView.setAdapter(groupBuyingImageRecyclerAdapter);
+        if (CheckUtils.isNoEmptyStr(merchant.getImgs())) {
+            final String[] imageUrl = merchant.getImgs().split(";");
+            if(imageUrl.length<=1){
+                img.setVisibility(View.VISIBLE);
+                layoutPictureUpload.setVisibility(View.GONE);
+                tvTime.setVisibility(View.VISIBLE);
+                tvTime1.setVisibility(View.GONE);
+                ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
+            }else {
+                tvTime.setVisibility(View.GONE);
+                tvTime1.setVisibility(View.VISIBLE);
+                img.setVisibility(View.GONE);
+                layoutPictureUpload.setVisibility(View.VISIBLE);
+                groupBuyingImageRecyclerAdapter.setList(Arrays.asList(imageUrl));
+            }
+        }
         showMerchantInfo();
         if (CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())) {
             ArrayList<GroupPurchaseCoupon> quanList = new ArrayList<>();
@@ -271,17 +233,13 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             if (CheckUtils.isNoEmptyList(tuanList)) showGroupBuying1(tuanList);
         }
         if (merchant.getMerchantCommentNum() != null && merchant.getMerchantCommentNum() > 0) {
-            tvEvaluation.setText("评价（" + merchant.getMerchantCommentNum() + "）");
+            tvEvaluation.setText(+ merchant.getMerchantCommentNum() + "条评价");
             getEvaluation();
         }
     }
 
     private void showMerchantInfo() {
-        commonTitle.setText(merchant.getName());
         tvName.setText(merchant.getName());
-        if (merchant.getHasTakeaway() == 1) {
-            tvBuyTakeAway.setVisibility(View.VISIBLE);
-        }
         rbScore.setRating(merchant.getAverageScore().floatValue());
 
         BigDecimal avgPersonPrice;
@@ -298,6 +256,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
 
         tvAddress.setText(merchant.getAddress());
         tvTime.setText("营业时间：" + merchant.getWorkingTime());
+        tvTime1.setText("营业时间：" + merchant.getWorkingTime());
         if (CheckUtils.isNoEmptyStr(merchant.getMerchantRecommend())) {
             recommendLayout.setVisibility(View.VISIBLE);
             tvDishes.setText(merchant.getMerchantRecommend());
@@ -327,10 +286,8 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             GroupBuyingMerchantServiceAdapter adapter = new GroupBuyingMerchantServiceAdapter(mActivity);
             gridView.setAdapter(adapter);
             adapter.setData(data);
-            line.setVisibility(View.GONE);
             tvService.setVisibility(View.GONE);
         } else if (data.size() == 0 && CheckUtils.isNoEmptyStr(merchant.getDescription())) {
-            line.setVisibility(View.GONE);
             tvService.setText(merchant.getDescription());
         } else {
             GroupBuyingMerchantServiceAdapter adapter = new GroupBuyingMerchantServiceAdapter(mActivity);
@@ -374,43 +331,6 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         adapter.setList(mlist);
     }
 
-    private void showBanner() {
-        if (CheckUtils.isNoEmptyStr(merchant.getImgs())) {
-            final String[] imageUrl = merchant.getImgs().split(";");
-            tvPhotoCount.setText("1/" + imageUrl.length);
-            final List<String> stringList = Arrays.asList(imageUrl);
-            for (int i = 0; i < imageUrl.length; i++) {
-                imageUrl[i] += Constants.getEndThumbnail(375, 230);
-            }
-            myBanner.setUrls(Arrays.asList(imageUrl), false, false);
-            myBanner.setOnPageChangeListener(new CircleIndicator.PageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    tvPhotoCount.setText((position + 1) + "/" + imageUrl.length);
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-            myBanner.setOnBannerItemClickListener(new OnBannerItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    PictureViewActivity.toViewPicture(mActivity, JSONArray.toJSONString(stringList), position);
-                }
-            });
-        } else {
-            myBanner.setBackgroundResource(R.drawable.horsegj_default);
-            tvPhotoCount.setVisibility(View.GONE);
-        }
-    }
-
     private void showVoucher(ArrayList<GroupPurchaseCoupon> quanList) {
         quanLayout.setVisibility(View.VISIBLE);
         for (int i = 0, size = quanList.size(); i < size; i++) {
@@ -418,7 +338,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             RelativeLayout layout = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.voucher_item, null);
             RelativeLayout root = (RelativeLayout) layout.findViewById(R.id.voucher_item_root);
             TextView tvPrice = (TextView) layout.findViewById(R.id.tv_price);
-            TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_origin_price);
+            TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_name);
             TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
             TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill);
             TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
@@ -426,7 +346,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             tvPayBill.setTag(bean);
             tvSold.setText("已售"+bean.getBuyCount());
             tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
-            tvOriginPrice.setText("代¥" + StringUtils.BigDecimal2Str(bean.getOriginPrice()));
+            tvOriginPrice.setText(StringUtils.BigDecimal2Str(bean.getOriginPrice())+"元  代金券");
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + (bean.getIsCumulate() == 0 ? "不可叠加" : "可叠加"));
             root.setOnClickListener(this);
             tvPayBill.setOnClickListener(this);
@@ -466,11 +386,9 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_back:
             case R.id.common_back:
                 back();
                 break;
-            case R.id.iv_share:
             case R.id.common_share:
                 if (shareUtil == null && merchant != null) {
                     shareUtil = new ShareUtil(mActivity, merchant.getName(),
@@ -479,7 +397,6 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 }
                 if (shareUtil != null) shareUtil.showPopupWindow();
                 break;
-            case R.id.iv_collect:
             case R.id.common_collect:
                 if (merchant != null) favorMerchant();
                 break;
@@ -506,7 +423,8 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                     return;
                 }
                 Intent intent2 = new Intent(this, BuyTicketActivity.class);
-                intent2.putExtra("ticketPrice",((GroupPurchaseCoupon) v.getTag()).getPrice().doubleValue());
+                intent2.putExtra("ticketName",merchant.getName());
+                intent2.putExtra("ticketPrice",StringUtils.BigDecimal2Str(((GroupPurchaseCoupon) v.getTag()).getPrice()));
                 intent2.putExtra("ticketOriginalPrice",StringUtils.BigDecimal2Str(((GroupPurchaseCoupon) v.getTag()).getOriginPrice()));
                 intent2.putExtra("type",((GroupPurchaseCoupon) v.getTag()).getType());
                 intent2.putExtra("bespeak",((GroupPurchaseCoupon) v.getTag()).getIsBespeak());
@@ -701,8 +619,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 if (isSucceed && obj != null && ((DeleteOrderModel) obj).getCode() == 0) {
                     ToastUtils.showMyToast(mActivity, "收藏成功", R.drawable.collected);
                     merchant.setIsUserFavorites(1);
-                    commonCollect.setImageResource(R.drawable.gc_collected_icon);
-                    ivCollect.setImageResource(R.drawable.group_buying_collected);
+                    commonCollect.setImageResource(R.drawable.gc_collected_icon_new);
                 }
             }
         }, DeleteOrderModel.class);
@@ -719,8 +636,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                 if (isSucceed && obj != null && ((DeleteOrderModel) obj).getCode() == 0) {
                     ToastUtils.showMyToast(mActivity, "已取消收藏", R.drawable.uncollect);
                     merchant.setIsUserFavorites(0);
-                    commonCollect.setImageResource(R.drawable.gc_collection_icon);
-                    ivCollect.setImageResource(R.drawable.group_buying_collect);
+                    commonCollect.setImageResource(R.drawable.iv_collect_black);
                 }
             }
         }, DeleteOrderModel.class);

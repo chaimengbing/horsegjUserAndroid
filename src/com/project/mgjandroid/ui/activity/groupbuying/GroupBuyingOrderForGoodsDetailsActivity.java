@@ -38,6 +38,7 @@ import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
 import com.project.mgjandroid.ui.adapter.RefundListAdapter;
 import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
+import com.project.mgjandroid.ui.view.NoScrollListView;
 import com.project.mgjandroid.ui.view.RefundDialog;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.DateUtils;
@@ -60,12 +61,14 @@ import static com.project.mgjandroid.R.id.group_buying_feedback;
 import static com.project.mgjandroid.R.id.group_buying_refund;
 import static com.project.mgjandroid.R.id.img_phone;
 import static com.project.mgjandroid.R.id.layout_address;
-import static com.project.mgjandroid.R.id.layout_group_buying_details;
+import static com.project.mgjandroid.R.id.layout_group_buying_groupon_details;
+import static com.project.mgjandroid.R.id.layout_group_buying_voucher_details;
 import static com.project.mgjandroid.R.id.refund_outside;
 import static com.project.mgjandroid.R.id.tv_immediate_use;
 import static com.project.mgjandroid.R.id.tv_more;
 import static com.project.mgjandroid.R.id.tv_refund;
 import static com.project.mgjandroid.R.id.tv_refund_amount;
+import static com.project.mgjandroid.R.id.tv_voucher_immediate_use;
 
 /**
  * Created by SunXueLiang on 2017-03-07.
@@ -78,26 +81,22 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
 
     @InjectView(R.id.common_back)
     private ImageView ivBack;
-    @InjectView(R.id.common_title)
-    private TextView tvTitle;
-    @InjectView(tv_more)
-    private TextView tvMore;
     @InjectView(R.id.scroll_view)
     private ScrollView scrollView;
     @InjectView(R.id.food_user_avatar)
     private CornerImageView userAvatar;
     @InjectView(R.id.tv_food_name)
     private TextView tvFoodName;
-    @InjectView(R.id.tv_food_voucher)
-    private TextView tvFoodVoucher;
+//    @InjectView(R.id.tv_food_voucher)
+//    private TextView tvFoodVoucher;
     @InjectView(R.id.tv_money)
     private TextView tvMoney;
-    @InjectView(R.id.tv_voucher)
-    private TextView tvVoucher;
     @InjectView(R.id.tv_available_time)
     private TextView tvAvailableTime;
     @InjectView(R.id.tv_immediate_use)
     private TextView tvImmediateUse;
+    @InjectView(R.id.tv_voucher_immediate_use)
+    private TextView tvVoucherImmediateUse;
     @InjectView(R.id.tv_shop_name)
     private TextView tvShopName;
     @InjectView(R.id.tv_shop_address)
@@ -116,20 +115,18 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private TextView tvCount;
     @InjectView(R.id.tv_total)
     private TextView tvTotalPrice;
-    @InjectView(R.id.goods_layout)
-    private LinearLayout goodsLayout;
     @InjectView(R.id.layout_group_purchase_food)
     private LinearLayout layoutGroupPurchaseFood;
     @InjectView(R.id.layout_recommend)
     private LinearLayout layoutRecommend;
     @InjectView(R.id.layout_payment_time)
     private LinearLayout layoutPaymentTime;
-    @InjectView(R.id.coupon_code_view)
-    private View couponCodeView;
     @InjectView(R.id.coupon_code_layout)
     private LinearLayout couponCodeLayout;
-    @InjectView(R.id.layout_group_buying_details)
-    private LinearLayout layoutDetails;
+    @InjectView(R.id.layout_group_buying_groupon_details)
+    private RelativeLayout layoutGrouponDetails;
+    @InjectView(R.id.layout_group_buying_voucher_details)
+    private RelativeLayout layoutVoucherDetails;
     @InjectView(R.id.layout_address)
     private LinearLayout layoutAddress;
     @InjectView(R.id.option_layout)
@@ -156,6 +153,23 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private LinearLayout llPayPrice;
     @InjectView(R.id.tv_pay_price)
     private TextView tvPayPrice;
+    @InjectView(R.id.goods_layout)
+    private LinearLayout goodsLayout;
+    @InjectView(R.id.layout_coupon_code)
+    private LinearLayout layoutCouponCode;
+    @InjectView(R.id.business_avatar)
+    private CornerImageView businessAvatar;
+    @InjectView(R.id.group_buying_feedback)
+    private TextView tvFeedBack;
+    @InjectView(R.id.group_buying_refund)
+    private TextView tvRefund;
+    @InjectView(R.id.tv_merchant_name)
+    private TextView tvMerchantName;
+    @InjectView(R.id.tv_voucher_name)
+    private TextView tvVoucherName;
+    @InjectView(R.id.tv_voucher_price)
+    private TextView tvVoucherPrice;
+
 
     private StringBuffer buffer = new StringBuffer();
 
@@ -192,14 +206,14 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private void initView() {
         orderId = getIntent().getStringExtra("orderId");
         ivBack.setOnClickListener(this);
-        tvTitle.setText("订单详情");
-        tvMore.setVisibility(View.VISIBLE);
-        tvMore.setOnClickListener(this);
-        tvMore.setText("更多");
         tvImmediateUse.setOnClickListener(this);
+        tvVoucherImmediateUse.setOnClickListener(this);
         imgPhone.setOnClickListener(this);
         layoutAddress.setOnClickListener(this);
-        layoutDetails.setOnClickListener(this);
+        layoutGrouponDetails.setOnClickListener(this);
+        layoutVoucherDetails.setOnClickListener(this);
+        tvFeedBack.setOnClickListener(this);
+        tvRefund.setOnClickListener(this);
         loadingDialog = new MLoadingDialog();
 
     }
@@ -285,33 +299,34 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
 
     private void showData() {
         if (order.getGroupPurchaseCouponType() == 1) {
-            tvVoucher.setText("代金券");
-            tvFoodName.setText(merchant.getName() + "代金券");
-            tvFoodVoucher.setText(StringUtils.BigDecimal2Str(order.getOriginalPrice()) + "元代金券" + order.getQuantity() + "张");
+            layoutVoucherDetails.setVisibility(View.VISIBLE);
+            layoutGrouponDetails.setVisibility(View.GONE);
+            tvMerchantName.setText(merchant.getName() + "代金券");
+            tvVoucherName.setText(StringUtils.BigDecimal2Str(order.getOriginalPrice()) + "元  代金券");
+            tvVoucherPrice.setText("¥" + StringUtils.BigDecimal2Str(order.getTotalPrice()));
         } else {
-            tvVoucher.setText("团购券");
+            layoutVoucherDetails.setVisibility(View.GONE);
+            layoutGrouponDetails.setVisibility(View.VISIBLE);
             tvFoodName.setText(purchaseCoupon.getGroupPurchaseName());
-            tvFoodVoucher.setText(StringUtils.BigDecimal2Str(order.getOriginalPrice()) + "元团购券" + order.getQuantity() + "张");
+            tvMoney.setText("¥" + StringUtils.BigDecimal2Str(order.getTotalPrice()));
+            if (CheckUtils.isNoEmptyStr(order.getGroupPurchaseCouponImages())) {
+                ImageUtils.loadBitmap(mActivity, order.getGroupPurchaseCouponImages().split(";")[0], userAvatar, R.drawable.banner_default, Constants.getEndThumbnail(88, 66));
+            }
         }
 
-        tvMoney.setText("¥" + StringUtils.BigDecimal2Str(order.getTotalPrice()));
-
-        if (CheckUtils.isNoEmptyStr(order.getGroupPurchaseCouponImages())) {
-            ImageUtils.loadBitmap(mActivity, order.getGroupPurchaseCouponImages().split(";")[0], userAvatar, R.drawable.banner_default, Constants.getEndThumbnail(88, 66));
-        }
         scrollView.setVisibility(View.VISIBLE);
         showOption();
         if(order.getGroupPurchaseOrderCoupon().getIsBespeak()==0){
             llDate.setVisibility(View.GONE);
-            tvAvailableTime.setText("有效期至：" + order.getGroupPurchaseCouponEndTime());
+            tvAvailableTime.setText("·有效期至" + order.getGroupPurchaseCouponEndTime());
         }else {
             if(order.getGroupPurchaseOrderCoupon().getIsAutomaticallyCancelAfterVerification()==1){
                 llDate.setVisibility(View.GONE);
-                tvAvailableTime.setText("有效期至：" +order.getGroupPurchaseOrderCoupon().getTargetTime()+" "+order.getGroupPurchaseOrderCoupon().getCancelAfterVerificationTime());
+                tvAvailableTime.setText("·有效期至" +order.getGroupPurchaseOrderCoupon().getTargetTime()+" "+order.getGroupPurchaseOrderCoupon().getCancelAfterVerificationTime());
             }else {
                 llDate.setVisibility(View.VISIBLE);
                 tvDate.setText(order.getGroupPurchaseOrderCoupon().getTargetTime());
-                tvAvailableTime.setText("有效期至：" + order.getGroupPurchaseCouponEndTime());
+                tvAvailableTime.setText("·有效期至" + order.getGroupPurchaseCouponEndTime());
             }
         }
 
@@ -319,12 +334,13 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         if (merchant != null) {
             tvShopName.setText(merchant.getName());
             tvShopAddress.setText(merchant.getAddress());
+            ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], businessAvatar, R.drawable.banner_default, Constants.getEndThumbnail(88, 66));
             if (merchant.getDistance() != null) {
                 if (merchant.getDistance() > 1000) {
                     Double d = merchant.getDistance() / 1000;
-                    tvLength.setText(new DecimalFormat("0.00").format(d) + "km");
+                    tvLength.setText("距您"+new DecimalFormat("0.00").format(d) + "km");
                 } else {
-                    tvLength.setText(merchant.getDistance().intValue() + "m");
+                    tvLength.setText("距您"+merchant.getDistance().intValue() + "m");
                 }
             } else {
                 tvLength.setText("");
@@ -372,18 +388,17 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             if (list.size() > 1) {
                 TextView textView = new TextView(mActivity);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.x25));
-                textView.setBackgroundResource(R.drawable.shape_yellow_bg);
                 textView.setTextColor(ContextCompat.getColor(mActivity, R.color.color_3));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-                textView.setGravity(Gravity.CENTER);
                 textView.setText(goodsType.getTypeName());
                 goodsLayout.addView(textView, params);
-            } else {
-                View v = new View(mActivity);
-                LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
-                v.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
-                goodsLayout.addView(v, p);
             }
+//            else {
+//                View v = new View(mActivity);
+//                LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+//                v.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
+//                goodsLayout.addView(v, p);
+//            }
             List<GroupPurchaseCouponGoods> goodsList = goodsType.getGroupPurchaseCouponGoodsList();
             for (int i = 0, size = goodsList.size(); i < size; i++) {
                 RelativeLayout layout = (RelativeLayout) mInflater.inflate(R.layout.group_buying_goods_item, null);
@@ -391,35 +406,36 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                 TextView tvName = (TextView) layout.findViewById(R.id.name);
                 TextView tvCount = (TextView) layout.findViewById(R.id.count);
                 TextView tvPrice = (TextView) layout.findViewById(R.id.price);
-                tvName.setText(goodsList.get(i).getName());
-                tvCount.setText(goodsList.get(i).getQuantity() + "份");
+                tvName.setText("·"+goodsList.get(i).getName());
+                tvCount.setText("("+goodsList.get(i).getQuantity() + "份)");
                 tvPrice.setText("¥" + StringUtils.BigDecimal2Str(goodsList.get(i).getOriginPrice()));
                 goodsLayout.addView(layout, layoutParams);
-                if (i != size - 1) {
-                    View v = new View(mActivity);
-                    LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
-                    v.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
-                    goodsLayout.addView(v, p);
-                }
+//                if (i != size - 1) {
+//                    View v = new View(mActivity);
+//                    LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+//                    v.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
+//                    goodsLayout.addView(v, p);
+//                }
             }
         }
-
     }
 
     private void showCouponCode() {
-        couponCodeView.setVisibility(View.VISIBLE);
+        layoutCouponCode.setVisibility(View.VISIBLE);
         couponCodeLayout.setVisibility(View.VISIBLE);
         couponCodeLayout.removeAllViews();
         tvImmediateUse.setVisibility(View.GONE);
+        tvVoucherImmediateUse.setVisibility(View.GONE);
         for (int i = 0, size = order.getGroupPurchaseOrderCouponCodeList().size(); i < size; i++) {
             LinearLayout layout = (LinearLayout) mInflater.inflate(R.layout.group_buying_coupon_code_item, null);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             TextView tvName = (TextView) layout.findViewById(R.id.tv_quanma);
             TextView tvSpending = (TextView) layout.findViewById(R.id.tv_spending);
-            tvName.setText("券码：" + order.getGroupPurchaseOrderCouponCodeList().get(i).getCouponCode());
+            tvName.setText("·" + order.getGroupPurchaseOrderCouponCodeList().get(i).getCouponCode());
             if (order.getGroupPurchaseOrderCouponCodeList().get(i).getStatus() == 0 && order.getQuantity() > 0) {
                 tvSpending.setText("未消费");
                 tvImmediateUse.setVisibility(View.VISIBLE);
+                tvVoucherImmediateUse.setVisibility(View.VISIBLE);
             } else if (order.getGroupPurchaseOrderCouponCodeList().get(i).getStatus() == 1) {
                 tvSpending.setText("已使用");
             } else {
@@ -479,7 +495,7 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         }, Object.class);
     }
 
-
+    //退款 反馈
     private void showPopupWindow(View v, boolean canRefund) {
         View view = LayoutInflater.from(this).inflate(R.layout.group_buying_more, null);
         TextView tvFeedBack = (TextView) view.findViewById(group_buying_feedback);
@@ -547,9 +563,6 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-            case tv_more:
-                showPopupWindow(v, checkCancel());
-                break;
             case refund_outside:
                 dismissRefundWindow();
                 break;
@@ -573,11 +586,13 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             case img_phone:
                 showPhoneWindow();
                 break;
-            case layout_group_buying_details:
+            case layout_group_buying_voucher_details:
+            case layout_group_buying_groupon_details:
                 Intent intent = new Intent(mActivity, GroupBuyingQuanOrTuanDetailActivity.class);
                 intent.putExtra("couponId", order.getGroupPurchaseCouponId());
                 startActivity(intent);
                 break;
+            case tv_voucher_immediate_use:
             case tv_immediate_use:
                 GroupBuyingUseActivity.toGroupBuyingUseActivity(mActivity, JSONArray.toJSONString(order.getGroupPurchaseOrderCouponCodeList()), order.getId(), JSONArray.toJSONString(order.getGroupPurchaseOrderCouponGoodsList()), order.getGroupPurchaseMerchantName(), order.getRefreshTime(), REFRESH);
                 break;

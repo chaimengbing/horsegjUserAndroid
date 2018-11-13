@@ -78,8 +78,8 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
         }
         tvSold.setText("已售"+bean.getBuyCount());
-        tvPayBill.setBackgroundResource(R.drawable.buy_bg);
-        tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.title_bar_bg));
+        tvPayBill.setBackgroundResource(R.drawable.bg_login_orange_button_2);
+        tvPayBill.setTextColor(mActivity.getResources().getColor(R.color.white));
         tvPayBill.setEnabled(true);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
@@ -107,7 +107,7 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
                 }
                 Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
                 intent2.putExtra("ticketName",bean.getGroupPurchaseName());
-                intent2.putExtra("ticketPrice",bean.getPrice().doubleValue());
+                intent2.putExtra("ticketPrice",StringUtils.BigDecimal2Str(bean.getPrice()));
                 intent2.putExtra("type",bean.getType());
                 intent2.putExtra("bespeak",bean.getIsBespeak());
                 intent2.putExtra("agentId",bean.getAgentId());

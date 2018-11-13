@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.project.mgjandroid.ui.activity.groupbuying.SearchGroupActivity">
+
+    <RelativeLayout
+        android:id="@+id/login_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x10">
+
+        <ImageView
+            android:id="@+id/login_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back_group" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_marginTop="@dimen/x8"
+            android:layout_marginRight="@dimen/x10"
+            android:layout_marginBottom="@dimen/x8"
+            android:layout_toLeftOf="@id/search_textview"
+            android:layout_toRightOf="@id/login_back"
+            android:background="@drawable/search_group_bg">
+
+            <ImageView
+                android:id="@+id/target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/x7"
+                android:src="@drawable/icon_search_group" />
+
+            <EditText
+                android:id="@+id/search_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/target"
+                android:background="@null"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="@string/search_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColorHint="@color/color_c"
+                android:textSize="@dimen/mine_list_text_size" />
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x5"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_delete"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/search_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/search"
+            android:textColor="@color/title_bar_bg"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/empty_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_search_data"
+            android:textColor="@color/color_9"
+            android:visibility="gone">
+
+        </TextView>
+
+        <com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView
+            android:id="@+id/search_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null">
+
+        </com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView>
+
+        <ScrollView
+            android:id="@+id/search_source_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/x10"
+                android:paddingRight="@dimen/x10">
+
+
+                <LinearLayout
+                    android:id="@+id/recommend_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x30"
+                        android:drawableLeft="@drawable/icon_recommend_search"
+                        android:drawablePadding="@dimen/x5"
+                        android:text="推荐搜索"
+                        android:textColor="@color/color_3"
+                        android:textSize="20sp" />
+
+
+                    <com.jet.flowtaglayout.FlowTagLayout
+                        android:id="@+id/recommend_flow_tagLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x15"
+                        android:layout_marginBottom="@dimen/x15"
+                        app:item_background="@drawable/bg_search_target"
+                        app:item_bottomMargin="@dimen/x5"
+                        app:item_bottomPadding="@dimen/x5"
+                        app:item_leftMargin="@dimen/x10"
+                        app:item_leftPadding="@dimen/x15"
+                        app:item_rightMargin="@dimen/x10"
+                        app:item_rightPadding="@dimen/x15"
+                        app:item_textColor="@color/color_3"
+                        app:item_topMargin="@dimen/x5"
+                        app:item_topPadding="@dimen/x5" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/history_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x30"
+                        android:drawablePadding="@dimen/x5"
+                        android:text="历史搜索"
+                        android:textColor="@color/color_9"
+                        android:textSize="16sp" />
+
+                    <com.jet.flowtaglayout.FlowTagLayout
+                        android:id="@+id/history_flow_tagLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x15"
+                        android:layout_marginBottom="@dimen/x15"
+                        app:item_background="@drawable/bg_search_target"
+                        app:item_bottomMargin="@dimen/x5"
+                        app:item_bottomPadding="@dimen/x5"
+                        app:item_leftMargin="@dimen/x10"
+                        app:item_leftPadding="@dimen/x15"
+                        app:item_rightMargin="@dimen/x10"
+                        app:item_rightPadding="@dimen/x15"
+                        app:item_textColor="@color/color_3"
+                        app:item_topMargin="@dimen/x5"
+                        app:item_topPadding="@dimen/x5" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/clear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x110"
+                    android:gravity="center_horizontal"
+                    android:text="清空历史记录"
+                    android:textColor="@color/color_6"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+
+        <LinearLayout
+            android:id="@+id/home_fragment_no_net"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/home_fragment_img_nonet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x90"
+                android:src="@drawable/has_no_net" />
+
+            <TextView
+                android:id="@+id/home_fragment_msg_nonet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/x18"
+                android:text="@string/net_abnormal"
+                android:textColor="#ada9a6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/home_fragment_reload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x98"
+                android:layout_marginTop="@dimen/x40"
+                android:layout_marginRight="@dimen/x98"
+                android:background="@drawable/shap_corner_red_bg"
+                android:gravity="center"
+                android:padding="@dimen/x12"
+                android:text="@string/reload"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

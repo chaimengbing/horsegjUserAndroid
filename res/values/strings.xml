@@ -39,6 +39,7 @@
     <string name="collect">收藏</string>
     <string name="add_more_tips_text">显示下%1$d条</string>
     <string name="no_data">未获取到信息</string>
+    <string name="no_search_data">没有搜索到商家信息</string>
     <string name="step_over">跳 过</string>
 
     <string name="pull_to_refresh_pull_label">Pull to refresh…</string>
@@ -472,6 +473,25 @@
         <item>112.74.18.147</item>
         <item>112.74.18.147:7777</item>
         <item>192.168.199.153:8080</item>
+    </array>
+
+
+    <array name="badList">
+        <item>提前点送达</item>
+        <item>服务态度差</item>
+        <item>餐品翻撒</item>
+        <item>送餐慢</item>
+        <item>着装脏乱</item>
+        <item>沟通困难</item>
+    </array>
+
+    <array name="goodList">
+        <item>穿戴工服</item>
+        <item>风雨无阻</item>
+        <item>快速准时</item>
+        <item>仪容整洁</item>
+        <item>货品完好</item>
+        <item>礼貌热情</item>
     </array>
 
 </resources>

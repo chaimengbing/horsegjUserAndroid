@@ -1,8 +1,13 @@
 package com.project.mgjandroid.ui.adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,9 +81,9 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
             } else {
                 imgStatus.setVisibility(View.GONE);
             }
-            if (bean.getIsBrandMerchant() == 1){
+            if (bean.getIsBrandMerchant() == 1) {
                 brantImageView.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 brantImageView.setVisibility(View.GONE);
             }
             if (CheckUtils.isNoEmptyStr(bean.getLogo())) {
@@ -121,7 +126,20 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
             if (bean.getShipFee().compareTo(BigDecimal.ZERO) == 0) {
                 holder.setText(R.id.restaurant_list_item_ship_fee, "免配送费");
             } else {
-                holder.setText(R.id.restaurant_list_item_ship_fee, "配送费" + " ¥" + StringUtils.BigDecimal2Str(bean.getShipFee()));
+                TextView textView = holder.getView(R.id.restaurant_list_item_ship_fee);
+                SpannableStringBuilder infoValue = new SpannableStringBuilder();
+                if (bean.getMerchantAssumeAmt().compareTo(BigDecimal.ZERO) == 0) {
+                    infoValue.append("配送费 ¥" + StringUtils.BigDecimal2Str(bean.getShipFee()));
+                } else {
+                    infoValue.append("配送费 ¥" + StringUtils.BigDecimal2Str(bean.getShipFee().subtract(bean.getMerchantAssumeAmt())) + " ");
+                    String price = "¥" + StringUtils.BigDecimal2Str(bean.getShipFee());
+                    infoValue.append(price);
+                    StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+                    ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
+                    infoValue.setSpan(strikethroughSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    infoValue.setSpan(colorSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                }
+                textView.setText(infoValue);
             }
             holder.setText(R.id.search_list_item_tv_shipping_time, bean.getAvgDeliveryTime() + "分钟");
 //            LinearLayout layoutImgs = holder.getView(R.id.restaurant_list_item_layout_img);

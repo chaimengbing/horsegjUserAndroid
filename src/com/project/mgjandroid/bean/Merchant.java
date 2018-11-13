@@ -120,6 +120,12 @@ public class Merchant extends Entity {
      * 配送费
      */
     private BigDecimal shipFee = BigDecimal.ZERO;
+    /** 配送费优惠金额 */
+    private BigDecimal shippingPreferentialFee = BigDecimal.ZERO;
+
+    /**商家承担配送费金额*/
+    private BigDecimal merchantAssumeAmt = BigDecimal.ZERO;
+
     /**
      * 新配送费
      */
@@ -148,6 +154,11 @@ public class Merchant extends Entity {
      * 平均分
      */
     private BigDecimal averageScore;
+    /** 商家包装分数 */
+    private BigDecimal packagingScore = new BigDecimal(5.0);
+    /** 口味分数 */
+    private BigDecimal tasteScore = new BigDecimal(5.0);
+
     private int merchantCommentNum;
     private BigDecimal merchantScore;
     private int shipCommentNum;
@@ -727,5 +738,37 @@ public class Merchant extends Entity {
 
     public void setVisualRestaurantList(List<VisibleLive> visualRestaurantList) {
         this.visualRestaurantList = visualRestaurantList;
+    }
+
+    public BigDecimal getPackagingScore() {
+        return packagingScore;
+    }
+
+    public void setPackagingScore(BigDecimal packagingScore) {
+        this.packagingScore = packagingScore;
+    }
+
+    public BigDecimal getTasteScore() {
+        return tasteScore;
+    }
+
+    public void setTasteScore(BigDecimal tasteScore) {
+        this.tasteScore = tasteScore;
+    }
+
+    public BigDecimal getShippingPreferentialFee() {
+        return shippingPreferentialFee;
+    }
+
+    public void setShippingPreferentialFee(BigDecimal shippingPreferentialFee) {
+        this.shippingPreferentialFee = shippingPreferentialFee;
+    }
+
+    public BigDecimal getMerchantAssumeAmt() {
+        return merchantAssumeAmt;
+    }
+
+    public void setMerchantAssumeAmt(BigDecimal merchantAssumeAmt) {
+        this.merchantAssumeAmt = merchantAssumeAmt;
     }
 }

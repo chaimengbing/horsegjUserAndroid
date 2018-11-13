@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -43,7 +44,7 @@ import java.util.Map;
 
 public class DiscountBuyTicketActivity extends BaseActivity {
 
-    @InjectView(R.id.common_back1)
+    @InjectView(R.id.common_back)
     private ImageView tvBack;
     @InjectView(R.id.common_title)
     private TextView tvTitle;
@@ -53,6 +54,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private EditText etEvalution;
     @InjectView(R.id.img_unselected)
     private ImageView imgSelected;
+    @InjectView(R.id.cb_unselected)
+    private CheckBox cbSelected;
     @InjectView(R.id.tv_selected)
     private TextView tvSelected;
     @InjectView(R.id.tv_discount)
@@ -71,6 +74,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private TextView tvAmounActuallyPaid;
     @InjectView(R.id.rl_discount)
     private RelativeLayout rlDiscount;
+    @InjectView(R.id.rllayout)
+    private RelativeLayout rlLayout;
 
 
     private String titleName;
@@ -108,6 +113,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         rlVoucher.setOnClickListener(this);
         tvConfirm.setOnClickListener(this);
         imgSelected.setOnClickListener(this);
+        cbSelected.setOnClickListener(this);
         if(CheckUtils.isEmptyStr(merchant.getDiscountRatio())){
             rlDiscount.setVisibility(View.GONE);
         }else {
@@ -179,7 +185,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 isCanSelect= false;
                 isVoucherChecked= false;
                 tvSelected.setText("");
-                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
+                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected_new));
                 isDiscount = 0;
                 voucherPrice = "0";
                 if(previewModelValue!=null){
@@ -226,8 +232,14 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.common_back1:
+            case R.id.common_back:
                 back();
+            case R.id.cb_unselected:
+                if(cbSelected.isChecked()){
+                    rlLayout.setVisibility(View.VISIBLE);
+                }else {
+                    rlLayout.setVisibility(View.GONE);
+                }
                 break;
             case R.id.tv_explain:
                 startActivity(new Intent(mActivity, GroupBuyingPrivilegeActivity.class));
@@ -432,6 +444,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     intent.putExtra("orderId", submitOrderModel.getValue().getId());
                     intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
                     intent.putExtra("merchantId", submitOrderModel.getValue().getMerchantId());
+                    intent.putExtra("merchantName", merchant.getName());
                     intent.putExtra("isGroupPurchaseBuy", true);
                     startActivity(intent);
                     finish();
@@ -523,11 +536,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     showPreviewOrder(previewModelValue);
                     if(isCanSelect){
                         tvSelected.setText("-¥"+StringUtils.BigDecimal2Str(previewModelValue.getDiscountAmt()));
-                        imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
+                        imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected_new));
 //                        isCanSelect = false;
                     }else {
                         tvSelected.setText("");
-                        imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
+                        imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected_new));
 //                        isCanSelect = true;
                     }
                 }

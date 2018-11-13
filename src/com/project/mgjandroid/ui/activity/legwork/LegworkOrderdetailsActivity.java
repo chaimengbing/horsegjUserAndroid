@@ -52,8 +52,10 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.OrderRefundInfoActivity;
+import com.project.mgjandroid.ui.activity.RiderActivity;
 import com.project.mgjandroid.ui.adapter.LegworkStatusAdapter;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
+import com.project.mgjandroid.ui.view.RatingBar;
 import com.project.mgjandroid.ui.view.RoundImageView;
 import com.project.mgjandroid.ui.view.TimeView;
 import com.project.mgjandroid.utils.CheckUtils;
@@ -124,6 +126,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private ImageView expandImageView;
     @InjectView(R.id.tv_rider_name)
     private TextView tvRiderName;
+    @InjectView(R.id.rider_ratingbar)
+    private RatingBar ratingBar;
     @InjectView(R.id.img_phone)
     private ImageView imgPhone;
     @InjectView(R.id.tv_time)
@@ -596,7 +600,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 deliveryStateTextView.setTextSize(10);
                 deliveryStateTv.setTextSize(8);
                 distanceTextView.setTextSize(8);
-            }else {
+            } else {
                 paramsLayout.topMargin = (int) getResources().getDimension(R.dimen.x8);
                 linearLayout.setLayoutParams(paramsLayout);
             }
@@ -763,12 +767,18 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                         layoutNoPayment.setVisibility(View.GONE);
                         if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
+                            tvRefundDesc.setText("退款详情");
                             if (valueBean.getServePrice().equals("0.0") || valueBean.getServePrice().equals("0.00") || valueBean.getServePrice().equals("0")) {
                                 refundLayout.setVisibility(View.GONE);
                             } else {
                                 refundLayout.setVisibility(View.VISIBLE);
                             }
                         }
+//                        if (valueBean.getPaymentState() == 0){
+//                            //未支付
+//                            refundLayout.setVisibility(View.VISIBLE);
+//                            tvRefundDesc.setText("再来一单");
+//                        }
                         tvLegworkStatus.setText("已取消");
                         break;
                     case 1:
@@ -828,15 +838,21 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                     case -1:
                         layoutComplete.setVisibility(View.GONE);
                         layoutNoPayment.setVisibility(View.GONE);
-                        tvLegworkStatus.setText("已取消");
                         if (valueBean.getPaymentState() == 1 && DateUtils.compareTimeBefore(valueBean.getCreateTime())) {
                             //已经支付
+                            tvRefundDesc.setText("退款详情");
                             if (valueBean.getServePrice().equals("0.0") || valueBean.getServePrice().equals("0.00") || valueBean.getServePrice().equals("0")) {
                                 refundLayout.setVisibility(View.GONE);
                             } else {
                                 refundLayout.setVisibility(View.VISIBLE);
                             }
                         }
+//                        if (valueBean.getPaymentState() == 0){
+//                            //未支付
+//                            refundLayout.setVisibility(View.VISIBLE);
+//                            tvRefundDesc.setText("再来一单");
+//                        }
+                        tvLegworkStatus.setText("已取消");
                         break;
                     case 1:
                         layoutComplete.setVisibility(View.GONE);
@@ -902,12 +918,17 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                     layoutGoodPrice.setVisibility(View.GONE);
                 }
             }
-            if (valueBean.getStatus() == 4 || valueBean.getStatus() == 5) {
-                tvRiderName.setText(valueBean.getDeliveryTask().getDeliveryman().getName());
-                if (CheckUtils.isNoEmptyStr(valueBean.getDeliveryTask().getDeliveryman().getHeaderImg())) {
-                    ImageUtils.loadBitmap(mActivity, valueBean.getDeliveryTask().getDeliveryman().getHeaderImg(), imgRider, R.drawable.horsegj_default, Constants.getEndThumbnail(40, 40));
-                } else {
-                    imgRider.setImageDrawable(getResources().getDrawable(R.drawable.icon_default_avator));
+            LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean deliveryTaskBean = valueBean.getDeliveryTask();
+            if (deliveryTaskBean != null) {
+                LegworkOrderDetailsModel.ValueBean.DeliveryTaskBean.DeliverymanBean deliverymanBean = deliveryTaskBean.getDeliveryman();
+                if (deliverymanBean != null) {
+                    tvRiderName.setText(deliverymanBean.getName());
+                    if (CheckUtils.isNoEmptyStr(deliverymanBean.getHeaderImg())) {
+                        ImageUtils.loadBitmap(mActivity, deliverymanBean.getHeaderImg(), imgRider, R.drawable.horsegj_default, Constants.getEndThumbnail(40, 40));
+                    } else {
+                        imgRider.setImageDrawable(getResources().getDrawable(R.drawable.icon_default_avator));
+                    }
+                    ratingBar.setStar(deliverymanBean.getDeliverymanScore().floatValue());
                 }
             }
             tvGive.setText(valueBean.getUserAddress());
@@ -1124,6 +1145,12 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 }
                 break;
             case R.id.delivery_man_info_layout:
+                if (valueBean != null) {
+                    Intent mIntent = new Intent(mActivity, RiderActivity.class);
+                    mIntent.putExtra("deliverymanId", valueBean.getDeliveryTask().getDeliverymanId());
+                    startActivity(mIntent);
+                }
+                break;
             case R.id.address_layout:
             case R.id.details:
                 break;
@@ -1200,10 +1227,14 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 dialog.show();
                 break;
             case R.id.tv_refund_desc:
-                //退款详情
-                Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
-                intent2.putExtra("orderId", valueBean.getId());
-                startActivity(intent2);
+                if (valueBean.getPaymentState() == 0){
+
+                }else {
+                    //退款详情
+                    Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
+                    intent2.putExtra("orderId", valueBean.getId());
+                    startActivity(intent2);
+                }
                 break;
             case R.id.img_send_redbag:
                 sendRedBag.setVisibility(View.VISIBLE);
@@ -1287,7 +1318,6 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         int height = getWindow().getWindowManager().getDefaultDisplay().getHeight();
         lp.height = height / 5 * 3;
         lp.width = getWindow().getWindowManager().getDefaultDisplay().getWidth();
-        lp.alpha = 0.8f;
         dialogWindow.setAttributes(lp);
     }
 
