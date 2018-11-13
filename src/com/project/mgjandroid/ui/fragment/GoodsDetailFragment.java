@@ -25,6 +25,7 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.EvaluateListActivity;
 import com.project.mgjandroid.ui.adapter.GoodsDetailListAdapter;
 import com.project.mgjandroid.ui.view.HeaderViewPagerFragment;
+import com.project.mgjandroid.ui.view.NestRadioGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GoodsDetailFragment extends HeaderViewPagerFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class GoodsDetailFragment extends HeaderViewPagerFragment implements View.OnClickListener, NestRadioGroup.OnCheckedChangeListener {
 
 
     private ListView mListView;
@@ -72,7 +73,7 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
         RelativeLayout layoutEva = (RelativeLayout)headerView.findViewById(R.id.evaluate_layout);
         layoutEva.setOnClickListener(this);
 
-        RadioGroup rgLabel = (RadioGroup) headerView.findViewById(R.id.select_bar);
+        NestRadioGroup rgLabel = (NestRadioGroup) headerView.findViewById(R.id.select_bar);
         rgLabel.setOnCheckedChangeListener(this);
         tvAll = (RadioButton) headerView.findViewById(R.id.evaluate_fragment_all);
         tvAll.setChecked(true);
@@ -167,8 +168,16 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
         }
     }
 
+
+    private void changeTextColor(RadioButton tvAll, RadioButton tvSatisfy, RadioButton tvYawp, RadioButton tvHavePicturess) {
+        tvAll.setTextColor(getResources().getColor(R.color.white));
+        tvSatisfy.setTextColor(Color.parseColor("#ffdc550f"));
+        tvYawp.setTextColor(Color.parseColor("#ffdc550f"));
+        tvHavePicturess.setTextColor(Color.parseColor("#ffdc550f"));
+    }
+
     @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+    public void onCheckedChanged(NestRadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.evaluate_fragment_all:
                 queryType = 0;
@@ -210,12 +219,5 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
                 }
                 break;
         }
-    }
-
-    private void changeTextColor(RadioButton tvAll, RadioButton tvSatisfy, RadioButton tvYawp, RadioButton tvHavePicturess) {
-        tvAll.setTextColor(getResources().getColor(R.color.white));
-        tvSatisfy.setTextColor(Color.parseColor("#ffdc550f"));
-        tvYawp.setTextColor(Color.parseColor("#ffdc550f"));
-        tvHavePicturess.setTextColor(Color.parseColor("#ffdc550f"));
     }
 }

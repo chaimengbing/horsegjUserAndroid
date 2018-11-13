@@ -64,10 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_content"
             android:background="@color/gray_white"
-            android:paddingBottom="@dimen/x10"
             android:paddingLeft="@dimen/x15"
-            android:paddingRight="@dimen/x15"
             android:paddingTop="@dimen/x10"
+            android:paddingRight="@dimen/x15"
+            android:paddingBottom="@dimen/x10"
             android:visibility="gone">
 
             <TextView
@@ -191,9 +191,9 @@
             android:id="@+id/goods_detail_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/x10"
             android:paddingLeft="@dimen/x15"
             android:paddingTop="@dimen/x15"
+            android:paddingBottom="@dimen/x10"
             android:text="@string/gool_detail_header_good_summary"
             android:textColor="@color/black_1"
             android:textSize="14sp" />
@@ -207,9 +207,9 @@
             android:id="@+id/goods_detail_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/x20"
             android:paddingLeft="@dimen/x15"
             android:paddingTop="@dimen/x10"
+            android:paddingBottom="@dimen/x20"
             android:text="@string/gool_detail_header_good_summary_content"
             android:textColor="@color/black_1"
             android:textSize="12sp" />
@@ -235,9 +235,9 @@
                 android:id="@+id/goods_detail_evaluate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/x10"
                 android:paddingLeft="@dimen/x15"
                 android:paddingTop="@dimen/x15"
+                android:paddingBottom="@dimen/x10"
                 android:text="@string/gool_detail_header_good_evaluate"
                 android:textColor="@color/black_1"
                 android:textSize="14sp" />
@@ -248,11 +248,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/x15"
-                android:drawablePadding="@dimen/x5"
                 android:drawableRight="@drawable/right_arrow_gray"
-                android:paddingBottom="@dimen/x10"
+                android:drawablePadding="@dimen/x5"
                 android:paddingLeft="@dimen/x15"
                 android:paddingTop="@dimen/x15"
+                android:paddingBottom="@dimen/x10"
                 android:textColor="@color/color_3"
                 android:textSize="12sp" />
 
@@ -264,7 +264,7 @@
             android:layout_height="1px"
             android:background="@color/gray_bg" />
 
-        <RadioGroup
+        <com.project.mgjandroid.ui.view.NestRadioGroup
             android:id="@+id/select_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -285,18 +285,26 @@
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
-            <RadioButton
-                android:id="@+id/evaluate_fragment_satisfy"
+            <RelativeLayout
+                android:id="@+id/test"
                 android:layout_width="@dimen/x75"
-                android:layout_height="@dimen/x28"
-                android:layout_marginLeft="@dimen/x10"
+                android:layout_height="wrap_content"
                 android:background="@drawable/bg_orange_selector_gray"
-                android:button="@null"
-                android:gravity="center"
-                android:padding="@dimen/x3"
-                android:text="好评"
-                android:textColor="#B97F27"
-                android:textSize="12sp" />
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/evaluate_fragment_satisfy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x28"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/ic_label_praise_unchecked"
+                    android:gravity="center"
+                    android:padding="@dimen/x3"
+                    android:textColor="#B97F27"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
 
             <RadioButton
                 android:id="@+id/evaluate_fragment_yawp"
@@ -307,7 +315,6 @@
                 android:button="@null"
                 android:gravity="center"
                 android:padding="@dimen/x3"
-                android:text="差评"
                 android:textColor="#BFBFBF"
                 android:textSize="12sp" />
 
@@ -324,15 +331,14 @@
                 android:textColor="#B97F27"
                 android:textSize="12sp" />
 
-        </RadioGroup>
+        </com.project.mgjandroid.ui.view.NestRadioGroup>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingBottom="@dimen/x15"
             android:paddingRight="@dimen/x15"
-            >
+            android:paddingBottom="@dimen/x15">
 
             <TextView
                 android:id="@+id/evaluate_fragment_show_un_empty"
