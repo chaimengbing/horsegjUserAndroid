@@ -323,21 +323,12 @@ public class NewEvaluateActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                tvLength.setText(editable.toString().length()+"/800字");
+                tvLength.setText(editable.toString().length() + "/800字");
             }
         });
 
         GoodsListAdapter goodsAdapter = new GoodsListAdapter(R.layout.evaluate_goods_list_item, mActivity);
         noScrollListView.setAdapter(goodsAdapter);
-        noScrollListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RadioButton rbTrample = (RadioButton) view.findViewById(R.id.rb_trample);
-                RadioButton rbPraise = (RadioButton) view.findViewById(R.id.rb_praise);
-                rbTrample.setChecked(!rbTrample.isChecked());
-                rbPraise.setChecked(!rbPraise.isChecked());
-            }
-        });
         goodsAdapter.setData(orderItems);
     }
 

@@ -845,13 +845,12 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                             if (isSucceed) {
                                 SubmitOrderModel submitOrderModel = (SubmitOrderModel) obj;
                                 Intent intentEvaluate = new Intent(mActivity, NewEvaluateActivity.class);
-                                Intent intent = new Intent(mActivity, EvaluateActivity.class);
                                 if (submitOrderModel.getValue().getDeliveryTask() != null) {
                                     intentEvaluate.putExtra("hasDriver", true);
                                 } else {
                                     intentEvaluate.putExtra("hasDriver", false);
                                 }
-                                intentEvaluate.putExtra("value", submitOrderModel.getValue());
+                                intentEvaluate.putExtra("submitOrderEntity", submitOrderModel.getValue());
                                 intentEvaluate.putExtra("orderId", valueEntityEvaluate.getId());
                                 intentEvaluate.putExtra("agentId", valueEntityEvaluate.getAgentId());
                                 intentEvaluate.putExtra("valueEntity", valueEntityEvaluate);
@@ -881,6 +880,7 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
                     Intent intent = new Intent(mActivity, LegworkEvaluateActivity.class);
                     intent.putExtra("orderId", valueEntityEvaluate.getId());
                     intent.putExtra("agentId", "" + valueEntityEvaluate.getAgentId());
+                    intent.putExtra("value", valueEntityEvaluate);
                     startActivityForResult(intent, REFRESH);
                 }
                 break;
@@ -1468,4 +1468,5 @@ public class OrderListFragment extends BaseFragment implements OnClickListener, 
             mActivity.finish();
         }
     }
+
 }

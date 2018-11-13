@@ -97,7 +97,6 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intentDetail = new Intent(LegworkOrderActivity.this, LegworkOrderdetailsActivity.class);
-//                Intent intentDetail = new Intent(LegworkOrderActivity.this, LegWorkMapDetailActivity.class);
                 List<NewOrderFragmentModel.ValueEntity> mlistOrg = adapter.getData();
                 intentDetail.putExtra("orderId", mlistOrg.get(i - 1).getLegWorkOrder().getId());
                 startActivityForResult(intentDetail, 2000);
@@ -271,6 +270,7 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
                 Intent mIntent = new Intent(mActivity, LegworkEvaluateActivity.class);
                 mIntent.putExtra("orderId", mValueEntity2.getId());
                 mIntent.putExtra("agentId", "" + mValueEntity2.getAgentId());
+                mIntent.putExtra("value", mValueEntity2);
                 startActivityForResult(mIntent, 2000);
                 break;
             case R.id.order_state_refund_to_balance:
@@ -286,4 +286,5 @@ public class LegworkOrderActivity extends BaseActivity implements View.OnClickLi
 
         }
     }
+
 }
