@@ -10,14 +10,13 @@
         android:layout_height="1px"
         android:background="@color/gray_bg" />
 
-    <RadioGroup
+    <com.project.mgjandroid.ui.view.NestRadioGroup
         android:id="@+id/select_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:padding="@dimen/x15"
-        >
+        android:padding="@dimen/x15">
 
         <RadioButton
             android:id="@+id/evaluate_fragment_all"
@@ -32,31 +31,49 @@
             android:textColor="@color/white"
             android:textSize="12sp" />
 
-        <RadioButton
-            android:id="@+id/evaluate_fragment_satisfy"
+        <RelativeLayout
+            android:id="@+id/layout_good"
             android:layout_width="@dimen/x75"
-            android:layout_height="@dimen/x28"
-            android:layout_marginLeft="@dimen/x10"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_orange_selector_gray"
-            android:button="@null"
-            android:gravity="center"
-            android:padding="@dimen/x3"
-            android:drawableLeft="@drawable/ic_label_praise_unchecked"
-            android:textColor="#B97F27"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:id="@+id/evaluate_fragment_yawp"
-            android:layout_width="@dimen/x75"
-            android:layout_height="@dimen/x28"
             android:layout_marginLeft="@dimen/x10"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/evaluate_fragment_satisfy"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x28"
+                android:button="@null"
+                android:drawableLeft="@drawable/ic_label_praise_unchecked"
+                android:gravity="center"
+                android:padding="@dimen/x3"
+                android:textColor="#B97F27"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_bad"
+            android:layout_width="@dimen/x75"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_selector_gray"
-            android:button="@null"
-            android:gravity="center"
-            android:padding="@dimen/x3"
-            android:drawableLeft="@drawable/ic_trample_unchecked"
-            android:textColor="#BFBFBF"
-            android:textSize="12sp" />
+            android:layout_marginLeft="@dimen/x10"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/evaluate_fragment_yawp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x28"
+                android:drawableLeft="@drawable/ic_trample_unchecked"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/x3"
+                android:textColor="#BFBFBF"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+
 
         <RadioButton
             android:id="@+id/evaluate_fragment_have_pictures"
@@ -71,7 +88,7 @@
             android:textColor="#B97F27"
             android:textSize="12sp" />
 
-    </RadioGroup>
+    </com.project.mgjandroid.ui.view.NestRadioGroup>
 
     <RelativeLayout
         android:layout_width="match_parent"

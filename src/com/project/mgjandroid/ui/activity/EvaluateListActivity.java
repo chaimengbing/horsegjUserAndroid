@@ -1,6 +1,7 @@
 package com.project.mgjandroid.ui.activity;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
@@ -20,6 +22,7 @@ import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.CommodityDetailListAdapter;
 import com.project.mgjandroid.ui.adapter.GoodsDetailListAdapter;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
+import com.project.mgjandroid.ui.view.NestRadioGroup;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
 import com.project.mgjandroid.utils.ToastUtils;
@@ -32,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EvaluateListActivity extends BaseActivity implements View.OnClickListener,RadioGroup.OnCheckedChangeListener {
+public class EvaluateListActivity extends BaseActivity implements View.OnClickListener,NestRadioGroup.OnCheckedChangeListener {
     @InjectView(R.id.commodity_act_back)
     private ImageView ivBack;
     @InjectView(R.id.commodity_no_net)
@@ -61,6 +64,13 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
     private TextView tvUnEmpty;
     private ArrayList<NewGoodsEvaluateModel.ValueBean.ListBean> data = new ArrayList<>();
     private GoodsDetailListAdapter mListAdapter;
+    private RelativeLayout layoutGood;
+    private RelativeLayout layoutBad;
+
+    private Drawable drawable;
+    private Drawable drawable1;
+    private Drawable drawable2;
+    private Drawable drawable3;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -108,8 +118,10 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
         listHeaderView = (LinearLayout) getLayoutInflater().inflate(R.layout.eva_header_view, listView, false);
         listHeaderView.setLayoutParams(layoutParams);
         listView.getRefreshableView().addHeaderView(listHeaderView);
-        RadioGroup rgLabel = (RadioGroup) listHeaderView.findViewById(R.id.select_bar);
+        NestRadioGroup rgLabel = (NestRadioGroup) listHeaderView.findViewById(R.id.select_bar);
         rgLabel.setOnCheckedChangeListener(this);
+        layoutGood = (RelativeLayout) listHeaderView.findViewById(R.id.layout_good);
+        layoutBad = (RelativeLayout) listHeaderView.findViewById(R.id.layout_bad);
         tvAll = (RadioButton) listHeaderView.findViewById(R.id.evaluate_fragment_all);
         tvAll.setChecked(true);
         tvSatisfy = (RadioButton) listHeaderView.findViewById(R.id.evaluate_fragment_satisfy);
@@ -121,6 +133,16 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
         tvUnEmpty = (TextView) listHeaderView.findViewById(R.id.evaluate_fragment_show_un_empty);
         tvUnEmpty.setOnClickListener(this);
         tvUnEmpty.setSelected(true);
+
+        drawable = getResources().getDrawable(R.drawable.ic_label_praise_unchecked);
+        drawable.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getMinimumHeight());
+        drawable1 = getResources().getDrawable(R.drawable.ic_trample_unchecked);
+        drawable1.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getMinimumHeight());
+        drawable2 = getResources().getDrawable(R.drawable.ic_white_praise_unchecked);
+        drawable2.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getMinimumHeight());
+        drawable3 = getResources().getDrawable(R.drawable.ic_white_trample_unchecked);
+        drawable3.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getMinimumHeight());
+
 
     }
 
@@ -221,8 +243,8 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
     private void setRadioGroup(NewGoodsEvaluateModel model) {
         if (model != null) {
             tvAll.setText("全部 " + model.getValue().getAllCount());
-            tvSatisfy.setText("好评 " + model.getValue().getGoodCount());
-            tvYawp.setText("差评 " + model.getValue().getPoorCount());
+            tvSatisfy.setText(" " + model.getValue().getGoodCount());
+            tvYawp.setText(" " + model.getValue().getPoorCount());
             tvHavePicturess.setText("有图 " + model.getValue().getImgCount());
         }
     }
@@ -232,51 +254,6 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
         getGoodsEvaluate(false);
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-        switch (checkedId) {
-            case R.id.evaluate_fragment_all:
-                queryType = 0;
-                changeTextColor(tvAll, tvSatisfy, tvYawp, tvHavePicturess);
-                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
-                if (!tvAll.isSelected()) {
-                    currentSection = 0;
-                    data.clear();
-                    getGoodsEvaluate(false);
-                }
-                break;
-            case R.id.evaluate_fragment_satisfy:
-                queryType = 1;
-                changeTextColor(tvSatisfy, tvAll, tvYawp, tvHavePicturess);
-                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
-                if (!tvSatisfy.isSelected()) {
-                    currentSection = 0;
-                    data.clear();
-                    getGoodsEvaluate(false);
-                }
-                break;
-            case R.id.evaluate_fragment_yawp:
-                queryType = 2;
-                changeTextColor(tvYawp, tvSatisfy, tvAll, tvHavePicturess);
-                if (!tvYawp.isSelected()) {
-                    currentSection = 0;
-                    data.clear();
-                    getGoodsEvaluate(false);
-                }
-                break;
-            case R.id.evaluate_fragment_have_pictures:
-                queryType = 3;
-                changeTextColor(tvHavePicturess, tvSatisfy, tvYawp, tvAll);
-                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
-                if (!tvHavePicturess.isSelected()) {
-                    currentSection = 0;
-                    data.clear();
-                    getGoodsEvaluate(false);
-                }
-                break;
-        }
-    }
-
     private void changeTextColor(RadioButton tvAll, RadioButton tvSatisfy, RadioButton tvYawp, RadioButton tvHavePicturess) {
         tvAll.setTextColor(getResources().getColor(R.color.white));
         tvSatisfy.setTextColor(Color.parseColor("#ffdc550f"));
@@ -284,4 +261,58 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
         tvHavePicturess.setTextColor(Color.parseColor("#ffdc550f"));
     }
 
+    @Override
+    public void onCheckedChanged(NestRadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.evaluate_fragment_all:
+                queryType = 0;
+                changeTextColor(tvAll, tvSatisfy, tvYawp, tvHavePicturess);
+                layoutGood.setSelected(false);
+                layoutBad.setSelected(false);
+                tvSatisfy.setCompoundDrawables(drawable,null,null,null);
+                tvYawp.setCompoundDrawables(drawable1,null,null,null);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                currentSection = 0;
+                data.clear();
+                getGoodsEvaluate(false);
+                break;
+
+            case R.id.evaluate_fragment_satisfy:
+                layoutGood.setSelected(!layoutGood.isSelected());
+                layoutBad.setSelected(false);
+                queryType = 1;
+                changeTextColor(tvSatisfy, tvAll, tvYawp, tvHavePicturess);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                tvSatisfy.setCompoundDrawables(drawable2,null,null,null);
+                tvYawp.setCompoundDrawables(drawable1,null,null,null);
+                currentSection = 0;
+                data.clear();
+                getGoodsEvaluate(false);
+                break;
+
+            case R.id.evaluate_fragment_yawp:
+                queryType = 2;
+                changeTextColor(tvYawp, tvSatisfy, tvAll, tvHavePicturess);
+                layoutGood.setSelected(false);
+                layoutBad.setSelected(!layoutBad.isSelected());
+                tvSatisfy.setCompoundDrawables(drawable,null,null,null);
+                tvYawp.setCompoundDrawables(drawable3,null,null,null);
+                currentSection = 0;
+                data.clear();
+                getGoodsEvaluate(false);
+                break;
+            case R.id.evaluate_fragment_have_pictures:
+                queryType = 3;
+                changeTextColor(tvHavePicturess, tvSatisfy, tvYawp, tvAll);
+                layoutGood.setSelected(false);
+                layoutBad.setSelected(false);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                tvSatisfy.setCompoundDrawables(drawable,null,null,null);
+                tvYawp.setCompoundDrawables(drawable1,null,null,null);
+                currentSection = 0;
+                data.clear();
+                getGoodsEvaluate(false);
+                break;
+        }
+    }
 }

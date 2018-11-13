@@ -3,6 +3,7 @@ package com.project.mgjandroid.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -53,6 +54,12 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
     private RadioButton tvYawp;
     private RadioButton tvHavePicturess;
     private TextView tvUnEmpty;
+    private RelativeLayout layoutGood;
+    private RelativeLayout layoutBad;
+    private Drawable drawable;
+    private Drawable drawable1;
+    private Drawable drawable2;
+    private Drawable drawable3;
 
     public GoodsDetailFragment() {
         // Required empty public constructor
@@ -70,13 +77,16 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
         TextView tvDes = (TextView) headerView.findViewById(R.id.goods_detail_content);
         TextView tvEva = (TextView) headerView.findViewById(R.id.goods_detail_evaluate);
         tvCount = (TextView) headerView.findViewById(R.id.goods_evalute_count);
-        RelativeLayout layoutEva = (RelativeLayout)headerView.findViewById(R.id.evaluate_layout);
+        RelativeLayout layoutEva = (RelativeLayout) headerView.findViewById(R.id.evaluate_layout);
         layoutEva.setOnClickListener(this);
 
         NestRadioGroup rgLabel = (NestRadioGroup) headerView.findViewById(R.id.select_bar);
         rgLabel.setOnCheckedChangeListener(this);
         tvAll = (RadioButton) headerView.findViewById(R.id.evaluate_fragment_all);
         tvAll.setChecked(true);
+        layoutGood = (RelativeLayout) headerView.findViewById(R.id.layout_good);
+        layoutBad = (RelativeLayout) headerView.findViewById(R.id.layout_bad);
+
         tvSatisfy = (RadioButton) headerView.findViewById(R.id.evaluate_fragment_satisfy);
         tvSatisfy.setTextColor(Color.parseColor("#ffdc550f"));
         tvYawp = (RadioButton) headerView.findViewById(R.id.evaluate_fragment_yawp);
@@ -89,6 +99,15 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
         mListView.addHeaderView(headerView);
         data = new ArrayList<>();
         mListView.setAdapter(mListAdapter);
+
+        drawable = getResources().getDrawable(R.drawable.ic_label_praise_unchecked);
+        drawable.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getMinimumHeight());
+        drawable1 = getResources().getDrawable(R.drawable.ic_trample_unchecked);
+        drawable1.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getMinimumHeight());
+        drawable2 = getResources().getDrawable(R.drawable.ic_white_praise_unchecked);
+        drawable2.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getMinimumHeight());
+        drawable3 = getResources().getDrawable(R.drawable.ic_white_trample_unchecked);
+        drawable3.setBounds(0,0, drawable.getIntrinsicWidth(), drawable.getMinimumHeight());
 
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey("goods")) {
@@ -128,7 +147,7 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
                     List<NewGoodsEvaluateModel.ValueBean.ListBean> list = goodsEvaluateModel.getValue().getList();
                     data.addAll(list);
                     mListAdapter.setData(data);
-                    tvCount.setText(goodsEvaluateModel.getValue().getAllCount()+"条评价");
+                    tvCount.setText(goodsEvaluateModel.getValue().getAllCount() + "条评价");
                     setRadioGroup(goodsEvaluateModel);
                 }
             }
@@ -138,8 +157,8 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
     private void setRadioGroup(NewGoodsEvaluateModel model) {
         if (model != null) {
             tvAll.setText("全部 " + model.getValue().getAllCount());
-            tvSatisfy.setText("好评 " + model.getValue().getGoodCount());
-            tvYawp.setText("差评 " + model.getValue().getPoorCount());
+            tvSatisfy.setText(" " + model.getValue().getGoodCount());
+            tvYawp.setText(" " + model.getValue().getPoorCount());
             tvHavePicturess.setText("有图 " + model.getValue().getImgCount());
         }
     }
@@ -159,7 +178,7 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
                 break;
             case R.id.evaluate_layout:
                 Intent intent = new Intent(getActivity(), EvaluateListActivity.class);
-                intent.putExtra("goodsId",mGoods.getId());
+                intent.putExtra("goodsId", mGoods.getId());
                 startActivity(intent);
                 break;
 
@@ -182,41 +201,51 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
             case R.id.evaluate_fragment_all:
                 queryType = 0;
                 changeTextColor(tvAll, tvSatisfy, tvYawp, tvHavePicturess);
+                layoutGood.setSelected(false);
+                layoutBad.setSelected(false);
+                tvSatisfy.setCompoundDrawables(drawable,null,null,null);
+                tvYawp.setCompoundDrawables(drawable1,null,null,null);
                 tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
-                if (!tvAll.isSelected()) {
-                    currentSection = 0;
-                    data.clear();
-                    getGoodsEvaluate();
-                }
+                currentSection = 0;
+                data.clear();
+                getGoodsEvaluate();
                 break;
+
             case R.id.evaluate_fragment_satisfy:
+                layoutGood.setSelected(!layoutGood.isSelected());
+                layoutBad.setSelected(false);
                 queryType = 1;
                 changeTextColor(tvSatisfy, tvAll, tvYawp, tvHavePicturess);
                 tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
-                if (!tvSatisfy.isSelected()) {
-                    currentSection = 0;
-                    data.clear();
-                    getGoodsEvaluate();
-                }
+                tvSatisfy.setCompoundDrawables(drawable2,null,null,null);
+                tvYawp.setCompoundDrawables(drawable1,null,null,null);
+                currentSection = 0;
+                data.clear();
+                getGoodsEvaluate();
                 break;
+
             case R.id.evaluate_fragment_yawp:
                 queryType = 2;
                 changeTextColor(tvYawp, tvSatisfy, tvAll, tvHavePicturess);
-                if (!tvYawp.isSelected()) {
-                    currentSection = 0;
-                    data.clear();
-                    getGoodsEvaluate();
-                }
+                layoutGood.setSelected(false);
+                layoutBad.setSelected(!layoutBad.isSelected());
+                tvSatisfy.setCompoundDrawables(drawable,null,null,null);
+                tvYawp.setCompoundDrawables(drawable3,null,null,null);
+                currentSection = 0;
+                data.clear();
+                getGoodsEvaluate();
                 break;
             case R.id.evaluate_fragment_have_pictures:
                 queryType = 3;
                 changeTextColor(tvHavePicturess, tvSatisfy, tvYawp, tvAll);
+                layoutGood.setSelected(false);
+                layoutBad.setSelected(false);
                 tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
-                if (!tvHavePicturess.isSelected()) {
-                    currentSection = 0;
-                    data.clear();
-                    getGoodsEvaluate();
-                }
+                tvSatisfy.setCompoundDrawables(drawable,null,null,null);
+                tvYawp.setCompoundDrawables(drawable1,null,null,null);
+                currentSection = 0;
+                data.clear();
+                getGoodsEvaluate();
                 break;
         }
     }

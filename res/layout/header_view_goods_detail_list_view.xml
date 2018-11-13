@@ -286,7 +286,7 @@
                 android:textSize="12sp" />
 
             <RelativeLayout
-                android:id="@+id/test"
+                android:id="@+id/layout_good"
                 android:layout_width="@dimen/x75"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_orange_selector_gray"
@@ -306,17 +306,28 @@
 
             </RelativeLayout>
 
-            <RadioButton
-                android:id="@+id/evaluate_fragment_yawp"
+            <RelativeLayout
+                android:id="@+id/layout_bad"
                 android:layout_width="@dimen/x75"
-                android:layout_height="@dimen/x28"
-                android:layout_marginLeft="@dimen/x10"
+                android:layout_height="wrap_content"
                 android:background="@drawable/bg_selector_gray"
-                android:button="@null"
-                android:gravity="center"
-                android:padding="@dimen/x3"
-                android:textColor="#BFBFBF"
-                android:textSize="12sp" />
+                android:layout_marginLeft="@dimen/x10"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/evaluate_fragment_yawp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x28"
+                    android:drawableLeft="@drawable/ic_trample_unchecked"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="@dimen/x3"
+                    android:textColor="#BFBFBF"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+
 
             <RadioButton
                 android:id="@+id/evaluate_fragment_have_pictures"
