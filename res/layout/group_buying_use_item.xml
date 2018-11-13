@@ -21,7 +21,7 @@
             android:layout_height="68dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="17dp"
+            android:paddingTop="15dp"
             android:paddingBottom="@dimen/x13">
 
             <TextView
@@ -29,7 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_3"
-                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textSize="17sp"
                 tools:text="北京大饭店优惠券"
                 android:layout_marginRight="@dimen/x15"
                 android:maxLines="1"
@@ -39,8 +40,9 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_9"
-                android:textSize="12sp"
+                android:layout_marginTop="@dimen/x19"
+                android:textColor="@color/color_6"
+                android:textSize="11sp"
                 tools:text="有效期至：2017.05.20"
                 android:layout_alignParentBottom="true" />
 
@@ -55,8 +57,8 @@
 
         <com.project.mgjandroid.ui.view.CornerImageView
             android:id="@+id/pic_code"
-            android:layout_width="@dimen/x140"
-            android:layout_height="@dimen/x140"
+            android:layout_width="@dimen/x213"
+            android:layout_height="@dimen/x213"
             android:layout_marginTop="@dimen/x35"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerInside"

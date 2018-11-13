@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_gravity="center_vertical"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/x8"
+        />
+
+    <com.jet.flowtaglayout.FlowTagLayout
+        android:id="@+id/flow_tagLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/x20"
+        app:item_background="@drawable/bg_goods_colour"
+        android:layout_toLeftOf="@id/restaurant_list_item_iv_active"
+        app:item_bottomMargin="@dimen/x5"
+        app:item_bottomPadding="@dimen/x5"
+        app:item_leftMargin="@dimen/x5"
+        app:item_leftPadding="@dimen/x5"
+        app:item_rightMargin="@dimen/x5"
+        app:item_rightPadding="@dimen/x5"
+        app:item_textColor="#b97f27"
+        app:item_textSize="11sp"
+        app:item_topMargin="@dimen/x5"
+        app:item_topPadding="@dimen/x5" />
+
+</LinearLayout>

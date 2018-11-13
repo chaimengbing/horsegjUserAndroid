@@ -1,94 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:seekbar="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/color_e5" />
 
+
+    <LinearLayout
+        android:id="@+id/condition_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:background="@color/white">
+        android:padding="@dimen/x10"
+        android:paddingTop="@dimen/x10">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/x10"
-            android:text="商家服务"
-            android:textColor="@color/color_3"
-            android:textSize="14sp" />
+            android:text="人均消费"
+            android:textColor="@color/color_3" />
 
-        <GridView
-            android:id="@+id/group_buying_menu_list"
+        <com.project.mgjandroid.ui.view.RangeSeekbar
+            android:id="@+id/rangeseekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="4"
-            android:cacheColorHint="@color/transparent"
-            android:fadingEdge="none"
-            android:dividerHeight="1px"
-            android:horizontalSpacing="@dimen/x10"
-            android:verticalSpacing="@dimen/x10"
-            android:layout_marginLeft="@dimen/x10"
-            android:layout_marginRight="@dimen/x10"
-            android:listSelector="@color/transparent" />
+            android:layout_marginTop="@dimen/x15"
+            seekbar:leftCursorBackground="@drawable/left_cursor_bg"
+            seekbar:markTextArray="@array/markArray"
+            seekbar:rightCursorBackground="@drawable/left_cursor_bg"
+            seekbar:seekbarColorNormal="@color/gray_white"
+            seekbar:seekbarColorSelected="@color/bg_festival"
+            seekbar:seekbarHeight="@dimen/x6"
+            seekbar:spaceBetween="@dimen/x20"
+            seekbar:starCount="3"
+            seekbar:textColorNormal="@color/white"
+            seekbar:textColorSelected="@color/color_6"
+            seekbar:textSizeSeek="15sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/x15">
 
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/color_e5"
-            android:layout_marginTop="@dimen/x10" />
+            android:layout_marginTop="@dimen/x10"
+            android:background="@color/color_e5" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingTop="@dimen/x10"
-            android:paddingBottom="@dimen/x10"
-            android:orientation="horizontal">
+            android:paddingBottom="@dimen/x10">
 
             <TextView
                 android:id="@+id/group_buying_menu_clear"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginLeft="@dimen/x10"
-                android:paddingTop="@dimen/x5"
-                android:paddingBottom="@dimen/x5"
+                android:background="@drawable/white_and_gray_button_selector"
                 android:gravity="center"
-                android:textColor="@color/gray_txt"
-                android:textSize="14sp"
-                android:text="重置"
-                android:background="@drawable/white_and_gray_button_selector" />
+                android:paddingLeft="@dimen/x20"
+                android:paddingTop="@dimen/x5"
+                android:paddingRight="@dimen/x20"
+                android:paddingBottom="@dimen/x5"
+                android:text="@string/clear_all"
+                android:textColor="@color/color_3"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/group_buying_menu_confirm"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/x10"
                 android:layout_marginRight="@dimen/x10"
-                android:paddingTop="@dimen/x5"
-                android:paddingBottom="@dimen/x5"
+                android:background="@drawable/bg_login_orange_button"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="14sp"
+                android:paddingLeft="@dimen/x20"
+                android:paddingTop="@dimen/x5"
+                android:paddingRight="@dimen/x20"
+                android:paddingBottom="@dimen/x5"
                 android:text="确定"
-                android:background="@drawable/bg_login_orange_button" />
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/color_e5" />
 
+
     </LinearLayout>
+
 
     <View
         android:id="@+id/group_buying_menu_cover_view"

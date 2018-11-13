@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,61 +14,61 @@
             android:id="@+id/detail_content"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x42"
-            android:paddingLeft="@dimen/x15"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/x15">
 
             <TextView
                 android:id="@+id/goods_detail_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gool_detail_header_name"
-                android:textSize="14sp"
-                android:textColor="@color/black_1" />
+                android:textColor="@color/black_1"
+                android:textSize="14sp" />
 
             <RatingBar
                 android:id="@+id/goods_detail_rat_score"
                 style="@style/RatingBar.Grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/goods_detail_name"
+                android:layout_marginTop="@dimen/x5"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:stepSize="0.1"
-                android:layout_below="@id/goods_detail_name"
-                android:layout_marginTop="@dimen/x5" />
+                android:stepSize="0.1" />
 
             <TextView
                 android:id="@+id/goods_detail_judge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/gool_detail_header_comment_count"
-                android:textSize="10sp"
-                android:textColor="@color/black_2"
-                android:layout_toRightOf="@id/goods_detail_rat_score"
                 android:layout_alignBottom="@id/goods_detail_rat_score"
-                android:layout_marginLeft="@dimen/x3" />
+                android:layout_marginLeft="@dimen/x3"
+                android:layout_toRightOf="@id/goods_detail_rat_score"
+                android:text="@string/gool_detail_header_comment_count"
+                android:textColor="@color/black_2"
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/goods_detail_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/gool_detail_header_sale_count"
-                android:textSize="10sp"
-                android:textColor="@color/black_2"
-                android:layout_toRightOf="@id/goods_detail_judge"
                 android:layout_alignBottom="@id/goods_detail_judge"
-                android:layout_marginLeft="@dimen/x3" />
+                android:layout_marginLeft="@dimen/x3"
+                android:layout_toRightOf="@id/goods_detail_judge"
+                android:text="@string/gool_detail_header_sale_count"
+                android:textColor="@color/black_2"
+                android:textSize="10sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_content"
+            android:background="@color/gray_white"
+            android:paddingBottom="@dimen/x10"
             android:paddingLeft="@dimen/x15"
             android:paddingRight="@dimen/x15"
             android:paddingTop="@dimen/x10"
-            android:paddingBottom="@dimen/x10"
-            android:visibility="gone"
-            android:background="@color/gray_white">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/goods_item_tv_rmb"
@@ -85,10 +85,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/goods_item_tv_rmb"
+                android:text="32.5"
                 android:textColor="@color/org_yellow"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="32.5" />
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/buy_count_hide1"
@@ -167,8 +167,8 @@
                 android:id="@+id/goods_item_merchant_sleep1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="商家休息中"
                 android:layout_alignParentRight="true"
+                android:text="商家休息中"
                 android:textColor="@color/gray_txt"
                 android:textSize="12sp"
                 android:visibility="gone" />
@@ -184,19 +184,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/goods_detail_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gool_detail_header_good_summary"
-            android:textSize="14sp"
-            android:textColor="@color/black_1"
+            android:paddingBottom="@dimen/x10"
             android:paddingLeft="@dimen/x15"
             android:paddingTop="@dimen/x15"
-            android:paddingBottom="@dimen/x10" />
+            android:text="@string/gool_detail_header_good_summary"
+            android:textColor="@color/black_1"
+            android:textSize="14sp" />
 
         <View
             android:layout_width="match_parent"
@@ -207,12 +207,12 @@
             android:id="@+id/goods_detail_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gool_detail_header_good_summary_content"
-            android:textSize="12sp"
-            android:textColor="@color/black_1"
+            android:paddingBottom="@dimen/x20"
             android:paddingLeft="@dimen/x15"
             android:paddingTop="@dimen/x10"
-            android:paddingBottom="@dimen/x20" />
+            android:text="@string/gool_detail_header_good_summary_content"
+            android:textColor="@color/black_1"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <View
@@ -223,23 +223,130 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/goods_detail_evaluate"
+        <RelativeLayout
+            android:id="@+id/evaluate_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gool_detail_header_good_evaluate"
-            android:textSize="14sp"
-            android:textColor="@color/black_1"
-            android:paddingLeft="@dimen/x15"
-            android:paddingTop="@dimen/x15"
-            android:paddingBottom="@dimen/x10" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/goods_detail_evaluate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/x10"
+                android:paddingLeft="@dimen/x15"
+                android:paddingTop="@dimen/x15"
+                android:text="@string/gool_detail_header_good_evaluate"
+                android:textColor="@color/black_1"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/goods_evalute_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x15"
+                android:drawablePadding="@dimen/x5"
+                android:drawableRight="@drawable/right_arrow_gray"
+                android:paddingBottom="@dimen/x10"
+                android:paddingLeft="@dimen/x15"
+                android:paddingTop="@dimen/x15"
+                android:textColor="@color/color_3"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/gray_bg" />
+
+        <RadioGroup
+            android:id="@+id/select_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="@dimen/x15">
+
+            <RadioButton
+                android:id="@+id/evaluate_fragment_all"
+                android:layout_width="@dimen/x75"
+                android:layout_height="@dimen/x28"
+                android:background="@drawable/bg_orange_selector_gray"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:padding="@dimen/x3"
+                android:text="@string/commercial_evaluate_all_count"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/evaluate_fragment_satisfy"
+                android:layout_width="@dimen/x75"
+                android:layout_height="@dimen/x28"
+                android:layout_marginLeft="@dimen/x10"
+                android:background="@drawable/bg_orange_selector_gray"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/x3"
+                android:text="好评"
+                android:textColor="#B97F27"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/evaluate_fragment_yawp"
+                android:layout_width="@dimen/x75"
+                android:layout_height="@dimen/x28"
+                android:layout_marginLeft="@dimen/x10"
+                android:background="@drawable/bg_selector_gray"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/x3"
+                android:text="差评"
+                android:textColor="#BFBFBF"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/evaluate_fragment_have_pictures"
+                android:layout_width="@dimen/x75"
+                android:layout_height="@dimen/x28"
+                android:layout_marginLeft="@dimen/x10"
+                android:background="@drawable/bg_orange_selector_gray"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/x3"
+                android:text="有图"
+                android:textColor="#B97F27"
+                android:textSize="12sp" />
+
+        </RadioGroup>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="@dimen/x15"
+            android:paddingRight="@dimen/x15"
+            >
+
+            <TextView
+                android:id="@+id/evaluate_fragment_show_un_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:checked="true"
+                android:drawableLeft="@drawable/bg_new_check_or_uncheck"
+                android:drawablePadding="@dimen/x5"
+                android:gravity="center"
+                android:text="@string/commercial_evaluate_show_content_only"
+                android:textColor="@color/common_black_text"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
     </LinearLayout>
 </LinearLayout>

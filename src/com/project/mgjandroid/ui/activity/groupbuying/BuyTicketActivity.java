@@ -35,9 +35,11 @@ import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.OnlinePayActivity;
 import com.project.mgjandroid.ui.activity.SelectRedBagActivity;
 import com.project.mgjandroid.ui.adapter.DateAdapter;
+import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.utils.CalendarUtils;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
@@ -55,13 +57,11 @@ import java.util.Map;
 public class BuyTicketActivity extends BaseActivity implements View.OnClickListener {
 
     @InjectView(R.id.img_calendar)
-    private RelativeLayout imgCalendar;
+    private ImageView imgCalendar;
     @InjectView(R.id.tv_appointment_date)
     private TextView tvDate;
     @InjectView(R.id.common_back)
     private ImageView tvBack;
-    @InjectView(R.id.common_title)
-    private TextView tvTitle;
     @InjectView(R.id.rl_red_bag)
     private RelativeLayout rlRedBag;
     @InjectView(R.id.tv_ticket_name)
@@ -82,8 +82,22 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private RelativeLayout rlCalendar;
     @InjectView(R.id.tv_submit_order)
     private TextView tvSubmitOrder;
-    @InjectView(R.id.tv_a_date)
+    @InjectView(R.id.tv_bell)
     private TextView tvADate;
+    @InjectView(R.id.layout_groupon)
+    private RelativeLayout layoutGroupon;
+    @InjectView(R.id.layout_voucher)
+    private RelativeLayout layoutVoucher;
+    @InjectView(R.id.tv_name)
+    private TextView tvName;
+    @InjectView(R.id.tv_option)
+    private TextView tvOption;
+    @InjectView(R.id.tv_price)
+    private TextView tvPrice;
+    @InjectView(R.id.tv_price1)
+    private TextView tvPrice1;
+    @InjectView(R.id.img)
+    private CornerImageView icon;
 
 
     private GridView record_gridView;
@@ -105,7 +119,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private boolean isClickLast = true;
     private MLoadingDialog mLoadingDialog;
     private String errorMsg;
-    private double ticketPrice;
+    private String ticketPrice;
     private long agentId;
     private String ticketName;
     private int count = 1;
@@ -138,7 +152,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private void initData() {
         ticketName = getIntent().getStringExtra("ticketName");
         agentId = getIntent().getLongExtra("agentId", -1);
-        ticketPrice = getIntent().getDoubleExtra("ticketPrice", 0);
+        ticketPrice = getIntent().getStringExtra("ticketPrice");
         ticketOriginalPrice = getIntent().getStringExtra("ticketOriginalPrice");
         type = getIntent().getIntExtra("type", -1);
         bespeak = getIntent().getIntExtra("bespeak", -1);
@@ -158,21 +172,36 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         ivAdd.setOnClickListener(this);
         ivMinus.setOnClickListener(this);
         tvSubmitOrder.setOnClickListener(this);
-        tvTitle.setText("支付订单");
         mLoadingDialog = new MLoadingDialog();
 
         if (type == 1) {
+            layoutVoucher.setVisibility(View.VISIBLE);
+            layoutGroupon.setVisibility(View.GONE);
             rlCalendar.setVisibility(View.GONE);
-            tvTicketName.setText(ticketOriginalPrice + "元代金券");
+            tvTicketName.setText(ticketName);
         } else {
+            layoutVoucher.setVisibility(View.GONE);
+            layoutGroupon.setVisibility(View.VISIBLE);
             if (bespeak == 1) {
                 rlCalendar.setVisibility(View.VISIBLE);
             } else {
                 rlCalendar.setVisibility(View.GONE);
             }
-            tvTicketName.setText(ticketName);
+            tvName.setText(groupPurchaseCoupon.getGroupPurchaseName());
+            if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
+                ImageUtils.loadBitmap(mActivity, groupPurchaseCoupon.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
+            }
+            if(groupPurchaseCoupon.getIsPurchaseRestriction()==3){
+                tvOption.setText(groupPurchaseCoupon.getIsBespeak() == 0 ? "免预约" : "需预约 ");
+            }else {
+                tvOption.setText((groupPurchaseCoupon.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
+            }
+            tvPrice.setText("¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice()));
+            if (groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice() != null && groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
+                tvPrice1.setText("门市价¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice()));
+            }
         }
-        tvTicketPrice.setText("¥" + ticketPrice);
+        tvTicketPrice.setText("¥" + ticketPrice+"元 代金券");
         tvCount.setText("" + count);
         getOrderPreview();
     }
@@ -239,6 +268,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     }
                     tvDate.setText(stringTime);
                     if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getCancelAfterVerificationTime())) {
+                        tvADate.setVisibility(View.VISIBLE);
                         tvADate.setText(groupPurchaseCoupon.getCancelAfterVerificationTime() + "自动使用");
                     }
                     record_gridView.setItemChecked(position, true);
@@ -381,6 +411,9 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra("orderId", submitOrderModel.getValue().getId());
                     intent.putExtra("merchantId", submitOrderModel.getValue().getMerchantId());
                     intent.putExtra("agentId", submitOrderModel.getValue().getAgentId());
+                    intent.putExtra("grouponName", groupPurchaseCoupon.getGroupPurchaseName());
+                    intent.putExtra("voucherName", "¥" + ticketPrice+"元 代金券");
+                    intent.putExtra("type", type);
                     intent.putExtra("isGroupPurchase", true);
                     startActivity(intent);
                     finish();

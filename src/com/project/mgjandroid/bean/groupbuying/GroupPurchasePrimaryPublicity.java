@@ -1,5 +1,7 @@
 package com.project.mgjandroid.bean.groupbuying;
 
+import android.graphics.drawable.Drawable;
+
 import com.project.mgjandroid.bean.Agent;
 import com.project.mgjandroid.bean.BaseBean;
 
@@ -54,9 +56,18 @@ public class GroupPurchasePrimaryPublicity extends BaseBean {
      */
     private Long groupPurchaseMerchantId;
     /**
+     * 团购商家名称
+     */
+    private String groupPurchaseMerchantName;
+    /**
      * 团购优惠券编号
      **/
     private Long groupPurchaseCouponId;
+
+    /**
+     * 本地推荐图片
+     */
+    private Drawable resSource;
 
     private Agent agent;
 
@@ -182,5 +193,21 @@ public class GroupPurchasePrimaryPublicity extends BaseBean {
 
     public void setGroupPurchaseCoupon(GroupPurchaseCoupon groupPurchaseCoupon) {
         this.groupPurchaseCoupon = groupPurchaseCoupon;
+    }
+
+    public Drawable getResSource() {
+        return resSource;
+    }
+
+    public void setResSource(Drawable resSource) {
+        this.resSource = resSource;
+    }
+
+    public String getGroupPurchaseMerchantName() {
+        return groupPurchaseMerchantName;
+    }
+
+    public void setGroupPurchaseMerchantName(String groupPurchaseMerchantName) {
+        this.groupPurchaseMerchantName = groupPurchaseMerchantName;
     }
 }

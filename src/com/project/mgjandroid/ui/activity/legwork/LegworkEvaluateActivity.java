@@ -8,17 +8,21 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
+import com.project.mgjandroid.ui.adapter.RiderEvaluationAdapter;
+import com.project.mgjandroid.ui.view.NoScrollGridView;
 import com.project.mgjandroid.ui.view.RatingBarView;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -83,12 +87,12 @@ public class LegworkEvaluateActivity extends BaseActivity {
         HashMap<String, Object> map = new HashMap<>();
         map.put("agentId", agentId);
         map.put("orderId", orderId);
-        if (rbvOverallEvaluation.getRating() <= 0) {
-            ToastUtils.displayMsg("请您评分", this);
-            return;
-        } else {
-            map.put("score", rbvOverallEvaluation.getRating());
-        }
+//        if (rbvOverallEvaluation.getRating() <= 0) {
+//            ToastUtils.displayMsg("请您评分", this);
+//            return;
+//        } else {
+//            map.put("score", rbvOverallEvaluation.getRating());
+//        }
         map.put("content", etCompanyProfiles.getText().toString().trim());
         operater.doRequest(Constants.URL_CREATE_COMMENTS, map, new VolleyOperater.ResponseListener() {
             @Override
@@ -109,6 +113,33 @@ public class LegworkEvaluateActivity extends BaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.layout_bad:
+                imgBad.setSelected(true);
+                imgOrdinary.setSelected(false);
+                imgGood.setSelected(false);
+                tvBad.setTextColor(mActivity.getResources().getColor(R.color.bg_festival));
+                tvOrdinary.setTextColor(mActivity.getResources().getColor(R.color.color_6));
+                tvGood.setTextColor(mActivity.getResources().getColor(R.color.color_6));
+//                riderEvaluationAdapter.setList(badList);
+                break;
+            case R.id.layout_ordinary:
+                imgBad.setSelected(false);
+                imgOrdinary.setSelected(true);
+                imgGood.setSelected(false);
+                tvBad.setTextColor(mActivity.getResources().getColor(R.color.color_6));
+                tvOrdinary.setTextColor(mActivity.getResources().getColor(R.color.bg_festival));
+                tvGood.setTextColor(mActivity.getResources().getColor(R.color.color_6));
+//                riderEvaluationAdapter.setList(goodList);
+                break;
+            case R.id.layout_good:
+                imgBad.setSelected(false);
+                imgOrdinary.setSelected(false);
+                imgGood.setSelected(true);
+                tvBad.setTextColor(mActivity.getResources().getColor(R.color.color_6));
+                tvOrdinary.setTextColor(mActivity.getResources().getColor(R.color.color_6));
+                tvGood.setTextColor(mActivity.getResources().getColor(R.color.bg_festival));
+//                riderEvaluationAdapter.setList(goodList);
+                break;
             case R.id.common_back:
                 onBackPressed();
                 break;

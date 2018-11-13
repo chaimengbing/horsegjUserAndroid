@@ -614,7 +614,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         listAdapter.setExpand(isExpand);
         listAdapter.notifyDataSetChanged();
 
-        tv_shippingFee.setText("¥" + StringUtils.BigDecimal2Str(valueEntity.getShippingFee()));
+        tv_shippingFee.setText("¥" + StringUtils.BigDecimal2Str(valueEntity.getShippingFee().add(valueEntity.getShippingPreferentialFee())));
         tv_totalPrice.setText("" + StringUtils.BigDecimal2Str(valueEntity.getTotalPrice()));
         if (valueEntity.getDiscountAmt() != null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountAmt()) != 0 || valueEntity.getDiscountGoodsDiscountAmt() != null && BigDecimal.ZERO.compareTo(valueEntity.getDiscountGoodsDiscountAmt()) != 0) {
             freeMoney.setText(" | 优惠¥" + valueEntity.getDiscountAmt().add(valueEntity.getDiscountGoodsDiscountAmt()));
@@ -686,17 +686,27 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         dayListAdapter.notifyDataSetChanged();
 
         promotionLayout.removeAllViews();
-        if (CheckUtils.isNoEmptyList(valueEntity.getPromoList())) {
-            View view = new View(mActivity);
-            view.setBackgroundColor(getResources().getColor(R.color.common_gray_line));
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            params.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.x1);
-            params.rightMargin = getResources().getDimensionPixelOffset(R.dimen.x15);
-            promotionLayout.addView(view, params);
+        View view = new View(mActivity);
+        view.setBackgroundColor(getResources().getColor(R.color.common_gray_line));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1);
+        params.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.x1);
+        params.rightMargin = getResources().getDimensionPixelOffset(R.dimen.x15);
+        promotionLayout.addView(view, params);
+        boolean isShow = false;
+        if (valueEntity.getShippingPreferentialFee().compareTo(BigDecimal.ZERO) != 0) {
+            isShow = true;
+            addAssumeAmt(promotionLayout, StringUtils.BigDecimal2Str(valueEntity.getShippingPreferentialFee()));
+        }
 
+
+        if (CheckUtils.isNoEmptyList(valueEntity.getPromoList())) {
+            isShow = true;
             for (PromotionActivity promotion : valueEntity.getPromoList()) {
                 addPromotion(promotionLayout, promotion);
             }
+        }
+
+        if (isShow) {
             promotionLayout.setVisibility(View.VISIBLE);
         } else {
             promotionLayout.setVisibility(View.GONE);
@@ -785,6 +795,41 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             tv.setGravity(Gravity.RIGHT);
             childLayout.addView(tv, params);
         }
+        LinearLayout.LayoutParams paramsChild = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsChild.topMargin = DipToPx.dip2px(mActivity, 14);
+        layout.addView(childLayout, paramsChild);
+    }
+
+
+    private void addAssumeAmt(LinearLayout layout, String assumeAmt) {
+        LinearLayout childLayout = new LinearLayout(mActivity);
+        childLayout.setOrientation(LinearLayout.HORIZONTAL);
+        childLayout.setGravity(Gravity.CENTER_VERTICAL);
+        ImageView image = new ImageView(mActivity);
+        image.setImageResource(R.drawable.jian);
+        LinearLayout.LayoutParams paramsImg = new LinearLayout.LayoutParams(DipToPx.dip2px(mActivity, 12), DipToPx.dip2px(mActivity, 12));
+        childLayout.addView(image, paramsImg);
+
+
+        TextView tvName = new TextView(mActivity);
+        LinearLayout.LayoutParams paramsName = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsName.leftMargin = DipToPx.dip2px(mActivity, 5);
+        tvName.setText("减配送费");
+        tvName.setSingleLine();
+        tvName.setEllipsize(TextUtils.TruncateAt.END);
+        tvName.setTextColor(mActivity.getResources().getColor(R.color.gray_text_3));
+        tvName.setTextSize(12);
+        childLayout.addView(tvName, paramsName);
+
+        TextView tv = new TextView(mActivity);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.rightMargin = getResources().getDimensionPixelOffset(R.dimen.x15);
+        params.leftMargin = getResources().getDimensionPixelOffset(R.dimen.x15);
+        tv.setText("- ¥" + assumeAmt);
+        tv.setTextColor(0xffff5959);
+        tv.setTextSize(12);
+        tv.setGravity(Gravity.RIGHT);
+        childLayout.addView(tv, params);
         LinearLayout.LayoutParams paramsChild = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         paramsChild.topMargin = DipToPx.dip2px(mActivity, 14);
         layout.addView(childLayout, paramsChild);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.model.Entity;
+import com.project.mgjandroid.model.groupbuying.GroupBuyingDeliverymanImpress;
 import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
 import com.project.mgjandroid.utils.CheckUtils;
@@ -19,28 +20,28 @@ import com.project.mgjandroid.utils.CheckUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RiderEvaluationAdapter extends BaseAdapter{
+public class RiderEvaluationAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<String> strList;
+    private ArrayList<GroupBuyingDeliverymanImpress> strList;
 
     public RiderEvaluationAdapter(Context context) {
         this.context = context;
         strList = new ArrayList<>();
     }
 
-    public ArrayList<String> getList() {
+    public ArrayList<GroupBuyingDeliverymanImpress> getList() {
         return strList;
     }
 
-    public void setList(ArrayList<String> strList) {
+    public void setList(ArrayList<GroupBuyingDeliverymanImpress> strList) {
         this.strList = strList;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        if(CheckUtils.isEmptyList(strList)){
+        if (CheckUtils.isEmptyList(strList)) {
             return 0;
         }
         return strList.size();
@@ -67,26 +68,21 @@ public class RiderEvaluationAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(CheckUtils.isNoEmptyList(strList)){
-            holder.textView.setText(strList.get(i));
+        if (CheckUtils.isNoEmptyList(strList)) {
+            holder.textView.setText(strList.get(i).getImpress());
         }
 
-        final ViewHolder finalHolder = holder;
-        holder.textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finalHolder.textView.setSelected(!finalHolder.textView.isSelected());
-                if(finalHolder.textView.isSelected()){
-                    finalHolder.textView.setTextColor(context.getResources().getColor(R.color.bg_festival));
-                }else {
-                    finalHolder.textView.setTextColor(context.getResources().getColor(R.color.color_6));
-                }
-            }
-        });
+        holder.textView.setSelected(strList.get(i).isChecked());
+
+        if (strList.get(i).isChecked()) {
+            holder.textView.setTextColor(context.getResources().getColor(R.color.bg_festival));
+        } else {
+            holder.textView.setTextColor(context.getResources().getColor(R.color.color_6));
+        }
 
 
         return convertView;
-}
+    }
 
     static class ViewHolder {
         TextView textView;

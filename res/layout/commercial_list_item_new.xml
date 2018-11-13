@@ -368,6 +368,25 @@
                     android:visibility="gone">
 
                 </LinearLayout>
+
+                <!--<com.jet.flowtaglayout.FlowTagLayout-->
+                    <!--android:id="@+id/flow_tagLayout"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginRight="@dimen/x20"-->
+                    <!--app:item_background="@drawable/bg_rectangle_red"-->
+                    <!--android:layout_toLeftOf="@id/restaurant_list_item_iv_active"-->
+                    <!--app:item_bottomMargin="@dimen/x5"-->
+                    <!--app:item_bottomPadding="@dimen/x5"-->
+                    <!--app:item_leftMargin="@dimen/x5"-->
+                    <!--app:item_leftPadding="@dimen/x5"-->
+                    <!--app:item_rightMargin="@dimen/x5"-->
+                    <!--app:item_rightPadding="@dimen/x5"-->
+                    <!--app:item_textColor="#c75850"-->
+                    <!--app:item_textSize="11sp"-->
+                    <!--app:item_topMargin="@dimen/x5"-->
+                    <!--app:item_topPadding="@dimen/x5" />-->
+
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>

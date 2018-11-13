@@ -64,6 +64,7 @@ import com.project.mgjandroid.model.SubmitOrderModel;
 import com.project.mgjandroid.model.SubmitOrderModel.ValueEntity;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.net.VolleyOperater.ResponseListener;
+import com.project.mgjandroid.ui.activity.legwork.LegworkEvaluateActivity;
 import com.project.mgjandroid.ui.adapter.LegworkStatusAdapter;
 import com.project.mgjandroid.ui.fragment.OrderListFragment;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
@@ -270,6 +271,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private ImageView ivArrow;
     @InjectView(R.id.img_send_redbag)
     private ImageView sendRedBag;
+    @InjectView(R.id.rLayout_right)
+    private RelativeLayout rLayoutRight;
 
     String orderId;
     private boolean refreshFlag = true;
@@ -339,6 +342,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         } else {
             getData(true);
         }
+        rLayoutRight.setOnClickListener(this);
         sendRedBag.setOnClickListener(this);
         imgBack.setOnClickListener(this);
         imgPhone.setOnClickListener(this);
@@ -552,6 +556,12 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rLayout_right:
+                Intent mIntent = new Intent(mActivity, LegworkEvaluateActivity.class);
+                mIntent.putExtra("orderId", valueEntity.getId());
+                mIntent.putExtra("agentId", valueEntity.getAgentId());
+                startActivityForResult(mIntent, 2000);
+                break;
             case R.id.order_detail_act_iv_back:
                 //onBackPressed();
                 back();
@@ -662,7 +672,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                                             intent.putExtra("caution", caution);
                                         }
                                         startActivityForResult(intent, ActRequestCode.GOODS_DETAIL);
-                                        finish();
                                     }
                                 } else {
                                     ToastUtils.displayMsg("商户加载失败", mActivity);

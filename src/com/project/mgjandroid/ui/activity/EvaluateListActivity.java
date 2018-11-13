@@ -1,5 +1,6 @@
 package com.project.mgjandroid.ui.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -7,13 +8,17 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.CommodityEvaluateModel;
+import com.project.mgjandroid.model.NewGoodsEvaluateModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.CommodityDetailListAdapter;
+import com.project.mgjandroid.ui.adapter.GoodsDetailListAdapter;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
@@ -27,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EvaluateListActivity extends BaseActivity implements View.OnClickListener {
+public class EvaluateListActivity extends BaseActivity implements View.OnClickListener,RadioGroup.OnCheckedChangeListener {
     @InjectView(R.id.commodity_act_back)
     private ImageView ivBack;
     @InjectView(R.id.commodity_no_net)
@@ -38,37 +43,24 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
     private TextView hasNoNetMsg;
     @InjectView(R.id.commodity_reload)
     private TextView reload;
-    private LinearLayout llEvaAll;
-    private LinearLayout llEvaPraise;
-    private LinearLayout llEvaAverage;
-    private LinearLayout llEvaError;
-    private TextView tvEvaAll;
-    private TextView tvAllNum;
-    private TextView tvEvaPraise;
-    private TextView tvPraiseNum;
-    private TextView tvEvaAverage;
-    private TextView tvAverageNum;
-    private TextView tvEvaError;
-    private TextView tvErrorNum;
     private PullToRefreshListView listView;
     private LinearLayout listHeaderView;
     private View inflate;
-    private CommodityDetailListAdapter adapter;
     private int currentSection = 0;
     private static final int maxResults = 10;
     private String errorMsg;
-    private CommodityEvaluateModel goodsEvaluate;
     private Long googId;
-    private CommodityEvaluateModel.Value ValueEntity;
-    private int commentNum;
-    private int goodCommentNum;
-    private int mediumCommentNum;
-    private int badCommentNum;
-    private List<CommodityEvaluateModel.CommentList> value = new ArrayList<>();
     private MLoadingDialog mLoadingDialog;
-    private int type;
     private boolean refreshLoading = true;
-    private List<CommodityEvaluateModel.CommentList> commentList;
+    private int queryType = 0;
+    private int isHaveContent = 1;
+    private RadioButton tvAll;
+    private RadioButton tvSatisfy;
+    private RadioButton tvYawp;
+    private RadioButton tvHavePicturess;
+    private TextView tvUnEmpty;
+    private ArrayList<NewGoodsEvaluateModel.ValueBean.ListBean> data = new ArrayList<>();
+    private GoodsDetailListAdapter mListAdapter;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -83,30 +75,10 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         initListView();
         initListHeaderView();
-        llEvaAll = (LinearLayout) listHeaderView.findViewById(R.id.ll_evaluate_all);
-        llEvaPraise = (LinearLayout) listHeaderView.findViewById(R.id.ll_evaluate_praise);
-        llEvaAverage = (LinearLayout) listHeaderView.findViewById(R.id.ll_evaluate_average);
-        llEvaError = (LinearLayout) listHeaderView.findViewById(R.id.ll_evaluate_error);
-        tvEvaAll = (TextView) listHeaderView.findViewById(R.id.tv_evaluate_all);
-        tvAllNum = (TextView) listHeaderView.findViewById(R.id.tv_evaluate_all_num);
-        tvEvaPraise = (TextView) listHeaderView.findViewById(R.id.tv_evaluate_praise);
-        tvPraiseNum = (TextView) listHeaderView.findViewById(R.id.tv_evaluate_praise_num);
-        tvEvaAverage = (TextView) listHeaderView.findViewById(R.id.tv_evaluate_average);
-        tvAverageNum = (TextView) listHeaderView.findViewById(R.id.tv_evaluate_average_num);
-        tvEvaError = (TextView) listHeaderView.findViewById(R.id.tv_evaluate_error);
-        tvErrorNum = (TextView) listHeaderView.findViewById(R.id.tv_evaluate_error_num);
-        tvAllNum.setText(commentNum + "");
-        tvPraiseNum.setText(goodCommentNum + "");
-        tvAverageNum.setText(mediumCommentNum + "");
-        tvErrorNum.setText(badCommentNum + "");
         initListener();
     }
 
     private void initListener() {
-        llEvaAll.setOnClickListener(this);
-        llEvaPraise.setOnClickListener(this);
-        llEvaAverage.setOnClickListener(this);
-        llEvaError.setOnClickListener(this);
         ivBack.setOnClickListener(this);
     }
 
@@ -114,67 +86,21 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         currentSection = 0;
         listView.getRefreshableView().removeFooterView(inflate);
-        initColor();
         switch (v.getId()) {
-            case R.id.ll_evaluate_all:
-                type = 0;
-                value.clear();
-                getEvaluateList(googId, type, false);
-                listView.getRefreshableView().removeFooterView(inflate);
-                tvEvaAll.setTextColor(getResources().getColor(R.color.title_bar_bg));
-                tvAllNum.setTextColor(getResources().getColor(R.color.title_bar_bg));
-                break;
-            case R.id.ll_evaluate_praise:
-                type = 1;
-                value.clear();
-                getEvaluateList(googId, type, false);
-                if (goodCommentNum == 0 && value.size() == 0) {
-                    listView.getRefreshableView().addFooterView(inflate);
-                } else {
-                    listView.getRefreshableView().removeFooterView(inflate);
-                }
-                tvEvaPraise.setTextColor(getResources().getColor(R.color.title_bar_bg));
-                tvPraiseNum.setTextColor(getResources().getColor(R.color.title_bar_bg));
-                break;
-            case R.id.ll_evaluate_average:
-                type = 2;
-                value.clear();
-                getEvaluateList(googId, type, false);
-                if (mediumCommentNum == 0 && value.size() == 0) {
-                    listView.getRefreshableView().addFooterView(inflate);
-                } else {
-                    listView.getRefreshableView().removeFooterView(inflate);
-                }
-                tvEvaAverage.setTextColor(getResources().getColor(R.color.title_bar_bg));
-                tvAverageNum.setTextColor(getResources().getColor(R.color.title_bar_bg));
-                break;
-            case R.id.ll_evaluate_error:
-                type = 3;
-                value.clear();
-                getEvaluateList(googId, type, false);
-                if (badCommentNum == 0 && value.size() == 0) {
-                    listView.getRefreshableView().addFooterView(inflate);
-                } else {
-                    listView.getRefreshableView().removeFooterView(inflate);
-                }
-                tvEvaError.setTextColor(getResources().getColor(R.color.title_bar_bg));
-                tvErrorNum.setTextColor(getResources().getColor(R.color.title_bar_bg));
-                break;
             case R.id.commodity_act_back:
                 onBackPressed();
                 break;
+            case R.id.evaluate_fragment_show_un_empty:
+                if (tvUnEmpty.isSelected()) {
+                    isHaveContent = 0;
+                } else {
+                    isHaveContent = 1;
+                }
+                tvUnEmpty.setSelected(!tvUnEmpty.isSelected());
+                getGoodsEvaluate(false);
+                //TODO 刷新列表
+                break;
         }
-    }
-
-    private void initColor() {
-        tvEvaAll.setTextColor(getResources().getColor(R.color.eva_text));
-        tvAllNum.setTextColor(getResources().getColor(R.color.eva_text));
-        tvEvaPraise.setTextColor(getResources().getColor(R.color.eva_text));
-        tvPraiseNum.setTextColor(getResources().getColor(R.color.eva_text));
-        tvEvaAverage.setTextColor(getResources().getColor(R.color.eva_text));
-        tvAverageNum.setTextColor(getResources().getColor(R.color.eva_text));
-        tvEvaError.setTextColor(getResources().getColor(R.color.eva_text));
-        tvErrorNum.setTextColor(getResources().getColor(R.color.eva_text));
     }
 
     private void initListHeaderView() {
@@ -182,25 +108,37 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
         listHeaderView = (LinearLayout) getLayoutInflater().inflate(R.layout.eva_header_view, listView, false);
         listHeaderView.setLayoutParams(layoutParams);
         listView.getRefreshableView().addHeaderView(listHeaderView);
+        RadioGroup rgLabel = (RadioGroup) listHeaderView.findViewById(R.id.select_bar);
+        rgLabel.setOnCheckedChangeListener(this);
+        tvAll = (RadioButton) listHeaderView.findViewById(R.id.evaluate_fragment_all);
+        tvAll.setChecked(true);
+        tvSatisfy = (RadioButton) listHeaderView.findViewById(R.id.evaluate_fragment_satisfy);
+        tvSatisfy.setTextColor(Color.parseColor("#ffdc550f"));
+        tvYawp = (RadioButton) listHeaderView.findViewById(R.id.evaluate_fragment_yawp);
+        tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+        tvHavePicturess = (RadioButton) listHeaderView.findViewById(R.id.evaluate_fragment_have_pictures);
+        tvHavePicturess.setTextColor(Color.parseColor("#ffdc550f"));
+        tvUnEmpty = (TextView) listHeaderView.findViewById(R.id.evaluate_fragment_show_un_empty);
+        tvUnEmpty.setOnClickListener(this);
+        tvUnEmpty.setSelected(true);
 
     }
 
     private void initListView() {
         listView = (PullToRefreshListView) findViewById(R.id.lv_commodity_evaluate);
         listView.setMode(PullToRefreshBase.Mode.BOTH);
-//            adapter = new CommodityDetailListAdapter(value, mActivity, R.layout.commodity_evaluate_list_item);
-        adapter = new CommodityDetailListAdapter(mActivity, R.layout.evaluate_list_item);
+        mListAdapter = new GoodsDetailListAdapter(R.layout.item_goods_detail_list_view, mActivity);
         inflate = mInflater.inflate(R.layout.commodity_evaluate_empty, null);
-        listView.setAdapter(adapter);
+        listView.setAdapter(mListAdapter);
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
 
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                value.clear();
+                data.clear();
                 refreshLoading = false;
                 currentSection = 0;
                 checkRefresh(refreshView);
-                getEvaluateList(googId, type, false);
+                getGoodsEvaluate(false);
 
             }
 
@@ -213,7 +151,7 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 refreshLoading = false;
                 checkRefresh(refreshView);
-                getEvaluateList(googId, type, true);
+                getGoodsEvaluate(true);
             }
         });
     }
@@ -238,20 +176,18 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    /**
-     * 网络请求获取评价列表
-     */
-    private void getEvaluateList(Long goodsId, int typeState, final boolean isLoad) {
+    private void getGoodsEvaluate(final boolean isLoad) {
         if (refreshLoading) {
             mLoadingDialog.show(mActivity.getFragmentManager(), "");
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("goodsId", goodsId);
-        map.put("type", typeState);
+        map.put("goodsId", googId);
         map.put("start", currentSection);
         map.put("size", maxResults);
-        VolleyOperater<CommodityEvaluateModel> operater = new VolleyOperater<CommodityEvaluateModel>(mActivity);
-        operater.doRequest(Constants.URL_FIND_MERCHANT_SHOP_GOODS_COMMENT_LIST, map, new VolleyOperater.ResponseListener() {
+        map.put("queryType", queryType);
+        map.put("isHaveContent", isHaveContent);
+        VolleyOperater<NewGoodsEvaluateModel> operater = new VolleyOperater<>(mActivity);
+        operater.doRequest(Constants.URL_QUERY_GOODS_EVALUATE, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
                 if (refreshLoading) {
@@ -263,14 +199,14 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
                         errorMsg = (String) obj;
                         ToastUtils.displayMsg(errorMsg, mActivity);
                     } else {
-                        goodsEvaluate = (CommodityEvaluateModel) obj;
-                        if (goodsEvaluate.getValue() != null) {
-                            commentList = goodsEvaluate.getValue().getCommentList();
-                            value.addAll(commentList);
-                            currentSection = value.size();
-                            setTitleNum();
-                            adapter.refreshData(value);
-                            if (isLoad && commentList.size() <= 0) {
+                        NewGoodsEvaluateModel goodsEvaluateModel = (NewGoodsEvaluateModel) obj;
+                        if (goodsEvaluateModel.getValue() != null) {
+                            List<NewGoodsEvaluateModel.ValueBean.ListBean> list = goodsEvaluateModel.getValue().getList();
+                            data.addAll(list);
+                            currentSection = data.size();
+                            setRadioGroup(goodsEvaluateModel);
+                            mListAdapter.setData(data);
+                            if (isLoad && data.size() <= 0) {
                                 ToastUtils.displayMsg("没有更多了", EvaluateListActivity.this);
                             }
                             listView.onRefreshComplete();
@@ -279,29 +215,73 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
                 }
                 listView.onRefreshComplete();
             }
-
-        }, CommodityEvaluateModel.class);
+        }, NewGoodsEvaluateModel.class);
     }
 
-    private void setTitleNum() {
-        ValueEntity = goodsEvaluate.getValue();
-        commentNum = ValueEntity.getCommentNum();
-        goodCommentNum = ValueEntity.getGoodCommentNum();
-        mediumCommentNum = ValueEntity.getMediumCommentNum();
-        badCommentNum = ValueEntity.getBadCommentNum();
-        tvAllNum.setText(commentNum + "");
-        tvPraiseNum.setText(goodCommentNum + "");
-        tvAverageNum.setText(mediumCommentNum + "");
-        tvErrorNum.setText(badCommentNum + "");
+    private void setRadioGroup(NewGoodsEvaluateModel model) {
+        if (model != null) {
+            tvAll.setText("全部 " + model.getValue().getAllCount());
+            tvSatisfy.setText("好评 " + model.getValue().getGoodCount());
+            tvYawp.setText("差评 " + model.getValue().getPoorCount());
+            tvHavePicturess.setText("有图 " + model.getValue().getImgCount());
+        }
     }
 
     private void getIntentDetail() {
-        googId = getIntent().getLongExtra("googId", 0);
-        commentNum = getIntent().getIntExtra("commentNum", 0);
-        goodCommentNum = getIntent().getIntExtra("goodCommentNum", 0);
-        mediumCommentNum = getIntent().getIntExtra("mediumCommentNum", 0);
-        badCommentNum = getIntent().getIntExtra("badCommentNum", 0);
-        getEvaluateList(googId, 0, false);
+        googId = getIntent().getLongExtra("goodsId", 0);
+        getGoodsEvaluate(false);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+        switch (checkedId) {
+            case R.id.evaluate_fragment_all:
+                queryType = 0;
+                changeTextColor(tvAll, tvSatisfy, tvYawp, tvHavePicturess);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                if (!tvAll.isSelected()) {
+                    currentSection = 0;
+                    data.clear();
+                    getGoodsEvaluate(false);
+                }
+                break;
+            case R.id.evaluate_fragment_satisfy:
+                queryType = 1;
+                changeTextColor(tvSatisfy, tvAll, tvYawp, tvHavePicturess);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                if (!tvSatisfy.isSelected()) {
+                    currentSection = 0;
+                    data.clear();
+                    getGoodsEvaluate(false);
+                }
+                break;
+            case R.id.evaluate_fragment_yawp:
+                queryType = 2;
+                changeTextColor(tvYawp, tvSatisfy, tvAll, tvHavePicturess);
+                if (!tvYawp.isSelected()) {
+                    currentSection = 0;
+                    data.clear();
+                    getGoodsEvaluate(false);
+                }
+                break;
+            case R.id.evaluate_fragment_have_pictures:
+                queryType = 3;
+                changeTextColor(tvHavePicturess, tvSatisfy, tvYawp, tvAll);
+                tvYawp.setTextColor(Color.parseColor("#ffBFBFBF"));
+                if (!tvHavePicturess.isSelected()) {
+                    currentSection = 0;
+                    data.clear();
+                    getGoodsEvaluate(false);
+                }
+                break;
+        }
+    }
+
+    private void changeTextColor(RadioButton tvAll, RadioButton tvSatisfy, RadioButton tvYawp, RadioButton tvHavePicturess) {
+        tvAll.setTextColor(getResources().getColor(R.color.white));
+        tvSatisfy.setTextColor(Color.parseColor("#ffdc550f"));
+        tvYawp.setTextColor(Color.parseColor("#ffdc550f"));
+        tvHavePicturess.setTextColor(Color.parseColor("#ffdc550f"));
     }
 
 }

@@ -8,8 +8,8 @@
 
     <com.project.mgjandroid.ui.view.CornerImageView
         android:id="@+id/user_avatar"
-        android:layout_width="@dimen/x35"
-        android:layout_height="@dimen/x35"
+        android:layout_width="@dimen/x40"
+        android:layout_height="@dimen/x40"
         android:scaleType="centerCrop"
         android:layout_marginTop="@dimen/x10"
         android:layout_marginLeft="@dimen/x15"
@@ -93,7 +93,7 @@
         android:horizontalSpacing="@dimen/x16"
         android:verticalSpacing="@dimen/x16"
         android:listSelector="@null"
-        android:numColumns="3" />
+        android:numColumns="4" />
 
     <View
         android:id="@+id/grid_view_divider"
