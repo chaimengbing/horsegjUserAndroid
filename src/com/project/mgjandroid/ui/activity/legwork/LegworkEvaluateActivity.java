@@ -39,6 +39,7 @@ import java.util.HashMap;
 
 public class LegworkEvaluateActivity extends BaseActivity {
 
+
     @InjectView(R.id.common_back)
     private ImageView ivBack;
     @InjectView(R.id.common_title)
@@ -281,4 +282,5 @@ public class LegworkEvaluateActivity extends BaseActivity {
                 break;
         }
     }
+
 }

@@ -1193,7 +1193,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 Intent intent1 = new Intent(mActivity, LegworkEvaluateActivity.class);
                 intent1.putExtra("orderId", valueBean.getId());
                 intent1.putExtra("agentId", "" + valueBean.getAgentId());
+                intent1.putExtra("valurDetails", valueBean);
                 startActivityForResult(intent1, REFRESH);
+
                 break;
             case R.id.view_bg:
                 dismissWindow();
