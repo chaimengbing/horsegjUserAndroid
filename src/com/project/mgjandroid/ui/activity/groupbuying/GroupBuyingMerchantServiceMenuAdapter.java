@@ -78,8 +78,10 @@ public class GroupBuyingMerchantServiceMenuAdapter extends BaseAdapter {
         GroupPurchaseMerchantService service = data.get(position);
         if (service.isSelected()) {
             holder.name.setSelected(true);
+            holder.name.setTextColor(context.getResources().getColor(R.color.bg_festival));
         } else {
             holder.name.setSelected(false);
+            holder.name.setTextColor(context.getResources().getColor(R.color.color_3));
         }
         holder.name.setText(service.getName());
     }

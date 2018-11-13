@@ -21,7 +21,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.github.mzule.activityrouter.router.RouterCallback;
 import com.github.mzule.activityrouter.router.Routers;
@@ -44,11 +43,13 @@ import com.project.mgjandroid.model.groupbuying.GroupPurchasePrimaryCategoryList
 import com.project.mgjandroid.model.groupbuying.GroupPurchasePrimaryPublicityListModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
+import com.project.mgjandroid.ui.activity.pintuan.GroupServiceAdapter;
 import com.project.mgjandroid.ui.adapter.HomeSortAdapter;
 import com.project.mgjandroid.ui.adapter.RecommendGridAdapter;
 import com.project.mgjandroid.ui.view.LoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollGridView;
 import com.project.mgjandroid.ui.view.NoticeDialog;
+import com.project.mgjandroid.ui.view.RangeSeekbar;
 import com.project.mgjandroid.ui.view.autoscrollviewpager.AutoScrollViewPager;
 import com.project.mgjandroid.ui.view.autoscrollviewpager.indicator.CirclePageIndicator;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
@@ -56,12 +57,12 @@ import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
 import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner;
 import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.OnBannerItemClickListener;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,10 +121,8 @@ public class GroupBuyingMainActivity extends BaseActivity {
     private NoticeDialog noticeDialog;
 
 
-    private long groupCategoryId;
-    private long childCategoryId;
-    private String serviceStr = "";
-
+    private long groupCategoryId = 0;
+    private TextView menuChild1, menuChild2, menuChild3;
     private PopupWindow leftMenuWindow;
     private PopupWindow midMenuWindow;
     private PopupWindow rightMenuWindow;
@@ -137,9 +136,10 @@ public class GroupBuyingMainActivity extends BaseActivity {
     private String[] names = new String[]{"智能排序", "距离最近", "好评优先"};
     private int[] heads = new int[]{R.drawable.head_01, R.drawable.head_02, R.drawable.head_06};
     private int[] sortIds = new int[]{1, 2, 3};
-    private GroupBuyingMerchantServiceMenuAdapter serviceAdapter;
-    private ArrayList<GroupPurchaseMerchantService> services;
-    private View emptyView;
+    private GroupBuyingMerchantServiceMenuAdapter serviceAdapter, activityAdapter;
+    private RangeSeekbar rangeSeekbar;
+    private String[] serviceNames = new String[]{"不限", "无线网络", "刷卡支付", "优雅包厢", "景观位", "露天位", "无烟区", "停车场"};
+    private String[] activityNames = new String[]{"不限", "优惠买单", "团购券", "代金券"};
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -198,6 +198,9 @@ public class GroupBuyingMainActivity extends BaseActivity {
 
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                if (i == 0) {
+                    groupMenuLayout.setVisibility(View.GONE);
+                }
                 if (i == 1) {
                     if (checkBarNeedVisible()) {
                         groupMenuLayout.setVisibility(View.VISIBLE);
@@ -211,6 +214,10 @@ public class GroupBuyingMainActivity extends BaseActivity {
                         }
                     }
                 }
+
+                if (isShowPop()){
+                    groupMenuLayout.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -220,7 +227,6 @@ public class GroupBuyingMainActivity extends BaseActivity {
         if (c == null) {
             return false;
         }
-//        MLog.e("头部第一项剩余高度：" + (c.getHeight() + c.getTop()));
         return (c.getHeight() + c.getTop()) < getResources().getDimensionPixelSize(R.dimen.title_bar_height);
     }
 
@@ -236,43 +242,53 @@ public class GroupBuyingMainActivity extends BaseActivity {
                 break;
             case R.id.menu_layout_1:
                 selectTag(tvMenu1);
-                dissmissPopWindow();
+                selectTag(menuChild1);
+                hidePopupWindow();
                 if (leftMenuWindow == null) {
                     if (CheckUtils.isNoEmptyList(categories)) {
                         showLeftMenuPop(categories);
                     } else {
                         getCategory(true);
                     }
-                } else if (leftMenuWindow.isShowing()) {
-                    leftMenuWindow.dismiss();
-                } else {
+                }else {
                     leftMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
                 }
                 break;
             case R.id.menu_layout_2:
                 selectTag(tvMenu2);
-                dissmissPopWindow();
+                selectTag(menuChild2);
+                hidePopupWindow();
                 if (midMenuWindow == null) {
                     showMidMenuPop();
-                } else if (midMenuWindow.isShowing()) {
-                    midMenuWindow.dismiss();
                 } else {
                     midMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
                 }
                 break;
             case R.id.menu_layout_3:
                 selectTag(tvMenu3);
-                dissmissPopWindow();
+                selectTag(menuChild3);
+                hidePopupWindow();
                 if (rightMenuWindow != null) {
                     if (rightMenuWindow.isShowing()) {
                         rightMenuWindow.dismiss();
                     } else {
                         rightMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
                     }
-                } else if (CheckUtils.isEmptyList(services)) {
                 } else {
-                    showRightMenuPop(services);
+                    showRightMenuPop();
                 }
+                break;
+            case R.id.group_buying_menu_clear:
+                clearStatus(serviceAdapter);
+                clearStatus(activityAdapter);
+                break;
+            case R.id.group_buying_menu_confirm:
+                hidePopupWindow();
+                start = 0;
+                getData(false);
+                break;
+            case R.id.group_buying_menu_cover_view:
+                hidePopupWindow();
                 break;
             default:
                 break;
@@ -281,7 +297,11 @@ public class GroupBuyingMainActivity extends BaseActivity {
 
     private void getCategory(final boolean show) {
         Map<String, Object> map = new HashMap<>();
-        map.put("parentCategoryId", groupCategoryId);
+        map.put("parentCategoryId", 0);
+        long agentId = PreferenceUtils.getLongPreference("issueAgentId", 0, mActivity);
+        if (agentId > 0) {
+            map.put("agentId", agentId);
+        }
         VolleyOperater<GroupBuyingCategoryListModel> operater = new VolleyOperater<>(mActivity);
         operater.doRequest(Constants.URL_FIND_GROUP_PURCHASE_CATEGORY_LIST, map, new VolleyOperater.ResponseListener() {
             @Override
@@ -293,7 +313,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                     categories = ((GroupBuyingCategoryListModel) obj).getValue();
                     if (categories != null) {
                         for (GroupPurchaseCategory category : categories) {
-                            if (category.getId() == childCategoryId) {
+                            if (category.getId() == groupCategoryId) {
                                 category.setSelected(true);
                                 tvMenu1.setText(category.getName());
                                 break;
@@ -314,22 +334,73 @@ public class GroupBuyingMainActivity extends BaseActivity {
 
 
     private void selectTag(TextView textView) {
-        textView.setTextColor(getResources().getColor(R.color.title_bar_bg));
-        textView.setCompoundDrawables(null, null, rightDrawableOrange, null);
+        if (groupMenuLayout.getVisibility() == View.GONE) {
+            groupMenuLayout.setVisibility(View.VISIBLE);
+        }
+        checkListCount();
+        resetListView();
+        if (textView != null) {
+            textView.setTextColor(getResources().getColor(R.color.title_bar_bg));
+            textView.setCompoundDrawables(null, null, rightDrawableOrange, null);
+        }
     }
 
-    private void dissmissPopWindow() {
+
+    private boolean isShowPop() {
         if (leftMenuWindow != null && leftMenuWindow.isShowing()) {
-            leftMenuWindow.dismiss();
+            return true;
         }
         if (midMenuWindow != null && midMenuWindow.isShowing()) {
-            midMenuWindow.dismiss();
+            return true;
         }
         if (rightMenuWindow != null && rightMenuWindow.isShowing()) {
-            rightMenuWindow.dismiss();
+            return true;
         }
-
+        return false;
     }
+
+
+    private void checkListCount() {
+        if (adapter.getCount() > 4) {
+            listView.getRefreshableView().setSelection(2);
+        } else {
+            listView.scrollTo(0, (int) getHeaderScrollY());
+        }
+    }
+
+    public float getHeaderScrollY() {
+        View v1 = listView.getRefreshableView().getChildAt(1);
+        return listHeaderView.getHeight() - DipToPx.dip2px(mActivity, 48);
+    }
+
+    private void resetListView() {
+        listView.scrollTo(0, 0);
+    }
+
+//    private void dissmissPopWindow() {
+//        if (leftMenuWindow != null && leftMenuWindow.isShowing()) {
+//            leftMenuWindow.dismiss();
+//            resetListView();
+//            if (groupMenuLayout.getVisibility() == View.VISIBLE && listView.getRefreshableView().getFirstVisiblePosition() < 3) {
+//                groupMenuLayout.setVisibility(View.GONE);
+//            }
+//        }
+//        if (midMenuWindow != null && midMenuWindow.isShowing()) {
+//            midMenuWindow.dismiss();
+//            resetListView();
+//            if (groupMenuLayout.getVisibility() == View.VISIBLE && listView.getRefreshableView().getFirstVisiblePosition() < 3) {
+//                groupMenuLayout.setVisibility(View.GONE);
+//            }
+//        }
+//        if (rightMenuWindow != null && rightMenuWindow.isShowing()) {
+//            rightMenuWindow.dismiss();
+//            resetListView();
+//            if (groupMenuLayout.getVisibility() == View.VISIBLE && listView.getRefreshableView().getFirstVisiblePosition() < 3) {
+//                groupMenuLayout.setVisibility(View.GONE);
+//            }
+//        }
+//
+//    }
 
 
     private void initHeaderView() {
@@ -394,6 +465,15 @@ public class GroupBuyingMainActivity extends BaseActivity {
         });
         AutoScrollViewPager navigatorViewPager = (AutoScrollViewPager) listHeaderView.findViewById(R.id.home_list_header_navigator_view_pager);
         groupBar = (LinearLayout) listHeaderView.findViewById(R.id.group_menu_bar);
+        LinearLayout menu1 = (LinearLayout) listHeaderView.findViewById(R.id.menu_layout_1);
+        LinearLayout menu2 = (LinearLayout) listHeaderView.findViewById(R.id.menu_layout_2);
+        LinearLayout menu3 = (LinearLayout) listHeaderView.findViewById(R.id.menu_layout_3);
+        menuChild1 = (TextView) listHeaderView.findViewById(R.id.menu_tv_1);
+        menuChild2 = (TextView) listHeaderView.findViewById(R.id.menu_tv_2);
+        menuChild3 = (TextView) listHeaderView.findViewById(R.id.menu_tv_3);
+        menu1.setOnClickListener(this);
+        menu2.setOnClickListener(this);
+        menu3.setOnClickListener(this);
         navigatorLayout = (RelativeLayout) listHeaderView.findViewById(R.id.home_list_header_navigator_flipperParent);
         navigatorViewPager.setNeedOnMeasure(true);
         navigatorIndicator = (CirclePageIndicator) listHeaderView.findViewById(R.id.home_list_header_navigator_indicator);
@@ -416,6 +496,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
         gridLayoutManager = new GridLayoutManager(this, lineCount);
         recommendRecyclerView.setLayoutManager(gridLayoutManager);
         recommendRecyclerView.setAdapter(recommendGridAdapter);
+        listView.getRefreshableView().addHeaderView(listHeaderView);
     }
 
     private void getBanner() {
@@ -504,6 +585,9 @@ public class GroupBuyingMainActivity extends BaseActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("start", start);
         map.put("size", maxResults);
+        if (groupCategoryId != 0) {
+            map.put("groupPurchaseCategoryId", groupCategoryId);
+        }
         if (mActivity != null && PreferenceUtils.getLocation(mActivity)[0] != null && PreferenceUtils.getLocation(mActivity)[1] != null) {
             map.put("latitude", PreferenceUtils.getLocation(mActivity)[0]);
             map.put("longitude", PreferenceUtils.getLocation(mActivity)[1]);
@@ -512,19 +596,52 @@ public class GroupBuyingMainActivity extends BaseActivity {
             map.put("longitude", "");
         }
         /** 排序方式1:智能排序;2:离我最近;3:好评优先 **/
-//        map.put("sortType", 1);
-//        map.put("groupPurchaseCategoryId", 1);
-//        map.put("childGroupPurchaseCategoryId", 2);
-//        /** 商户服务多个逗号分隔：1,2,3,4,5,6,7 **/
-//        map.put("groupPurchaseMerchantServices", "1,2");
+        if (midPrePosition != -1) {
+            map.put("sortType", midPrePosition);
+        }
+
+        if (serviceAdapter != null) {
+            if (!serviceAdapter.getItem(0).isSelected()) {
+                StringBuffer sb = new StringBuffer();
+                for (GroupPurchaseMerchantService service : serviceAdapter.getData()) {
+                    if (service.isSelected()) {
+                        sb.append(service.getName()).append(" ");
+                    }
+                }
+                map.put("groupPurchaseMerchantServices", sb.toString().trim());
+            }
+        }
+        if (activityAdapter != null) {
+            if (!activityAdapter.getItem(0).isSelected()) {
+                StringBuffer sb = new StringBuffer();
+                for (GroupPurchaseMerchantService service : activityAdapter.getData()) {
+                    if (service.isSelected()) {
+                        sb.append(service.getName()).append(" ");
+                    }
+                }
+                map.put("groupPurchaseMerchantActivities", sb.toString().trim());
+            }
+        }
+
+        if (rangeSeekbar != null) {
+            String[] array = getResources().getStringArray(R.array.markArray);
+            map.put("minAvgPersonPrice", array[rangeSeekbar.getLeftCursorIndex()]);
+            if (!array[rangeSeekbar.getRightCursorIndex()].equals("不限")) {
+                map.put("maxAvgPersonPrice", array[rangeSeekbar.getRightCursorIndex()]);
+            }
+        }
+
+//        groupPurchaseMerchantServices	商户服务多个空格分隔：无线网络 刷卡支付 但 不限 例外 不限 和其他不可同时选择 不限时 此字段传空字符串 搜索时传空字符串
+//        groupPurchaseMerchantActivities		商户活动多个空格分隔：优惠买单 团购券 但 不限 例外 不限 和其他不可同时选择 不限时 此字段传空字符串 搜索时传空字符串
+//        minAvgPersonPrice				最小人均消费	默认传0
+//        maxAvgPersonPrice				最大人均消费	默认不传
+
         VolleyOperater<GroupBuyingMerchantListModel> operater = new VolleyOperater<>(mActivity);
-        operater.doRequest(Constants.URL_FIND_GROUP_PURCHASE_MERCHANT, map, new VolleyOperater.ResponseListener() {
+        operater.doRequest(Constants.URL_GROUP_SEARCH, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
                 if (loadingDialog != null && loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
-                    if (listHeaderView != null)
-                        listView.getRefreshableView().addHeaderView(listHeaderView);
                 }
                 listView.onRefreshComplete();
                 if (isSucceed && obj != null) {
@@ -546,6 +663,9 @@ public class GroupBuyingMainActivity extends BaseActivity {
                                 adapter.notifyDataSetChanged();
                             }
                         } else {
+                            if (groupBar != null && groupBar.getVisibility() == View.GONE) {
+                                groupBar.setVisibility(View.VISIBLE);
+                            }
                             adapter.setList(mlist);
                             adapter.notifyDataSetChanged();
                         }
@@ -554,6 +674,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                             ToastUtils.displayMsg("到底了", mActivity);
                         } else {
                             adapter.setList(mlist);
+                            resetListView();
                         }
                     }
                 }
@@ -785,9 +906,10 @@ public class GroupBuyingMainActivity extends BaseActivity {
                 categories.get(i).setSelected(true);
                 categoryAdapter.notifyDataSetChanged();
                 tvMenu1.setText(categories.get(i).getName());
+                menuChild1.setText(categories.get(i).getName());
 
                 start = 0;
-                childCategoryId = categories.get(i).getId();
+                groupCategoryId = categories.get(i).getId();
                 getData(false);
             }
         });
@@ -801,10 +923,17 @@ public class GroupBuyingMainActivity extends BaseActivity {
         leftMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                tvMenu1.setTextColor(getResources().getColor(R.color.gray_text_0));
-                tvMenu1.setCompoundDrawables(null, null, rightDrawableGray, null);
+                dismissPopwindow(tvMenu1);
+                dismissPopwindow(menuChild1);
             }
         });
+    }
+
+    private void dismissPopwindow(TextView textView) {
+        if (textView != null) {
+            textView.setTextColor(getResources().getColor(R.color.gray_text_0));
+            textView.setCompoundDrawables(null, null, rightDrawableGray, null);
+        }
     }
 
     private void showMidMenuPop() {
@@ -831,8 +960,8 @@ public class GroupBuyingMainActivity extends BaseActivity {
         midMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                tvMenu2.setTextColor(getResources().getColor(R.color.gray_text_0));
-                tvMenu2.setCompoundDrawables(null, null, rightDrawableGray, null);
+                dismissPopwindow(tvMenu2);
+                dismissPopwindow(menuChild2);
             }
         });
     }
@@ -842,11 +971,11 @@ public class GroupBuyingMainActivity extends BaseActivity {
         public void onClick(View v) {
             int position = (int) v.getTag();
             if (midPrePosition != -1) {
-                homeSortAdapter.getData().get(midPrePosition).setIsCheck(false);
+                homeSortAdapter.getData().get(midPrePosition - 1).setIsCheck(false);
             }
             HomeBean bean = homeSortAdapter.getData().get(position);
             bean.setIsCheck(!bean.isCheck());
-            midPrePosition = position;
+            midPrePosition = position + 1;
             homeSortAdapter.notifyDataSetChanged();
             if (midMenuWindow.isShowing()) {
                 midMenuWindow.dismiss();
@@ -857,17 +986,70 @@ public class GroupBuyingMainActivity extends BaseActivity {
         }
     };
 
-    private void showRightMenuPop(ArrayList<GroupPurchaseMerchantService> value) {
+    private void showRightMenuPop() {
         LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.group_buying_menu_right, null);
-        GridView rightGridView = (GridView) linearLayout.findViewById(R.id.group_buying_menu_list);
+        LinearLayout conditionLayout = (LinearLayout) linearLayout.findViewById(R.id.condition_layout);
+        rangeSeekbar = (RangeSeekbar) linearLayout.findViewById(R.id.rangeseekbar);
+        setServiceView(conditionLayout);
+        setActivityView(conditionLayout);
+
+        View coverView = linearLayout.findViewById(R.id.group_buying_menu_cover_view);
+        TextView clear = (TextView) linearLayout.findViewById(R.id.group_buying_menu_clear);
+        TextView confirm = (TextView) linearLayout.findViewById(R.id.group_buying_menu_confirm);
+        coverView.setOnClickListener(this);
+        clear.setOnClickListener(this);
+        confirm.setOnClickListener(this);
+
+        rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        rightMenuWindow.setOutsideTouchable(true);
+        rightMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
+
+        rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                dismissPopwindow(tvMenu3);
+                dismissPopwindow(menuChild3);
+            }
+        });
+    }
+
+
+    private void clearStatus(GroupBuyingMerchantServiceMenuAdapter activityAdapter) {
+        if (activityAdapter != null) {
+            List<GroupPurchaseMerchantService> services = activityAdapter.getData();
+            for (GroupPurchaseMerchantService service : services) {
+                service.setSelected(false);
+            }
+            services.get(0).setSelected(true);
+            activityAdapter.notifyDataSetChanged();
+        }
+        if (rangeSeekbar != null) {
+            rangeSeekbar.setLeftSelection(0);
+            rangeSeekbar.setRightSelection(5);
+        }
+    }
+
+    private void setServiceView(LinearLayout linearLayout) {
+        View view = mActivity.getLayoutInflater().inflate(R.layout.item_group_buying_menu_right, null);
+        GridView rightGridView = (GridView) view.findViewById(R.id.group_buying_menu_list);
+        TextView name = (TextView) view.findViewById(R.id.type_name_textview);
+        name.setText("商家服务");
         serviceAdapter = new GroupBuyingMerchantServiceMenuAdapter(mActivity);
         rightGridView.setAdapter(serviceAdapter);
-        GroupPurchaseMerchantService service = new GroupPurchaseMerchantService();
-        service.setName("不限");
-        service.setValue(-1);
-        service.setSelected(true);
-        value.add(0, service);
-        serviceAdapter.setData(value);
+        List<GroupPurchaseMerchantService> list = new ArrayList<>();
+        for (String s : serviceNames) {
+            GroupPurchaseMerchantService service = new GroupPurchaseMerchantService();
+            service.setName(s);
+            if ("不限".equals(s)) {
+                service.setValue(-1);
+                service.setSelected(true);
+            } else {
+                service.setValue(1);
+                service.setSelected(false);
+            }
+            list.add(service);
+        }
+        serviceAdapter.setData(list);
         rightGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -884,43 +1066,47 @@ public class GroupBuyingMainActivity extends BaseActivity {
                 serviceAdapter.notifyDataSetChanged();
             }
         });
-        View coverView = linearLayout.findViewById(R.id.group_buying_menu_cover_view);
-        TextView clear = (TextView) linearLayout.findViewById(R.id.group_buying_menu_clear);
-        TextView confirm = (TextView) linearLayout.findViewById(R.id.group_buying_menu_confirm);
-        coverView.setOnClickListener(this);
-        clear.setOnClickListener(this);
-        confirm.setOnClickListener(this);
+        linearLayout.addView(view);
+    }
 
-        rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        rightMenuWindow.setOutsideTouchable(true);
-        rightMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
-
-        rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+    private void setActivityView(LinearLayout linearLayout) {
+        View view = mActivity.getLayoutInflater().inflate(R.layout.item_group_buying_menu_right, null);
+        GridView rightGridView = (GridView) view.findViewById(R.id.group_buying_menu_list);
+        TextView name = (TextView) view.findViewById(R.id.type_name_textview);
+        name.setText("商家活动");
+        activityAdapter = new GroupBuyingMerchantServiceMenuAdapter(mActivity);
+        rightGridView.setAdapter(activityAdapter);
+        List<GroupPurchaseMerchantService> list = new ArrayList<>();
+        for (String s : activityNames) {
+            GroupPurchaseMerchantService service = new GroupPurchaseMerchantService();
+            service.setName(s);
+            if ("不限".equals(s)) {
+                service.setValue(-1);
+                service.setSelected(true);
+            } else {
+                service.setValue(1);
+                service.setSelected(false);
+            }
+            list.add(service);
+        }
+        activityAdapter.setData(list);
+        rightGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onDismiss() {
-                if ("".equals(serviceStr))
-                    tvMenu3.setTextColor(getResources().getColor(R.color.gray_text_0));
-                tvMenu3.setCompoundDrawables(null, null, rightDrawableGray, null);
-
-                for (GroupPurchaseMerchantService service : services) {
-                    service.setSelected(false);
-                }
-                if ("".equals(serviceStr)) {
-                    services.get(0).setSelected(true);
-                } else {
-                    String[] values = serviceStr.split(",");
-                    for (String s : values) {
-                        for (GroupPurchaseMerchantService service : services) {
-                            if (s.equals(service.getValue() + "")) {
-                                service.setSelected(true);
-                                break;
-                            }
-                        }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    if (activityAdapter.getItem(position).isSelected()) return;
+                    activityAdapter.getItem(position).setSelected(true);
+                    for (int i = 1; i < activityAdapter.getCount(); i++) {
+                        activityAdapter.getItem(i).setSelected(false);
                     }
+                } else {
+                    activityAdapter.getItem(position).setSelected(!activityAdapter.getItem(position).isSelected());
+                    activityAdapter.getItem(0).setSelected(false);
                 }
-                serviceAdapter.notifyDataSetChanged();
+                activityAdapter.notifyDataSetChanged();
             }
         });
+        linearLayout.addView(view);
     }
 
     private boolean isPopupWindowShowing() {
