@@ -3,6 +3,7 @@ package com.project.mgjandroid.model;
 import com.project.mgjandroid.bean.Distance;
 import com.project.mgjandroid.bean.SpecificTime;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -1602,6 +1603,8 @@ public class LegworkOrderDetailsModel extends Entity {
                 private int isPaoTuiDeliveryman;
                 private int type;
                 private Object deliveryTaskList;
+                /** 骑手总体评分 **/
+                private BigDecimal deliverymanScore = new BigDecimal(5.0);
 
                 public int getId() {
                     return id;
@@ -1929,6 +1932,14 @@ public class LegworkOrderDetailsModel extends Entity {
 
                 public void setDeliveryTaskList(Object deliveryTaskList) {
                     this.deliveryTaskList = deliveryTaskList;
+                }
+
+                public BigDecimal getDeliverymanScore() {
+                    return deliverymanScore;
+                }
+
+                public void setDeliverymanScore(BigDecimal deliverymanScore) {
+                    this.deliverymanScore = deliverymanScore;
                 }
             }
         }

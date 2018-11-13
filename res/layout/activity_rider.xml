@@ -91,17 +91,17 @@
                     android:textSize="15sp" />
 
                 <!--<com.project.mgjandroid.ui.view.RatingBarView-->
-                    <!--android:id="@+id/rider_score1"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:layout_marginTop="@dimen/x8"-->
-                    <!--android:layout_toRightOf="@id/all_evaluate_text"-->
-                    <!--bao:starCount="5"-->
-                    <!--bao:starEmpty="@drawable/evaluate_small_star_unselected"-->
-                    <!--bao:starFill="@drawable/evaluate_small_star_selected"-->
-                    <!--bao:starImageSize="18dp" />-->
+                <!--android:id="@+id/rider_score1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_marginTop="@dimen/x8"-->
+                <!--android:layout_toRightOf="@id/all_evaluate_text"-->
+                <!--bao:starCount="5"-->
+                <!--bao:starEmpty="@drawable/evaluate_small_star_unselected"-->
+                <!--bao:starFill="@drawable/evaluate_small_star_selected"-->
+                <!--bao:starImageSize="18dp" />-->
 
                 <com.project.mgjandroid.ui.view.RatingBar
                     android:id="@+id/rider_score"
@@ -110,13 +110,13 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/x8"
-                    app:starCount="5"
+                    android:layout_toRightOf="@id/all_evaluate_text"
+                    app:clickable="false"
                     app:mStarEmpty="@drawable/evaluate_small_star_unselected"
                     app:mStarFill="@drawable/evaluate_small_star_selected"
-                    app:starHalf="@drawable/evaluate_small_half_star"
                     app:mStarImageSize="18dp"
-                    android:layout_toRightOf="@id/all_evaluate_text"
-                    />
+                    app:starCount="5"
+                    app:starHalf="@drawable/evaluate_small_half_star" />
 
             </LinearLayout>
 
@@ -232,22 +232,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="骑手印象"
             android:layout_marginLeft="@dimen/x15"
+            android:text="骑手印象"
             android:textColor="@color/color_6"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <com.project.mgjandroid.ui.view.NoScrollGridView
             android:id="@+id/grid_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/x15"
             android:layout_marginLeft="@dimen/x15"
             android:layout_marginRight="@dimen/x15"
+            android:layout_marginBottom="@dimen/x15"
             android:clickable="false"
             android:listSelector="@android:color/transparent"
-            android:numColumns="3"
-            ></com.project.mgjandroid.ui.view.NoScrollGridView>
+            android:numColumns="3"></com.project.mgjandroid.ui.view.NoScrollGridView>
 
     </LinearLayout>
 </LinearLayout>

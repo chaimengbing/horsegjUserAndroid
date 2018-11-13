@@ -557,9 +557,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rLayout_right:
-                Intent mIntent = new Intent(mActivity, LegworkEvaluateActivity.class);
-                mIntent.putExtra("orderId", valueEntity.getId());
-                mIntent.putExtra("agentId", valueEntity.getAgentId());
+                Intent mIntent = new Intent(mActivity, RiderActivity.class);
+                mIntent.putExtra("deliverymanId", submitOrderEntity.getDeliveryTask().getDeliverymanId());
                 startActivityForResult(mIntent, 2000);
                 break;
             case R.id.order_detail_act_iv_back:
