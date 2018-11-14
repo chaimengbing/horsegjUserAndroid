@@ -93,7 +93,7 @@
         android:horizontalSpacing="@dimen/x16"
         android:verticalSpacing="@dimen/x16"
         android:listSelector="@null"
-        android:numColumns="4" />
+        android:numColumns="3" />
 
     <View
         android:id="@+id/grid_view_divider"

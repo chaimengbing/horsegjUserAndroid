@@ -703,18 +703,31 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                     tvAccountExtraMoney.setText("(账户余额：¥" + (userBalance == null ? 0 : StringUtils.BigDecimal2Str(userBalance)) + ")");
                     tvBalancePayMoney.setText(userBalance == null ? "" : (userBalance.compareTo(payWaysModel.getValue().getTotalPrice()) > 0 ?
                             ("¥" + price) : ("¥" + StringUtils.BigDecimal2Str(userBalance))));
+                    creatPayContainer();
                     if(userBalance!=null){
                         if(userBalance.compareTo(payWaysModel.getValue().getTotalPrice())>0){
                             ivExtra.setChecked(!ivExtra.isChecked());
                         }else {
                             ivExtra.setChecked(!ivExtra.isChecked());
                             changeLabel(0);
+                            if (preTag != -1) {
+                                changeLabel(preTag);
+                            }
+                            List<PayWaysModel.ValueEntity.ChargeTypesEntity> chargeTypes = payWaysModel.getValue().getChargeTypes();
+                            payChannel = chargeTypes.get(0).getChannel();
+                            preTag = 0;
                         }
                     }else {
                         changeLabel(0);
+                        if (preTag != -1) {
+                            changeLabel(preTag);
+                        }
+                        List<PayWaysModel.ValueEntity.ChargeTypesEntity> chargeTypes = payWaysModel.getValue().getChargeTypes();
+                        payChannel = chargeTypes.get(0).getChannel();
+                        preTag = 0;
                     }
 
-                    creatPayContainer();
+
 
 //                    try {
 //                        double balance = 0;

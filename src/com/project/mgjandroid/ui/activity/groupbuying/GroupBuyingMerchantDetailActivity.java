@@ -233,7 +233,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             if (CheckUtils.isNoEmptyList(tuanList)) showGroupBuying1(tuanList);
         }
         if (merchant.getMerchantCommentNum() != null && merchant.getMerchantCommentNum() > 0) {
-            tvEvaluation.setText(+merchant.getMerchantCommentNum() + "条评价");
+            tvEvaluation.setText("评价（"+merchant.getMerchantCommentNum() + "）");
             getEvaluation();
         }
     }

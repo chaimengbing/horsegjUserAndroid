@@ -55,7 +55,7 @@ public class GroupBuyingGridImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (maxCount3) return Math.min(urls.size(), 4);
+        if (maxCount3) return Math.min(urls.size(), 3);
         return urls.size();
     }
 
@@ -81,14 +81,14 @@ public class GroupBuyingGridImageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if(position==3){
-            holder.tvPhotoCount.setVisibility(View.VISIBLE);
-            holder.tvPhotoCount.setText(urls.size()+"");
-        }else {
-            holder.tvPhotoCount.setVisibility(View.GONE);
-        }
+//        if(position==3){
+//            holder.tvPhotoCount.setVisibility(View.VISIBLE);
+//            holder.tvPhotoCount.setText(urls.size()+"");
+//        }else {
+//            holder.tvPhotoCount.setVisibility(View.GONE);
+//        }
 
-        ImageUtils.loadBitmap(context, urls.get(position), holder.img, R.drawable.horsegj_default, Constants.getEndThumbnail(128, 108));
+        ImageUtils.loadBitmap(context, urls.get(position), holder.img, R.drawable.horsegj_default, Constants.getEndThumbnail(100, 100));
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
