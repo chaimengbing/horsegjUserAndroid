@@ -459,7 +459,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
 
     }
 
-    private void showRedBag(){
+    private void showRedBag() {
         sendRedBag.setVisibility(View.GONE);
         View view = LayoutInflater.from(this).inflate(R.layout.send_redbag, null);
         TextView tvSure = (TextView) view.findViewById(R.id.sure);
@@ -492,7 +492,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if(!popupWindow.isShowing()){
+                if (!popupWindow.isShowing()) {
                     sendRedBag.setVisibility(View.VISIBLE);
                 }
                 WindowManager.LayoutParams lp = mActivity.getWindow().getAttributes();
@@ -688,8 +688,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 initAvatarDialog();
                 break;
             case R.id.order_detail_act_evaluate://完成时评价
-                Intent intent = new Intent(mActivity, EvaluateActivity.class);
+                Intent intent = new Intent(mActivity, NewEvaluateActivity.class);
                 intent.putExtra("orderId", orderId);
+                intent.putExtra("agentId", valueEntity.getAgentId());
                 intent.putExtra("valueEntity", valueEntity);
                 intent.putExtra("submitOrderEntity", submitOrderEntity);
                 if (submitOrderEntity.getDeliveryTask() != null) {
@@ -698,6 +699,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                     intent.putExtra("hasDriver", false);
                 }
                 startActivityForResult(intent, 1);
+
                 break;
 
             case R.id.order_detail_act_un_pay_go_pay:
@@ -1029,9 +1031,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                     SubmitOrderModel orderDetail = (SubmitOrderModel) obj;
                     submitOrderEntity = orderDetail.getValue();
                     shareRedBagInfo = submitOrderEntity.getShareRedBagInfo();
-                    if(shareRedBagInfo==null){
+                    if (shareRedBagInfo == null) {
                         sendRedBag.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         sendRedBag.setVisibility(View.VISIBLE);
                     }
                     int agentType = 0;
@@ -1257,8 +1259,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 }
                 break;
             case STATE_WAIT_CONFIRM:
-                if(shareRedBagInfo!=null){
-                    if(isCanIn){
+                if (shareRedBagInfo != null) {
+                    if (isCanIn) {
                         isCanIn = false;
                         showRedBag();
                     }

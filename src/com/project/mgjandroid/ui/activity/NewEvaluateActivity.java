@@ -142,7 +142,6 @@ public class NewEvaluateActivity extends BaseActivity {
     private TextView textView;
     private int agentId;
     private List<Map<String, Object>> list;
-    private SubmitOrderModel.ValueEntity value;
 
 
     @Override
@@ -181,7 +180,6 @@ public class NewEvaluateActivity extends BaseActivity {
             agentId = intent.getIntExtra("agentId", -1);
             valueEntityEvaluate = (NewOrderFragmentModel.ValueEntity) intent.getSerializableExtra("valueEntity");
             submitOrderEntity = (SubmitOrderModel.ValueEntity) intent.getSerializableExtra("submitOrderEntity");
-            value = (SubmitOrderModel.ValueEntity) intent.getSerializableExtra("value");
             if (valueEntityEvaluate != null) {
                 isFromOrderList = true;
                 orderItems = valueEntityEvaluate.getOrderItems();
@@ -192,14 +190,14 @@ public class NewEvaluateActivity extends BaseActivity {
         }
         if (hasDriverEvaluate) {
             layoutRider.setVisibility(View.VISIBLE);
-            tvRiderName.setText(value.getDeliveryTask().getDeliveryman().getName());
-            ImageUtils.loadBitmap(mActivity, value.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
-            tvDeliveryTime.setText(value.getOrderDoneTime());
+            tvRiderName.setText(submitOrderEntity.getDeliveryTask().getDeliveryman().getName());
+            ImageUtils.loadBitmap(mActivity, submitOrderEntity.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
+            tvDeliveryTime.setText(submitOrderEntity.getOrderDoneTime());
         } else {
             layoutRider.setVisibility(View.GONE);
         }
-        ImageUtils.loadBitmap(mActivity, value.getMerchant().getLogo(), merchantAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
-        tvMerchantName.setText(value.getMerchant().getName());
+        ImageUtils.loadBitmap(mActivity, submitOrderEntity.getMerchant().getLogo(), merchantAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
+        tvMerchantName.setText(submitOrderEntity.getMerchant().getName());
         if (isFromOrderList)
             eTime = valueEntityEvaluate.getMerchant().getAvgDeliveryTime();
         else
@@ -323,12 +321,21 @@ public class NewEvaluateActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                tvLength.setText(editable.toString().length() + "/800字");
+                tvLength.setText(editable.toString().length()+"/800字");
             }
         });
 
         GoodsListAdapter goodsAdapter = new GoodsListAdapter(R.layout.evaluate_goods_list_item, mActivity);
         noScrollListView.setAdapter(goodsAdapter);
+        noScrollListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RadioButton rbTrample = (RadioButton) view.findViewById(R.id.rb_trample);
+                RadioButton rbPraise = (RadioButton) view.findViewById(R.id.rb_praise);
+                rbTrample.setChecked(!rbTrample.isChecked());
+                rbPraise.setChecked(!rbPraise.isChecked());
+            }
+        });
         goodsAdapter.setData(orderItems);
     }
 
@@ -555,4 +562,5 @@ public class NewEvaluateActivity extends BaseActivity {
             mPopupWindow.dismiss();
         }
     }
+
 }
