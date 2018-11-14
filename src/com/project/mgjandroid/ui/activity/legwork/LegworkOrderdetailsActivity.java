@@ -1229,9 +1229,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 dialog.show();
                 break;
             case R.id.tv_refund_desc:
-                if (valueBean.getPaymentState() == 0){
+                if (valueBean.getPaymentState() == 0) {
 
-                }else {
+                } else {
                     //退款详情
                     Intent intent2 = new Intent(mActivity, OrderRefundInfoActivity.class);
                     intent2.putExtra("orderId", valueBean.getId());
@@ -1396,6 +1396,25 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
 
     private void putDeliveryLocationToMap(BitmapDescriptor pic, double latitude, double longitude) {
         if (baiduMap != null) {
+
+//            LatLng point = new LatLng(latitude, longitude);
+//            MarkerOptions overlayOptions = new MarkerOptions()
+//                    .position(point)
+//                    .icon(pic)
+//                    .zIndex(15)
+//                    .draggable(true)
+//                    .animateType(MarkerOptions.MarkerAnimateType.grow);//设置marker从地上生长出来的动画
+//            Marker marker = (Marker) baiduMap.addOverlay(overlayOptions);
+//            marker.setToTop();
+//            baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+//                @Override
+//                public boolean onMarkerClick(Marker marker) {
+//                    if (mStatusDialog != null) {
+//                        mStatusDialog.show();
+//                    }
+//                    return false;
+//                }
+//            });
             MyLocationData locData = new MyLocationData.Builder()
                     .latitude(latitude)
                     .longitude(longitude)
@@ -1403,7 +1422,17 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             baiduMap.setMyLocationData(locData);
             baiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(18).build()));
             MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, pic);
-            baiduMap.setMyLocationConfigeration(config);
+            baiduMap.setMyLocationConfiguration(config);
+            baiduMap.setMyLocationEnabled(true);
+            baiduMap.setOnMyLocationClickListener(new BaiduMap.OnMyLocationClickListener() {
+                @Override
+                public boolean onMyLocationClick() {
+                    if (mStatusDialog != null) {
+                        mStatusDialog.show();
+                    }
+                    return false;
+                }
+            });
         }
     }
 
