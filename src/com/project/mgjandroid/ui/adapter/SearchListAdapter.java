@@ -136,8 +136,8 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
                     infoValue.append(price);
                     StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
                     ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
-                    infoValue.setSpan(strikethroughSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                    infoValue.setSpan(colorSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    infoValue.setSpan(strikethroughSpan, infoValue.toString().lastIndexOf(price), infoValue.toString().lastIndexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    infoValue.setSpan(colorSpan, infoValue.toString().lastIndexOf(price), infoValue.toString().lastIndexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
                 }
                 textView.setText(infoValue);
             }

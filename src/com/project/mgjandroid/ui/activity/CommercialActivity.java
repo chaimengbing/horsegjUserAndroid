@@ -391,8 +391,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             infoValue.append(sb.toString());
             StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
             ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
-            infoValue.setSpan(strikethroughSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            infoValue.setSpan(colorSpan, infoValue.toString().indexOf(price), infoValue.toString().indexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            infoValue.setSpan(strikethroughSpan, infoValue.toString().lastIndexOf(price), infoValue.toString().lastIndexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            infoValue.setSpan(colorSpan, infoValue.toString().lastIndexOf(price), infoValue.toString().lastIndexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         }
 
         tvShopDesc.setText(infoValue);
@@ -518,7 +518,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         tvTitle.setText(merchant.getName());
         checkFullReduction(merchant);
         if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 1) {
-            tv_cart_shipping.setText("另需配送费¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
+            tv_cart_shipping.setText("另需配送费¥" + StringUtils.BigDecimal2Str(merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt())));
             tv_cart_package.setTextSize(10);
         } else {
             tv_cart_shipping.setVisibility(View.GONE);
@@ -1608,7 +1608,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     }
 
     private void showMandatoryDialog(final int position, String mandatoryName) {
-        if (noticeDialog != null && noticeDialog.isShowing()){
+        if (noticeDialog != null && noticeDialog.isShowing()) {
             noticeDialog.dismiss();
         }
         noticeDialog = new NoticeDialog(mActivity, new NoticeDialog.onBtnClickListener() {
