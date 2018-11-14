@@ -95,12 +95,12 @@
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/x8"
                     android:layout_toRightOf="@id/all_evaluate_text"
-                    app:mStarEmpty="@drawable/evaluate_small_star_unselected"
-                    app:mStarFill="@drawable/evaluate_small_star_selected"
+                    app:clickable="false"
+                    app:mStarEmpty="@drawable/legwork_star_unselected"
+                    app:mStarFill="@drawable/legwork_star_selected"
                     app:mStarImageSize="18dp"
                     app:starCount="5"
-                    app:clickable="false"
-                    app:starHalf="@drawable/evaluate_small_half_star" />
+                    app:starHalf="@drawable/legwork_star_half_selected" />
 
             </LinearLayout>
 

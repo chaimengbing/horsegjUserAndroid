@@ -66,8 +66,8 @@
 
             <com.project.mgjandroid.ui.view.CornerImageView
                 android:id="@+id/rider_avatar"
-                android:layout_width="@dimen/x28"
-                android:layout_height="@dimen/x28"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/x15"
                 android:scaleType="centerCrop"
@@ -112,11 +112,11 @@
                     android:layout_marginTop="@dimen/x8"
                     android:layout_toRightOf="@id/all_evaluate_text"
                     app:clickable="false"
-                    app:mStarEmpty="@drawable/evaluate_small_star_unselected"
-                    app:mStarFill="@drawable/evaluate_small_star_selected"
+                    app:mStarEmpty="@drawable/legwork_star_unselected"
+                    app:mStarFill="@drawable/legwork_star_selected"
                     app:mStarImageSize="18dp"
                     app:starCount="5"
-                    app:starHalf="@drawable/evaluate_small_half_star" />
+                    app:starHalf="@drawable/legwork_star_half_selected" />
 
             </LinearLayout>
 
@@ -131,7 +131,8 @@
                     android:layout_width="1px"
                     android:layout_height="@dimen/x30"
                     android:layout_centerVertical="true"
-                    android:background="#bfbfbf" />
+                    android:background="#bfbfbf"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -139,7 +140,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/x36"
-                    android:src="@drawable/rider_phone" />
+                    android:src="@drawable/ic_legwork_phone" />
             </RelativeLayout>
         </RelativeLayout>
 
