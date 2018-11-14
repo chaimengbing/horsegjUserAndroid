@@ -1,6 +1,7 @@
 package com.project.mgjandroid.ui.activity.groupbuying;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -8,27 +9,33 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jet.flowtaglayout.FlowTagLayout;
 import com.project.mgjandroid.R;
-import com.project.mgjandroid.bean.Goods;
-import com.project.mgjandroid.bean.Merchant;
+import com.project.mgjandroid.bean.HomeBean;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCategory;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchant;
+import com.project.mgjandroid.bean.groupbuying.GroupPurchaseMerchantService;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.GroupHotSearchModel;
 import com.project.mgjandroid.model.GroupSearchModel;
+import com.project.mgjandroid.model.groupbuying.GroupBuyingCategoryListModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.activity.CommercialActivity;
-import com.project.mgjandroid.ui.activity.CommodityDetailActivity;
-import com.project.mgjandroid.ui.activity.HomeActivity;
+import com.project.mgjandroid.ui.adapter.HomeSortAdapter;
+import com.project.mgjandroid.ui.view.RangeSeekbar;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
 import com.project.mgjandroid.utils.CheckUtils;
@@ -78,6 +85,30 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
     @InjectView(R.id.search_source_layout)
     private ScrollView searchKeyWordView;
 
+
+    private long groupCategoryId = 0;
+    private PopupWindow leftMenuWindow;
+    private PopupWindow midMenuWindow;
+    private PopupWindow rightMenuWindow;
+    private Drawable rightDrawableOrange;
+    private Drawable rightDrawableGray;
+
+    private GroupBuyingCategoryAdapter categoryAdapter;
+    private ArrayList<GroupPurchaseCategory> categories;
+    private HomeSortAdapter homeSortAdapter;
+    private int midPrePosition = -1;
+    private String[] names = new String[]{"智能排序", "距离最近", "好评优先"};
+    private int[] heads = new int[]{R.drawable.head_01, R.drawable.head_02, R.drawable.head_06};
+    private int[] sortIds = new int[]{1, 2, 3};
+    private GroupBuyingMerchantServiceMenuAdapter serviceAdapter, activityAdapter;
+    private RangeSeekbar rangeSeekbar;
+    private String[] serviceNames = new String[]{"不限", "无线网络", "刷卡支付", "优雅包厢", "景观位", "露天位", "无烟区", "停车场"};
+    private String[] activityNames = new String[]{"不限", "优惠买单", "团购券", "代金券"};
+    private LinearLayout groupBar;
+    private TextView menuTv1;
+    private TextView menuTv2;
+    private TextView menuTv3;
+
     private GroupBuyingMerchantAdapter mSearchListAdapter;
     private int mCurrentPosition = 0;
     private boolean isRefresh = false;
@@ -91,6 +122,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
         Injector.get(mActivity).inject();
 
         initView();
+        initGroupMenuBar();
         if (checkNetwork()) {
             getHotSearch();
         }
@@ -183,9 +215,31 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
         refreshHistorySearch();
     }
 
+    private void initGroupMenuBar() {
+
+        rightDrawableOrange = getResources().getDrawable(R.drawable.nabla_red);
+        rightDrawableOrange.setBounds(0, 0, rightDrawableOrange.getMinimumWidth(), rightDrawableOrange.getMinimumHeight());
+        rightDrawableGray = getResources().getDrawable(R.drawable.nabla_black);
+        rightDrawableGray.setBounds(0, 0, rightDrawableGray.getMinimumWidth(), rightDrawableGray.getMinimumHeight());
+
+        View view = mInflater.inflate(R.layout.group_menu_bar, null);
+        groupBar = (LinearLayout) view.findViewById(R.id.group_menu_bar);
+        LinearLayout menu1 = (LinearLayout) view.findViewById(R.id.menu_layout_1);
+        LinearLayout menu2 = (LinearLayout) view.findViewById(R.id.menu_layout_2);
+        LinearLayout menu3 = (LinearLayout) view.findViewById(R.id.menu_layout_3);
+        menuTv1 = (TextView) view.findViewById(R.id.menu_tv_1);
+        menuTv2 = (TextView) view.findViewById(R.id.menu_tv_2);
+        menuTv3 = (TextView) view.findViewById(R.id.menu_tv_3);
+        menu1.setOnClickListener(this);
+        menu2.setOnClickListener(this);
+        menu3.setOnClickListener(this);
+        mListView.getRefreshableView().addHeaderView(view);
+    }
+
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            savePreference(mSearchText.getText().toString().trim());
             doSearch();
             return true;
         }
@@ -201,7 +255,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
 
     private void savePreference(String search) {
         String historySearch = PreferenceUtils.getStringPreference(GROUP_SEARCH_HISTORY, "", mActivity);
-        if (historySearch != null && !"".equals(historySearch)) {
+        if (CheckUtils.isNoEmptyStr(historySearch)) {
             String[] split = historySearch.split(",");
             boolean isFind = false;
             for (String str : split) {
@@ -244,6 +298,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
         }
     }
 
+
     /**
      * 搜索参数
      */
@@ -262,10 +317,48 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
         }
         if (agentId != 0) {
             params.put("agentId", agentId);
-        } else {
-            return;
         }
         params.put("queryString", param);
+
+        /** 排序方式1:智能排序;2:离我最近;3:好评优先 **/
+        if (midPrePosition != -1) {
+            params.put("sortType", midPrePosition);
+        }
+
+        if (groupCategoryId != 0) {
+            params.put("groupPurchaseCategoryId", groupCategoryId);
+        }
+
+        if (serviceAdapter != null) {
+            if (!serviceAdapter.getItem(0).isSelected()) {
+                StringBuffer sb = new StringBuffer();
+                for (GroupPurchaseMerchantService service : serviceAdapter.getData()) {
+                    if (service.isSelected()) {
+                        sb.append(service.getName()).append(" ");
+                    }
+                }
+                params.put("groupPurchaseMerchantServices", sb.toString().trim());
+            }
+        }
+        if (activityAdapter != null) {
+            if (!activityAdapter.getItem(0).isSelected()) {
+                StringBuffer sb = new StringBuffer();
+                for (GroupPurchaseMerchantService service : activityAdapter.getData()) {
+                    if (service.isSelected()) {
+                        sb.append(service.getName()).append(" ");
+                    }
+                }
+                params.put("groupPurchaseMerchantActivities", sb.toString().trim());
+            }
+        }
+
+        if (rangeSeekbar != null) {
+            String[] array = getResources().getStringArray(R.array.markArray);
+            params.put("minAvgPersonPrice", array[rangeSeekbar.getLeftCursorIndex()]);
+            if (!array[rangeSeekbar.getRightCursorIndex()].equals("不限")) {
+                params.put("maxAvgPersonPrice", array[rangeSeekbar.getRightCursorIndex()]);
+            }
+        }
         VolleyOperater<GroupSearchModel> operater = new VolleyOperater<>(SearchGroupActivity.this);
         operater.doRequest(Constants.URL_GROUP_SEARCH, params, new VolleyOperater.ResponseListener() {
             @Override
@@ -334,6 +427,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
                 refreshHistorySearch();
                 break;
             case R.id.search_textview:
+                savePreference(mSearchText.getText().toString().trim());
                 doSearch();
                 break;
             case R.id.login_back:
@@ -354,8 +448,100 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
                     }
                 }
                 break;
+            case R.id.menu_layout_1:
+                selectTag(menuTv1);
+                hidePopupWindow();
+                if (leftMenuWindow == null) {
+                    if (CheckUtils.isNoEmptyList(categories)) {
+                        showLeftMenuPop(categories);
+                    } else {
+                        getCategory(true);
+                    }
+                } else {
+                    leftMenuWindow.showAsDropDown(groupBar, 0, 0);
+                }
+                break;
+            case R.id.menu_layout_2:
+                selectTag(menuTv2);
+                hidePopupWindow();
+                if (midMenuWindow == null) {
+                    showMidMenuPop();
+                } else {
+                    midMenuWindow.showAsDropDown(groupBar, 0, 0);
+                }
+                break;
+            case R.id.menu_layout_3:
+                selectTag(menuTv3);
+                hidePopupWindow();
+                if (rightMenuWindow != null) {
+                    if (rightMenuWindow.isShowing()) {
+                        rightMenuWindow.dismiss();
+                    } else {
+                        rightMenuWindow.showAsDropDown(groupBar, 0, 0);
+                    }
+                } else {
+                    showRightMenuPop();
+                }
+                break;
+            case R.id.group_buying_menu_clear:
+                clearStatus(serviceAdapter);
+                clearStatus(activityAdapter);
+                break;
+            case R.id.group_buying_menu_confirm:
+                hidePopupWindow();
+                mCurrentPosition = 0;
+                goSearchMerchant(mSearchText.getText().toString().trim(), false, false);
+                break;
+            case R.id.group_buying_menu_cover_view:
+                hidePopupWindow();
+                break;
             default:
                 break;
+        }
+    }
+
+    private void getCategory(final boolean show) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("parentCategoryId", 0);
+        long agentId = PreferenceUtils.getLongPreference("issueAgentId", 0, mActivity);
+        if (agentId > 0) {
+            map.put("agentId", agentId);
+        }
+        VolleyOperater<GroupBuyingCategoryListModel> operater = new VolleyOperater<>(mActivity);
+        operater.doRequest(Constants.URL_FIND_GROUP_PURCHASE_CATEGORY_LIST, map, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (isSucceed && obj != null) {
+                    if (obj instanceof String) {
+                        return;
+                    }
+                    categories = ((GroupBuyingCategoryListModel) obj).getValue();
+                    if (categories != null) {
+                        for (GroupPurchaseCategory category : categories) {
+                            if (category.getId() == groupCategoryId) {
+                                category.setSelected(true);
+                                menuTv1.setText(category.getName());
+                                break;
+                            }
+                        }
+                    }
+                    if (categories != null) {
+                        GroupPurchaseCategory category = new GroupPurchaseCategory();
+                        category.setName("全部");
+                        category.setId(-1L);
+                        categories.add(0, category);
+                    }
+                    if (show) showLeftMenuPop(categories);
+                }
+            }
+        }, GroupBuyingCategoryListModel.class);
+    }
+
+
+    private void selectTag(TextView textView) {
+        if (textView != null) {
+            textView.setTextColor(getResources().getColor(R.color.title_bar_bg));
+            textView.setCompoundDrawables(null, null, rightDrawableOrange, null);
         }
     }
 
@@ -400,5 +586,241 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
     public boolean onTouchEvent(MotionEvent event) {
         CommonUtils.hideKeyBoard2(mSearchText);
         return super.onTouchEvent(event);
+    }
+
+
+    private void showLeftMenuPop(final ArrayList<GroupPurchaseCategory> categories) {
+        LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.group_buying_menu_left, null);
+        ListView leftListView = (ListView) linearLayout.findViewById(R.id.group_buying_menu_list);
+        categoryAdapter = new GroupBuyingCategoryAdapter(mActivity);
+        leftListView.setAdapter(categoryAdapter);
+        categoryAdapter.setData(categories);
+        leftListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (leftMenuWindow.isShowing()) {
+                    leftMenuWindow.dismiss();
+                }
+                if (categories.get(i).isSelected()) {
+                    return;
+                }
+                for (GroupPurchaseCategory category : categories) {
+                    category.setSelected(false);
+                }
+                categories.get(i).setSelected(true);
+                categoryAdapter.notifyDataSetChanged();
+                menuTv1.setText(categories.get(i).getName());
+
+                groupCategoryId = categories.get(i).getId();
+                mCurrentPosition = 0;
+                goSearchMerchant(mSearchText.getText().toString().trim(), false, false);
+            }
+        });
+        View coverView = linearLayout.findViewById(R.id.group_buying_menu_cover_view);
+        coverView.setOnClickListener(this);
+
+        leftMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        leftMenuWindow.setOutsideTouchable(true);
+        leftMenuWindow.showAsDropDown(groupBar, 0, 0);
+
+        leftMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                dismissPopwindow(menuTv1);
+            }
+        });
+    }
+
+    private void dismissPopwindow(TextView textView) {
+        if (textView != null) {
+            textView.setTextColor(getResources().getColor(R.color.gray_text_0));
+            textView.setCompoundDrawables(null, null, rightDrawableGray, null);
+        }
+    }
+
+    private void showMidMenuPop() {
+        LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.group_buying_menu_left, null);
+        ListView listView = (ListView) linearLayout.findViewById(R.id.group_buying_menu_list);
+        View coverView = linearLayout.findViewById(R.id.group_buying_menu_cover_view);
+        coverView.setOnClickListener(this);
+        homeSortAdapter = new HomeSortAdapter(R.layout.layout_home_category, mActivity, listenerMid);
+        ArrayList<HomeBean> data = new ArrayList<>();
+        for (int i = 0; i < names.length; i++) {
+            HomeBean bean = new HomeBean();
+            bean.setIcon(heads[i]);
+            bean.setName(names[i]);
+            bean.setId(sortIds[i]);
+            data.add(bean);
+        }
+        homeSortAdapter.setData(data);
+        listView.setAdapter(homeSortAdapter);
+
+        midMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        midMenuWindow.setOutsideTouchable(true);
+        midMenuWindow.showAsDropDown(groupBar, 0, 0);
+
+        midMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                dismissPopwindow(menuTv2);
+            }
+        });
+    }
+
+    private View.OnClickListener listenerMid = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            if (midPrePosition != -1) {
+                homeSortAdapter.getData().get(midPrePosition - 1).setIsCheck(false);
+            }
+            HomeBean bean = homeSortAdapter.getData().get(position);
+            bean.setIsCheck(!bean.isCheck());
+            midPrePosition = position + 1;
+            homeSortAdapter.notifyDataSetChanged();
+            if (midMenuWindow.isShowing()) {
+                midMenuWindow.dismiss();
+            }
+            mCurrentPosition = 0;
+            goSearchMerchant(mSearchText.getText().toString().trim(), false, false);
+            menuTv2.setText(bean.getName());
+        }
+    };
+
+    private void showRightMenuPop() {
+        LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.group_buying_menu_right, null);
+        LinearLayout conditionLayout = (LinearLayout) linearLayout.findViewById(R.id.condition_layout);
+        rangeSeekbar = (RangeSeekbar) linearLayout.findViewById(R.id.rangeseekbar);
+        setServiceView(conditionLayout);
+        setActivityView(conditionLayout);
+
+        View coverView = linearLayout.findViewById(R.id.group_buying_menu_cover_view);
+        TextView clear = (TextView) linearLayout.findViewById(R.id.group_buying_menu_clear);
+        TextView confirm = (TextView) linearLayout.findViewById(R.id.group_buying_menu_confirm);
+        coverView.setOnClickListener(this);
+        clear.setOnClickListener(this);
+        confirm.setOnClickListener(this);
+
+        rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        rightMenuWindow.setOutsideTouchable(true);
+        rightMenuWindow.showAsDropDown(groupBar, 0, 0);
+
+        rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                dismissPopwindow(menuTv3);
+            }
+        });
+    }
+
+
+    private void clearStatus(GroupBuyingMerchantServiceMenuAdapter activityAdapter) {
+        if (activityAdapter != null) {
+            List<GroupPurchaseMerchantService> services = activityAdapter.getData();
+            for (GroupPurchaseMerchantService service : services) {
+                service.setSelected(false);
+            }
+            services.get(0).setSelected(true);
+            activityAdapter.notifyDataSetChanged();
+        }
+        if (rangeSeekbar != null) {
+            rangeSeekbar.setLeftSelection(0);
+            rangeSeekbar.setRightSelection(5);
+        }
+    }
+
+    private void setServiceView(LinearLayout linearLayout) {
+        View view = mActivity.getLayoutInflater().inflate(R.layout.item_group_buying_menu_right, null);
+        GridView rightGridView = (GridView) view.findViewById(R.id.group_buying_menu_list);
+        TextView name = (TextView) view.findViewById(R.id.type_name_textview);
+        name.setText("商家服务");
+        serviceAdapter = new GroupBuyingMerchantServiceMenuAdapter(mActivity);
+        rightGridView.setAdapter(serviceAdapter);
+        List<GroupPurchaseMerchantService> list = new ArrayList<>();
+        for (String s : serviceNames) {
+            GroupPurchaseMerchantService service = new GroupPurchaseMerchantService();
+            service.setName(s);
+            if ("不限".equals(s)) {
+                service.setValue(-1);
+                service.setSelected(true);
+            } else {
+                service.setValue(1);
+                service.setSelected(false);
+            }
+            list.add(service);
+        }
+        serviceAdapter.setData(list);
+        rightGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    if (serviceAdapter.getItem(position).isSelected()) return;
+                    serviceAdapter.getItem(position).setSelected(true);
+                    for (int i = 1; i < serviceAdapter.getCount(); i++) {
+                        serviceAdapter.getItem(i).setSelected(false);
+                    }
+                } else {
+                    serviceAdapter.getItem(position).setSelected(!serviceAdapter.getItem(position).isSelected());
+                    serviceAdapter.getItem(0).setSelected(false);
+                }
+                serviceAdapter.notifyDataSetChanged();
+            }
+        });
+        linearLayout.addView(view);
+    }
+
+    private void setActivityView(LinearLayout linearLayout) {
+        View view = mActivity.getLayoutInflater().inflate(R.layout.item_group_buying_menu_right, null);
+        GridView rightGridView = (GridView) view.findViewById(R.id.group_buying_menu_list);
+        TextView name = (TextView) view.findViewById(R.id.type_name_textview);
+        name.setText("商家活动");
+        activityAdapter = new GroupBuyingMerchantServiceMenuAdapter(mActivity);
+        rightGridView.setAdapter(activityAdapter);
+        List<GroupPurchaseMerchantService> list = new ArrayList<>();
+        for (String s : activityNames) {
+            GroupPurchaseMerchantService service = new GroupPurchaseMerchantService();
+            service.setName(s);
+            if ("不限".equals(s)) {
+                service.setValue(-1);
+                service.setSelected(true);
+            } else {
+                service.setValue(1);
+                service.setSelected(false);
+            }
+            list.add(service);
+        }
+        activityAdapter.setData(list);
+        rightGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    if (activityAdapter.getItem(position).isSelected()) return;
+                    activityAdapter.getItem(position).setSelected(true);
+                    for (int i = 1; i < activityAdapter.getCount(); i++) {
+                        activityAdapter.getItem(i).setSelected(false);
+                    }
+                } else {
+                    activityAdapter.getItem(position).setSelected(!activityAdapter.getItem(position).isSelected());
+                    activityAdapter.getItem(0).setSelected(false);
+                }
+                activityAdapter.notifyDataSetChanged();
+            }
+        });
+        linearLayout.addView(view);
+    }
+
+    private boolean isPopupWindowShowing() {
+        return (leftMenuWindow != null && leftMenuWindow.isShowing()) || (midMenuWindow != null && midMenuWindow.isShowing()) ||
+                (rightMenuWindow != null && rightMenuWindow.isShowing());
+    }
+
+    private void hidePopupWindow() {
+        if (leftMenuWindow != null && leftMenuWindow.isShowing()) {
+            leftMenuWindow.dismiss();
+        } else if (midMenuWindow != null && midMenuWindow.isShowing()) {
+            midMenuWindow.dismiss();
+        } else if (rightMenuWindow != null && rightMenuWindow.isShowing()) {
+            rightMenuWindow.dismiss();
+        }
     }
 }

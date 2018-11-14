@@ -377,31 +377,6 @@ public class GroupBuyingMainActivity extends BaseActivity {
         listView.scrollTo(0, 0);
     }
 
-//    private void dissmissPopWindow() {
-//        if (leftMenuWindow != null && leftMenuWindow.isShowing()) {
-//            leftMenuWindow.dismiss();
-//            resetListView();
-//            if (groupMenuLayout.getVisibility() == View.VISIBLE && listView.getRefreshableView().getFirstVisiblePosition() < 3) {
-//                groupMenuLayout.setVisibility(View.GONE);
-//            }
-//        }
-//        if (midMenuWindow != null && midMenuWindow.isShowing()) {
-//            midMenuWindow.dismiss();
-//            resetListView();
-//            if (groupMenuLayout.getVisibility() == View.VISIBLE && listView.getRefreshableView().getFirstVisiblePosition() < 3) {
-//                groupMenuLayout.setVisibility(View.GONE);
-//            }
-//        }
-//        if (rightMenuWindow != null && rightMenuWindow.isShowing()) {
-//            rightMenuWindow.dismiss();
-//            resetListView();
-//            if (groupMenuLayout.getVisibility() == View.VISIBLE && listView.getRefreshableView().getFirstVisiblePosition() < 3) {
-//                groupMenuLayout.setVisibility(View.GONE);
-//            }
-//        }
-//
-//    }
-
 
     private void initHeaderView() {
         listHeaderView = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.group_buying_list_header_layout, null);
