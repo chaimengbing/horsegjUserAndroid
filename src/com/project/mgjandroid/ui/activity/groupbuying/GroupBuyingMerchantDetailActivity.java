@@ -176,9 +176,9 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         imgRight.setOnClickListener(this);
         tvDiscounPayBill.setOnClickListener(this);
         expandTextView.setOnClickListener(this);
-        listAdapter = new GroupBuyMealListAdapter(R.layout.group_buying_item,this);
+        listAdapter = new GroupBuyMealListAdapter(R.layout.group_buying_item, this);
         tuanListView.setAdapter(listAdapter);
-        
+
         loadingDialog = new MLoadingDialog();
     }
 
@@ -204,13 +204,13 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         recyclerView.setAdapter(groupBuyingImageRecyclerAdapter);
         if (CheckUtils.isNoEmptyStr(merchant.getImgs())) {
             final String[] imageUrl = merchant.getImgs().split(";");
-            if(imageUrl.length<=1){
+            if (imageUrl.length <= 1) {
                 img.setVisibility(View.VISIBLE);
                 layoutPictureUpload.setVisibility(View.GONE);
                 tvTime.setVisibility(View.VISIBLE);
                 tvTime1.setVisibility(View.GONE);
                 ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
-            }else {
+            } else {
                 tvTime.setVisibility(View.GONE);
                 tvTime1.setVisibility(View.VISIBLE);
                 img.setVisibility(View.GONE);
@@ -233,7 +233,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             if (CheckUtils.isNoEmptyList(tuanList)) showGroupBuying1(tuanList);
         }
         if (merchant.getMerchantCommentNum() != null && merchant.getMerchantCommentNum() > 0) {
-            tvEvaluation.setText(+ merchant.getMerchantCommentNum() + "条评价");
+            tvEvaluation.setText(+merchant.getMerchantCommentNum() + "条评价");
             getEvaluation();
         }
     }
@@ -261,11 +261,12 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             recommendLayout.setVisibility(View.VISIBLE);
             tvDishes.setText(merchant.getMerchantRecommend());
         }
-        if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())){
-            double discount = Integer.parseInt(merchant.getDiscountRatio()) *0.01*10;
-            tvDiscount.setText(discount+"折");
-        }else {
-            tvDiscount.setVisibility(View.GONE);
+        if (CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())) {
+            rlDistancePayBill.setVisibility(View.VISIBLE);
+            double discount = Integer.parseInt(merchant.getDiscountRatio()) * 0.01 * 10;
+            tvDiscount.setText(discount + "折");
+        } else {
+            rlDistancePayBill.setVisibility(View.GONE);
         }
         showService();
     }
@@ -344,9 +345,9 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
             root.setTag(bean);
             tvPayBill.setTag(bean);
-            tvSold.setText("已售"+bean.getBuyCount());
+            tvSold.setText("已售" + bean.getBuyCount());
             tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
-            tvOriginPrice.setText(StringUtils.BigDecimal2Str(bean.getOriginPrice())+"元  代金券");
+            tvOriginPrice.setText(StringUtils.BigDecimal2Str(bean.getOriginPrice()) + "元  代金券");
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + (bean.getIsCumulate() == 0 ? "不可叠加" : "可叠加"));
             root.setOnClickListener(this);
             tvPayBill.setOnClickListener(this);
@@ -423,13 +424,13 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                     return;
                 }
                 Intent intent2 = new Intent(this, BuyTicketActivity.class);
-                intent2.putExtra("ticketName",merchant.getName());
-                intent2.putExtra("ticketPrice",StringUtils.BigDecimal2Str(((GroupPurchaseCoupon) v.getTag()).getPrice()));
-                intent2.putExtra("ticketOriginalPrice",StringUtils.BigDecimal2Str(((GroupPurchaseCoupon) v.getTag()).getOriginPrice()));
-                intent2.putExtra("type",((GroupPurchaseCoupon) v.getTag()).getType());
-                intent2.putExtra("bespeak",((GroupPurchaseCoupon) v.getTag()).getIsBespeak());
-                intent2.putExtra("agentId",((GroupPurchaseCoupon) v.getTag()).getAgentId());
-                intent2.putExtra("groupPurchaseCoupon",((GroupPurchaseCoupon) v.getTag()));
+                intent2.putExtra("ticketName", merchant.getName());
+                intent2.putExtra("ticketPrice", StringUtils.BigDecimal2Str(((GroupPurchaseCoupon) v.getTag()).getPrice()));
+                intent2.putExtra("ticketOriginalPrice", StringUtils.BigDecimal2Str(((GroupPurchaseCoupon) v.getTag()).getOriginPrice()));
+                intent2.putExtra("type", ((GroupPurchaseCoupon) v.getTag()).getType());
+                intent2.putExtra("bespeak", ((GroupPurchaseCoupon) v.getTag()).getIsBespeak());
+                intent2.putExtra("agentId", ((GroupPurchaseCoupon) v.getTag()).getAgentId());
+                intent2.putExtra("groupPurchaseCoupon", ((GroupPurchaseCoupon) v.getTag()));
                 startActivity(intent2);
                 break;
             case R.id.tv_discount_pay_bill:
@@ -439,8 +440,8 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
                     return;
                 }
                 Intent intent1 = new Intent(this, DiscountBuyTicketActivity.class);
-                intent1.putExtra("Name",merchant.getName());
-                intent1.putExtra("merchant",merchant);
+                intent1.putExtra("Name", merchant.getName());
+                intent1.putExtra("merchant", merchant);
                 startActivity(intent1);
                 break;
             case R.id.baidu_map:

@@ -192,9 +192,8 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
             if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())){
                 double discount = Integer.parseInt(merchant.getDiscountRatio()) *0.01*10;
                 addActive(holder.layoutActive, R.drawable.ic_buy, "在线支付，"+discount+"折");
-            }else {
-                addActive(holder.layoutActive, R.drawable.ic_buy, "在线支付");
             }
+
             if (CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())) {
 //                holder.promotionLine.setVisibility(View.VISIBLE);
 //                holder.layoutActive.setVisibility(View.VISIBLE);
