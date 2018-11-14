@@ -26,19 +26,21 @@
         android:orientation="horizontal">
 
         <com.project.mgjandroid.ui.view.CustomRadioButton
-            android:id="@+id/rb_trample"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/x50"
-            android:background="@drawable/trample_select"
-            android:button="@null" />
-
-        <com.project.mgjandroid.ui.view.CustomRadioButton
             android:id="@+id/rb_praise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x50"
             android:background="@drawable/praise_select"
             android:button="@null" />
+
+        <com.project.mgjandroid.ui.view.CustomRadioButton
+            android:id="@+id/rb_trample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/trample_select"
+            android:button="@null" />
+
+
 
     </RadioGroup>
 

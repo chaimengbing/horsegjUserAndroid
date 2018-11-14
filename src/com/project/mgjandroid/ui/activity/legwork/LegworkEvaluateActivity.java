@@ -25,12 +25,16 @@ import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.NoScrollGridView;
 import com.project.mgjandroid.ui.view.RatingBarView;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -89,6 +93,7 @@ public class LegworkEvaluateActivity extends BaseActivity {
     private LegworkOrderDetailsModel.ValueBean valurDetails;
 
 
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -129,13 +134,12 @@ public class LegworkEvaluateActivity extends BaseActivity {
         if(value!=null){
             tvRiderName.setText(value.getLegWorkOrder().getDeliveryTask().getDeliveryman().getName());
             ImageUtils.loadBitmap(mActivity, value.getLegWorkOrder().getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
-            tvDeliveryTime.setText(value.getLegWorkOrder().getOrderDoneTime());
+            tvDeliveryTime.setText(DateUtils.getFormatTime3(value.getLegWorkOrder().getOrderDoneTime()) + "送达");
         }else if(valurDetails!=null){
             tvRiderName.setText(valurDetails.getDeliveryTask().getDeliveryman().getName());
             ImageUtils.loadBitmap(mActivity, valurDetails.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
-            tvDeliveryTime.setText(valurDetails.getOrderDoneTime());
+            tvDeliveryTime.setText(DateUtils.getFormatTime3(valurDetails.getOrderDoneTime()) + "送达");
         }
-
         riderEvaluationAdapter = new RiderEvaluationAdapter(this);
         gridView.setAdapter(riderEvaluationAdapter);
         riderEvaluationAdapter.setList(null);

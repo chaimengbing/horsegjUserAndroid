@@ -85,7 +85,7 @@
                     android:id="@+id/img_bad"
                     android:layout_width="@dimen/x35"
                     android:layout_height="@dimen/x35"
-                    android:src="@drawable/bg_select_mood" />
+                    android:src="@drawable/bg_rider_evaluate_select_mood" />
 
                 <TextView
                     android:id="@+id/tv_bad"
@@ -110,7 +110,7 @@
                     android:id="@+id/img_ordinary"
                     android:layout_width="@dimen/x35"
                     android:layout_height="@dimen/x35"
-                    android:src="@drawable/bg_select_mood1" />
+                    android:src="@drawable/bg_rider_evaluate_select_mood1" />
 
                 <TextView
                     android:id="@+id/tv_ordinary"
@@ -133,7 +133,7 @@
                     android:id="@+id/img_good"
                     android:layout_width="@dimen/x35"
                     android:layout_height="@dimen/x35"
-                    android:src="@drawable/bg_select_mood2" />
+                    android:src="@drawable/bg_rider_evaluate_select_mood2" />
 
                 <TextView
                     android:id="@+id/tv_good"

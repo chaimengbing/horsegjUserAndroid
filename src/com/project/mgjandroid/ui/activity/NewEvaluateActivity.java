@@ -45,6 +45,7 @@ import com.project.mgjandroid.ui.view.NoScrollListView;
 import com.project.mgjandroid.ui.view.RatingBarView;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
+import com.project.mgjandroid.utils.DateUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.ToastUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
@@ -195,7 +196,7 @@ public class NewEvaluateActivity extends BaseActivity {
             layoutRider.setVisibility(View.VISIBLE);
             tvRiderName.setText(submitOrderEntity.getDeliveryTask().getDeliveryman().getName());
             ImageUtils.loadBitmap(mActivity, submitOrderEntity.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
-            tvDeliveryTime.setText(submitOrderEntity.getOrderDoneTime());
+            tvDeliveryTime.setText(DateUtils.getFormatTime3(submitOrderEntity.getOrderDoneTime())+"送达");
         } else {
             layoutRider.setVisibility(View.GONE);
         }
@@ -324,7 +325,7 @@ public class NewEvaluateActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                tvLength.setText(editable.toString().length()+"/800字");
+                tvLength.setText(editable.toString().length()+"/300字");
             }
         });
 

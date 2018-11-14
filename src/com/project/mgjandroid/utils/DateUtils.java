@@ -56,6 +56,21 @@ public class DateUtils {
                 .format(date);
     }
 
+
+    public static String getFormatTime3(String pubtime) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        Date date = null;
+        try {
+            date = df.parse(pubtime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return (null == date) ? null : (new SimpleDateFormat("HH:mm"))
+                .format(date);
+    }
+
     /**
      * @param pubtime 样例：2011-06-20T17:23:11Z
      * @param format

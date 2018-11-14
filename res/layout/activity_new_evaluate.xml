@@ -397,7 +397,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="@dimen/x8"
                         android:layout_marginRight="@dimen/x10"
-                        android:text="0/800字"
+                        android:text="0/300字"
                         android:textColor="@color/grey_white_pressed"
                         android:textSize="11sp" />
 
@@ -430,7 +430,8 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/x20">
+                android:paddingBottom="@dimen/x20"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
