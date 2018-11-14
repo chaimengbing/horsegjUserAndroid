@@ -58,6 +58,8 @@ import java.util.Map;
 
 public class NewEvaluateActivity extends BaseActivity {
 
+    @InjectView(R.id.common_back)
+    private ImageView back;
     @InjectView(R.id.layout_bad)
     private LinearLayout layoutBad;
     @InjectView(R.id.layout_ordinary)
@@ -158,6 +160,7 @@ public class NewEvaluateActivity extends BaseActivity {
         layoutOrdinary.setOnClickListener(this);
         layoutGood.setOnClickListener(this);
         tvSubmit.setOnClickListener(this);
+        back.setOnClickListener(this);
         String[] bad = getResources().getStringArray(R.array.badList);
         String[] good = getResources().getStringArray(R.array.goodList);
 
@@ -527,6 +530,9 @@ public class NewEvaluateActivity extends BaseActivity {
                 return;
             case R.id.feed_back_cancel:
                 dismissPopupWindow();
+                return;
+            case R.id.common_back:
+                back();
                 return;
             case R.id.tv_submit:
                 if (checkCanPublish() && checkCanEvaluate()) {
