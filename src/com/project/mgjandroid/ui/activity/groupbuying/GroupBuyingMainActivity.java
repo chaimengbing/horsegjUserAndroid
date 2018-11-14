@@ -215,7 +215,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                     }
                 }
 
-                if (isShowPop()){
+                if (isShowPop()) {
                     groupMenuLayout.setVisibility(View.VISIBLE);
                 }
             }
@@ -250,7 +250,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                     } else {
                         getCategory(true);
                     }
-                }else {
+                } else {
                     leftMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
                 }
                 break;
@@ -1048,6 +1048,9 @@ public class GroupBuyingMainActivity extends BaseActivity {
         View view = mActivity.getLayoutInflater().inflate(R.layout.item_group_buying_menu_right, null);
         GridView rightGridView = (GridView) view.findViewById(R.id.group_buying_menu_list);
         TextView name = (TextView) view.findViewById(R.id.type_name_textview);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) name.getLayoutParams();
+        params.topMargin = (int) getResources().getDimension(R.dimen.x20);
+        name.setLayoutParams(params);
         name.setText("商家活动");
         activityAdapter = new GroupBuyingMerchantServiceMenuAdapter(mActivity);
         rightGridView.setAdapter(activityAdapter);
