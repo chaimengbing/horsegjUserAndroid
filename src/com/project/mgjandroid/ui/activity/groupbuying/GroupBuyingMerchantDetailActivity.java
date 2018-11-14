@@ -143,6 +143,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     @InjectView(R.id.layout_picture_upload)
     private LinearLayout layoutPictureUpload;
 
+
     private List<String> urls = new ArrayList<>();
 
     private GroupPurchaseMerchant merchant;

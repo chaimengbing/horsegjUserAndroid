@@ -21,9 +21,9 @@ public class GroupBuyingMerchantServiceAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater mInflater;
     private int[] iconRes = {
-            R.drawable.group_buying_service_1, R.drawable.group_buying_service_2, R.drawable.group_buying_service_3,
-            R.drawable.group_buying_service_4, R.drawable.group_buying_service_5, R.drawable.group_buying_service_6,
-            R.drawable.group_buying_service_7
+            R.drawable.group_buying_new_service_1, R.drawable.group_buying_new_service_2, R.drawable.group_buying_new_service_3,
+            R.drawable.group_buying_new_service_4, R.drawable.group_buying_new_service_5, R.drawable.group_buying_new_service_6,
+            R.drawable.group_buying_new_service_7
     };
     private String[] names = {
             "无线", "刷卡", "包厢", "停车", "景观位", "露天位", "无烟区"

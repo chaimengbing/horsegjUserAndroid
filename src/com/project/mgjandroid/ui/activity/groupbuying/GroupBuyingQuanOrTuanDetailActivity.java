@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -84,30 +86,18 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
 
     @InjectView(R.id.common_back)
     private ImageView comBack;
-    @InjectView(R.id.common_title)
-    private TextView comTitle;
-    @InjectView(R.id.com_share)
+    @InjectView(R.id.common_share)
     private ImageView comShare;
     @InjectView(R.id.scroll_view)
     private MyScrollView scrollView;
-    @InjectView(R.id.buy_frame)
-    private FrameLayout buyFrame;
-    @InjectView(R.id.tv_vip)
-    private TextView tvVip;
-    @InjectView(R.id.tv_vip1)
-    private TextView tvVip1;
+    @InjectView(R.id.img_vip)
+    private ImageView imgVip;
     @InjectView(R.id.tv_price)
     private TextView tvPrice;
     @InjectView(R.id.tv_price_left)
     private TextView tvPriceLeft;
     @InjectView(R.id.tv_buy)
     private TextView tvBuy;
-    @InjectView(R.id.tv_price_left1)
-    private TextView tvPriceLeft1;
-    @InjectView(R.id.tv_price1)
-    private TextView tvPrice1;
-    @InjectView(R.id.tv_buy_1)
-    private TextView tvBuy1;
     @InjectView(R.id.option_layout)
     private LinearLayout optionLayout;
     @InjectView(R.id.text_1)
@@ -134,8 +124,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout recommendLayout;
     @InjectView(R.id.recommend_dishes)
     private TextView tvDishes;
-    @InjectView(R.id.tuan_layout)
-    private LinearLayout tuanLayout;
     @InjectView(R.id.goods_layout)
     private LinearLayout goodsLayout;
     @InjectView(R.id.tv_use_range)
@@ -176,6 +164,18 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private MyBanner myBanner;
     @InjectView(R.id.tv_photo_count)
     private TextView tvPhotoCount;
+    @InjectView(R.id.layout_picture_upload)
+    private LinearLayout layoutPictureUpload;
+    @InjectView(R.id.recycler_view)
+    private RecyclerView recyclerView;
+    @InjectView(R.id.tv_merchant_name)
+    private TextView tvMerchantName;
+    @InjectView(R.id.tv_coupon_name)
+    private TextView tvCouponName;
+    @InjectView(R.id.tv_sold)
+    private TextView tvSold;
+    @InjectView(R.id.goods_layout)
+    private LinearLayout layoutGoods;
 
     private PopupWindow mPopupWindow;
     private TextView tvAmt;
@@ -190,6 +190,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private PopupWindow mPhoneWindow;
     private ShareUtil shareUtil;
     private CallPhoneDialog dialog;
+    private GroupBuyingImageRecyclerAdapter groupBuyingImageRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -210,71 +211,44 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         comShare.setVisibility(View.VISIBLE);
         comShare.setOnClickListener(this);
         tvBuy.setOnClickListener(this);
-        tvBuy1.setOnClickListener(this);
         addressLayout.setOnClickListener(this);
         ivCall.setOnClickListener(this);
         tvBuyTakeAway.setOnClickListener(this);
         tvEvaluation.setOnClickListener(this);
-        scrollView.setOnScrollChangeListener(new MyScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChanged(int t, int oldt) {
-                MLog.e("----> t: " + t + "  , oldt: " + oldt);
-                if (t >= myBanner.getHeight()) {
-                    buyFrame.setVisibility(View.VISIBLE);
-                } else {
-                    buyFrame.setVisibility(View.GONE);
-                }
-            }
-        });
         loadingDialog = new MLoadingDialog();
-    }
-
-    private void showBanner() {
-        if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
-            final String[] imageUrl = groupPurchaseCoupon.getImages().split(";");
-            tvPhotoCount.setText("1/" + imageUrl.length);
-            final List<String> stringList = Arrays.asList(imageUrl);
-            for (int i = 0; i < imageUrl.length; i++) {
-                imageUrl[i] += Constants.getEndThumbnail(375, 230);
-            }
-            myBanner.setUrls(Arrays.asList(imageUrl), false, false);
-            myBanner.setOnPageChangeListener(new CircleIndicator.PageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    tvPhotoCount.setText((position + 1) + "/" + imageUrl.length);
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-            myBanner.setOnBannerItemClickListener(new OnBannerItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    PictureViewActivity.toViewPicture(mActivity, JSONArray.toJSONString(stringList), position);
-                }
-            });
-        } else {
-            myBanner.setBackgroundResource(R.drawable.horsegj_default);
-            tvPhotoCount.setVisibility(View.GONE);
-        }
     }
 
     private void showData() {
         scrollView.setVisibility(View.VISIBLE);
+        merchant = groupPurchaseCoupon.getGroupPurchaseMerchant();
+        LinearLayoutManager manager = new LinearLayoutManager(mActivity);
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(manager);
+        groupBuyingImageRecyclerAdapter = new GroupBuyingImageRecyclerAdapter(mActivity);
+        recyclerView.setAdapter(groupBuyingImageRecyclerAdapter);
+        if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
+            final String[] imageUrl = groupPurchaseCoupon.getImages().split(";");
+            if (imageUrl.length <= 1) {
+                layoutPictureUpload.setVisibility(View.GONE);
+//                ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
+            } else {
+                layoutPictureUpload.setVisibility(View.VISIBLE);
+                groupBuyingImageRecyclerAdapter.setList(Arrays.asList(imageUrl));
+            }
+        }
+        tvMerchantName.setText(merchant.getName());
+        tvCouponName.setText(groupPurchaseCoupon.getGroupPurchaseName());
+        tvSold.setText("已售"+groupPurchaseCoupon.getBuyCount());
+        if(groupPurchaseCoupon.getIsPurchaseRestriction()==3){
+            imgVip.setVisibility(View.VISIBLE);
+        }else {
+            imgVip.setVisibility(View.GONE);
+        }
         if (groupPurchaseCoupon.getType() == 1) {
-            comTitle.setText("代金券");
+
         } else {
-            comTitle.setText("团购券");
             getGroupPurchaseCouponList(groupPurchaseCoupon.getType());
         }
-        showBanner();
 //        if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
 //            ImageUtils.loadBitmap(mActivity, groupPurchaseCoupon.getImages().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(375, 190));
 //            img.setOnClickListener(this);
@@ -282,18 +256,10 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         String price = StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice());
         String str = "";
         if (groupPurchaseCoupon.getType() == 1) {
-            tvVip.setVisibility(View.GONE);
-            tvVip1.setVisibility(View.GONE);
+            imgVip.setVisibility(View.GONE);
             str += "代" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()) + "元";
         } else if (groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice() != null && groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {
             str = "门市价: ¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice());
-            if(groupPurchaseCoupon.getIsPurchaseRestriction()==3){
-                tvVip.setVisibility(View.VISIBLE);
-                tvVip1.setVisibility(View.VISIBLE);
-            }else {
-                tvVip.setVisibility(View.GONE);
-                tvVip1.setVisibility(View.GONE);
-            }
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");// HH:mm:ss
         Date date = new Date(System.currentTimeMillis());
@@ -306,34 +272,22 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     tvBuy.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvBuy.setEnabled(false);
                     tvBuy.setText("已售罄");
-                    tvBuy1.setBackgroundResource(R.drawable.buy_gary_bg);
-                    tvBuy1.setTextColor(mActivity.getResources().getColor(R.color.white));
-                    tvBuy1.setEnabled(false);
-                    tvBuy1.setText("已售罄");
                     break;
                 }else {
                     tvBuy.setBackgroundResource(R.drawable.bg_login_orange_button);
                     tvBuy.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvBuy.setEnabled(true);
                     tvBuy.setText("立即购买");
-                    tvBuy1.setBackgroundResource(R.drawable.bg_login_orange_button);
-                    tvBuy1.setTextColor(mActivity.getResources().getColor(R.color.white));
-                    tvBuy1.setEnabled(true);
-                    tvBuy1.setText("立即购买");
                 }
             }
         }
         if(price.length()>=7){
             tvPriceLeft.setTextSize(30);
-            tvPriceLeft1.setTextSize(30);
         }else {
             tvPriceLeft.setTextSize(40);
-            tvPriceLeft1.setTextSize(40);
         }
         tvPriceLeft.setText(price);
-        tvPriceLeft1.setText(price);
         tvPrice.setText(str);
-        tvPrice1.setText(str);
 
 
         showOption();
@@ -369,7 +323,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         }
         showUseRules();
 
-        merchant = groupPurchaseCoupon.getGroupPurchaseMerchant();
         if (merchant != null) {
             tvName.setText(merchant.getName());
             tvAddress.setText(merchant.getAddress());
@@ -401,24 +354,23 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
      * 显示团购套餐
      */
     private void showGoodsList() {
-        tuanLayout.setVisibility(View.VISIBLE);
+        layoutGoods.removeAllViews();
         List<GroupPurchaseCouponGoodsType> list = groupPurchaseCoupon.getGroupPurchaseCouponGoodsTypeList();
         for (GroupPurchaseCouponGoodsType goodsType : list) {
             if (list.size() > 1) {
                 TextView textView = new TextView(mActivity);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.x25));
-                textView.setBackgroundResource(R.drawable.shape_yellow_bg);
                 textView.setTextColor(ContextCompat.getColor(mActivity, R.color.color_3));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-                textView.setGravity(Gravity.CENTER);
                 textView.setText(goodsType.getTypeName());
-                goodsLayout.addView(textView, params);
-            } else {
-                View v = new View(mActivity);
-                LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
-                v.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
-                goodsLayout.addView(v, p);
+                layoutGoods.addView(textView, params);
             }
+//            else {
+//                View v = new View(mActivity);
+//                LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+//                v.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
+//                goodsLayout.addView(v, p);
+//            }
             List<GroupPurchaseCouponGoods> goodsList = goodsType.getGroupPurchaseCouponGoodsList();
             for (int i = 0, size = goodsList.size(); i < size; i++) {
                 RelativeLayout layout = (RelativeLayout) mInflater.inflate(R.layout.group_buying_goods_item, null);
@@ -426,16 +378,16 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 TextView tvName = (TextView) layout.findViewById(R.id.name);
                 TextView tvCount = (TextView) layout.findViewById(R.id.count);
                 TextView tvPrice = (TextView) layout.findViewById(R.id.price);
-                tvName.setText(goodsList.get(i).getName());
-                tvCount.setText(goodsList.get(i).getQuantity() + "份");
+                tvName.setText("·"+goodsList.get(i).getName());
+                tvCount.setText("("+goodsList.get(i).getQuantity() + "份)");
                 tvPrice.setText("¥" + StringUtils.BigDecimal2Str(goodsList.get(i).getOriginPrice()));
-                goodsLayout.addView(layout, layoutParams);
-                if (i != size - 1) {
-                    View v = new View(mActivity);
-                    LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
-                    v.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
-                    goodsLayout.addView(v, p);
-                }
+                layoutGoods.addView(layout, layoutParams);
+//                if (i != size - 1) {
+//                    View v = new View(mActivity);
+//                    LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
+//                    v.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.color_e5));
+//                    goodsLayout.addView(v, p);
+//                }
             }
         }
     }
@@ -518,7 +470,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_buy:
-            case R.id.tv_buy_1:
                 if (!App.isLogin()) {
                     Intent intent = new Intent(mActivity, SmsLoginActivity.class);
                     startActivity(intent);
