@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -98,21 +99,9 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private TextView tvPriceLeft;
     @InjectView(R.id.tv_buy)
     private TextView tvBuy;
-    @InjectView(R.id.option_layout)
-    private LinearLayout optionLayout;
-    @InjectView(R.id.text_1)
-    private TextView tv_1;
-    @InjectView(R.id.text_2)
-    private TextView tv_2;
-    @InjectView(R.id.text_3)
-    private TextView tv_3;
-    @InjectView(R.id.text_4)
-    private TextView tv_4;
-    @InjectView(R.id.space_view)
-    private View spaceView;
     @InjectView(R.id.address_layout)
     private LinearLayout addressLayout;
-    @InjectView(R.id.tv_name)
+    @InjectView(R.id.tv_shop_name)
     private TextView tvName;
     @InjectView(R.id.tv_address)
     private TextView tvAddress;
@@ -135,7 +124,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     @InjectView(R.id.use_rule_layout)
     private LinearLayout useRulesLayout;
     @InjectView(R.id.tv_buy_take_away)
-    private LinearLayout tvBuyTakeAway;
+    private RelativeLayout tvBuyTakeAway;
     @InjectView(R.id.tv_evaluate)
     private TextView tvEvaluation;
     @InjectView(R.id.evaluation_layout)
@@ -160,10 +149,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout llDate;
     @InjectView(R.id.tv_date)
     private TextView tvDate;
-    @InjectView(R.id.my_banner)
-    private MyBanner myBanner;
-    @InjectView(R.id.tv_photo_count)
-    private TextView tvPhotoCount;
     @InjectView(R.id.layout_picture_upload)
     private LinearLayout layoutPictureUpload;
     @InjectView(R.id.recycler_view)
@@ -174,8 +159,30 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private TextView tvCouponName;
     @InjectView(R.id.tv_sold)
     private TextView tvSold;
+    @InjectView(R.id.tv_sold1)
+    private TextView tvSold1;
     @InjectView(R.id.goods_layout)
     private LinearLayout layoutGoods;
+    @InjectView(R.id.rb_score)
+    private RatingBar rbScore;
+    @InjectView(R.id.tv_average_price)
+    private TextView tvAveragePrice;
+    @InjectView(R.id.tv_option)
+    private TextView tvOption;
+    @InjectView(R.id.tv_option1)
+    private TextView tvOption1;
+    @InjectView(R.id.img)
+    private CornerImageView img;
+    @InjectView(R.id.tv_voucher_merchant_name)
+    private TextView tvVoucherMerchantName;
+    @InjectView(R.id.tv_voucher_name)
+    private TextView tvVoucherName;
+    @InjectView(R.id.layout_group_buying_voucher_details)
+    private RelativeLayout layoutVoucher;
+    @InjectView(R.id.layout_group_buying_groupon_details)
+    private LinearLayout layoutGroupon;
+    @InjectView(R.id.layout_rl)
+    private RelativeLayout rlLayout;
 
     private PopupWindow mPopupWindow;
     private TextView tvAmt;
@@ -230,23 +237,40 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             final String[] imageUrl = groupPurchaseCoupon.getImages().split(";");
             if (imageUrl.length <= 1) {
                 layoutPictureUpload.setVisibility(View.GONE);
-//                ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
+                img.setVisibility(View.VISIBLE);
+                ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
+                img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PictureViewActivity.toViewPicture(mActivity, JSONArray.toJSONString(imageUrl), 0);
+                    }
+                });
             } else {
+                img.setVisibility(View.GONE);
                 layoutPictureUpload.setVisibility(View.VISIBLE);
                 groupBuyingImageRecyclerAdapter.setList(Arrays.asList(imageUrl));
             }
         }
         tvMerchantName.setText(merchant.getName());
         tvCouponName.setText(groupPurchaseCoupon.getGroupPurchaseName());
-        tvSold.setText("已售"+groupPurchaseCoupon.getBuyCount());
+        tvVoucherMerchantName.setText(merchant.getName());
+        tvVoucherName.setText(StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()) + "元  代金券");
+        rbScore.setRating(merchant.getMerchantScore().floatValue());
+        tvAveragePrice.setText("人均￥"+StringUtils.BigDecimal2Str(merchant.getAvgPersonPrice()));
         if(groupPurchaseCoupon.getIsPurchaseRestriction()==3){
             imgVip.setVisibility(View.VISIBLE);
         }else {
             imgVip.setVisibility(View.GONE);
         }
         if (groupPurchaseCoupon.getType() == 1) {
+            rlLayout.setVisibility(View.VISIBLE);
+            layoutVoucher.setVisibility(View.VISIBLE);
+            layoutGroupon.setVisibility(View.GONE);
 
         } else {
+            layoutVoucher.setVisibility(View.GONE);
+            layoutGroupon.setVisibility(View.VISIBLE);
+            rlLayout.setVisibility(View.GONE);
             getGroupPurchaseCouponList(groupPurchaseCoupon.getType());
         }
 //        if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
@@ -274,19 +298,14 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     tvBuy.setText("已售罄");
                     break;
                 }else {
-                    tvBuy.setBackgroundResource(R.drawable.bg_login_orange_button);
+                    tvBuy.setBackgroundResource(R.drawable.bg_login_orange_button20);
                     tvBuy.setTextColor(mActivity.getResources().getColor(R.color.white));
                     tvBuy.setEnabled(true);
                     tvBuy.setText("立即购买");
                 }
             }
         }
-        if(price.length()>=7){
-            tvPriceLeft.setTextSize(30);
-        }else {
-            tvPriceLeft.setTextSize(40);
-        }
-        tvPriceLeft.setText(price);
+        tvPriceLeft.setText("￥"+price);
         tvPrice.setText(str);
 
 
@@ -303,7 +322,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 tvRule.setVisibility(View.VISIBLE);
                 llDate.setVisibility(View.GONE);
                 tvDate.setVisibility(View.GONE);
-                tvRuleRemind.setText("请在"+groupPurchaseCoupon.getCancelAfterVerificationTime()+"之前使用，如超出"+groupPurchaseCoupon.getCancelAfterVerificationTime()+"此券自动使用。");
+                tvRuleRemind.setText("订单确认后，如超出预约时间未使用，将自动使用");
             }else {
                 llRuleRemind.setVisibility(View.GONE);
                 tvRule.setVisibility(View.GONE);
@@ -337,7 +356,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 tvDistance.setText("");
             }
             if (groupPurchaseCoupon.getType() == 1 && CheckUtils.isNoEmptyStr(merchant.getMerchantRecommend())) {
-                recommendLayout.setVisibility(View.VISIBLE);
                 tvDishes.setText(merchant.getMerchantRecommend());
             }
             if (groupPurchaseCoupon.getType() == 2 && CheckUtils.isNoEmptyList(groupPurchaseCoupon.getGroupPurchaseCouponGoodsTypeList())) {
@@ -360,9 +378,10 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             if (list.size() > 1) {
                 TextView textView = new TextView(mActivity);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.x25));
+                params.topMargin = (int) getResources().getDimension(R.dimen.x10);
                 textView.setTextColor(ContextCompat.getColor(mActivity, R.color.color_3));
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-                textView.setText(goodsType.getTypeName());
+                textView.setText(goodsType.getTypeName() + "：");
                 layoutGoods.addView(textView, params);
             }
 //            else {
@@ -378,7 +397,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 TextView tvName = (TextView) layout.findViewById(R.id.name);
                 TextView tvCount = (TextView) layout.findViewById(R.id.count);
                 TextView tvPrice = (TextView) layout.findViewById(R.id.price);
-                tvName.setText("·"+goodsList.get(i).getName());
+                tvName.setText(goodsList.get(i).getName());
                 tvCount.setText("("+goodsList.get(i).getQuantity() + "份)");
                 tvPrice.setText("¥" + StringUtils.BigDecimal2Str(goodsList.get(i).getOriginPrice()));
                 layoutGoods.addView(layout, layoutParams);
@@ -396,33 +415,37 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
      * 显示服务备注
      */
     private void showOption() {
-        tv_1.setText("随时退款");
-        if(groupPurchaseCoupon!=null&&groupPurchaseCoupon.getType() == 2){
-            if(groupPurchaseCoupon.getIsBespeak()==0){
-                tv_2.setText("过期自动退");
-            }else {
-                if(groupPurchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
-                    tv_2.setText("到期自动使用");
-                }else {
-                    tv_2.setText("过期自动退");
+        StringBuffer sb = new StringBuffer();
+        if (groupPurchaseCoupon != null) {
+            if (groupPurchaseCoupon != null && groupPurchaseCoupon.getType() == 2) {
+                if (groupPurchaseCoupon.getIsBespeak() == 0) {
+                    sb.append("免预约 | ");
+                } else {
+                    sb.append("需预约 | ");
                 }
+                sb.append("随时退 | ");
+
+                if (groupPurchaseCoupon.getIsCumulate() == 0) {
+                    sb.append("不可叠加 | ");
+                } else {
+                    sb.append("可叠加 | ");
+                }
+                if (groupPurchaseCoupon.getIsAutomaticallyCancelAfterVerification() == 1) {
+                    sb.append("超时自动使用");
+                } else {
+                    sb.append("过期自动退");
+                }
+            } else {
+                sb.append("可叠加 | ");
+                sb.append("随时退 | ");
+                sb.append("需预约 | ");
+                sb.append("过期自动退");
             }
-        }else {
-            tv_2.setText("过期自动退");
         }
-        if (groupPurchaseCoupon.getIsBespeak() == 0) {
-            tv_3.setText("免预约");
-        } else {
-            tv_3.setText("需预约");
-        }
-        if (groupPurchaseCoupon.getIsCumulate() == 0) {
-            tv_4.setText("不可叠加");
-        } else {
-            tv_4.setText("可叠加");
-        }
-        if (groupPurchaseCoupon.getType() == 2) {
-            tv_4.setText("不可叠加");
-        }
+        tvOption.setText(sb.toString());
+        tvSold.setText("已售"+groupPurchaseCoupon.getBuyCount());
+        tvOption1.setText(sb.toString());
+        tvSold1.setText("已售"+groupPurchaseCoupon.getBuyCount());
     }
 
     /**

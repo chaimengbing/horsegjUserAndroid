@@ -58,7 +58,7 @@ public class GroupBuyingImageRecyclerAdapter extends RecyclerView.Adapter<GroupB
     }
 
     @Override
-    public void onBindViewHolder(ImageViewHolder holder, int position) {
+    public void onBindViewHolder(ImageViewHolder holder, final int position) {
         ImageUtils.loadBitmap(mContext, mImageUrls.get(position), ((ImageViewHolder) holder).iv,
                 R.drawable.horsegj_default, Constants.RECYCLER_IMAGE_URL_END_THUMBNAIL_BANNER);
         if (mImageUrls.size() > 1) {
@@ -79,6 +79,12 @@ public class GroupBuyingImageRecyclerAdapter extends RecyclerView.Adapter<GroupB
                 holder.tvPhotoCount.setVisibility(View.GONE);
             }
         }
+        holder.iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PictureViewActivity.toViewPicture(mContext, JSONArray.toJSONString(mImageUrls), position);
+            }
+        });
     }
 
 

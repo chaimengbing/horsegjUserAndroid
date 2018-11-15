@@ -135,7 +135,7 @@
 
                     <com.project.mgjandroid.ui.view.CornerImageView
                         android:id="@+id/food_user_avatar"
-                        android:layout_width="@dimen/x65"
+                        android:layout_width="@dimen/x85"
                         android:layout_height="@dimen/x65"
                         android:layout_marginLeft="@dimen/x20"
                         android:layout_marginTop="@dimen/x10"
