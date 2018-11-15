@@ -75,8 +75,7 @@
                         android:paddingLeft="@dimen/x20"
                         android:paddingTop="@dimen/x15"
                         android:paddingRight="@dimen/x20"
-                        android:paddingBottom="@dimen/x20"
-                        >
+                        android:paddingBottom="@dimen/x20">
 
                         <TextView
                             android:id="@+id/tv_merchant_name"
@@ -120,7 +119,7 @@
                         android:text="立即使用"
                         android:textColor="@color/white"
                         android:textSize="13sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -131,15 +130,15 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:focusableInTouchMode="true"
-                    android:paddingBottom="@dimen/x10"
+                    android:paddingBottom="@dimen/x5"
                     android:visibility="gone">
 
                     <com.project.mgjandroid.ui.view.CornerImageView
                         android:id="@+id/food_user_avatar"
                         android:layout_width="@dimen/x65"
-                        android:layout_height="@dimen/x55"
+                        android:layout_height="@dimen/x65"
                         android:layout_marginLeft="@dimen/x20"
-                        android:layout_marginTop="@dimen/x11"
+                        android:layout_marginTop="@dimen/x10"
                         android:scaleType="centerCrop"
                         android:src="@drawable/horsegj_default"
                         app:borderColor="#e5e5e5"
@@ -153,10 +152,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/x10"
                         android:layout_marginTop="@dimen/x15"
-                        android:layout_toRightOf="@+id/food_user_avatar"
-                        android:drawablePadding="@dimen/x8"
                         android:layout_marginRight="@dimen/x20"
+                        android:layout_toRightOf="@+id/food_user_avatar"
                         android:drawableRight="@drawable/right_arrow_gray"
+                        android:drawablePadding="@dimen/x8"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/color_3"
@@ -170,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_food_name"
                         android:layout_marginLeft="@dimen/x10"
-                        android:layout_marginTop="@dimen/x10"
+                        android:layout_marginTop="@dimen/x5"
                         android:layout_toRightOf="@+id/food_user_avatar"
                         android:textColor="#FD5952"
                         android:textSize="15sp"
@@ -191,33 +190,31 @@
                         android:textColor="@color/white"
                         android:textSize="13sp" />
 
-                    <RelativeLayout
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20">
+
+                    <TextView
+                        android:id="@+id/tv_option"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/food_user_avatar"
-                        android:layout_marginTop="@dimen/x9"
-                        android:paddingLeft="@dimen/x20"
-                        android:paddingRight="@dimen/x20">
+                        android:layout_toLeftOf="@id/tv_price1"
+                        android:textColor="@color/color_6"
+                        android:textSize="11sp"
+                        tools:text="免预约 | 可叠加" />
 
-                        <TextView
-                            android:id="@+id/tv_option"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/color_6"
-                            android:textSize="11sp"
-                            tools:text="免预约 | 可叠加" />
-
-                        <TextView
-                            android:id="@+id/tv_price1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:textColor="@color/color_9"
-                            android:textSize="11sp"
-                            android:textStyle="bold"
-                            tools:text="已售0" />
-                    </RelativeLayout>
-
+                    <TextView
+                        android:id="@+id/tv_total_sales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/color_9"
+                        android:textSize="11sp"
+                        tools:text="已售0" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -252,8 +249,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/x15"
                     android:layout_marginTop="@dimen/x15"
+                    android:layout_marginBottom="@dimen/x15"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/x20"
                     android:paddingRight="@dimen/x20">
@@ -282,6 +279,7 @@
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/x20"
                     android:paddingRight="@dimen/x20"
+                    android:paddingBottom="@dimen/x20"
                     android:visibility="gone">
 
                     <TextView
@@ -301,79 +299,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/option_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x45"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/x15"
-                android:paddingRight="@dimen/x15"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/text_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/group_buying_select"
-                    android:drawablePadding="@dimen/x8"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/color_9"
-                    android:textSize="12sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/text_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/group_buying_select"
-                    android:drawablePadding="@dimen/x8"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/color_9"
-                    android:textSize="12sp" />
-
-                <View
-                    android:id="@+id/space_view"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/text_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/group_buying_select"
-                    android:drawablePadding="@dimen/x8"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/color_9"
-                    android:textSize="12sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:id="@+id/text_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/group_buying_select"
-                    android:drawablePadding="@dimen/x8"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/color_9"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/color_e5" />
 
             <View
                 android:layout_width="match_parent"
@@ -386,9 +311,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/x20"
                 android:paddingLeft="@dimen/x20"
-                android:paddingRight="@dimen/x20">
+                android:paddingRight="@dimen/x20"
+                android:paddingBottom="@dimen/x20">
 
 
                 <TextView
@@ -486,7 +411,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="@dimen/x10"
                                 android:layout_marginRight="@dimen/x10"
-                                android:background="@color/color_e"/>
+                                android:background="@color/color_e" />
 
                             <TextView
                                 android:id="@+id/tv_shop_address"
@@ -569,9 +494,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/x20"
                 android:paddingLeft="@dimen/x20"
-                android:paddingRight="@dimen/x20">
+                android:paddingRight="@dimen/x20"
+                android:paddingBottom="@dimen/x20">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -731,8 +656,8 @@
                     android:id="@+id/ll_pay_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/x15"
                     android:layout_marginTop="@dimen/x15"
+                    android:layout_marginBottom="@dimen/x15"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:visibility="gone">
