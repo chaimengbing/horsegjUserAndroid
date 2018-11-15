@@ -13,7 +13,7 @@
         android:layout_marginRight="7dp"
         android:paddingTop="7dp"
         android:paddingBottom="8dp"
-        android:background="@drawable/group_buying_quan_item_bg">
+        android:background="@drawable/group_buying_item_bg">
 
         <RelativeLayout
             android:id="@+id/title_layout"
@@ -74,7 +74,6 @@
             android:textSize="15sp"
             android:textColor="@color/color_6"
             tools:text="券码：3655 2837 9927 7389"
-            android:background="@drawable/shape_gray_bg_f3"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:layout_marginTop="@dimen/x20"

@@ -164,7 +164,9 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
         if (CheckUtils.isNoEmptyStr(historySearch)) {
             String[] split = historySearch.split(",");
             for (String str : split) {
-                mHistoryEntities.add(str);
+                if (CheckUtils.isNoEmptyStr(str.trim())) {
+                    mHistoryEntities.add(str);
+                }
             }
         }
         if (CheckUtils.isNoEmptyList(mHistoryEntities)) {
