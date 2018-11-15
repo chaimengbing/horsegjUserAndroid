@@ -142,6 +142,8 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private RecyclerView recyclerView;
     @InjectView(R.id.layout_picture_upload)
     private LinearLayout layoutPictureUpload;
+    @InjectView(R.id.tv_buy_take_away)
+    private LinearLayout takeAway;
 
 
     private List<String> urls = new ArrayList<>();
@@ -171,6 +173,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         commonShare.setOnClickListener(this);
         iconAddr.setOnClickListener(this);
         tvAddress.setOnClickListener(this);
+        takeAway.setOnClickListener(this);
         ivCall.setOnClickListener(this);
         tvEvaluation.setOnClickListener(this);
         imgLeft.setOnClickListener(this);
