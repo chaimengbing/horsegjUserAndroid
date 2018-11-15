@@ -9,8 +9,8 @@
 
     <com.project.mgjandroid.ui.view.CornerImageView
         android:id="@+id/img"
-        android:layout_width="@dimen/x65"
-        android:layout_height="@dimen/x55"
+        android:layout_width="@dimen/x75"
+        android:layout_height="@dimen/x65"
         android:layout_marginLeft="@dimen/x20"
         android:layout_marginTop="@dimen/x14"
         android:scaleType="centerCrop"
@@ -41,7 +41,7 @@
         android:layout_alignLeft="@+id/tv_name"
         android:layout_below="@+id/tv_name"
         android:layout_marginRight="@dimen/x15"
-        android:layout_marginTop="@dimen/x9"
+        android:layout_marginTop="@dimen/x4"
         android:textColor="@color/color_6"
         android:textSize="11sp"
         tools:text="免预约 | 可叠加" />
@@ -51,7 +51,7 @@
         android:layout_width="@dimen/x60"
         android:layout_height="@dimen/x13"
         android:layout_below="@+id/tv_name"
-        android:layout_marginTop="@dimen/x9"
+        android:layout_marginTop="@dimen/x4"
         android:layout_toRightOf="@+id/tv_option"
         android:background="#eec214"
         android:gravity="center"
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tv_name"
         android:layout_below="@+id/tv_option"
-        android:layout_marginTop="@dimen/x9"
+        android:layout_marginTop="@dimen/x4"
         android:textColor="#fb4e44"
         android:textSize="15sp"
         tools:text="￥59" />

@@ -593,10 +593,12 @@
 
                         <LinearLayout
                             android:id="@+id/address_layout"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/layout"
                             android:layout_marginTop="@dimen/x4"
+                            android:layout_marginRight="@dimen/x5"
+                            android:layout_toLeftOf="@+id/iv_call"
                             android:orientation="horizontal">
 
                             <TextView

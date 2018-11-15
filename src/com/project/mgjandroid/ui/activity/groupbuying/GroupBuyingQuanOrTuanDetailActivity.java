@@ -237,8 +237,10 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             final String[] imageUrl = groupPurchaseCoupon.getImages().split(";");
             if (imageUrl.length <= 1) {
                 layoutPictureUpload.setVisibility(View.GONE);
-                img.setVisibility(View.VISIBLE);
-                ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
+                if(CheckUtils.isNoEmptyStr(merchant.getImgs())){
+                    img.setVisibility(View.VISIBLE);
+                    ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
+                }
                 img.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
