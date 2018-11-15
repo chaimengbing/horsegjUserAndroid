@@ -232,7 +232,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="团购套餐"
+                        android:text="团购券内容："
                         android:textColor="@color/color_3"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -241,6 +241,7 @@
                         android:id="@+id/goods_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x10"
                         android:orientation="vertical" />
 
 
@@ -256,20 +257,28 @@
                     android:paddingRight="@dimen/x20">
 
                     <TextView
-                        android:id="@+id/tv_voucher"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="有效期："
                         android:textColor="@color/color_3"
                         android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/tv_available_time"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x10"
-                        android:textColor="@color/color_6"
-                        android:textSize="14sp" />
+                        android:gravity="center_vertical">
+
+                        <include layout="@layout/group_buying_use_rule_point" />
+
+                        <TextView
+                            android:id="@+id/tv_available_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_6"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
