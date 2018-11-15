@@ -808,8 +808,8 @@ public class SubmitOrderModel extends Entity {
                 private Object imei;
                 private Object clientVersion;
                 private int hasDel;
-                private double longitude;
-                private double latitude;
+                private BigDecimal longitude;
+                private BigDecimal latitude;
                 private Object geohash;
                 private int isOnline;
                 private int waitAcceptNum;
@@ -955,19 +955,19 @@ public class SubmitOrderModel extends Entity {
                     this.hasDel = hasDel;
                 }
 
-                public double getLongitude() {
+                public BigDecimal getLongitude() {
                     return longitude;
                 }
 
-                public void setLongitude(double longitude) {
+                public void setLongitude(BigDecimal longitude) {
                     this.longitude = longitude;
                 }
 
-                public double getLatitude() {
+                public BigDecimal getLatitude() {
                     return latitude;
                 }
 
-                public void setLatitude(double latitude) {
+                public void setLatitude(BigDecimal latitude) {
                     this.latitude = latitude;
                 }
 

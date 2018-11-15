@@ -1477,7 +1477,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private void initMap(ValueEntity submitOrderEntity) {
         mapView.setVisibility(View.VISIBLE);
         ValueEntity.DeliveryTaskEntity.DeliverymanEntity deliveryman = submitOrderEntity.getDeliveryTask().getDeliveryman();
-        locationCurrentSite(deliveryman.getLatitude(), deliveryman.getLongitude());
+        locationCurrentSite(deliveryman.getLatitude().doubleValue(), deliveryman.getLongitude().doubleValue());
 //		mapCache.setImageBitmap(mapView.getDrawingCache());
 //		mapView.setVisibility(View.GONE);
     }
