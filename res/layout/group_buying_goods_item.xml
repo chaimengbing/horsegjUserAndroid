@@ -1,38 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/point"
+        layout="@layout/group_buying_use_rule_point"
+        android:layout_width="@dimen/x13"
+        android:layout_height="@dimen/x14"
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/color_6"
-        android:gravity="center_vertical"
-        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/point"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxWidth="@dimen/x250"
         android:text="123"
-        />
+        android:textColor="@color/color_6"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/name"
-        android:textSize="11sp"
-        android:textColor="@color/color_6"
-        android:layout_toRightOf="@+id/name"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/x5"
+        android:layout_toLeftOf="@id/price"
+        android:layout_toRightOf="@id/name"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:text="123"
-        />
+        android:textColor="@color/color_6"
+        android:textSize="11sp" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:textSize="14sp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="00"
         android:textColor="@color/color_6"
-        android:layout_alignParentRight="true" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
