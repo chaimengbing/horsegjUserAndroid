@@ -342,7 +342,7 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                 tvLength.setText("");
             }
             if (order.getGroupPurchaseCouponType() == 1 && CheckUtils.isNoEmptyStr(merchant.getMerchantRecommend())) {
-                layoutRecommend.setVisibility(View.VISIBLE);
+//                layoutRecommend.setVisibility(View.VISIBLE);
                 tvMenu.setText(merchant.getMerchantRecommend());
             }
             if (order.getGroupPurchaseCouponType() == 2 && CheckUtils.isNoEmptyList(purchaseCoupon.getGroupPurchaseCouponGoodsTypeList())) {
@@ -370,6 +370,11 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         } else {
             llRedBag.setVisibility(View.GONE);
             llPayPrice.setVisibility(View.GONE);
+        }
+        if (checkCancel()) {
+            tvRefund.setVisibility(View.VISIBLE);
+        } else {
+            tvRefund.setVisibility(View.GONE);
         }
     }
 
