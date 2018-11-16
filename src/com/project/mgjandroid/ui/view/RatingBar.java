@@ -234,7 +234,7 @@ public class RatingBar extends LinearLayout {
             ((ImageView) getChildAt(i)).setImageDrawable(starEmptyDrawable);
         }
         //小数点默认增加半颗星
-        if (fPoint > 0) {
+        if (fPoint >= 0.5) {
             ((ImageView) getChildAt(fint)).setImageDrawable(starHalfDrawable);
         }
     }
