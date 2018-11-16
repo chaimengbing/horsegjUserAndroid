@@ -94,7 +94,7 @@ public class RiderActivity extends BaseActivity{
     }
 
     private void show(final RiderInformation.ValueBean value ){
-        ImageUtils.loadBitmap(mActivity, value.getHeaderImg(), riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
+        ImageUtils.loadBitmap(mActivity, value.getHeaderImg(), riderAvatar, R.drawable.icon_default_avator, Constants.getEndThumbnail(56, 56));
         tvName.setText(value.getName());
         riderScore.setStar(value.getDeliverymanScore().floatValue());
         riderScore.invalidate();

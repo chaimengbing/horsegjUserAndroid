@@ -84,7 +84,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/x15"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/user_avatar"
+                        android:src="@drawable/icon_default_avator"
                         app:type="circle" />
 
                     <LinearLayout

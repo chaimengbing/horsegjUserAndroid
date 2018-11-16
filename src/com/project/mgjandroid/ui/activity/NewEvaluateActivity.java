@@ -195,8 +195,8 @@ public class NewEvaluateActivity extends BaseActivity {
         if (hasDriverEvaluate) {
             layoutRider.setVisibility(View.VISIBLE);
             tvRiderName.setText(submitOrderEntity.getDeliveryTask().getDeliveryman().getName());
-            ImageUtils.loadBitmap(mActivity, submitOrderEntity.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
-            tvDeliveryTime.setText(DateUtils.getFormatTime3(submitOrderEntity.getOrderDoneTime())+"送达");
+            ImageUtils.loadBitmap(mActivity, submitOrderEntity.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.icon_default_avator, Constants.getEndThumbnail(56, 56));
+            tvDeliveryTime.setText(DateUtils.getFormatTime3(submitOrderEntity.getOrderDoneTime()) + "送达");
         } else {
             layoutRider.setVisibility(View.GONE);
         }
@@ -325,7 +325,7 @@ public class NewEvaluateActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                tvLength.setText(editable.toString().length()+"/300字");
+                tvLength.setText(editable.toString().length() + "/300字");
             }
         });
 

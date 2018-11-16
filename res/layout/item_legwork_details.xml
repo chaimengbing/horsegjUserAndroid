@@ -247,7 +247,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/x15"
-            android:text="感谢使用马管家跑腿"
+            android:text="感谢使用马管家跑腿，期待下次使用"
             android:textColor="@color/color_6"
             android:textSize="15sp" />
 
