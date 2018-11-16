@@ -391,7 +391,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
 
                 } else if (valueBean.getStatus() == 5) {
                     //送货中
-                    deliveryState = "骑手前往送货";
+                    deliveryState = "骑手正在配送";
                     deliveryState1 = "距离送货地";
                     distance = CommonUtils.getDistance(userLongitude, userLatitude, longtude, latitude);
                 }
