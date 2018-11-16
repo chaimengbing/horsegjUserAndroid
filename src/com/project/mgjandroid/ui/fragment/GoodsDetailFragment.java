@@ -172,6 +172,8 @@ public class GoodsDetailFragment extends HeaderViewPagerFragment implements View
                 } else {
                     isHaveContent = 1;
                 }
+                currentSection = 0;
+                data.clear();
                 tvUnEmpty.setSelected(!tvUnEmpty.isSelected());
                 getGoodsEvaluate();
                 //TODO 刷新列表

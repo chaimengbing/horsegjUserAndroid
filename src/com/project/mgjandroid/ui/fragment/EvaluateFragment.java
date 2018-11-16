@@ -186,6 +186,7 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
                     isHaveContent = 1;
                 }
                 tvUnEmpty.setSelected(!tvUnEmpty.isSelected());
+                refreshFlag = false;
                 getNewMerchantEvaluate();
                 //TODO 刷新列表
                 break;
