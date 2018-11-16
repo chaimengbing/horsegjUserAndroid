@@ -106,6 +106,8 @@ public class EvaluateListActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     isHaveContent = 1;
                 }
+                currentSection = 0;
+                data.clear();
                 tvUnEmpty.setSelected(!tvUnEmpty.isSelected());
                 getGoodsEvaluate(false);
                 //TODO 刷新列表

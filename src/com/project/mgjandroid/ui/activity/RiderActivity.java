@@ -100,7 +100,7 @@ public class RiderActivity extends BaseActivity{
         riderScore.invalidate();
         tvPunctuality.setText(StringUtils.BigDecimal2Str(value.getDeliverymanPunctualityScore())+"%");
         tvGoodReputation.setText(StringUtils.BigDecimal2Str(value.getDeliverymanGoodScore())+"%");
-        tvDeliveryTime.setText(StringUtils.BigDecimal2Str(value.getDeliverymanAvgTime()));
+        tvDeliveryTime.setText(StringUtils.BigDecimal2Str(value.getDeliverymanAvgTime())+"min");
         JSONObject  myJson = JSONObject.parseObject(value.getDeliverymanImpress());
         Map<String,Object> map = myJson;
         ArrayList<String> list = new ArrayList<>();
