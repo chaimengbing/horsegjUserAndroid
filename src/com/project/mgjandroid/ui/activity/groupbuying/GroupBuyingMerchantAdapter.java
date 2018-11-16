@@ -3,6 +3,7 @@ package com.project.mgjandroid.ui.activity.groupbuying;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -110,8 +111,6 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
 
     private void showItem(View convertView, int position, ViewHolder holder) {
         final GroupPurchaseMerchant merchant = list.get(position);
-        if (!TextUtils.isEmpty(merchant.getName()))
-            holder.tvName.setText(merchant.getName());
         if (merchant.getDistance() != null) {
             if (merchant.getDistance() > 1000) {
                 Double d = merchant.getDistance() / 1000;
@@ -119,6 +118,16 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
             } else {
                 holder.tvDistance.setText(merchant.getDistance().intValue() + "m");
             }
+        }
+
+        if (!TextUtils.isEmpty(merchant.getHighLightName())) {
+            String color = merchant.getHighLightName();
+            color = color.replaceAll("<em>", "<font color='#ff9900'>");
+            color = color.replace("</em>", "</font>");
+            holder.tvName.setText(Html.fromHtml(color));
+        } else {
+            if (!TextUtils.isEmpty(merchant.getName()))
+                holder.tvName.setText(merchant.getName());
         }
 
         if (fromMainPage) {
@@ -189,9 +198,9 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
             }
             holder.tvRecommendedDishes.setText((CheckUtils.isNoEmptyStr(merchant.getMerchantTag()) ? merchant.getMerchantTag() : ""));
             holder.layoutActive.removeAllViews();
-            if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())){
-                double discount = Integer.parseInt(merchant.getDiscountRatio()) *0.01*10;
-                addActive(holder.layoutActive, R.drawable.ic_buy, "在线支付，"+discount+"折");
+            if (CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())) {
+                double discount = Integer.parseInt(merchant.getDiscountRatio()) * 0.01 * 10;
+                addActive(holder.layoutActive, R.drawable.ic_buy, "在线支付，" + discount + "折");
             }
 
             if (CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())) {
@@ -214,9 +223,9 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
                     addActive(holder.layoutActive, R.drawable.group_buying_quan, quan.substring(0, quan.length() - 2));
                 }
             }
-            if(CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())||CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())){
+            if (CheckUtils.isNoEmptyStr(merchant.getDiscountRatio()) || CheckUtils.isNoEmptyList(merchant.getGroupPurchaseCouponList())) {
                 holder.layoutActive.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.layoutActive.setVisibility(View.GONE);
             }
             holder.rootView.setOnClickListener(new View.OnClickListener() {

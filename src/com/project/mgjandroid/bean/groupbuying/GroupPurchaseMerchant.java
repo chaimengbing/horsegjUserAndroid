@@ -217,6 +217,10 @@ public class GroupPurchaseMerchant extends BaseBean {
      */
     private String discountRatio;
 
+    private String highLightName;
+
+    private String highLightMerchantTag;
+
     private List<GroupPurchaseCoupon> groupPurchaseCouponList;
 
     public Long getAgentId() {
@@ -649,5 +653,21 @@ public class GroupPurchaseMerchant extends BaseBean {
 
     public void setDiscountRatio(String discountRatio) {
         this.discountRatio = discountRatio;
+    }
+
+    public String getHighLightMerchantTag() {
+        return highLightMerchantTag;
+    }
+
+    public void setHighLightMerchantTag(String highLightMerchantTag) {
+        this.highLightMerchantTag = highLightMerchantTag;
+    }
+
+    public String getHighLightName() {
+        return highLightName;
+    }
+
+    public void setHighLightName(String highLightName) {
+        this.highLightName = highLightName;
     }
 }
