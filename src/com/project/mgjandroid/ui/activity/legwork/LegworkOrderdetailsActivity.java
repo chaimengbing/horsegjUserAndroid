@@ -183,6 +183,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     LinearLayout orderLayout;
     @InjectView(R.id.details)
     LinearLayout details;
+    @InjectView(R.id.delivery_name_layout)
+    RelativeLayout deliveryNameLayout;
     @InjectView(R.id.delivery_man_info_layout)
     RelativeLayout deliveryManInfoLayout;
 
@@ -464,6 +466,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         sendRedBag.setOnClickListener(this);
         manPhoneTv.setOnClickListener(this);
         expandImageView.setOnClickListener(this);
+        deliveryNameLayout.setOnClickListener(this);
         refreshImageView.setOnClickListener(this);
         addressLayout.setOnClickListener(this);
         deliveryManInfoLayout.setOnClickListener(this);
@@ -1145,6 +1148,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                 }
                 break;
             case R.id.delivery_man_info_layout:
+            case R.id.delivery_name_layout:
                 if (valueBean != null) {
                     Intent mIntent = new Intent(mActivity, RiderActivity.class);
                     mIntent.putExtra("deliverymanId", valueBean.getDeliveryTask().getDeliverymanId());

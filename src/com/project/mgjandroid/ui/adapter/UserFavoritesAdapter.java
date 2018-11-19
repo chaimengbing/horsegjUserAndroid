@@ -113,6 +113,7 @@ public class UserFavoritesAdapter extends BaseAdapter {
             holder.tvActiveCount = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_active_count);
             holder.imgActive = (ImageView) convertView.findViewById(R.id.restaurant_list_item_iv_active);
             holder.visibleLiveImageView = (ImageView) convertView.findViewById(R.id.visible_live_imageview);
+            holder.brantImageView = (ImageView) convertView.findViewById(R.id.brant_imageview);
             holder.tvTimeDistance = (TextView) convertView.findViewById(R.id.restaurant_list_item_tv_time_distance);
             holder.tvShipFeeNew = (TextView) convertView.findViewById(R.id.restaurant_list_item_ship_fee);
             holder.verticalLine = convertView.findViewById(R.id.restaurant_list_item_line);
@@ -120,23 +121,31 @@ public class UserFavoritesAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        final UserFavorites userFavorites = list.get(position);
+
         if (CheckUtils.isNoEmptyList(list) && list.size() > position) {
-            if (list.get(position).getMerchantType() == 2) {
-                showGroupPurchaseMerchantItem(convertView, list.get(position).getGroupPurchaseMerchant(), holder, position, list.get(position).getHasDel());
+            if (userFavorites.getMerchantType() == 2) {
+                showGroupPurchaseMerchantItem(convertView, userFavorites.getGroupPurchaseMerchant(), holder, position, userFavorites.getHasDel());
             } else if (list.get(position).getMerchantType() == 0) {
-                showItem(convertView, list.get(position).getMerchant(), holder, position, list.get(position).getHasDel());
+                showItem(convertView, userFavorites.getMerchant(), holder, position, userFavorites.getHasDel());
             }
         }
 
-        if (list.get(position).getMerchant().getHasVisualRestaurant() == 1){
+        if (userFavorites.getMerchant() != null && userFavorites.getMerchant().getStatus() == 0) {
+            holder.brantImageView.setVisibility(View.VISIBLE);
+        } else {
+            holder.brantImageView.setVisibility(View.GONE);
+        }
+
+        if (userFavorites.getMerchant() != null && userFavorites.getMerchant().getHasVisualRestaurant() == 1) {
             holder.visibleLiveImageView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.visibleLiveImageView.setVisibility(View.INVISIBLE);
         }
 
         if (showEditStatus) {
             holder.imgEditStatus.setVisibility(View.VISIBLE);
-            if (list.get(position).isSelected()) {
+            if (userFavorites.isSelected()) {
                 holder.imgEditStatus.setImageResource(R.drawable.market_cart_checked);
             } else {
                 holder.imgEditStatus.setImageResource(R.drawable.market_cart_unselect);
@@ -145,11 +154,11 @@ public class UserFavoritesAdapter extends BaseAdapter {
             holder.imgEditStatus.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (list.get(position).isSelected()) {
-                        list.get(position).setSelected(false);
+                    if (userFavorites.isSelected()) {
+                        userFavorites.setSelected(false);
                         finalHolder.imgEditStatus.setImageResource(R.drawable.market_cart_unselect);
                     } else {
-                        list.get(position).setSelected(true);
+                        userFavorites.setSelected(true);
                         finalHolder.imgEditStatus.setImageResource(R.drawable.market_cart_checked);
                     }
                     clickListener.doClick(position);
@@ -162,7 +171,7 @@ public class UserFavoritesAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView img, imgActive, imgStatus, imgEditStatus,visibleLiveImageView;
+        ImageView img, imgActive, imgStatus, imgEditStatus, visibleLiveImageView, brantImageView;
         TextView tvName, tvSendPrice, tvScore, tvInSales, tvShippingFee, tvMianShippingFee, tvTips, tvActiveCount, tvTimeDistance, tvPickGoodsCount, tvShipFeeNew;
         RatingBar scoreBar;
         LinearLayout layoutImgs, layoutActive, layoutActiveHide;

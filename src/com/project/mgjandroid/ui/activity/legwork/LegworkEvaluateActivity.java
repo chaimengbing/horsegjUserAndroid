@@ -93,7 +93,6 @@ public class LegworkEvaluateActivity extends BaseActivity {
     private LegworkOrderDetailsModel.ValueBean valurDetails;
 
 
-
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -112,10 +111,10 @@ public class LegworkEvaluateActivity extends BaseActivity {
         Intent intent = getIntent();
         agentId = intent.getStringExtra("agentId");
         orderId = intent.getStringExtra("orderId");
-        if(intent!=null&&intent.hasExtra("value")){
+        if (intent != null && intent.hasExtra("value")) {
             value = (NewOrderFragmentModel.ValueEntity) intent.getSerializableExtra("value");
         }
-        if(intent!=null&&intent.hasExtra("valurDetails")){
+        if (intent != null && intent.hasExtra("valurDetails")) {
             valurDetails = (LegworkOrderDetailsModel.ValueBean) intent.getSerializableExtra("valurDetails");
         }
         String[] bad = getResources().getStringArray(R.array.badList);
@@ -131,13 +130,13 @@ public class LegworkEvaluateActivity extends BaseActivity {
             groupBuyingDeliverymanImpress.setImpress(s);
             goodList.add(groupBuyingDeliverymanImpress);
         }
-        if(value!=null){
+        if (value != null) {
             tvRiderName.setText(value.getLegWorkOrder().getDeliveryTask().getDeliveryman().getName());
-            ImageUtils.loadBitmap(mActivity, value.getLegWorkOrder().getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
+            ImageUtils.loadBitmap(mActivity, value.getLegWorkOrder().getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.icon_default_avator, Constants.getEndThumbnail(56, 56));
             tvDeliveryTime.setText(DateUtils.getFormatTime3(value.getLegWorkOrder().getOrderDoneTime()) + "送达");
-        }else if(valurDetails!=null){
+        } else if (valurDetails != null) {
             tvRiderName.setText(valurDetails.getDeliveryTask().getDeliveryman().getName());
-            ImageUtils.loadBitmap(mActivity, valurDetails.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
+            ImageUtils.loadBitmap(mActivity, valurDetails.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.icon_default_avator, Constants.getEndThumbnail(56, 56));
             tvDeliveryTime.setText(DateUtils.getFormatTime3(valurDetails.getOrderDoneTime()) + "送达");
         }
         riderEvaluationAdapter = new RiderEvaluationAdapter(this);
@@ -280,7 +279,7 @@ public class LegworkEvaluateActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.tv_to_evaluation:
-                if(checkCanEvaluate()){
+                if (checkCanEvaluate()) {
                     getData();
                 }
                 break;
