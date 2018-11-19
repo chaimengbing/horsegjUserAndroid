@@ -323,7 +323,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                     if (categories != null) {
                         GroupPurchaseCategory category = new GroupPurchaseCategory();
                         category.setName("全部");
-                        category.setId(-1L);
+                        category.setId(0L);
                         categories.add(0, category);
                     }
                     if (show) showLeftMenuPop(categories);
