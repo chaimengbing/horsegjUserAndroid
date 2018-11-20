@@ -547,6 +547,7 @@
                     android:background="@color/color_e5" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_evaluate"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x45"
                     android:gravity="center_vertical"
@@ -567,8 +568,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:drawablePadding="@dimen/x5"
-                        android:drawableRight="@drawable/right_arrow_gray"
+                        android:background="@drawable/right_arrow_gray"
                         android:gravity="center_vertical"
                         android:textColor="@color/color_6"
                         android:textSize="11sp"

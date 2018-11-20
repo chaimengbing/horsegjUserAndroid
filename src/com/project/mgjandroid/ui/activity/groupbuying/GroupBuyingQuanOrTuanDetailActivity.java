@@ -117,12 +117,20 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout goodsLayout;
     @InjectView(R.id.tv_use_range)
     private TextView tvUseRange;
+    @InjectView(R.id.tv_use_range1)
+    private TextView tvUseRange1;
     @InjectView(R.id.tv_limit_date)
     private TextView tvLimitDate;
+    @InjectView(R.id.tv_limit_date1)
+    private TextView tvLimitDate1;
     @InjectView(R.id.tv_use_time)
     private TextView tvUseTime;
+    @InjectView(R.id.tv_use_time1)
+    private TextView tvUseTime1;
     @InjectView(R.id.use_rule_layout)
     private LinearLayout useRulesLayout;
+    @InjectView(R.id.use_rule_layout1)
+    private LinearLayout useRulesLayout1;
     @InjectView(R.id.tv_buy_take_away)
     private RelativeLayout tvBuyTakeAway;
     @InjectView(R.id.tv_evaluate)
@@ -137,18 +145,32 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout discountTuanLayout;
     @InjectView(R.id.tv_use_mTime)
     private TextView tvUseMtime;
+    @InjectView(R.id.tv_use_mTime1)
+    private TextView tvUseMtime1;
     @InjectView(R.id.ll_use_time)
     private LinearLayout llUseTime;
+    @InjectView(R.id.ll_use_time1)
+    private LinearLayout llUseTime1;
     @InjectView(R.id.ll_rule_remind)
     private LinearLayout llRuleRemind;
+    @InjectView(R.id.ll_rule_remind1)
+    private LinearLayout llRuleRemind1;
     @InjectView(R.id.tv_rule)
     private TextView tvRule;
+    @InjectView(R.id.tv_rule1)
+    private TextView tvRule1;
     @InjectView(R.id.tv_rule_remind)
     private TextView tvRuleRemind;
+    @InjectView(R.id.tv_rule_remind1)
+    private TextView tvRuleRemind1;
     @InjectView(R.id.ll_data)
     private LinearLayout llDate;
+    @InjectView(R.id.ll_data1)
+    private LinearLayout llDate1;
     @InjectView(R.id.tv_date)
     private TextView tvDate;
+    @InjectView(R.id.tv_date1)
+    private TextView tvDate1;
     @InjectView(R.id.layout_picture_upload)
     private LinearLayout layoutPictureUpload;
     @InjectView(R.id.recycler_view)
@@ -183,6 +205,12 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout layoutGroupon;
     @InjectView(R.id.layout_rl)
     private RelativeLayout rlLayout;
+    @InjectView(R.id.layout_groupon_erea)
+    private LinearLayout layoutGrouponErea;
+    @InjectView(R.id.layout_voucher_erea)
+    private LinearLayout layoutVoucherErea;
+    @InjectView(R.id.tv_use_rule1)
+    private TextView tvUseRule1;
 
     private PopupWindow mPopupWindow;
     private TextView tvAmt;
@@ -215,7 +243,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
 
     private void initView() {
         comBack.setOnClickListener(this);
-        comShare.setVisibility(View.VISIBLE);
         comShare.setOnClickListener(this);
         tvBuy.setOnClickListener(this);
         addressLayout.setOnClickListener(this);
@@ -265,11 +292,15 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             imgVip.setVisibility(View.GONE);
         }
         if (groupPurchaseCoupon.getType() == 1) {
+            layoutGrouponErea.setVisibility(View.GONE);
+            layoutVoucherErea.setVisibility(View.VISIBLE);
             rlLayout.setVisibility(View.VISIBLE);
             layoutVoucher.setVisibility(View.VISIBLE);
             layoutGroupon.setVisibility(View.GONE);
 
         } else {
+            layoutGrouponErea.setVisibility(View.VISIBLE);
+            layoutVoucherErea.setVisibility(View.GONE);
             layoutVoucher.setVisibility(View.GONE);
             layoutGroupon.setVisibility(View.VISIBLE);
             rlLayout.setVisibility(View.GONE);
@@ -314,33 +345,54 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         showOption();
         if(groupPurchaseCoupon.getIsBespeak()==0){
             llRuleRemind.setVisibility(View.GONE);
+            llRuleRemind1.setVisibility(View.GONE);
             tvRule.setVisibility(View.GONE);
+            tvRule1.setVisibility(View.GONE);
             llDate.setVisibility(View.VISIBLE);
+            llDate1.setVisibility(View.VISIBLE);
             tvDate.setVisibility(View.VISIBLE);
+            tvDate1.setVisibility(View.VISIBLE);
             tvLimitDate.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
+            tvLimitDate1.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
         }else {
             if(groupPurchaseCoupon.getIsAutomaticallyCancelAfterVerification()==1){
                 llRuleRemind.setVisibility(View.VISIBLE);
+                llRuleRemind1.setVisibility(View.VISIBLE);
                 tvRule.setVisibility(View.VISIBLE);
+                tvRule1.setVisibility(View.VISIBLE);
                 llDate.setVisibility(View.GONE);
+                llDate1.setVisibility(View.GONE);
                 tvDate.setVisibility(View.GONE);
+                tvDate1.setVisibility(View.GONE);
                 tvRuleRemind.setText("订单确认后，如超出预约时间未使用，将自动使用");
+                tvRuleRemind1.setText("订单确认后，如超出预约时间未使用，将自动使用");
             }else {
                 llRuleRemind.setVisibility(View.GONE);
+                llRuleRemind1.setVisibility(View.GONE);
                 tvRule.setVisibility(View.GONE);
+                tvRule1.setVisibility(View.GONE);
                 llDate.setVisibility(View.VISIBLE);
+                llDate1.setVisibility(View.VISIBLE);
                 tvDate.setVisibility(View.VISIBLE);
+                tvDate1.setVisibility(View.VISIBLE);
                 tvLimitDate.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
+                tvLimitDate1.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
             }
         }
         tvUseRange.setText(groupPurchaseCoupon.getApplyRange());
+        tvUseRange1.setText(groupPurchaseCoupon.getApplyRange());
         if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getConsumeTime())){
             tvUseMtime.setVisibility(View.VISIBLE);
+            tvUseMtime1.setVisibility(View.VISIBLE);
             llUseTime.setVisibility(View.VISIBLE);
+            llUseTime1.setVisibility(View.VISIBLE);
             tvUseTime.setText(groupPurchaseCoupon.getConsumeTime() + "\u3000");
+            tvUseTime1.setText(groupPurchaseCoupon.getConsumeTime() + "\u3000");
         }else {
             tvUseMtime.setVisibility(View.GONE);
+            tvUseMtime1.setVisibility(View.GONE);
             llUseTime.setVisibility(View.GONE);
+            llUseTime1.setVisibility(View.GONE);
         }
         showUseRules();
 
@@ -471,6 +523,8 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             LinearLayout.LayoutParams paramsChild = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             paramsChild.topMargin = getResources().getDimensionPixelOffset(R.dimen.x5);
             useRulesLayout.addView(layout, paramsChild);
+            tvUseRule1.setVisibility(View.VISIBLE);
+            useRulesLayout1.addView(layout, paramsChild);
         }
     }
 
@@ -480,7 +534,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             case R.id.common_back:
                 back();
                 break;
-            case R.id.com_share:
+            case R.id.common_share:
                 if (shareUtil == null && merchant != null && groupPurchaseCoupon != null) {
                     shareUtil = new ShareUtil(mActivity, groupPurchaseCoupon.getType() == 1 ? (merchant.getName() + "代金券") : groupPurchaseCoupon.getGroupPurchaseName(),
                             tvPrice.getText() + "\n" + (CheckUtils.isNoEmptyStr(merchant.getDescription()) ? merchant.getDescription() : "独乐不如众乐，分享好东西给你，快上马管家抢购吧~"),

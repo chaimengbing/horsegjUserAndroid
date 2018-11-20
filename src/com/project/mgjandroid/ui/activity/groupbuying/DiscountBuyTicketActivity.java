@@ -52,6 +52,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private TextView tvRight;
     @InjectView(R.id.et_evaluation)
     private EditText etEvalution;
+    @InjectView(R.id.et_evaluation1)
+    private EditText etEvalution1;
     @InjectView(R.id.img_unselected)
     private ImageView imgSelected;
     @InjectView(R.id.cb_unselected)
@@ -76,6 +78,10 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private RelativeLayout rlDiscount;
     @InjectView(R.id.rllayout)
     private RelativeLayout rlLayout;
+    @InjectView(R.id.ic_money)
+    private TextView icMoney;
+    @InjectView(R.id.ic_money1)
+    private TextView icMoney1;
 
 
     private String titleName;
@@ -131,6 +137,19 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                             return;
                         }
                         payForPreview();
+                }
+            }
+        });
+        etEvalution1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b){
+                    if (!App.isLogin()) {
+                        Intent intent = new Intent(mActivity, SmsLoginActivity.class);
+                        startActivity(intent);
+                        return;
+                    }
+                    payForPreview();
                 }
             }
         });
@@ -208,6 +227,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
 
 
                 if(editable.toString().trim().length()>0){
+                    icMoney.setVisibility(View.VISIBLE);
                     if("0".equals(editable.toString().trim())){
                         tvConfirm.setEnabled(false);
                     }else {
@@ -215,6 +235,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                         tvConfirm.setEnabled(true);
                     }
                 }else {
+                    icMoney.setVisibility(View.GONE);
                     etEvalution.setHint("询问服务员后输入");
                     tvConfirm.setEnabled(false);
                 }
@@ -223,6 +244,38 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 if (len == 1 && text.equals("0")) {
                     editable.clear();
                 }}
+        });
+        etEvalution1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.toString().trim().length()>0){
+                    icMoney1.setVisibility(View.VISIBLE);
+                    if(isCanSelect){
+                        payForPreview();
+                    }
+                    if(!"0".equals(editable.toString().trim())){
+                        etEvalution1.setHint("");
+                    }
+                }else {
+                    icMoney1.setVisibility(View.GONE);
+                    etEvalution1.setHint("询问服务员后输入");
+                }
+                String text = editable.toString();
+                int len = editable.toString().length();
+                if (len == 1 && text.equals("0")) {
+                    editable.clear();
+                }
+            }
         });
     }
 
@@ -239,6 +292,8 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     rlLayout.setVisibility(View.VISIBLE);
                 }else {
                     rlLayout.setVisibility(View.GONE);
+                    etEvalution1.setText("");
+                    payForPreview();
                 }
                 break;
             case R.id.tv_explain:
@@ -401,6 +456,9 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         if (CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())) {
             data.put("originalPrice", etEvalution.getText().toString().trim());
         }
+        if (CheckUtils.isNoEmptyStr(etEvalution1.getText().toString().trim())) {
+            data.put("notJoinDiscountAmount", etEvalution1.getText().toString().trim());
+        }
         data.put("quantity", 1);
 //        data.put("totalPrice", 1);
         data.put("userId", App.getUserInfo().getId());
@@ -425,7 +483,6 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         }else {
             data.put("totalPrice", previewModelValue.getTotalPrice());
         }
-
 //        params.put("groupPurchaseOrderCouponCodeList", JSON.toJSONString(data));
         params.put("data", JSON.toJSONString(data));
 
@@ -477,6 +534,9 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         data.put("merchantId", merchant.getId());
         if (CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())) {
             data.put("originalPrice", etEvalution.getText().toString().trim());
+        }
+        if (CheckUtils.isNoEmptyStr(etEvalution1.getText().toString().trim())) {
+            data.put("notJoinDiscountAmount", etEvalution1.getText().toString().trim());
         }
         data.put("quantity", 1);
 //        data.put("totalPrice", 1);

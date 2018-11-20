@@ -108,6 +108,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
     private String voucherName;
     private String grouponName;
     private String merchantName;
+    private RelativeLayout childAt1;
 
 
     @Override
@@ -270,7 +271,9 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                 }
             }
         } else {
-            payChannel = null;
+            if(!"wx".equals(payChannel)){
+                payChannel = null;
+            }
             tvThirdMoney.setText("¥" + StringUtils.BigDecimal2Str(payWaysModel.getValue().getTotalPrice()));
             if (thirdPanel.getVisibility() == View.GONE) {
                 thirdPanel.setVisibility(View.VISIBLE);
@@ -288,7 +291,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
 
     private void changeLabel(int tag) {
         LinearLayout childAt = (LinearLayout) payLabelContainer.getChildAt(tag);
-        RelativeLayout childAt1 = (RelativeLayout) childAt.getChildAt(0);
+        childAt1 = (RelativeLayout) childAt.getChildAt(0);
         childAt1.getChildAt(2).setSelected(!childAt1.getChildAt(2).isSelected());
     }
 

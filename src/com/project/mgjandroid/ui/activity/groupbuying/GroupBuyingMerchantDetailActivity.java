@@ -144,7 +144,8 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private LinearLayout layoutPictureUpload;
     @InjectView(R.id.tv_buy_take_away)
     private LinearLayout takeAway;
-
+    @InjectView(R.id.rl_evaluate)
+    private RelativeLayout rlEvaluate;
 
     private List<String> urls = new ArrayList<>();
 
@@ -180,6 +181,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         imgRight.setOnClickListener(this);
         tvDiscounPayBill.setOnClickListener(this);
         expandTextView.setOnClickListener(this);
+        rlEvaluate.setOnClickListener(this);
         listAdapter = new GroupBuyMealListAdapter(R.layout.group_buying_item, this);
         tuanListView.setAdapter(listAdapter);
 
@@ -257,7 +259,11 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
         } else {
             tvAveragePrice.setText("");
         }
-
+        if(merchant.getHasTakeaway()==1){
+            takeAway.setVisibility(View.VISIBLE);
+        }else {
+            takeAway.setVisibility(View.GONE);
+        }
         tvAddress.setText(merchant.getAddress());
         tvTime.setText("营业时间：" + merchant.getWorkingTime());
         tvTime1.setText("营业时间：" + merchant.getWorkingTime());
@@ -415,7 +421,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             case R.id.iv_call:
                 showPhoneWindow();
                 break;
-            case R.id.tv_evaluate:
+            case R.id.rl_evaluate:
                 GroupBuyingAllEvaluationActivity.toGroupBuyingAllEvaluationActivity(mActivity, merchant.getId());
                 break;
             case R.id.voucher_item_root:

@@ -221,6 +221,176 @@
                 </RelativeLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_voucher_erea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_date1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20"
+                        android:text="有效期："
+                        android:textColor="@color/color_3"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_data1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x10"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20">
+
+                        <include layout="@layout/group_buying_use_rule_point" />
+
+                        <TextView
+                            android:id="@+id/tv_limit_date1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="@dimen/x5"
+                            android:textColor="@color/color_6"
+                            android:textSize="14sp"
+                            tools:text="11:00-22:00" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x15"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20"
+                        android:text="使用范围："
+                        android:textColor="@color/color_3"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x10"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20">
+
+                        <include layout="@layout/group_buying_use_rule_point" />
+
+                        <TextView
+                            android:id="@+id/tv_use_range1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="@dimen/x5"
+                            android:textColor="@color/color_6"
+                            android:textSize="14sp"
+                            tools:text="全场通用" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_use_mTime1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x6"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20"
+                        android:text="使用时间："
+                        android:textColor="@color/color_3"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_use_time1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x5"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/x15"
+                        android:paddingRight="@dimen/x15"
+                        android:visibility="gone">
+
+                        <include layout="@layout/group_buying_use_rule_point" />
+
+                        <TextView
+                            android:id="@+id/tv_use_time1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="@dimen/x5"
+                            android:textColor="@color/color_6"
+                            android:textSize="14sp"
+                            tools:text="11:00-22:00" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_use_rule1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x15"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20"
+                        android:text="使用规则："
+                        android:textColor="@color/color_3"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/use_rule_layout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x10"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20" />
+
+
+                    <TextView
+                        android:id="@+id/tv_rule1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x15"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20"
+                        android:text="规则提醒："
+                        android:textColor="@color/color_3"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_rule_remind1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/x10"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/x15"
+                        android:paddingRight="@dimen/x15"
+                        android:visibility="gone">
+
+                        <include layout="@layout/group_buying_use_rule_point" />
+
+                        <TextView
+                            android:id="@+id/tv_rule_remind1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="@dimen/x5"
+                            android:textColor="@color/color_6"
+                            android:textSize="14sp"
+                            tools:text="11:00-22:00" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/layout_picture_upload"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -304,11 +474,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_groupon_erea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <View
                     android:layout_width="match_parent"
@@ -397,11 +569,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x6"
-                    android:paddingLeft="@dimen/x15"
-                    android:paddingRight="@dimen/x15"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
                     android:text="使用时间："
                     android:textColor="@color/color_3"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:visibility="gone" />
 
                 <LinearLayout
