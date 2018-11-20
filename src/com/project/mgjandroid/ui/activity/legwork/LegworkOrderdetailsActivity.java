@@ -383,7 +383,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                     if (shipperLatitude != 0.0 || shipperLongitude != 0.0) {
                         distance = CommonUtils.getDistance(shipperLongitude, shipperLatitude, longtude, latitude);
                     }
-                    if (distance <= 50) {
+                    if (distance <= 0.05) {
                         deliveryState = "骑手到达取货地";
                         deliveryState1 = "0";
                     } else {
