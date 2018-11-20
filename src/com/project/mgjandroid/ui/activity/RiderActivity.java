@@ -8,12 +8,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
-import com.horsegj.company.wxapi.WXEntryActivity;
+import com.google.gson.reflect.TypeToken;
 import com.project.mgjandroid.R;
-import com.project.mgjandroid.bean.Order;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.RiderInformation;
 import com.project.mgjandroid.net.VolleyOperater;
@@ -23,7 +20,6 @@ import com.project.mgjandroid.ui.view.CornerImageView;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollGridView;
 import com.project.mgjandroid.ui.view.RatingBar;
-import com.project.mgjandroid.ui.view.RatingBarView;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.StringUtils;
 import com.project.mgjandroid.utils.ToastUtils;
@@ -32,10 +28,9 @@ import com.project.mgjandroid.utils.inject.Injector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class RiderActivity extends BaseActivity{
+public class RiderActivity extends BaseActivity {
 
     @InjectView(R.id.common_back)
     private ImageView back;
@@ -74,7 +69,7 @@ public class RiderActivity extends BaseActivity{
         getRiderData();
     }
 
-    private void getRiderData(){
+    private void getRiderData() {
 //        loadingDialog.show(getFragmentManager(), "");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("deliverymanId", deliverymanId);
@@ -93,20 +88,20 @@ public class RiderActivity extends BaseActivity{
         }, RiderInformation.class);
     }
 
-    private void show(final RiderInformation.ValueBean value ){
+    private void show(final RiderInformation.ValueBean value) {
         ImageUtils.loadBitmap(mActivity, value.getHeaderImg(), riderAvatar, R.drawable.icon_default_avator, Constants.getEndThumbnail(56, 56));
         tvName.setText(value.getName());
         riderScore.setStar(value.getDeliverymanScore().floatValue());
         riderScore.invalidate();
-        tvPunctuality.setText(StringUtils.BigDecimal2Str(value.getDeliverymanPunctualityScore())+"%");
-        tvGoodReputation.setText(StringUtils.BigDecimal2Str(value.getDeliverymanGoodScore())+"%");
-        tvDeliveryTime.setText(StringUtils.BigDecimal2Str(value.getDeliverymanAvgTime())+"min");
-        JSONObject  myJson = JSONObject.parseObject(value.getDeliverymanImpress());
-        Map<String,Object> map = myJson;
+        tvPunctuality.setText(StringUtils.BigDecimal2Str(value.getDeliverymanPunctualityScore()) + "%");
+        tvGoodReputation.setText(StringUtils.BigDecimal2Str(value.getDeliverymanGoodScore()) + "%");
+        tvDeliveryTime.setText(StringUtils.BigDecimal2Str(value.getDeliverymanAvgTime()) + "min");
+        Gson gson = new Gson();
+        Map<String, String> map = gson.fromJson(value.getDeliverymanImpress(), new TypeToken<Map<String, String>>(){}.getType());
         ArrayList<String> list = new ArrayList<>();
-        for (Map.Entry<String,Object> entry : map.entrySet()) {
-            if(Integer.parseInt(entry.getKey())<=6){
-                String re = getResult(entry.getKey()) + " " +  entry.getValue();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            if (Integer.parseInt(entry.getKey()) <= 6) {
+                String re = getResult(entry.getKey()) + " " + entry.getValue();
                 list.add(re);
             }
         }
@@ -128,25 +123,25 @@ public class RiderActivity extends BaseActivity{
     }
 
 
-  private String getResult(String source){
-        if (source.equals("1")){
+    private String getResult(String source) {
+        if (source.equals("1")) {
             return "穿戴工装";
         }
-      if (source.equals("2")){
-          return "风雨无阻";
-      }
-      if (source.equals("3")){
-          return "快速准时";
-      }
-      if (source.equals("4")){
-          return "仪容整洁";
-      }
-      if (source.equals("5")){
-          return "货品完好";
-      }
-      if (source.equals("6")){
-          return "礼貌热情";
-      }
+        if (source.equals("2")) {
+            return "风雨无阻";
+        }
+        if (source.equals("3")) {
+            return "快速准时";
+        }
+        if (source.equals("4")) {
+            return "仪容整洁";
+        }
+        if (source.equals("5")) {
+            return "货品完好";
+        }
+        if (source.equals("6")) {
+            return "礼貌热情";
+        }
         return "";
     }
 
