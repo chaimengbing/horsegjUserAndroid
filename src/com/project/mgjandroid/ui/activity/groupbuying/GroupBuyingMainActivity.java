@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -92,6 +93,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
     private LinearLayout layoutMenu2;
     @InjectView(R.id.menu_layout_3)
     private LinearLayout layoutMenu3;
+    private LinearLayout groupBarLayout;
     @InjectView(R.id.menu_tv_1)
     private TextView tvMenu1;
     @InjectView(R.id.menu_tv_2)
@@ -151,8 +153,6 @@ public class GroupBuyingMainActivity extends BaseActivity {
         loadingDialog.show();
         getBanner();
         getCategory();
-        getPublicity();
-        getData(false);
         getCategory(false);
     }
 
@@ -163,9 +163,9 @@ public class GroupBuyingMainActivity extends BaseActivity {
         layoutMenu1.setOnClickListener(this);
         layoutMenu2.setOnClickListener(this);
         layoutMenu3.setOnClickListener(this);
-        rightDrawableOrange = getResources().getDrawable(R.drawable.nabla_red);
+        rightDrawableOrange = getResources().getDrawable(R.drawable.group_nabla_red);
         rightDrawableOrange.setBounds(0, 0, rightDrawableOrange.getMinimumWidth(), rightDrawableOrange.getMinimumHeight());
-        rightDrawableGray = getResources().getDrawable(R.drawable.nabla_black);
+        rightDrawableGray = getResources().getDrawable(R.drawable.group_nabla_black);
         rightDrawableGray.setBounds(0, 0, rightDrawableGray.getMinimumWidth(), rightDrawableGray.getMinimumHeight());
         initHeaderView();
         adapter = new GroupBuyingMerchantAdapter(mActivity, false);
@@ -441,6 +441,8 @@ public class GroupBuyingMainActivity extends BaseActivity {
         });
         AutoScrollViewPager navigatorViewPager = (AutoScrollViewPager) listHeaderView.findViewById(R.id.home_list_header_navigator_view_pager);
         groupBar = (LinearLayout) listHeaderView.findViewById(R.id.group_menu_bar);
+        groupBarLayout = (LinearLayout) listHeaderView.findViewById(R.id.group_bar_layout);
+        groupBarLayout.setVisibility(View.GONE);
         LinearLayout menu1 = (LinearLayout) listHeaderView.findViewById(R.id.menu_layout_1);
         LinearLayout menu2 = (LinearLayout) listHeaderView.findViewById(R.id.menu_layout_2);
         LinearLayout menu3 = (LinearLayout) listHeaderView.findViewById(R.id.menu_layout_3);
@@ -508,6 +510,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
     }
 
     private void getCategory() {
+        Log.d("GroupMain", "getCategory::");
         VolleyOperater<GroupPurchasePrimaryCategoryListModel> operater = new VolleyOperater<>(mActivity);
         Map<String, Object> map = new HashMap<>();
         if (mActivity != null && PreferenceUtils.getLocation(mActivity)[0] != null && PreferenceUtils.getLocation(mActivity)[1] != null) {
@@ -533,6 +536,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
     }
 
     private void getPublicity() {
+        Log.d("GroupMain", "getPublicity::");
         VolleyOperater<GroupPurchasePrimaryPublicityListModel> operater = new VolleyOperater<>(mActivity);
         Map<String, Object> map = new HashMap<>();
         if (mActivity != null && PreferenceUtils.getLocation(mActivity)[0] != null && PreferenceUtils.getLocation(mActivity)[1] != null) {
@@ -619,6 +623,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                 if (loadingDialog != null && loadingDialog.isShowing()) {
                     loadingDialog.dismiss();
                 }
+                groupBarLayout.setVisibility(View.VISIBLE);
                 listView.onRefreshComplete();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
@@ -665,6 +670,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
      * @param publicityList List
      */
     private void showPublicity(final List<GroupPurchasePrimaryPublicity> publicityList) {
+        Log.d("GroupMain", "showPublicity::");
         boolean isSet = false;
         if (publicityList.size() == 1 || publicityList.size() == 3) {
             isSet = true;
@@ -775,6 +781,9 @@ public class GroupBuyingMainActivity extends BaseActivity {
      * @param primaryCategoryList List
      */
     private void initNavigatorViewPager(List<GroupPurchasePrimaryCategory> primaryCategoryList) {
+        Log.d("GroupMain", "initNavigatorViewPager::");
+        getPublicity();
+        getData(false);
         if (CheckUtils.isEmptyList(primaryCategoryList)) {
             navigatorLayout.setVisibility(View.GONE);
             return;

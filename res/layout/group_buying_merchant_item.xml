@@ -41,6 +41,7 @@
                 android:includeFontPadding="false"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:textStyle="bold"
                 android:textColor="@color/color_3"
                 android:textSize="17sp"
                 tools:text="川湘小炒将股价" />
