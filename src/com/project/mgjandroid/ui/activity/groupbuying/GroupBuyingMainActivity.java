@@ -738,14 +738,14 @@ public class GroupBuyingMainActivity extends BaseActivity {
                             }
                         });
                     }
-                } else if (publicity.getLinkUrl().startsWith("http")) {
-//                    Intent intent = new Intent(mActivity, Banner2WebActivity.class);
-//                    intent.putExtra(Banner2WebActivity.URL, publicity.getLinkUrl() + "?longitude=" + PreferenceUtils.getLocation(mActivity)[1] + "&latitude=" + PreferenceUtils.getLocation(mActivity)[0]);
-//                    intent.putExtra("name", publicity.getName());
-//                    startActivity(intent);
-                    Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
-                    intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, publicity.getLinkUrl() + "?longitude=" + PreferenceUtils.getLocation(mActivity)[1] + "&latitude=" + PreferenceUtils.getLocation(mActivity)[0]);
-                    startActivity(intent);
+                } else {
+                    if (CheckUtils.isNoEmptyStr(publicity.getLinkUrl())) {
+                        Intent intent = new Intent(mActivity, YLBWebViewActivity.class);
+                        intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, publicity.getLinkUrl() + "?longitude=" + PreferenceUtils.getLocation(mActivity)[1] + "&latitude=" + PreferenceUtils.getLocation(mActivity)[0]);
+                        startActivity(intent);
+                    } else {
+                        ToastUtils.displayMsg("请设置完整的链接地址", mActivity);
+                    }
                 }
                 break;
             case 2: //优惠券、团购

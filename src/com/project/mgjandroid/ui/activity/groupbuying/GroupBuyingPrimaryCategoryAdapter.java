@@ -20,8 +20,10 @@ import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.ui.view.NoticeDialog;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.ImageUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
+import com.project.mgjandroid.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,14 +133,14 @@ public class GroupBuyingPrimaryCategoryAdapter extends BaseAdapter {
                                         }
                                     });
                                 }
-                            } else if (category.getGotoUrl().startsWith("http")) {
-//                                Intent intent = new Intent(context, Banner2WebActivity.class);
-//                                intent.putExtra(Banner2WebActivity.URL, category.getGotoUrl() + "?longitude=" + PreferenceUtils.getLocation(context)[1] + "&latitude=" + PreferenceUtils.getLocation(context)[0]);
-//                                intent.putExtra("name", category.getName());
-//                                context.startActivity(intent);
-                                Intent intent = new Intent(context, YLBWebViewActivity.class);
-                                intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, category.getGotoUrl() + "?longitude=" + PreferenceUtils.getLocation(context)[1] + "&latitude=" + PreferenceUtils.getLocation(context)[0]);
-                                context.startActivity(intent);
+                            } else {
+                                if (CheckUtils.isNoEmptyStr(category.getGotoUrl())) {
+                                    Intent intent = new Intent(context, YLBWebViewActivity.class);
+                                    intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, category.getGotoUrl() + "?longitude=" + PreferenceUtils.getLocation(context)[1] + "&latitude=" + PreferenceUtils.getLocation(context)[0]);
+                                    context.startActivity(intent);
+                                } else {
+                                    ToastUtils.displayMsg("请设置完整的链接地址", context);
+                                }
                             }
                             break;
                         case 2: //团购分类
