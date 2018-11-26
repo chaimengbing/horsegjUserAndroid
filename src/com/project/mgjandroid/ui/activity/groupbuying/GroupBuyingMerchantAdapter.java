@@ -196,7 +196,14 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
             } else {
                 holder.tvAveragePrice.setText("");
             }
-            holder.tvRecommendedDishes.setText((CheckUtils.isNoEmptyStr(merchant.getMerchantTag()) ? merchant.getMerchantTag() : ""));
+            if (!TextUtils.isEmpty(merchant.getMerchantTag())) {
+                String color = merchant.getHighLightMerchantTag();
+                color = color.replaceAll("<em>", "<font color='#ff9900'>");
+                color = color.replace("</em>", "</font>");
+                holder.tvRecommendedDishes.setText(Html.fromHtml(color));
+            } else {
+                holder.tvRecommendedDishes.setText(merchant.getMerchantTag());
+            }
             holder.layoutActive.removeAllViews();
             if (CheckUtils.isNoEmptyStr(merchant.getDiscountRatio())) {
                 double discount = Integer.parseInt(merchant.getDiscountRatio()) * 0.01 * 10;
