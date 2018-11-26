@@ -666,7 +666,11 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         moneyLayout.setVisibility(View.VISIBLE);
         orderLayout.setVisibility(View.VISIBLE);
         tvLegworkStatus.setVisibility(View.VISIBLE);
-        layoutGoodsInformation.setVisibility(View.VISIBLE);
+        if(valueBean.getChildType() == 0){
+            layoutGoodsInformation.setVisibility(View.VISIBLE);
+        }else {
+            layoutGoodsInformation.setVisibility(View.GONE);
+        }
     }
 
     private void showRedBag() {
