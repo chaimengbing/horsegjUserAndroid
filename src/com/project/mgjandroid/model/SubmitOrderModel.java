@@ -249,6 +249,9 @@ public class SubmitOrderModel extends Entity {
          * tip :
          */
 
+        /** 配送费优惠金额 */
+        private BigDecimal shippingPreferentialFee = BigDecimal.ZERO;
+
 
 
         private List<OrderItemsEntity> orderItems;
@@ -613,6 +616,14 @@ public class SubmitOrderModel extends Entity {
 
         public void setType(int type) {
             this.type = type;
+        }
+
+        public BigDecimal getShippingPreferentialFee() {
+            return shippingPreferentialFee;
+        }
+
+        public void setShippingPreferentialFee(BigDecimal shippingPreferentialFee) {
+            this.shippingPreferentialFee = shippingPreferentialFee;
         }
 
         public static class DeliveryTaskEntity extends Entity {

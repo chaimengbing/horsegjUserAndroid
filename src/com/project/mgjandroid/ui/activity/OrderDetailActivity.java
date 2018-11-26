@@ -1597,6 +1597,11 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             layoutShip.addView(view, params);
         }
         layoutCampaigns.removeAllViews();
+
+        if (submitOrderEntity.getShippingPreferentialFee().compareTo(BigDecimal.ZERO) != 0) {
+            addAssumeAmt(layoutCampaigns, StringUtils.BigDecimal2Str(submitOrderEntity.getShippingPreferentialFee()));
+        }
+
         if (CheckUtils.isNoEmptyList(submitOrderEntity.getPromoList())) {
             for (int i = 0, size = submitOrderEntity.getPromoList().size(); i < size; i++) {
                 View view1 = LayoutInflater.from(OrderDetailActivity.this).inflate(R.layout.order_detail_campaigns_item, null);
@@ -1625,6 +1630,41 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         tvAllMoney.setText("" + StringUtils.BigDecimal2Str(submitOrderEntity.getTotalPrice()));
         layoutCommercial.setOnClickListener(this);
         tvBuyAgain.setOnClickListener(this);
+    }
+
+
+    private void addAssumeAmt(LinearLayout layout, String assumeAmt) {
+        LinearLayout childLayout = new LinearLayout(mActivity);
+        childLayout.setOrientation(LinearLayout.HORIZONTAL);
+        childLayout.setGravity(Gravity.CENTER_VERTICAL);
+        ImageView image = new ImageView(mActivity);
+        image.setImageResource(R.drawable.jian);
+        LinearLayout.LayoutParams paramsImg = new LinearLayout.LayoutParams(DipToPx.dip2px(mActivity, 12), DipToPx.dip2px(mActivity, 12));
+        childLayout.addView(image, paramsImg);
+
+
+        TextView tvName = new TextView(mActivity);
+        LinearLayout.LayoutParams paramsName = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsName.leftMargin = DipToPx.dip2px(mActivity, 5);
+        tvName.setText("减配送费");
+        tvName.setSingleLine();
+        tvName.setEllipsize(TextUtils.TruncateAt.END);
+        tvName.setTextColor(mActivity.getResources().getColor(R.color.gray_txt));
+        tvName.setTextSize(12);
+        childLayout.addView(tvName, paramsName);
+
+        TextView tv = new TextView(mActivity);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.rightMargin = getResources().getDimensionPixelOffset(R.dimen.x5);
+        params.leftMargin = getResources().getDimensionPixelOffset(R.dimen.x15);
+        tv.setText("- ¥" + assumeAmt);
+        tv.setTextColor(getResources().getColor(R.color.gray_txt));
+        tv.setTextSize(12);
+        tv.setGravity(Gravity.RIGHT);
+        childLayout.addView(tv, params);
+        LinearLayout.LayoutParams paramsChild = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        paramsChild.topMargin = DipToPx.dip2px(mActivity, 14);
+        layout.addView(childLayout, paramsChild);
     }
 
     /**
