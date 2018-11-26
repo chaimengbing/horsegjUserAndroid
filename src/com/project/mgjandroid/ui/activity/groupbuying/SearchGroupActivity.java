@@ -219,9 +219,9 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
 
     private void initGroupMenuBar() {
 
-        rightDrawableOrange = getResources().getDrawable(R.drawable.nabla_red);
+        rightDrawableOrange = getResources().getDrawable(R.drawable.group_nabla_red);
         rightDrawableOrange.setBounds(0, 0, rightDrawableOrange.getMinimumWidth(), rightDrawableOrange.getMinimumHeight());
-        rightDrawableGray = getResources().getDrawable(R.drawable.nabla_black);
+        rightDrawableGray = getResources().getDrawable(R.drawable.group_nabla_black);
         rightDrawableGray.setBounds(0, 0, rightDrawableGray.getMinimumWidth(), rightDrawableGray.getMinimumHeight());
 
         View view = mInflater.inflate(R.layout.group_menu_bar, null);
