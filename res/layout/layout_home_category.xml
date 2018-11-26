@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x42"
         android:orientation="horizontal"
+        android:background="@color/white"
         android:gravity="center_vertical">
 
         <ImageView
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x5"
             android:layout_marginRight="@dimen/x15"
-            android:src="@drawable/bg_filter_right_or_none"
+            android:src="@drawable/icon_categoryselect"
             android:visibility="visible" />
     </LinearLayout>
 </LinearLayout>

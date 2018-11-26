@@ -1,7 +1,9 @@
 package com.project.mgjandroid.ui.activity.groupbuying;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -623,7 +625,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
 
         leftMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         leftMenuWindow.setOutsideTouchable(true);
-        leftMenuWindow.showAsDropDown(groupBar, 0, 0);
+        showAsDropDown(leftMenuWindow, groupBar, 0, 0);
 
         leftMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -640,12 +642,25 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
         }
     }
 
+    public void showAsDropDown(PopupWindow pw, View anchor, int xoff, int yoff) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            Rect visibleFrame = new Rect();
+            anchor.getGlobalVisibleRect(visibleFrame);
+            int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+            pw.setHeight(height);
+            pw.showAsDropDown(anchor, xoff, yoff);
+        } else {
+            pw.showAsDropDown(anchor, xoff, yoff);
+        }
+
+    }
+
     private void showMidMenuPop() {
         LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.group_buying_menu_left, null);
         ListView listView = (ListView) linearLayout.findViewById(R.id.group_buying_menu_list);
         View coverView = linearLayout.findViewById(R.id.group_buying_menu_cover_view);
         coverView.setOnClickListener(this);
-        homeSortAdapter = new HomeSortAdapter(R.layout.layout_home_category, mActivity, listenerMid);
+        homeSortAdapter = new HomeSortAdapter(R.layout.layout_group_category, mActivity, listenerMid);
         ArrayList<HomeBean> data = new ArrayList<>();
         for (int i = 0; i < names.length; i++) {
             HomeBean bean = new HomeBean();
@@ -659,7 +674,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
 
         midMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         midMenuWindow.setOutsideTouchable(true);
-        midMenuWindow.showAsDropDown(groupBar, 0, 0);
+        showAsDropDown(midMenuWindow, groupBar, 0, 0);
 
         midMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -705,7 +720,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
 
         rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         rightMenuWindow.setOutsideTouchable(true);
-        rightMenuWindow.showAsDropDown(groupBar, 0, 0);
+        showAsDropDown(rightMenuWindow, groupBar, 0, 0);
 
         rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

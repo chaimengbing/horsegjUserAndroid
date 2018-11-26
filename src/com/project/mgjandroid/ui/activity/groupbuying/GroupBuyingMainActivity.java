@@ -2,8 +2,10 @@ package com.project.mgjandroid.ui.activity.groupbuying;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.GridLayoutManager;
@@ -903,7 +905,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
 
         leftMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         leftMenuWindow.setOutsideTouchable(true);
-        leftMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
+        showAsDropDown(leftMenuWindow, groupMenuLayout, 0, 0);
 
         leftMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -913,6 +915,21 @@ public class GroupBuyingMainActivity extends BaseActivity {
             }
         });
     }
+
+
+    private void showAsDropDown(PopupWindow pw, View anchor, int xoff, int yoff) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            Rect visibleFrame = new Rect();
+            anchor.getGlobalVisibleRect(visibleFrame);
+            int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+            pw.setHeight(height);
+            pw.showAsDropDown(anchor, xoff, yoff);
+        } else {
+            pw.showAsDropDown(anchor, xoff, yoff);
+        }
+
+    }
+
 
     private void dismissPopwindow(TextView textView) {
         if (textView != null) {
@@ -926,7 +943,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
         ListView listView = (ListView) linearLayout.findViewById(R.id.group_buying_menu_list);
         View coverView = linearLayout.findViewById(R.id.group_buying_menu_cover_view);
         coverView.setOnClickListener(this);
-        homeSortAdapter = new HomeSortAdapter(R.layout.layout_home_category, mActivity, listenerMid);
+        homeSortAdapter = new HomeSortAdapter(R.layout.layout_group_category, mActivity, listenerMid);
         ArrayList<HomeBean> data = new ArrayList<>();
         for (int i = 0; i < names.length; i++) {
             HomeBean bean = new HomeBean();
@@ -940,7 +957,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
 
         midMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         midMenuWindow.setOutsideTouchable(true);
-        midMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
+        showAsDropDown(midMenuWindow, groupMenuLayout, 0, 0);
 
         midMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -987,7 +1004,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
 
         rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         rightMenuWindow.setOutsideTouchable(true);
-        rightMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
+        showAsDropDown(rightMenuWindow, groupMenuLayout, 0, 0);
 
         rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

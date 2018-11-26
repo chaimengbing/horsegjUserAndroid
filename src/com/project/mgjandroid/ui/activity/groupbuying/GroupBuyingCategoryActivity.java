@@ -2,7 +2,9 @@ package com.project.mgjandroid.ui.activity.groupbuying;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -148,9 +150,9 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
                 getData(true);
             }
         });
-        rightDrawableOrange = getResources().getDrawable(R.drawable.nabla_red);
+        rightDrawableOrange = getResources().getDrawable(R.drawable.group_nabla_red);
         rightDrawableOrange.setBounds(0, 0, rightDrawableOrange.getMinimumWidth(), rightDrawableOrange.getMinimumHeight());
-        rightDrawableGray = getResources().getDrawable(R.drawable.nabla_black);
+        rightDrawableGray = getResources().getDrawable(R.drawable.group_nabla_black);
         rightDrawableGray.setBounds(0, 0, rightDrawableGray.getMinimumWidth(), rightDrawableGray.getMinimumHeight());
     }
 
@@ -398,7 +400,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
 
         leftMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         leftMenuWindow.setOutsideTouchable(true);
-        leftMenuWindow.showAsDropDown(menuBar, 0, 0);
+        showAsDropDown(leftMenuWindow, menuBar, 0, 0);
 
         leftMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -408,12 +410,25 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
         });
     }
 
+    public void showAsDropDown(PopupWindow pw, View anchor, int xoff, int yoff) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            Rect visibleFrame = new Rect();
+            anchor.getGlobalVisibleRect(visibleFrame);
+            int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+            pw.setHeight(height);
+            pw.showAsDropDown(anchor, xoff, yoff);
+        } else {
+            pw.showAsDropDown(anchor, xoff, yoff);
+        }
+
+    }
+
     private void showMidMenuPop() {
         LinearLayout linearLayout = (LinearLayout) mActivity.getLayoutInflater().inflate(R.layout.group_buying_menu_left, null);
         ListView listView = (ListView) linearLayout.findViewById(R.id.group_buying_menu_list);
         View coverView = linearLayout.findViewById(R.id.group_buying_menu_cover_view);
         coverView.setOnClickListener(this);
-        homeSortAdapter = new HomeSortAdapter(R.layout.layout_home_category, mActivity, listenerMid);
+        homeSortAdapter = new HomeSortAdapter(R.layout.layout_group_category, mActivity, listenerMid);
         ArrayList<HomeBean> data = new ArrayList<>();
         for (int i = 0; i < names.length; i++) {
             HomeBean bean = new HomeBean();
@@ -427,7 +442,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
 
         midMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         midMenuWindow.setOutsideTouchable(true);
-        midMenuWindow.showAsDropDown(menuBar, 0, 0);
+        showAsDropDown(midMenuWindow, menuBar, 0, 0);
 
         midMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -472,7 +487,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
 
         rightMenuWindow = new PopupWindow(linearLayout, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         rightMenuWindow.setOutsideTouchable(true);
-        rightMenuWindow.showAsDropDown(menuBar, 0, 0);
+        showAsDropDown(rightMenuWindow, menuBar, 0, 0);
 
         rightMenuWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

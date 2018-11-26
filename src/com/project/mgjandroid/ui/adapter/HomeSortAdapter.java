@@ -31,6 +31,13 @@ public class HomeSortAdapter extends BaseListAdapter<HomeBean> {
         icon.setImageResource(bean.getIcon());
         name.setText(bean.getName());
         check.setSelected(bean.isCheck());
+        if (bean.isCheck()) {
+            name.setTextColor(mActivity.getResources().getColor(R.color.bg_festival));
+            check.setVisibility(View.VISIBLE);
+        } else {
+            name.setTextColor(mActivity.getResources().getColor(R.color.color_6));
+            check.setVisibility(View.INVISIBLE);
+        }
         LinearLayout view = holder.getView(R.id.mid_sort);
         view.setTag(position);
         view.setOnClickListener(listener);
