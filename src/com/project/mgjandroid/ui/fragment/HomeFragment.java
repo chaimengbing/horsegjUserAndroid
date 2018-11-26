@@ -82,6 +82,7 @@ import com.project.mgjandroid.net.VolleyOperater.ResponseListener;
 import com.project.mgjandroid.ui.activity.BindMobileActivity;
 import com.project.mgjandroid.ui.activity.CommercialActivity;
 import com.project.mgjandroid.ui.activity.CommodityDetailActivity;
+import com.project.mgjandroid.ui.activity.GoodsDetailActivity;
 import com.project.mgjandroid.ui.activity.HomeActivity;
 import com.project.mgjandroid.ui.activity.LocationNewActivity;
 import com.project.mgjandroid.ui.activity.OldHomeActivity;
@@ -1219,6 +1220,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                         }
                     } else if (primaryCategory.getGotoType() == 4) {
                         GroupBuyingCategoryActivity.toGroupBuyingCategoryActivity(mActivity, primaryCategory.getName(), primaryCategory.getGroupPurchaseCategoryId(), primaryCategory.getChildGroupPurchaseCategoryId());
+                    } else if (primaryCategory.getGotoType() == 6) {
+                        Intent intent = new Intent(mActivity, CommercialActivity.class);
+                        intent.putExtra(CommercialActivity.MERCHANT_ID, primaryCategory.getMerchantId().intValue());
+                        startActivity(intent);
                     }
                 } else {
                     ToastUtils.displayMsg("尚未开通，敬请期待", mActivity);
@@ -1280,7 +1285,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnBan
                 checkRefresh(refreshView);
                 if (refreshFlag) {
                     currentResultPage = 0;
-                    if (agentId > 0){
+                    if (agentId > 0) {
                         getDate(false, false);
                     }
                     if (imageIdList == null || imageIdList.size() == 0) {

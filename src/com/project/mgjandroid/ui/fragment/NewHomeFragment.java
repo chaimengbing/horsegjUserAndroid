@@ -1383,8 +1383,10 @@ public class NewHomeFragment extends BaseFragment implements OnClickListener, On
                             intent.putExtra(YLBSdkConstants.EXTRA_H5_URL, primaryCategory.getGotoUrl());
                             startActivity(intent);
                         }
-                    } else if (primaryCategory.getGotoType() == 4) {
-//                        GroupBuyingCategoryActivity.toGroupBuyingCategoryActivity(mActivity, primaryCategory.getName(), primaryCategory.getGroupPurchaseCategoryId(), primaryCategory.getChildGroupPurchaseCategoryId());
+                    } else if (primaryCategory.getGotoType() == 3) {
+                        Intent intent = new Intent(mActivity, CommercialActivity.class);
+                        intent.putExtra(CommercialActivity.MERCHANT_ID, primaryCategory.getMerchantId().intValue());
+                        startActivity(intent);
                     }
                 } else {
                     ToastUtils.displayMsg("尚未开通，敬请期待", mActivity);

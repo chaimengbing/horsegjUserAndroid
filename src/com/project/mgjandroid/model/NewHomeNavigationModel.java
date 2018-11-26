@@ -70,6 +70,7 @@ public class NewHomeNavigationModel extends Entity {
         private String gotoUrl;
         private Object businessType;
         private int menuType;
+        private Long merchantId;
 
         public int getId() {
             return id;
@@ -181,6 +182,14 @@ public class NewHomeNavigationModel extends Entity {
 
         public void setMenuType(int menuType) {
             this.menuType = menuType;
+        }
+
+        public Long getMerchantId() {
+            return merchantId;
+        }
+
+        public void setMerchantId(Long merchantId) {
+            this.merchantId = merchantId;
         }
     }
 }
