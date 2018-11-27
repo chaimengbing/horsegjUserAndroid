@@ -196,7 +196,7 @@ public class GroupBuyingMerchantAdapter extends BaseAdapter {
             } else {
                 holder.tvAveragePrice.setText("");
             }
-            if (!TextUtils.isEmpty(merchant.getMerchantTag())) {
+            if (CheckUtils.isNoEmptyStr(merchant.getHighLightMerchantTag())) {
                 String color = merchant.getHighLightMerchantTag();
                 color = color.replaceAll("<em>", "<font color='#ff9900'>");
                 color = color.replace("</em>", "</font>");

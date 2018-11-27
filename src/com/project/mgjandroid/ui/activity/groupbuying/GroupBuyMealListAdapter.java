@@ -61,10 +61,9 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         TextView tvSold =holder.getView(R.id.tv_sold);
         TextView tvPrice =holder.getView(R.id.tv_price);
         TextView tvVip =holder.getView(R.id.tv_vip);
-        if (CheckUtils.isNoEmptyStr(bean.getImages())) {
-            ImageUtils.loadBitmap(mActivity, bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
-        }
-        String groupPurchaseName = bean.getGroupPurchaseName();
+
+            ImageUtils.loadBitmap(mActivity,CheckUtils.isEmptyStr( bean.getImages())? "":bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
+
         tvName.setText(bean.getGroupPurchaseName());
         tvPrice.setText("¥" + StringUtils.BigDecimal2Str(bean.getPrice()));
         if (bean.getSumGroupPurchaseCouponGoodsOriginPrice() != null && bean.getSumGroupPurchaseCouponGoodsOriginPrice().compareTo(BigDecimal.ZERO) > 0) {

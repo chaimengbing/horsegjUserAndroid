@@ -274,7 +274,6 @@
         android:textColor="#A78B6C"
         android:background="#FCF6EE"
         android:gravity="center_vertical"
-        android:text="123"
         android:visibility="gone"
         />
 

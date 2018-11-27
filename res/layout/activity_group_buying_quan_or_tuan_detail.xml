@@ -268,7 +268,7 @@
                         android:layout_marginTop="@dimen/x15"
                         android:paddingLeft="@dimen/x20"
                         android:paddingRight="@dimen/x20"
-                        android:text="使用范围："
+                        android:text="适用范围："
                         android:textColor="@color/color_3"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -538,7 +538,7 @@
                     android:layout_marginTop="@dimen/x15"
                     android:paddingLeft="@dimen/x20"
                     android:paddingRight="@dimen/x20"
-                    android:text="使用范围："
+                    android:text="适用范围："
                     android:textColor="@color/color_3"
                     android:textSize="14sp"
                     android:textStyle="bold" />

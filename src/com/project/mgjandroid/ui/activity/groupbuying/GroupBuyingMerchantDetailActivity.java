@@ -92,6 +92,8 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
     private ImageView iconAddr;
     @InjectView(R.id.tv_address)
     private TextView tvAddress;
+    @InjectView(R.id.tv_distance)
+    private TextView tvDistance;
     @InjectView(R.id.tv_time)
     private TextView tvTime;
     @InjectView(R.id.tv_time1)
@@ -265,6 +267,7 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             takeAway.setVisibility(View.GONE);
         }
         tvAddress.setText(merchant.getAddress());
+        tvDistance.setText("距您"+merchant.getDistance().intValue()+"m");
         tvTime.setText("营业时间：" + merchant.getWorkingTime());
         tvTime1.setText("营业时间：" + merchant.getWorkingTime());
         if (CheckUtils.isNoEmptyStr(merchant.getMerchantRecommend())) {

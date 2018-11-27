@@ -84,7 +84,7 @@ public class GoodsDetailListAdapter extends BaseListAdapter<NewGoodsEvaluateMode
             gridView.setVisibility(View.VISIBLE);
             MerchantEvaluationGridImageAdapter adapter = new MerchantEvaluationGridImageAdapter(mActivity);
             gridView.setAdapter(adapter);
-            adapter.setUrls(bean.getImgUrl(),",");
+            adapter.setUrls(bean.getImgUrl(),";");
         }else {
             gridView.setVisibility(View.GONE);
         }

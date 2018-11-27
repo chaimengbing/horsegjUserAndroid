@@ -224,11 +224,12 @@
                         android:src="@drawable/group_buying_icon_location_black" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x13"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
+
 
                         <TextView
                             android:id="@+id/tv_address"
@@ -239,7 +240,19 @@
                             android:textColor="@color/color_3"
                             android:textSize="14sp"
                             tools:text="大钟寺中坤广场盈都大厦C座" />
+                        <View
+                            android:layout_width="2px"
+                            android:layout_height="@dimen/x13"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:layout_marginRight="@dimen/x10"
+                            android:background="@color/color_e" />
 
+                        <TextView
+                            android:id="@+id/tv_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_9"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 

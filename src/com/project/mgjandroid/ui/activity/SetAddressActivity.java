@@ -268,6 +268,8 @@ public class SetAddressActivity extends BaseActivity implements View.OnClickList
         super.onDestroy();
     }
 
+
+
     private void poiSearch(LatLng ll) {
         String url = "http://api.map.baidu.com/geocoder/v2/?ak=BE94604732413aefd52917b186d69f72&location=" + ll.latitude + "," + ll.longitude + "&output=json&pois=1";
         VolleyOperater<BaiduGeocoderModel> operater = new VolleyOperater<>(this);

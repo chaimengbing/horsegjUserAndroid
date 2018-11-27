@@ -269,7 +269,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     tvDate.setText(stringTime);
                     if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getCancelAfterVerificationTime())) {
                         tvADate.setVisibility(View.VISIBLE);
-                        tvADate.setText(groupPurchaseCoupon.getCancelAfterVerificationTime() + "自动使用");
+                        tvADate.setText("如未按照预约时间使用，将于次日"+groupPurchaseCoupon.getCancelAfterVerificationTime() + "自动使用");
                     }
                     record_gridView.setItemChecked(position, true);
                     dateAdapter.setSeclection(position, month);

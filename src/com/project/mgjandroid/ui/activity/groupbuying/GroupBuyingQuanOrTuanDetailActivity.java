@@ -113,8 +113,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private LinearLayout recommendLayout;
     @InjectView(R.id.recommend_dishes)
     private TextView tvDishes;
-    @InjectView(R.id.goods_layout)
-    private LinearLayout goodsLayout;
     @InjectView(R.id.tv_use_range)
     private TextView tvUseRange;
     @InjectView(R.id.tv_use_range1)
@@ -266,7 +264,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 layoutPictureUpload.setVisibility(View.GONE);
                 if(CheckUtils.isNoEmptyStr(merchant.getImgs())){
                     img.setVisibility(View.VISIBLE);
-                    ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
+                    ImageUtils.loadBitmap(mActivity, groupPurchaseCoupon.getImages(), img, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
                 }
                 img.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -497,9 +495,9 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             }
         }
         tvOption.setText(sb.toString());
-        tvSold.setText("已售"+groupPurchaseCoupon.getBuyCount());
+        tvSold.setText("已售"+groupPurchaseCoupon.getAccumulateSoldCount());
         tvOption1.setText(sb.toString());
-        tvSold1.setText("已售"+groupPurchaseCoupon.getBuyCount());
+        tvSold1.setText("已售"+groupPurchaseCoupon.getAccumulateSoldCount());
     }
 
     /**
@@ -522,9 +520,13 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
 
             LinearLayout.LayoutParams paramsChild = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             paramsChild.topMargin = getResources().getDimensionPixelOffset(R.dimen.x5);
-            useRulesLayout.addView(layout, paramsChild);
-            tvUseRule1.setVisibility(View.VISIBLE);
-            useRulesLayout1.addView(layout, paramsChild);
+            if(layoutGrouponErea.getVisibility()==View.VISIBLE){
+                useRulesLayout.addView(layout, paramsChild);
+            }
+            if(layoutVoucherErea.getVisibility()==View.VISIBLE){
+                tvUseRule1.setVisibility(View.VISIBLE);
+                useRulesLayout1.addView(layout, paramsChild);
+            }
         }
     }
 

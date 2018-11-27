@@ -153,6 +153,7 @@ public class AfterPaymentCompletionActivity extends BaseActivity implements Pull
                 if (order.getOrderType()== 3) {
                     Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
                     intentDetail.putExtra("orderId", orderId);
+                    intentDetail.putExtra("isCanIn", true);
                     startActivityForResult(intentDetail, REFRESH);
                 } else {
                     Intent intentDetail = new Intent(mActivity, GroupBuyingOrderForGoodsDetailsActivity.class);
@@ -181,6 +182,7 @@ public class AfterPaymentCompletionActivity extends BaseActivity implements Pull
                 if(order.getHasComments()>0){
                     Intent intentDetail = new Intent(mActivity, PayBillDetailActivity.class);
                     intentDetail.putExtra("orderId", orderId);
+                    intentDetail.putExtra("isCanIn", true);
                     startActivityForResult(intentDetail, REFRESH);
                 }else {
                     Intent carEvaluate = new Intent(mActivity, GroupBuyingAddEvaluationActivity.class);

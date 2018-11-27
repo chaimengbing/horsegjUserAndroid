@@ -162,6 +162,7 @@ public class NewEvaluateActivity extends BaseActivity {
         layoutGood.setOnClickListener(this);
         tvSubmit.setOnClickListener(this);
         back.setOnClickListener(this);
+
         String[] bad = getResources().getStringArray(R.array.badList);
         String[] good = getResources().getStringArray(R.array.goodList);
 
@@ -192,7 +193,7 @@ public class NewEvaluateActivity extends BaseActivity {
             }
             hasDriverEvaluate = intent.getBooleanExtra("hasDriver", false);
         }
-        if (hasDriverEvaluate) {
+        if (submitOrderEntity.getDeliveryTask().getDeliveryman()!=null) {
             layoutRider.setVisibility(View.VISIBLE);
             tvRiderName.setText(submitOrderEntity.getDeliveryTask().getDeliveryman().getName());
             ImageUtils.loadBitmap(mActivity, submitOrderEntity.getDeliveryTask().getDeliveryman().getHeaderImg().split(";")[0], riderAvatar, R.drawable.icon_default_avator, Constants.getEndThumbnail(56, 56));
@@ -247,6 +248,7 @@ public class NewEvaluateActivity extends BaseActivity {
             @Override
             public void onClickImage(int currentItem) {
                 Intent dealPhoto = new Intent(mActivity, UploadPhotoActivity.class);
+                ChoosePhotoModel.getInstance().setFrom(mActivity.getClass().getName());
                 dealPhoto.putExtra("from", mActivity.getClass().toString());
                 startActivity(dealPhoto);
             }
