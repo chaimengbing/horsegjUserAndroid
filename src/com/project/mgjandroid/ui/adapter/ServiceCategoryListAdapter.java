@@ -17,6 +17,7 @@ import com.project.mgjandroid.constants.ActivitySchemeManager;
 import com.project.mgjandroid.h5container.YLBSdkConstants;
 import com.project.mgjandroid.h5container.view.YLBWebViewActivity;
 import com.project.mgjandroid.model.MorePrimaryCategoryModel.ServiceCategory;
+import com.project.mgjandroid.ui.activity.CommercialActivity;
 import com.project.mgjandroid.ui.activity.PrimaryCategoryActivity;
 import com.project.mgjandroid.ui.activity.groupbuying.GroupBuyingCategoryActivity;
 import com.project.mgjandroid.ui.view.NoScrollGridView;
@@ -94,6 +95,10 @@ public class ServiceCategoryListAdapter extends BaseListAdapter<ServiceCategory>
                         }
                     } else if (primaryCategory.getGotoType() == 4) {
                         GroupBuyingCategoryActivity.toGroupBuyingCategoryActivity(mActivity, primaryCategory.getName(), primaryCategory.getGroupPurchaseCategoryId(), primaryCategory.getChildGroupPurchaseCategoryId());
+                    } else if (primaryCategory.getGotoType() == 6) {
+                        Intent intent = new Intent(mActivity, CommercialActivity.class);
+                        intent.putExtra(CommercialActivity.MERCHANT_ID, primaryCategory.getMerchantId().intValue());
+                        mActivity.startActivity(intent);
                     }
                 } else {
                     ToastUtils.displayMsg("尚未开通，敬请期待", mActivity);
