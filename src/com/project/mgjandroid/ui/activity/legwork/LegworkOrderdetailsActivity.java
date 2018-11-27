@@ -30,6 +30,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
@@ -666,9 +667,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         moneyLayout.setVisibility(View.VISIBLE);
         orderLayout.setVisibility(View.VISIBLE);
         tvLegworkStatus.setVisibility(View.VISIBLE);
-        if(valueBean.getChildType() == 0){
+        if (valueBean.getChildType() == 0) {
             layoutGoodsInformation.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             layoutGoodsInformation.setVisibility(View.GONE);
         }
     }
@@ -1402,45 +1403,60 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         }
     }
 
+    Marker marker;
+
     private void putDeliveryLocationToMap(BitmapDescriptor pic, double latitude, double longitude) {
         if (baiduMap != null) {
-
-//            LatLng point = new LatLng(latitude, longitude);
-//            MarkerOptions overlayOptions = new MarkerOptions()
-//                    .position(point)
-//                    .icon(pic)
-//                    .zIndex(15)
-//                    .draggable(true)
-//                    .animateType(MarkerOptions.MarkerAnimateType.grow);//设置marker从地上生长出来的动画
-//            Marker marker = (Marker) baiduMap.addOverlay(overlayOptions);
-//            marker.setToTop();
-//            baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-//                @Override
-//                public boolean onMarkerClick(Marker marker) {
-//                    if (mStatusDialog != null) {
-//                        mStatusDialog.show();
-//                    }
-//                    return false;
-//                }
-//            });
-            MyLocationData locData = new MyLocationData.Builder()
-                    .latitude(latitude)
-                    .longitude(longitude)
-                    .build();
-            baiduMap.setMyLocationData(locData);
-            baiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(18).build()));
-            MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, pic);
-            baiduMap.setMyLocationConfiguration(config);
-            baiduMap.setMyLocationEnabled(true);
-            baiduMap.setOnMyLocationClickListener(new BaiduMap.OnMyLocationClickListener() {
+            LatLng point = new LatLng(latitude, longitude);
+            MarkerOptions overlayOptions = new MarkerOptions()
+                    .position(point)
+                    .icon(pic)
+                    .zIndex(15)
+                    .draggable(true)
+                    .animateType(MarkerOptions.MarkerAnimateType.grow);//设置marker从地上生长出来的动画
+            if (marker != null) {
+                marker.remove();
+            }
+            marker = (Marker) baiduMap.addOverlay(overlayOptions);
+            marker.setToTop();
+            baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
                 @Override
-                public boolean onMyLocationClick() {
+                public boolean onMarkerClick(Marker marker) {
                     if (mStatusDialog != null) {
                         mStatusDialog.show();
                     }
                     return false;
                 }
             });
+
+            //定义地图状态
+            MapStatus mMapStatus = new MapStatus.Builder()
+                    .target(point)
+                    .zoom(18)
+                    .build();
+            //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+            MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+            //改变地图状态
+            baiduMap.setMapStatus(mMapStatusUpdate);
+
+//            MyLocationData locData = new MyLocationData.Builder()
+//                    .latitude(latitude)
+//                    .longitude(longitude)
+//                    .build();
+//            baiduMap.setMyLocationData(locData);
+//            baiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(18).build()));
+//            MyLocationConfiguration config = new MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING, true, pic);
+//            baiduMap.setMyLocationConfiguration(config);
+//            baiduMap.setMyLocationEnabled(true);
+//            baiduMap.setOnMyLocationClickListener(new BaiduMap.OnMyLocationClickListener() {
+//                @Override
+//                public boolean onMyLocationClick() {
+//                    if (mStatusDialog != null) {
+//                        mStatusDialog.show();
+//                    }
+//                    return false;
+//                }
+//            });
         }
     }
 
