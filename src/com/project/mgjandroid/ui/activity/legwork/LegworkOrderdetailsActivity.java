@@ -199,6 +199,7 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
     private TextView distanceTextView;
 
     private BaiduMap baiduMap;
+    private Marker marker, shipperMarker;
     private BitmapDescriptor deliveryGoodsIcon, takeGoodsIcon;
 
     private String orderId;
@@ -397,6 +398,9 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
                     deliveryState = "骑手正在配送";
                     deliveryState1 = "距离送货地";
                     distance = CommonUtils.getDistance(userLongitude, userLatitude, longtude, latitude);
+                    if (shipperMarker != null) {
+                        shipperMarker.remove();
+                    }
                 }
                 if (CheckUtils.isNoEmptyStr(deliveryState)) {
                     deliveryStateTextView.setText(deliveryState);
@@ -1055,13 +1059,8 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
             }
             if (deliveryLatitude > 0 && deliveryLongitude > 0) {
                 if (!isDelivery) {
-                    putLocationToMarkerOptions(takeGoodsIcon, shipperLatitude, shipperLongitude);
-                    //在配送
-//                    takeDisatance = CommonUtils.getLatLngDistance(deliveryLongitude, deliveryLatitude, userLongitude, userLatitude);
-
+                    putShipperMarkerOptions(takeGoodsIcon, shipperLatitude, shipperLongitude);
                 } else {
-                    //取货中
-//                    deliveryDisatance = CommonUtils.getLatLngDistance(deliveryLongitude, deliveryLatitude, shipperLongitude, shipperLatitude);
                 }
             }
         }
@@ -1403,7 +1402,20 @@ public class LegworkOrderdetailsActivity extends BaseActivity {
         }
     }
 
-    Marker marker;
+    private void putShipperMarkerOptions(BitmapDescriptor pic, double latitude, double longitude) {
+        if (baiduMap != null) {
+            LatLng point = new LatLng(latitude, longitude);
+            MarkerOptions overlayOptions = new MarkerOptions()
+                    .position(point)
+                    .icon(pic)
+                    .zIndex(15)
+                    .draggable(true)
+                    .animateType(MarkerOptions.MarkerAnimateType.grow);//设置marker从地上生长出来的动画
+            shipperMarker = (Marker) baiduMap.addOverlay(overlayOptions);
+            shipperMarker.setToTop();
+        }
+    }
+
 
     private void putDeliveryLocationToMap(BitmapDescriptor pic, double latitude, double longitude) {
         if (baiduMap != null) {
