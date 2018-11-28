@@ -110,13 +110,12 @@
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/x8"
-                android:drawableRight="@drawable/right_arrow_gray"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/color_3"
+                android:layout_toLeftOf="@+id/tv_price"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 tools:text="秘制龙虾饭" />

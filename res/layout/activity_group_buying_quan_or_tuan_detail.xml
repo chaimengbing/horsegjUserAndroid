@@ -121,11 +121,10 @@
                                 android:id="@+id/img_vip"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/x15"
                                 android:layout_toRightOf="@+id/tv_coupon_name"
                                 android:src="@drawable/ic_vip"
-                                android:visibility="gone" />
+                                 />
 
                             <TextView
                                 android:id="@+id/tv_option"
@@ -281,16 +280,12 @@
                         android:paddingLeft="@dimen/x20"
                         android:paddingRight="@dimen/x20">
 
-                        <include layout="@layout/group_buying_use_rule_point" />
-
-                        <TextView
+                        <LinearLayout
                             android:id="@+id/tv_use_range1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:lineSpacingExtra="@dimen/x5"
-                            android:textColor="@color/color_6"
-                            android:textSize="14sp"
-                            tools:text="全场通用" />
+                            android:orientation="vertical"
+                            />
 
                     </LinearLayout>
 
@@ -551,16 +546,12 @@
                     android:paddingLeft="@dimen/x20"
                     android:paddingRight="@dimen/x20">
 
-                    <include layout="@layout/group_buying_use_rule_point" />
-
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/tv_use_range"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:lineSpacingExtra="@dimen/x5"
-                        android:textColor="@color/color_6"
-                        android:textSize="14sp"
-                        tools:text="全场通用" />
+                        android:orientation="vertical"
+                        />
 
                 </LinearLayout>
 

@@ -134,8 +134,6 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private LinearLayout layoutAddress;
     @InjectView(R.id.tv_option)
     private TextView tvOption;
-    @InjectView(R.id.tv_total_sales)
-    private TextView tvTotalSales;
     @InjectView(R.id.tv_date)
     private TextView tvDate;
     @InjectView(R.id.ll_date)
@@ -437,7 +435,15 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                 tvName.setText(order.getGroupPurchaseOrderCouponCodeList().get(i).getCouponCode());
                 if (order.getGroupPurchaseOrderCouponCodeList().get(i).getStatus() == 0 && order.getQuantity() > 0) {
                     tvSpending.setText("未消费");
-                    tvImmediateUse.setVisibility(View.VISIBLE);
+                    if(order.getGroupPurchaseOrderCoupon().getIsBespeak()==1){
+                        if(order.getStatus()==2){
+                            tvImmediateUse.setVisibility(View.VISIBLE);
+                        }else {
+                            tvImmediateUse.setVisibility(View.GONE);
+                        }
+                    }else {
+                        tvImmediateUse.setVisibility(View.VISIBLE);
+                    }
                     tvVoucherImmediateUse.setVisibility(View.VISIBLE);
                 } else if (order.getGroupPurchaseOrderCouponCodeList().get(i).getStatus() == 1) {
                     tvSpending.setText("已使用");
@@ -563,7 +569,6 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             }
         }
         tvOption.setText(sb.toString());
-        tvTotalSales.setText("已售：" + purchaseCoupon.getBuyCount());
     }
 
     @Override

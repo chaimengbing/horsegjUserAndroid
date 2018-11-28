@@ -201,7 +201,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 tvPrice1.setText("门市价¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice()));
             }
         }
-        tvTicketPrice.setText("¥" + ticketPrice+"元 代金券");
+        tvTicketPrice.setText("¥" + ticketOriginalPrice+"元 代金券");
         tvCount.setText("" + count);
         getOrderPreview();
     }
@@ -527,7 +527,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.rl_red_bag:
                 Intent intentSelect = new Intent(this, SelectRedBagActivity.class);
-                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, ticketPrice);
+                intentSelect.putExtra(SelectRedBagActivity.ITEMS_PRICE, Double.parseDouble(ticketPrice));
                 intentSelect.putExtra(SelectRedBagActivity.BUSINESS_TYPE, 6);
                 intentSelect.putExtra("isAgentId", groupPurchaseCoupon.getAgentId());
                 if (redBag != null) {

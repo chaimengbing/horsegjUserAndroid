@@ -154,10 +154,10 @@
                         android:layout_marginRight="@dimen/x20"
                         android:layout_marginTop="@dimen/x15"
                         android:layout_toRightOf="@+id/food_user_avatar"
+                        android:layout_toLeftOf="@+id/tv_immediate_use"
                         android:drawablePadding="@dimen/x8"
                         android:drawableRight="@drawable/right_arrow_gray"
                         android:ellipsize="end"
-                        android:maxLines="1"
                         android:textColor="@color/color_3"
                         android:textSize="22sp"
                         android:textStyle="bold"
@@ -188,7 +188,8 @@
                         android:gravity="center"
                         android:text="立即使用"
                         android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -206,15 +207,6 @@
                         android:textColor="@color/color_6"
                         android:textSize="11sp"
                         tools:text="免预约 | 可叠加" />
-
-                    <TextView
-                        android:id="@+id/tv_total_sales"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:textColor="@color/color_9"
-                        android:textSize="11sp"
-                        tools:text="已售0" />
                 </RelativeLayout>
 
                 <LinearLayout

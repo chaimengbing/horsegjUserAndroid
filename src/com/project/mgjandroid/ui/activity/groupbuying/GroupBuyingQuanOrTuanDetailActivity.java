@@ -114,9 +114,9 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     @InjectView(R.id.recommend_dishes)
     private TextView tvDishes;
     @InjectView(R.id.tv_use_range)
-    private TextView tvUseRange;
+    private LinearLayout tvUseRange;
     @InjectView(R.id.tv_use_range1)
-    private TextView tvUseRange1;
+    private LinearLayout tvUseRange1;
     @InjectView(R.id.tv_limit_date)
     private TextView tvLimitDate;
     @InjectView(R.id.tv_limit_date1)
@@ -377,8 +377,6 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 tvLimitDate1.setText(new SimpleDateFormat("yyyy.MM.dd").format(groupPurchaseCoupon.getCreateTime()) + " 至 " + groupPurchaseCoupon.getEndTime().replace("-", "."));
             }
         }
-        tvUseRange.setText(groupPurchaseCoupon.getApplyRange());
-        tvUseRange1.setText(groupPurchaseCoupon.getApplyRange());
         if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getConsumeTime())){
             tvUseMtime.setVisibility(View.VISIBLE);
             tvUseMtime1.setVisibility(View.VISIBLE);
@@ -392,6 +390,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             llUseTime.setVisibility(View.GONE);
             llUseTime1.setVisibility(View.GONE);
         }
+        showUseScope();
         showUseRules();
 
         if (merchant != null) {
@@ -500,6 +499,32 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         tvSold1.setText("已售"+groupPurchaseCoupon.getAccumulateSoldCount());
     }
 
+    private void showUseScope() {
+        String[] rules = groupPurchaseCoupon.getApplyRange().split("\\r\\n");
+        for (String rule : rules) {
+            LinearLayout layout = new LinearLayout(mActivity);
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            View view = mInflater.inflate(R.layout.group_buying_use_rule_point, null);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getResources().getDimensionPixelOffset(R.dimen.x13), getResources().getDimensionPixelOffset(R.dimen.x14));
+            layout.addView(view, params);
+
+            TextView tv = new TextView(mActivity);
+            tv.setTextColor(getResources().getColor(R.color.color_6));
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            tv.setText(rule);
+            layout.addView(tv);
+
+            LinearLayout.LayoutParams paramsChild = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            paramsChild.topMargin = getResources().getDimensionPixelOffset(R.dimen.x5);
+            if(layoutGrouponErea.getVisibility()==View.VISIBLE){
+                tvUseRange.addView(layout, paramsChild);
+            }
+            if(layoutVoucherErea.getVisibility()==View.VISIBLE){
+                tvUseRange1.addView(layout, paramsChild);
+            }
+        }
+    }
+
     /**
      * 显示服务备注
      */
@@ -557,7 +582,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     return;
                 }
                 Intent intent2 = new Intent(mActivity, BuyTicketActivity.class);
-                intent2.putExtra("ticketName",groupPurchaseCoupon.getGroupPurchaseName());
+                intent2.putExtra("ticketName",groupPurchaseCoupon.getGroupPurchaseMerchant().getName());
                 intent2.putExtra("ticketPrice",StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice()));
                 intent2.putExtra("ticketOriginalPrice",StringUtils.BigDecimal2Str(groupPurchaseCoupon.getOriginPrice()));
                 intent2.putExtra("type",groupPurchaseCoupon.getType());
@@ -650,11 +675,13 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             CornerImageView icon = (CornerImageView) layout.findViewById(R.id.img);
             TextView tvName = (TextView) layout.findViewById(R.id.tv_name);
             TextView tvPrice = (TextView) layout.findViewById(R.id.tv_price);
-            TextView tvVip = (TextView) layout.findViewById(R.id.tv_vip);
+            ImageView tvVip = (ImageView) layout.findViewById(R.id.tv_vip);
+            ImageView tvVipLabel = (ImageView) layout.findViewById(R.id.img_vip_label);
             TextView tvPayBill = (TextView) layout.findViewById(R.id.tv_pay_bill1);
             TextView tvOriginPrice = (TextView) layout.findViewById(R.id.tv_origin_price);
             TextView tvOption = (TextView) layout.findViewById(R.id.tv_option);
             TextView tvSold = (TextView) layout.findViewById(R.id.tv_sold);
+
             root.setTag(bean);
             tvSold.setText("已售"+bean.getBuyCount());
             if (CheckUtils.isNoEmptyStr(bean.getImages())) {
@@ -667,9 +694,11 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             }
             if(bean.getIsPurchaseRestriction()==3){
                 tvVip.setVisibility(View.VISIBLE);
+                tvVipLabel.setVisibility(View.VISIBLE);
                 tvOption.setText(bean.getIsBespeak() == 0 ? "免预约" : "需预约 ");
             }else {
                 tvVip.setVisibility(View.GONE);
+                tvVipLabel.setVisibility(View.GONE);
                 tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
             }
             root.setOnClickListener(this);

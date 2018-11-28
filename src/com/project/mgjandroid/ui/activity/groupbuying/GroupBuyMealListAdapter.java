@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,7 +61,8 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         TextView tvName = holder.getView(R.id.tv_name);
         TextView tvSold =holder.getView(R.id.tv_sold);
         TextView tvPrice =holder.getView(R.id.tv_price);
-        TextView tvVip =holder.getView(R.id.tv_vip);
+        ImageView tvVip =holder.getView(R.id.tv_vip);
+        ImageView tvVipLabel =holder.getView(R.id.img_vip_label);
 
             ImageUtils.loadBitmap(mActivity,CheckUtils.isEmptyStr( bean.getImages())? "":bean.getImages().split(";")[0], icon, R.drawable.horsegj_default, Constants.getEndThumbnail(130, 110));
 
@@ -71,9 +73,11 @@ public class GroupBuyMealListAdapter extends BaseListAdapter<GroupPurchaseCoupon
         }
         if(bean.getIsPurchaseRestriction()==3){
             tvVip.setVisibility(View.VISIBLE);
+            tvVipLabel.setVisibility(View.VISIBLE);
             tvOption.setText(bean.getIsBespeak() == 0 ? "免预约" : "需预约 ");
         }else {
             tvVip.setVisibility(View.GONE);
+            tvVipLabel.setVisibility(View.GONE);
             tvOption.setText((bean.getIsBespeak() == 0 ? "免预约 | " : "需预约 | ") + "不可叠加");
         }
         tvSold.setText("已售"+bean.getBuyCount());

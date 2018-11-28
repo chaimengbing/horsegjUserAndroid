@@ -23,7 +23,7 @@ allprojects {
     }
 }
 
-ext.appVersionCode = 52
+ext.appVersionCode = 53
 ext.appVersionName = "3.2.3"
 
 dependencies {
