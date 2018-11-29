@@ -278,13 +278,11 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
     private boolean refreshFlag = true;
     private ValueEntity submitOrderEntity;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     private final static int ONE_MINUTE = 60 * 1000;
     private BaiduMap baiduMap;
     private CallPhoneDialog dialog;
     private Dialog avatarDialog;
     private Dialog callNumDialog;
-    private NewOrderFragmentModel.ValueEntity valueEntity;
     private SimpleDateFormat sdf;
     private CommonDialog mRedDialog;
     private MLoadingDialog loadingDialog;
@@ -316,32 +314,51 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         Injector.get(this).inject();
         sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         loadingDialog = new MLoadingDialog();
+        getIntentData(getIntent());
         init();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        getIntentData(intent);
+    }
+
+    private void getIntentData(Intent intent) {
+        if (intent != null) {
+            orderId = intent.getStringExtra(ORDER_ID);
+            isCanIn = intent.getBooleanExtra("isCanIn", false);
+            submitOrderEntity = (ValueEntity) intent.getSerializableExtra(SUBMIT_ORDER_ENTITY);
+            if (orderId == null) {
+                orderId = submitOrderEntity.getOrderItems().get(0).getOrderId();
+            }
+            if (submitOrderEntity != null) {
+                if (submitOrderEntity.getMerchant() != null) {
+                    tvTitle.setText(submitOrderEntity.getMerchant().getName());
+                }
+                int agentType = 0;
+                if (submitOrderEntity.getType() == 1) {
+                    agentType = 1;
+                } else if (submitOrderEntity.getType() == 3) {
+                    agentType = 3;
+                }
+                getTelNumId(agentType);
+                showDetails(submitOrderEntity);
+            } else {
+                getData(true);
+            }
+
+            if (intent.hasExtra("hasRedPackage")) {
+                boolean hasRedPackage = intent.getBooleanExtra("hasRedPackage", false);
+                if (hasRedPackage) {
+                    checkHasRedPackage(orderId);
+                }
+            }
+        }
+    }
+
     private void init() {
-        orderId = getIntent().getStringExtra(ORDER_ID);
-        isCanIn = getIntent().getBooleanExtra("isCanIn", false);
-        valueEntity = (NewOrderFragmentModel.ValueEntity) getIntent().getSerializableExtra(ORDER_LIST_ENTITY);
-        submitOrderEntity = (ValueEntity) getIntent().getSerializableExtra(SUBMIT_ORDER_ENTITY);
-        if (orderId == null) {
-            orderId = submitOrderEntity.getOrderItems().get(0).getOrderId();
-        }
-        if (submitOrderEntity != null) {
-            if (submitOrderEntity.getMerchant() != null) {
-                tvTitle.setText(submitOrderEntity.getMerchant().getName());
-            }
-            int agentType = 0;
-            if (submitOrderEntity.getType() == 1) {
-                agentType = 1;
-            } else if (submitOrderEntity.getType() == 3) {
-                agentType = 3;
-            }
-            getTelNumId(agentType);
-            showDetails(submitOrderEntity);
-        } else {
-            getData(true);
-        }
         rLayoutRight.setOnClickListener(this);
         sendRedBag.setOnClickListener(this);
         imgBack.setOnClickListener(this);
@@ -379,13 +396,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
         hideBaiduMapChildView();
         baiduMap.setMyLocationEnabled(true);
 
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("hasRedPackage")) {
-            boolean hasRedPackage = intent.getBooleanExtra("hasRedPackage", false);
-            if (hasRedPackage) {
-                checkHasRedPackage(orderId);
-            }
-        }
         sendRedBag.setOnTouchListener(new View.OnTouchListener() {
             int maxwidth;
             int maxheight;
@@ -703,8 +713,8 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
 
             case R.id.order_detail_act_un_pay_go_pay:
                 Intent intent1 = new Intent(this, OnlinePayActivity.class);
-                intent1.putExtra("orderId", valueEntity.getId());
-                intent1.putExtra("agentId", valueEntity.getAgentId());
+                intent1.putExtra("orderId", submitOrderEntity.getId());
+                intent1.putExtra("agentId", submitOrderEntity.getAgentId());
                 startActivityForResult(intent1, OrderListFragment.REFRESH);
                 break;
             case R.id.order_detail_act_bottom_cancel:
@@ -967,7 +977,6 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 if (isSucceed && obj != null) {
                     Intent intent = new Intent(mActivity, EvaluateActivity.class);
                     intent.putExtra("orderId", orderId);
-                    intent.putExtra("valueEntity", valueEntity);
                     intent.putExtra("submitOrderEntity", submitOrderEntity);
                     if (submitOrderEntity.getDeliveryTask() != null) {
                         intent.putExtra("hasDriver", true);
@@ -1248,7 +1257,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 tvUnPayGoPay.setVisibility(View.VISIBLE);
                 tvUnPayCancel.setVisibility(View.VISIBLE);
                 tvShouhuo.setVisibility(View.GONE);
-                String paymentExpireTime = valueEntity.getPaymentExpireTime();
+                String paymentExpireTime = submitOrderEntity.getPaymentExpireTime();
                 if (paymentExpireTime != null) {
 //				tvUnPayGoPay.setTimes(getTimeBetween(valueEntity.getServerTime(), paymentExpireTime));
                     tvUnPayGoPay.setText("去支付");

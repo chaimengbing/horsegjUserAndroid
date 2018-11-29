@@ -19,7 +19,6 @@ import com.project.mgjandroid.R;
 import com.project.mgjandroid.constants.Constants;
 import com.project.mgjandroid.model.NewOrderFragmentModel;
 import com.project.mgjandroid.model.OrderEvaluateModel;
-import com.project.mgjandroid.model.OrderFragmentModel;
 import com.project.mgjandroid.model.SubmitOrderModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.view.MLoadingDialog;
@@ -37,7 +36,6 @@ import com.project.mgjandroid.utils.inject.Injector;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,14 +73,13 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
     private WheelView wheelView;
     private TextView tvSelected;
 
-    private NewOrderFragmentModel.ValueEntity valueEntityEvaluate;
     @InjectView(R.id.evaluate_merchant_name)
     private TextView evaluateMerchantName;
     @InjectView(R.id.evaluate_icon)
     private ImageView evaluateMerchantIcon;
     @InjectView(R.id.driver_evaluate_layout)
     private RelativeLayout evaluateDriverLayout;
-    private List<NewOrderFragmentModel.ValueEntity.OrderItemsEntity> orderItems;
+    private List<SubmitOrderModel.ValueEntity.OrderItemsEntity> orderItems;
 
     private List<Map<String, Object>> list;
     private int diliveryCost = 10;
@@ -112,11 +109,10 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("orderId")) {
             orderId = intent.getStringExtra("orderId");
-            valueEntityEvaluate = (NewOrderFragmentModel.ValueEntity) intent.getSerializableExtra("valueEntity");
             submitOrderEntity = (SubmitOrderModel.ValueEntity) intent.getSerializableExtra("submitOrderEntity");
-            if (valueEntityEvaluate != null) {
+            if (submitOrderEntity != null) {
                 isFromOrderList = true;
-                orderItems = valueEntityEvaluate.getOrderItems();
+                orderItems = submitOrderEntity.getOrderItems();
             } else {
                 isFromOrderList = false;
             }
@@ -125,21 +121,15 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
 
         evaluateBack.setOnClickListener(this);
         tvEvaluate.setOnClickListener(this);
-//        data.add(new Entity());
-//        data.add(new Entity());
-//        data.add(new Entity());
-//        data.add(new Entity());
-//        data.add(new Entity());
-//        data.add(new Entity());
 
-        if (isFromOrderList && !TextUtils.isEmpty(valueEntityEvaluate.getMerchant().getLogo()))
-            ImageUtils.loadBitmap(this, valueEntityEvaluate.getMerchant().getLogo(), evaluateMerchantIcon, R.drawable.horsegj_default, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_USER);
+        if (isFromOrderList && !TextUtils.isEmpty(submitOrderEntity.getMerchant().getLogo()))
+            ImageUtils.loadBitmap(this, submitOrderEntity.getMerchant().getLogo(), evaluateMerchantIcon, R.drawable.horsegj_default, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_USER);
         else if (!isFromOrderList && !TextUtils.isEmpty(submitOrderEntity.getMerchant().getLogo()))
             ImageUtils.loadBitmap(this, submitOrderEntity.getMerchant().getLogo(), evaluateMerchantIcon, R.drawable.horsegj_default, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_USER);
         else
             evaluateMerchantIcon.setImageResource(R.drawable.horsegj_default);
         if (isFromOrderList)
-            evaluateMerchantName.setText(valueEntityEvaluate.getMerchant().getName());
+            evaluateMerchantName.setText(submitOrderEntity.getMerchant().getName());
         else
             evaluateMerchantName.setText(submitOrderEntity.getMerchant().getName());
         if (hasDriverEvaluate)
@@ -149,8 +139,6 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
             evaluateDriverLayout.setVisibility(View.GONE);
         }
 
-//        rbAll.setOnRatingListener(this);
-//        rbDriver.setOnRatingListener(this);
         setEvaluateListener();
         wheelView = ViewFindUtils.find(mDecorView, R.id.wheel_view);
         wheelView.setOnTouchListener(new View.OnTouchListener() {
@@ -165,7 +153,7 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
         wheelView.setOffset(1);
         ArrayList<String> list = new ArrayList<>();
         if (isFromOrderList)
-            eTime = valueEntityEvaluate.getMerchant().getAvgDeliveryTime();
+            eTime = submitOrderEntity.getMerchant().getAvgDeliveryTime();
         else
             eTime = submitOrderEntity.getMerchant().getAvgDeliveryTime();
         eTime = eTime / 10 * 10;
@@ -225,7 +213,7 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
 
                     }
                 });
-                NewOrderFragmentModel.ValueEntity.OrderItemsEntity orderItemsEntity = orderItems.get(i);
+                SubmitOrderModel.ValueEntity.OrderItemsEntity orderItemsEntity = orderItems.get(i);
                 tvName.setText(orderItemsEntity.getName());
                 rbvScore.setRating(orderItemsEntity.getRating());
                 rbvScore.setBindObject(i);
@@ -543,7 +531,7 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
     private String getSongDaTime(int time) {
         String createTime;
         if (isFromOrderList)
-            createTime = valueEntityEvaluate.getCreateTime();
+            createTime = submitOrderEntity.getCreateTime();
         else
             createTime = submitOrderEntity.getCreateTime();
         SimpleDateFormat sdf = new SimpleDateFormat(CommonUtils.yyyy_MM_dd_HH_mm_ss);
@@ -551,7 +539,7 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
             long timeStr;
             String expectTime;
             if (isFromOrderList)
-                expectTime = valueEntityEvaluate.getExpectArrivalTime();
+                expectTime = submitOrderEntity.getExpectArrivalTime();
             else
                 expectTime = submitOrderEntity.getExpectArrivalTime();
             if ("1".equals(expectTime)) {
@@ -669,10 +657,10 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
         final int tag = (int) bindObject;
 
         if (isFromOrderList) {
-            for (NewOrderFragmentModel.ValueEntity.OrderItemsEntity orderItemsEntity : orderItems) {
+            for (SubmitOrderModel.ValueEntity.OrderItemsEntity orderItemsEntity : orderItems) {
                 orderItemsEntity.setIsShow(false);
             }
-            NewOrderFragmentModel.ValueEntity.OrderItemsEntity orderItemsEntity = orderItems.get(tag);
+            SubmitOrderModel.ValueEntity.OrderItemsEntity orderItemsEntity = orderItems.get(tag);
             orderItemsEntity.setIsShow(true);
             orderItemsEntity.setRating(RatingScore);
         } else {
@@ -690,7 +678,7 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
     public void onFocusChange(View v, boolean hasFocus) {
         int tag = (int) v.getTag();
         if (isFromOrderList) {
-            NewOrderFragmentModel.ValueEntity.OrderItemsEntity orderItemsEntity = orderItems.get(tag);
+            SubmitOrderModel.ValueEntity.OrderItemsEntity orderItemsEntity = orderItems.get(tag);
             orderItemsEntity.setContent(((EditText) v).getText().toString().trim());
         } else {
             SubmitOrderModel.ValueEntity.OrderItemsEntity orderItemsEntity = submitOrderEntity.getOrderItems().get(tag);

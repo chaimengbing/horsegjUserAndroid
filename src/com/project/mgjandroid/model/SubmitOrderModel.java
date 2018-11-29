@@ -173,7 +173,7 @@ public class SubmitOrderModel extends Entity {
         private Object transactionId;
         private int paymentType;
         private int paymentState;
-        private Object paymentExpireTime;
+        private String paymentExpireTime;
         private String paymentFinishTime;
         private BigDecimal hasPayed;
         private int orderFlowStatus;
@@ -498,11 +498,11 @@ public class SubmitOrderModel extends Entity {
             this.paymentState = paymentState;
         }
 
-        public Object getPaymentExpireTime() {
+        public String getPaymentExpireTime() {
             return paymentExpireTime;
         }
 
-        public void setPaymentExpireTime(Object paymentExpireTime) {
+        public void setPaymentExpireTime(String paymentExpireTime) {
             this.paymentExpireTime = paymentExpireTime;
         }
 
