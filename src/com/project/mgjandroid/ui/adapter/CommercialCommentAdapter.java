@@ -190,7 +190,7 @@ public class CommercialCommentAdapter extends BaseAdapter {
             holder.gridView.setVisibility(View.VISIBLE);
             MerchantEvaluationGridImageAdapter adapter = new MerchantEvaluationGridImageAdapter(context);
             holder.gridView.setAdapter(adapter);
-            adapter.setUrls(comment.getImgUrl(),",");
+            adapter.setUrls(comment.getImgUrl(),";");
         }else {
             holder.gridView.setVisibility(View.GONE);
         }

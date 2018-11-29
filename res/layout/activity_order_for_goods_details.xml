@@ -207,6 +207,16 @@
                         android:textColor="@color/color_6"
                         android:textSize="11sp"
                         tools:text="免预约 | 可叠加" />
+
+                    <TextView
+                        android:id="@+id/tv_sold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_9"
+                        android:layout_alignParentRight="true"
+                        android:textSize="11sp"
+                        tools:text="已售0" />
+
                 </RelativeLayout>
 
                 <LinearLayout

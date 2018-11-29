@@ -487,9 +487,17 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                     sb.append("过期自动退");
                 }
             } else {
-                sb.append("可叠加 | ");
+                if (groupPurchaseCoupon.getIsCumulate() == 0) {
+                    sb.append("不可叠加 | ");
+                } else {
+                    sb.append("可叠加 | ");
+                }
                 sb.append("随时退 | ");
-                sb.append("需预约 | ");
+                if (groupPurchaseCoupon.getIsBespeak() == 0) {
+                    sb.append("免预约 | ");
+                } else {
+                    sb.append("需预约 | ");
+                }
                 sb.append("过期自动退");
             }
         }

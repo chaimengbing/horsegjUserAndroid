@@ -125,6 +125,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         }else {
             discount = Integer.parseInt(merchant.getDiscountRatio()) * 0.01 * 10;
         }
+        if(merchant.getIsSharingRelationship()==2){
+            rlVoucher.setVisibility(View.GONE);
+        }else if(merchant.getIsSharingRelationship()==1){
+            rlVoucher.setVisibility(View.VISIBLE);
+        }
         tvDiscount.setText(discount + "折");
 //        loadingDialog = new MLoadingDialog();
         etEvalution.setOnFocusChangeListener(new View.OnFocusChangeListener() {

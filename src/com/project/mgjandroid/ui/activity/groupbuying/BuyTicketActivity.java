@@ -98,6 +98,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     private TextView tvPrice1;
     @InjectView(R.id.img)
     private CornerImageView icon;
+    @InjectView(R.id.tv_subtotal)
+    private TextView tvSubtotal;
 
 
     private GridView record_gridView;
@@ -201,6 +203,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 tvPrice1.setText("门市价¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getSumGroupPurchaseCouponGoodsOriginPrice()));
             }
         }
+        tvSubtotal.setText("¥" + StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice()));
         tvTicketPrice.setText("¥" + ticketOriginalPrice+"元 代金券");
         tvCount.setText("" + count);
         getOrderPreview();
@@ -539,6 +542,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.iv_add:
                 count++;
+                tvSubtotal.setText("¥"+StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice().multiply(new BigDecimal(count))));
                 ivMinus.setEnabled(true);
                 tvCount.setText("" + count);
                 getOrderPreview();
@@ -549,6 +553,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
                     break;
                 }
                 count--;
+                tvSubtotal.setText("¥"+StringUtils.BigDecimal2Str(groupPurchaseCoupon.getPrice().multiply(new BigDecimal(count))));
                 tvCount.setText("" + count);
                 getOrderPreview();
                 break;

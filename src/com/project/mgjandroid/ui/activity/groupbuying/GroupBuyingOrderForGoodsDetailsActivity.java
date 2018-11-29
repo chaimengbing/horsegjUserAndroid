@@ -134,6 +134,8 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private LinearLayout layoutAddress;
     @InjectView(R.id.tv_option)
     private TextView tvOption;
+    @InjectView(R.id.tv_sold)
+    private TextView tvSold;
     @InjectView(R.id.tv_date)
     private TextView tvDate;
     @InjectView(R.id.ll_date)
@@ -562,13 +564,22 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                     sb.append("过期自动退");
                 }
             } else {
-                sb.append("可叠加 | ");
+                if (purchaseCoupon.getIsCumulate() == 0) {
+                    sb.append("不可叠加 | ");
+                } else {
+                    sb.append("可叠加 | ");
+                }
                 sb.append("随时退 | ");
-                sb.append("需预约 | ");
+                if (purchaseCoupon.getIsBespeak() == 0) {
+                    sb.append("免预约 | ");
+                } else {
+                    sb.append("需预约 | ");
+                }
                 sb.append("过期自动退");
             }
         }
         tvOption.setText(sb.toString());
+        tvSold.setText("已售"+purchaseCoupon.getAccumulateSoldCount());
     }
 
     @Override
