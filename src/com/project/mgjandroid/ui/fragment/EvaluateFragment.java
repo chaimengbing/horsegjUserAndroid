@@ -223,9 +223,6 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
                     List<NewMerchantEvaluateModel.ValueBean.ListBean> mlist = model.getValue().getList();
 
                     if (CheckUtils.isNoEmptyList(mlist)) {
-//                        if (mlist.size() < maxResults) {
-//                            ToastUtils.displayMsg("到底了", mActivity);
-//                        }
                         if (refreshFlag) {
                             List<NewMerchantEvaluateModel.ValueBean.ListBean> mListOrg = adapter.getList();
                             if (mListOrg != null) {
@@ -238,6 +235,11 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
                             adapter.setList(mlist);
                         }
                         setRadioGroup(model);
+                    }else {
+                        if(start==0){
+                            refreshFlag = false;
+                            adapter.setList(mlist);
+                        }
                     }
                 }
             }

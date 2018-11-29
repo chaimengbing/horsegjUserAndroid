@@ -59,6 +59,7 @@ import com.project.mgjandroid.utils.inject.InjectView;
 import com.project.mgjandroid.utils.inject.Injector;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -267,7 +268,16 @@ public class GroupBuyingMerchantDetailActivity extends BaseActivity {
             takeAway.setVisibility(View.GONE);
         }
         tvAddress.setText(merchant.getAddress());
-        tvDistance.setText("距您"+merchant.getDistance().intValue()+"m");
+        if (merchant.getDistance() != null) {
+            if (merchant.getDistance() > 1000) {
+                Double d = merchant.getDistance() / 1000;
+                tvDistance.setText("距您"+new DecimalFormat("0.00").format(d) + "km");
+            } else {
+                tvDistance.setText("距您"+merchant.getDistance().intValue() + "m");
+            }
+        } else {
+            tvDistance.setText("");
+        }
         tvTime.setText("营业时间：" + merchant.getWorkingTime());
         tvTime1.setText("营业时间：" + merchant.getWorkingTime());
         if (CheckUtils.isNoEmptyStr(merchant.getMerchantRecommend())) {

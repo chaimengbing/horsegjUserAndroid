@@ -255,8 +255,14 @@ public class CameraActivity extends BaseActivity implements SurfaceHolder.Callba
                 || PublishSecondHandInfoActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())
                 || PublishBuyInfoActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())
                 || PublishLeaseActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())
-                || GroupBuyingAddEvaluationActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())) {
-            if (!GroupBuyingAddEvaluationActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())) {
+                || GroupBuyingAddEvaluationActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())
+                || NewEvaluateActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())) {
+            if (GroupBuyingAddEvaluationActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())) {
+
+            }else if(NewEvaluateActivity.class.getName().equals(ChoosePhotoModel.getInstance().getFrom())){
+
+            }
+            else {
                 ChoosePhotoModel.getInstance().setFrom("");
             }
             Intent intent = new Intent(this, UploadPhotoActivity.class);

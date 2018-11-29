@@ -134,8 +134,6 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private LinearLayout layoutAddress;
     @InjectView(R.id.tv_option)
     private TextView tvOption;
-    @InjectView(R.id.tv_sold)
-    private TextView tvSold;
     @InjectView(R.id.tv_date)
     private TextView tvDate;
     @InjectView(R.id.ll_date)
@@ -579,7 +577,6 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             }
         }
         tvOption.setText(sb.toString());
-        tvSold.setText("已售"+purchaseCoupon.getAccumulateSoldCount());
     }
 
     @Override

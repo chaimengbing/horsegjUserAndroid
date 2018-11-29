@@ -100,6 +100,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     private  int max=100000000;
     private  int min;
     private  boolean isRun;
+    private  boolean canIn = true;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -111,6 +112,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
     }
 
     private void initView() {
+        rlLayout.setEnabled(false);
         merchant = (GroupPurchaseMerchant) getIntent().getSerializableExtra("merchant");
         tvTitle.setText(merchant.getName());
         tvBack.setOnClickListener(this);
@@ -204,7 +206,15 @@ public class DiscountBuyTicketActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 etEvalution.setHint("");
-                tvConfirm.setEnabled(true);
+                if(!editable.toString().equals("0")){
+                    tvConfirm.setEnabled(true);
+                    rlLayout.setEnabled(true);
+                    cbSelected.setEnabled(true);
+                }else {
+                    cbSelected.setEnabled(false);
+                    tvConfirm.setEnabled(false);
+                    rlLayout.setEnabled(false);
+                }
                 tvAmounActuallyPaid.setText(etEvalution.getText().toString().trim());
                 isCanSelect= false;
                 isVoucherChecked= false;
@@ -234,21 +244,22 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 if(editable.toString().trim().length()>0){
                     icMoney.setVisibility(View.VISIBLE);
                     if("0".equals(editable.toString().trim())){
+                        cbSelected.setEnabled(false);
                         tvConfirm.setEnabled(false);
                     }else {
+                        cbSelected.setEnabled(true);
                         etEvalution.setHint("");
                         tvConfirm.setEnabled(true);
                     }
                 }else {
+                    cbSelected.setEnabled(false);
+                    cbSelected.setChecked(false);
                     icMoney.setVisibility(View.GONE);
+                    rlLayout.setVisibility(View.GONE);
                     etEvalution.setHint("询问服务员后输入");
                     tvConfirm.setEnabled(false);
                 }
-                String text = editable.toString();
-                int len = editable.toString().length();
-                if (len == 1 && text.equals("0")) {
-                    editable.clear();
-                }}
+                }
         });
         etEvalution1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -272,13 +283,25 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                         etEvalution1.setHint("");
                     }
                 }else {
+                    if(isCanSelect){
+                        payForPreview();
+                    }
                     icMoney1.setVisibility(View.GONE);
                     etEvalution1.setHint("询问服务员后输入");
                 }
                 String text = editable.toString();
-                int len = editable.toString().length();
-                if (len == 1 && text.equals("0")) {
-                    editable.clear();
+                double v = 0;
+                if(CheckUtils.isNoEmptyStr(text)){
+                    v = Double.parseDouble(text);
+                }
+                if(CheckUtils.isNoEmptyStr(etEvalution.getText().toString())){
+                    double v1 = Double.parseDouble(etEvalution.getText().toString());
+                    if(v>=v1){
+                        toast("优惠金额不能大于消费总额");
+                        canIn = false;
+                    }else {
+                        canIn = true;
+                    }
                 }
             }
         });
@@ -293,6 +316,11 @@ public class DiscountBuyTicketActivity extends BaseActivity {
             case R.id.common_back:
                 back();
             case R.id.cb_unselected:
+                if(CheckUtils.isEmptyStr(etEvalution.getText().toString())||etEvalution.getText().toString().equals("0")){
+                    cbSelected.setEnabled(false);
+                }else {
+                    cbSelected.setEnabled(true);
+                }
                 if(cbSelected.isChecked()){
                     rlLayout.setVisibility(View.VISIBLE);
                 }else {
@@ -332,7 +360,12 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 startActivityForResult(intent,2018);
                 break;
             case R.id.tv_confirm:
-                submitOrder();
+                if(canIn){
+                    submitOrder();
+                }else {
+                    toast("优惠金额不能大于消费总额");
+                    return;
+                }
                 break;
             case R.id.img_unselected:
                 if(CheckUtils.isNoEmptyStr(etEvalution.getText().toString().trim())){
@@ -349,17 +382,6 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                                 isDiscount = 1;
                                 isCanSelect = true;
                             }
-//                            if(isCanSelect){
-//                                isDiscount = 1;
-//                                isCanSelect = true;
-//                                tvSelected.setText("-¥"+StringUtils.BigDecimal2Str(previewModelValue.getDiscountAmt()));
-//                                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_selected));
-//                            }else {
-//                                isDiscount = 0;
-//                                isCanSelect = false;
-//                                tvSelected.setText("");
-//                                imgSelected.setBackgroundDrawable(mActivity.getResources().getDrawable(R.drawable.group_buy_unselected));
-//                            }
                         }
                     }else {
                         if(isCanSelect){

@@ -690,8 +690,7 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
             case R.id.order_detail_act_evaluate://完成时评价
                 Intent intent = new Intent(mActivity, NewEvaluateActivity.class);
                 intent.putExtra("orderId", orderId);
-                intent.putExtra("agentId", valueEntity.getAgentId());
-                intent.putExtra("valueEntity", valueEntity);
+                intent.putExtra("agentId", submitOrderEntity.getAgentId());
                 intent.putExtra("submitOrderEntity", submitOrderEntity);
                 if (submitOrderEntity.getDeliveryTask() != null) {
                     intent.putExtra("hasDriver", true);

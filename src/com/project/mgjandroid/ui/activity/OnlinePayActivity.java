@@ -638,6 +638,7 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
         } else {
             Intent intent = new Intent(OnlinePayActivity.this, OrderDetailActivity.class);
             intent.putExtra("orderId", orderId);
+
             intent.putExtra("hasRedPackage", true);
             intent.putExtra("isCanIn", true);
             startActivity(intent);

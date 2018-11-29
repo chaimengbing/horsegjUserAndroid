@@ -177,7 +177,11 @@ public class CommercialCommentAdapter extends BaseAdapter {
             } else if (name.length() > 1) {
                 name = name.substring(0, 1) + "***" + name.substring(name.length() - 1, name.length());
             }
-            holder.tvName.setText(name);
+            if(comment.getIsAnonymous()==1){
+                holder.tvName.setText("匿名用户");
+            }else {
+                holder.tvName.setText(name);
+            }
             ImageUtils.loadBitmap(context, comment.getAppUser().getHeaderImg(), holder.userAvatar, R.drawable.comment_defaut_head, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL);
         }
         if (CheckUtils.isNoEmptyStr(comment.getReplyContent())) {

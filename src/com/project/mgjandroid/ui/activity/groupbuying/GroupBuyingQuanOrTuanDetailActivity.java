@@ -107,6 +107,8 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private TextView tvAddress;
     @InjectView(R.id.tv_distance)
     private TextView tvDistance;
+    @InjectView(R.id.business_avatar)
+    private CornerImageView tvAvatar;
     @InjectView(R.id.iv_call)
     private ImageView ivCall;
     @InjectView(R.id.recommend_layout)
@@ -405,6 +407,9 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 }
             } else {
                 tvDistance.setText("");
+            }
+            if(CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getGroupPurchaseMerchant().getImgs())){
+                ImageUtils.loadBitmap(mActivity, groupPurchaseCoupon.getGroupPurchaseMerchant().getImgs().split(";")[0], tvAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(180, 152));
             }
             if (groupPurchaseCoupon.getType() == 1 && CheckUtils.isNoEmptyStr(merchant.getMerchantRecommend())) {
                 tvDishes.setText(merchant.getMerchantRecommend());

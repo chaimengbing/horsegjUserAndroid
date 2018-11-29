@@ -308,8 +308,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x5"
                         android:orientation="horizontal"
-                        android:paddingLeft="@dimen/x15"
-                        android:paddingRight="@dimen/x15"
+                        android:paddingLeft="@dimen/x20"
+                        android:paddingRight="@dimen/x20"
                         android:visibility="gone">
 
                         <include layout="@layout/group_buying_use_rule_point" />
@@ -574,8 +574,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x5"
                     android:orientation="horizontal"
-                    android:paddingLeft="@dimen/x15"
-                    android:paddingRight="@dimen/x15"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
                     android:visibility="gone">
 
                     <include layout="@layout/group_buying_use_rule_point" />

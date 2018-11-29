@@ -131,7 +131,7 @@
                     android:background="@color/white"
                     android:focusableInTouchMode="true"
                     android:paddingBottom="@dimen/x5"
-                    android:visibility="gone">
+                    >
 
                     <com.project.mgjandroid.ui.view.CornerImageView
                         android:id="@+id/food_user_avatar"
@@ -158,6 +158,7 @@
                         android:drawablePadding="@dimen/x8"
                         android:drawableRight="@drawable/right_arrow_gray"
                         android:ellipsize="end"
+                        android:maxLines="1"
                         android:textColor="@color/color_3"
                         android:textSize="22sp"
                         android:textStyle="bold"
@@ -207,15 +208,6 @@
                         android:textColor="@color/color_6"
                         android:textSize="11sp"
                         tools:text="免预约 | 可叠加" />
-
-                    <TextView
-                        android:id="@+id/tv_sold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_9"
-                        android:layout_alignParentRight="true"
-                        android:textSize="11sp"
-                        tools:text="已售0" />
 
                 </RelativeLayout>
 

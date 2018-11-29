@@ -132,9 +132,9 @@ public class NewEvaluateActivity extends BaseActivity {
     private boolean tasteClick;
     private MLoadingDialog loadingDialog;
     private String orderId;
-    private NewOrderFragmentModel.ValueEntity valueEntityEvaluate;
+
     private SubmitOrderModel.ValueEntity submitOrderEntity;
-    private List<NewOrderFragmentModel.ValueEntity.OrderItemsEntity> orderItems;
+    private List<SubmitOrderModel.ValueEntity.OrderItemsEntity> orderItems;
     private boolean hasDriverEvaluate;
     private boolean isFromOrderList;
     private Integer eTime;
@@ -183,11 +183,10 @@ public class NewEvaluateActivity extends BaseActivity {
         if (intent != null && intent.hasExtra("orderId")) {
             orderId = intent.getStringExtra("orderId");
             agentId = intent.getIntExtra("agentId", -1);
-            valueEntityEvaluate = (NewOrderFragmentModel.ValueEntity) intent.getSerializableExtra("valueEntity");
             submitOrderEntity = (SubmitOrderModel.ValueEntity) intent.getSerializableExtra("submitOrderEntity");
-            if (valueEntityEvaluate != null) {
+            if (submitOrderEntity != null) {
                 isFromOrderList = true;
-                orderItems = valueEntityEvaluate.getOrderItems();
+                orderItems = submitOrderEntity.getOrderItems();
             } else {
                 isFromOrderList = false;
             }
@@ -204,7 +203,7 @@ public class NewEvaluateActivity extends BaseActivity {
         ImageUtils.loadBitmap(mActivity, submitOrderEntity.getMerchant().getLogo(), merchantAvatar, R.drawable.horsegj_default, Constants.getEndThumbnail(56, 56));
         tvMerchantName.setText(submitOrderEntity.getMerchant().getName());
         if (isFromOrderList)
-            eTime = valueEntityEvaluate.getMerchant().getAvgDeliveryTime();
+            eTime = submitOrderEntity.getMerchant().getAvgDeliveryTime();
         else
             eTime = submitOrderEntity.getMerchant().getAvgDeliveryTime();
         eTime = eTime / 10 * 10;
@@ -384,7 +383,7 @@ public class NewEvaluateActivity extends BaseActivity {
 
     //能否发布
     private boolean checkCanEvaluate() {
-        if (hasDriverEvaluate) {
+        if (submitOrderEntity.getDeliveryTask().getDeliveryman()!=null) {
             if (!imgBad.isSelected() && !imgOrdinary.isSelected() && !imgGood.isSelected()) {
                 ToastUtils.displayMsg("评价不完整,请继续评价", NewEvaluateActivity.this);
                 return false;

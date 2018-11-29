@@ -120,7 +120,7 @@ public class AfterPaymentCompletionActivity extends BaseActivity implements Pull
                                 }
                             }
                         }
-                        if(mlist.size()>0){
+                        if(order.getUsableQuantity()>0){
                             tvButton.setText("立即使用");
                         }else {
                             tvButton.setVisibility(View.GONE);

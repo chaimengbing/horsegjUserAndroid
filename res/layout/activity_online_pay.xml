@@ -83,12 +83,12 @@
     <LinearLayout
         android:id="@+id/layout_group_buying"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x85"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
         android:gravity="center"
         android:padding="@dimen/x15"
-        android:visibility="gone">
+        >
 
         <TextView
             android:id="@+id/group_buying_pay_money"

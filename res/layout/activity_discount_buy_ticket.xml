@@ -107,6 +107,7 @@
         android:layout_marginBottom="@dimen/x10"
         android:layout_marginLeft="@dimen/x15"
         android:button="@null"
+        android:enabled="false"
         android:drawableLeft="@drawable/pay_the_bill_select"
         android:drawablePadding="@dimen/x9"
         android:gravity="center_vertical"
