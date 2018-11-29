@@ -282,26 +282,31 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (s.length() == 0) {
-            ivSearchTxtClean.setVisibility(View.GONE);
-            searchKeyWordView.setVisibility(View.VISIBLE);
-            mListView.setVisibility(View.GONE);
-            emptyTextView.setVisibility(View.GONE);
-            mSearchListAdapter.setList(new ArrayList<GroupPurchaseMerchant>());
-            refreshHistorySearch();
-        } else {
-            ivSearchTxtClean.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void afterTextChanged(Editable s) {
         if (s.length() > 0) {
             mCurrentPosition = 0;
+            ivSearchTxtClean.setVisibility(View.VISIBLE);
             goSearchMerchant(s.toString().trim(), false, true);
+        } else {
+            searchFinish();
         }
     }
 
+
+    private void searchFinish() {
+        String result = mSearchText.getText().toString().trim();
+        if (CheckUtils.isEmptyStr(result)) {
+            ivSearchTxtClean.setVisibility(View.GONE);
+            searchKeyWordView.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.GONE);
+            emptyTextView.setVisibility(View.GONE);
+            mSearchListAdapter.setList(new ArrayList<GroupPurchaseMerchant>());
+            refreshHistorySearch();
+        }
+    }
 
     /**
      * 搜索参数
@@ -398,6 +403,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
                         }
                     }
                 }
+                searchFinish();
             }
         }, GroupSearchModel.class);
     }
