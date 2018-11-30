@@ -211,6 +211,34 @@
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/layout_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/coupon_layout"
+                    android:paddingLeft="@dimen/x20"
+                    android:paddingRight="@dimen/x20"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_option1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_6"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_sold2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/color_9"
+                        android:textSize="11sp"
+                        tools:text="已售" />
+
+                </RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/layout_voucher_erea"
                     android:layout_width="match_parent"

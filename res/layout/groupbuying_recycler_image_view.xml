@@ -25,13 +25,17 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/x5"
         android:layout_marginRight="@dimen/x5"
-        android:background="@drawable/bg_img_count"
+        android:background="@drawable/bg_img_count1"
         android:drawableLeft="@drawable/small_photo"
         android:drawablePadding="@dimen/x5"
         android:gravity="center"
+        android:paddingTop="@dimen/x2"
+        android:paddingBottom="@dimen/x2"
+        android:paddingLeft="@dimen/x10"
+        android:paddingRight="@dimen/x10"
         android:textColor="@color/white"
         android:layout_gravity="right|bottom"
         android:textSize="12sp"
-        android:visibility="gone"/>
+        />
 
 </FrameLayout>

@@ -385,11 +385,12 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         } else {
             tvRefund.setVisibility(View.GONE);
         }
-        if(order.getHasComments()==1){
-            tvEvaluate.setVisibility(View.GONE);
-        }else {
+        if (order.getUsableQuantity() == 0 && order.getHasComments() == 0) {
             tvEvaluate.setVisibility(View.VISIBLE);
+        } else {
+            tvEvaluate.setVisibility(View.GONE);
         }
+
     }
 
     /**
@@ -451,13 +452,13 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                 tvName.setText(order.getGroupPurchaseOrderCouponCodeList().get(i).getCouponCode());
                 if (order.getGroupPurchaseOrderCouponCodeList().get(i).getStatus() == 0 && order.getQuantity() > 0) {
                     tvSpending.setText("未消费");
-                    if(order.getGroupPurchaseOrderCoupon().getIsBespeak()==1){
-                        if(order.getStatus()==2){
+                    if (order.getGroupPurchaseOrderCoupon().getIsBespeak() == 1) {
+                        if (order.getStatus() == 2) {
                             tvImmediateUse.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             tvImmediateUse.setVisibility(View.GONE);
                         }
-                    }else {
+                    } else {
                         tvImmediateUse.setVisibility(View.VISIBLE);
                     }
                     tvVoucherImmediateUse.setVisibility(View.VISIBLE);

@@ -183,6 +183,8 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private TextView tvSold;
     @InjectView(R.id.tv_sold1)
     private TextView tvSold1;
+    @InjectView(R.id.tv_sold2)
+    private TextView tvSold2;
     @InjectView(R.id.goods_layout)
     private LinearLayout layoutGoods;
     @InjectView(R.id.rb_score)
@@ -191,6 +193,8 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private TextView tvAveragePrice;
     @InjectView(R.id.tv_option)
     private TextView tvOption;
+    @InjectView(R.id.tv_option1)
+    private TextView tvOption1;
     @InjectView(R.id.img)
     private CornerImageView img;
     @InjectView(R.id.tv_voucher_merchant_name)
@@ -201,6 +205,8 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
     private RelativeLayout layoutVoucher;
     @InjectView(R.id.layout_group_buying_groupon_details)
     private LinearLayout layoutGroupon;
+    @InjectView(R.id.layout_rl)
+    private RelativeLayout rlLayout;
     @InjectView(R.id.layout_groupon_erea)
     private LinearLayout layoutGrouponErea;
     @InjectView(R.id.layout_voucher_erea)
@@ -279,6 +285,8 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 layoutPictureUpload.setVisibility(View.VISIBLE);
                 groupBuyingImageRecyclerAdapter.setList(Arrays.asList(imageUrl));
             }
+        }else {
+            tvSold.setVisibility(View.VISIBLE);
         }
         tvMerchantName.setText(merchant.getName());
         tvCouponName.setText(groupPurchaseCoupon.getGroupPurchaseName());
@@ -304,6 +312,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         if (groupPurchaseCoupon.getType() == 1) {
             layoutGrouponErea.setVisibility(View.GONE);
             layoutVoucherErea.setVisibility(View.VISIBLE);
+            rlLayout.setVisibility(View.VISIBLE);
             layoutVoucher.setVisibility(View.VISIBLE);
             layoutGroupon.setVisibility(View.GONE);
 
@@ -312,6 +321,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             layoutVoucherErea.setVisibility(View.GONE);
             layoutVoucher.setVisibility(View.GONE);
             layoutGroupon.setVisibility(View.VISIBLE);
+            rlLayout.setVisibility(View.GONE);
             getGroupPurchaseCouponList(groupPurchaseCoupon.getType());
         }
 //        if (CheckUtils.isNoEmptyStr(groupPurchaseCoupon.getImages())) {
@@ -517,7 +527,9 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
         }
         tvOption.setText(sb.toString());
         tvSold.setText("已售"+groupPurchaseCoupon.getAccumulateSoldCount());
+        tvOption1.setText(sb.toString());
         tvSold1.setText("已售"+groupPurchaseCoupon.getAccumulateSoldCount());
+        tvSold2.setText("已售"+groupPurchaseCoupon.getAccumulateSoldCount());
     }
 
     private void showUseScope() {
