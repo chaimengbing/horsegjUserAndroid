@@ -1,7 +1,6 @@
 package com.project.mgjandroid.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +11,13 @@ import com.project.mgjandroid.R;
 import com.project.mgjandroid.bean.groupbuying.GroupPurchaseCoupon;
 import com.project.mgjandroid.utils.CalendarUtils;
 import com.project.mgjandroid.utils.CheckUtils;
-import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DateUtils;
-import com.project.mgjandroid.utils.ToastUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class DateAdapter extends BaseAdapter {
+    private final static String TAG = DateAdapter.class.getSimpleName();
     private int[] days = new int[42];
     private Context context;
     private int year;
@@ -85,30 +81,39 @@ public class DateAdapter extends BaseAdapter {
         return i;
     }
 
-    private String getDate(int year, int month, int day) {
-        Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
+    private long getDate(int year, int month, int day) {
+        Date date = DateUtils.str2Date(year + "-" + month + "-" + day, "yyyy-MM-dd");
 
+        int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
+        long today = (System.currentTimeMillis() + offSet) / 86400000;
+        long start = (date.getTime() + offSet) / 86400000;
+        long intervalTime = start - today;
 
-        Calendar old = Calendar.getInstance();
-        old.set(Calendar.YEAR, year);
-        old.set(Calendar.MONTH, month - 1);
-        old.set(Calendar.DAY_OF_MONTH, day);
-
-        old.set(Calendar.HOUR, 0);
-        old.set(Calendar.MINUTE, 0);
-        old.set(Calendar.SECOND, 0);
+//        Calendar today = Calendar.getInstance();
+//        today.set(Calendar.HOUR, 0);
+//        today.set(Calendar.MINUTE, 0);
+//        today.set(Calendar.SECOND, 0);
+//
+//
+//        Calendar old = Calendar.getInstance();
+//        old.set(Calendar.YEAR, year);
+//        old.set(Calendar.MONTH, month - 1);
+//        old.set(Calendar.DAY_OF_MONTH, day);
+//
+//        old.set(Calendar.HOUR, 0);
+//        old.set(Calendar.MINUTE, 0);
+//        old.set(Calendar.SECOND, 0);
         //老的时间减去今天的时间
-        long intervalMilli = old.getTimeInMillis() - today.getTimeInMillis();
-        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
+//        long intervalMilli = old.getTimeInMillis() - today.getTimeInMillis();
+//        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
         // -2:前天 -1：昨天 0：今天 1：明天 2：后天， out：显示日期
-        if (xcts >= -2 && xcts <= 2) {
-            return String.valueOf(xcts);
-        } else {
-            return "out";
-        }
+//        if (intervalTime >= -2 && intervalTime <= 2) {
+//            Log.e(TAG, "xcts:" + String.valueOf(xcts));
+//            return String.valueOf(xcts);
+//        } else {
+//            return "out";
+//        }
+        return intervalTime;
     }
 
     @Override
@@ -128,13 +133,6 @@ public class DateAdapter extends BaseAdapter {
         } else {
             viewHolder.date_item.setVisibility(View.VISIBLE);
         }
-//        if (i < 7 && days[i] > 20) {
-//            viewHolder.date_item.setTextColor(Color.rgb(204, 204, 204));//将上个月的和下个月的设置为灰色
-//            viewHolder.date_item.setVisibility(View.INVISIBLE);
-//        } else if (i > 20 && days[i] < 15) {
-//            viewHolder.date_item.setTextColor(Color.rgb(204, 204, 204));
-//            viewHolder.date_item.setVisibility(View.INVISIBLE);
-//        }
 
         viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_c));
         viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.transparent));
@@ -148,8 +146,6 @@ public class DateAdapter extends BaseAdapter {
         if (days[i] >= day && days[i] < count && nowadayMonth == month) {
             viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.color_f5));
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
-//            viewHolder.date_item.setEnabled(false);
-//            viewHolder.date_item.setClickable(false);
 
             String lastDay = DateUtils.getDateLastDay(year, month);
             int visibleCount = 0;
@@ -166,19 +162,16 @@ public class DateAdapter extends BaseAdapter {
             if (days[i] <= nextCount) {
                 viewHolder.date_item.setBackgroundColor(context.getResources().getColor(R.color.color_f5));
                 viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.color_3));
-//                viewHolder.date_item.setEnabled(false);
-//                viewHolder.date_item.setClickable(false);
             }
         }
-        //是否是本年本月显示的今天、明天、后天 days[i] == day && month == nowadayMonth
-        if (getDate(year, month, days[i]).equals("0")) {
+        if (getDate(year, month, days[i]) == 0) {
             viewHolder.date_item.setText("今天");
             viewHolder.date_item.setTextColor(context.getResources().getColor(R.color.bg_festival));
             viewHolder.date_item.getPaint().setFakeBoldText(true);
-        } else if (getDate(year, month, days[i]).equals("1")) {
+        } else if (getDate(year, month, days[i]) == 1) {
             viewHolder.date_item.setText("明天");
             viewHolder.date_item.getPaint().setFakeBoldText(true);
-        } else if (getDate(year, month, days[i]).equals("2")) {
+        } else if (getDate(year, month, days[i]) == 2) {
             viewHolder.date_item.setText("后天");
             viewHolder.date_item.getPaint().setFakeBoldText(true);
         }
