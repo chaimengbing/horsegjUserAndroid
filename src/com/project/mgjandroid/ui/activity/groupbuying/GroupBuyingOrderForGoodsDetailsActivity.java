@@ -385,12 +385,13 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         } else {
             tvRefund.setVisibility(View.GONE);
         }
-        if (order.getUsableQuantity() == 0 && order.getHasComments() == 0) {
-            tvEvaluate.setVisibility(View.VISIBLE);
-        } else {
-            tvEvaluate.setVisibility(View.GONE);
+        if(order.getStatus()==2){
+            if (order.getUsableQuantity() == 0 && order.getHasComments() == 0) {
+                tvEvaluate.setVisibility(View.VISIBLE);
+            } else {
+                tvEvaluate.setVisibility(View.GONE);
+            }
         }
-
     }
 
     /**
