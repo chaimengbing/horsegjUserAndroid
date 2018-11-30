@@ -162,7 +162,8 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
     private TextView tvVoucherName;
     @InjectView(R.id.tv_voucher_price)
     private TextView tvVoucherPrice;
-
+    @InjectView(R.id.group_buying_evaluate)
+    private TextView tvEvaluate;
 
     private StringBuffer buffer = new StringBuffer();
 
@@ -200,8 +201,8 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         layoutVoucherDetails.setOnClickListener(this);
         tvFeedBack.setOnClickListener(this);
         tvRefund.setOnClickListener(this);
+        tvEvaluate.setOnClickListener(this);
         loadingDialog = new MLoadingDialog();
-
     }
 
     @Override
@@ -324,7 +325,17 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
         if (merchant != null) {
             tvShopName.setText(merchant.getName());
             tvShopAddress.setText(merchant.getAddress());
-            avaragePrice.setText("人均￥" + StringUtils.BigDecimal2Str(merchant.getAvgPersonPrice()));
+            BigDecimal avgPersonPrice;
+            if (merchant.getEvaluateCount() >= 10) {
+                avgPersonPrice = merchant.getEvaluateAvgPersonPrice();
+            } else {
+                avgPersonPrice = merchant.getAvgPersonPrice();
+            }
+            if (avgPersonPrice != null) {
+                avaragePrice.setText("人均¥" + StringUtils.BigDecimal2Str(avgPersonPrice));
+            } else {
+                avaragePrice.setText("");
+            }
             scoreRatingBar.setRating(merchant.getAverageScore().floatValue());
             if (CheckUtils.isNoEmptyStr(merchant.getImgs())) {
                 ImageUtils.loadBitmap(mActivity, merchant.getImgs().split(";")[0], businessAvatar, R.drawable.banner_default, Constants.getEndThumbnail(88, 66));
@@ -373,6 +384,11 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             tvRefund.setVisibility(View.VISIBLE);
         } else {
             tvRefund.setVisibility(View.GONE);
+        }
+        if(order.getHasComments()==1){
+            tvEvaluate.setVisibility(View.GONE);
+        }else {
+            tvEvaluate.setVisibility(View.VISIBLE);
         }
     }
 
@@ -617,6 +633,11 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
                 break;
             case R.id.cancel:
                 dismissPhoneWindow();
+                break;
+            case R.id.group_buying_evaluate:
+                Intent evaluate = new Intent(mActivity, GroupBuyingAddEvaluationActivity.class);
+                evaluate.putExtra("groupPurchaseOrder", order);
+                startActivity(evaluate);
                 break;
         }
         super.onClick(v);

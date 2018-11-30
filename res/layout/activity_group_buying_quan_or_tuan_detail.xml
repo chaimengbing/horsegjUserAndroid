@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/x15">
+                android:paddingBottom="@dimen/x20">
 
                 <LinearLayout
                     android:id="@+id/layout_group_buying_groupon_details"
@@ -66,15 +66,14 @@
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:visibility="gone"
+
                     android:paddingLeft="@dimen/x20"
                     android:paddingRight="@dimen/x20">
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        >
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_merchant_name"
@@ -89,10 +88,10 @@
                             android:id="@+id/img"
                             android:layout_width="@dimen/x90"
                             android:layout_height="@dimen/x76"
+                            android:layout_alignParentRight="true"
                             android:layout_gravity="top"
                             android:scaleType="centerCrop"
                             android:src="@drawable/horsegj_default"
-                            android:layout_alignParentRight="true"
                             android:visibility="gone"
                             app:borderColor="#e5e5e5"
                             app:borderRadius="@dimen/x4"
@@ -106,44 +105,65 @@
                             android:layout_below="@+id/tv_merchant_name"
                             android:layout_marginTop="@dimen/x10">
 
-                            <TextView
-                                android:id="@+id/tv_coupon_name"
+                            <LinearLayout
+                                android:id="@+id/layout_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:includeFontPadding="false"
-                                android:singleLine="true"
-                                android:textColor="@color/color_3"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                tools:text="川湘小炒" />
+                                android:orientation="horizontal">
 
-                            <ImageView
-                                android:id="@+id/img_vip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/x15"
-                                android:layout_toRightOf="@+id/tv_coupon_name"
-                                android:src="@drawable/ic_vip"
-                                 />
+                                <TextView
+                                    android:id="@+id/tv_coupon_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:includeFontPadding="false"
+                                    android:singleLine="true"
+                                    android:textColor="@color/color_3"
+                                    android:textSize="22sp"
+                                    android:textStyle="bold"
+                                    tools:text="川湘小炒" />
+
+                                <ImageView
+                                    android:id="@+id/img_vip"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="@dimen/x15"
+                                    android:visibility="gone"
+                                    android:src="@drawable/ic_vip" />
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/tv_option"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/color_6"
+                                android:layout_below="@+id/layout_name"
                                 android:layout_marginTop="@dimen/x10"
-                                android:layout_below="@+id/tv_coupon_name"
+                                android:textColor="@color/color_6"
                                 android:textSize="11sp" />
 
                             <TextView
                                 android:id="@+id/tv_sold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/color_9"
                                 android:layout_below="@+id/tv_option"
                                 android:layout_marginTop="@dimen/x10"
+                                android:textColor="@color/color_9"
                                 android:textSize="11sp"
+                                android:visibility="gone"
                                 tools:text="已售" />
+
+                            <TextView
+                                android:id="@+id/tv_sold1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_below="@+id/layout_name"
+                                android:layout_marginTop="@dimen/x10"
+                                android:textColor="@color/color_9"
+                                android:textSize="11sp"
+                                android:visibility="gone"
+                                tools:text="已售" />
+
                         </RelativeLayout>
 
                     </RelativeLayout>
@@ -164,10 +184,10 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/voucher_bg"
                         android:orientation="vertical"
+                        android:paddingBottom="@dimen/x20"
                         android:paddingLeft="@dimen/x20"
-                        android:paddingTop="@dimen/x15"
                         android:paddingRight="@dimen/x20"
-                        android:paddingBottom="@dimen/x20">
+                        android:paddingTop="@dimen/x15">
 
                         <TextView
                             android:id="@+id/tv_voucher_merchant_name"
@@ -191,42 +211,13 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/layout_rl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/coupon_layout"
-                    android:paddingLeft="@dimen/x20"
-                    android:paddingRight="@dimen/x20"
-                    android:gravity="center_vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/tv_option1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/color_6"
-                        android:textSize="11sp" />
-
-                    <TextView
-                        android:id="@+id/tv_sold1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:textColor="@color/color_9"
-                        android:textSize="11sp"
-                        tools:text="已售" />
-
-                </RelativeLayout>
-
                 <LinearLayout
                     android:id="@+id/layout_voucher_erea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x10"
                     android:background="@color/white"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tv_date1"
@@ -284,8 +275,7 @@
                             android:id="@+id/tv_use_range1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            />
+                            android:orientation="vertical" />
 
                     </LinearLayout>
 
@@ -550,8 +540,7 @@
                         android:id="@+id/tv_use_range"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        />
+                        android:orientation="vertical" />
 
                 </LinearLayout>
 
@@ -664,8 +653,8 @@
                     android:id="@+id/tv_buy_take_away"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/x20"
-                    android:paddingBottom="@dimen/x20">
+                    android:paddingBottom="@dimen/x20"
+                    android:paddingTop="@dimen/x20">
 
 
                     <TextView
@@ -760,8 +749,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/layout"
-                            android:layout_marginTop="@dimen/x4"
                             android:layout_marginRight="@dimen/x5"
+                            android:layout_marginTop="@dimen/x4"
                             android:layout_toLeftOf="@+id/iv_call"
                             android:orientation="horizontal">
 
@@ -852,7 +841,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:id="@+id/discount_layout"
                 android:layout_width="match_parent"
@@ -929,6 +917,7 @@
                 android:layout_toRightOf="@+id/tv_price_left"
                 android:textColor="@color/color_6"
                 android:textSize="11sp"
+                android:layout_marginBottom="@dimen/x4"
                 tools:text="门市价：￥100元" />
         </RelativeLayout>
 

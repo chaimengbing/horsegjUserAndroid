@@ -68,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="消费总额"
+            android:textStyle="bold"
             android:textColor="@color/color_3"
             android:textSize="17sp" />
 
@@ -78,6 +79,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/et_evaluation"
             android:text="¥"
+            android:textStyle="bold"
             android:textColor="@color/price_red"
             android:visibility="gone"
             android:textSize="17sp" />

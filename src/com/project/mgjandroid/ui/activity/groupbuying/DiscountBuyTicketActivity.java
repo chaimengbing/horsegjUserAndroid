@@ -215,7 +215,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                     tvConfirm.setEnabled(false);
                     rlLayout.setEnabled(false);
                 }
-                tvAmounActuallyPaid.setText(etEvalution.getText().toString().trim());
+                tvAmounActuallyPaid.setText("¥"+etEvalution.getText().toString().trim());
                 isCanSelect= false;
                 isVoucherChecked= false;
                 tvSelected.setText("");
@@ -296,8 +296,9 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 }
                 if(CheckUtils.isNoEmptyStr(etEvalution.getText().toString())){
                     double v1 = Double.parseDouble(etEvalution.getText().toString());
-                    if(v>=v1){
-                        toast("优惠金额不能大于消费总额");
+                    if(v>v1){
+                        toast("不参与" +
+                                "优惠金额不能大于消费总额");
                         canIn = false;
                     }else {
                         canIn = true;

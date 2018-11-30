@@ -87,7 +87,7 @@
                             android:includeFontPadding="false"
                             android:singleLine="true"
                             android:textColor="@color/color_3"
-                            android:textSize="16sp"
+                            android:textSize="22sp"
                             android:textStyle="bold"
                             tools:text="川湘小炒" />
 
@@ -126,10 +126,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
                             android:layout_below="@+id/tv_merchant_name"
                             android:layout_marginTop="@dimen/x4"
-                            android:textColor="@color/color_6"
-                            android:textSize="12sp"
+                            android:textColor="@color/color_9"
+                            android:textSize="11sp"
                             android:visibility="gone"
                             tools:text="营业时间: 11:00-14:00  17:00-21:00" />
 
@@ -139,8 +140,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/layout"
                             android:layout_marginTop="@dimen/x8"
-                            android:textColor="@color/color_6"
-                            android:textSize="12sp"
+                            android:textColor="@color/color_9"
+                            android:textSize="11sp"
                             android:visibility="gone"
                             tools:text="营业时间: 11:00-14:00  17:00-21:00" />
 
@@ -204,6 +205,7 @@
                         android:id="@+id/recycler_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x10"
                         android:scrollbars="none" />
 
                 </LinearLayout>
@@ -256,13 +258,6 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="1px"
-                        android:layout_height="@dimen/x40"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x24"
-                        android:background="@color/color_e5" />
-
                     <ImageView
                         android:id="@+id/iv_call"
                         android:layout_width="@dimen/x65"
@@ -313,6 +308,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="在线支付"
+                        android:textStyle="bold"
                         android:textColor="@color/color_3"
                         android:textSize="17sp" />
                 </LinearLayout>
@@ -371,6 +367,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="代金券"
+                        android:textStyle="bold"
                         android:textColor="@color/color_3"
                         android:textSize="17sp" />
                 </LinearLayout>
@@ -404,6 +401,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="团购套餐"
+                        android:textStyle="bold"
                         android:textColor="@color/color_3"
                         android:textSize="17sp" />
                 </LinearLayout>
@@ -565,10 +563,10 @@
                     android:layout_height="@dimen/x45"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/x15"
-                    android:paddingRight="@dimen/x20">
+                    android:paddingRight="@dimen/x20"
+                    android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/tv_evaluate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -578,10 +576,12 @@
                         android:text="商家评价" />
 
                     <TextView
+                        android:id="@+id/tv_evaluate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:background="@drawable/right_arrow_gray"
+                        android:drawableRight="@drawable/right_arrow_gray"
+                        android:drawablePadding="@dimen/x5"
                         android:gravity="center_vertical"
                         android:textColor="@color/color_6"
                         android:textSize="11sp"

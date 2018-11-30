@@ -467,10 +467,13 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
 
     private void showPreviewOrder(ConfirmGroupOrModel confirmGroupOrModel) {
         if (redBag != null) {
+            tvRedBag.setTextColor(getResources().getColor(R.color.price_red));
             tvRedBag.setText("-¥" + StringUtils.BigDecimal2Str(redBag.getAmt()));
         } else {
+            tvRedBag.setTextColor(getResources().getColor(R.color.color_8));
             tvRedBag.setText("无可用红包");
             if (confirmGroupOrModel.getPlatformRedBagCount() > 0) {
+                tvRedBag.setTextColor(getResources().getColor(R.color.price_red));
                 tvRedBag.setText("有" + confirmGroupOrModel.getPlatformRedBagCount() + "个可用红包");
             }
         }
