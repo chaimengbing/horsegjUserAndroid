@@ -24,6 +24,7 @@ import com.project.mgjandroid.ui.activity.legwork.LegworkFeedbackActivity;
 import com.project.mgjandroid.ui.activity.legwork.LegworkWriteOrderActivity;
 import com.project.mgjandroid.ui.adapter.LegworkTabAdapter;
 import com.project.mgjandroid.ui.view.KeyboardStatusDetector;
+import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.MyBanner;
 import com.project.mgjandroid.ui.view.scrollloopviewpager.widget.OnBannerItemClickListener;
 import com.project.mgjandroid.utils.CommonUtils;
@@ -66,12 +67,14 @@ public class LegworkBuyFragment extends BaseFragment implements View.OnClickList
     private String serviceIntroduceUrl;
     private List<LegworkEntityModel.ValueBean.LegWorkBannersBean> legWorkBanners;
     private boolean business = false;
+    private MLoadingDialog mMLoadingDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_legwork_buy, container, false);
         InjectorFragment.get(this).inject(view);
+        mMLoadingDialog = new MLoadingDialog();
         agentId = PreferenceUtils.getLongPreference("issueAgentId", -1, mActivity);
         initData();
         inListener();
@@ -120,6 +123,7 @@ public class LegworkBuyFragment extends BaseFragment implements View.OnClickList
 
 
     private void initData() {
+        mMLoadingDialog.show(mActivity.getFragmentManager(), "");
         VolleyOperater<LegworkEntityModel> operater = new VolleyOperater<>(mActivity);
         HashMap<String, Object> map = new HashMap<>();
         map.put("agentId", agentId);
@@ -127,6 +131,7 @@ public class LegworkBuyFragment extends BaseFragment implements View.OnClickList
         operater.doRequest(Constants.URL_GET_LEGWORK_DATA, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
+                mMLoadingDialog.dismiss();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
                         ToastUtils.displayMsg(obj.toString(), getActivity());

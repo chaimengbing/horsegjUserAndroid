@@ -5,7 +5,7 @@
     android:id="@+id/group_buying_item_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/x10">
+    android:paddingBottom="@dimen/x20">
 
 
 
@@ -41,7 +41,6 @@
         android:layout_toRightOf="@+id/img"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textStyle="bold"
         android:textColor="@color/color_3"
         android:textSize="17sp"
         tools:text="秘制龙虾饭双人套餐" />

@@ -29,6 +29,7 @@ import com.project.mgjandroid.model.groupbuying.GroupPurchaseMerchantServiceMode
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.activity.BaseActivity;
 import com.project.mgjandroid.ui.adapter.HomeSortAdapter;
+import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.RangeSeekbar;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
@@ -96,6 +97,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
     private GroupBuyingMerchantServiceMenuAdapter serviceAdapter, activityAdapter;
     private ArrayList<GroupPurchaseMerchantService> services;
     private View emptyView;
+    private MLoadingDialog mMLoadingDialog;
 
     public static void toGroupBuyingCategoryActivity(Context context, String categoryName, Long groupCategoryId, Long childCategoryId) {
         Intent intent = new Intent(context, GroupBuyingCategoryActivity.class);
@@ -123,6 +125,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
     }
 
     private void initView() {
+        mMLoadingDialog = new MLoadingDialog();
         ivBack.setOnClickListener(this);
         layoutMenu1.setOnClickListener(this);
         layoutMenu2.setOnClickListener(this);
@@ -286,6 +289,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
     }
 
     private void getData(final boolean isLoadMore) {
+        mMLoadingDialog.show(getFragmentManager(),"");
         Map<String, Object> map = new HashMap<>();
         map.put("start", start);
         map.put("size", maxResults);
@@ -334,6 +338,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
         operater.doRequest(Constants.URL_GROUP_SEARCH, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
+                mMLoadingDialog.dismiss();
                 listView.onRefreshComplete();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {

@@ -96,7 +96,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_merchant_name"
-                            android:layout_marginTop="@dimen/x4"
+                            android:layout_marginTop="@dimen/x6"
                             android:gravity="center_vertical">
 
                             <RatingBar
@@ -131,7 +131,6 @@
                             android:layout_marginTop="@dimen/x4"
                             android:textColor="@color/color_9"
                             android:textSize="11sp"
-                            android:visibility="gone"
                             tools:text="营业时间: 11:00-14:00  17:00-21:00" />
 
                         <TextView
@@ -230,24 +229,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x13"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:paddingBottom="@dimen/x20"
+                        android:orientation="vertical">
 
 
                         <TextView
                             android:id="@+id/tv_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:lineSpacingExtra="@dimen/x8"
                             android:maxLines="2"
                             android:textColor="@color/color_3"
                             android:textSize="14sp"
                             tools:text="大钟寺中坤广场盈都大厦C座" />
-                        <View
-                            android:layout_width="2px"
-                            android:layout_height="@dimen/x13"
-                            android:layout_marginLeft="@dimen/x10"
-                            android:layout_marginRight="@dimen/x10"
-                            android:background="@color/color_e" />
 
                         <TextView
                             android:id="@+id/tv_distance"
@@ -560,11 +553,13 @@
                 <RelativeLayout
                     android:id="@+id/rl_evaluate"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x45"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:paddingTop="@dimen/x20"
+                    android:paddingBottom="@dimen/x10"
                     android:paddingLeft="@dimen/x15"
                     android:paddingRight="@dimen/x20"
-                    android:visibility="gone">
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -584,8 +579,7 @@
                         android:drawablePadding="@dimen/x5"
                         android:gravity="center_vertical"
                         android:textColor="@color/color_6"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+                        android:textSize="11sp" />
                 </RelativeLayout>
 
                 <View
@@ -678,7 +672,6 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/x50"
                >
 
                 <View

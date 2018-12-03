@@ -134,6 +134,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
         }
         tvDiscount.setText(discount + "折");
 //        loadingDialog = new MLoadingDialog();
+        etEvalution.clearFocus();
         etEvalution.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {

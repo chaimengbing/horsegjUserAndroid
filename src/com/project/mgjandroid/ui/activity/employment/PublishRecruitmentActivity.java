@@ -52,6 +52,7 @@ import com.project.mgjandroid.ui.activity.information.ChoosePublishAreaActivity;
 import com.project.mgjandroid.ui.activity.information.InformationCategoryChooseActivity;
 import com.project.mgjandroid.ui.activity.information.MyPublishInformationActivity;
 import com.project.mgjandroid.ui.activity.information.PayActivity;
+import com.project.mgjandroid.ui.view.LoadingDialog;
 import com.project.mgjandroid.ui.view.NoScrollGridView;
 import com.project.mgjandroid.ui.view.materialdialog.MaterialDialog;
 import com.project.mgjandroid.utils.BitmapUtil;

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -54,6 +55,7 @@ import com.project.mgjandroid.ui.activity.secondhand.PublishSecondHandInfoActivi
 import com.project.mgjandroid.ui.activity.secondhand.SecondHandFragment;
 import com.project.mgjandroid.ui.activity.waste.PublishRecyclingInformationActivity;
 import com.project.mgjandroid.ui.activity.waste.WasteRecoveryFragment;
+import com.project.mgjandroid.ui.view.LoadingDialog;
 import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.PreferenceUtils;
 import com.project.mgjandroid.utils.inject.InjectView;
@@ -82,6 +84,7 @@ public class InformationActivity extends BaseActivity {
     private int type;
     private Fragment fragment;
     private int informationType;
+    private LoadingDialog loadingDialog;
 
     public static void toInformationList(Context context, long categoryId, String categoryName, int informationType) {
         Intent intent = new Intent(context, InformationActivity.class);
@@ -108,6 +111,7 @@ public class InformationActivity extends BaseActivity {
             informationType = intent.getIntExtra("informationType", InformationType.Position.getValue());
         }
         initView();
+
         initData();
     }
 
@@ -269,6 +273,7 @@ public class InformationActivity extends BaseActivity {
         } else {
             tvCity.setText("切换城市");
         }
+
     }
 
     @Override

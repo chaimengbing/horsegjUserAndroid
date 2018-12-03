@@ -493,6 +493,7 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
+                android:paddingBottom="@dimen/x20"
                 android:visibility="gone">
 
                 <View
@@ -734,7 +735,6 @@
                         android:singleLine="true"
                         android:textColor="@color/color_3"
                         android:textSize="17sp"
-                        android:textStyle="bold"
                         tools:text="川湘小炒" />
 
                     <RelativeLayout
@@ -829,30 +829,50 @@
                 android:layout_marginTop="@dimen/x10"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:visibility="gone">
+                >
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/color_e5" />
 
-                <TextView
-                    android:id="@+id/tv_evaluate"
+                <RelativeLayout
+                    android:id="@+id/rl_evaluate"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/x45"
-                    android:drawableRight="@drawable/right_arrow_gray"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/x20"
+                    android:paddingTop="@dimen/x20"
+                    android:paddingBottom="@dimen/x10"
+                    android:paddingLeft="@dimen/x15"
                     android:paddingRight="@dimen/x20"
-                    android:textColor="@color/color_3"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    tools:text="评价（8）" />
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_3"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:text="商家评价" />
+
+                    <TextView
+                        android:id="@+id/tv_evaluate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:drawableRight="@drawable/right_arrow_gray"
+                        android:drawablePadding="@dimen/x5"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_6"
+                        android:textSize="11sp" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/color_e5" />
+
 
                 <com.project.mgjandroid.ui.view.NoScrollListView
                     android:id="@+id/evaluation_list"

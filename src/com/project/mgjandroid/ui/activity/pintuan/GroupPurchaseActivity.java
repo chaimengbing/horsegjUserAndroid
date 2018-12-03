@@ -77,6 +77,7 @@ public class GroupPurchaseActivity extends BaseActivity implements AdapterView.O
     }
 
     private void getData(final boolean isLoadMore) {
+        mMLoadingDialog.show(getFragmentManager(), "");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("start", start);
         map.put("size", maxResults);
@@ -91,6 +92,7 @@ public class GroupPurchaseActivity extends BaseActivity implements AdapterView.O
         operater.doRequest(Constants.URL_FIND_GROUP_LIST, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
+                mMLoadingDialog.dismiss();
                 plvPintuan.onRefreshComplete();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {

@@ -291,7 +291,9 @@ public class GroupBuyingOrderForGoodsDetailsActivity extends BaseActivity implem
             tvMerchantName.setText(merchant.getName());
             tvVoucherName.setText(StringUtils.BigDecimal2Str(order.getOriginalPrice()) + "元  代金券");
             tvVoucherPrice.setText("¥" + StringUtils.BigDecimal2Str(order.getTotalPrice()));
+            layoutGroupPurchaseFood.setVisibility(View.GONE);
         } else {
+            layoutGroupPurchaseFood.setVisibility(View.VISIBLE);
             layoutVoucherDetails.setVisibility(View.GONE);
             layoutGrouponDetails.setVisibility(View.VISIBLE);
             tvFoodName.setText(purchaseCoupon.getGroupPurchaseName());

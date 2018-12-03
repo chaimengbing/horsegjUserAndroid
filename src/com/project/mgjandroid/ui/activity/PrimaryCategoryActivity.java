@@ -32,6 +32,7 @@ import com.project.mgjandroid.ui.adapter.HomeSortAdapter;
 import com.project.mgjandroid.ui.adapter.LeftMenuPopChildAdapter;
 import com.project.mgjandroid.ui.adapter.LeftMenuPopGroupAdapter;
 import com.project.mgjandroid.ui.view.FlowLayout;
+import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.SegmentedGroup;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
 import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
@@ -113,6 +114,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
     private View listEmptyView;
     private String substring;
     private long agentId;
+    private MLoadingDialog mMLoadingDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -125,6 +127,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
     }
 
     private void initView() {
+        mMLoadingDialog = new MLoadingDialog();
         tagCategoryId = getIntent().getLongExtra("tagCategoryId", 0);
         tagCategorySecondId = getIntent().getLongExtra("tagCategorySecondId", -1);
         tagCategoryType = getIntent().getIntExtra("tagCategoryType", 1);
@@ -929,6 +932,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
      * 获取商家分类
      */
     private void getCategory() {
+        mMLoadingDialog.show(getFragmentManager(),"");
         VolleyOperater<FindCategoryModel> operater = new VolleyOperater<FindCategoryModel>(mActivity);
         Map<String, Object> map = new HashMap<>();
         map.put("tagCategoryType", tagCategoryType);
@@ -943,6 +947,7 @@ public class PrimaryCategoryActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
+                mMLoadingDialog.dismiss();
                 if (isSucceed) {
                     leftPopMenuGroup = ((FindCategoryModel) obj).getValue();
                     for (int i = 0; i < leftPopMenuGroup.size(); i++) {

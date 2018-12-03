@@ -83,6 +83,7 @@ public class InvitingModeFragment extends BaseFragment implements View.OnClickLi
         operater.doRequest(Constants.URL_FIND_INVITER_CODE_URL, null, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
+                loadingDialog.dismiss();
                 if (isSucceed && obj != null) {
                     if (obj instanceof String) {
                         ToastUtils.displayMsg(obj.toString(), mActivity);
@@ -114,7 +115,6 @@ public class InvitingModeFragment extends BaseFragment implements View.OnClickLi
                     } else {
                         Glide.with(mActivity).load(byteArray.get(model.getCode())).into(picCode);
                     }
-                    loadingDialog.dismiss();
                 }
             }
         }, InvitingModeModel.class);

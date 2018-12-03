@@ -286,7 +286,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
                 groupBuyingImageRecyclerAdapter.setList(Arrays.asList(imageUrl));
             }
         }else {
-            tvSold.setVisibility(View.VISIBLE);
+            tvSold1.setVisibility(View.VISIBLE);
         }
         tvMerchantName.setText(merchant.getName());
         tvCouponName.setText(groupPurchaseCoupon.getGroupPurchaseName());
@@ -437,7 +437,7 @@ public class GroupBuyingQuanOrTuanDetailActivity extends BaseActivity {
             }
         }
         if (merchant.getMerchantCommentNum() != null && merchant.getMerchantCommentNum() > 0) {
-            tvEvaluation.setText("评价（" + merchant.getMerchantCommentNum() + "）");
+            tvEvaluation.setText(merchant.getMerchantCommentNum() + "条评价");
             getEvaluation();
         }
     }
