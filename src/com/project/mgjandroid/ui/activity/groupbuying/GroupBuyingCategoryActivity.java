@@ -174,7 +174,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
                 } else if (leftMenuWindow.isShowing()) {
                     leftMenuWindow.dismiss();
                 } else {
-                    leftMenuWindow.showAsDropDown(menuBar, 0, 0);
+                    showAsDropDown(leftMenuWindow, menuBar, 0, 0);
                 }
                 if (midMenuWindow != null && midMenuWindow.isShowing()) {
                     midMenuWindow.dismiss();
@@ -191,7 +191,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
                 } else if (midMenuWindow.isShowing()) {
                     midMenuWindow.dismiss();
                 } else {
-                    midMenuWindow.showAsDropDown(menuBar, 0, 0);
+                    showAsDropDown(midMenuWindow, menuBar, 0, 0);
                 }
                 if (leftMenuWindow != null && leftMenuWindow.isShowing()) {
                     leftMenuWindow.dismiss();
@@ -207,7 +207,7 @@ public class GroupBuyingCategoryActivity extends BaseActivity {
                     if (rightMenuWindow.isShowing()) {
                         rightMenuWindow.dismiss();
                     } else {
-                        rightMenuWindow.showAsDropDown(menuBar, 0, 0);
+                        showAsDropDown(rightMenuWindow, menuBar, 0, 0);
                     }
                 } else if (CheckUtils.isEmptyList(services)) {
                     getMerchantServices(true);

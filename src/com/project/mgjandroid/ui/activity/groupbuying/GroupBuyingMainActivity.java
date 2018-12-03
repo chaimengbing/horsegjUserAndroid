@@ -253,7 +253,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                         getCategory(true);
                     }
                 } else {
-                    leftMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
+                    showAsDropDown(leftMenuWindow, groupMenuLayout, 0, 0);
                 }
                 break;
             case R.id.menu_layout_2:
@@ -263,7 +263,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                 if (midMenuWindow == null) {
                     showMidMenuPop();
                 } else {
-                    midMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
+                    showAsDropDown(midMenuWindow, groupMenuLayout, 0, 0);
                 }
                 break;
             case R.id.menu_layout_3:
@@ -274,7 +274,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
                     if (rightMenuWindow.isShowing()) {
                         rightMenuWindow.dismiss();
                     } else {
-                        rightMenuWindow.showAsDropDown(groupMenuLayout, 0, 0);
+                        showAsDropDown(rightMenuWindow, groupMenuLayout, 0, 0);
                     }
                 } else {
                     showRightMenuPop();

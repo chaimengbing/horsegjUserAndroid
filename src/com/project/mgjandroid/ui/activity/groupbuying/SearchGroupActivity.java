@@ -468,7 +468,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
                         getCategory(true);
                     }
                 } else {
-                    leftMenuWindow.showAsDropDown(groupBar, 0, 0);
+                    showAsDropDown(leftMenuWindow, groupBar, 0, 0);
                 }
                 break;
             case R.id.menu_layout_2:
@@ -477,7 +477,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
                 if (midMenuWindow == null) {
                     showMidMenuPop();
                 } else {
-                    midMenuWindow.showAsDropDown(groupBar, 0, 0);
+                    showAsDropDown(midMenuWindow, groupBar, 0, 0);
                 }
                 break;
             case R.id.menu_layout_3:
@@ -487,7 +487,7 @@ public class SearchGroupActivity extends BaseActivity implements TextView.OnEdit
                     if (rightMenuWindow.isShowing()) {
                         rightMenuWindow.dismiss();
                     } else {
-                        rightMenuWindow.showAsDropDown(groupBar, 0, 0);
+                        showAsDropDown(rightMenuWindow, groupBar, 0, 0);
                     }
                 } else {
                     showRightMenuPop();
