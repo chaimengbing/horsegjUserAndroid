@@ -709,8 +709,9 @@ public class OnlinePayActivity extends BaseActivity implements View.OnClickListe
                             ("¥" + price) : ("¥" + StringUtils.BigDecimal2Str(userBalance))));
                     creatPayContainer();
                     if(userBalance!=null){
-                        if(userBalance.compareTo(payWaysModel.getValue().getTotalPrice())>0){
+                        if(userBalance.compareTo(payWaysModel.getValue().getTotalPrice())>=0){
                             ivExtra.setChecked(!ivExtra.isChecked());
+                            selectPayExtra();
                         }else {
                             ivExtra.setChecked(!ivExtra.isChecked());
                             changeLabel(0);
