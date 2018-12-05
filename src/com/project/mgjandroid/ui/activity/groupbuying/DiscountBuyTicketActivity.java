@@ -298,8 +298,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 if(CheckUtils.isNoEmptyStr(etEvalution.getText().toString())){
                     double v1 = Double.parseDouble(etEvalution.getText().toString());
                     if(v>v1){
-                        toast("不参与" +
-                                "优惠金额不能大于消费总额");
+                        toast("不参与优惠金额不能大于消费总额");
                         canIn = false;
                     }else {
                         canIn = true;
@@ -365,7 +364,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 if(canIn){
                     submitOrder();
                 }else {
-                    toast("优惠金额不能大于消费总额");
+                    toast("不参与优惠金额不能大于消费总额");
                     return;
                 }
                 break;
