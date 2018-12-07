@@ -630,7 +630,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             rl_boxFee.setVisibility(View.VISIBLE);
             tv_boxFee.setText("¥" + boxPrice);
         }
-        if (valueEntity.getShippingFee() != null && valueEntity.getShippingFee().compareTo(BigDecimal.ZERO) != 0) {
+        if (valueEntity.getShippingFee() != null && valueEntity.getShippingFee().add(valueEntity.getShippingPreferentialFee()).compareTo(BigDecimal.ZERO) != 0) {
             rl_shipFee.setVisibility(View.VISIBLE);
         } else {
             rl_shipFee.setVisibility(View.GONE);
