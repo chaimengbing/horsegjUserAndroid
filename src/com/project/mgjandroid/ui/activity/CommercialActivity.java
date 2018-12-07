@@ -379,23 +379,37 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             sb.append(" | ").append(avgDeliveryTime).append("分钟送达");
         }
         SpannableStringBuilder infoValue = new SpannableStringBuilder();
-        String content = "起送价 ¥" + StringUtils.BigDecimal2Str(minPrice) + " | 配送费 ¥";
-        infoValue.append(content);
-        if (merchant.getMerchantAssumeAmt().compareTo(BigDecimal.ZERO) == 0) {
-            infoValue.append(StringUtils.BigDecimal2Str(shipFee));
+        infoValue.append("起送价 ¥" + StringUtils.BigDecimal2Str(minPrice));
+        if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 0) {
+            infoValue.append(" | 免配送费");
             infoValue.append(sb.toString());
         } else {
-            infoValue.append(StringUtils.BigDecimal2Str(shipFee.subtract(merchant.getMerchantAssumeAmt())) + " ");
-            String price = "¥" + StringUtils.BigDecimal2Str(merchant.getShipFee());
-            infoValue.append(price);
-            infoValue.append(sb.toString());
-            StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
-            infoValue.setSpan(strikethroughSpan, infoValue.toString().lastIndexOf(price), infoValue.toString().lastIndexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            infoValue.setSpan(colorSpan, infoValue.toString().lastIndexOf(price), infoValue.toString().lastIndexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+            if (merchant.getMerchantAssumeAmt().compareTo(BigDecimal.ZERO) == 0) {
+                infoValue.append(" | 配送费 ¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
+                infoValue.append(sb.toString());
+            } else if (merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt()).doubleValue() == 0) {
+                infoValue.append(" | 免配送费");
+                infoValue.append(sb.toString());
+            } else {
+                String content = " | 配送费 ¥";
+                infoValue.append(content);
+                if (merchant.getMerchantAssumeAmt().compareTo(BigDecimal.ZERO) == 0) {
+                    infoValue.append(StringUtils.BigDecimal2Str(shipFee));
+                    infoValue.append(sb.toString());
+                } else {
+                    infoValue.append(StringUtils.BigDecimal2Str(shipFee.subtract(merchant.getMerchantAssumeAmt())) + " ");
+                    String price = "¥" + StringUtils.BigDecimal2Str(merchant.getShipFee());
+                    infoValue.append(price);
+                    infoValue.append(sb.toString());
+                    StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
+                    ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
+                    infoValue.setSpan(strikethroughSpan, infoValue.toString().lastIndexOf(price), infoValue.toString().lastIndexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                    infoValue.setSpan(colorSpan, infoValue.toString().lastIndexOf(price), infoValue.toString().lastIndexOf(price) + price.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                }
+            }
         }
-
         tvShopDesc.setText(infoValue);
+
 
         String broadcast = merchant.getBroadcast();
         if (broadcast != null && !"".equals(broadcast)) {
@@ -518,7 +532,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         tvTitle.setText(merchant.getName());
         checkFullReduction(merchant);
         if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 1) {
-            tv_cart_shipping.setText("另需配送费¥" + StringUtils.BigDecimal2Str(merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt())));
+            String shipFee = StringUtils.BigDecimal2Str(merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt()));
+            tv_cart_shipping.setText("0".equals(shipFee) ? "" : "另需配送费¥");
             tv_cart_package.setTextSize(10);
         } else {
             tv_cart_shipping.setVisibility(View.GONE);

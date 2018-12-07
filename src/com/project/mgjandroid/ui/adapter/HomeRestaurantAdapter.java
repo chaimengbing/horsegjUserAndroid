@@ -128,7 +128,7 @@ public class HomeRestaurantAdapter extends BaseAdapter {
 
     static class ViewHolder {
         CornerImageView img;
-        ImageView imgActive, imgStatus, imgOffTime,brantImageView;
+        ImageView imgActive, imgStatus, imgOffTime, brantImageView;
         TextView tvName, tvSendPrice, tvScore, tvInSales, tvShippingFee, tvMianShippingFee, tvTips, tvActiveCount, tvTimeDistance, tvPickGoodsCount, tvShipFeeNew;
         RatingBar scoreBar;
         LinearLayout layoutImgs, layoutActive, layoutActiveHide;
@@ -219,13 +219,13 @@ public class HomeRestaurantAdapter extends BaseAdapter {
                 holder.tvTimeDistance.setText("起送价 ¥0");
             }
             if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 0) {
-//				holder.tvShippingFee.setVisibility(View.GONE);
-//				holder.tvMianShippingFee.setVisibility(View.VISIBLE);
                 holder.tvShipFeeNew.setText("免配送费");
             } else {
                 SpannableStringBuilder infoValue = new SpannableStringBuilder();
                 if (merchant.getMerchantAssumeAmt().compareTo(BigDecimal.ZERO) == 0) {
                     infoValue.append("配送费 ¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
+                } else if (merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt()).doubleValue() == 0) {
+                    infoValue.append("免配送费");
                 } else {
                     infoValue.append("配送费 ¥" + StringUtils.BigDecimal2Str(merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt())) + " ");
                     String price = "¥" + StringUtils.BigDecimal2Str(merchant.getShipFee());
@@ -238,44 +238,8 @@ public class HomeRestaurantAdapter extends BaseAdapter {
                 holder.tvShipFeeNew.setText(infoValue);
             }
             holder.tvShippingFee.setText(merchant.getAvgDeliveryTime() + "分钟");
-//			if (CheckUtils.isNoEmptyStr(merchant.getBroadcast())) {
-//				holder.tvTips.setVisibility(View.VISIBLE);
-//				holder.tvTips.setText(merchant.getBroadcast());
-//				holder.tvTimeDistance.setVisibility(View.GONE);
-//			} else {
             holder.tvTips.setVisibility(View.GONE);
             holder.tvTimeDistance.setVisibility(View.VISIBLE);
-//				StringBuffer buffer = new StringBuffer("");
-//				if(merchant.getAvgDeliveryTime()!=null&&merchant.getAvgDeliveryTime()!=0){
-//					buffer.append(merchant.getAvgDeliveryTime() + "分钟 / ");
-//				}
-//				if(merchant.getDistance()!=null){
-//					if (merchant.getDistance() > 1000) {
-//						Double d = merchant.getDistance() / 1000;
-//						buffer.append(df.format(d) + "千米");
-//					} else {
-//						buffer.append(merchant.getDistance().intValue() + "米");
-//					}
-//				}
-//				holder.tvTimeDistance.setText(buffer.toString());
-//			}
-//            if (CheckUtils.isNoEmptyStr(merchant.getPayments())) {
-//                String[] payments = merchant.getPayments().split(",");
-//                holder.layoutImgs.removeAllViews();
-//                holder.layoutImgs.setVisibility(View.VISIBLE);
-//                for (int i = 0; i < payments.length; i++) {
-//                    if (Integer.parseInt(payments[i]) == 1) {
-//                        ImageView icon = new ImageView(context);
-//                        int resId = chooseIcon(3);
-//                        icon.setBackgroundResource(resId);
-//                        LayoutParams params = new LayoutParams(DipToPx.dip2px(context, 11f), DipToPx.dip2px(context, 11f));
-//                        params.leftMargin = DipToPx.dip2px(context, 2);
-//                        holder.layoutImgs.addView(icon, params);
-//                    }
-//                }
-//            } else {
-//                holder.layoutImgs.setVisibility(View.GONE);
-//            }
             holder.tvActiveCount.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -302,32 +266,6 @@ public class HomeRestaurantAdapter extends BaseAdapter {
                     }
                 }
             });
-//			holder.layoutActive.setOnClickListener(new OnClickListener() {
-//				@Override
-//				public void onClick(View v) {
-//					if(holder.tvActiveCount.getVisibility() == View.VISIBLE){
-//						if (holder.layoutActiveHide.getVisibility() == View.VISIBLE) {
-//							holder.layoutActiveHide.setVisibility(View.GONE);
-//							AnimatorUtils.rotating(holder.imgActive, 180, 360);
-//						} else {
-//							holder.layoutActiveHide.setVisibility(View.VISIBLE);
-//							AnimatorUtils.rotating(holder.imgActive, 0, 180);
-//						}
-//					}
-//				}
-//			});
-//			holder.layoutActiveHide.setOnClickListener(new OnClickListener() {
-//				@Override
-//				public void onClick(View v) {
-//					if (holder.layoutActiveHide.getVisibility() == View.VISIBLE) {
-//						holder.layoutActiveHide.setVisibility(View.GONE);
-//						AnimatorUtils.rotating(holder.imgActive, 180, 360);
-//					} else {
-//						holder.layoutActiveHide.setVisibility(View.VISIBLE);
-//						AnimatorUtils.rotating(holder.imgActive, 0, 180);
-//					}
-//				}
-//			});
             if (CheckUtils.isNoEmptyList(merchant.getPromotionActivityList())) {
                 holder.promotionLine.setVisibility(View.VISIBLE);
                 if (merchant.getPromotionActivityList().size() > 2) {
