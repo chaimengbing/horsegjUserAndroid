@@ -533,7 +533,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         checkFullReduction(merchant);
         if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 1) {
             String shipFee = StringUtils.BigDecimal2Str(merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt()));
-            tv_cart_shipping.setText("0".equals(shipFee) ? "" : "另需配送费¥");
+            if ("0".equals(shipFee)) {
+                rlCartShipingAndBox.setVisibility(View.GONE);
+            }
+            tv_cart_shipping.setText("另需配送费¥" + shipFee);
             tv_cart_package.setTextSize(10);
         } else {
             tv_cart_shipping.setVisibility(View.GONE);

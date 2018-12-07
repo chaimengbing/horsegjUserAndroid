@@ -974,7 +974,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
                         BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
                         tvDiscount.setText(discount + "折  限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
-                    }else {
+                    } else {
                         tvLimit.setVisibility(View.GONE);
                         tvDiscount.setVisibility(View.VISIBLE);
                         BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
@@ -2256,14 +2256,14 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 } else {
                     tvOriPri.setVisibility(View.GONE);
                 }
-                if (goods.getHasDiscount() == 1 ) {
+                if (goods.getHasDiscount() == 1) {
                     if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                         tvLimit.setVisibility(View.GONE);
                         tvDiscount.setVisibility(View.VISIBLE);
                         BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
                         BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
                         tvDiscount.setText(discount + "折  限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
-                    }else {
+                    } else {
                         tvLimit.setVisibility(View.GONE);
                         tvDiscount.setVisibility(View.VISIBLE);
                         BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
@@ -3645,7 +3645,11 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
 
     public void setData(Merchant data) {
         if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 1) {
-            tv_cart_shipping.setText("另需配送费¥" + StringUtils.BigDecimal2Str(merchant.getShipFee()));
+            String shipFee = StringUtils.BigDecimal2Str(merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt()));
+            if ("0".equals(shipFee)) {
+                rlCartShipingAndBox.setVisibility(View.GONE);
+            }
+            tv_cart_shipping.setText("另需配送费¥" + shipFee);
             tv_cart_package.setTextSize(10);
         } else {
             tv_cart_shipping.setVisibility(View.GONE);
