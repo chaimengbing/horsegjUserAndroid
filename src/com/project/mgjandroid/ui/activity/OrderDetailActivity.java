@@ -768,6 +768,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 break;
 
             case R.id.red_package_show:
+                if (mRedDialog != null && mRedDialog.isShowing()) {
+                    mRedDialog.dismiss();
+                }
                 startActivity(new Intent(this, MyRedBagActivity.class));
                 break;
 

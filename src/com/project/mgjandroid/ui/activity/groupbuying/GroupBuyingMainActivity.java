@@ -531,6 +531,9 @@ public class GroupBuyingMainActivity extends BaseActivity {
                     ArrayList<GroupPurchasePrimaryCategory> categories = ((GroupPurchasePrimaryCategoryListModel) obj).getValue();
                     if (CheckUtils.isNoEmptyList(categories)) {
                         initNavigatorViewPager(categories);
+                    } else {
+                        getPublicity();
+                        getData(false);
                     }
                 }
             }
@@ -812,7 +815,7 @@ public class GroupBuyingMainActivity extends BaseActivity {
         }
 
         mPageAdapter.setViews(viewList);
-        if (primaryCategoryList.size() <= 8) {
+        if (primaryCategoryList.size() <= NUMBER_OF_NAVIGATOR) {
             navigatorIndicator.setVisibility(View.GONE);
         } else {
             navigatorIndicator.setVisibility(View.VISIBLE);
