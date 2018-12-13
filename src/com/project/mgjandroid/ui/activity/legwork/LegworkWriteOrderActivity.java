@@ -48,6 +48,7 @@ import com.project.mgjandroid.ui.adapter.BaseListAdapter;
 import com.project.mgjandroid.ui.adapter.ViewHolder;
 import com.project.mgjandroid.ui.view.CallPhoneDialog;
 import com.project.mgjandroid.ui.view.FlowLayout;
+import com.project.mgjandroid.utils.CheckUtils;
 import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.PreferenceUtils;
@@ -144,6 +145,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
     private LegworkServiceChargeModel.ValueBean serviceChargeModel;
     private Dialog mServiceaDialog;
     private CallPhoneDialog dialog;
+    private String shipperDetailedAddress;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -303,8 +305,8 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 }
                 break;
             case R.id.platform_redbag_layout:
-                if(userAddress == null){
-                    ToastUtils.displayMsg(R.string.plaese_select_address,mActivity);
+                if (userAddress == null) {
+                    ToastUtils.displayMsg(R.string.plaese_select_address, mActivity);
                     return;
                 }
                 if (isSpecifyAddress) {
@@ -367,6 +369,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 viewLine.setVisibility(View.VISIBLE);
                 BaiduGeocoderModel.ResultBean.PoisBean poiInfo = (BaiduGeocoderModel.ResultBean.PoisBean) data.getSerializableExtra("POI_INFO");
                 tvBuyAddress.setText(poiInfo.getAddr() + poiInfo.getName());
+                shipperDetailedAddress = poiInfo.getName();
                 tvBuyAddress.setTextColor(getResources().getColor(R.color.color_3));
                 etLegworkDesc.requestFocus();//收起键盘
                 longitude = "" + poiInfo.getPoint().getX();
@@ -376,6 +379,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                 viewLine.setVisibility(View.VISIBLE);
                 SuggestionResult.SuggestionInfo poiInfo = data.getParcelableExtra("POI_INFO");
                 tvBuyAddress.setText(poiInfo.city + poiInfo.district + poiInfo.key);
+                shipperDetailedAddress = poiInfo.key;
                 tvBuyAddress.setTextColor(getResources().getColor(R.color.color_3));
                 etLegworkDesc.requestFocus();
                 longitude = "" + poiInfo.pt.longitude;
@@ -443,6 +447,9 @@ public class LegworkWriteOrderActivity extends BaseActivity {
         VolleyOperater<LegworkOrderModel> operater = new VolleyOperater<>(mActivity);
         HashMap<String, Object> map = new HashMap<>();
         map.put("childType", 0); //0:代购，1:取送件
+        if (CheckUtils.isNoEmptyStr(shipperDetailedAddress)) {
+            map.put("shipperDetailedAddress", shipperDetailedAddress); //0:代购，1:取送件
+        }
         map.put("userAddressId", userAddress.getId()); //收货地址编号
         map.put("agentId", agentId);
         map.put("shipperType", isSpecifyAddress ? 2 : 1); // 1：代购时就近购买；2：代购时指定地址，0：取送件的用户地址
@@ -559,8 +566,8 @@ public class LegworkWriteOrderActivity extends BaseActivity {
             }
             map.put("shipperType", 1); //1：代购时就近购买；2：代购时指定地址，0：取送件的用户地址
         }
-        map.put("longitude",PreferenceUtils.getLocation(mActivity)[1]);
-        map.put("latitude",PreferenceUtils.getLocation(mActivity)[0]);
+        map.put("longitude", PreferenceUtils.getLocation(mActivity)[1]);
+        map.put("latitude", PreferenceUtils.getLocation(mActivity)[0]);
         operater.doRequest(Constants.URL_CALCULATE_SERVICE_CHARGE, map, new VolleyOperater.ResponseListener() {
             @Override
             public void onRsp(boolean isSucceed, Object obj) {
@@ -572,7 +579,7 @@ public class LegworkWriteOrderActivity extends BaseActivity {
                     LegworkServiceChargeModel model = (LegworkServiceChargeModel) obj;
                     serviceChargeModel = model.getValue();
 
-                    if(serviceChargeModel.getUserAddress()!=null){
+                    if (serviceChargeModel.getUserAddress() != null) {
                         tvDeliverAddress.setText(serviceChargeModel.getUserAddress().getAddress());
                         tvDeliverAddress.setTextColor(getResources().getColor(R.color.color_3));
                         tvDeliverName.setVisibility(View.VISIBLE);
@@ -603,7 +610,6 @@ public class LegworkWriteOrderActivity extends BaseActivity {
             }
         }, LegworkServiceChargeModel.class);
     }
-
 
 
     private void addTab(final List<LegworkEntityModel.ValueBean.LegWorkGoodsCategoryListBean> legWorkGoodsCategoryList) {
