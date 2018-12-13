@@ -336,7 +336,8 @@ public class HomeRestaurantAdapter extends BaseAdapter {
             TextView tv = new TextView(context);
             LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             params.leftMargin = DipToPx.dip2px(context, 4);
-            tv.setText(promotion.getPromoName());
+            String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
+            tv.setText(promotion.getPromoName() + limit);
             tv.setSingleLine();
             tv.setEllipsize(TextUtils.TruncateAt.END);
             tv.setTextColor(context.getResources().getColor(R.color.color_9));

@@ -376,7 +376,8 @@ public class SearchListAdapter extends BaseListAdapter<Merchant> {
             TextView tv = new TextView(mActivity);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.leftMargin = DipToPx.dip2px(mActivity, 4);
-            tv.setText(promotion.getPromoName());
+            String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
+            tv.setText(promotion.getPromoName() + limit);
             tv.setSingleLine();
             tv.setEllipsize(TextUtils.TruncateAt.END);
             tv.setTextColor(mActivity.getResources().getColor(R.color.color_9));

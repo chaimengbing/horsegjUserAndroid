@@ -810,6 +810,8 @@ public class HomeActivity extends BaseActivity implements OnClickListener, OnPag
 
     /**
      * 获取新版首页
+     * http://120.24.16.64/merchant/userClient?m=findMerchantShopAgent
+     * com.project.mgjandroid.net.volley.ParseError: com.alibaba.fastjson.JSONException: syntax error, expect {, actual error
      */
     public void getNewHomePage() {
         Log.i("HomeAvtivity", "getNewHomePage::");

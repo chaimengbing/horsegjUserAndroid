@@ -49,6 +49,7 @@ import com.github.mzule.activityrouter.annotation.Router;
 import com.google.gson.JsonArray;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
+import com.project.mgjandroid.bean.PromotionActivity;
 import com.project.mgjandroid.bean.RedBag;
 import com.project.mgjandroid.constants.ActRequestCode;
 import com.project.mgjandroid.constants.Constants;
@@ -1620,7 +1621,9 @@ public class OrderDetailActivity extends BaseActivity implements OnClickListener
                 TextView tvLimit = (TextView) view1.findViewById(R.id.order_detail_commercial_campaign_limit);
                 TextView tvAmount = (TextView) view1.findViewById(R.id.order_detail_commercial_meal_campaign_amount);
                 ImageUtils.loadBitmap(mActivity, submitOrderEntity.getPromoList().get(i).getPromoImg(), ivIcon, R.drawable.jian, "");
-                tvLimit.setText(submitOrderEntity.getPromoList().get(i).getRule());
+                PromotionActivity promotion = submitOrderEntity.getPromoList().get(i);
+                String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
+                tvLimit.setText(promotion.getRule() + limit);
                 if (submitOrderEntity.getPromoList().get(i).getDiscountAmt() != null) {
                     if (submitOrderEntity.getPromoList().get(i).getType() == 0) {
                         tvAmount.setText("- ¥" + submitOrderEntity.getPromoList().get(i).getDiscountAmt());

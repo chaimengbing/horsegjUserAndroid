@@ -11,23 +11,23 @@ public class PromotionActivity implements Serializable {
 
     /**
      * "activityId": 14,
-     "promotionId": 3,
-     "agentId": 3,
-     "promoName": "满减优惠",
-     "promoType": 1,
-     "rule": "满60减20",
-     "discountAmt": 20,
-     "promoTip": "",
-     "promoImg": "http://7xu5hi.com1.z0.glb.clouddn.com/1611021611432865318.png",
-     "type": 0,
-     "presentGoodsName": null,
-     "activityType": 2,
-     "merchantBearAmt": 0,
-     "agentBearAmt": 20,
-     "startTime": null,
-     "endTime": null,
-     "promoValue": "-￥20",
-     "ruleDtoList": []
+     * "promotionId": 3,
+     * "agentId": 3,
+     * "promoName": "满减优惠",
+     * "promoType": 1,
+     * "rule": "满60减20",
+     * "discountAmt": 20,
+     * "promoTip": "",
+     * "promoImg": "http://7xu5hi.com1.z0.glb.clouddn.com/1611021611432865318.png",
+     * "type": 0,
+     * "presentGoodsName": null,
+     * "activityType": 2,
+     * "merchantBearAmt": 0,
+     * "agentBearAmt": 20,
+     * "startTime": null,
+     * "endTime": null,
+     * "promoValue": "-￥20",
+     * "ruleDtoList": []
      */
 
     private Long activityId;
@@ -35,6 +35,7 @@ public class PromotionActivity implements Serializable {
     private Long promotionId;
 
     private Long agentId;
+    private Integer userLimit;
 
     private String promoName;
 
@@ -189,5 +190,13 @@ public class PromotionActivity implements Serializable {
 
     public void setRuleDtoList(List<FullSub> ruleDtoList) {
         this.ruleDtoList = ruleDtoList;
+    }
+
+    public Integer getUserLimit() {
+        return userLimit;
+    }
+
+    public void setUserLimit(Integer userLimit) {
+        this.userLimit = userLimit;
     }
 }

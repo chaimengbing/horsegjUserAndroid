@@ -718,14 +718,16 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             }
             if (!CheckUtils.isEmptyList(merchant.getPromotionActivityList())) {
                 for (int i = 0; i < merchant.getPromotionActivityList().size(); i++) {
-                    if (merchant.getPromotionActivityList().get(i).getRuleDtoList() != null && merchant.getPromotionActivityList().get(i).getRuleDtoList().size() > 0) {
-                        String promoName = merchant.getPromotionActivityList().get(i).getPromoName();
+                    PromotionActivity promotion = merchant.getPromotionActivityList().get(i);
+                    if (promotion.getRuleDtoList() != null && promotion.getRuleDtoList().size() > 0) {
+                        String promoName = promotion.getPromoName();
                         if (promoName.startsWith("在线支付")) {
                             str = promoName.substring(4);
                         } else {
                             str = promoName;
                         }
-                        tvFullSubtract.setText(str);
+                        String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
+                        tvFullSubtract.setText(str + limit);
                         tvFullSubtract.setVisibility(View.VISIBLE);
                         overlay.setVisibility(View.GONE);
                         llFullSubtract.setVisibility(View.GONE);

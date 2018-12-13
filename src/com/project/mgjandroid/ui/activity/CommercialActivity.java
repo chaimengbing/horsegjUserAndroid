@@ -520,7 +520,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             }
             tv.setTextColor(this.getResources().getColor(R.color.white));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x11));
-            tv.setText(promotion.getPromoName());
+            String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
+            tv.setText(promotion.getPromoName() + limit);
             childLayout.addView(tv, params);
         }
         LinearLayout.LayoutParams paramsChild = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -875,14 +876,16 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             }
             if (!CheckUtils.isEmptyList(merchant.getPromotionActivityList())) {
                 for (int i = 0; i < merchant.getPromotionActivityList().size(); i++) {
-                    if (merchant.getPromotionActivityList().get(i).getRuleDtoList() != null && merchant.getPromotionActivityList().get(i).getRuleDtoList().size() > 0) {
-                        String promoName = merchant.getPromotionActivityList().get(i).getPromoName();
+                    PromotionActivity promotion = merchant.getPromotionActivityList().get(i);
+                    if (promotion.getRuleDtoList() != null && promotion.getRuleDtoList().size() > 0) {
+                        String promoName = promotion.getPromoName();
                         if (promoName.startsWith("在线支付")) {
                             str = promoName.substring(4);
                         } else {
                             str = promoName;
                         }
-                        tvFullSubtract.setText(str);
+                        String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
+                        tvFullSubtract.setText(str + limit);
                         tvFullSubtract.setVisibility(View.VISIBLE);
                         overlay.setVisibility(View.GONE);
                         llFullSubtract.setVisibility(View.GONE);

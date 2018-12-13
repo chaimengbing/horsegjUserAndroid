@@ -235,7 +235,8 @@ public class MerchantsFragment extends HeaderViewPagerFragment implements View.O
             TextView tv = new TextView(mActivity);
             LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             params.leftMargin = DipToPx.dip2px(mActivity, 4);
-            tv.setText(promotion.getPromoName());
+            String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
+            tv.setText(promotion.getPromoName() + limit);
             tv.setTextColor(mActivity.getResources().getColor(R.color.color_3));
             tv.setTextSize(14);
             childLayout.addView(tv, params);
