@@ -176,6 +176,7 @@ public class GoodsCapacityAdapter extends BaseAdapter {
             holder.tvOriginPrice = (TextView) convertView.findViewById(R.id.goods_item_tv_original_price);
             holder.tvLimit = (TextView) convertView.findViewById(R.id.goods_item_tv_limit);
             holder.tvMin = (TextView) convertView.findViewById(R.id.goods_item_tv_min);
+            holder.tvDiscount = (TextView) convertView.findViewById(R.id.goods_item_tv_discount);
             holder.tvStock = (TextView) convertView.findViewById(R.id.goods_item_tv_stock);
             holder.imgAdd = (RelativeLayout) convertView.findViewById(R.id.goods_item_img_add);
             holder.tvBuyCount = (TextView) convertView.findViewById(R.id.goods_item_tv_buy_count);
@@ -216,7 +217,7 @@ public class GoodsCapacityAdapter extends BaseAdapter {
         TextView tvPrice;
         TextView tvOriginPrice;
         TextView tvStock;
-        TextView tvLimit, tvMin;
+        TextView tvLimit, tvMin,tvDiscount;
         TextView tvBuyCount, specCount;
         RelativeLayout imgMinus, imgAdd, specMinus;
         RelativeLayout rlHideBuyCount;
@@ -225,6 +226,10 @@ public class GoodsCapacityAdapter extends BaseAdapter {
     }
 
     private void showItem(int position, View convertView, final ItemViewHolder holder) {
+        holder.tvLimit.setVisibility(View.GONE);
+        holder.tvStock.setVisibility(View.GONE);
+        holder.tvMin.setVisibility(View.GONE);
+        holder.tvDiscount.setVisibility(View.GONE);
         if (CheckUtils.isNoEmptyList(goodsList) && goodsList.size() > position) {
             holder.divideLine.setVisibility(View.GONE);
             final Goods goods = goodsList.get(position);
@@ -407,9 +412,24 @@ public class GoodsCapacityAdapter extends BaseAdapter {
                 holder.tvPrice.setText(style);
                 holder.tvOriginPrice.setVisibility(View.GONE);
                 holder.tvStock.setVisibility(View.GONE);
-                holder.tvLimit.setVisibility(View.GONE);
                 holder.tvMin.setVisibility(View.GONE);
-
+                if (goods.getHasDiscount() == 1 ) {
+                    if(goods.getEveryGoodsEveryOrderBuyCount() > 0){
+                        holder.tvLimit.setVisibility(View.GONE);
+                        holder.tvDiscount.setVisibility(View.VISIBLE);
+                        BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
+                        BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+                        holder.tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    }else {
+                        holder.tvLimit.setVisibility(View.GONE);
+                        holder.tvDiscount.setVisibility(View.VISIBLE);
+                        BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
+                        BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+                        holder.tvDiscount.setText(discount+"折");
+                    }
+                } else {
+                    holder.tvLimit.setVisibility(View.GONE);
+                }
                 holder.specMinus.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -526,11 +546,26 @@ public class GoodsCapacityAdapter extends BaseAdapter {
                 } else {
                     holder.tvStock.setVisibility(View.GONE);
                 }
-                if (goodsSpec.getOrderLimit() != null && goodsSpec.getOrderLimit() > 0) {
-                    holder.tvLimit.setVisibility(View.VISIBLE);
-                    holder.tvLimit.setText("每单限购" + goodsSpec.getOrderLimit() + "份");
+                if (goods.getHasDiscount() == 1 ) {
+                    if(goods.getEveryGoodsEveryOrderBuyCount() > 0){
+                        holder.tvLimit.setVisibility(View.GONE);
+                        holder.tvDiscount.setVisibility(View.VISIBLE);
+                        BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
+                        BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+                        holder.tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    }else {
+                        holder.tvLimit.setVisibility(View.GONE);
+                        holder.tvDiscount.setVisibility(View.VISIBLE);
+                        BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
+                        BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+                        holder.tvDiscount.setText(discount+"折");
+                    }
                 } else {
                     holder.tvLimit.setVisibility(View.GONE);
+                }
+                if (goods.getHasDiscount() == 0 && goodsSpec.getOrderLimit() != null && goodsSpec.getOrderLimit() > 0) {
+                    holder.tvLimit.setVisibility(View.VISIBLE);
+                    holder.tvLimit.setText("每单限购" + goodsSpec.getOrderLimit() + "份");
                 }
                 if (goodsSpec.getMinOrderNum() != null && goodsSpec.getMinOrderNum() > 0) {
                     holder.tvMin.setVisibility(View.VISIBLE);

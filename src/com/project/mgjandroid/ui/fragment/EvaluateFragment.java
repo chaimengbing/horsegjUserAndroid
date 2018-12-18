@@ -170,7 +170,7 @@ public class EvaluateFragment extends HeaderViewPagerFragment implements OnClick
 
     public void setData(Merchant merchant) {
         tvNumber.setText(CommonUtils.BigDecimal2Str(merchant.getAverageScore()));
-        merchantScore.setRating(merchant.getMerchantScore().floatValue());
+        merchantScore.setRating(merchant.getAverageScore().floatValue());
         tvScoreTaste.setText(CommonUtils.BigDecimal2Str(merchant.getTasteScore()));
         tvScorePack.setText(CommonUtils.BigDecimal2Str(merchant.getPackagingScore()));
         tvScoreDis.setText(CommonUtils.BigDecimal2Str(merchant.getShipScore()));

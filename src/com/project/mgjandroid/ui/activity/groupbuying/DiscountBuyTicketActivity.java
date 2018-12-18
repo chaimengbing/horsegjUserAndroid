@@ -242,6 +242,7 @@ public class DiscountBuyTicketActivity extends BaseActivity {
                 }
 
 
+
                 if(editable.toString().trim().length()>0){
                     icMoney.setVisibility(View.VISIBLE);
                     if("0".equals(editable.toString().trim())){
