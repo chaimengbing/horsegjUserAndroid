@@ -49,6 +49,10 @@ public class DiscountedGoods extends Entity{
     private GoodsRestrictedPurchaseRuleBean goodsRestrictedPurchaseRule;
     private int totalSales;
     private int todaySales;
+    //每个用户限购数量
+    private Integer maxBuyNum;
+    //剩余限购数量
+    private Integer surplusBuyNum;
 
     public int getId() {
         return id;
@@ -208,6 +212,22 @@ public class DiscountedGoods extends Entity{
 
     public void setTodaySales(int todaySales) {
         this.todaySales = todaySales;
+    }
+
+    public Integer getMaxBuyNum() {
+        return maxBuyNum;
+    }
+
+    public void setMaxBuyNum(Integer maxBuyNum) {
+        this.maxBuyNum = maxBuyNum;
+    }
+
+    public Integer getSurplusBuyNum() {
+        return surplusBuyNum;
+    }
+
+    public void setSurplusBuyNum(Integer surplusBuyNum) {
+        this.surplusBuyNum = surplusBuyNum;
     }
 
     public static class GoodsCategoryBean extends Entity{

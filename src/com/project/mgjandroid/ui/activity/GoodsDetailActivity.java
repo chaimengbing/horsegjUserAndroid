@@ -46,6 +46,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.CouDanModel;
+import com.project.mgjandroid.bean.DiscountedGoods;
 import com.project.mgjandroid.bean.FullSub;
 import com.project.mgjandroid.bean.Goods;
 import com.project.mgjandroid.bean.GoodsDetailModel;
@@ -64,6 +65,7 @@ import com.project.mgjandroid.model.GoodsEvaluateModel;
 import com.project.mgjandroid.model.GoodsListModel;
 import com.project.mgjandroid.model.MerchantEvaluateTopModel;
 import com.project.mgjandroid.model.PickGoodsModel;
+import com.project.mgjandroid.model.SurPlusBuyNumModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.BottomCartListAdapter;
 import com.project.mgjandroid.ui.adapter.CouDanListAdapter;
@@ -2130,6 +2132,41 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
         }
     }
 
+
+    /**
+     * * merchantId商家id
+     * * goodsSpecId 商品规格id
+     *
+     * @param discountedGoods
+     */
+    private void getSurplusBuyNum(final DiscountedGoods discountedGoods, long goodsSpecId, final boolean isSetAnim) {
+        if (discountedGoods != null && discountedGoods.getMaxBuyNum() != null && discountedGoods.getMaxBuyNum() > 0) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("merchantId", goods.getMerchantId());
+            map.put("goodsSpecId", goodsSpecId);
+            VolleyOperater<SurPlusBuyNumModel> operater = new VolleyOperater<>(GoodsDetailActivity.this);
+            operater.doRequest(Constants.URL_GOODS_SPECID_BUYNUM, map, new VolleyOperater.ResponseListener() {
+
+                @Override
+                public void onRsp(boolean isSucceed, Object obj) {
+                    if (isSucceed && obj != null) {
+                        SurPlusBuyNumModel surPlusBuyNumModel = (SurPlusBuyNumModel) obj;
+                        if (surPlusBuyNumModel.getValue() != null) {
+                            SurPlusBuyNumModel.ValueEntity valueEntity = surPlusBuyNumModel.getValue();
+                            if (valueEntity.getBuyNum() != null) {
+                                discountedGoods.setSurplusBuyNum(valueEntity.getBuyNum());
+                            }
+                        }
+                        notifyCart(isSetAnim);
+                    } else {
+                        notifyCart(isSetAnim);
+                    }
+                }
+            }, SurPlusBuyNumModel.class);
+        }
+
+    }
+
     /**
      * 检查购物车是否空了
      */
@@ -2157,7 +2194,12 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                         if (pro.getGoods().getHasDiscount() == 1) {
                             int everyGoodsEveryOrderBuyCount = pro.getGoods().getEveryGoodsEveryOrderBuyCount();
                             int surplusDiscountStock = pro.getGoods().getSurplusDiscountStock();
-                            if (everyGoodsEveryOrderBuyCount >= surplusDiscountStock) {
+                            DiscountedGoods discountedGoods = pro.getGoods().getDiscountedGoods();
+                            if (discountedGoods != null && discountedGoods.getMaxBuyNum() != null && discountedGoods.getMaxBuyNum() > 0 && discountedGoods.getSurplusBuyNum() != null && pro.getPickCount() > discountedGoods.getSurplusBuyNum()) {
+                                multiply = goodsSpec.getPrice().multiply(new BigDecimal(discountedGoods.getSurplusBuyNum()));
+                                decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - discountedGoods.getSurplusBuyNum()));
+                                num = num.add(multiply.add(decimal));
+                            } else if (everyGoodsEveryOrderBuyCount >= surplusDiscountStock) {
                                 if (pro.getPickCount() >= surplusDiscountStock) {
                                     multiply = goodsSpec.getPrice().multiply(new BigDecimal(pro.getGoods().getSurplusDiscountStock()));
                                     decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pro.getPickCount() - surplusDiscountStock));
@@ -3188,12 +3230,10 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
     @Override
     public void productHasChange(Goods goods, long categoryId, long goodsId, long goodsSpecId, int pickCount, boolean isRemove, boolean isSetAnim) {
         PickGoodsModel.getInstance().setIsRemove(isRemove);
-        PickGoods changePickGoods = null;
         if (isRemove) {
             for (PickGoods pickGoods : mCartProducts) {
                 if (pickGoods.getGoodsId() == goodsId && pickGoods.getGoodsSpecId() == goodsSpecId) {
                     pickGoods.setPickCount(0);
-                    changePickGoods = pickGoods;
                     mCartProducts.remove(pickGoods);
                     break;
                 }
@@ -3217,7 +3257,6 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     pickGoods.setGoods(goods);
                     pickGoods.setPickCount(pickCount);
                     mCartProductsContain = true;
-                    changePickGoods = pickGoods;
                     break;
                 }
             }
@@ -3228,22 +3267,10 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 pickGoods.setGoodsId(goodsId);
                 pickGoods.setGoodsSpecId(goodsSpecId);
                 pickGoods.setMenuId(categoryId);
-                changePickGoods = pickGoods;
                 mCartProducts.add(pickGoods);
             }
         }
-        //刷新PopWindow
-        bottomAdapter.setData(mCartProducts);
-        if (mCartProducts.size() >= 4) {
-            bottomListView.setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.x60));
-        } else {
-            bottomListView.setPadding(0, 0, 0, 0);
-        }
-
-        if (!isSetAnim) {
-            setCart();
-        }
-        savePickGoodsInfo();
+        getSurplusBuyNum(goods.getDiscountedGoods(), goodsSpecId, isSetAnim);
         if (currentType == 1) {
             if (goodsSpec.getGoodsId() == goodsId && goodsSpec.getId() == goodsSpecId) {
                 tvBuyCount.setText(pickCount + "");
@@ -3276,15 +3303,28 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
         }
     }
 
+    private void notifyCart(boolean isSetAnim) {
+        //刷新PopWindow
+        bottomAdapter.setData(mCartProducts);
+        if (mCartProducts.size() >= 4) {
+            bottomListView.setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.x60));
+        } else {
+            bottomListView.setPadding(0, 0, 0, 0);
+        }
+
+        if (!isSetAnim) {
+            setCart();
+        }
+        savePickGoodsInfo();
+    }
+
     @Override
     public void newProductHasChange(Goods goods, long categoryId, long goodsId, long goodsSpecId, int pickCount, boolean isRemove, boolean isSetAnim, String goodsName) {
-        PickGoods changePickGoods = null;
         if (isRemove) {
             for (PickGoods pickGoods : mCartProducts) {
                 if (pickGoods.getGoodsId() == goodsId && pickGoods.getGoodsSpecId() == goodsSpecId && pickGoods.getGoodsName().equals(goodsName)) {
                     pickGoods.setPickCount(0);
                     pickGoods.setGoodsName(goodsName);
-                    changePickGoods = pickGoods;
                     mCartProducts.remove(pickGoods);
                     break;
                 }
@@ -3300,7 +3340,6 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                             pickGoods.setGoods(goods);
                             pickGoods.setPickCount(pickCount);
                             mCartProductsContain = true;
-                            changePickGoods = pickGoods;
                         }
                     }
                 }
@@ -3314,21 +3353,10 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                 pickGoods.setGoodsSpecId(goodsSpecId);
                 pickGoods.setMenuId(categoryId);
                 pickGoods.setGoodsName(goodsName);
-                changePickGoods = pickGoods;
                 mCartProducts.add(pickGoods);
             }
         }
-        //刷新PopWindow
-        bottomAdapter.setData(mCartProducts);
-        if (mCartProducts.size() >= 4) {
-            bottomListView.setPadding(0, 0, 0, (int) getResources().getDimension(R.dimen.x60));
-        } else {
-            bottomListView.setPadding(0, 0, 0, 0);
-        }
-        if (!isSetAnim) {
-            setCart();
-        }
-        savePickGoodsInfo();
+        getSurplusBuyNum(goods.getDiscountedGoods(), goodsSpecId, isSetAnim);
         if (currentType == 1) {
             if (goodsSpec.getGoodsId() == goodsId && goodsSpec.getId() == goodsSpecId) {
                 tvBuyCount.setText(pickCount + "");

@@ -43,6 +43,10 @@ public class Constants {
     public static final String URL_SHOW_MERCHANT_TAKE_AWAY_MENU = URL_HOME_MAIN + "showMerchantTakeAwayMenu";
     //商铺页面获取商品列表(大容量方案)
     public static final String URL_SHOW_MERCHANT_TAKE_AWAY_CATEGORY = URL_HOME_MAIN + "showMerchantTakeAwayCategory2";
+    /**
+     * 获取优惠商品每个用户限购个数
+     */
+    public static final String URL_GOODS_SPECID_BUYNUM = URL_HOME_MAIN + "findGoodsSpecIdBuyNum";
     //商铺页面加载分页商品列表(大容量方案)
     public static final String URL_TAKE_AWAY_CATEGORY_MORE = URL_HOME_MAIN + "showMerchantTakeAwayFindByCategoryId2";
 

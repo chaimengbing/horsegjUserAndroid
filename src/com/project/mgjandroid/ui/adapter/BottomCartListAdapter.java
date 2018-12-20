@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.DiscountedGoods;
 import com.project.mgjandroid.bean.GoodsSpec;
 import com.project.mgjandroid.bean.PickGoods;
 import com.project.mgjandroid.model.PickGoodsModel;
@@ -100,35 +101,40 @@ public class BottomCartListAdapter extends BaseAdapter {
         if (product.getGoods().getHasDiscount() == 1) {
             int everyGoodsEveryOrderBuyCount = product.getGoods().getEveryGoodsEveryOrderBuyCount();
             int surplusDiscountStock = product.getGoods().getSurplusDiscountStock();
-            if (everyGoodsEveryOrderBuyCount >= surplusDiscountStock) {
+            DiscountedGoods discountedGoods = product.getGoods().getDiscountedGoods();
+            if (discountedGoods != null && discountedGoods.getMaxBuyNum() != null && discountedGoods.getMaxBuyNum() > 0 && discountedGoods.getSurplusBuyNum() != null && pickCount > discountedGoods.getSurplusBuyNum()) {
+                multiply = goodsSpec.getPrice().multiply(new BigDecimal(discountedGoods.getSurplusBuyNum()));
+                decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - discountedGoods.getSurplusBuyNum()));
+                holder.tv_price.setText("" + multiply.add(decimal));
+            } else if (everyGoodsEveryOrderBuyCount >= surplusDiscountStock) {
                 if (pickCount >= surplusDiscountStock) {
                     multiply = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
                     decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - surplusDiscountStock));
-                    holder.tv_price.setText(""+multiply.add(decimal));
+                    holder.tv_price.setText("" + multiply.add(decimal));
                 } else {
                     multiply = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
-                    holder.tv_price.setText(""+multiply);
+                    holder.tv_price.setText("" + multiply);
                 }
             } else {
                 if (pickCount >= everyGoodsEveryOrderBuyCount) {
-                    if(everyGoodsEveryOrderBuyCount>0){
+                    if (everyGoodsEveryOrderBuyCount > 0) {
                         multiply = goodsSpec.getPrice().multiply(new BigDecimal(everyGoodsEveryOrderBuyCount));
                         decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - everyGoodsEveryOrderBuyCount));
-                        holder.tv_price.setText(""+multiply.add(decimal));
-                    }else {
-                        if(pickCount>=surplusDiscountStock){
+                        holder.tv_price.setText("" + multiply.add(decimal));
+                    } else {
+                        if (pickCount >= surplusDiscountStock) {
                             multiply = goodsSpec.getPrice().multiply(new BigDecimal(surplusDiscountStock));
                             decimal = goodsSpec.getOriginalPrice().multiply(new BigDecimal(pickCount - surplusDiscountStock));
-                            holder.tv_price.setText(""+multiply.add(decimal));
-                        }else {
+                            holder.tv_price.setText("" + multiply.add(decimal));
+                        } else {
                             multiply = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
-                            holder.tv_price.setText(""+multiply);
+                            holder.tv_price.setText("" + multiply);
                         }
                     }
 
                 } else {
                     multiply = goodsSpec.getPrice().multiply(new BigDecimal(pickCount));
-                    holder.tv_price.setText(""+multiply);
+                    holder.tv_price.setText("" + multiply);
                 }
             }
         } else {
@@ -154,7 +160,7 @@ public class BottomCartListAdapter extends BaseAdapter {
                         buyCount += products.get(i).getPickCount();
                     }
                 }
-                if(product.getGoods().getHasDiscount()==0){
+                if (product.getGoods().getHasDiscount() == 0) {
                     if (goodsSpec.getStockType() == 1 && goodsSpec.getStock() != null && buyCount >= goodsSpec.getStock()) {
                         ToastUtils.displayMsg("该商品库存不足", context);
                         return;
@@ -224,17 +230,17 @@ public class BottomCartListAdapter extends BaseAdapter {
                                         return;
                                     }
                                 } else {
-                                    if ((buyCount + 1) - product.getGoods().getSurplusDiscountStock() > goodsSpec.getOrderLimit()&& goodsSpec.getOrderLimit() > 0) {
+                                    if ((buyCount + 1) - product.getGoods().getSurplusDiscountStock() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
                                         ToastUtils.displayMsg("您购买的商品已超过限购数量", context);
                                         return;
                                     }
-                                    if(goodsSpec.getOrderLimit()==0&&(buyCount + 1)-product.getGoods().getSurplusDiscountStock()>goodsSpec.getStock()){
+                                    if (goodsSpec.getOrderLimit() == 0 && (buyCount + 1) - product.getGoods().getSurplusDiscountStock() > goodsSpec.getStock()) {
                                         ToastUtils.displayMsg("您购买的商品库存不足", context);
                                         return;
                                     }
                                 }
-                            }else {
-                                if((buyCount + 1) - product.getGoods().getSurplusDiscountStock() > goodsSpec.getOrderLimit()&& goodsSpec.getOrderLimit() > 0){
+                            } else {
+                                if ((buyCount + 1) - product.getGoods().getSurplusDiscountStock() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
                                     ToastUtils.displayMsg("您购买的商品已超过限购数量", context);
                                     return;
                                 }
@@ -257,17 +263,17 @@ public class BottomCartListAdapter extends BaseAdapter {
                                         return;
                                     }
                                 } else {
-                                    if ((buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit()&& goodsSpec.getOrderLimit() > 0) {
+                                    if ((buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
                                         ToastUtils.displayMsg("您购买的商品已超过限购数量", context);
                                         return;
                                     }
-                                    if(goodsSpec.getOrderLimit()==0&&(buyCount + 1)-product.getGoods().getEveryGoodsEveryOrderBuyCount()>goodsSpec.getStock()){
+                                    if (goodsSpec.getOrderLimit() == 0 && (buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount() > goodsSpec.getStock()) {
                                         ToastUtils.displayMsg("您购买的商品库存不足", context);
                                         return;
                                     }
                                 }
-                            }else {
-                                if((buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit()&& goodsSpec.getOrderLimit() > 0){
+                            } else {
+                                if ((buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
                                     ToastUtils.displayMsg("您购买的商品已超过限购数量", context);
                                     return;
                                 }
@@ -304,13 +310,13 @@ public class BottomCartListAdapter extends BaseAdapter {
                                         ToastUtils.displayMsg("您购买的商品已超过限购数量", context);
                                         return;
                                     }
-                                    if(goodsSpec.getOrderLimit()==0&&(buyCount + 1) - product.getGoods().getSurplusDiscountStock()>goodsSpec.getStock()){
+                                    if (goodsSpec.getOrderLimit() == 0 && (buyCount + 1) - product.getGoods().getSurplusDiscountStock() > goodsSpec.getStock()) {
                                         ToastUtils.displayMsg("您购买的商品库存不足", context);
                                         return;
                                     }
                                 }
-                            }else {
-                                if((buyCount + 1) - product.getGoods().getSurplusDiscountStock() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0){
+                            } else {
+                                if ((buyCount + 1) - product.getGoods().getSurplusDiscountStock() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
                                     ToastUtils.displayMsg("您购买的商品已超过限购数量", context);
                                     return;
                                 }
@@ -338,13 +344,13 @@ public class BottomCartListAdapter extends BaseAdapter {
                                             ToastUtils.displayMsg("您购买的商品已超过限购数量", context);
                                             return;
                                         }
-                                        if(goodsSpec.getOrderLimit()==0&&(buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount()>goodsSpec.getStock()){
+                                        if (goodsSpec.getOrderLimit() == 0 && (buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount() > goodsSpec.getStock()) {
                                             ToastUtils.displayMsg("您购买的商品库存不足", context);
                                             return;
                                         }
                                     }
-                                }else {
-                                    if((buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0){
+                                } else {
+                                    if ((buyCount + 1) - product.getGoods().getEveryGoodsEveryOrderBuyCount() > goodsSpec.getOrderLimit() && goodsSpec.getOrderLimit() > 0) {
                                         ToastUtils.displayMsg("您购买的商品已超过限购数量", context);
                                         return;
                                     }
@@ -353,9 +359,9 @@ public class BottomCartListAdapter extends BaseAdapter {
                                     ToastUtils.displayMsg("该商品库存不足", context);
                                     return;
                                 }
-                            }else {
+                            } else {
                                 if ((buyCount + 1) >= product.getGoods().getSurplusDiscountStock()) {
-                                    if(product.getGoods().isFirst()){
+                                    if (product.getGoods().isFirst()) {
                                         ToastUtils.displayMsg("当前折扣商品库存不足，其余部分需原价购买", context);
                                         product.getGoods().setFirst(false);
                                     }
@@ -409,7 +415,7 @@ public class BottomCartListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int count = product.getPickCount();
-                if(product.getGoods().getHasDiscount()==0){
+                if (product.getGoods().getHasDiscount() == 0) {
                     for (int i = 0; i < product.getGoods().getGoodsSpecList().size(); i++) {
                         if (count == product.getGoods().getGoodsSpecList().get(i).getMinOrderNum() && product.getGoods().getGoodsSpecList().get(i).getId() == goodsSpec.getId()) {
                             if (product.getGoods().getGoodsSpecList().get(i).getMinOrderNum() != 0 && count <= product.getGoods().getGoodsSpecList().get(i).getMinOrderNum()) {
@@ -422,11 +428,11 @@ public class BottomCartListAdapter extends BaseAdapter {
                 }
                 if (count == 1) {
                     if (product.getGoods().getEveryGoodsEveryOrderBuyCount() <= product.getGoods().getSurplusDiscountStock()) {
-                        if(product.getGoods().getEveryGoodsEveryOrderBuyCount()>0){
+                        if (product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
                             if (count <= product.getGoods().getEveryGoodsEveryOrderBuyCount()) {
                                 product.getGoods().setFirst(true);
                             }
-                        }else {
+                        } else {
                             if (count <= product.getGoods().getSurplusDiscountStock()) {
                                 product.getGoods().setFirst(true);
                             }
@@ -452,11 +458,11 @@ public class BottomCartListAdapter extends BaseAdapter {
                 } else {
                     if (count > 0) {
                         if (product.getGoods().getEveryGoodsEveryOrderBuyCount() <= product.getGoods().getSurplusDiscountStock()) {
-                            if(product.getGoods().getEveryGoodsEveryOrderBuyCount()>0){
+                            if (product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
                                 if (count <= product.getGoods().getEveryGoodsEveryOrderBuyCount()) {
                                     product.getGoods().setFirst(true);
                                 }
-                            }else {
+                            } else {
                                 if (count <= product.getGoods().getSurplusDiscountStock()) {
                                     product.getGoods().setFirst(true);
                                 }
@@ -469,11 +475,11 @@ public class BottomCartListAdapter extends BaseAdapter {
                         if (product.getGoods().getHasDiscount() == 1) {
                             if (product.getGoods().getEveryGoodsEveryOrderBuyCount() > product.getGoods().getSurplusDiscountStock()) {
                                 if (goodsSpec.getMinOrderNum() > 0 && count - product.getGoods().getSurplusDiscountStock() == goodsSpec.getMinOrderNum()) {
-                                    count = count - goodsSpec.getMinOrderNum()+1;
+                                    count = count - goodsSpec.getMinOrderNum() + 1;
                                 }
                             } else {
                                 if (goodsSpec.getMinOrderNum() > 0 && product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0 && count - product.getGoods().getEveryGoodsEveryOrderBuyCount() == goodsSpec.getMinOrderNum()) {
-                                    count = count - goodsSpec.getMinOrderNum()+1;
+                                    count = count - goodsSpec.getMinOrderNum() + 1;
                                 }
                             }
                         }
