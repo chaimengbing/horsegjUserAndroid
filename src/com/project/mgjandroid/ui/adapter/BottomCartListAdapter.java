@@ -250,7 +250,10 @@ public class BottomCartListAdapter extends BaseAdapter {
                                 return;
                             }
                         } else {
-                            if ((buyCount + 1) == product.getGoods().getEveryGoodsEveryOrderBuyCount() && product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
+                            DiscountedGoods discountedGoods = product.getGoods().getDiscountedGoods();
+                            if (discountedGoods != null && discountedGoods.getMaxBuyNum() != null && discountedGoods.getMaxBuyNum() > 0 && discountedGoods.getSurplusBuyNum() != null && buyCount == discountedGoods.getSurplusBuyNum() + 1) {
+                                ToastUtils.displayMsg("当前折扣商品每个用户限购" + discountedGoods.getMaxBuyNum() + "件，超出部分需原价购买。", context);
+                            } else if ((buyCount + 1) == product.getGoods().getEveryGoodsEveryOrderBuyCount() && product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
                                 if (product.getGoods().isFirst()) {
                                     ToastUtils.displayMsg("当前折扣商品每单限购" + product.getGoods().getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
                                     product.getGoods().setFirst(false);
@@ -326,7 +329,10 @@ public class BottomCartListAdapter extends BaseAdapter {
                                 return;
                             }
                         } else {
-                            if ((buyCount + 1) == product.getGoods().getEveryGoodsEveryOrderBuyCount() && product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
+                            DiscountedGoods discountedGoods = product.getGoods().getDiscountedGoods();
+                            if (discountedGoods != null && discountedGoods.getMaxBuyNum() != null && discountedGoods.getMaxBuyNum() > 0 && discountedGoods.getSurplusBuyNum() != null && buyCount == discountedGoods.getSurplusBuyNum() + 1) {
+                                ToastUtils.displayMsg("当前折扣商品每个用户限购" + discountedGoods.getMaxBuyNum() + "件，超出部分需原价购买。", context);
+                            } else if ((buyCount + 1) == product.getGoods().getEveryGoodsEveryOrderBuyCount() && product.getGoods().getEveryGoodsEveryOrderBuyCount() > 0) {
                                 if (product.getGoods().isFirst()) {
                                     ToastUtils.displayMsg("当前折扣商品每单限购" + product.getGoods().getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
                                     product.getGoods().setFirst(false);

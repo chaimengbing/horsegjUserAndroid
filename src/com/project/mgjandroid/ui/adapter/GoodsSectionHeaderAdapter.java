@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.mgjandroid.R;
+import com.project.mgjandroid.bean.DiscountedGoods;
 import com.project.mgjandroid.bean.Goods;
 import com.project.mgjandroid.bean.GoodsSpec;
 import com.project.mgjandroid.bean.Menu;
@@ -216,7 +217,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
         TextView tvPrice;
         TextView tvOriginPrice;
         TextView tvStock;
-        TextView tvLimit, tvMin,tvDiscount;
+        TextView tvLimit, tvMin, tvDiscount;
         RelativeLayout imgAdd;
         TextView tvBuyCount, specCount;
         RelativeLayout imgMinus, specMinus;
@@ -435,19 +436,19 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                 holder.tvPrice.setText(style);
                 holder.tvOriginPrice.setVisibility(View.GONE);
                 holder.tvStock.setVisibility(View.GONE);
-                if (goods.getHasDiscount() == 1 ) {
-                    if(goods.getEveryGoodsEveryOrderBuyCount() > 0){
+                if (goods.getHasDiscount() == 1) {
+                    if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                         holder.tvLimit.setVisibility(View.GONE);
                         holder.tvDiscount.setVisibility(View.VISIBLE);
                         BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
                         BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
-                        holder.tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
-                    }else {
+                        holder.tvDiscount.setText(discount + "折  限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    } else {
                         holder.tvLimit.setVisibility(View.GONE);
                         holder.tvDiscount.setVisibility(View.VISIBLE);
                         BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
                         BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
-                        holder.tvDiscount.setText(discount+"折");
+                        holder.tvDiscount.setText(discount + "折");
                     }
                 } else {
                     holder.tvLimit.setVisibility(View.GONE);
@@ -645,26 +646,26 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                 } else {
                     holder.tvStock.setVisibility(View.GONE);
                 }
-                if (goods.getHasDiscount() == 1 ) {
-                   if(goods.getEveryGoodsEveryOrderBuyCount() > 0){
+                if (goods.getHasDiscount() == 1) {
+                    if (goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                         holder.tvLimit.setVisibility(View.GONE);
                         holder.tvDiscount.setVisibility(View.VISIBLE);
                         BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
                         BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
-                        holder.tvDiscount.setText(discount+"折  限购"+goods.getEveryGoodsEveryOrderBuyCount() + "份");
-                    }else {
+                        holder.tvDiscount.setText(discount + "折  限购" + goods.getEveryGoodsEveryOrderBuyCount() + "份");
+                    } else {
                         holder.tvLimit.setVisibility(View.GONE);
                         holder.tvDiscount.setVisibility(View.VISIBLE);
                         BigDecimal b = new BigDecimal(goods.getDiscountedGoods().getDiscountProportion());
                         BigDecimal discount = b.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
-                        holder.tvDiscount.setText(discount+"折");
+                        holder.tvDiscount.setText(discount + "折");
                     }
                 } else {
                     holder.tvLimit.setVisibility(View.GONE);
                 }
                 if (goods.getHasDiscount() == 0 && goodsSpec.getOrderLimit() != null && goodsSpec.getOrderLimit() > 0) {
-                        holder.tvLimit.setVisibility(View.VISIBLE);
-                        holder.tvLimit.setText("每单限购" + goodsSpec.getOrderLimit() + "份");
+                    holder.tvLimit.setVisibility(View.VISIBLE);
+                    holder.tvLimit.setText("每单限购" + goodsSpec.getOrderLimit() + "份");
                 }
                 if (goodsSpec.getMinOrderNum() != null && goodsSpec.getMinOrderNum() > 1) {
                     if (goods.getHasDiscount() == 1) {
@@ -823,7 +824,10 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                         return;
                                     }
                                 } else {
-                                    if (goods.getEveryGoodsEveryOrderBuyCount() > 0 && count == goods.getEveryGoodsEveryOrderBuyCount()) {
+                                    DiscountedGoods discountedGoods = goods.getDiscountedGoods();
+                                    if (discountedGoods != null && discountedGoods.getMaxBuyNum() != null && discountedGoods.getMaxBuyNum() > 0 && discountedGoods.getSurplusBuyNum() != null && count == discountedGoods.getSurplusBuyNum() + 1) {
+                                        ToastUtils.displayMsg("当前折扣商品每个用户限购" + discountedGoods.getMaxBuyNum() + "件，超出部分需原价购买。", context);
+                                    } else if (goods.getEveryGoodsEveryOrderBuyCount() > 0 && count == goods.getEveryGoodsEveryOrderBuyCount()) {
                                         if (goods.isFirst()) {
                                             ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
                                             goods.setFirst(false);
@@ -934,7 +938,10 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                         return;
                                     }
                                 } else {
-                                    if (count == goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
+                                    DiscountedGoods discountedGoods = goods.getDiscountedGoods();
+                                    if (discountedGoods != null && discountedGoods.getMaxBuyNum() != null && discountedGoods.getMaxBuyNum() > 0 && discountedGoods.getSurplusBuyNum() != null && count == discountedGoods.getSurplusBuyNum() + 1) {
+                                        ToastUtils.displayMsg("当前折扣商品每个用户限购" + discountedGoods.getMaxBuyNum() + "件，超出部分需原价购买。", context);
+                                    } else if (count == goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                         if (goods.isFirst()) {
                                             ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
                                             goods.setFirst(false);
@@ -1979,7 +1986,10 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                                             return;
                                         }
                                     } else {
-                                        if ((buyCount + 1) == goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
+                                        DiscountedGoods discountedGoods = goods.getDiscountedGoods();
+                                        if (discountedGoods != null && discountedGoods.getMaxBuyNum() != null && discountedGoods.getMaxBuyNum() > 0 && discountedGoods.getSurplusBuyNum() != null && (buyCount + 1) == discountedGoods.getSurplusBuyNum() + 1) {
+                                            ToastUtils.displayMsg("当前折扣商品每个用户限购" + discountedGoods.getMaxBuyNum() + "件，超出部分需原价购买。", context);
+                                        } else if ((buyCount + 1) == goods.getEveryGoodsEveryOrderBuyCount() && goods.getEveryGoodsEveryOrderBuyCount() > 0) {
                                             if (goods.isFirst()) {
                                                 ToastUtils.displayMsg("当前折扣商品每单限购" + goods.getEveryGoodsEveryOrderBuyCount() + "件，超出部分需原价购买。", context);
                                                 goods.setFirst(false);
