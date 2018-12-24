@@ -2163,6 +2163,8 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
                     }
                 }
             }, SurPlusBuyNumModel.class);
+        } else {
+            notifyCart(isSetAnim);
         }
 
     }

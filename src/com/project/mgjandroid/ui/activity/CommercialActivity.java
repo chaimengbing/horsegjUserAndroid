@@ -1834,6 +1834,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     }
                 }
             }, SurPlusBuyNumModel.class);
+        } else {
+            notifyCart(isSetAnim);
         }
 
     }
