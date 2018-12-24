@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -68,7 +69,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<Menu> menuList;
-    private List<Menu> menuListTemp;
+    private List<Goods> goodsList;
     private BottomCartListener listener;
     private Merchant merchant;
     private CustomDialog dialog;
@@ -85,8 +86,15 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.menuList = new ArrayList<Menu>();
-        this.menuListTemp = new ArrayList<Menu>();
+        this.goodsList = new ArrayList<>();
         this.merchant = merchant;
+    }
+
+    public void setMerchant(Merchant merchant){
+        if (merchant != null){
+            this.merchant=merchant;
+            notifyDataSetChanged();
+        }
     }
 
     public void setServiceTime(Date serviceTime) {
@@ -106,27 +114,37 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
     }
 
     public void setMenuList(List<Menu> menuList) {
-        menuListTemp = menuList;
-        if (menuList != null) {
-            deal(menuList);
+        if (menuList!=null){
+            this.menuList = new ArrayList<Menu>();
+            for (Menu menu : menuList) {
+                this.goodsList.addAll(menu.getGoodsList());
+                if (menu.getGoodsList().size() > 0) {
+                    this.menuList.add(menu);
+                }
+            }
         }
         notifyDataSetChanged();
     }
 
-    private List<Menu> deal(List<Menu> menuList) {
-        this.menuList = new ArrayList<Menu>();
-        for (Menu menu : menuList) {
-            if (menu.getGoodsList().size() > 0) {
-                this.menuList.add(menu);
-            }
+
+    public void setGoodsList(List<Goods> goodsList){
+        if (goodsList!= null){
+            Menu menu = new Menu();
+            menu.setGoodsList(goodsList);
+            menu.setType(1000);
+            menuList.add(menu);
+            this.goodsList.addAll(goodsList);
         }
-        return menuList;
+        notifyDataSetChanged();
+    }
+    public List<Goods> getGoodsList() {
+        return goodsList;
     }
 
 
     @Override
     public Object getItem(int section, int position) {
-        return menuList.get(section).getGoodsList().get(position);
+        return goodsList.get(position);
     }
 
     @Override
@@ -141,7 +159,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
 
     @Override
     public int getCountForSection(int section) {
-        return menuList.get(section).getGoodsList().size();
+        return goodsList.size();
     }
 
     @Override
@@ -187,19 +205,30 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
             holder = new HeaderViewHolder();
             convertView = inflater.inflate(R.layout.goods_select_item, null);
             holder.tvName = (TextView) convertView.findViewById(R.id.goods_select_item_tv_name);
+            holder.goodsTop = (LinearLayout) convertView.findViewById(R.id.goods_top);
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        if (CheckUtils.isNoEmptyStr(menuList.get(section).getDescription())) {
-            String str = menuList.get(section).getName() + " " + menuList.get(section).getDescription();
-            SpannableStringBuilder style = new SpannableStringBuilder(str);
-            style.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.color_9)), menuList.get(section).getName().length(), str.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-            style.setSpan(new TextAppearanceSpan(null, 0, context.getResources().getDimensionPixelSize(R.dimen.goods_section_text_size_12), null, null), menuList.get(section).getName().length(), str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-            holder.tvName.setText(style);
-        } else {
-            holder.tvName.setText(menuList.get(section).getName());
+        if (menuList.get(section).getType() == 1000){
+            ViewGroup.LayoutParams layoutParams = holder.tvName.getLayoutParams();
+            layoutParams.height =0;
+            holder.tvName.setLayoutParams(layoutParams);
+        }else {
+            ViewGroup.LayoutParams layoutParams = holder.tvName.getLayoutParams();
+            layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            holder.tvName.setLayoutParams(layoutParams);
+            if (CheckUtils.isNoEmptyStr(menuList.get(section).getDescription())) {
+                String str = menuList.get(section).getName() + " " + menuList.get(section).getDescription();
+                SpannableStringBuilder style = new SpannableStringBuilder(str);
+                style.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.color_9)), menuList.get(section).getName().length(), str.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                style.setSpan(new TextAppearanceSpan(null, 0, context.getResources().getDimensionPixelSize(R.dimen.goods_section_text_size_12), null, null), menuList.get(section).getName().length(), str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                holder.tvName.setText(style);
+            } else {
+                holder.tvName.setText(menuList.get(section).getName());
+            }
         }
+
         return convertView;
     }
 
@@ -228,6 +257,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
 
     static class HeaderViewHolder {
         TextView tvName;
+        LinearLayout goodsTop;
     }
 
     private void showItem(int section, int position, View convertView, final ItemViewHolder holder) {
@@ -258,8 +288,15 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                         } else {
                             holder.img.setImageResource(R.drawable.horsegj_default);
                         }
-                        if (CheckUtils.isNoEmptyStr(goods.getName()))
-                            holder.tvName.setText(goods.getName());
+                        if (!TextUtils.isEmpty(goods.getHighLights())) {
+                            String color = goods.getHighLights();
+                            color = color.replaceAll("<em>", "<font color='#ff9900'>");
+                            color = color.replace("</em>", "</font>");
+                            holder.tvName.setText(Html.fromHtml(color));
+                        } else {
+                            if (!TextUtils.isEmpty(goods.getName()))
+                                holder.tvName.setText(goods.getName());
+                        }
                         if (CheckUtils.isNoEmptyStr(goods.getDescription())) {
                             holder.tvDes.setVisibility(View.VISIBLE);
                             holder.tvDes.setText(goods.getDescription());
@@ -325,7 +362,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
 
     private void showBuyView(final Goods goods, final ItemViewHolder holder) {
 
-        if (serviceTime != null) {
+        if (serviceTime != null && merchant != null) {
             String currentTime = CommonUtils.formatTime(serviceTime.getTime(), "HH:mm");
             if (!DateUtils.isBusinessTime(currentTime, merchant.getWorkingTime())) {
                 merchant.setShoppingTime(false);
@@ -333,7 +370,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
                 merchant.setShoppingTime(true);
             }
         }
-        if (merchant.getStatus() == 0 || !merchant.isShoppingTime()) {
+        if (merchant != null && (merchant.getStatus() == 0 || !merchant.isShoppingTime())) {
             holder.tvSleep.setVisibility(View.VISIBLE);
             holder.rlHideBuyCount.setVisibility(View.GONE);
             holder.tvChooseSpec.setVisibility(View.GONE);

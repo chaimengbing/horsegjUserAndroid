@@ -207,6 +207,8 @@ public class Constants {
     public static final String URL_FIND_DEFAULT_ADDRESS_LIST = URL_HOME_MAIN + "findDefaultAddressList";
     //搜索
     public static final String URL_SEARCH = URL_HOME_MAIN + "searchTakeAwayMerchant2";
+    //商品搜索
+    public static final String URL_MERCHANT_GOODS_SEARCH = URL_HOME_MAIN + "searchMerchantGoodsList";
     //团购商家搜索
     public static final String URL_GROUP_SEARCH = URL_HOME_MAIN + "findGroupPurchaseMerchantBySearch";
     //热搜

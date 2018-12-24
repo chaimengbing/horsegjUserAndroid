@@ -4,18 +4,18 @@
     android:id="@+id/commercial_all"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/title_bar_bg">
+    android:background="@color/black">
 
     <ImageView
         android:id="@+id/image_blur"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x200"
+        android:layout_height="@dimen/x90"
         android:scaleType="fitXY" />
 
     <View
         android:id="@+id/view_blur"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x200"
+        android:layout_height="@dimen/x90"
         android:background="#66000000"
         android:visibility="invisible" />
 
@@ -30,32 +30,29 @@
             android:id="@+id/shop_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/title_bar_height">
+            android:background="@color/transparent"
+            android:paddingTop="@dimen/x69">
 
             <RelativeLayout
                 android:id="@+id/shop_message_inner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/x12">
-
-                <com.project.mgjandroid.ui.view.RoundImageView
-                    android:id="@+id/shop_icon"
-                    android:layout_width="@dimen/x55"
-                    android:layout_height="@dimen/x55"
-                    android:layout_marginLeft="@dimen/x20"
-                    android:src="@drawable/horsegj_default"
-                    app:border_outside_color="#88dfdedf"
-                    app:border_thickness="@dimen/x5" />
+                android:layout_marginTop="@dimen/x20"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/x18"
+                android:paddingTop="@dimen/x12">
 
                 <TextView
                     android:id="@+id/shop_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/x10"
-                    android:layout_toRightOf="@id/shop_icon"
+                    android:layout_marginLeft="@dimen/x15"
+                    android:layout_marginRight="@dimen/x80"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="@string/commercial_name"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textColor="@color/color_3"
+                    android:textSize="19sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -64,17 +61,18 @@
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@id/shop_name"
                     android:layout_below="@id/shop_name"
-                    android:layout_marginTop="@dimen/x3"
+                    android:layout_marginTop="@dimen/x9"
                     android:text="@string/commercial_delivery_rule"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textColor="@color/color_6"
+                    android:textSize="10sp" />
 
                 <LinearLayout
+                    android:id="@+id/layout_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@id/shop_desc"
                     android:layout_below="@id/shop_desc"
-                    android:layout_marginTop="@dimen/x8"
+                    android:layout_marginTop="@dimen/x13"
                     android:gravity="center_vertical"
                     android:paddingRight="@dimen/x15">
 
@@ -99,54 +97,44 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/x5"
-                        android:drawableRight="@drawable/arrow_right_white"
-                        android:textColor="@color/white"
+                        android:drawableRight="@drawable/arrow_right_gray"
+                        android:textColor="@color/color_6"
                         android:textSize="12sp"
                         android:visibility="gone" />
 
                 </LinearLayout>
 
-            </RelativeLayout>
-
-            <View
-                android:id="@+id/promotion_line"
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_below="@id/shop_message_inner"
-                android:background="@drawable/shape_dashed_white"
-                android:layerType="software" />
-
-            <LinearLayout
-                android:id="@+id/commercial_broadcast"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/shop_message_inner"
-                android:padding="@dimen/x10">
-
-                <ImageView
-                    android:id="@+id/broadcast_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/broadcast_anim" />
-
                 <TextView
                     android:id="@+id/tv_broadcast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_activity"
+                    android:layout_marginTop="@dimen/x11"
                     android:drawablePadding="@dimen/x10"
                     android:drawableRight="@drawable/broadcast_arrow"
                     android:ellipsize="marquee"
                     android:focusable="true"
                     android:gravity="center_vertical"
                     android:marqueeRepeatLimit="marquee_forever"
-                    android:paddingLeft="@dimen/x5"
-                    android:paddingRight="@dimen/x5"
+                    android:paddingLeft="@dimen/x15"
+                    android:paddingRight="@dimen/x15"
                     android:singleLine="true"
                     android:text=""
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_9"
                     android:textSize="10sp" />
-            </LinearLayout>
+
+            </RelativeLayout>
+
+            <com.project.mgjandroid.ui.view.RoundImageView
+                android:id="@+id/shop_icon"
+                android:layout_width="@dimen/x55"
+                android:layout_height="@dimen/x55"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_marginRight="@dimen/x15"
+                android:src="@drawable/horsegj_default"
+                app:border_outside_color="#88dfdedf"
+                app:border_thickness="@dimen/x5" />
 
         </RelativeLayout>
 
@@ -172,7 +160,7 @@
                     android:gravity="center"
                     android:text="@string/goods"
                     android:textColor="@color/color_6"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/commercial_act_tab_evaluate"
@@ -256,13 +244,12 @@
 
         <ImageView
             android:id="@+id/commercial_act_iv_search"
-            android:layout_width="@dimen/x22"
-            android:layout_height="@dimen/x22"
-            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_search"
-            android:visibility="gone" />
+            android:layout_marginRight="@dimen/x12"
+            android:layout_toLeftOf="@+id/commercial_act_iv_favor"
+            android:src="@drawable/new_search_white" />
 
 
         <ImageView
@@ -270,10 +257,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/x14"
+            android:layout_marginRight="@dimen/x12"
             android:layout_toLeftOf="@+id/commercial_act_iv_share"
             android:scaleType="centerCrop"
-            android:src="@drawable/unfavor" />
+            android:src="@drawable/new_unfavor_white" />
 
         <ImageView
             android:id="@+id/commercial_act_iv_share"
@@ -282,9 +269,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/x5"
-            android:layout_toLeftOf="@+id/commercial_act_iv_search"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_share_white" />
+            android:src="@drawable/icon_new_share_white" />
 
 
         <ImageView
@@ -298,19 +284,34 @@
             android:src="@drawable/icon_pin"
             android:visibility="gone" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/commercial_act_tv_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/x27"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x10"
-            android:layout_marginRight="@dimen/x10"
-            android:layout_toLeftOf="@id/commercial_act_iv_share"
+            android:layout_marginLeft="@dimen/x13"
+            android:layout_marginRight="@dimen/x13"
+            android:layout_toLeftOf="@id/commercial_act_iv_favor"
             android:layout_toRightOf="@id/commercial_act_iv_back"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/title_bar_text_size" />
+            android:background="@drawable/search_merchant_goods_bg"
+           >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/x13"
+                android:src="@drawable/new_search_black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/x7"
+                android:gravity="center_vertical"
+                android:hint="请输入商品名"
+                android:textColorHint="@color/color_c"
+                android:textSize="13sp" />
+        </LinearLayout>
     </RelativeLayout>
 
 
@@ -335,62 +336,69 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/x48"
             android:layout_alignParentBottom="true"
-            android:background="#cc333333">
+            android:background="#595858">
 
-            <TextView
-                android:id="@+id/commercial_act_bottom_money"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x70"
-                android:gravity="center_vertical"
-                android:text="@string/price_standard_zero"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:layout_marginLeft="@dimen/x82"
+                android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/commercial_act_bottom_shipping_and_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x5"
-                android:layout_toRightOf="@id/commercial_act_bottom_money">
+                <TextView
+                    android:id="@+id/commercial_act_bottom_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_standard_zero"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
-                <View
-                    android:id="@+id/cart_line"
-                    android:layout_width="@dimen/x1"
-                    android:layout_height="@dimen/x14"
-                    android:layout_centerVertical="true"
-                    android:background="@color/white_hint" />
-
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/commercial_act_bottom_shipping_and_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/x5"
-                    android:layout_toRightOf="@id/cart_line"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/x4"
+                    android:layout_toRightOf="@id/commercial_act_bottom_money">
 
-                    <TextView
-                        android:id="@+id/commercial_act_bottom_shipping"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/commercial_another_delivery_price"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/commercial_act_bottom_package"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/commercial_package_price"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
+                    <View
+                        android:id="@+id/cart_line"
+                        android:layout_width="@dimen/x1"
+                        android:layout_height="@dimen/x14"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/x5"
+                        android:background="@color/white_hint"
                         android:visibility="gone" />
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/cart_line"
+                        android:orientation="vertical">
 
-            </RelativeLayout>
+                        <TextView
+                            android:id="@+id/commercial_act_bottom_shipping"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/commercial_another_delivery_price"
+                            android:textColor="@color/color_9"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/commercial_act_bottom_package"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/commercial_package_price"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/commercial_act_bottom_qisong"
@@ -410,7 +418,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="@color/title_bar_bg"
+                android:background="@drawable/jie_suan"
                 android:gravity="center"
                 android:paddingLeft="@dimen/x20"
                 android:paddingRight="@dimen/x20"
@@ -419,6 +427,156 @@
                 android:textSize="18sp"
                 android:visibility="gone" />
         </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_merchant_goods"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/x48"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/login_top_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bar_height"
+            android:paddingLeft="@dimen/x10"
+            android:paddingRight="@dimen/x10">
+
+            <ImageView
+                android:id="@+id/login_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_back_black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x27"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x13"
+                android:layout_marginRight="@dimen/x13"
+
+                android:layout_toLeftOf="@id/rllayout"
+                android:layout_toRightOf="@id/login_back"
+                android:background="@drawable/search_merchant_goods_bg">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/x13"
+                    android:src="@drawable/new_search_black" />
+
+                <EditText
+                    android:id="@+id/search_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/x7"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="请输入商品名"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColorHint="@color/color_c"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rllayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingBottom="@dimen/x10"
+                android:paddingRight="@dimen/x10"
+                android:paddingTop="@dimen/x10">
+
+                <TextView
+                    android:id="@+id/tv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索"
+                    android:textColor="@color/color_c"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x10"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_delete"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/history_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/x15">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="历史搜索"
+                        android:textColor="@color/color_9"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/img_clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/new_del" />
+
+                </RelativeLayout>
+
+                <com.jet.flowtaglayout.FlowTagLayout
+                    android:id="@+id/history_flow_tagLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/x15"
+                    android:layout_marginTop="@dimen/x15"
+                    app:item_background="@drawable/bg_search_target"
+                    app:item_bottomMargin="@dimen/x5"
+                    app:item_bottomPadding="@dimen/x5"
+                    app:item_leftMargin="@dimen/x15"
+                    app:item_leftPadding="@dimen/x15"
+                    app:item_rightMargin="@dimen/x15"
+                    app:item_rightPadding="@dimen/x15"
+                    app:item_textColor="@color/color_3"
+                    app:item_textSize="12sp"
+                    app:item_topMargin="@dimen/x5"
+                    app:item_topPadding="@dimen/x5" />
+
+            </LinearLayout>
+
+            <com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView
+                android:id="@+id/search_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"></com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView>
+        </FrameLayout>
     </LinearLayout>
 
     <TextView
@@ -533,11 +691,11 @@
 
         <ImageView
             android:id="@+id/commercial_act_cart"
-            android:layout_width="@dimen/x50"
-            android:layout_height="@dimen/x50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/x5"
             android:layout_marginTop="@dimen/x5"
-            android:src="@drawable/cart_1" />
+            android:src="@drawable/empty_cart" />
 
 
         <TextView

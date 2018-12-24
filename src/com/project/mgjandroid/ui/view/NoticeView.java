@@ -180,8 +180,8 @@ public class NoticeView extends FrameLayout implements View.OnClickListener {
                     tv.setSingleLine();
                     tv.setEllipsize(TextUtils.TruncateAt.END);
                 }
-                tv.setTextColor(this.getResources().getColor(R.color.white));
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x11));
+                tv.setTextColor(this.getResources().getColor(R.color.color_6));
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x10));
                 String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
                 tv.setText(promotion.getPromoName() + limit);
                 childLayout.addView(tv, params);

@@ -16,22 +16,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +52,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.mzule.activityrouter.annotation.Router;
+import com.jet.flowtaglayout.FlowTagLayout;
 import com.project.mgjandroid.R;
 import com.project.mgjandroid.base.App;
 import com.project.mgjandroid.bean.CouDanModel;
@@ -52,6 +60,7 @@ import com.project.mgjandroid.bean.DiscountedGoods;
 import com.project.mgjandroid.bean.FullSub;
 import com.project.mgjandroid.bean.Goods;
 import com.project.mgjandroid.bean.GoodsSpec;
+import com.project.mgjandroid.bean.HistoryEntity;
 import com.project.mgjandroid.bean.Menu;
 import com.project.mgjandroid.bean.Merchant;
 import com.project.mgjandroid.bean.MerchantPickGoods;
@@ -61,6 +70,7 @@ import com.project.mgjandroid.bean.PromotionActivity;
 import com.project.mgjandroid.bean.SharingRelationship;
 import com.project.mgjandroid.constants.ActRequestCode;
 import com.project.mgjandroid.constants.Constants;
+import com.project.mgjandroid.model.CommoditySearchModel;
 import com.project.mgjandroid.model.ConfirmOrderModel;
 import com.project.mgjandroid.model.DeleteOrderModel;
 import com.project.mgjandroid.model.GoodsListModel;
@@ -71,10 +81,13 @@ import com.project.mgjandroid.model.SurPlusBuyNumModel;
 import com.project.mgjandroid.net.VolleyOperater;
 import com.project.mgjandroid.ui.adapter.BottomCartListAdapter;
 import com.project.mgjandroid.ui.adapter.CouDanListAdapter;
+import com.project.mgjandroid.ui.adapter.GoodsSectionHeaderAdapter;
+import com.project.mgjandroid.ui.adapter.HistoryListAdapter;
 import com.project.mgjandroid.ui.fragment.EvaluateFragment;
 import com.project.mgjandroid.ui.fragment.GoodsFragment;
 import com.project.mgjandroid.ui.fragment.MerchantsFragment;
 import com.project.mgjandroid.ui.listener.BottomCartListener;
+import com.project.mgjandroid.ui.view.FlowLayout;
 import com.project.mgjandroid.ui.view.HeaderViewPagerFragment;
 import com.project.mgjandroid.ui.view.HeaderViewPagerLayout;
 import com.project.mgjandroid.ui.view.LoadingDialog;
@@ -82,8 +95,11 @@ import com.project.mgjandroid.ui.view.MLoadingDialog;
 import com.project.mgjandroid.ui.view.NoticeDialog;
 import com.project.mgjandroid.ui.view.NoticeView;
 import com.project.mgjandroid.ui.view.RoundImageView;
+import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshBase;
+import com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView;
 import com.project.mgjandroid.utils.AnimatorUtils;
 import com.project.mgjandroid.utils.CheckUtils;
+import com.project.mgjandroid.utils.CommonUtils;
 import com.project.mgjandroid.utils.CustomDialog;
 import com.project.mgjandroid.utils.DipToPx;
 import com.project.mgjandroid.utils.ImageUtils;
@@ -108,7 +124,7 @@ import java.util.Map;
  * @author jian
  */
 @Router(value = "merchant/:merchantId", intParams = "merchantId")
-public class CommercialActivity extends BaseActivity implements OnClickListener, OnPageChangeListener, BottomCartListener {
+public class CommercialActivity extends BaseActivity implements OnClickListener, OnPageChangeListener, BottomCartListener, TextView.OnEditorActionListener {
 
     private static final int INDEX_GOODS = 0;
     private static final int INDEX_EVALUATE = 1;
@@ -128,7 +144,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     @InjectView(R.id.commercial_act_iv_pin)
     private ImageView imgPin;
     @InjectView(R.id.commercial_act_tv_title)
-    private TextView tvTitle;
+    private LinearLayout tvTitle;
     @InjectView(R.id.commercial_act_tab_goods)
     private TextView tvGoods;
     @InjectView(R.id.commercial_act_tab_evaluate)
@@ -179,16 +195,16 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private TextView tvPromotion;
     @InjectView(R.id.shop_adv_container)
     private LinearLayout linearAdvContainer;
-    @InjectView(R.id.commercial_broadcast)
-    private LinearLayout linearBroadcast;
+    @InjectView(R.id.layout_activity)
+    private LinearLayout layoutActivity;
+
     @InjectView(R.id.tv_broadcast)
     private TextView tvBroadcast;
     @InjectView(R.id.image_blur)
     private ImageView imageBlur;
     @InjectView(R.id.view_blur)
     private View vBlur;
-    @InjectView(R.id.broadcast_icon)
-    private ImageView ivBroad;
+
     @InjectView(R.id.notice_view)
     private NoticeView nvPromotion;
     @InjectView(R.id.tv_full_subtract)
@@ -205,8 +221,26 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private TextView tvHas;
     @InjectView(R.id.tv_text1)
     private TextView tvText1;
+    @InjectView(R.id.search_list_view)
+    private PullToRefreshListView mListView1;
+    @InjectView(R.id.history_layout)
+    private LinearLayout historyLayout;
+    @InjectView(R.id.search_text)
+    private EditText mSearchText;
+    @InjectView(R.id.layout_merchant_goods)
+    private LinearLayout layoutMerchantGoods;
+    @InjectView(R.id.tv_search)
+    private TextView tvSearch;
+    @InjectView(R.id.rllayout)
+    private RelativeLayout rlLayout;
+    @InjectView(R.id.login_back)
+    private ImageView imBack;
+    @InjectView(R.id.history_flow_tagLayout)
+    private FlowTagLayout historyFlowTaglayout;
+    @InjectView(R.id.img_clear)
+    private ImageView clear;
 
-
+    private static final String MERCHANT_GOODS_SEARCH_HISTORY = "merchant_goods_search_history";
     private ArrayList<HeaderViewPagerFragment> fragments;
     private GoodsFragment goodsFragment;
     private EvaluateFragment evaluateFragment;
@@ -266,6 +300,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private TextView bTvPriceSpread;
     private TextView bTvdimin;
     private TextView bTvAdd;
+    private HistoryListAdapter mHistoryListAdapter;
+    private LinearLayout mHistoryLabel;
+    private ArrayList<String> mHistoryEntities;
+    private GoodsSectionHeaderAdapter goodsAdapter;
 
 
     @Override
@@ -295,9 +333,110 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         if (merchantId != -1) {
             getMerchantTopEvaluate(merchantId);
         }
-        ivBroad.setImageResource(R.drawable.broadcast_anim);
-        AnimationDrawable animationDrawable = (AnimationDrawable) ivBroad.getDrawable();
-        animationDrawable.start();
+//        ivBroad.setImageResource(R.drawable.broadcast_anim);
+//        AnimationDrawable animationDrawable = (AnimationDrawable) ivBroad.getDrawable();
+//        animationDrawable.start();
+        refreshHistorySearch();
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String search = mSearchText.getText().toString().trim();
+                    if (search != null && !"".equals(search)) {
+                        goSearchMerchant(search);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        mSearchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                if (s.length() == 0) {
+                    mListView1.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        goodsAdapter = new GoodsSectionHeaderAdapter(mActivity, merchant);
+        goodsAdapter.setListener(this);
+        mListView1.setAdapter(goodsAdapter);
+        mListView1.setMode(PullToRefreshBase.Mode.DISABLED);
+
+        historyFlowTaglayout.setTagClickListener(new FlowTagLayout.OnTagClickListener() {
+            @Override
+            public void tagClick(int position) {
+                String search = mHistoryEntities.get(position);
+                mSearchText.setText(search);
+            }
+        });
+    }
+
+    private void doSearch() {
+        String search = mSearchText.getText().toString().trim();
+        if (CheckUtils.isNoEmptyStr(search)) {
+            goSearchMerchant(search);
+        }
+    }
+
+    private void refreshHistorySearch() {
+        String historySearch = PreferenceUtils.getStringPreference(MERCHANT_GOODS_SEARCH_HISTORY, "", mActivity);
+        if (mHistoryEntities == null) {
+            mHistoryEntities = new ArrayList<>();
+        }
+        mHistoryEntities.clear();
+        if (CheckUtils.isNoEmptyStr(historySearch)) {
+            String[] split = historySearch.split(",");
+            for (String str : split) {
+                if (CheckUtils.isNoEmptyStr(str.trim())) {
+                    mHistoryEntities.add(str);
+                }
+            }
+        }
+
+        if (CheckUtils.isNoEmptyList(mHistoryEntities)) {
+            historyLayout.setVisibility(View.VISIBLE);
+            clear.setVisibility(View.VISIBLE);
+            historyFlowTaglayout.addTags(mHistoryEntities);
+
+        } else {
+            historyLayout.setVisibility(View.GONE);
+            clear.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 搜索参数
+     */
+    private void goSearchMerchant(String param) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("merchantId", merchant.getId());
+        params.put("queryString", param);
+        VolleyOperater<CommoditySearchModel> operater = new VolleyOperater<>(CommercialActivity.this);
+        operater.doRequest(Constants.URL_MERCHANT_GOODS_SEARCH, params, new VolleyOperater.ResponseListener() {
+            @Override
+            public void onRsp(boolean isSucceed, Object obj) {
+                if (mListView1.isRefreshing()) {
+                    mListView1.onRefreshComplete();
+                }
+                if (isSucceed && obj != null) {
+                    CommoditySearchModel searchModel = (CommoditySearchModel) obj;
+                    goodsAdapter.getMenuList().clear();
+                    goodsAdapter.getGoodsList().clear();
+                    goodsAdapter.setGoodsList(searchModel.getValue());
+                }
+            }
+        }, CommoditySearchModel.class);
     }
 
     private void initThreeFragments(Merchant merchant) {
@@ -342,6 +481,34 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         });
     }
 
+    @Override
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            savePreference(mSearchText.getText().toString().trim());
+            doSearch();
+            return true;
+        }
+        return false;
+    }
+
+    private void savePreference(String search) {
+        String historySearch = PreferenceUtils.getStringPreference(MERCHANT_GOODS_SEARCH_HISTORY, "", mActivity);
+        if (CheckUtils.isNoEmptyStr(historySearch)) {
+            String[] split = historySearch.split(",");
+            boolean isFind = false;
+            for (String str : split) {
+                if (search.equals(str)) {
+                    isFind = true;
+                }
+            }
+            if (!isFind) {
+                PreferenceUtils.saveStringPreference(MERCHANT_GOODS_SEARCH_HISTORY, historySearch + "," + search, mActivity);
+            }
+        } else {
+            PreferenceUtils.saveStringPreference(MERCHANT_GOODS_SEARCH_HISTORY, search, mActivity);
+        }
+    }
+
     private class MyAdapter extends FragmentPagerAdapter {
 
         public MyAdapter(FragmentManager fm) {
@@ -368,10 +535,12 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         imgShopIcon.setImageResource(R.drawable.horsegj_default);
         ImageUtils.loadBitmap(this, merchant.getLogo(), imgShopIcon, R.drawable.horsegj_default, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_USER);
         if (CheckUtils.isNoEmptyStr(merchant.getLogo())) {
-            ImageUtils.getBlur(this, merchant.getLogo(), imageBlur, "?imageView2/2/h/30/interlace/1", vBlur);
+            ImageUtils.loadBitmap(this, merchant.getLogo(), imageBlur, R.drawable.horsegj_default, "?imageView2/2/h/30/interlace/1");
+//            ImageUtils.getBlur(this, merchant.getLogo(), imageBlur, "?imageView2/2/h/30/interlace/1", null);
         } else {
-            Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.default_blur);
-            ImageUtils.blur(this, bm.copy(bm.getConfig(), true), imageBlur, vBlur, false);
+            imageBlur.setImageDrawable(this.getResources().getDrawable(R.drawable.default_blur));
+//            Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.default_blur);
+//            ImageUtils.blur(this, bm.copy(bm.getConfig(), true), imageBlur, null, false);
         }
         tvShopName.setText(merchant.getName());
         StringBuilder sb = new StringBuilder();
@@ -473,6 +642,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                         }
                         List<PromotionActivity> promotions = merchant.getPromotionActivityList();
                         if (promotions != null && promotions.size() > 0) {
+                            layoutActivity.setVisibility(View.VISIBLE);
 //                            addPromotion(linearAdvContainer, promotions.get(0), false);
                             if (promotions.size() > 1) {
                                 linearAdvContainer.setVisibility(View.GONE);
@@ -486,10 +656,12 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                             }
                             if (promotions.size() > 1) {
                                 tvPromotion.setVisibility(View.VISIBLE);
-                                tvPromotion.setText(promotions.size() + "个活动");
-                                tvPromotion.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x11));
+                                tvPromotion.setText(promotions.size() + "个优惠");
+                                tvPromotion.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x9));
                                 tvPromotion.setOnClickListener(CommercialActivity.this);
                             }
+                        } else {
+                            layoutActivity.setVisibility(View.GONE);
                         }
                     } else {
                         if (obj instanceof String) {
@@ -521,8 +693,8 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 tv.setSingleLine();
                 tv.setEllipsize(TextUtils.TruncateAt.END);
             }
-            tv.setTextColor(this.getResources().getColor(R.color.white));
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x11));
+            tv.setTextColor(this.getResources().getColor(R.color.color_6));
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x10));
             String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
             tv.setText(promotion.getPromoName() + limit);
             childLayout.addView(tv, params);
@@ -533,7 +705,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     }
 
     private void init(Merchant merchant) {
-        tvTitle.setText(merchant.getName());
         checkFullReduction(merchant);
         if (merchant.getShipFee().compareTo(BigDecimal.ZERO) == 1) {
             String shipFee = StringUtils.BigDecimal2Str(merchant.getShipFee().subtract(merchant.getMerchantAssumeAmt()));
@@ -1101,9 +1272,13 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         bottomCart.setOnClickListener(this);
         linearCover.setOnClickListener(this);
         tv_goAccount.setOnClickListener(this);
-        linearBroadcast.setOnClickListener(this);
+        tvBroadcast.setOnClickListener(this);
         bottomLayout.setOnClickListener(this);
         llFullSubtract.setOnClickListener(this);
+        rlLayout.setOnClickListener(this);
+        imBack.setOnClickListener(this);
+        clear.setOnClickListener(this);
+        tvTitle.setOnClickListener(this);
     }
 
     public Merchant getMerchant() {
@@ -1258,10 +1433,27 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.img_clear:
+                PreferenceUtils.removePreference(MERCHANT_GOODS_SEARCH_HISTORY);
+                refreshHistorySearch();
+                break;
+            case R.id.login_back:
+                layoutMerchantGoods.setVisibility(View.GONE);
+                break;
+            case R.id.rllayout:
+                if (mListView1.getVisibility() == View.GONE && CheckUtils.isNoEmptyStr(mSearchText.getText().toString().trim())) {
+                    mListView1.setVisibility(View.VISIBLE);
+                }
+                savePreference(mSearchText.getText().toString().trim());
+                doSearch();
+                break;
             case R.id.commercial_act_iv_back:
                 back();
                 break;
+            case R.id.commercial_act_tv_title:
             case R.id.commercial_act_iv_search:
+                refreshHistorySearch();
+                layoutMerchantGoods.setVisibility(View.VISIBLE);
                 break;
             case R.id.commercial_act_iv_share:
                 if (merchant != null && shareInfo != null && shareUtil == null) {
@@ -1355,7 +1547,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 getOrderPreview();
                 break;
             case R.id.tv_promotion_count:
-            case R.id.commercial_broadcast:
+            case R.id.tv_broadcast:
                 if (merchant == null) return;
                 if (mBroadcast == null) {
                     View view = LayoutInflater.from(this).inflate(R.layout.layout_shop_cover, null);
@@ -1846,7 +2038,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             calculatePrice();
         } else {
             tv_num.setVisibility(View.INVISIBLE);
-            img_cart.setImageResource(R.drawable.cart_1);
+            img_cart.setImageResource(R.drawable.empty_cart);
             tv_allMoney.setText("¥0");
             tv_cart_package.setVisibility(View.GONE);
             tv_cart_shipping.setTextSize(14);
@@ -1931,7 +2123,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 count += pro.getPickCount();
             }
             tv_num.setVisibility(View.VISIBLE);
-            img_cart.setImageResource(R.drawable.cart_2);
+            img_cart.setImageResource(R.drawable.full_cart);
             if (count > 99) {
                 tv_num.setTextSize(10);
             } else {
