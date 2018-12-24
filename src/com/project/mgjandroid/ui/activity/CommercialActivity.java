@@ -432,7 +432,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 if (isSucceed && obj != null) {
                     CommoditySearchModel searchModel = (CommoditySearchModel) obj;
                     goodsAdapter.getMenuList().clear();
-                    goodsAdapter.getGoodsList().clear();
                     goodsAdapter.setGoodsList(searchModel.getValue());
                 }
             }

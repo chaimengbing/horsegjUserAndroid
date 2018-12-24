@@ -69,7 +69,6 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private List<Menu> menuList;
-    private List<Goods> goodsList;
     private BottomCartListener listener;
     private Merchant merchant;
     private CustomDialog dialog;
@@ -86,7 +85,6 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.menuList = new ArrayList<Menu>();
-        this.goodsList = new ArrayList<>();
         this.merchant = merchant;
     }
 
@@ -117,7 +115,6 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
         if (menuList!=null){
             this.menuList = new ArrayList<Menu>();
             for (Menu menu : menuList) {
-                this.goodsList.addAll(menu.getGoodsList());
                 if (menu.getGoodsList().size() > 0) {
                     this.menuList.add(menu);
                 }
@@ -132,19 +129,16 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
             Menu menu = new Menu();
             menu.setGoodsList(goodsList);
             menu.setType(1000);
+            menu.setGoodsList(goodsList);
             menuList.add(menu);
-            this.goodsList.addAll(goodsList);
         }
         notifyDataSetChanged();
-    }
-    public List<Goods> getGoodsList() {
-        return goodsList;
     }
 
 
     @Override
     public Object getItem(int section, int position) {
-        return goodsList.get(position);
+        return menuList.get(section).getGoodsList().get(position);
     }
 
     @Override
@@ -159,7 +153,7 @@ public class GoodsSectionHeaderAdapter extends SectionedBaseAdapter {
 
     @Override
     public int getCountForSection(int section) {
-        return goodsList.size();
+        return menuList.get(section).getGoodsList().size();
     }
 
     @Override
