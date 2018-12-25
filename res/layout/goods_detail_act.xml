@@ -558,7 +558,7 @@
             android:layout_height="@dimen/x50"
             android:layout_marginRight="@dimen/x5"
             android:layout_marginTop="@dimen/x5"
-            android:src="@drawable/cart_1" />
+            android:src="@drawable/empty_cart" />
 
         <TextView
             android:id="@+id/cart_num"

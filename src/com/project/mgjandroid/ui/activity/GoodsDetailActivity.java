@@ -2119,7 +2119,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             calculatePrice();
         } else {
             tv_num.setVisibility(View.INVISIBLE);
-            img_cart.setImageResource(R.drawable.cart_1);
+            img_cart.setImageResource(R.drawable.empty_cart);
             tv_allMoney.setText("¥0");
             tv_cart_package.setVisibility(View.GONE);
             tv_cart_shipping.setTextSize(14);
@@ -2242,7 +2242,7 @@ public class GoodsDetailActivity extends BaseActivity implements OnClickListener
             }
 
             tv_num.setVisibility(View.VISIBLE);
-            img_cart.setImageResource(R.drawable.cart_2);
+            img_cart.setImageResource(R.drawable.full_cart);
             if (count > 99) {
                 tv_num.setTextSize(10);
             } else {

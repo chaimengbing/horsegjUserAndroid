@@ -202,8 +202,6 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private TextView tvBroadcast;
     @InjectView(R.id.image_blur)
     private ImageView imageBlur;
-    @InjectView(R.id.view_blur)
-    private View vBlur;
 
     @InjectView(R.id.notice_view)
     private NoticeView nvPromotion;
@@ -304,6 +302,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
     private LinearLayout mHistoryLabel;
     private ArrayList<String> mHistoryEntities;
     private GoodsSectionHeaderAdapter goodsAdapter;
+    private int mTag;
 
 
     @Override
@@ -360,11 +359,17 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
             public void onTextChanged(CharSequence s, int i, int i1, int i2) {
                 if (s.length() == 0) {
                     mListView1.setVisibility(View.GONE);
+                    refreshHistorySearch();
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(s.toString().trim().length()>0){
+                    tvSearch.setTextColor(Color.parseColor("#ff9900"));
+                }else {
+                    tvSearch.setTextColor(Color.parseColor("#cccccc"));
+                }
             }
         });
 
@@ -472,8 +477,15 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 tvTitle.setAlpha(currentY * 1.0f / maxY);
 
                 if (currentY == maxY) {
-//                    topBar.setBackgroundColor(getResources().getColor(R.color.title_bar_bg));
+                    imgBack.setImageDrawable(getResources().getDrawable(R.drawable.icon_back_black));
+                    imgFavor.setImageDrawable(getResources().getDrawable(R.drawable.new_unfavor_black));
+                    imgShare.setImageDrawable(getResources().getDrawable(R.drawable.icon_new_share_black));
+                    topBar.setBackgroundColor(Color.parseColor("#ffffff"));
+
                 } else {
+                    imgBack.setImageDrawable(getResources().getDrawable(R.drawable.icon_back_white));
+                    imgFavor.setImageDrawable(getResources().getDrawable(R.drawable.new_unfavor_white));
+                    imgShare.setImageDrawable(getResources().getDrawable(R.drawable.icon_new_share_white));
                     topBar.setBackgroundColor(Color.parseColor("#001c2b51"));
                 }
             }
@@ -534,12 +546,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         imgShopIcon.setImageResource(R.drawable.horsegj_default);
         ImageUtils.loadBitmap(this, merchant.getLogo(), imgShopIcon, R.drawable.horsegj_default, Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_USER);
         if (CheckUtils.isNoEmptyStr(merchant.getLogo())) {
-            ImageUtils.loadBitmap(this, merchant.getLogo(), imageBlur, R.drawable.horsegj_default, "?imageView2/2/h/30/interlace/1");
-//            ImageUtils.getBlur(this, merchant.getLogo(), imageBlur, "?imageView2/2/h/30/interlace/1", null);
-        } else {
-            imageBlur.setImageDrawable(this.getResources().getDrawable(R.drawable.default_blur));
-//            Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.default_blur);
-//            ImageUtils.blur(this, bm.copy(bm.getConfig(), true), imageBlur, null, false);
+            ImageUtils.loadBitmap(this, merchant.getImgs(), imageBlur, R.drawable.horsegj_default,Constants.PRIMARY_CATEGORY_IMAGE_URL_END_THUMBNAIL_MEERCHANT_ICON);
         }
         tvShopName.setText(merchant.getName());
         StringBuilder sb = new StringBuilder();
@@ -635,7 +642,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
 
                         shareInfo = merchantEvaluateTopModel.getValue().getShareInfo();
                         favorite = merchantEvaluateTopModel.getValue().isFavorite();
-                        if (favorite) imgFavor.setImageResource(R.drawable.favored);
+//                        if (favorite) imgFavor.setImageResource(R.drawable.favored);
                         if (evaluateFragment != null) {
                             evaluateFragment.setData(merchant);
                         }
@@ -692,8 +699,13 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 tv.setSingleLine();
                 tv.setEllipsize(TextUtils.TruncateAt.END);
             }
-            tv.setTextColor(this.getResources().getColor(R.color.color_6));
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x10));
+            if(mTag==2018){
+                tv.setTextColor(this.getResources().getColor(R.color.white));
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x11));
+            }else {
+                tv.setTextColor(this.getResources().getColor(R.color.color_6));
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelOffset(R.dimen.x10));
+            }
             String limit = promotion.getUserLimit() != null ? "（限参与" + promotion.getUserLimit() + "次）" : "";
             tv.setText(promotion.getPromoName() + limit);
             childLayout.addView(tv, params);
@@ -1437,11 +1449,16 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 refreshHistorySearch();
                 break;
             case R.id.login_back:
-                layoutMerchantGoods.setVisibility(View.GONE);
+                CommonUtils.hideKeyBoard2(mSearchText);
+                if(layoutMerchantGoods.getVisibility()==View.VISIBLE){
+                    layoutMerchantGoods.setVisibility(View.GONE);
+                }
                 break;
             case R.id.rllayout:
-                if (mListView1.getVisibility() == View.GONE && CheckUtils.isNoEmptyStr(mSearchText.getText().toString().trim())) {
+                CommonUtils.hideKeyBoard2(mSearchText);
+                if (CheckUtils.isNoEmptyStr(mSearchText.getText().toString().trim())) {
                     mListView1.setVisibility(View.VISIBLE);
+                    historyLayout.setVisibility(View.GONE);
                 }
                 savePreference(mSearchText.getText().toString().trim());
                 doSearch();
@@ -1565,6 +1582,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                     }
                     List<PromotionActivity> promotions = merchant.getPromotionActivityList();
                     if (promotions != null && promotions.size() > 0) {
+                        mTag = 2018;
                         promotionTitleLayout.setVisibility(View.VISIBLE);
                         for (PromotionActivity promotion : promotions) {
                             addPromotion(promotionLayout, promotion, true);
@@ -1651,7 +1669,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 if (isSucceed && obj != null && ((DeleteOrderModel) obj).getCode() == 0) {
                     ToastUtils.showMyToast(mActivity, "收藏成功", R.drawable.collected);
                     favorite = true;
-                    imgFavor.setImageResource(R.drawable.favored);
+//                    imgFavor.setImageResource(R.drawable.favored);
                 }
             }
         }, DeleteOrderModel.class);
@@ -1668,7 +1686,7 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
                 if (isSucceed && obj != null && ((DeleteOrderModel) obj).getCode() == 0) {
                     ToastUtils.showMyToast(mActivity, "已取消收藏", R.drawable.uncollect);
                     favorite = false;
-                    imgFavor.setImageResource(R.drawable.unfavor);
+//                    imgFavor.setImageResource(R.drawable.unfavor);
                 }
             }
         }, DeleteOrderModel.class);
@@ -1679,6 +1697,10 @@ public class CommercialActivity extends BaseActivity implements OnClickListener,
         if (mBroadcast != null && mBroadcast.isShowing()) {
             mBroadcast.dismiss();
         } else {
+            CommonUtils.hideKeyBoard2(mSearchText);
+            if(layoutMerchantGoods.getVisibility()==View.VISIBLE){
+                layoutMerchantGoods.setVisibility(View.GONE);
+            }
             super.onBackPressed();
         }
     }

@@ -12,13 +12,6 @@
         android:layout_height="@dimen/x90"
         android:scaleType="fitXY" />
 
-    <View
-        android:id="@+id/view_blur"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x90"
-        android:background="#66000000"
-        android:visibility="invisible" />
-
     <com.project.mgjandroid.ui.view.HeaderViewPagerLayout
         android:id="@+id/scrollableLayout"
         android:layout_width="match_parent"
@@ -293,8 +286,7 @@
             android:layout_marginRight="@dimen/x13"
             android:layout_toLeftOf="@id/commercial_act_iv_favor"
             android:layout_toRightOf="@id/commercial_act_iv_back"
-            android:background="@drawable/search_merchant_goods_bg"
-           >
+            android:background="@drawable/search_merchant_goods_bg">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -519,64 +511,63 @@
 
         </RelativeLayout>
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/history_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <LinearLayout
-                android:id="@+id/history_layout"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:paddingTop="@dimen/x15"
+                android:paddingLeft="@dimen/x15"
+                android:paddingRight="@dimen/x15">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/x15">
+                    android:text="历史搜索"
+                    android:textColor="@color/color_3"
+                    android:textSize="13sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="历史搜索"
-                        android:textColor="@color/color_9"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:id="@+id/img_clear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/new_del" />
-
-                </RelativeLayout>
-
-                <com.jet.flowtaglayout.FlowTagLayout
-                    android:id="@+id/history_flow_tagLayout"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/img_clear"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/x15"
-                    android:layout_marginTop="@dimen/x15"
-                    app:item_background="@drawable/bg_search_target"
-                    app:item_bottomMargin="@dimen/x5"
-                    app:item_bottomPadding="@dimen/x5"
-                    app:item_leftMargin="@dimen/x15"
-                    app:item_leftPadding="@dimen/x15"
-                    app:item_rightMargin="@dimen/x15"
-                    app:item_rightPadding="@dimen/x15"
-                    app:item_textColor="@color/color_3"
-                    app:item_textSize="12sp"
-                    app:item_topMargin="@dimen/x5"
-                    app:item_topPadding="@dimen/x5" />
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/new_del" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
-            <com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView
-                android:id="@+id/search_list_view"
+            <com.jet.flowtaglayout.FlowTagLayout
+                android:id="@+id/history_flow_tagLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"></com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView>
-        </FrameLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/x15"
+                android:layout_marginTop="@dimen/x2"
+                android:layout_marginLeft="@dimen/x15"
+                android:layout_marginRight="@dimen/x15"
+                app:item_background="@drawable/bg_search_target2"
+                app:item_bottomMargin="@dimen/x5"
+                app:item_bottomPadding="@dimen/x5"
+                app:item_leftPadding="@dimen/x10"
+                app:item_rightMargin="@dimen/x11"
+                app:item_rightPadding="@dimen/x10"
+                app:item_textColor="@color/color_3"
+                app:item_textSize="12sp"
+                app:item_topMargin="@dimen/x11"
+                app:item_topPadding="@dimen/x5" />
+
+        </LinearLayout>
+
+        <com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView
+            android:id="@+id/search_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"></com.project.mgjandroid.ui.view.newpulltorefresh.PullToRefreshListView>
+
     </LinearLayout>
 
     <TextView
@@ -691,8 +682,8 @@
 
         <ImageView
             android:id="@+id/commercial_act_cart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/x50"
+            android:layout_height="@dimen/x50"
             android:layout_marginRight="@dimen/x5"
             android:layout_marginTop="@dimen/x5"
             android:src="@drawable/empty_cart" />
